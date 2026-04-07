@@ -14,7 +14,9 @@
       "newgame_plus": "New Game+",
       "challenge": "{{challengeName}} Challenge",
       "side_quest": "Nhiệm vụ phụ",
-      "secret": "Bí mật"
+      "secret": "Bí mật",
+      "comparison": "So sánh",
+      "guide": "Hướng dẫn"
     }
   },
   "description": {
@@ -30,7 +32,9 @@
       "newgame_plus": "Video này là New Game+ của {{gameName}} trên kênh {{channelName}}.",
       "challenge": "Video này là thử thách {{challengeName}} của {{gameName}} trên kênh {{channelName}}.",
       "side_quest": "Video này là các nhiệm vụ phụ trong {{gameName}} trên kênh {{channelName}}.",
-      "secret": "Video này là nội dung bí mật và ẩn trong {{gameName}} trên kênh {{channelName}}."
+      "secret": "Video này là nội dung bí mật và ẩn trong {{gameName}} trên kênh {{channelName}}.",
+      "comparison": "Video này so sánh đồ họa/hiệu suất của {{gameName}} trên kênh {{channelName}}.",
+      "guide": "Video này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}."
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
     "sections": {

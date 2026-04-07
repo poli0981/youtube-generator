@@ -1,0 +1,59 @@
+{
+  "title": {
+    "separator": " — ",
+    "suffix": "Gameplay No Commentary",
+    "videoType": {
+      "full": "",
+      "part": "第{{partNumber}}集",
+      "boss": "{{bossName}} Boss战",
+      "boss_nohit": "{{bossName}} Boss无伤",
+      "ending": "结局",
+      "speedrun": "速通",
+      "100percent": "100%完成",
+      "dlc": "{{dlcName}} DLC",
+      "newgame_plus": "New Game+",
+      "challenge": "{{challengeName}}挑战",
+      "side_quest": "支线任务",
+      "secret": "秘密",
+      "comparison": "画质对比",
+      "guide": "无声攻略"
+    }
+  },
+  "description": {
+    "intro": {
+      "full": "本视频展示了{{channelName}}的{{gameName}}完整游戏实况。",
+      "part": "本视频展示了{{channelName}}的{{gameName}}第{{partNumber}}集。",
+      "boss": "本视频展示了{{channelName}}的{{gameName}}中{{bossName}} Boss战。",
+      "boss_nohit": "本视频展示了{{channelName}}的{{gameName}}中{{bossName}} Boss战（无伤）。",
+      "ending": "本视频展示了{{channelName}}的{{gameName}}结局。",
+      "speedrun": "本视频展示了{{channelName}}的{{gameName}}速通。",
+      "100percent": "本视频展示了{{channelName}}的{{gameName}} 100%完成。",
+      "dlc": "本视频展示了{{channelName}}的{{gameName}}之{{dlcName}} DLC。",
+      "newgame_plus": "本视频展示了{{channelName}}的{{gameName}} New Game+流程。",
+      "challenge": "本视频展示了{{channelName}}的{{gameName}}之{{challengeName}}挑战。",
+      "side_quest": "本视频展示了{{channelName}}的{{gameName}}支线任务与可选内容。",
+      "secret": "本视频展示了{{channelName}}的{{gameName}}秘密与隐藏内容。",
+      "comparison": "本视频展示了{{channelName}}的{{gameName}}画质对比。",
+      "guide": "本视频展示了{{channelName}}的{{gameName}}无声攻略。"
+    },
+    "noCommentaryLine": "无解说 — 纯粹的游戏体验，尽情享受。",
+    "sections": {
+      "timestamps": "⏱ 时间戳",
+      "storeLinks": "🎮 获取游戏",
+      "videoSettings": "🖥 视频设置",
+      "rig": "💻 我的配置",
+      "spoilerWarning": "⚠️ 剧透警告：本视频可能包含剧透内容，请自行斟酌观看！",
+      "matureWarning": "🔞 成人内容 (18+)：包含暴力 / 强烈语言 / 血腥内容。",
+      "donate": "☕ 支持频道",
+      "social": "🔗 关注我",
+      "playlist": "▶️ 观看完整系列：{{link}}",
+      "contact": "📧 商务合作：{{email}}",
+      "cta": "👍 点赞 | 🔔 订阅 | ↗️ 分享"
+    }
+  },
+  "hashtags": {
+    "gameplay": "#{{gameName}}",
+    "noCommentary": "#GameplayNoCommentary",
+    "genre": "#{{genre}}"
+  }
+}

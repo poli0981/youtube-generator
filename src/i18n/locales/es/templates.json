@@ -1,0 +1,59 @@
+{
+  "title": {
+    "separator": " — ",
+    "suffix": "Gameplay No Commentary",
+    "videoType": {
+      "full": "",
+      "part": "Parte {{partNumber}}",
+      "boss": "{{bossName}} Pelea de Jefe",
+      "boss_nohit": "{{bossName}} Jefe Sin Golpes",
+      "ending": "Final",
+      "speedrun": "Speedrun",
+      "100percent": "100% Completado",
+      "dlc": "{{dlcName}} DLC",
+      "newgame_plus": "New Game+",
+      "challenge": "Desafío {{challengeName}}",
+      "side_quest": "Misiones Secundarias",
+      "secret": "Secretos",
+      "comparison": "Comparación de Gráficos",
+      "guide": "Guía Silenciosa"
+    }
+  },
+  "description": {
+    "intro": {
+      "full": "Este video presenta el gameplay completo de {{gameName}} en {{channelName}}.",
+      "part": "Este video presenta la Parte {{partNumber}} de {{gameName}} en {{channelName}}.",
+      "boss": "Este video presenta la pelea del jefe {{bossName}} de {{gameName}} en {{channelName}}.",
+      "boss_nohit": "Este video presenta la pelea del jefe {{bossName}} (Sin Golpes) de {{gameName}} en {{channelName}}.",
+      "ending": "Este video presenta el final de {{gameName}} en {{channelName}}.",
+      "speedrun": "Este video presenta un speedrun de {{gameName}} en {{channelName}}.",
+      "100percent": "Este video presenta el 100% completado de {{gameName}} en {{channelName}}.",
+      "dlc": "Este video presenta el DLC {{dlcName}} de {{gameName}} en {{channelName}}.",
+      "newgame_plus": "Este video presenta la partida New Game+ de {{gameName}} en {{channelName}}.",
+      "challenge": "Este video presenta el desafío {{challengeName}} de {{gameName}} en {{channelName}}.",
+      "side_quest": "Este video presenta misiones secundarias y contenido opcional de {{gameName}} en {{channelName}}.",
+      "secret": "Este video presenta secretos y contenido oculto de {{gameName}} en {{channelName}}.",
+      "comparison": "Este video presenta una comparación de gráficos de {{gameName}} en {{channelName}}.",
+      "guide": "Este video presenta una guía silenciosa de {{gameName}} en {{channelName}}."
+    },
+    "noCommentaryLine": "Sin Comentarios — gameplay puro para tu disfrute.",
+    "sections": {
+      "timestamps": "⏱ MARCAS DE TIEMPO",
+      "storeLinks": "🎮 CONSIGUE EL JUEGO",
+      "videoSettings": "🖥 AJUSTES DE VIDEO",
+      "rig": "💻 MI EQUIPO",
+      "spoilerWarning": "⚠️ ADVERTENCIA DE SPOILERS: Este video puede contener spoilers. ¡Míralo bajo tu propio riesgo!",
+      "matureWarning": "🔞 CONTENIDO PARA ADULTOS (18+): Contiene violencia / lenguaje fuerte / contenido gráfico.",
+      "donate": "☕ APOYA EL CANAL",
+      "social": "🔗 SÍGUEME",
+      "playlist": "▶️ Ver la serie completa: {{link}}",
+      "contact": "📧 Consultas comerciales: {{email}}",
+      "cta": "👍 Me gusta | 🔔 Suscríbete | ↗️ Comparte"
+    }
+  },
+  "hashtags": {
+    "gameplay": "#{{gameName}}",
+    "noCommentary": "#GameplayNoCommentary",
+    "genre": "#{{genre}}"
+  }
+}

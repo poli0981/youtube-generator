@@ -6,7 +6,10 @@
   "tabs": {
     "editor": "エディター",
     "output": "出力",
-    "profiles": "プロフィール"
+    "profiles": "プロフィール",
+    "history": "履歴",
+    "settings": "設定",
+    "batch": "一括"
   },
   "editor": {
     "videoType": "動画タイプ",
@@ -55,7 +58,8 @@
     "copyTags": "タグをコピー",
     "copyAll": "全てコピー",
     "copied": "コピーしました！",
-    "charCount": "{{count}}/{{limit}}"
+    "charCount": "{{count}}/{{limit}}",
+    "selectLanguages": "言語を選択"
   },
   "common": {
     "save": "保存",
@@ -80,7 +84,9 @@
     "newgame_plus": "強くてニューゲーム",
     "challenge": "チャレンジラン",
     "side_quest": "サブクエスト",
-    "secret": "隠し要素"
+    "secret": "隠し要素",
+    "comparison": "グラフィック比較",
+    "guide": "攻略ガイド"
   },
   "genres": {
     "action": "アクション / アドベンチャー",
@@ -97,7 +103,17 @@
     "stealth": "ステルス / スパイ",
     "survival_craft": "サバイバル / クラフト",
     "roguelike": "ローグライク / ローグライト",
-    "metroidvania": "メトロイドヴァニア"
+    "metroidvania": "メトロイドヴァニア",
+    "mmo": "MMO / オンライン",
+    "rhythm": "リズムゲーム",
+    "puzzle": "パズル",
+    "tower_defense": "タワーディフェンス",
+    "card_game": "カードゲーム",
+    "battle_royale": "バトルロイヤル",
+    "crpg": "CRPG / アイソメトリック",
+    "tactical": "タクティカル / ターン制",
+    "space": "宇宙 / SF",
+    "farming": "農業 / ライフシム"
   },
   "rig": {
     "cpu": "CPU",
@@ -158,5 +174,47 @@
     "noPresets": "プリセットなし",
     "exportPresets": "プリセットをエクスポート",
     "importPresets": "プリセットをインポート"
+  },
+  "history": {
+    "title": "履歴",
+    "emptyState": "履歴がありません。",
+    "clearAll": "すべて削除",
+    "clearConfirm": "すべての履歴を削除しますか？",
+    "searchPlaceholder": "ゲーム名で検索..."
+  },
+  "settings": {
+    "title": "設定",
+    "appearance": "外観",
+    "defaults": "デフォルト",
+    "editorSettings": "エディター",
+    "tagSettings": "タグ",
+    "historySettings": "履歴",
+    "theme": "テーマ",
+    "defaultUILanguage": "デフォルトUI言語",
+    "defaultOutputLanguage": "デフォルト出力言語",
+    "defaultGenre": "デフォルトジャンル",
+    "autoSaveDraft": "下書き自動保存",
+    "showCharCount": "文字数を表示",
+    "compactTagDisplay": "コンパクトタグ表示",
+    "historyLimit": "履歴上限",
+    "multilingualTags": "多言語タグを含む",
+    "trendingTags": "トレンドタグを含む",
+    "hashtagCount": "ハッシュタグ数"
+  },
+  "batch": {
+    "title": "一括モード",
+    "startPart": "開始パート",
+    "endPart": "終了パート",
+    "generateBatch": "一括生成",
+    "copyAllBatch": "すべてコピー",
+    "emptyState": "範囲を設定して生成してください。"
+  },
+  "shortcuts": {
+    "title": "キーボードショートカット",
+    "generate": "生成（出力へ切替）",
+    "copyAll": "すべてコピー",
+    "saveDraft": "下書き保存",
+    "help": "ショートカット表示",
+    "close": "モーダルを閉じる"
   }
 }

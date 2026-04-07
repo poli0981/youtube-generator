@@ -17,6 +17,16 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
   survival_craft: (g) => [`${g} survival`, "survival crafting no commentary", "base building"],
   roguelike: (g) => [`${g} roguelike`, "roguelike no commentary", "roguelite gameplay"],
   metroidvania: (g) => [`${g} metroidvania`, "metroidvania no commentary", "exploration gameplay"],
+  mmo: (g) => [`${g} MMO`, "MMO no commentary", "MMORPG gameplay"],
+  rhythm: (g) => [`${g} rhythm`, "rhythm game no commentary", "music game gameplay"],
+  puzzle: (g) => [`${g} puzzle`, "puzzle game no commentary", "brain teaser gameplay"],
+  tower_defense: (g) => [`${g} tower defense`, "tower defense no commentary", "TD gameplay"],
+  card_game: (g) => [`${g} card game`, "deck builder no commentary", "card game gameplay"],
+  battle_royale: (g) => [`${g} battle royale`, "battle royale no commentary", "BR gameplay"],
+  crpg: (g) => [`${g} CRPG`, "CRPG no commentary", "isometric RPG gameplay"],
+  tactical: (g) => [`${g} tactical`, "tactical game no commentary", "turn based strategy"],
+  space: (g) => [`${g} space`, "space game no commentary", "sci-fi gameplay"],
+  farming: (g) => [`${g} farming`, "farming sim no commentary", "cozy game gameplay"],
 };
 
 const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
@@ -32,11 +42,16 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
   challenge: (g) => [`${g} challenge`, `${g} challenge run`, "challenge no commentary"],
   side_quest: (g) => [`${g} side quest`, `${g} optional content`, "side quest no commentary"],
   secret: (g) => [`${g} secret`, `${g} hidden`, "secret content no commentary"],
+  comparison: (g) => [`${g} comparison`, `${g} graphics comparison`, "comparison no commentary"],
+  guide: (g) => [`${g} guide`, `${g} silent guide`, "guide no commentary"],
 };
 
 const MULTILINGUAL_TAGS: Record<string, (gameName: string) => string[]> = {
   ja: (g) => [`${g} ゲームプレイ`, `${g} 実況なし`, "ゲームプレイ 実況なし"],
   vi: (g) => [`${g} gameplay không bình luận`, `${g} không bình luận`],
+  es: (g) => [`${g} sin comentarios`, `${g} gameplay completo`],
+  ko: (g) => [`${g} 게임플레이`, `${g} 무편집`],
+  zh: (g) => [`${g} 无解说`, `${g} 游戏实况`],
 };
 
 function getCoreTags(gameName: string): string[] {
@@ -75,7 +90,13 @@ function getTrendingTags(gameName: string, genre: string): string[] {
   return [`${gameName} ${year}`, `best ${genre} games ${year}`, `${genre} gameplay ${year}`];
 }
 
-export function generateTags(input: GeneratorInput): string[] {
+export interface TagOptions {
+  includeMultilingualTags?: boolean;
+  includeTrendingTags?: boolean;
+}
+
+export function generateTags(input: GeneratorInput, options?: TagOptions): string[] {
+  const { includeMultilingualTags = true, includeTrendingTags = true } = options ?? {};
   const gameName =
     input.gameNameLocalized?.[input.language] ?? input.gameName;
 
@@ -102,13 +123,17 @@ export function generateTags(input: GeneratorInput): string[] {
   // Quality tags
   allTags.push(...getQualityTags(gameName, input.resolution, input.fps));
 
-  // Multilingual tags (always include ja and vi)
-  for (const [, langFn] of Object.entries(MULTILINGUAL_TAGS)) {
-    allTags.push(...langFn(gameName));
+  // Multilingual tags
+  if (includeMultilingualTags) {
+    for (const [, langFn] of Object.entries(MULTILINGUAL_TAGS)) {
+      allTags.push(...langFn(gameName));
+    }
   }
 
   // Trending tags (lowest priority)
-  allTags.push(...getTrendingTags(gameName, input.genre));
+  if (includeTrendingTags) {
+    allTags.push(...getTrendingTags(gameName, input.genre));
+  }
 
   // Dedup (case-insensitive)
   const seen = new Set<string>();

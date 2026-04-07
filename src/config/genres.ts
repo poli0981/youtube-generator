@@ -14,6 +14,16 @@ export const GENRES = [
   { id: "survival_craft", labelKey: "genres.survival_craft", icon: "⛏" },
   { id: "roguelike", labelKey: "genres.roguelike", icon: "🎲" },
   { id: "metroidvania", labelKey: "genres.metroidvania", icon: "🗺" },
+  { id: "mmo", labelKey: "genres.mmo", icon: "🌐" },
+  { id: "rhythm", labelKey: "genres.rhythm", icon: "🎵" },
+  { id: "puzzle", labelKey: "genres.puzzle", icon: "🧩" },
+  { id: "tower_defense", labelKey: "genres.tower_defense", icon: "🏰" },
+  { id: "card_game", labelKey: "genres.card_game", icon: "🃏" },
+  { id: "battle_royale", labelKey: "genres.battle_royale", icon: "🏆" },
+  { id: "crpg", labelKey: "genres.crpg", icon: "📜" },
+  { id: "tactical", labelKey: "genres.tactical", icon: "♟" },
+  { id: "space", labelKey: "genres.space", icon: "🚀" },
+  { id: "farming", labelKey: "genres.farming", icon: "🌾" },
 ] as const;
 
 export type GenreId = (typeof GENRES)[number]["id"];

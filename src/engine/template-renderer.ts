@@ -1,13 +1,21 @@
 import type { GeneratorInput, GeneratorOutput, TranslationFn, CharLimitWarning } from "./types";
 import { buildTitle, checkTitleWarning } from "./title-builder";
 import { buildDescription, checkDescriptionWarning } from "./description-builder";
-import { generateTags, formatTagString } from "./tag-generator";
+import { generateTags, formatTagString, type TagOptions } from "./tag-generator";
 import { YT_LIMITS } from "./types";
 
-export function renderAll(input: GeneratorInput, t: TranslationFn): GeneratorOutput {
+export interface RenderOptions extends TagOptions {
+  hashtagCount?: number;
+}
+
+export function renderAll(
+  input: GeneratorInput,
+  t: TranslationFn,
+  options?: RenderOptions,
+): GeneratorOutput {
   const title = buildTitle(input, t);
-  const description = buildDescription(input, t);
-  const tags = generateTags(input);
+  const description = buildDescription(input, t, options?.hashtagCount);
+  const tags = generateTags(input, options);
   const tagString = formatTagString(tags);
 
   const charCounts = {

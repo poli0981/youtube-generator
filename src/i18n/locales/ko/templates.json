@@ -1,0 +1,59 @@
+{
+  "title": {
+    "separator": " — ",
+    "suffix": "Gameplay No Commentary",
+    "videoType": {
+      "full": "",
+      "part": "파트 {{partNumber}}",
+      "boss": "{{bossName}} 보스전",
+      "boss_nohit": "{{bossName}} 보스 노히트",
+      "ending": "엔딩",
+      "speedrun": "스피드런",
+      "100percent": "100% 완료",
+      "dlc": "{{dlcName}} DLC",
+      "newgame_plus": "New Game+",
+      "challenge": "{{challengeName}} 챌린지",
+      "side_quest": "서브 퀘스트",
+      "secret": "비밀",
+      "comparison": "그래픽 비교",
+      "guide": "무음 가이드"
+    }
+  },
+  "description": {
+    "intro": {
+      "full": "이 영상은 {{channelName}}에서 {{gameName}}의 전체 게임플레이를 담고 있습니다.",
+      "part": "이 영상은 {{channelName}}에서 {{gameName}} 파트 {{partNumber}}를 담고 있습니다.",
+      "boss": "이 영상은 {{channelName}}에서 {{gameName}}의 {{bossName}} 보스전을 담고 있습니다.",
+      "boss_nohit": "이 영상은 {{channelName}}에서 {{gameName}}의 {{bossName}} 보스전 (노히트)을 담고 있습니다.",
+      "ending": "이 영상은 {{channelName}}에서 {{gameName}}의 엔딩을 담고 있습니다.",
+      "speedrun": "이 영상은 {{channelName}}에서 {{gameName}}의 스피드런을 담고 있습니다.",
+      "100percent": "이 영상은 {{channelName}}에서 {{gameName}}의 100% 완료를 담고 있습니다.",
+      "dlc": "이 영상은 {{channelName}}에서 {{gameName}}의 {{dlcName}} DLC를 담고 있습니다.",
+      "newgame_plus": "이 영상은 {{channelName}}에서 {{gameName}}의 New Game+ 플레이를 담고 있습니다.",
+      "challenge": "이 영상은 {{channelName}}에서 {{gameName}}의 {{challengeName}} 챌린지를 담고 있습니다.",
+      "side_quest": "이 영상은 {{channelName}}에서 {{gameName}}의 서브 퀘스트와 선택 콘텐츠를 담고 있습니다.",
+      "secret": "이 영상은 {{channelName}}에서 {{gameName}}의 비밀과 숨겨진 요소를 담고 있습니다.",
+      "comparison": "이 영상은 {{channelName}}에서 {{gameName}}의 그래픽 비교를 담고 있습니다.",
+      "guide": "이 영상은 {{channelName}}에서 {{gameName}}의 무음 가이드를 담고 있습니다."
+    },
+    "noCommentaryLine": "무음 플레이 — 순수한 게임플레이를 즐겨보세요.",
+    "sections": {
+      "timestamps": "⏱ 타임스탬프",
+      "storeLinks": "🎮 게임 구매",
+      "videoSettings": "🖥 영상 설정",
+      "rig": "💻 내 장비",
+      "spoilerWarning": "⚠️ 스포일러 경고: 이 영상에는 스포일러가 포함될 수 있습니다. 주의하여 시청하세요!",
+      "matureWarning": "🔞 성인 콘텐츠 (18+): 폭력 / 강한 언어 / 선정적 콘텐츠를 포함합니다.",
+      "donate": "☕ 채널 후원",
+      "social": "🔗 팔로우",
+      "playlist": "▶️ 전체 시리즈 보기: {{link}}",
+      "contact": "📧 비즈니스 문의: {{email}}",
+      "cta": "👍 좋아요 | 🔔 구독 | ↗️ 공유"
+    }
+  },
+  "hashtags": {
+    "gameplay": "#{{gameName}}",
+    "noCommentary": "#GameplayNoCommentary",
+    "genre": "#{{genre}}"
+  }
+}
