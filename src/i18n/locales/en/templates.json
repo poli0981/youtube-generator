@@ -1,0 +1,45 @@
+{
+  "title": {
+    "separator": " — ",
+    "suffix": "Gameplay No Commentary",
+    "videoType": {
+      "full": "",
+      "part": "Part {{partNumber}}",
+      "boss": "{{bossName}} Boss Fight",
+      "boss_nohit": "{{bossName}} Boss No Hit",
+      "ending": "Ending",
+      "speedrun": "Speedrun",
+      "100percent": "100% Completion"
+    }
+  },
+  "description": {
+    "intro": {
+      "full": "This video features the full gameplay of {{gameName}} on {{channelName}}.",
+      "part": "This video features Part {{partNumber}} of {{gameName}} on {{channelName}}.",
+      "boss": "This video features the {{bossName}} boss fight from {{gameName}} on {{channelName}}.",
+      "boss_nohit": "This video features the {{bossName}} boss fight (No Hit) from {{gameName}} on {{channelName}}.",
+      "ending": "This video features the ending of {{gameName}} on {{channelName}}.",
+      "speedrun": "This video features a speedrun of {{gameName}} on {{channelName}}.",
+      "100percent": "This video features the 100% completion of {{gameName}} on {{channelName}}."
+    },
+    "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
+    "sections": {
+      "timestamps": "⏱ TIMESTAMPS",
+      "storeLinks": "🎮 GET THE GAME",
+      "videoSettings": "🖥 VIDEO SETTINGS",
+      "rig": "💻 MY RIG",
+      "spoilerWarning": "⚠️ SPOILER WARNING: This video may contain spoilers. Watch at your own risk!",
+      "matureWarning": "🔞 MATURE CONTENT (18+): Contains violence / strong language / graphic content.",
+      "donate": "☕ SUPPORT THE CHANNEL",
+      "social": "🔗 FOLLOW ME",
+      "playlist": "▶️ Watch the full series: {{link}}",
+      "contact": "📧 Business inquiries: {{email}}",
+      "cta": "👍 Like | 🔔 Subscribe | ↗️ Share"
+    }
+  },
+  "hashtags": {
+    "gameplay": "#{{gameName}}",
+    "noCommentary": "#GameplayNoCommentary",
+    "genre": "#{{genre}}"
+  }
+}

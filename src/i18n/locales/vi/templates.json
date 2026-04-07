@@ -1,0 +1,45 @@
+{
+  "title": {
+    "separator": " — ",
+    "suffix": "Gameplay No Commentary",
+    "videoType": {
+      "full": "",
+      "part": "Phần {{partNumber}}",
+      "boss": "{{bossName}} Boss Fight",
+      "boss_nohit": "{{bossName}} Boss No Hit",
+      "ending": "Kết thúc",
+      "speedrun": "Speedrun",
+      "100percent": "100% Completion"
+    }
+  },
+  "description": {
+    "intro": {
+      "full": "Video này là full gameplay của {{gameName}} trên kênh {{channelName}}.",
+      "part": "Video này là Phần {{partNumber}} của {{gameName}} trên kênh {{channelName}}.",
+      "boss": "Video này là trận đánh boss {{bossName}} trong {{gameName}} trên kênh {{channelName}}.",
+      "boss_nohit": "Video này là trận đánh boss {{bossName}} (No Hit) trong {{gameName}} trên kênh {{channelName}}.",
+      "ending": "Video này là phần kết thúc của {{gameName}} trên kênh {{channelName}}.",
+      "speedrun": "Video này là speedrun của {{gameName}} trên kênh {{channelName}}.",
+      "100percent": "Video này là 100% completion của {{gameName}} trên kênh {{channelName}}."
+    },
+    "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
+    "sections": {
+      "timestamps": "⏱ MỐC THỜI GIAN",
+      "storeLinks": "🎮 MUA GAME",
+      "videoSettings": "🖥 CÀI ĐẶT VIDEO",
+      "rig": "💻 CẤU HÌNH MÁY",
+      "spoilerWarning": "⚠️ CẢNH BÁO SPOILER: Video này có thể chứa nội dung spoiler. Xem theo ý muốn của bạn!",
+      "matureWarning": "🔞 NỘI DUNG NGƯỜI LỚN (18+): Chứa bạo lực / ngôn ngữ mạnh / nội dung nhạy cảm.",
+      "donate": "☕ ỦNG HỘ KÊNH",
+      "social": "🔗 THEO DÕI MÌNH",
+      "playlist": "▶️ Xem toàn bộ series: {{link}}",
+      "contact": "📧 Liên hệ hợp tác: {{email}}",
+      "cta": "👍 Like | 🔔 Đăng ký | ↗️ Chia sẻ"
+    }
+  },
+  "hashtags": {
+    "gameplay": "#{{gameName}}",
+    "noCommentary": "#GameplayNoCommentary",
+    "genre": "#{{genre}}"
+  }
+}

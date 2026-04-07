@@ -1,0 +1,45 @@
+{
+  "title": {
+    "separator": " — ",
+    "suffix": "Gameplay No Commentary",
+    "videoType": {
+      "full": "",
+      "part": "パート{{partNumber}}",
+      "boss": "{{bossName}} ボス戦",
+      "boss_nohit": "{{bossName}} ボス ノーヒット",
+      "ending": "エンディング",
+      "speedrun": "スピードラン",
+      "100percent": "100%クリア"
+    }
+  },
+  "description": {
+    "intro": {
+      "full": "この動画は{{channelName}}による{{gameName}}のフルゲームプレイです。",
+      "part": "この動画は{{channelName}}による{{gameName}}のパート{{partNumber}}です。",
+      "boss": "この動画は{{channelName}}による{{gameName}}の{{bossName}}ボス戦です。",
+      "boss_nohit": "この動画は{{channelName}}による{{gameName}}の{{bossName}}ボス戦（ノーヒット）です。",
+      "ending": "この動画は{{channelName}}による{{gameName}}のエンディングです。",
+      "speedrun": "この動画は{{channelName}}による{{gameName}}のスピードランです。",
+      "100percent": "この動画は{{channelName}}による{{gameName}}の100%クリアです。"
+    },
+    "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
+    "sections": {
+      "timestamps": "⏱ タイムスタンプ",
+      "storeLinks": "🎮 ゲームを購入",
+      "videoSettings": "🖥 動画設定",
+      "rig": "💻 PC構成",
+      "spoilerWarning": "⚠️ ネタバレ注意：この動画にはネタバレが含まれている可能性があります。自己責任でご視聴ください！",
+      "matureWarning": "🔞 成人向けコンテンツ (18+)：暴力 / 強い言葉 / グラフィックコンテンツを含みます。",
+      "donate": "☕ チャンネルを応援",
+      "social": "🔗 フォローする",
+      "playlist": "▶️ シリーズ全体を見る：{{link}}",
+      "contact": "📧 お仕事の依頼：{{email}}",
+      "cta": "👍 いいね | 🔔 チャンネル登録 | ↗️ シェア"
+    }
+  },
+  "hashtags": {
+    "gameplay": "#{{gameName}}",
+    "noCommentary": "#GameplayNoCommentary",
+    "genre": "#{{genre}}"
+  }
+}

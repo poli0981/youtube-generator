@@ -1,0 +1,63 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useEditorStore } from "@store/editor-store";
+import { renderAll } from "@engine/template-renderer";
+import type { GeneratorOutput, GeneratorInput } from "@engine/types";
+
+export function useGeneratedOutput(): GeneratorOutput {
+  const state = useEditorStore();
+  const { t } = useTranslation("templates");
+
+  const input: GeneratorInput = useMemo(
+    () => ({
+      videoType: state.videoType,
+      language: state.language,
+      genre: state.genre,
+      gameName: state.gameName,
+      gameNameLocalized: state.gameNameLocalized,
+      channelName: state.channelName,
+      platform: state.platform,
+      partNumber: state.partNumber,
+      bossName: state.bossName,
+      dlcName: state.dlcName,
+      challengeName: state.challengeName,
+      resolution: state.resolution,
+      fps: state.fps,
+      graphicsPreset: state.graphicsPreset,
+      timestamps: state.timestamps,
+      playlistLink: state.playlistLink,
+      contactEmail: state.contactEmail,
+      spoilerWarning: state.spoilerWarning,
+      matureWarning: state.matureWarning,
+      storeLinks: state.storeLinks,
+      social: state.social,
+      rig: state.rig,
+    }),
+    [
+      state.videoType,
+      state.language,
+      state.genre,
+      state.gameName,
+      state.gameNameLocalized,
+      state.channelName,
+      state.platform,
+      state.partNumber,
+      state.bossName,
+      state.dlcName,
+      state.challengeName,
+      state.resolution,
+      state.fps,
+      state.graphicsPreset,
+      state.timestamps,
+      state.playlistLink,
+      state.contactEmail,
+      state.spoilerWarning,
+      state.matureWarning,
+      state.storeLinks,
+      state.social,
+      state.rig,
+    ],
+  );
+
+  return useMemo(() => renderAll(input, t), [input, t]);
+}

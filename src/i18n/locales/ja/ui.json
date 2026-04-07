@@ -1,0 +1,118 @@
+{
+  "app": {
+    "title": "YTDescGen",
+    "subtitle": "Gameplay No Commentary テンプレートエンジン"
+  },
+  "tabs": {
+    "editor": "エディター",
+    "output": "出力"
+  },
+  "editor": {
+    "videoType": "動画タイプ",
+    "language": "出力言語",
+    "genre": "ゲームジャンル",
+    "gameName": "ゲーム名",
+    "gameNamePlaceholder": "例：エルデンリング",
+    "channelName": "チャンネル名",
+    "channelNamePlaceholder": "例：MyChannel",
+    "platform": "プラットフォーム",
+    "partNumber": "パート番号",
+    "partNumberPlaceholder": "例：5",
+    "bossName": "ボス名",
+    "bossNamePlaceholder": "例：マルギット",
+    "dlcName": "DLC名",
+    "dlcNamePlaceholder": "例：Shadow of the Erdtree",
+    "challengeName": "チャレンジ名",
+    "challengeNamePlaceholder": "例：ノーヒットラン",
+    "resolution": "解像度",
+    "fps": "FPS",
+    "graphicsPreset": "グラフィック設定",
+    "timestamps": "タイムスタンプ",
+    "timestampsPlaceholder": "0:00 イントロ\n5:30 チャプター1\n15:00 ボス戦",
+    "storeLinks": "購入リンク",
+    "rig": "PC構成",
+    "social": "SNS・寄付リンク",
+    "warnings": "警告",
+    "spoilerWarning": "ネタバレ警告",
+    "matureWarning": "成人向けコンテンツ (18+)",
+    "playlistLink": "プレイリストリンク",
+    "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "contactEmail": "連絡先メール",
+    "contactEmailPlaceholder": "business@example.com",
+    "videoSettings": "動画設定",
+    "quickPreview": "クイックプレビュー"
+  },
+  "output": {
+    "title": "タイトル",
+    "description": "説明文",
+    "tags": "タグ",
+    "copyTitle": "タイトルをコピー",
+    "copyDescription": "説明文をコピー",
+    "copyTags": "タグをコピー",
+    "copyAll": "全てコピー",
+    "copied": "コピーしました！",
+    "charCount": "{{count}}/{{limit}}"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "confirm": "確認",
+    "export": "エクスポート",
+    "import": "インポート",
+    "reset": "リセット",
+    "search": "検索",
+    "generate": "生成"
+  },
+  "videoTypes": {
+    "full": "フルゲームプレイ",
+    "part": "ゲームプレイ パート",
+    "boss": "ボス戦",
+    "boss_nohit": "ボス ノーヒット",
+    "ending": "エンディング",
+    "speedrun": "スピードラン",
+    "100percent": "100%クリア"
+  },
+  "genres": {
+    "action": "アクション / アドベンチャー",
+    "horror": "ホラー / サバイバル",
+    "rpg": "RPG / JRPG",
+    "fps": "FPS / シューター",
+    "openworld": "オープンワールド / サンドボックス",
+    "indie": "インディー / プラットフォーマー",
+    "soulslike": "ソウルライク",
+    "racing": "レーシング / スポーツ",
+    "story": "ストーリー / ビジュアルノベル",
+    "simulation": "シミュレーション / ストラテジー"
+  },
+  "rig": {
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "ram": "RAM",
+    "storage": "ストレージ",
+    "monitor": "モニター",
+    "capture": "キャプチャソフト"
+  },
+  "social": {
+    "kofi": "Ko-fi",
+    "patreon": "Patreon",
+    "buymeacoffee": "Buy Me a Coffee",
+    "paypal": "PayPal",
+    "github": "GitHub",
+    "twitter": "Twitter / X",
+    "discord": "Discord",
+    "website": "ウェブサイト"
+  },
+  "resolutions": {
+    "720p": "720p",
+    "1080p": "1080p",
+    "1440p": "1440p",
+    "4K": "4K"
+  },
+  "fpsOptions": {
+    "30": "30 FPS",
+    "60": "60 FPS",
+    "120": "120 FPS",
+    "144": "144 FPS"
+  }
+}
