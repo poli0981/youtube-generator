@@ -1,0 +1,35 @@
+import { forwardRef, type TextareaHTMLAttributes } from "react";
+import clsx from "clsx";
+
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  error?: boolean;
+}
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ label, error, className, id, ...props }, ref) => {
+    const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
+
+    return (
+      <div className="flex flex-col gap-1">
+        {label && (
+          <label htmlFor={inputId} className="text-sm font-medium text-text-secondary">
+            {label}
+          </label>
+        )}
+        <textarea
+          ref={ref}
+          id={inputId}
+          className={clsx(
+            "min-h-[80px] rounded-lg border bg-surface-1 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 resize-y",
+            error ? "border-danger" : "border-border focus:border-accent",
+            className,
+          )}
+          {...props}
+        />
+      </div>
+    );
+  },
+);
+
+Textarea.displayName = "Textarea";

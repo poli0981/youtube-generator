@@ -1,0 +1,105 @@
+import { describe, it, expect } from "vitest";
+import { generateTags, formatTagString } from "@engine/tag-generator";
+import type { GeneratorInput } from "@engine/types";
+
+function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
+  return {
+    videoType: "full",
+    language: "en",
+    genre: "action",
+    gameName: "Elden Ring",
+    channelName: "TestChannel",
+    platform: "steam",
+    spoilerWarning: false,
+    matureWarning: false,
+    storeLinks: {},
+    social: {},
+    rig: {},
+    ...overrides,
+  };
+}
+
+describe("generateTags", () => {
+  it("includes core tags", () => {
+    const tags = generateTags(makeInput());
+    expect(tags).toContain("Elden Ring gameplay");
+    expect(tags).toContain("Elden Ring no commentary");
+    expect(tags).toContain("gameplay no commentary");
+  });
+
+  it("includes genre-specific tags for action", () => {
+    const tags = generateTags(makeInput({ genre: "action" }));
+    expect(tags.some((t) => t.toLowerCase().includes("action"))).toBe(true);
+  });
+
+  it("includes genre-specific tags for horror", () => {
+    const tags = generateTags(makeInput({ genre: "horror" }));
+    expect(tags.some((t) => t.toLowerCase().includes("horror"))).toBe(true);
+  });
+
+  it("includes genre-specific tags for rpg", () => {
+    const tags = generateTags(makeInput({ genre: "rpg" }));
+    expect(tags.some((t) => t.toLowerCase().includes("rpg"))).toBe(true);
+  });
+
+  it("includes video type tags for boss", () => {
+    const tags = generateTags(makeInput({ videoType: "boss" }));
+    expect(tags.some((t) => t.toLowerCase().includes("boss"))).toBe(true);
+  });
+
+  it("includes video type tags for speedrun", () => {
+    const tags = generateTags(makeInput({ videoType: "speedrun" }));
+    expect(tags.some((t) => t.toLowerCase().includes("speedrun"))).toBe(true);
+  });
+
+  it("includes multilingual tags (Japanese)", () => {
+    const tags = generateTags(makeInput());
+    expect(tags.some((t) => t.includes("ゲームプレイ"))).toBe(true);
+  });
+
+  it("includes multilingual tags (Vietnamese)", () => {
+    const tags = generateTags(makeInput());
+    expect(tags.some((t) => t.includes("không bình luận"))).toBe(true);
+  });
+
+  it("has no duplicate tags (case-insensitive)", () => {
+    const tags = generateTags(makeInput());
+    const lowerTags = tags.map((t) => t.toLowerCase());
+    const unique = new Set(lowerTags);
+    expect(lowerTags.length).toBe(unique.size);
+  });
+
+  it("does not exceed 500 character limit for tag string", () => {
+    const tags = generateTags(makeInput());
+    const tagString = formatTagString(tags);
+    expect(tagString.length).toBeLessThanOrEqual(500);
+  });
+
+  it("each tag does not exceed 30 characters", () => {
+    const tags = generateTags(makeInput());
+    for (const tag of tags) {
+      expect(tag.length).toBeLessThanOrEqual(30);
+    }
+  });
+
+  it("includes trending tags with current year", () => {
+    const tags = generateTags(makeInput());
+    const year = new Date().getFullYear().toString();
+    expect(tags.some((t) => t.includes(year))).toBe(true);
+  });
+
+  it("includes platform tags", () => {
+    const tags = generateTags(makeInput({ platform: "steam" }));
+    expect(tags.some((t) => t.toLowerCase().includes("steam"))).toBe(true);
+  });
+});
+
+describe("formatTagString", () => {
+  it("joins tags with comma and space", () => {
+    expect(formatTagString(["a", "b", "c"])).toBe("a, b, c");
+  });
+
+  it("returns empty string for empty array", () => {
+    expect(formatTagString([])).toBe("");
+  });
+});

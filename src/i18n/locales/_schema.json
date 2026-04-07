@@ -1,0 +1,43 @@
+{
+  "ui": {
+    "app": ["title", "subtitle"],
+    "tabs": ["editor", "output"],
+    "editor": [
+      "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
+      "channelName", "channelNamePlaceholder", "platform",
+      "partNumber", "partNumberPlaceholder", "bossName", "bossNamePlaceholder",
+      "dlcName", "dlcNamePlaceholder", "challengeName", "challengeNamePlaceholder",
+      "resolution", "fps", "graphicsPreset",
+      "timestamps", "timestampsPlaceholder",
+      "storeLinks", "rig", "social", "warnings",
+      "spoilerWarning", "matureWarning",
+      "playlistLink", "playlistLinkPlaceholder",
+      "contactEmail", "contactEmailPlaceholder",
+      "videoSettings", "quickPreview"
+    ],
+    "output": [
+      "title", "description", "tags",
+      "copyTitle", "copyDescription", "copyTags", "copyAll",
+      "copied", "charCount"
+    ],
+    "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
+    "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent"],
+    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation"],
+    "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture"],
+    "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website"],
+    "resolutions": ["720p", "1080p", "1440p", "4K"],
+    "fpsOptions": ["30", "60", "120", "144"]
+  },
+  "templates": {
+    "title": ["separator", "suffix"],
+    "title.videoType": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent"],
+    "description.intro": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent"],
+    "description": ["noCommentaryLine"],
+    "description.sections": [
+      "timestamps", "storeLinks", "videoSettings", "rig",
+      "spoilerWarning", "matureWarning", "donate", "social",
+      "playlist", "contact", "cta"
+    ],
+    "hashtags": ["gameplay", "noCommentary", "genre"]
+  }
+}

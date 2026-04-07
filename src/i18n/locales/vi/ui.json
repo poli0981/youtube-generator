@@ -1,0 +1,118 @@
+{
+  "app": {
+    "title": "YTDescGen",
+    "subtitle": "Công cụ tạo mô tả Gameplay No Commentary"
+  },
+  "tabs": {
+    "editor": "Chỉnh sửa",
+    "output": "Kết quả"
+  },
+  "editor": {
+    "videoType": "Loại Video",
+    "language": "Ngôn ngữ đầu ra",
+    "genre": "Thể loại Game",
+    "gameName": "Tên Game",
+    "gameNamePlaceholder": "VD: Elden Ring",
+    "channelName": "Tên Kênh",
+    "channelNamePlaceholder": "VD: MyChannel",
+    "platform": "Nền tảng",
+    "partNumber": "Số Phần",
+    "partNumberPlaceholder": "VD: 5",
+    "bossName": "Tên Boss",
+    "bossNamePlaceholder": "VD: Margit, The Fell Omen",
+    "dlcName": "Tên DLC",
+    "dlcNamePlaceholder": "VD: Shadow of the Erdtree",
+    "challengeName": "Tên Challenge",
+    "challengeNamePlaceholder": "VD: No Hit Run",
+    "resolution": "Độ phân giải",
+    "fps": "FPS",
+    "graphicsPreset": "Cài đặt đồ họa",
+    "timestamps": "Mốc thời gian",
+    "timestampsPlaceholder": "0:00 Giới thiệu\n5:30 Chương 1\n15:00 Đánh Boss",
+    "storeLinks": "Link mua game",
+    "rig": "Cấu hình máy",
+    "social": "Mạng xã hội & Donate",
+    "warnings": "Cảnh báo",
+    "spoilerWarning": "Cảnh báo Spoiler",
+    "matureWarning": "Nội dung người lớn (18+)",
+    "playlistLink": "Link Playlist",
+    "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "contactEmail": "Email liên hệ",
+    "contactEmailPlaceholder": "business@example.com",
+    "videoSettings": "Cài đặt Video",
+    "quickPreview": "Xem trước nhanh"
+  },
+  "output": {
+    "title": "Tiêu đề",
+    "description": "Mô tả",
+    "tags": "Tags",
+    "copyTitle": "Sao chép tiêu đề",
+    "copyDescription": "Sao chép mô tả",
+    "copyTags": "Sao chép tags",
+    "copyAll": "Sao chép tất cả",
+    "copied": "Đã sao chép!",
+    "charCount": "{{count}}/{{limit}}"
+  },
+  "common": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "confirm": "Xác nhận",
+    "export": "Xuất",
+    "import": "Nhập",
+    "reset": "Đặt lại",
+    "search": "Tìm kiếm",
+    "generate": "Tạo"
+  },
+  "videoTypes": {
+    "full": "Full Gameplay",
+    "part": "Gameplay Phần",
+    "boss": "Boss Fight",
+    "boss_nohit": "Boss No Hit",
+    "ending": "Kết thúc",
+    "speedrun": "Speedrun",
+    "100percent": "100% Completion"
+  },
+  "genres": {
+    "action": "Hành động / Phiêu lưu",
+    "horror": "Kinh dị / Sinh tồn",
+    "rpg": "RPG / JRPG",
+    "fps": "FPS / Bắn súng",
+    "openworld": "Thế giới mở / Sandbox",
+    "indie": "Indie / Platformer",
+    "soulslike": "Souls-like",
+    "racing": "Đua xe / Thể thao",
+    "story": "Cốt truyện / Visual Novel",
+    "simulation": "Mô phỏng / Chiến thuật"
+  },
+  "rig": {
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "ram": "RAM",
+    "storage": "Ổ cứng",
+    "monitor": "Màn hình",
+    "capture": "Phần mềm quay"
+  },
+  "social": {
+    "kofi": "Ko-fi",
+    "patreon": "Patreon",
+    "buymeacoffee": "Buy Me a Coffee",
+    "paypal": "PayPal",
+    "github": "GitHub",
+    "twitter": "Twitter / X",
+    "discord": "Discord",
+    "website": "Website"
+  },
+  "resolutions": {
+    "720p": "720p",
+    "1080p": "1080p",
+    "1440p": "1440p",
+    "4K": "4K"
+  },
+  "fpsOptions": {
+    "30": "30 FPS",
+    "60": "60 FPS",
+    "120": "120 FPS",
+    "144": "144 FPS"
+  }
+}

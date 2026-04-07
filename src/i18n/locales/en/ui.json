@@ -1,0 +1,118 @@
+{
+  "app": {
+    "title": "YTDescGen",
+    "subtitle": "Gameplay No Commentary Template Engine"
+  },
+  "tabs": {
+    "editor": "Editor",
+    "output": "Output"
+  },
+  "editor": {
+    "videoType": "Video Type",
+    "language": "Output Language",
+    "genre": "Game Genre",
+    "gameName": "Game Name",
+    "gameNamePlaceholder": "e.g. Elden Ring",
+    "channelName": "Channel Name",
+    "channelNamePlaceholder": "e.g. MyChannel",
+    "platform": "Platform",
+    "partNumber": "Part Number",
+    "partNumberPlaceholder": "e.g. 5",
+    "bossName": "Boss Name",
+    "bossNamePlaceholder": "e.g. Margit, The Fell Omen",
+    "dlcName": "DLC Name",
+    "dlcNamePlaceholder": "e.g. Shadow of the Erdtree",
+    "challengeName": "Challenge Name",
+    "challengeNamePlaceholder": "e.g. No Hit Run",
+    "resolution": "Resolution",
+    "fps": "FPS",
+    "graphicsPreset": "Graphics Preset",
+    "timestamps": "Timestamps",
+    "timestampsPlaceholder": "0:00 Intro\n5:30 Chapter 1\n15:00 Boss Fight",
+    "storeLinks": "Store Links",
+    "rig": "My Rig",
+    "social": "Social & Donate Links",
+    "warnings": "Warnings",
+    "spoilerWarning": "Spoiler Warning",
+    "matureWarning": "Mature Content (18+)",
+    "playlistLink": "Playlist Link",
+    "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "contactEmail": "Contact Email",
+    "contactEmailPlaceholder": "business@example.com",
+    "videoSettings": "Video Settings",
+    "quickPreview": "Quick Preview"
+  },
+  "output": {
+    "title": "Title",
+    "description": "Description",
+    "tags": "Tags",
+    "copyTitle": "Copy Title",
+    "copyDescription": "Copy Description",
+    "copyTags": "Copy Tags",
+    "copyAll": "Copy All",
+    "copied": "Copied!",
+    "charCount": "{{count}}/{{limit}}"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "export": "Export",
+    "import": "Import",
+    "reset": "Reset",
+    "search": "Search",
+    "generate": "Generate"
+  },
+  "videoTypes": {
+    "full": "Full Gameplay",
+    "part": "Gameplay Part",
+    "boss": "Boss Fight",
+    "boss_nohit": "Boss No Hit",
+    "ending": "Ending / All Endings",
+    "speedrun": "Speedrun",
+    "100percent": "100% Completion"
+  },
+  "genres": {
+    "action": "Action / Adventure",
+    "horror": "Horror / Survival",
+    "rpg": "RPG / JRPG",
+    "fps": "FPS / Shooter",
+    "openworld": "Open World / Sandbox",
+    "indie": "Indie / Platformer",
+    "soulslike": "Souls-like",
+    "racing": "Racing / Sports",
+    "story": "Story / Visual Novel",
+    "simulation": "Simulation / Strategy"
+  },
+  "rig": {
+    "cpu": "CPU",
+    "gpu": "GPU",
+    "ram": "RAM",
+    "storage": "Storage",
+    "monitor": "Monitor",
+    "capture": "Capture Software"
+  },
+  "social": {
+    "kofi": "Ko-fi",
+    "patreon": "Patreon",
+    "buymeacoffee": "Buy Me a Coffee",
+    "paypal": "PayPal",
+    "github": "GitHub",
+    "twitter": "Twitter / X",
+    "discord": "Discord",
+    "website": "Website"
+  },
+  "resolutions": {
+    "720p": "720p",
+    "1080p": "1080p",
+    "1440p": "1440p",
+    "4K": "4K"
+  },
+  "fpsOptions": {
+    "30": "30 FPS",
+    "60": "60 FPS",
+    "120": "120 FPS",
+    "144": "144 FPS"
+  }
+}
