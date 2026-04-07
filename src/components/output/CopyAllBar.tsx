@@ -4,14 +4,18 @@ import { Button } from "@components/ui/Button";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
 import { useClipboard } from "@hooks/use-clipboard";
 
-export function CopyAllBar() {
+interface CopyAllBarProps {
+  extraText?: string;
+}
+
+export function CopyAllBar({ extraText }: CopyAllBarProps) {
   const { t } = useTranslation("ui");
   const output = useGeneratedOutput();
   const { copy } = useClipboard();
 
   const handleCopyAll = () => {
-    const combined = `${output.title}\n\n${output.description}`;
-    copy(combined);
+    const text = extraText || `${output.title}\n\n${output.description}`;
+    copy(text);
   };
 
   return (

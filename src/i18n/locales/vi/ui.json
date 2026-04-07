@@ -6,7 +6,10 @@
   "tabs": {
     "editor": "Chỉnh sửa",
     "output": "Kết quả",
-    "profiles": "Hồ sơ"
+    "profiles": "Hồ sơ",
+    "history": "Lịch sử",
+    "settings": "Cài đặt",
+    "batch": "Hàng loạt"
   },
   "editor": {
     "videoType": "Loại Video",
@@ -55,7 +58,8 @@
     "copyTags": "Sao chép tags",
     "copyAll": "Sao chép tất cả",
     "copied": "Đã sao chép!",
-    "charCount": "{{count}}/{{limit}}"
+    "charCount": "{{count}}/{{limit}}",
+    "selectLanguages": "Chọn ngôn ngữ"
   },
   "common": {
     "save": "Lưu",
@@ -80,7 +84,9 @@
     "newgame_plus": "New Game+",
     "challenge": "Challenge Run",
     "side_quest": "Nhiệm vụ phụ",
-    "secret": "Bí mật / Ẩn"
+    "secret": "Bí mật / Ẩn",
+    "comparison": "So sánh đồ họa",
+    "guide": "Hướng dẫn"
   },
   "genres": {
     "action": "Hành động / Phiêu lưu",
@@ -97,7 +103,17 @@
     "stealth": "Hành động lén",
     "survival_craft": "Sinh tồn / Chế tạo",
     "roguelike": "Roguelike / Roguelite",
-    "metroidvania": "Metroidvania"
+    "metroidvania": "Metroidvania",
+    "mmo": "MMO / Trực tuyến",
+    "rhythm": "Nhịp điệu / Âm nhạc",
+    "puzzle": "Giải đố",
+    "tower_defense": "Tower Defense",
+    "card_game": "Game thẻ bài",
+    "battle_royale": "Battle Royale",
+    "crpg": "CRPG / Isometric",
+    "tactical": "Chiến thuật",
+    "space": "Vũ trụ / Sci-Fi",
+    "farming": "Nông trại / Life Sim"
   },
   "rig": {
     "cpu": "CPU",
@@ -158,5 +174,47 @@
     "noPresets": "Chưa có preset",
     "exportPresets": "Xuất presets",
     "importPresets": "Nhập presets"
+  },
+  "history": {
+    "title": "Lịch sử",
+    "emptyState": "Chưa có lịch sử.",
+    "clearAll": "Xóa tất cả",
+    "clearConfirm": "Bạn có chắc muốn xóa toàn bộ lịch sử?",
+    "searchPlaceholder": "Tìm theo tên game..."
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "appearance": "Giao diện",
+    "defaults": "Mặc định",
+    "editorSettings": "Trình soạn",
+    "tagSettings": "Tags",
+    "historySettings": "Lịch sử",
+    "theme": "Giao diện",
+    "defaultUILanguage": "Ngôn ngữ giao diện",
+    "defaultOutputLanguage": "Ngôn ngữ đầu ra",
+    "defaultGenre": "Thể loại mặc định",
+    "autoSaveDraft": "Tự động lưu nháp",
+    "showCharCount": "Hiện số ký tự",
+    "compactTagDisplay": "Hiển thị tags gọn",
+    "historyLimit": "Giới hạn lịch sử",
+    "multilingualTags": "Tags đa ngôn ngữ",
+    "trendingTags": "Tags xu hướng",
+    "hashtagCount": "Số hashtag"
+  },
+  "batch": {
+    "title": "Chế độ hàng loạt",
+    "startPart": "Phần bắt đầu",
+    "endPart": "Phần kết thúc",
+    "generateBatch": "Tạo hàng loạt",
+    "copyAllBatch": "Sao chép tất cả",
+    "emptyState": "Cấu hình phạm vi và tạo."
+  },
+  "shortcuts": {
+    "title": "Phím tắt",
+    "generate": "Tạo (chuyển sang Output)",
+    "copyAll": "Sao chép tất cả",
+    "saveDraft": "Lưu nháp",
+    "help": "Hiện phím tắt",
+    "close": "Đóng"
   }
 }

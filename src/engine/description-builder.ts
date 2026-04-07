@@ -18,7 +18,11 @@ function formatKeyValueBlock(
     .join("\n");
 }
 
-export function buildDescription(input: GeneratorInput, t: TranslationFn): string {
+export function buildDescription(
+  input: GeneratorInput,
+  t: TranslationFn,
+  hashtagCount = 3,
+): string {
   const sections: string[] = [];
   const gameName =
     input.gameNameLocalized?.[input.language] ?? input.gameName;
@@ -109,9 +113,12 @@ export function buildDescription(input: GeneratorInput, t: TranslationFn): strin
   sections.push(t("description.sections.cta"));
 
   // 14. Hashtags
-  const gameTag = `#${gameName.replace(/\s+/g, "")}`;
-  const genreTag = `#${input.genre}`;
-  sections.push(`${gameTag} #GameplayNoCommentary ${genreTag}`);
+  const allHashtags = [
+    `#${gameName.replace(/\s+/g, "")}`,
+    "#GameplayNoCommentary",
+    `#${input.genre}`,
+  ];
+  sections.push(allHashtags.slice(0, hashtagCount).join(" "));
 
   return sections.join("\n\n");
 }

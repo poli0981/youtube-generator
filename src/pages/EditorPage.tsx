@@ -25,7 +25,7 @@ export function EditorPage() {
   const [showClearDraft, setShowClearDraft] = useState(false);
 
   return (
-    <div className="mx-auto flex max-w-6xl gap-6 p-6">
+    <div className="mx-auto flex max-w-6xl flex-col gap-6 p-6 lg:flex-row">
       {/* Form */}
       <div className="flex flex-1 flex-col gap-6">
         <div className="flex items-center justify-between">
@@ -77,7 +77,7 @@ export function EditorPage() {
       </div>
 
       {/* Sidebar: Quick Preview */}
-      <div className="w-80 shrink-0">
+      <div className="w-full shrink-0 lg:w-80">
         <div className="sticky top-6">
           <QuickPreview />
         </div>

@@ -14,7 +14,9 @@
       "newgame_plus": "New Game+",
       "challenge": "{{challengeName}} Challenge",
       "side_quest": "Side Quest",
-      "secret": "Secret"
+      "secret": "Secret",
+      "comparison": "Comparison",
+      "guide": "Guide"
     }
   },
   "description": {
@@ -30,7 +32,9 @@
       "newgame_plus": "This video features the New Game+ playthrough of {{gameName}} on {{channelName}}.",
       "challenge": "This video features the {{challengeName}} challenge of {{gameName}} on {{channelName}}.",
       "side_quest": "This video features side quests and optional content from {{gameName}} on {{channelName}}.",
-      "secret": "This video features secrets and hidden content from {{gameName}} on {{channelName}}."
+      "secret": "This video features secrets and hidden content from {{gameName}} on {{channelName}}.",
+      "comparison": "This video compares the graphics/performance of {{gameName}} on {{channelName}}.",
+      "guide": "This video is a silent guide for {{gameName}} on {{channelName}}."
     },
     "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
     "sections": {

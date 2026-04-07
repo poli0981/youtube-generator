@@ -1,7 +1,7 @@
 {
   "ui": {
     "app": ["title", "subtitle"],
-    "tabs": ["editor", "output", "profiles"],
+    "tabs": ["editor", "output", "profiles", "history", "settings", "batch"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
       "channelName", "channelNamePlaceholder", "platform",
@@ -19,22 +19,26 @@
     "output": [
       "title", "description", "tags",
       "copyTitle", "copyDescription", "copyTags", "copyAll",
-      "copied", "charCount"
+      "copied", "charCount", "selectLanguages"
     ],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
-    "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret"],
-    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania"],
+    "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "battle_royale", "crpg", "tactical", "space", "farming"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller"],
     "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs"],
     "resolutions": ["720p", "1080p", "1440p", "4K"],
     "fpsOptions": ["30", "60", "120", "144"],
     "profiles": ["title", "createNew", "editProfile", "profileName", "profileNamePlaceholder", "loadProfile", "deleteConfirm", "emptyState", "exportProfiles", "importProfiles"],
-    "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"]
+    "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
+    "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "defaultUILanguage", "defaultOutputLanguage", "defaultGenre", "autoSaveDraft", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount"],
+    "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
+    "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"]
   },
   "templates": {
     "title": ["separator", "suffix"],
-    "title.videoType": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret"],
-    "description.intro": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret"],
+    "title.videoType": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "description.intro": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
     "description": ["noCommentaryLine"],
     "description.sections": [
       "timestamps", "storeLinks", "videoSettings", "rig",

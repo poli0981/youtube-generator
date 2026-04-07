@@ -10,7 +10,9 @@ export type VideoType =
   | "newgame_plus"
   | "challenge"
   | "side_quest"
-  | "secret";
+  | "secret"
+  | "comparison"
+  | "guide";
 
 export type Genre =
   | "action"
@@ -27,9 +29,19 @@ export type Genre =
   | "stealth"
   | "survival_craft"
   | "roguelike"
-  | "metroidvania";
+  | "metroidvania"
+  | "mmo"
+  | "rhythm"
+  | "puzzle"
+  | "tower_defense"
+  | "card_game"
+  | "battle_royale"
+  | "crpg"
+  | "tactical"
+  | "space"
+  | "farming";
 
-export type SupportedLanguage = "en" | "vi" | "ja";
+export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
 
 export interface GeneratorInput {
   videoType: VideoType;

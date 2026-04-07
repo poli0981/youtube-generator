@@ -11,6 +11,8 @@ export const VIDEO_TYPES = [
   { id: "challenge", labelKey: "videoTypes.challenge", icon: "🏆", extraFields: ["challengeName"] },
   { id: "side_quest", labelKey: "videoTypes.side_quest", icon: "📌", extraFields: [] },
   { id: "secret", labelKey: "videoTypes.secret", icon: "🔍", extraFields: [] },
+  { id: "comparison", labelKey: "videoTypes.comparison", icon: "⚖️", extraFields: [] },
+  { id: "guide", labelKey: "videoTypes.guide", icon: "📘", extraFields: [] },
 ] as const;
 
 export type VideoTypeId = (typeof VIDEO_TYPES)[number]["id"];

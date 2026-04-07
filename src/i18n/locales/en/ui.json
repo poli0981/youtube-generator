@@ -6,7 +6,10 @@
   "tabs": {
     "editor": "Editor",
     "output": "Output",
-    "profiles": "Profiles"
+    "profiles": "Profiles",
+    "history": "History",
+    "settings": "Settings",
+    "batch": "Batch"
   },
   "editor": {
     "videoType": "Video Type",
@@ -55,7 +58,8 @@
     "copyTags": "Copy Tags",
     "copyAll": "Copy All",
     "copied": "Copied!",
-    "charCount": "{{count}}/{{limit}}"
+    "charCount": "{{count}}/{{limit}}",
+    "selectLanguages": "Select Languages"
   },
   "common": {
     "save": "Save",
@@ -80,7 +84,9 @@
     "newgame_plus": "New Game+",
     "challenge": "Challenge Run",
     "side_quest": "Side Quests",
-    "secret": "Secrets / Hidden"
+    "secret": "Secrets / Hidden",
+    "comparison": "Graphics Comparison",
+    "guide": "Silent Guide"
   },
   "genres": {
     "action": "Action / Adventure",
@@ -97,7 +103,17 @@
     "stealth": "Stealth / Espionage",
     "survival_craft": "Survival / Crafting",
     "roguelike": "Roguelike / Roguelite",
-    "metroidvania": "Metroidvania"
+    "metroidvania": "Metroidvania",
+    "mmo": "MMO / Online",
+    "rhythm": "Rhythm / Music",
+    "puzzle": "Puzzle",
+    "tower_defense": "Tower Defense",
+    "card_game": "Card / Deck Builder",
+    "battle_royale": "Battle Royale",
+    "crpg": "CRPG / Isometric",
+    "tactical": "Tactical / Turn-based",
+    "space": "Space / Sci-Fi",
+    "farming": "Farming / Life Sim"
   },
   "rig": {
     "cpu": "CPU",
@@ -158,5 +174,47 @@
     "noPresets": "No presets",
     "exportPresets": "Export Presets",
     "importPresets": "Import Presets"
+  },
+  "history": {
+    "title": "History",
+    "emptyState": "No generation history yet.",
+    "clearAll": "Clear All",
+    "clearConfirm": "Are you sure you want to clear all history?",
+    "searchPlaceholder": "Search by game name..."
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "defaults": "Defaults",
+    "editorSettings": "Editor",
+    "tagSettings": "Tags",
+    "historySettings": "History",
+    "theme": "Theme",
+    "defaultUILanguage": "Default UI Language",
+    "defaultOutputLanguage": "Default Output Language",
+    "defaultGenre": "Default Genre",
+    "autoSaveDraft": "Auto-save Draft",
+    "showCharCount": "Show Character Count",
+    "compactTagDisplay": "Compact Tag Display",
+    "historyLimit": "History Limit",
+    "multilingualTags": "Include Multilingual Tags",
+    "trendingTags": "Include Trending Tags",
+    "hashtagCount": "Hashtag Count"
+  },
+  "batch": {
+    "title": "Batch Mode",
+    "startPart": "Start Part",
+    "endPart": "End Part",
+    "generateBatch": "Generate Batch",
+    "copyAllBatch": "Copy All",
+    "emptyState": "Configure batch range and generate."
+  },
+  "shortcuts": {
+    "title": "Keyboard Shortcuts",
+    "generate": "Generate (switch to Output)",
+    "copyAll": "Copy All",
+    "saveDraft": "Save Draft",
+    "help": "Show Shortcuts",
+    "close": "Close Modal"
   }
 }

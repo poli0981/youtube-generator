@@ -14,7 +14,9 @@
       "newgame_plus": "強くてニューゲーム",
       "challenge": "{{challengeName}} チャレンジ",
       "side_quest": "サブクエスト",
-      "secret": "隠し要素"
+      "secret": "隠し要素",
+      "comparison": "グラフィック比較",
+      "guide": "攻略ガイド"
     }
   },
   "description": {
@@ -30,7 +32,9 @@
       "newgame_plus": "この動画は{{channelName}}による{{gameName}}の強くてニューゲームです。",
       "challenge": "この動画は{{channelName}}による{{gameName}}の{{challengeName}}チャレンジです。",
       "side_quest": "この動画は{{channelName}}による{{gameName}}のサブクエストです。",
-      "secret": "この動画は{{channelName}}による{{gameName}}の隠し要素です。"
+      "secret": "この動画は{{channelName}}による{{gameName}}の隠し要素です。",
+      "comparison": "この動画は{{channelName}}による{{gameName}}のグラフィック比較です。",
+      "guide": "この動画は{{channelName}}による{{gameName}}の攻略ガイドです。"
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
     "sections": {
