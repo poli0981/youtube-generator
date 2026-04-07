@@ -88,17 +88,30 @@ export const useEditorStore = create<EditorState>()(
     {
       name: "ytdescgen-editor-draft",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => {
-        const {
-          set: _s,
-          setNested: _sn,
-          loadProfile: _lp,
-          loadPreset: _lpre,
-          reset: _r,
-          ...data
-        } = state;
-        return data;
-      },
+      partialize: (state) => ({
+        videoType: state.videoType,
+        language: state.language,
+        genre: state.genre,
+        gameName: state.gameName,
+        gameNameLocalized: state.gameNameLocalized,
+        channelName: state.channelName,
+        platform: state.platform,
+        partNumber: state.partNumber,
+        bossName: state.bossName,
+        dlcName: state.dlcName,
+        challengeName: state.challengeName,
+        resolution: state.resolution,
+        fps: state.fps,
+        graphicsPreset: state.graphicsPreset,
+        timestamps: state.timestamps,
+        playlistLink: state.playlistLink,
+        contactEmail: state.contactEmail,
+        spoilerWarning: state.spoilerWarning,
+        matureWarning: state.matureWarning,
+        storeLinks: state.storeLinks,
+        social: state.social,
+        rig: state.rig,
+      }),
     },
   ),
 );

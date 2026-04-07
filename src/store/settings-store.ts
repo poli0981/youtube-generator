@@ -30,15 +30,11 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: "ytdescgen-settings",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => {
-        const {
-          setTheme: _st,
-          setDefaultLanguage: _sdl,
-          setDefaultGenre: _sdg,
-          ...data
-        } = state;
-        return data;
-      },
+      partialize: (state) => ({
+        theme: state.theme,
+        defaultLanguage: state.defaultLanguage,
+        defaultGenre: state.defaultGenre,
+      }),
     },
   ),
 );
