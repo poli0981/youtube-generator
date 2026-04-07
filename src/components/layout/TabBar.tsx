@@ -1,11 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Pencil, FileText } from "lucide-react";
+import { Pencil, FileText, User } from "lucide-react";
 import clsx from "clsx";
 
 const tabs = [
   { to: "/", labelKey: "tabs.editor", icon: Pencil },
   { to: "/output", labelKey: "tabs.output", icon: FileText },
+  { to: "/profiles", labelKey: "tabs.profiles", icon: User },
 ] as const;
 
 export function TabBar() {

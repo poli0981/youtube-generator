@@ -5,6 +5,8 @@ export const RIG_FIELDS = [
   { id: "storage", labelKey: "rig.storage", placeholder: "2TB Samsung 990 PRO NVMe" },
   { id: "monitor", labelKey: "rig.monitor", placeholder: "LG 27GP950 27\" 4K 144Hz" },
   { id: "capture", labelKey: "rig.capture", placeholder: "OBS Studio 30.x" },
+  { id: "motherboard", labelKey: "rig.motherboard", placeholder: "ASUS ROG Maximus Z790 Hero" },
+  { id: "controller", labelKey: "rig.controller", placeholder: "DualSense / Xbox Elite Series 2" },
 ] as const;
 
 export type RigFieldId = (typeof RIG_FIELDS)[number]["id"];

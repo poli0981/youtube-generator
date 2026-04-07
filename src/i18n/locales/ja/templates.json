@@ -9,7 +9,12 @@
       "boss_nohit": "{{bossName}} ボス ノーヒット",
       "ending": "エンディング",
       "speedrun": "スピードラン",
-      "100percent": "100%クリア"
+      "100percent": "100%クリア",
+      "dlc": "{{dlcName}} DLC",
+      "newgame_plus": "強くてニューゲーム",
+      "challenge": "{{challengeName}} チャレンジ",
+      "side_quest": "サブクエスト",
+      "secret": "隠し要素"
     }
   },
   "description": {
@@ -20,7 +25,12 @@
       "boss_nohit": "この動画は{{channelName}}による{{gameName}}の{{bossName}}ボス戦（ノーヒット）です。",
       "ending": "この動画は{{channelName}}による{{gameName}}のエンディングです。",
       "speedrun": "この動画は{{channelName}}による{{gameName}}のスピードランです。",
-      "100percent": "この動画は{{channelName}}による{{gameName}}の100%クリアです。"
+      "100percent": "この動画は{{channelName}}による{{gameName}}の100%クリアです。",
+      "dlc": "この動画は{{channelName}}による{{gameName}}の{{dlcName}} DLCです。",
+      "newgame_plus": "この動画は{{channelName}}による{{gameName}}の強くてニューゲームです。",
+      "challenge": "この動画は{{channelName}}による{{gameName}}の{{challengeName}}チャレンジです。",
+      "side_quest": "この動画は{{channelName}}による{{gameName}}のサブクエストです。",
+      "secret": "この動画は{{channelName}}による{{gameName}}の隠し要素です。"
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
     "sections": {

@@ -9,6 +9,11 @@ export const GENRES = [
   { id: "racing", labelKey: "genres.racing", icon: "🏎" },
   { id: "story", labelKey: "genres.story", icon: "📖" },
   { id: "simulation", labelKey: "genres.simulation", icon: "🏗" },
+  { id: "fighting", labelKey: "genres.fighting", icon: "🥊" },
+  { id: "stealth", labelKey: "genres.stealth", icon: "🥷" },
+  { id: "survival_craft", labelKey: "genres.survival_craft", icon: "⛏" },
+  { id: "roguelike", labelKey: "genres.roguelike", icon: "🎲" },
+  { id: "metroidvania", labelKey: "genres.metroidvania", icon: "🗺" },
 ] as const;
 
 export type GenreId = (typeof GENRES)[number]["id"];

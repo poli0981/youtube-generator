@@ -5,7 +5,8 @@
   },
   "tabs": {
     "editor": "Chỉnh sửa",
-    "output": "Kết quả"
+    "output": "Kết quả",
+    "profiles": "Hồ sơ"
   },
   "editor": {
     "videoType": "Loại Video",
@@ -40,7 +41,10 @@
     "contactEmail": "Email liên hệ",
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "Cài đặt Video",
-    "quickPreview": "Xem trước nhanh"
+    "quickPreview": "Xem trước nhanh",
+    "clearDraft": "Xóa bản nháp",
+    "draftSaved": "Đã lưu nháp",
+    "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?"
   },
   "output": {
     "title": "Tiêu đề",
@@ -71,7 +75,12 @@
     "boss_nohit": "Boss No Hit",
     "ending": "Kết thúc",
     "speedrun": "Speedrun",
-    "100percent": "100% Completion"
+    "100percent": "100% Completion",
+    "dlc": "Nội dung DLC",
+    "newgame_plus": "New Game+",
+    "challenge": "Challenge Run",
+    "side_quest": "Nhiệm vụ phụ",
+    "secret": "Bí mật / Ẩn"
   },
   "genres": {
     "action": "Hành động / Phiêu lưu",
@@ -83,7 +92,12 @@
     "soulslike": "Souls-like",
     "racing": "Đua xe / Thể thao",
     "story": "Cốt truyện / Visual Novel",
-    "simulation": "Mô phỏng / Chiến thuật"
+    "simulation": "Mô phỏng / Chiến thuật",
+    "fighting": "Đối kháng",
+    "stealth": "Hành động lén",
+    "survival_craft": "Sinh tồn / Chế tạo",
+    "roguelike": "Roguelike / Roguelite",
+    "metroidvania": "Metroidvania"
   },
   "rig": {
     "cpu": "CPU",
@@ -91,7 +105,9 @@
     "ram": "RAM",
     "storage": "Ổ cứng",
     "monitor": "Màn hình",
-    "capture": "Phần mềm quay"
+    "capture": "Phần mềm quay",
+    "motherboard": "Bo mạch chủ",
+    "controller": "Tay cầm"
   },
   "social": {
     "kofi": "Ko-fi",
@@ -101,7 +117,11 @@
     "github": "GitHub",
     "twitter": "Twitter / X",
     "discord": "Discord",
-    "website": "Website"
+    "website": "Website",
+    "twitch": "Twitch",
+    "tiktok": "TikTok",
+    "instagram": "Instagram",
+    "streamlabs": "Streamlabs"
   },
   "resolutions": {
     "720p": "720p",
@@ -114,5 +134,29 @@
     "60": "60 FPS",
     "120": "120 FPS",
     "144": "144 FPS"
+  },
+  "profiles": {
+    "title": "Hồ sơ",
+    "createNew": "Tạo hồ sơ",
+    "editProfile": "Sửa hồ sơ",
+    "profileName": "Tên hồ sơ",
+    "profileNamePlaceholder": "VD: Kênh chính",
+    "loadProfile": "Tải",
+    "deleteConfirm": "Bạn có chắc muốn xóa hồ sơ này?",
+    "emptyState": "Chưa có hồ sơ. Tạo một hồ sơ để lưu thông tin kênh.",
+    "exportProfiles": "Xuất hồ sơ",
+    "importProfiles": "Nhập hồ sơ"
+  },
+  "presets": {
+    "title": "Cài đặt Game",
+    "createNew": "Tạo preset",
+    "editPreset": "Sửa preset",
+    "loadPreset": "Tải",
+    "deleteConfirm": "Bạn có chắc muốn xóa preset này?",
+    "emptyState": "Chưa có preset. Tạo một preset để lưu thông tin game.",
+    "selectPreset": "Chọn Game Preset",
+    "noPresets": "Chưa có preset",
+    "exportPresets": "Xuất presets",
+    "importPresets": "Nhập presets"
   }
 }

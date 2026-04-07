@@ -6,6 +6,8 @@ export const PLATFORMS = [
   { id: "nintendo", label: "Nintendo eShop", urlPrefix: "https://www.nintendo.com/store/" },
   { id: "gog", label: "GOG", urlPrefix: "https://www.gog.com/game/" },
   { id: "itchio", label: "itch.io", urlPrefix: "https://itch.io/" },
+  { id: "humble", label: "Humble Bundle", urlPrefix: "https://www.humblebundle.com/store/" },
+  { id: "amazon", label: "Amazon Luna", urlPrefix: "https://www.amazon.com/luna/" },
 ] as const;
 
 export type PlatformId = (typeof PLATFORMS)[number]["id"];

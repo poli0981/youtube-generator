@@ -5,7 +5,12 @@ export type VideoType =
   | "boss_nohit"
   | "ending"
   | "speedrun"
-  | "100percent";
+  | "100percent"
+  | "dlc"
+  | "newgame_plus"
+  | "challenge"
+  | "side_quest"
+  | "secret";
 
 export type Genre =
   | "action"
@@ -17,7 +22,12 @@ export type Genre =
   | "soulslike"
   | "racing"
   | "story"
-  | "simulation";
+  | "simulation"
+  | "fighting"
+  | "stealth"
+  | "survival_craft"
+  | "roguelike"
+  | "metroidvania";
 
 export type SupportedLanguage = "en" | "vi" | "ja";
 
