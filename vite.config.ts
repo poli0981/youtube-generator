@@ -2,9 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
+const isTauri = !!process.env.TAURI_ENV_PLATFORM;
+
 export default defineConfig({
   plugins: [react()],
-  base: "/yt-desc-gen/",
+  base: isTauri ? "/" : "/yt-desc-gen/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

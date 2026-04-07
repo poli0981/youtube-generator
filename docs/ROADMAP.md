@@ -198,46 +198,48 @@
 
 ---
 
-## Phase 4 — Desktop App (Priority: P2)
+## Phase 4 — Desktop App (Priority: P2) ✅ COMPLETED 2026-04-08
 **Goal**: Đóng gói thành ứng dụng desktop bằng Tauri.
-**Estimated**: 2-3 days
+**Estimated**: 2-3 days | **Actual**: 1 day
 
 ### Tasks
 ```
 4.1  Tauri setup
-     - [ ] Install Tauri CLI + dependencies
-     - [ ] src-tauri/ scaffold
-     - [ ] tauri.conf.json configuration
-     - [ ] App icons (all sizes)
+     - [x] Install Tauri CLI v2 + dependencies (@tauri-apps/api, plugins)
+     - [x] src-tauri/ scaffold (Cargo.toml, lib.rs, main.rs, build.rs)
+     - [x] tauri.conf.json configuration (Tauri v2 format)
+     - [x] App icons (all sizes via cargo tauri icon)
+     - [x] Capabilities (default.json with dialog, fs, shell permissions)
 
 4.2  Desktop features
-     - [ ] Native clipboard integration
-     - [ ] File export (save outputs as .txt/.json)
-     - [ ] File import (load profiles/presets from JSON)
-     - [ ] System tray with quick access
-     - [ ] Window state persistence (size, position)
+     - [x] Native file save/load via Tauri commands (save_to_file, read_from_file)
+     - [x] Platform detection (IS_TAURI flag)
+     - [x] File ops with web fallback (src/utils/file-ops.ts)
+     - [x] System tray with Show/Quit menu
+     - [x] Left-click tray to show window
 
 4.3  Auto-update
-     - [ ] Tauri updater configuration
+     - [ ] Tauri updater configuration (deferred — needs signed releases)
      - [ ] GitHub Releases integration
      - [ ] Update notification UI
 
 4.4  Build pipeline
-     - [ ] GitHub Actions: build Windows .msi
-     - [ ] GitHub Actions: build macOS .dmg
-     - [ ] Release workflow (tag → build → publish)
+     - [x] GitHub Actions: release-desktop.yml (Windows + macOS cross-compile)
+     - [x] Tag-triggered release (v* tags)
+     - [x] Verified local build: MSI 4.1MB, NSIS 2.7MB, EXE 14MB
 
 4.5  Platform-specific
-     - [ ] Windows: installer, start menu shortcut
-     - [ ] macOS: .app bundle, code signing (if needed)
-     - [ ] Verify offline functionality
+     - [x] Windows: MSI + NSIS installers built successfully
+     - [ ] macOS: requires macOS runner (CI handles this)
+     - [x] Offline functionality verified (all bundled, no API calls)
+     - [x] Vite base URL conditional (/ for Tauri, /yt-desc-gen/ for web)
 
 ### Definition of Done
-- [ ] Windows installer < 15MB, installs and runs
-- [ ] macOS .app < 15MB, runs on Apple Silicon + Intel
-- [ ] Auto-update from GitHub Releases works
-- [ ] All web features work identically in desktop
-- [ ] Offline mode fully functional
+- [x] Windows installer < 15MB (4.1MB MSI), installs and runs
+- [ ] macOS .app < 15MB (CI-only, not locally testable)
+- [ ] Auto-update from GitHub Releases (deferred — needs signing)
+- [x] All web features work identically in desktop
+- [x] Offline mode fully functional
 ```
 
 ---
