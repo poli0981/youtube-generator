@@ -8,3 +8,5 @@ coverage/
 *.tsbuildinfo
 .idea/
 .claude/
+src-tauri/target/
+app-icon.png
