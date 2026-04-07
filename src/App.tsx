@@ -3,6 +3,7 @@ import { Toaster } from "react-hot-toast";
 import { AppShell } from "@components/layout/AppShell";
 import { EditorPage } from "@pages/EditorPage";
 import { OutputPage } from "@pages/OutputPage";
+import { ProfilesPage } from "@pages/ProfilesPage";
 import "@i18n/index";
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
           <Route element={<AppShell />}>
             <Route index element={<EditorPage />} />
             <Route path="output" element={<OutputPage />} />
+            <Route path="profiles" element={<ProfilesPage />} />
           </Route>
         </Routes>
       </HashRouter>

@@ -4,124 +4,130 @@
 
 ---
 
-## Phase 1 — MVP Core (Priority: P0)
+## Phase 1 — MVP Core (Priority: P0) ✅ COMPLETED 2026-04-07
 **Goal**: Ứng dụng web chạy được, generate title + description + tags, copy to clipboard.
-**Estimated**: 3-4 days
+**Estimated**: 3-4 days | **Actual**: 1 day
 
 ### Tasks
 ```
 1.1  Project scaffold
      - [x] Vite + React 18 + TypeScript setup
-     - [ ] Tailwind CSS configuration (dark theme default)
-     - [ ] ESLint + Prettier config
-     - [ ] Directory structure per CLAUDE.md
-     - [ ] Package.json scripts
+     - [x] Tailwind CSS configuration (dark theme default)
+     - [x] ESLint + Prettier config
+     - [x] Directory structure per CLAUDE.md
+     - [x] Package.json scripts
 
 1.2  Config layer
-     - [ ] src/config/video-types.ts (7 initial types)
-     - [ ] src/config/genres.ts (10 initial genres)
-     - [ ] src/config/platforms.ts (7 platforms)
-     - [ ] src/config/rig-fields.ts
-     - [ ] src/config/social-fields.ts
-     - [ ] src/config/defaults.ts
+     - [x] src/config/video-types.ts (7 initial types)
+     - [x] src/config/genres.ts (10 initial genres)
+     - [x] src/config/platforms.ts (7 platforms)
+     - [x] src/config/rig-fields.ts
+     - [x] src/config/social-fields.ts
+     - [x] src/config/defaults.ts
 
 1.3  i18n setup
-     - [ ] i18next + react-i18next install & config
-     - [ ] locales/en/ui.json + templates.json
-     - [ ] locales/vi/ui.json + templates.json
-     - [ ] locales/ja/ui.json + templates.json
-     - [ ] Locale validation script
+     - [x] i18next + react-i18next install & config
+     - [x] locales/en/ui.json + templates.json
+     - [x] locales/vi/ui.json + templates.json
+     - [x] locales/ja/ui.json + templates.json
+     - [x] Locale validation script
 
 1.4  Core engine
-     - [ ] engine/types.ts
-     - [ ] engine/title-builder.ts + tests
-     - [ ] engine/description-builder.ts + tests
-     - [ ] engine/tag-generator.ts + tests
-     - [ ] engine/template-renderer.ts (orchestrator)
+     - [x] engine/types.ts
+     - [x] engine/title-builder.ts + tests
+     - [x] engine/description-builder.ts + tests
+     - [x] engine/tag-generator.ts + tests
+     - [x] engine/template-renderer.ts (orchestrator)
 
 1.5  State management
-     - [ ] Zustand setup
-     - [ ] editor-store.ts (form state)
-     - [ ] settings-store.ts (theme, default language)
+     - [x] Zustand setup
+     - [x] editor-store.ts (form state)
+     - [x] settings-store.ts (theme, default language)
 
 1.6  UI components
-     - [ ] ui/ primitives: Button, Input, Textarea, Toggle, ChipGroup, Select
-     - [ ] editor/ components: VideoTypeSelector, LanguageSelector, GenreSelector
-     - [ ] editor/ components: GameInfoForm, VideoSettingsForm, TimestampEditor
-     - [ ] editor/ components: StoreLinkEditor, RigEditor, SocialEditor, WarningToggles
-     - [ ] editor/ components: QuickPreview
-     - [ ] output/ components: OutputPreview, CopyButton, CharCounter, CopyAllBar
-     - [ ] layout/ components: AppShell, Header, TabBar
+     - [x] ui/ primitives: Button, Input, Textarea, Toggle, ChipGroup, Select
+     - [x] editor/ components: VideoTypeSelector, LanguageSelector, GenreSelector
+     - [x] editor/ components: GameInfoForm, VideoSettingsForm, TimestampEditor
+     - [x] editor/ components: StoreLinkEditor, RigEditor, SocialEditor, WarningToggles
+     - [x] editor/ components: QuickPreview
+     - [x] output/ components: OutputPreview, CopyButton, CharCounter, CopyAllBar
+     - [x] layout/ components: AppShell, Header, TabBar
 
 1.7  Pages
-     - [ ] EditorPage (form + quick preview)
-     - [ ] OutputPage (title + desc + tags + copy)
-     - [ ] React Router setup (HashRouter)
+     - [x] EditorPage (form + quick preview)
+     - [x] OutputPage (title + desc + tags + copy)
+     - [x] React Router setup (HashRouter)
 
 1.8  Testing
-     - [ ] Vitest config
-     - [ ] Engine unit tests (title, description, tags)
-     - [ ] Smoke tests for main pages
+     - [x] Vitest config
+     - [x] Engine unit tests (title, description, tags) — 42 tests
+     - [ ] Smoke tests for main pages (deferred to Phase 3)
 
 1.9  CI/CD
-     - [ ] GitHub Actions: lint + typecheck + test
-     - [ ] GitHub Actions: deploy to GitHub Pages
+     - [x] GitHub Actions: lint + typecheck + test
+     - [x] GitHub Actions: deploy to GitHub Pages
 
 ### Definition of Done
-- [ ] User can select video type, language, genre
-- [ ] User can enter game name, timestamps, store links, rig, social, warnings
-- [ ] Title, description, and tags generate correctly in EN/VI/JA
-- [ ] Copy buttons work for title, description, tags, and all
-- [ ] Character counts displayed (5000 desc, 500 tags)
-- [ ] CI passes, deploys to GitHub Pages
+- [x] User can select video type, language, genre
+- [x] User can enter game name, timestamps, store links, rig, social, warnings
+- [x] Title, description, and tags generate correctly in EN/VI/JA
+- [x] Copy buttons work for title, description, tags, and all
+- [x] Character counts displayed (5000 desc, 500 tags)
+- [x] CI passes, deploys to GitHub Pages
 ```
 
 ---
 
-## Phase 2 — Profiles & Presets (Priority: P1)
+## Phase 2 — Profiles & Presets (Priority: P1) ✅ COMPLETED 2026-04-07
 **Goal**: Lưu thông tin tái sử dụng, không phải nhập lại mỗi lần.
-**Estimated**: 2-3 days
+**Estimated**: 2-3 days | **Actual**: 1 day
 
 ### Tasks
 ```
 2.1  Profile system
-     - [ ] profile-store.ts (Zustand + persist)
-     - [ ] ProfileSaveForm component
-     - [ ] ProfileList + ProfileCard components
-     - [ ] Load profile → populate editor form
-     - [ ] Delete profile with confirmation
-     - [ ] Multiple profiles support
+     - [x] profile-store.ts (Zustand + persist)
+     - [x] ProfileSaveForm component
+     - [x] ProfileList + ProfileCard components
+     - [x] Load profile → populate editor form
+     - [x] Delete profile with confirmation
+     - [x] Multiple profiles support
 
 2.2  Game preset system
-     - [ ] preset-store.ts (Zustand + persist)
-     - [ ] GamePresetManager component
-     - [ ] Save game (name + genre + platform + store links + warnings)
-     - [ ] Load preset → populate game fields
-     - [ ] Preset selector dropdown in editor
+     - [x] preset-store.ts (Zustand + persist)
+     - [x] PresetSaveForm + PresetCard + PresetList + PresetSelector
+     - [x] Save game (name + genre + platform + store links + warnings)
+     - [x] Load preset → populate game fields
+     - [x] Preset selector dropdown in editor
 
 2.3  ProfilesPage
-     - [ ] Profile management tab
-     - [ ] Game preset management tab
-     - [ ] Import/Export JSON
+     - [x] Profile management tab
+     - [x] Game preset management tab
+     - [x] Import/Export JSON
 
 2.4  Auto-save draft
-     - [ ] Debounced save of editor state to localStorage
-     - [ ] Restore on page load
-     - [ ] Clear draft button
+     - [x] Debounced save of editor state to localStorage (via Zustand persist)
+     - [x] Restore on page load
+     - [x] Clear draft button + DraftIndicator
 
 2.5  Expand content
-     - [ ] Add video types: dlc, newgame_plus, challenge, side_quest, secret
-     - [ ] Add genres to 15+: fighting, stealth, survival_craft, roguelike, metroidvania
-     - [ ] Add social fields: twitch, tiktok, instagram, streamlabs
-     - [ ] Add rig fields: motherboard, controller
-     - [ ] Add store: humble, amazon
+     - [x] Add video types: dlc, newgame_plus, challenge, side_quest, secret (12 total)
+     - [x] Add genres: fighting, stealth, survival_craft, roguelike, metroidvania (15 total)
+     - [x] Add social fields: twitch, tiktok, instagram, streamlabs (12 total)
+     - [x] Add rig fields: motherboard, controller (8 total)
+     - [x] Add store: humble, amazon (9 total)
+
+2.6  Foundation additions
+     - [x] Modal + ConfirmDialog UI primitives
+     - [x] Import/Export utility (src/utils/import-export.ts)
+     - [x] UUID utility (src/utils/uuid.ts)
+     - [x] Updated i18n: 134 UI keys + 41 template keys across EN/VI/JA
 
 ### Definition of Done
-- [ ] User creates profile → social/rig/channel info saved
-- [ ] User loads profile → form populated instantly
-- [ ] User creates game preset → reused across parts
-- [ ] Form state auto-saved, survives page reload
-- [ ] Export/Import profiles as JSON works
+- [x] User creates profile → social/rig/channel info saved
+- [x] User loads profile → form populated instantly
+- [x] User creates game preset → reused across parts
+- [x] Form state auto-saved, survives page reload
+- [x] Export/Import profiles as JSON works
 ```
 
 ---

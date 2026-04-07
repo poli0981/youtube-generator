@@ -50,6 +50,22 @@ export function GameInfoForm() {
           onChange={(e) => store.set("bossName", e.target.value)}
         />
       )}
+      {extraFields.includes("dlcName") && (
+        <Input
+          label={t("editor.dlcName")}
+          placeholder={t("editor.dlcNamePlaceholder")}
+          value={store.dlcName ?? ""}
+          onChange={(e) => store.set("dlcName", e.target.value)}
+        />
+      )}
+      {extraFields.includes("challengeName") && (
+        <Input
+          label={t("editor.challengeName")}
+          placeholder={t("editor.challengeNamePlaceholder")}
+          value={store.challengeName ?? ""}
+          onChange={(e) => store.set("challengeName", e.target.value)}
+        />
+      )}
     </div>
   );
 }

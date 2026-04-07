@@ -9,7 +9,12 @@
       "boss_nohit": "{{bossName}} Boss No Hit",
       "ending": "Ending",
       "speedrun": "Speedrun",
-      "100percent": "100% Completion"
+      "100percent": "100% Completion",
+      "dlc": "{{dlcName}} DLC",
+      "newgame_plus": "New Game+",
+      "challenge": "{{challengeName}} Challenge",
+      "side_quest": "Side Quest",
+      "secret": "Secret"
     }
   },
   "description": {
@@ -20,7 +25,12 @@
       "boss_nohit": "This video features the {{bossName}} boss fight (No Hit) from {{gameName}} on {{channelName}}.",
       "ending": "This video features the ending of {{gameName}} on {{channelName}}.",
       "speedrun": "This video features a speedrun of {{gameName}} on {{channelName}}.",
-      "100percent": "This video features the 100% completion of {{gameName}} on {{channelName}}."
+      "100percent": "This video features the 100% completion of {{gameName}} on {{channelName}}.",
+      "dlc": "This video features the {{dlcName}} DLC for {{gameName}} on {{channelName}}.",
+      "newgame_plus": "This video features the New Game+ playthrough of {{gameName}} on {{channelName}}.",
+      "challenge": "This video features the {{challengeName}} challenge of {{gameName}} on {{channelName}}.",
+      "side_quest": "This video features side quests and optional content from {{gameName}} on {{channelName}}.",
+      "secret": "This video features secrets and hidden content from {{gameName}} on {{channelName}}."
     },
     "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
     "sections": {

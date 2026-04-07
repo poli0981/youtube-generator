@@ -1,7 +1,7 @@
 {
   "ui": {
     "app": ["title", "subtitle"],
-    "tabs": ["editor", "output"],
+    "tabs": ["editor", "output", "profiles"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
       "channelName", "channelNamePlaceholder", "platform",
@@ -13,7 +13,8 @@
       "spoilerWarning", "matureWarning",
       "playlistLink", "playlistLinkPlaceholder",
       "contactEmail", "contactEmailPlaceholder",
-      "videoSettings", "quickPreview"
+      "videoSettings", "quickPreview",
+      "clearDraft", "draftSaved", "clearDraftConfirm"
     ],
     "output": [
       "title", "description", "tags",
@@ -21,17 +22,19 @@
       "copied", "charCount"
     ],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
-    "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent"],
-    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation"],
-    "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture"],
-    "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website"],
+    "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret"],
+    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania"],
+    "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller"],
+    "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs"],
     "resolutions": ["720p", "1080p", "1440p", "4K"],
-    "fpsOptions": ["30", "60", "120", "144"]
+    "fpsOptions": ["30", "60", "120", "144"],
+    "profiles": ["title", "createNew", "editProfile", "profileName", "profileNamePlaceholder", "loadProfile", "deleteConfirm", "emptyState", "exportProfiles", "importProfiles"],
+    "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"]
   },
   "templates": {
     "title": ["separator", "suffix"],
-    "title.videoType": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent"],
-    "description.intro": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent"],
+    "title.videoType": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret"],
+    "description.intro": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret"],
     "description": ["noCommentaryLine"],
     "description.sections": [
       "timestamps", "storeLinks", "videoSettings", "rig",

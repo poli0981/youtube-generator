@@ -5,7 +5,8 @@
   },
   "tabs": {
     "editor": "エディター",
-    "output": "出力"
+    "output": "出力",
+    "profiles": "プロフィール"
   },
   "editor": {
     "videoType": "動画タイプ",
@@ -40,7 +41,10 @@
     "contactEmail": "連絡先メール",
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "動画設定",
-    "quickPreview": "クイックプレビュー"
+    "quickPreview": "クイックプレビュー",
+    "clearDraft": "下書きをクリア",
+    "draftSaved": "下書き保存済み",
+    "clearDraftConfirm": "フォームデータをすべてクリアしますか？"
   },
   "output": {
     "title": "タイトル",
@@ -71,7 +75,12 @@
     "boss_nohit": "ボス ノーヒット",
     "ending": "エンディング",
     "speedrun": "スピードラン",
-    "100percent": "100%クリア"
+    "100percent": "100%クリア",
+    "dlc": "DLCコンテンツ",
+    "newgame_plus": "強くてニューゲーム",
+    "challenge": "チャレンジラン",
+    "side_quest": "サブクエスト",
+    "secret": "隠し要素"
   },
   "genres": {
     "action": "アクション / アドベンチャー",
@@ -83,7 +92,12 @@
     "soulslike": "ソウルライク",
     "racing": "レーシング / スポーツ",
     "story": "ストーリー / ビジュアルノベル",
-    "simulation": "シミュレーション / ストラテジー"
+    "simulation": "シミュレーション / ストラテジー",
+    "fighting": "格闘ゲーム",
+    "stealth": "ステルス / スパイ",
+    "survival_craft": "サバイバル / クラフト",
+    "roguelike": "ローグライク / ローグライト",
+    "metroidvania": "メトロイドヴァニア"
   },
   "rig": {
     "cpu": "CPU",
@@ -91,7 +105,9 @@
     "ram": "RAM",
     "storage": "ストレージ",
     "monitor": "モニター",
-    "capture": "キャプチャソフト"
+    "capture": "キャプチャソフト",
+    "motherboard": "マザーボード",
+    "controller": "コントローラー"
   },
   "social": {
     "kofi": "Ko-fi",
@@ -101,7 +117,11 @@
     "github": "GitHub",
     "twitter": "Twitter / X",
     "discord": "Discord",
-    "website": "ウェブサイト"
+    "website": "ウェブサイト",
+    "twitch": "Twitch",
+    "tiktok": "TikTok",
+    "instagram": "Instagram",
+    "streamlabs": "Streamlabs"
   },
   "resolutions": {
     "720p": "720p",
@@ -114,5 +134,29 @@
     "60": "60 FPS",
     "120": "120 FPS",
     "144": "144 FPS"
+  },
+  "profiles": {
+    "title": "プロフィール",
+    "createNew": "プロフィール作成",
+    "editProfile": "プロフィール編集",
+    "profileName": "プロフィール名",
+    "profileNamePlaceholder": "例：メインチャンネル",
+    "loadProfile": "読み込む",
+    "deleteConfirm": "このプロフィールを削除しますか？",
+    "emptyState": "プロフィールがありません。チャンネル情報を保存するために作成してください。",
+    "exportProfiles": "プロフィールをエクスポート",
+    "importProfiles": "プロフィールをインポート"
+  },
+  "presets": {
+    "title": "ゲームプリセット",
+    "createNew": "プリセット作成",
+    "editPreset": "プリセット編集",
+    "loadPreset": "読み込む",
+    "deleteConfirm": "このプリセットを削除しますか？",
+    "emptyState": "プリセットがありません。ゲーム情報を保存するために作成してください。",
+    "selectPreset": "ゲームプリセットを選択",
+    "noPresets": "プリセットなし",
+    "exportPresets": "プリセットをエクスポート",
+    "importPresets": "プリセットをインポート"
   }
 }

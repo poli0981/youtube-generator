@@ -12,6 +12,11 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
   racing: (g) => [`${g} racing`, "racing game no commentary", "racing gameplay"],
   story: (g) => [`${g} story`, "story game no commentary", "narrative gameplay"],
   simulation: (g) => [`${g} simulation`, "simulation game no commentary", "strategy gameplay"],
+  fighting: (g) => [`${g} fighting`, "fighting game no commentary", "combo gameplay"],
+  stealth: (g) => [`${g} stealth`, "stealth game no commentary", "stealth gameplay"],
+  survival_craft: (g) => [`${g} survival`, "survival crafting no commentary", "base building"],
+  roguelike: (g) => [`${g} roguelike`, "roguelike no commentary", "roguelite gameplay"],
+  metroidvania: (g) => [`${g} metroidvania`, "metroidvania no commentary", "exploration gameplay"],
 };
 
 const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
@@ -22,6 +27,11 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
   ending: (g) => [`${g} ending`, `${g} all endings`, `${g} final boss`],
   speedrun: (g) => [`${g} speedrun`, "speedrun no commentary", `${g} speed run`],
   "100percent": (g) => [`${g} 100%`, `${g} 100 percent`, `${g} completionist`],
+  dlc: (g) => [`${g} DLC`, `${g} DLC gameplay`, "DLC no commentary"],
+  newgame_plus: (g) => [`${g} new game plus`, `${g} NG+`, "new game plus no commentary"],
+  challenge: (g) => [`${g} challenge`, `${g} challenge run`, "challenge no commentary"],
+  side_quest: (g) => [`${g} side quest`, `${g} optional content`, "side quest no commentary"],
+  secret: (g) => [`${g} secret`, `${g} hidden`, "secret content no commentary"],
 };
 
 const MULTILINGUAL_TAGS: Record<string, (gameName: string) => string[]> = {

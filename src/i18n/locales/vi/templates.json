@@ -9,7 +9,12 @@
       "boss_nohit": "{{bossName}} Boss No Hit",
       "ending": "Kết thúc",
       "speedrun": "Speedrun",
-      "100percent": "100% Completion"
+      "100percent": "100% Completion",
+      "dlc": "{{dlcName}} DLC",
+      "newgame_plus": "New Game+",
+      "challenge": "{{challengeName}} Challenge",
+      "side_quest": "Nhiệm vụ phụ",
+      "secret": "Bí mật"
     }
   },
   "description": {
@@ -20,7 +25,12 @@
       "boss_nohit": "Video này là trận đánh boss {{bossName}} (No Hit) trong {{gameName}} trên kênh {{channelName}}.",
       "ending": "Video này là phần kết thúc của {{gameName}} trên kênh {{channelName}}.",
       "speedrun": "Video này là speedrun của {{gameName}} trên kênh {{channelName}}.",
-      "100percent": "Video này là 100% completion của {{gameName}} trên kênh {{channelName}}."
+      "100percent": "Video này là 100% completion của {{gameName}} trên kênh {{channelName}}.",
+      "dlc": "Video này là DLC {{dlcName}} của {{gameName}} trên kênh {{channelName}}.",
+      "newgame_plus": "Video này là New Game+ của {{gameName}} trên kênh {{channelName}}.",
+      "challenge": "Video này là thử thách {{challengeName}} của {{gameName}} trên kênh {{channelName}}.",
+      "side_quest": "Video này là các nhiệm vụ phụ trong {{gameName}} trên kênh {{channelName}}.",
+      "secret": "Video này là nội dung bí mật và ẩn trong {{gameName}} trên kênh {{channelName}}."
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
     "sections": {

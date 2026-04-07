@@ -5,7 +5,8 @@
   },
   "tabs": {
     "editor": "Editor",
-    "output": "Output"
+    "output": "Output",
+    "profiles": "Profiles"
   },
   "editor": {
     "videoType": "Video Type",
@@ -40,7 +41,10 @@
     "contactEmail": "Contact Email",
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "Video Settings",
-    "quickPreview": "Quick Preview"
+    "quickPreview": "Quick Preview",
+    "clearDraft": "Clear Draft",
+    "draftSaved": "Draft saved",
+    "clearDraftConfirm": "Are you sure you want to clear all form data?"
   },
   "output": {
     "title": "Title",
@@ -71,7 +75,12 @@
     "boss_nohit": "Boss No Hit",
     "ending": "Ending / All Endings",
     "speedrun": "Speedrun",
-    "100percent": "100% Completion"
+    "100percent": "100% Completion",
+    "dlc": "DLC Content",
+    "newgame_plus": "New Game+",
+    "challenge": "Challenge Run",
+    "side_quest": "Side Quests",
+    "secret": "Secrets / Hidden"
   },
   "genres": {
     "action": "Action / Adventure",
@@ -83,7 +92,12 @@
     "soulslike": "Souls-like",
     "racing": "Racing / Sports",
     "story": "Story / Visual Novel",
-    "simulation": "Simulation / Strategy"
+    "simulation": "Simulation / Strategy",
+    "fighting": "Fighting",
+    "stealth": "Stealth / Espionage",
+    "survival_craft": "Survival / Crafting",
+    "roguelike": "Roguelike / Roguelite",
+    "metroidvania": "Metroidvania"
   },
   "rig": {
     "cpu": "CPU",
@@ -91,7 +105,9 @@
     "ram": "RAM",
     "storage": "Storage",
     "monitor": "Monitor",
-    "capture": "Capture Software"
+    "capture": "Capture Software",
+    "motherboard": "Motherboard",
+    "controller": "Controller"
   },
   "social": {
     "kofi": "Ko-fi",
@@ -101,7 +117,11 @@
     "github": "GitHub",
     "twitter": "Twitter / X",
     "discord": "Discord",
-    "website": "Website"
+    "website": "Website",
+    "twitch": "Twitch",
+    "tiktok": "TikTok",
+    "instagram": "Instagram",
+    "streamlabs": "Streamlabs"
   },
   "resolutions": {
     "720p": "720p",
@@ -114,5 +134,29 @@
     "60": "60 FPS",
     "120": "120 FPS",
     "144": "144 FPS"
+  },
+  "profiles": {
+    "title": "Profiles",
+    "createNew": "Create Profile",
+    "editProfile": "Edit Profile",
+    "profileName": "Profile Name",
+    "profileNamePlaceholder": "e.g. Main Channel",
+    "loadProfile": "Load",
+    "deleteConfirm": "Are you sure you want to delete this profile?",
+    "emptyState": "No profiles yet. Create one to save your channel info.",
+    "exportProfiles": "Export Profiles",
+    "importProfiles": "Import Profiles"
+  },
+  "presets": {
+    "title": "Game Presets",
+    "createNew": "Create Preset",
+    "editPreset": "Edit Preset",
+    "loadPreset": "Load",
+    "deleteConfirm": "Are you sure you want to delete this preset?",
+    "emptyState": "No game presets yet. Create one to save game info for reuse.",
+    "selectPreset": "Load Game Preset",
+    "noPresets": "No presets",
+    "exportPresets": "Export Presets",
+    "importPresets": "Import Presets"
   }
 }
