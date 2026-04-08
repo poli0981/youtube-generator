@@ -1,7 +1,7 @@
 {
   "ui": {
     "app": ["title", "subtitle"],
-    "tabs": ["editor", "output", "profiles", "history", "settings", "batch"],
+    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
       "channelName", "channelNamePlaceholder", "platform",
@@ -12,7 +12,7 @@
       "storeLinks", "rig", "social", "warnings",
       "spoilerWarning", "matureWarning",
       "playlistLink", "playlistLinkPlaceholder",
-      "contactEmail", "contactEmailPlaceholder",
+      "contactEmail", "contactEmailPlaceholder", "contactEmailHelp",
       "videoSettings", "quickPreview",
       "clearDraft", "draftSaved", "clearDraftConfirm"
     ],
@@ -23,17 +23,19 @@
     ],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
     "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
-    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "battle_royale", "crpg", "tactical", "space", "farming"],
+    "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "battle_royale", "crpg", "tactical", "space", "farming", "fmv"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller"],
-    "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs"],
+    "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs", "bluesky", "mastodon", "facebook", "fb_page", "fb_group"],
     "resolutions": ["720p", "1080p", "1440p", "4K"],
     "fpsOptions": ["30", "60", "120", "144"],
     "profiles": ["title", "createNew", "editProfile", "profileName", "profileNamePlaceholder", "loadProfile", "deleteConfirm", "emptyState", "exportProfiles", "importProfiles"],
     "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
-    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "defaultUILanguage", "defaultOutputLanguage", "defaultGenre", "autoSaveDraft", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "autoSaveDraft", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
-    "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"]
+    "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"],
+    "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch"],
+    "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
   },
   "templates": {
     "title": ["separator", "suffix"],
@@ -45,6 +47,9 @@
       "spoilerWarning", "matureWarning", "donate", "social",
       "playlist", "contact", "cta"
     ],
-    "hashtags": ["gameplay", "noCommentary", "genre"]
+    "hashtags": ["gameplay", "noCommentary", "genre"],
+    "playlist.status": ["completed", "dropped", "incomplete", "in_progress"],
+    "playlist": ["titleFormat", "videoCount", "storeSection", "footer"],
+    "playlist.description": ["full_gameplay", "boss_fights", "speedrun", "all_endings", "dlc", "100_percent", "guide", "highlights"]
   }
 }

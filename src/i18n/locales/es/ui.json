@@ -9,7 +9,8 @@
     "profiles": "Perfiles",
     "history": "Historial",
     "settings": "Ajustes",
-    "batch": "Lote"
+    "batch": "Lote",
+    "playlist": "Playlist"
   },
   "editor": {
     "videoType": "Tipo de Video",
@@ -47,7 +48,8 @@
     "quickPreview": "Vista Previa Rápida",
     "clearDraft": "Limpiar Borrador",
     "draftSaved": "Borrador guardado",
-    "clearDraftConfirm": "¿Estás seguro de que quieres borrar todos los datos del formulario?"
+    "clearDraftConfirm": "¿Estás seguro de que quieres borrar todos los datos del formulario?",
+    "contactEmailHelp": "Hasta 3 emails, separados por comas"
   },
   "output": {
     "title": "Título",
@@ -113,7 +115,8 @@
     "crpg": "CRPG / Isométrico",
     "tactical": "Táctico / Por Turnos",
     "space": "Espacio / Sci-Fi",
-    "farming": "Granja / Life Sim"
+    "farming": "Granja / Life Sim",
+    "fmv": "FMV / Película Interactiva"
   },
   "rig": {
     "cpu": "CPU",
@@ -137,7 +140,12 @@
     "twitch": "Twitch",
     "tiktok": "TikTok",
     "instagram": "Instagram",
-    "streamlabs": "Streamlabs"
+    "streamlabs": "Streamlabs",
+    "bluesky": "Bluesky",
+    "mastodon": "Mastodon",
+    "facebook": "Facebook",
+    "fb_page": "Página de Facebook",
+    "fb_group": "Grupo de Facebook"
   },
   "resolutions": {
     "720p": "720p",
@@ -190,7 +198,7 @@
     "tagSettings": "Ajustes de Etiquetas",
     "historySettings": "Ajustes del Historial",
     "theme": "Tema",
-    "defaultUILanguage": "Idioma de Interfaz Predeterminado",
+    "appLanguage": "Idioma de la App",
     "defaultOutputLanguage": "Idioma de Salida Predeterminado",
     "defaultGenre": "Género Predeterminado",
     "autoSaveDraft": "Guardar Borrador Automáticamente",
@@ -216,5 +224,19 @@
     "saveDraft": "Guardar Borrador",
     "help": "Ayuda",
     "close": "Cerrar"
+  },
+  "validation": {
+    "emailInvalid": "Email inválido: {{email}}",
+    "emailMaxExceeded": "Máximo {{max}} emails permitidos (actualmente {{count}})",
+    "urlInvalid": "URL inválida. Debe comenzar con https://",
+    "urlPrefixMismatch": "Se espera URL que comience con {{expected}}"
+  },
+  "playlist": {
+    "title": "Generador de Playlist",
+    "status": "Estado",
+    "contentType": "Tipo de Contenido",
+    "totalVideos": "Total de Videos",
+    "customNote": "Nota Personal",
+    "generatePlaylist": "Generar Playlist"
   }
 }

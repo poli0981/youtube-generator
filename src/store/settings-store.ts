@@ -2,12 +2,13 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { GenreId } from "@config/genres";
 import type { SupportedLanguage } from "@engine/types";
+import { saveSettings, loadSettings } from "@utils/storage-adapter";
 
 interface SettingsState {
-  theme: "dark" | "light";
-  defaultLanguage: string;
+  appLanguage: SupportedLanguage;
   defaultOutputLanguage: SupportedLanguage;
   defaultGenre: GenreId;
+  theme: "dark" | "light";
   autoSaveDraft: boolean;
   showCharCount: boolean;
   compactTagDisplay: boolean;
@@ -16,17 +17,17 @@ interface SettingsState {
   includeTrendingTags: boolean;
   hashtagCount: number;
   setTheme: (theme: "dark" | "light") => void;
-  setDefaultLanguage: (lang: string) => void;
+  setAppLanguage: (lang: SupportedLanguage) => void;
   setDefaultOutputLanguage: (lang: SupportedLanguage) => void;
   setDefaultGenre: (genre: GenreId) => void;
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
 }
 
 interface SettingsData {
-  theme: "dark" | "light";
-  defaultLanguage: string;
+  appLanguage: SupportedLanguage;
   defaultOutputLanguage: SupportedLanguage;
   defaultGenre: GenreId;
+  theme: "dark" | "light";
   autoSaveDraft: boolean;
   showCharCount: boolean;
   compactTagDisplay: boolean;
@@ -36,11 +37,19 @@ interface SettingsData {
   hashtagCount: number;
 }
 
+const detectBrowserLanguage = (): SupportedLanguage => {
+  const lang = navigator.language.split("-")[0];
+  const supported: SupportedLanguage[] = ["en", "vi", "ja", "es", "ko", "zh"];
+  return (supported.find((s) => s === lang) ?? "en") as SupportedLanguage;
+};
+
+const detectedLang = detectBrowserLanguage();
+
 const initialSettings: SettingsData = {
-  theme: "dark",
-  defaultLanguage: "en",
-  defaultOutputLanguage: "en",
+  appLanguage: detectedLang,
+  defaultOutputLanguage: detectedLang,
   defaultGenre: "action",
+  theme: "dark",
   autoSaveDraft: true,
   showCharCount: true,
   compactTagDisplay: false,
@@ -49,6 +58,8 @@ const initialSettings: SettingsData = {
   includeTrendingTags: true,
   hashtagCount: 3,
 };
+
+const STORE_KEY = "ytdescgen-settings";
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
@@ -61,7 +72,7 @@ export const useSettingsStore = create<SettingsState>()(
         set({ theme });
       },
 
-      setDefaultLanguage: (lang) => set({ defaultLanguage: lang }),
+      setAppLanguage: (lang) => set({ appLanguage: lang }),
 
       setDefaultOutputLanguage: (lang) => set({ defaultOutputLanguage: lang }),
 
@@ -70,13 +81,13 @@ export const useSettingsStore = create<SettingsState>()(
       setSetting: (key, value) => set({ [key]: value }),
     }),
     {
-      name: "ytdescgen-settings",
+      name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        theme: state.theme,
-        defaultLanguage: state.defaultLanguage,
+        appLanguage: state.appLanguage,
         defaultOutputLanguage: state.defaultOutputLanguage,
         defaultGenre: state.defaultGenre,
+        theme: state.theme,
         autoSaveDraft: state.autoSaveDraft,
         showCharCount: state.showCharCount,
         compactTagDisplay: state.compactTagDisplay,
@@ -85,6 +96,31 @@ export const useSettingsStore = create<SettingsState>()(
         includeTrendingTags: state.includeTrendingTags,
         hashtagCount: state.hashtagCount,
       }),
+      onRehydrateStorage: () => {
+        return () => {
+          loadSettings<SettingsData>(STORE_KEY, initialSettings).then((data) => {
+            if (data) useSettingsStore.setState(data);
+          });
+        };
+      },
     },
   ),
 );
+
+// Dual-write: also save to file on every change
+useSettingsStore.subscribe((state) => {
+  const data: SettingsData = {
+    appLanguage: state.appLanguage,
+    defaultOutputLanguage: state.defaultOutputLanguage,
+    defaultGenre: state.defaultGenre,
+    theme: state.theme,
+    autoSaveDraft: state.autoSaveDraft,
+    showCharCount: state.showCharCount,
+    compactTagDisplay: state.compactTagDisplay,
+    historyLimit: state.historyLimit,
+    includeMultilingualTags: state.includeMultilingualTags,
+    includeTrendingTags: state.includeTrendingTags,
+    hashtagCount: state.hashtagCount,
+  };
+  saveSettings(STORE_KEY, data);
+});

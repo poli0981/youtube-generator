@@ -9,7 +9,8 @@
     "profiles": "配置",
     "history": "历史",
     "settings": "设置",
-    "batch": "批量"
+    "batch": "批量",
+    "playlist": "播放列表"
   },
   "editor": {
     "videoType": "视频类型",
@@ -47,7 +48,8 @@
     "quickPreview": "快速预览",
     "clearDraft": "清除草稿",
     "draftSaved": "草稿已保存",
-    "clearDraftConfirm": "确定要清除所有表单数据吗？"
+    "clearDraftConfirm": "确定要清除所有表单数据吗？",
+    "contactEmailHelp": "最多3个邮箱，用逗号分隔"
   },
   "output": {
     "title": "标题",
@@ -113,7 +115,8 @@
     "crpg": "CRPG / 等距视角",
     "tactical": "战术 / 回合制",
     "space": "太空 / 科幻",
-    "farming": "农场 / 生活模拟"
+    "farming": "农场 / 生活模拟",
+    "fmv": "FMV / 互动电影"
   },
   "rig": {
     "cpu": "CPU",
@@ -137,7 +140,12 @@
     "twitch": "Twitch",
     "tiktok": "TikTok",
     "instagram": "Instagram",
-    "streamlabs": "Streamlabs"
+    "streamlabs": "Streamlabs",
+    "bluesky": "Bluesky",
+    "mastodon": "Mastodon",
+    "facebook": "Facebook",
+    "fb_page": "Facebook主页",
+    "fb_group": "Facebook群组"
   },
   "resolutions": {
     "720p": "720p",
@@ -190,7 +198,7 @@
     "tagSettings": "标签设置",
     "historySettings": "历史记录设置",
     "theme": "主题",
-    "defaultUILanguage": "默认界面语言",
+    "appLanguage": "应用语言",
     "defaultOutputLanguage": "默认输出语言",
     "defaultGenre": "默认类型",
     "autoSaveDraft": "自动保存草稿",
@@ -216,5 +224,19 @@
     "saveDraft": "保存草稿",
     "help": "帮助",
     "close": "关闭"
+  },
+  "validation": {
+    "emailInvalid": "无效邮箱: {{email}}",
+    "emailMaxExceeded": "最多允许{{max}}个邮箱 (当前{{count}}个)",
+    "urlInvalid": "无效URL。必须以https://开头",
+    "urlPrefixMismatch": "URL应以{{expected}}开头"
+  },
+  "playlist": {
+    "title": "播放列表生成器",
+    "status": "状态",
+    "contentType": "内容类型",
+    "totalVideos": "视频总数",
+    "customNote": "自定义备注",
+    "generatePlaylist": "生成播放列表"
   }
 }

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
+import { saveSettings } from "@utils/storage-adapter";
 
 export interface Profile {
   id: string;
@@ -69,3 +70,7 @@ export const useProfileStore = create<ProfileState>()(
     },
   ),
 );
+
+useProfileStore.subscribe((state) => {
+  saveSettings("ytdescgen-profiles", { profiles: state.profiles });
+});

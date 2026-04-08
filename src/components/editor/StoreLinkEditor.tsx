@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Input } from "@components/ui/Input";
+import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { PLATFORMS } from "@config/platforms";
 import { useEditorStore } from "@store/editor-store";
+import { validateUrlWithPrefix } from "@utils/validation";
 
 export function StoreLinkEditor() {
   const { t } = useTranslation("ui");
@@ -13,12 +14,13 @@ export function StoreLinkEditor() {
       <span className="text-sm font-medium text-text-secondary">{t("editor.storeLinks")}</span>
       <div className="flex flex-col gap-2">
         {PLATFORMS.map((platform) => (
-          <Input
+          <ValidatedInput
             key={platform.id}
             label={platform.label}
             placeholder={platform.urlPrefix}
             value={storeLinks[platform.id] ?? ""}
-            onChange={(e) => setNested("storeLinks", platform.id, e.target.value)}
+            onChange={(v) => setNested("storeLinks", platform.id, v)}
+            validate={(v) => validateUrlWithPrefix(v, platform.urlPrefix)}
           />
         ))}
       </div>

@@ -55,5 +55,27 @@
     "gameplay": "#{{gameName}}",
     "noCommentary": "#GameplayNoCommentary",
     "genre": "#{{genre}}"
+  },
+  "playlist": {
+    "status": {
+      "completed": "✅ Hoàn thành",
+      "dropped": "❌ Bỏ dở",
+      "incomplete": "🔄 Chưa hoàn thành",
+      "in_progress": "▶️ Đang chơi"
+    },
+    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "videoCount": "📹 {{count}} video",
+    "storeSection": "🎮 Tải / mua game:",
+    "footer": "👍 Like | 🔔 Subscribe để xem thêm gameplay!",
+    "description": {
+      "full_gameplay": "Playlist này là toàn bộ gameplay của game {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
+      "boss_fights": "Playlist này là tổng hợp các trận đánh boss trong {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
+      "speedrun": "Playlist này là speedrun của {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
+      "all_endings": "Playlist này là tất cả các kết thúc của {{gameName}} trên kênh {{channelName}}.\n⚠️ Có chứa spoiler.",
+      "dlc": "Playlist này là gameplay DLC của {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
+      "100_percent": "Playlist này là 100% completion của {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
+      "guide": "Playlist này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
+      "highlights": "Playlist này là tổng hợp khoảnh khắc hay nhất của {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy."
+    }
   }
 }
