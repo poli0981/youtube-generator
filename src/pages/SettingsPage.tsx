@@ -10,6 +10,7 @@ import { useSettingsStore } from "@store/settings-store";
 import { IS_TAURI } from "@utils/platform";
 import type { SupportedLanguage } from "@engine/types";
 import toast from "react-hot-toast";
+import { logger } from "@utils/logger";
 
 async function openSettingsFolder() {
   try {
@@ -17,8 +18,9 @@ async function openSettingsFolder() {
     const { open } = await import("@tauri-apps/plugin-shell");
     const dir = await appDataDir();
     await open(dir);
-  } catch {
+  } catch (e) {
     toast.error("Could not open settings folder");
+    logger.error("settings", "Failed to open settings folder", String(e));
   }
 }
 
@@ -35,8 +37,9 @@ async function exportSettingsToFile() {
       await invoke("save_to_file", { path: destPath, content });
       toast.success("Settings exported!");
     }
-  } catch {
+  } catch (e) {
     toast.error("Export failed");
+    logger.error("settings", "Failed to export settings", String(e));
   }
 }
 

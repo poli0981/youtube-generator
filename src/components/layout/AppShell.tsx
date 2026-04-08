@@ -4,6 +4,7 @@ import { Header } from "./Header";
 import { TabBar } from "./TabBar";
 import { ShortcutHelpModal } from "@components/ui/ShortcutHelpModal";
 import { useKeyboardShortcuts } from "@hooks/use-keyboard-shortcuts";
+import { useGlobalErrorHandler } from "@hooks/use-global-error-handler";
 
 export function AppShell() {
   const [showShortcuts, setShowShortcuts] = useState(false);
@@ -11,6 +12,7 @@ export function AppShell() {
   useKeyboardShortcuts({
     onToggleHelp: () => setShowShortcuts((v) => !v),
   });
+  useGlobalErrorHandler();
 
   return (
     <div className="flex min-h-screen flex-col bg-surface-0">

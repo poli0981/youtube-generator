@@ -1,7 +1,7 @@
 {
   "ui": {
     "app": ["title", "subtitle"],
-    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist"],
+    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist", "logs"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
       "channelName", "channelNamePlaceholder", "platform",
@@ -35,6 +35,7 @@
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch"],
+    "logs": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
     "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
   },
   "templates": {
