@@ -28,7 +28,7 @@ pub fn run() {
             let quit = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&show, &quit])?;
 
-            let _tray = TrayIconBuilder::with_id("ytdescgen-tray", app)
+            let _tray = TrayIconBuilder::with_id("ytdescgen-tray")
                 .tooltip("YTDescGen — YouTube Description Generator")
                 .menu(&menu)
                 .on_menu_event(|app, event| match event.id.as_ref() {
