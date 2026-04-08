@@ -92,7 +92,7 @@ describe("buildDescription", () => {
       t,
     );
     expect(result).toContain("FOLLOW ME");
-    expect(result).toContain("twitter: https://x.com/test");
+    expect(result).toContain("Twitter / X: https://x.com/test");
   });
 
   it("includes playlist link when provided", () => {

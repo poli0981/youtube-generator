@@ -27,6 +27,7 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
   tactical: (g) => [`${g} tactical`, "tactical game no commentary", "turn based strategy"],
   space: (g) => [`${g} space`, "space game no commentary", "sci-fi gameplay"],
   farming: (g) => [`${g} farming`, "farming sim no commentary", "cozy game gameplay"],
+  fmv: (g) => [`${g} FMV`, "FMV game no commentary", "interactive movie gameplay"],
 };
 
 const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {

@@ -11,11 +11,12 @@ import { WarningToggles } from "@components/editor/WarningToggles";
 import { QuickPreview } from "@components/editor/QuickPreview";
 import { DraftIndicator } from "@components/editor/DraftIndicator";
 import { PresetSelector } from "@components/presets/PresetSelector";
-import { Input } from "@components/ui/Input";
+import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Button } from "@components/ui/Button";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
 import { useEditorStore } from "@store/editor-store";
 import { useTranslation } from "react-i18next";
+import { validateEmails, validateUrl } from "@utils/validation";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
@@ -57,17 +58,20 @@ export function EditorPage() {
         <VideoSettingsForm />
         <TimestampEditor />
 
-        <Input
+        <ValidatedInput
           label={t("editor.playlistLink")}
           placeholder={t("editor.playlistLinkPlaceholder")}
           value={store.playlistLink ?? ""}
-          onChange={(e) => store.set("playlistLink", e.target.value)}
+          onChange={(v) => store.set("playlistLink", v)}
+          validate={validateUrl}
         />
-        <Input
+        <ValidatedInput
           label={t("editor.contactEmail")}
           placeholder={t("editor.contactEmailPlaceholder")}
           value={store.contactEmail ?? ""}
-          onChange={(e) => store.set("contactEmail", e.target.value)}
+          onChange={(v) => store.set("contactEmail", v)}
+          validate={validateEmails}
+          helpText={t("editor.contactEmailHelp")}
         />
 
         <WarningToggles />

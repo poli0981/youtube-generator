@@ -55,5 +55,27 @@
     "gameplay": "#{{gameName}}",
     "noCommentary": "#GameplayNoCommentary",
     "genre": "#{{genre}}"
+  },
+  "playlist": {
+    "status": {
+      "completed": "✅ Completado",
+      "dropped": "❌ Abandonado",
+      "incomplete": "🔄 Incompleto",
+      "in_progress": "▶️ En progreso"
+    },
+    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "videoCount": "📹 {{count}} video(s)",
+    "storeSection": "🎮 Obtener el juego:",
+    "footer": "👍 Me gusta | 🔔 ¡Suscríbete para más gameplay!",
+    "description": {
+      "full_gameplay": "Esta playlist contiene el gameplay completo de {{gameName}} en {{channelName}}.\nSin comentarios — experiencia de juego pura.",
+      "boss_fights": "Esta playlist contiene todas las peleas de jefes de {{gameName}} en {{channelName}}.\nSin comentarios.",
+      "speedrun": "Esta playlist contiene el speedrun de {{gameName}} en {{channelName}}.\nSin comentarios.",
+      "all_endings": "Esta playlist contiene todos los finales de {{gameName}} en {{channelName}}.\n⚠️ Contiene spoilers.",
+      "dlc": "Esta playlist contiene el gameplay del DLC de {{gameName}} en {{channelName}}.\nSin comentarios.",
+      "100_percent": "Esta playlist contiene la partida al 100% de {{gameName}} en {{channelName}}.\nSin comentarios.",
+      "guide": "Esta playlist es una guía silenciosa de {{gameName}} en {{channelName}}.\nSin comentarios.",
+      "highlights": "Esta playlist contiene los momentos destacados de {{gameName}} en {{channelName}}.\nSin comentarios."
+    }
   }
 }

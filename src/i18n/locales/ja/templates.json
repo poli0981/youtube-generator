@@ -55,5 +55,27 @@
     "gameplay": "#{{gameName}}",
     "noCommentary": "#GameplayNoCommentary",
     "genre": "#{{genre}}"
+  },
+  "playlist": {
+    "status": {
+      "completed": "✅ クリア済み",
+      "dropped": "❌ 中断",
+      "incomplete": "🔄 未完了",
+      "in_progress": "▶️ プレイ中"
+    },
+    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "videoCount": "📹 {{count}}本の動画",
+    "storeSection": "🎮 ゲーム購入:",
+    "footer": "👍 高評価 | 🔔 チャンネル登録お願いします！",
+    "description": {
+      "full_gameplay": "このプレイリストは{{channelName}}での{{gameName}}のフルゲームプレイです。\n解説なし — 純粋なゲームプレイ体験。",
+      "boss_fights": "このプレイリストは{{channelName}}での{{gameName}}のボス戦集です。\n解説なし — 純粋なゲームプレイ体験。",
+      "speedrun": "このプレイリストは{{channelName}}での{{gameName}}のスピードランです。\n解説なし — 純粋なゲームプレイ体験。",
+      "all_endings": "このプレイリストは{{channelName}}での{{gameName}}の全エンディング集です。\n⚠️ ネタバレを含みます。",
+      "dlc": "このプレイリストは{{channelName}}での{{gameName}}のDLCゲームプレイです。\n解説なし — 純粋なゲームプレイ体験。",
+      "100_percent": "このプレイリストは{{channelName}}での{{gameName}}の100%クリアです。\n解説なし — 純粋なゲームプレイ体験。",
+      "guide": "このプレイリストは{{channelName}}での{{gameName}}の攻略ガイドです。\n解説なし — 純粋なゲームプレイ体験。",
+      "highlights": "このプレイリストは{{channelName}}での{{gameName}}のハイライト集です。\n解説なし — 純粋なゲームプレイ体験。"
+    }
   }
 }

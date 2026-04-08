@@ -9,7 +9,8 @@
     "profiles": "Profiles",
     "history": "History",
     "settings": "Settings",
-    "batch": "Batch"
+    "batch": "Batch",
+    "playlist": "Playlist"
   },
   "editor": {
     "videoType": "Video Type",
@@ -47,7 +48,8 @@
     "quickPreview": "Quick Preview",
     "clearDraft": "Clear Draft",
     "draftSaved": "Draft saved",
-    "clearDraftConfirm": "Are you sure you want to clear all form data?"
+    "clearDraftConfirm": "Are you sure you want to clear all form data?",
+    "contactEmailHelp": "Up to 3 emails, comma-separated"
   },
   "output": {
     "title": "Title",
@@ -113,7 +115,8 @@
     "crpg": "CRPG / Isometric",
     "tactical": "Tactical / Turn-based",
     "space": "Space / Sci-Fi",
-    "farming": "Farming / Life Sim"
+    "farming": "Farming / Life Sim",
+    "fmv": "FMV / Interactive Movie"
   },
   "rig": {
     "cpu": "CPU",
@@ -137,7 +140,12 @@
     "twitch": "Twitch",
     "tiktok": "TikTok",
     "instagram": "Instagram",
-    "streamlabs": "Streamlabs"
+    "streamlabs": "Streamlabs",
+    "bluesky": "Bluesky",
+    "mastodon": "Mastodon",
+    "facebook": "Facebook",
+    "fb_page": "Facebook Page",
+    "fb_group": "Facebook Group"
   },
   "resolutions": {
     "720p": "720p",
@@ -190,7 +198,7 @@
     "tagSettings": "Tags",
     "historySettings": "History",
     "theme": "Theme",
-    "defaultUILanguage": "Default UI Language",
+    "appLanguage": "App Language",
     "defaultOutputLanguage": "Default Output Language",
     "defaultGenre": "Default Genre",
     "autoSaveDraft": "Auto-save Draft",
@@ -216,5 +224,19 @@
     "saveDraft": "Save Draft",
     "help": "Show Shortcuts",
     "close": "Close Modal"
+  },
+  "validation": {
+    "emailInvalid": "Invalid email: {{email}}",
+    "emailMaxExceeded": "Maximum {{max}} emails allowed (currently {{count}})",
+    "urlInvalid": "Invalid URL. Must start with https://",
+    "urlPrefixMismatch": "Expected URL starting with {{expected}}"
+  },
+  "playlist": {
+    "title": "Playlist Generator",
+    "status": "Status",
+    "contentType": "Content Type",
+    "totalVideos": "Total Videos",
+    "customNote": "Custom Note",
+    "generatePlaylist": "Generate Playlist"
   }
 }

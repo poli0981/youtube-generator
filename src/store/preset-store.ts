@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
+import { saveSettings } from "@utils/storage-adapter";
 import type { Genre } from "@engine/types";
 
 export interface GamePreset {
@@ -65,3 +66,7 @@ export const usePresetStore = create<PresetState>()(
     },
   ),
 );
+
+usePresetStore.subscribe((state) => {
+  saveSettings("ytdescgen-presets", { presets: state.presets });
+});

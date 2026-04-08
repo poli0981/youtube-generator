@@ -1,0 +1,63 @@
+import { IS_TAURI } from "./platform";
+
+const SETTINGS_FILENAME = "settings.json";
+
+async function getSettingsPath(): Promise<string> {
+  const { appDataDir } = await import("@tauri-apps/api/path");
+  const dir = await appDataDir();
+  return `${dir}${SETTINGS_FILENAME}`;
+}
+
+export async function loadSettings<T>(key: string, fallback: T): Promise<T> {
+  if (IS_TAURI) {
+    try {
+      const { invoke } = await import("@tauri-apps/api/core");
+      const path = await getSettingsPath();
+      const raw: string = await invoke("read_from_file", { path });
+      const allSettings = JSON.parse(raw) as Record<string, unknown>;
+      if (key in allSettings) return allSettings[key] as T;
+    } catch {
+      // File doesn't exist yet or read error
+    }
+  }
+
+  try {
+    const raw = localStorage.getItem(key);
+    if (raw) return JSON.parse(raw) as T;
+  } catch {
+    // Parse error
+  }
+
+  return fallback;
+}
+
+export async function saveSettings<T>(key: string, value: T): Promise<void> {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Storage full or disabled
+  }
+
+  if (IS_TAURI) {
+    try {
+      const { invoke } = await import("@tauri-apps/api/core");
+      const path = await getSettingsPath();
+
+      let allSettings: Record<string, unknown> = {};
+      try {
+        const raw: string = await invoke("read_from_file", { path });
+        allSettings = JSON.parse(raw) as Record<string, unknown>;
+      } catch {
+        // File doesn't exist yet
+      }
+
+      allSettings[key] = value;
+      await invoke("save_to_file", {
+        path,
+        content: JSON.stringify(allSettings, null, 2),
+      });
+    } catch {
+      // Write error — localStorage is the fallback
+    }
+  }
+}

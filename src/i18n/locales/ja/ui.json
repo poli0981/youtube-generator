@@ -9,7 +9,8 @@
     "profiles": "プロフィール",
     "history": "履歴",
     "settings": "設定",
-    "batch": "一括"
+    "batch": "一括",
+    "playlist": "プレイリスト"
   },
   "editor": {
     "videoType": "動画タイプ",
@@ -47,7 +48,8 @@
     "quickPreview": "クイックプレビュー",
     "clearDraft": "下書きをクリア",
     "draftSaved": "下書き保存済み",
-    "clearDraftConfirm": "フォームデータをすべてクリアしますか？"
+    "clearDraftConfirm": "フォームデータをすべてクリアしますか？",
+    "contactEmailHelp": "最大3つのメール、カンマ区切り"
   },
   "output": {
     "title": "タイトル",
@@ -113,7 +115,8 @@
     "crpg": "CRPG / アイソメトリック",
     "tactical": "タクティカル / ターン制",
     "space": "宇宙 / SF",
-    "farming": "農業 / ライフシム"
+    "farming": "農業 / ライフシム",
+    "fmv": "FMV / インタラクティブムービー"
   },
   "rig": {
     "cpu": "CPU",
@@ -137,7 +140,12 @@
     "twitch": "Twitch",
     "tiktok": "TikTok",
     "instagram": "Instagram",
-    "streamlabs": "Streamlabs"
+    "streamlabs": "Streamlabs",
+    "bluesky": "Bluesky",
+    "mastodon": "Mastodon",
+    "facebook": "Facebook",
+    "fb_page": "Facebookページ",
+    "fb_group": "Facebookグループ"
   },
   "resolutions": {
     "720p": "720p",
@@ -190,7 +198,7 @@
     "tagSettings": "タグ",
     "historySettings": "履歴",
     "theme": "テーマ",
-    "defaultUILanguage": "デフォルトUI言語",
+    "appLanguage": "アプリの言語",
     "defaultOutputLanguage": "デフォルト出力言語",
     "defaultGenre": "デフォルトジャンル",
     "autoSaveDraft": "下書き自動保存",
@@ -216,5 +224,19 @@
     "saveDraft": "下書き保存",
     "help": "ショートカット表示",
     "close": "モーダルを閉じる"
+  },
+  "validation": {
+    "emailInvalid": "無効なメール: {{email}}",
+    "emailMaxExceeded": "最大{{max}}件のメール (現在{{count}}件)",
+    "urlInvalid": "無効なURL。https://で始める必要があります",
+    "urlPrefixMismatch": "{{expected}}で始まるURLが必要です"
+  },
+  "playlist": {
+    "title": "プレイリスト生成",
+    "status": "ステータス",
+    "contentType": "コンテンツタイプ",
+    "totalVideos": "動画総数",
+    "customNote": "カスタムノート",
+    "generatePlaylist": "プレイリスト生成"
   }
 }

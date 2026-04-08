@@ -5,9 +5,10 @@ import { Input } from "@components/ui/Input";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES } from "@config/genres";
 import { useSettingsStore } from "@store/settings-store";
+import type { SupportedLanguage } from "@engine/types";
 
 export function SettingsPage() {
-  const { t } = useTranslation("ui");
+  const { t, i18n } = useTranslation("ui");
   const settings = useSettingsStore();
 
   const langOptions = SUPPORTED_LANGUAGES.map((l) => ({
@@ -31,7 +32,6 @@ export function SettingsPage() {
       <h1 className="mb-6 text-lg font-bold text-text-primary">{t("settings.title")}</h1>
 
       <div className="flex flex-col gap-8">
-        {/* Appearance */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.appearance")}</h2>
           <Toggle
@@ -41,20 +41,22 @@ export function SettingsPage() {
           />
         </section>
 
-        {/* Defaults */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.defaults")}</h2>
           <Select
-            label={t("settings.defaultUILanguage")}
+            label={t("settings.appLanguage")}
             options={langOptions}
-            value={settings.defaultLanguage}
-            onChange={(v) => settings.setDefaultLanguage(v)}
+            value={settings.appLanguage}
+            onChange={(v) => {
+              settings.setAppLanguage(v as SupportedLanguage);
+              i18n.changeLanguage(v);
+            }}
           />
           <Select
             label={t("settings.defaultOutputLanguage")}
             options={langOptions}
             value={settings.defaultOutputLanguage}
-            onChange={(v) => settings.setDefaultOutputLanguage(v as typeof settings.defaultOutputLanguage)}
+            onChange={(v) => settings.setDefaultOutputLanguage(v as SupportedLanguage)}
           />
           <Select
             label={t("settings.defaultGenre")}
@@ -64,7 +66,6 @@ export function SettingsPage() {
           />
         </section>
 
-        {/* Editor */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.editorSettings")}</h2>
           <Toggle
@@ -84,7 +85,6 @@ export function SettingsPage() {
           />
         </section>
 
-        {/* Tags */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.tagSettings")}</h2>
           <Toggle
@@ -105,7 +105,6 @@ export function SettingsPage() {
           />
         </section>
 
-        {/* History */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.historySettings")}</h2>
           <Input

@@ -1,21 +1,34 @@
 import type { GeneratorInput, TranslationFn, CharLimitWarning } from "./types";
 import { YT_LIMITS } from "./types";
+import { PLATFORMS } from "@config/platforms";
+import { SOCIAL_FIELDS } from "@config/social-fields";
+
+const SOCIAL_ICONS: Record<string, string> = {
+  kofi: "☕",
+  patreon: "🎨",
+  buymeacoffee: "☕",
+  paypal: "💸",
+  streamlabs: "🎬",
+  github: "🐙",
+  twitter: "🐦",
+  discord: "💬",
+  twitch: "📺",
+  tiktok: "🎵",
+  instagram: "📸",
+  bluesky: "🦋",
+  mastodon: "🐘",
+  facebook: "👤",
+  fb_page: "📄",
+  fb_group: "👥",
+  website: "🌐",
+};
 
 function hasEntries(obj: Partial<Record<string, string>>): boolean {
   return Object.values(obj).some((v) => v && v.trim() !== "");
 }
 
-function formatKeyValueBlock(
-  obj: Partial<Record<string, string>>,
-  labelMap?: Record<string, string>,
-): string {
-  return Object.entries(obj)
-    .filter(([, v]) => v && v.trim() !== "")
-    .map(([k, v]) => {
-      const label = labelMap?.[k] ?? k.toUpperCase();
-      return `${label}: ${v}`;
-    })
-    .join("\n");
+function getLabelForId(id: string, configs: readonly { id: string; label: string }[]): string {
+  return configs.find((c) => c.id === id)?.label ?? id;
 }
 
 export function buildDescription(
@@ -46,11 +59,11 @@ export function buildDescription(
     sections.push(`${t("description.sections.timestamps")}\n${input.timestamps.trim()}`);
   }
 
-  // 4. Store Links
+  // 4. Store Links (use proper brand names from config)
   if (hasEntries(input.storeLinks)) {
     const links = Object.entries(input.storeLinks)
       .filter(([, v]) => v && v.trim() !== "")
-      .map(([platform, url]) => `${platform}: ${url}`)
+      .map(([id, url]) => `🎮 ${getLabelForId(id, PLATFORMS)}: ${url}`)
       .join("\n");
     sections.push(`${t("description.sections.storeLinks")}\n${links}`);
   }
@@ -66,7 +79,11 @@ export function buildDescription(
 
   // 6. Rig
   if (hasEntries(input.rig)) {
-    sections.push(`${t("description.sections.rig")}\n${formatKeyValueBlock(input.rig)}`);
+    const rigLines = Object.entries(input.rig)
+      .filter(([, v]) => v && v.trim() !== "")
+      .map(([k, v]) => `${k.toUpperCase()}: ${v}`)
+      .join("\n");
+    sections.push(`${t("description.sections.rig")}\n${rigLines}`);
   }
 
   // 7. Spoiler Warning
@@ -79,24 +96,26 @@ export function buildDescription(
     sections.push(t("description.sections.matureWarning"));
   }
 
-  // 9. Donate Links
-  const donateFields = ["kofi", "patreon", "buymeacoffee", "paypal", "streamlabs"];
-  const donateLinks = Object.entries(input.social)
-    .filter(([k, v]) => donateFields.includes(k) && v && v.trim() !== "")
-    .map(([k, v]) => `${k}: ${v}`)
-    .join("\n");
-  if (donateLinks) {
-    sections.push(`${t("description.sections.donate")}\n${donateLinks}`);
+  // 9. Donate Links (use proper labels + icons)
+  const donateEntries = Object.entries(input.social)
+    .filter(([k, v]) => {
+      const field = SOCIAL_FIELDS.find((f) => f.id === k);
+      return field?.category === "donate" && v && v.trim() !== "";
+    })
+    .map(([k, v]) => `${SOCIAL_ICONS[k] ?? "💰"} ${getLabelForId(k, SOCIAL_FIELDS)}: ${v}`);
+  if (donateEntries.length > 0) {
+    sections.push(`${t("description.sections.donate")}\n${donateEntries.join("\n")}`);
   }
 
-  // 10. Social Links
-  const socialFields = ["github", "twitter", "discord", "twitch", "tiktok", "instagram", "website"];
-  const socialLinks = Object.entries(input.social)
-    .filter(([k, v]) => socialFields.includes(k) && v && v.trim() !== "")
-    .map(([k, v]) => `${k}: ${v}`)
-    .join("\n");
-  if (socialLinks) {
-    sections.push(`${t("description.sections.social")}\n${socialLinks}`);
+  // 10. Social Links (use proper labels + icons)
+  const socialEntries = Object.entries(input.social)
+    .filter(([k, v]) => {
+      const field = SOCIAL_FIELDS.find((f) => f.id === k);
+      return field?.category === "social" && v && v.trim() !== "";
+    })
+    .map(([k, v]) => `${SOCIAL_ICONS[k] ?? "🔗"} ${getLabelForId(k, SOCIAL_FIELDS)}: ${v}`);
+  if (socialEntries.length > 0) {
+    sections.push(`${t("description.sections.social")}\n${socialEntries.join("\n")}`);
   }
 
   // 11. Playlist

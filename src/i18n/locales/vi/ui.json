@@ -9,7 +9,8 @@
     "profiles": "Hồ sơ",
     "history": "Lịch sử",
     "settings": "Cài đặt",
-    "batch": "Hàng loạt"
+    "batch": "Hàng loạt",
+    "playlist": "Playlist"
   },
   "editor": {
     "videoType": "Loại Video",
@@ -47,7 +48,8 @@
     "quickPreview": "Xem trước nhanh",
     "clearDraft": "Xóa bản nháp",
     "draftSaved": "Đã lưu nháp",
-    "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?"
+    "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?",
+    "contactEmailHelp": "Tối đa 3 email, cách nhau bằng dấu phẩy"
   },
   "output": {
     "title": "Tiêu đề",
@@ -113,7 +115,8 @@
     "crpg": "CRPG / Isometric",
     "tactical": "Chiến thuật",
     "space": "Vũ trụ / Sci-Fi",
-    "farming": "Nông trại / Life Sim"
+    "farming": "Nông trại / Life Sim",
+    "fmv": "FMV / Phim tương tác"
   },
   "rig": {
     "cpu": "CPU",
@@ -137,7 +140,12 @@
     "twitch": "Twitch",
     "tiktok": "TikTok",
     "instagram": "Instagram",
-    "streamlabs": "Streamlabs"
+    "streamlabs": "Streamlabs",
+    "bluesky": "Bluesky",
+    "mastodon": "Mastodon",
+    "facebook": "Facebook",
+    "fb_page": "Facebook Page",
+    "fb_group": "Facebook Group"
   },
   "resolutions": {
     "720p": "720p",
@@ -190,7 +198,7 @@
     "tagSettings": "Tags",
     "historySettings": "Lịch sử",
     "theme": "Giao diện",
-    "defaultUILanguage": "Ngôn ngữ giao diện",
+    "appLanguage": "Ngôn ngữ ứng dụng",
     "defaultOutputLanguage": "Ngôn ngữ đầu ra",
     "defaultGenre": "Thể loại mặc định",
     "autoSaveDraft": "Tự động lưu nháp",
@@ -216,5 +224,19 @@
     "saveDraft": "Lưu nháp",
     "help": "Hiện phím tắt",
     "close": "Đóng"
+  },
+  "validation": {
+    "emailInvalid": "Email không hợp lệ: {{email}}",
+    "emailMaxExceeded": "Tối đa {{max}} email (hiện tại {{count}})",
+    "urlInvalid": "URL không hợp lệ. Phải bắt đầu bằng https://",
+    "urlPrefixMismatch": "URL nên bắt đầu bằng {{expected}}"
+  },
+  "playlist": {
+    "title": "Tạo Playlist",
+    "status": "Trạng thái",
+    "contentType": "Loại nội dung",
+    "totalVideos": "Tổng video",
+    "customNote": "Ghi chú",
+    "generatePlaylist": "Tạo Playlist"
   }
 }

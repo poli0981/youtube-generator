@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
+import { saveSettings } from "@utils/storage-adapter";
 import type { VideoType, Genre, SupportedLanguage } from "@engine/types";
 
 export interface HistoryEntry {
@@ -52,3 +53,7 @@ export const useHistoryStore = create<HistoryState>()(
     },
   ),
 );
+
+useHistoryStore.subscribe((state) => {
+  saveSettings("ytdescgen-history", { entries: state.entries });
+});

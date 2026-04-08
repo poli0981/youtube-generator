@@ -55,5 +55,27 @@
     "gameplay": "#{{gameName}}",
     "noCommentary": "#GameplayNoCommentary",
     "genre": "#{{genre}}"
+  },
+  "playlist": {
+    "status": {
+      "completed": "✅ 已完成",
+      "dropped": "❌ 已放弃",
+      "incomplete": "🔄 未完成",
+      "in_progress": "▶️ 进行中"
+    },
+    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "videoCount": "📹 {{count}}个视频",
+    "storeSection": "🎮 获取游戏:",
+    "footer": "👍 点赞 | 🔔 订阅获取更多游戏实况！",
+    "description": {
+      "full_gameplay": "本播放列表包含{{channelName}}的{{gameName}}完整游戏实况。\n无解说 — 纯粹的游戏体验。",
+      "boss_fights": "本播放列表包含{{channelName}}的{{gameName}}全部Boss战。\n无解说。",
+      "speedrun": "本播放列表包含{{channelName}}的{{gameName}}速通。\n无解说。",
+      "all_endings": "本播放列表包含{{channelName}}的{{gameName}}全部结局。\n⚠️ 含有剧透。",
+      "dlc": "本播放列表包含{{channelName}}的{{gameName}} DLC游戏实况。\n无解说。",
+      "100_percent": "本播放列表包含{{channelName}}的{{gameName}} 100%完成实况。\n无解说。",
+      "guide": "本播放列表是{{channelName}}的{{gameName}}无声攻略。\n无解说。",
+      "highlights": "本播放列表包含{{channelName}}的{{gameName}}精彩集锦。\n无解说。"
+    }
   }
 }

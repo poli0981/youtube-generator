@@ -18,6 +18,9 @@ const SettingsPage = lazy(() =>
 const BatchPage = lazy(() =>
   import("@pages/BatchPage").then((m) => ({ default: m.BatchPage })),
 );
+const PlaylistPage = lazy(() =>
+  import("@pages/PlaylistPage").then((m) => ({ default: m.PlaylistPage })),
+);
 
 function PageLoader() {
   return <div className="flex items-center justify-center p-12 text-text-muted">Loading...</div>;
@@ -60,6 +63,14 @@ export default function App() {
               element={
                 <Suspense fallback={<PageLoader />}>
                   <BatchPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="playlist"
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  <PlaylistPage />
                 </Suspense>
               }
             />

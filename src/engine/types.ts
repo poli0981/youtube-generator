@@ -39,7 +39,8 @@ export type Genre =
   | "crpg"
   | "tactical"
   | "space"
-  | "farming";
+  | "farming"
+  | "fmv";
 
 export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
 

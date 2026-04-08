@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Input } from "@components/ui/Input";
+import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { SOCIAL_FIELDS } from "@config/social-fields";
 import { useEditorStore } from "@store/editor-store";
+import { validateUrl, validateUrlWithPrefix } from "@utils/validation";
 
 export function SocialEditor() {
   const { t } = useTranslation("ui");
@@ -18,12 +19,15 @@ export function SocialEditor() {
       <div className="flex flex-col gap-2">
         <span className="text-xs font-medium uppercase text-text-muted">Donate</span>
         {donateFields.map((field) => (
-          <Input
+          <ValidatedInput
             key={field.id}
             label={t(field.labelKey)}
             placeholder={field.urlPrefix || "URL"}
             value={social[field.id] ?? ""}
-            onChange={(e) => setNested("social", field.id, e.target.value)}
+            onChange={(v) => setNested("social", field.id, v)}
+            validate={(v) =>
+              field.urlPrefix ? validateUrlWithPrefix(v, field.urlPrefix) : validateUrl(v)
+            }
           />
         ))}
       </div>
@@ -31,12 +35,20 @@ export function SocialEditor() {
       <div className="flex flex-col gap-2">
         <span className="text-xs font-medium uppercase text-text-muted">Social</span>
         {socialFields.map((field) => (
-          <Input
+          <ValidatedInput
             key={field.id}
             label={t(field.labelKey)}
             placeholder={field.urlPrefix || "URL"}
             value={social[field.id] ?? ""}
-            onChange={(e) => setNested("social", field.id, e.target.value)}
+            onChange={(v) => setNested("social", field.id, v)}
+            validate={(v) =>
+              field.urlPrefix ? validateUrlWithPrefix(v, field.urlPrefix) : validateUrl(v)
+            }
+            helpText={
+              field.id === "mastodon"
+                ? "Full URL including instance, e.g. https://mastodon.social/@user"
+                : undefined
+            }
           />
         ))}
       </div>
