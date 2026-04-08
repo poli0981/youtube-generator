@@ -35,7 +35,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between rounded-lg border border-border bg-surface-1 p-4">
+      <div className="flex items-center justify-between rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30">
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-text-primary">{profile.name}</h3>
           <p className="mt-0.5 text-xs text-text-secondary">{profile.channelName || "No channel"}</p>

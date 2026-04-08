@@ -1,11 +1,44 @@
 import { useTranslation } from "react-i18next";
+import { FolderOpen, Save } from "lucide-react";
 import { Toggle } from "@components/ui/Toggle";
 import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
+import { Button } from "@components/ui/Button";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES } from "@config/genres";
 import { useSettingsStore } from "@store/settings-store";
+import { IS_TAURI } from "@utils/platform";
 import type { SupportedLanguage } from "@engine/types";
+import toast from "react-hot-toast";
+
+async function openSettingsFolder() {
+  try {
+    const { appDataDir } = await import("@tauri-apps/api/path");
+    const { open } = await import("@tauri-apps/plugin-shell");
+    const dir = await appDataDir();
+    await open(dir);
+  } catch {
+    toast.error("Could not open settings folder");
+  }
+}
+
+async function exportSettingsToFile() {
+  try {
+    const { save } = await import("@tauri-apps/plugin-dialog");
+    const { invoke } = await import("@tauri-apps/api/core");
+    const { appDataDir } = await import("@tauri-apps/api/path");
+    const dir = await appDataDir();
+    const srcPath = `${dir}settings.json`;
+    const content: string = await invoke("read_from_file", { path: srcPath });
+    const destPath = await save({ defaultPath: "ytdescgen-settings.json" });
+    if (destPath) {
+      await invoke("save_to_file", { path: destPath, content });
+      toast.success("Settings exported!");
+    }
+  } catch {
+    toast.error("Export failed");
+  }
+}
 
 export function SettingsPage() {
   const { t, i18n } = useTranslation("ui");
@@ -29,7 +62,21 @@ export function SettingsPage() {
 
   return (
     <div className="mx-auto max-w-2xl p-6">
-      <h1 className="mb-6 text-lg font-bold text-text-primary">{t("settings.title")}</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-lg font-bold text-text-primary">{t("settings.title")}</h1>
+        {IS_TAURI && (
+          <div className="flex gap-2">
+            <Button variant="ghost" size="sm" onClick={openSettingsFolder}>
+              <FolderOpen className="h-3.5 w-3.5" />
+              Open Folder
+            </Button>
+            <Button variant="ghost" size="sm" onClick={exportSettingsToFile}>
+              <Save className="h-3.5 w-3.5" />
+              Export
+            </Button>
+          </div>
+        )}
+      </div>
 
       <div className="flex flex-col gap-8">
         <section className="flex flex-col gap-3">
