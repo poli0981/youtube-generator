@@ -10,7 +10,8 @@
     "history": "履歴",
     "settings": "設定",
     "batch": "一括",
-    "playlist": "プレイリスト"
+    "playlist": "プレイリスト",
+    "logs": "ログ"
   },
   "editor": {
     "videoType": "動画タイプ",
@@ -238,5 +239,12 @@
     "totalVideos": "動画総数",
     "customNote": "カスタムノート",
     "generatePlaylist": "プレイリスト生成"
+  },
+  "logs": {
+    "title": "ログ",
+    "emptyState": "ログはありません。",
+    "clearAll": "すべて削除",
+    "clearConfirm": "すべてのログを削除しますか？",
+    "searchPlaceholder": "ログを検索..."
   }
 }

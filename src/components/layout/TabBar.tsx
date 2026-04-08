@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Pencil, FileText, User, Clock, Settings, Layers, ListVideo } from "lucide-react";
+import { Pencil, FileText, User, Clock, Settings, Layers, ListVideo, ScrollText } from "lucide-react";
 import clsx from "clsx";
 
 const tabs = [
@@ -10,6 +10,7 @@ const tabs = [
   { to: "/profiles", labelKey: "tabs.profiles", icon: User },
   { to: "/history", labelKey: "tabs.history", icon: Clock },
   { to: "/playlist", labelKey: "tabs.playlist", icon: ListVideo },
+  { to: "/logs", labelKey: "tabs.logs", icon: ScrollText },
   { to: "/settings", labelKey: "tabs.settings", icon: Settings },
 ] as const;
 

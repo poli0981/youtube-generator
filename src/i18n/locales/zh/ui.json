@@ -10,7 +10,8 @@
     "history": "历史",
     "settings": "设置",
     "batch": "批量",
-    "playlist": "播放列表"
+    "playlist": "播放列表",
+    "logs": "日志"
   },
   "editor": {
     "videoType": "视频类型",
@@ -238,5 +239,12 @@
     "totalVideos": "视频总数",
     "customNote": "自定义备注",
     "generatePlaylist": "生成播放列表"
+  },
+  "logs": {
+    "title": "日志",
+    "emptyState": "暂无日志。",
+    "clearAll": "清除全部",
+    "clearConfirm": "确定要清除所有日志吗？",
+    "searchPlaceholder": "搜索日志..."
   }
 }

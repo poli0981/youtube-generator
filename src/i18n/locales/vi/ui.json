@@ -10,7 +10,8 @@
     "history": "Lịch sử",
     "settings": "Cài đặt",
     "batch": "Hàng loạt",
-    "playlist": "Playlist"
+    "playlist": "Playlist",
+    "logs": "Nhật ký"
   },
   "editor": {
     "videoType": "Loại Video",
@@ -238,5 +239,12 @@
     "totalVideos": "Tổng video",
     "customNote": "Ghi chú",
     "generatePlaylist": "Tạo Playlist"
+  },
+  "logs": {
+    "title": "Nhật ký",
+    "emptyState": "Chưa có nhật ký.",
+    "clearAll": "Xóa tất cả",
+    "clearConfirm": "Bạn có chắc muốn xóa toàn bộ nhật ký?",
+    "searchPlaceholder": "Tìm kiếm nhật ký..."
   }
 }

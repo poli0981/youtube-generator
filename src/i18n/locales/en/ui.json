@@ -10,7 +10,8 @@
     "history": "History",
     "settings": "Settings",
     "batch": "Batch",
-    "playlist": "Playlist"
+    "playlist": "Playlist",
+    "logs": "Logs"
   },
   "editor": {
     "videoType": "Video Type",
@@ -238,5 +239,12 @@
     "totalVideos": "Total Videos",
     "customNote": "Custom Note",
     "generatePlaylist": "Generate Playlist"
+  },
+  "logs": {
+    "title": "Logs",
+    "emptyState": "No log entries yet.",
+    "clearAll": "Clear All",
+    "clearConfirm": "Are you sure you want to clear all logs?",
+    "searchPlaceholder": "Search logs..."
   }
 }

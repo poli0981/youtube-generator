@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import toast from "react-hot-toast";
+import { logger } from "@utils/logger";
 
 interface UseClipboardReturn {
   copy: (text: string) => Promise<void>;
@@ -18,8 +19,9 @@ export function useClipboard(): UseClipboardReturn {
 
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       timeoutRef.current = setTimeout(() => setCopied(false), 2000);
-    } catch {
+    } catch (e) {
       toast.error("Failed to copy");
+      logger.error("clipboard", "Failed to copy to clipboard", String(e));
     }
   }, []);
 

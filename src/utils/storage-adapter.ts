@@ -1,4 +1,5 @@
 import { IS_TAURI } from "./platform";
+import { logger } from "./logger";
 
 const SETTINGS_FILENAME = "settings.json";
 
@@ -16,16 +17,16 @@ export async function loadSettings<T>(key: string, fallback: T): Promise<T> {
       const raw: string = await invoke("read_from_file", { path });
       const allSettings = JSON.parse(raw) as Record<string, unknown>;
       if (key in allSettings) return allSettings[key] as T;
-    } catch {
-      // File doesn't exist yet or read error
+    } catch (e) {
+      logger.debug("storage", `Tauri file read failed for "${key}"`, String(e));
     }
   }
 
   try {
     const raw = localStorage.getItem(key);
     if (raw) return JSON.parse(raw) as T;
-  } catch {
-    // Parse error
+  } catch (e) {
+    logger.warn("storage", `localStorage parse failed for "${key}"`, String(e));
   }
 
   return fallback;
@@ -79,8 +80,8 @@ export async function checkDataFileHealth(): Promise<string | null> {
 export async function saveSettings<T>(key: string, value: T): Promise<void> {
   try {
     localStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    // Storage full or disabled
+  } catch (e) {
+    logger.warn("storage", `localStorage write failed for "${key}"`, String(e));
   }
 
   if (IS_TAURI) {
@@ -93,7 +94,7 @@ export async function saveSettings<T>(key: string, value: T): Promise<void> {
         const raw: string = await invoke("read_from_file", { path });
         allSettings = JSON.parse(raw) as Record<string, unknown>;
       } catch {
-        // File doesn't exist yet
+        // File doesn't exist yet — start fresh
       }
 
       allSettings[key] = value;
@@ -101,8 +102,8 @@ export async function saveSettings<T>(key: string, value: T): Promise<void> {
         path,
         content: JSON.stringify(allSettings, null, 2),
       });
-    } catch {
-      // Write error — localStorage is the fallback
+    } catch (e) {
+      logger.warn("storage", `Tauri file write failed for "${key}"`, String(e));
     }
   }
 }

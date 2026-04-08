@@ -10,7 +10,8 @@
     "history": "Historial",
     "settings": "Ajustes",
     "batch": "Lote",
-    "playlist": "Playlist"
+    "playlist": "Playlist",
+    "logs": "Registros"
   },
   "editor": {
     "videoType": "Tipo de Video",
@@ -238,5 +239,12 @@
     "totalVideos": "Total de Videos",
     "customNote": "Nota Personal",
     "generatePlaylist": "Generar Playlist"
+  },
+  "logs": {
+    "title": "Registros",
+    "emptyState": "No hay registros.",
+    "clearAll": "Borrar Todo",
+    "clearConfirm": "¿Estás seguro de borrar todos los registros?",
+    "searchPlaceholder": "Buscar registros..."
   }
 }

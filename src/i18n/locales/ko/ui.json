@@ -10,7 +10,8 @@
     "history": "기록",
     "settings": "설정",
     "batch": "일괄",
-    "playlist": "플레이리스트"
+    "playlist": "플레이리스트",
+    "logs": "로그"
   },
   "editor": {
     "videoType": "영상 유형",
@@ -238,5 +239,12 @@
     "totalVideos": "총 영상 수",
     "customNote": "사용자 메모",
     "generatePlaylist": "플레이리스트 생성"
+  },
+  "logs": {
+    "title": "로그",
+    "emptyState": "로그가 없습니다.",
+    "clearAll": "모두 삭제",
+    "clearConfirm": "모든 로그를 삭제하시겠습니까?",
+    "searchPlaceholder": "로그 검색..."
   }
 }
