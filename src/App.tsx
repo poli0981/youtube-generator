@@ -1,9 +1,11 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { AppShell } from "@components/layout/AppShell";
 import { EditorPage } from "@pages/EditorPage";
 import { OutputPage } from "@pages/OutputPage";
+import { checkDataFileHealth } from "@utils/storage-adapter";
 import "@i18n/index";
 
 const ProfilesPage = lazy(() =>
@@ -27,6 +29,12 @@ function PageLoader() {
 }
 
 export default function App() {
+  useEffect(() => {
+    checkDataFileHealth().then((msg) => {
+      if (msg) toast(msg, { icon: "⚠️", duration: 5000 });
+    });
+  }, []);
+
   return (
     <>
       <HashRouter>

@@ -31,6 +31,51 @@ export async function loadSettings<T>(key: string, fallback: T): Promise<T> {
   return fallback;
 }
 
+/**
+ * Check if the Tauri data file exists and is valid JSON.
+ * If missing or corrupt, recreate it from localStorage data.
+ * Returns a status message or null if not in Tauri / all good.
+ */
+export async function checkDataFileHealth(): Promise<string | null> {
+  if (!IS_TAURI) return null;
+
+  try {
+    const { invoke } = await import("@tauri-apps/api/core");
+    const path = await getSettingsPath();
+
+    try {
+      const raw: string = await invoke("read_from_file", { path });
+      JSON.parse(raw);
+      return null; // File exists and is valid
+    } catch {
+      // File missing or corrupt — rebuild from localStorage
+      const rebuilt: Record<string, unknown> = {};
+      const keys = [
+        "ytdescgen-settings",
+        "ytdescgen-profiles",
+        "ytdescgen-presets",
+        "ytdescgen-history",
+        "ytdescgen-editor-draft",
+      ];
+      for (const key of keys) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) rebuilt[key] = JSON.parse(raw);
+        } catch {
+          // Skip corrupt entries
+        }
+      }
+      await invoke("save_to_file", {
+        path,
+        content: JSON.stringify(rebuilt, null, 2),
+      });
+      return "Data file was missing or corrupt. Restored from local cache.";
+    }
+  } catch {
+    return null;
+  }
+}
+
 export async function saveSettings<T>(key: string, value: T): Promise<void> {
   try {
     localStorage.setItem(key, JSON.stringify(value));

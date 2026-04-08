@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { renderAll } from "@engine/template-renderer";
@@ -8,7 +8,6 @@ import type { GeneratorOutput, GeneratorInput } from "@engine/types";
 export function useGeneratedOutput(): GeneratorOutput {
   const state = useEditorStore();
   const { includeMultilingualTags, includeTrendingTags, hashtagCount } = useSettingsStore();
-  const { t } = useTranslation("templates");
 
   const input: GeneratorInput = useMemo(
     () => ({
@@ -60,6 +59,8 @@ export function useGeneratedOutput(): GeneratorOutput {
       state.rig,
     ],
   );
+
+  const t = useMemo(() => i18n.getFixedT(state.language, "templates"), [state.language]);
 
   return useMemo(
     () =>
