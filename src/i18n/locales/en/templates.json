@@ -5,6 +5,8 @@
     "videoType": {
       "full": "",
       "part": "Part {{partNumber}}",
+      "full_demo": "Demo",
+      "demo_part": "Demo Part {{partNumber}}",
       "boss": "{{bossName}} Boss Fight",
       "boss_nohit": "{{bossName}} Boss No Hit",
       "ending": "Ending",
@@ -23,6 +25,8 @@
     "intro": {
       "full": "This video features the full gameplay of {{gameName}} on {{channelName}}.",
       "part": "This video features Part {{partNumber}} of {{gameName}} on {{channelName}}.",
+      "full_demo": "This video features the full demo of {{gameName}} on {{channelName}}.",
+      "demo_part": "This video features Part {{partNumber}} of the {{gameName}} demo on {{channelName}}.",
       "boss": "This video features the {{bossName}} boss fight from {{gameName}} on {{channelName}}.",
       "boss_nohit": "This video features the {{bossName}} boss fight (No Hit) from {{gameName}} on {{channelName}}.",
       "ending": "This video features the ending of {{gameName}} on {{channelName}}.",

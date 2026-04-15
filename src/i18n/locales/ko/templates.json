@@ -5,6 +5,8 @@
     "videoType": {
       "full": "",
       "part": "파트 {{partNumber}}",
+      "full_demo": "전체 데모",
+      "demo_part": "데모 파트 {{partNumber}}",
       "boss": "{{bossName}} 보스전",
       "boss_nohit": "{{bossName}} 보스 노히트",
       "ending": "엔딩",
@@ -23,6 +25,8 @@
     "intro": {
       "full": "이 영상은 {{channelName}}에서 {{gameName}}의 전체 게임플레이를 담고 있습니다.",
       "part": "이 영상은 {{channelName}}에서 {{gameName}} 파트 {{partNumber}}를 담고 있습니다.",
+      "full_demo": "이 영상은 {{channelName}}에서 {{gameName}}의 전체 데모를 담고 있습니다.",
+      "demo_part": "이 영상은 {{channelName}}에서 {{gameName}} 데모 파트 {{partNumber}}를 담고 있습니다.",
       "boss": "이 영상은 {{channelName}}에서 {{gameName}}의 {{bossName}} 보스전을 담고 있습니다.",
       "boss_nohit": "이 영상은 {{channelName}}에서 {{gameName}}의 {{bossName}} 보스전 (노히트)을 담고 있습니다.",
       "ending": "이 영상은 {{channelName}}에서 {{gameName}}의 엔딩을 담고 있습니다.",

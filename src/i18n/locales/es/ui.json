@@ -78,6 +78,8 @@
   "videoTypes": {
     "full": "Gameplay Completo",
     "part": "Gameplay Parte",
+    "full_demo": "Demo Completa",
+    "demo_part": "Demo Parte",
     "boss": "Pelea de Jefe",
     "boss_nohit": "Jefe Sin Golpes",
     "ending": "Final / Todos los Finales",
