@@ -119,7 +119,8 @@
     "tactical": "전술 / 턴제",
     "space": "우주 / SF",
     "farming": "농장 / 라이프 시뮬",
-    "fmv": "FMV / 인터랙티브 무비"
+    "fmv": "FMV / 인터랙티브 무비",
+    "visual_novel": "비주얼 노벨"
   },
   "rig": {
     "cpu": "CPU",

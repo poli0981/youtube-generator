@@ -25,6 +25,7 @@ export const GENRES = [
   { id: "space", labelKey: "genres.space", icon: "🚀" },
   { id: "farming", labelKey: "genres.farming", icon: "🌾" },
   { id: "fmv", labelKey: "genres.fmv", icon: "🎬" },
+  { id: "visual_novel", labelKey: "genres.visual_novel", icon: "💬" },
 ] as const;
 
 export type GenreId = (typeof GENRES)[number]["id"];

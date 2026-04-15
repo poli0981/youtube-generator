@@ -119,7 +119,8 @@
     "tactical": "Táctico / Por Turnos",
     "space": "Espacio / Sci-Fi",
     "farming": "Granja / Life Sim",
-    "fmv": "FMV / Película Interactiva"
+    "fmv": "FMV / Película Interactiva",
+    "visual_novel": "Novela Visual"
   },
   "rig": {
     "cpu": "CPU",

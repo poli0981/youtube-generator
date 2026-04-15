@@ -119,7 +119,8 @@
     "tactical": "战术 / 回合制",
     "space": "太空 / 科幻",
     "farming": "农场 / 生活模拟",
-    "fmv": "FMV / 互动电影"
+    "fmv": "FMV / 互动电影",
+    "visual_novel": "视觉小说"
   },
   "rig": {
     "cpu": "CPU",

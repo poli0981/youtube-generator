@@ -1,6 +1,8 @@
 export type VideoType =
   | "full"
   | "part"
+  | "full_demo"
+  | "demo_part"
   | "boss"
   | "boss_nohit"
   | "ending"
@@ -40,7 +42,8 @@ export type Genre =
   | "tactical"
   | "space"
   | "farming"
-  | "fmv";
+  | "fmv"
+  | "visual_novel";
 
 export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
 
