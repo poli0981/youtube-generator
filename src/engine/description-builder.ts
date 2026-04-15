@@ -63,13 +63,40 @@ export function buildDescription(
     sections.push(`${t("description.sections.timestamps")}\n${rendered}`);
   }
 
-  // 4. Store Links (use proper brand names from config)
+  // 4. Store Links (heading + per-link suffix by pricing category)
   if (hasEntries(input.storeLinks)) {
-    const links = Object.entries(input.storeLinks)
-      .filter(([, v]) => v && v.trim() !== "")
-      .map(([id, url]) => `🎮 ${getLabelForId(id, PLATFORMS)}: ${url}`)
-      .join("\n");
-    sections.push(`${t("description.sections.storeLinks")}\n${links}`);
+    const entries = Object.entries(input.storeLinks)
+      .filter(([, url]) => url && url.trim() !== "")
+      .map(([id, url]) => ({
+        id,
+        url: url!.trim(),
+        type: (input.storeLinkTypes?.[id] ?? "paid") as "paid" | "free" | "demo",
+      }));
+
+    if (entries.length > 0) {
+      // Majority rule: if more than half the links are free/demo,
+      // switch the heading to "DOWNLOAD THE GAME". Ties favour "GET".
+      const nonPaid = entries.filter((e) => e.type !== "paid").length;
+      const headingKey =
+        nonPaid > entries.length / 2
+          ? "description.sections.storeLinksDownload"
+          : "description.sections.storeLinksBuy";
+
+      const lines = entries
+        .map((e) => {
+          const label = getLabelForId(e.id, PLATFORMS);
+          const suffix =
+            e.type === "demo"
+              ? ` (${t("description.storeLinkSuffix.demo")})`
+              : e.type === "free"
+                ? ` (${t("description.storeLinkSuffix.free")})`
+                : "";
+          return `🎮 ${label}${suffix}: ${e.url}`;
+        })
+        .join("\n");
+
+      sections.push(`${t(headingKey)}\n${lines}`);
+    }
   }
 
   // 5. Video Settings

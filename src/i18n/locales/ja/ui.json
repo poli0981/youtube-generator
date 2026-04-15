@@ -36,6 +36,7 @@
     "timestamps": "タイムスタンプ",
     "timestampsPlaceholder": "0:00 イントロ\n5:30 チャプター1\n15:00 ボス戦",
     "storeLinks": "購入リンク",
+    "storeLinkType": "種別",
     "rig": "PC構成",
     "social": "SNS・寄付リンク",
     "warnings": "警告",
@@ -236,6 +237,11 @@
     "emailMaxExceeded": "最大{{max}}件のメール (現在{{count}}件)",
     "urlInvalid": "無効なURL。https://で始める必要があります",
     "urlPrefixMismatch": "{{expected}}で始まるURLが必要です"
+  },
+  "storeLinkTypes": {
+    "paid": "有料",
+    "free": "無料",
+    "demo": "無料体験版"
   },
   "playlist": {
     "title": "プレイリスト生成",

@@ -1,6 +1,6 @@
 import type { VideoTypeId } from "./video-types";
 import type { GenreId } from "./genres";
-import type { SupportedLanguage } from "@engine/types";
+import type { SupportedLanguage, StoreLinkType } from "@engine/types";
 
 export interface EditorDefaults {
   videoType: VideoTypeId;
@@ -23,6 +23,7 @@ export interface EditorDefaults {
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Record<string, string>;
+  storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
   rig: Record<string, string>;
 }
@@ -55,6 +56,7 @@ export const DEFAULTS = {
     spoilerWarning: false,
     matureWarning: false,
     storeLinks: {},
+    storeLinkTypes: {},
     social: {},
     rig: {},
   } satisfies EditorDefaults,

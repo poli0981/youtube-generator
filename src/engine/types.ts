@@ -47,6 +47,13 @@ export type Genre =
 
 export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
 
+/**
+ * Pricing category of a store link. Decides the heading wording
+ * ("GET THE GAME" vs "DOWNLOAD THE GAME") and per-link suffix in the
+ * generated description.
+ */
+export type StoreLinkType = "paid" | "free" | "demo";
+
 export interface GeneratorInput {
   videoType: VideoType;
   language: SupportedLanguage;
@@ -68,6 +75,11 @@ export interface GeneratorInput {
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Partial<Record<string, string>>;
+  /**
+   * Parallel map from the same platform id to a pricing category.
+   * Missing entries default to "paid" so pre-v0.4.0 drafts keep working.
+   */
+  storeLinkTypes?: Partial<Record<string, StoreLinkType>>;
   social: Partial<Record<string, string>>;
   rig: Partial<Record<string, string>>;
 }

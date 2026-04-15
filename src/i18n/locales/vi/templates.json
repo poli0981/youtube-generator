@@ -41,9 +41,14 @@
       "guide": "Video này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}."
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
+    "storeLinkSuffix": {
+      "free": "miễn phí",
+      "demo": "demo miễn phí"
+    },
     "sections": {
       "timestamps": "⏱ MỐC THỜI GIAN",
-      "storeLinks": "🎮 MUA GAME",
+      "storeLinksBuy": "🎮 MUA GAME (nếu bạn muốn ủng hộ)",
+      "storeLinksDownload": "⬇️ TẢI GAME (nếu bạn muốn chơi)",
       "videoSettings": "🖥 CÀI ĐẶT VIDEO",
       "rig": "💻 CẤU HÌNH MÁY",
       "spoilerWarning": "⚠️ CẢNH BÁO SPOILER: Video này có thể chứa nội dung spoiler. Xem theo ý muốn của bạn!",

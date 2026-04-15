@@ -36,6 +36,7 @@
     "timestamps": "时间戳",
     "timestampsPlaceholder": "0:00 开场\n5:30 第一章\n15:00 Boss战",
     "storeLinks": "商店链接",
+    "storeLinkType": "类型",
     "rig": "我的配置",
     "social": "社交与赞助链接",
     "warnings": "警告",
@@ -236,6 +237,11 @@
     "emailMaxExceeded": "最多允许{{max}}个邮箱 (当前{{count}}个)",
     "urlInvalid": "无效URL。必须以https://开头",
     "urlPrefixMismatch": "URL应以{{expected}}开头"
+  },
+  "storeLinkTypes": {
+    "paid": "付费",
+    "free": "免费",
+    "demo": "免费试玩"
   },
   "playlist": {
     "title": "播放列表生成器",

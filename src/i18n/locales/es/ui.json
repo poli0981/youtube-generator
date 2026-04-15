@@ -36,6 +36,7 @@
     "timestamps": "Marcas de Tiempo",
     "timestampsPlaceholder": "0:00 Intro\n5:30 Capítulo 1\n15:00 Pelea de Jefe",
     "storeLinks": "Enlaces de Tienda",
+    "storeLinkType": "Tipo",
     "rig": "Mi Equipo",
     "social": "Redes Sociales y Donaciones",
     "warnings": "Advertencias",
@@ -236,6 +237,11 @@
     "emailMaxExceeded": "Máximo {{max}} emails permitidos (actualmente {{count}})",
     "urlInvalid": "URL inválida. Debe comenzar con https://",
     "urlPrefixMismatch": "Se espera URL que comience con {{expected}}"
+  },
+  "storeLinkTypes": {
+    "paid": "De pago",
+    "free": "Gratis",
+    "demo": "Demo gratis"
   },
   "playlist": {
     "title": "Generador de Playlist",

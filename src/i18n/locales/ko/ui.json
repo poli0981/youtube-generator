@@ -36,6 +36,7 @@
     "timestamps": "타임스탬프",
     "timestampsPlaceholder": "0:00 인트로\n5:30 챕터 1\n15:00 보스전",
     "storeLinks": "스토어 링크",
+    "storeLinkType": "유형",
     "rig": "내 장비",
     "social": "소셜 및 후원 링크",
     "warnings": "경고",
@@ -236,6 +237,11 @@
     "emailMaxExceeded": "최대 {{max}}개 이메일 허용 (현재 {{count}}개)",
     "urlInvalid": "잘못된 URL입니다. https://로 시작해야 합니다",
     "urlPrefixMismatch": "{{expected}}로 시작하는 URL이 필요합니다"
+  },
+  "storeLinkTypes": {
+    "paid": "유료",
+    "free": "무료",
+    "demo": "무료 데모"
   },
   "playlist": {
     "title": "플레이리스트 생성기",

@@ -41,9 +41,14 @@
       "guide": "This video is a silent guide for {{gameName}} on {{channelName}}."
     },
     "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
+    "storeLinkSuffix": {
+      "free": "free",
+      "demo": "free demo"
+    },
     "sections": {
       "timestamps": "⏱ TIMESTAMPS",
-      "storeLinks": "🎮 GET THE GAME",
+      "storeLinksBuy": "🎮 GET THE GAME (if you want to buy)",
+      "storeLinksDownload": "⬇️ DOWNLOAD THE GAME (if you want to play)",
       "videoSettings": "🖥 VIDEO SETTINGS",
       "rig": "💻 MY RIG",
       "spoilerWarning": "⚠️ SPOILER WARNING: This video may contain spoilers. Watch at your own risk!",
