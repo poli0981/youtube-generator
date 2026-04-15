@@ -63,7 +63,7 @@
       "incomplete": "🔄 未完了",
       "in_progress": "▶️ プレイ中"
     },
-    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "titleFormat": "{{status}} - {{gameName}}",
     "videoCount": "📹 {{count}}本の動画",
     "storeSection": "🎮 ゲーム購入:",
     "footer": "👍 高評価 | 🔔 チャンネル登録お願いします！",
