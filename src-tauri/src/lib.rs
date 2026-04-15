@@ -1,3 +1,6 @@
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+
 use tauri::{
     menu::{Menu, MenuItem},
     tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent},
@@ -19,11 +22,19 @@ fn read_from_file(path: String) -> Result<String, String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Flag that signals the user has requested a full quit (via tray menu).
+    // When false, closing the window hides it to the tray; when true,
+    // the app is allowed to exit.
+    let quitting = Arc::new(AtomicBool::new(false));
+    let quitting_menu = quitting.clone();
+    let quitting_window = quitting.clone();
+    let quitting_run = quitting.clone();
+
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())
-        .setup(|app| {
+        .setup(move |app| {
             let show = MenuItem::with_id(app, "show", "Show YTDescGen", true, None::<&str>)?;
             let quit = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&show, &quit])?;
@@ -31,7 +42,7 @@ pub fn run() {
             let _tray = TrayIconBuilder::with_id("ytdescgen-tray")
                 .tooltip("YTDescGen — YouTube Description Generator")
                 .menu(&menu)
-                .on_menu_event(|app, event| match event.id.as_ref() {
+                .on_menu_event(move |app, event| match event.id.as_ref() {
                     "show" => {
                         if let Some(window) = app.get_webview_window("main") {
                             let _ = window.show();
@@ -40,6 +51,7 @@ pub fn run() {
                         }
                     }
                     "quit" => {
+                        quitting_menu.store(true, Ordering::SeqCst);
                         app.exit(0);
                     }
                     _ => {}
@@ -63,18 +75,25 @@ pub fn run() {
 
             Ok(())
         })
-        .on_window_event(|window, event| {
+        .on_window_event(move |window, event| {
             if let WindowEvent::CloseRequested { api, .. } = event {
-                let _ = window.hide();
-                api.prevent_close();
+                // If the user asked to quit via the tray menu, let the
+                // window close normally so the app can exit.
+                if !quitting_window.load(Ordering::SeqCst) {
+                    let _ = window.hide();
+                    api.prevent_close();
+                }
             }
         })
         .invoke_handler(tauri::generate_handler![save_to_file, read_from_file])
         .build(tauri::generate_context!())
         .expect("error while building tauri application")
-        .run(|_app_handle, event| {
+        .run(move |_app_handle, event| {
             if let RunEvent::ExitRequested { api, .. } = event {
-                api.prevent_exit();
+                // Only prevent exit when the user hasn't explicitly asked to quit.
+                if !quitting_run.load(Ordering::SeqCst) {
+                    api.prevent_exit();
+                }
             }
         });
 }
