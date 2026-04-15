@@ -76,3 +76,25 @@ export function validateUrlWithPrefix(
 
   return { valid: true };
 }
+
+/**
+ * Validate a URL against a platform-specific RegExp. Unlike
+ * validateUrlWithPrefix, prefix-style mismatches are treated as hard
+ * errors so invalid links can be kept out of the output.
+ */
+export function validateUrlWithPattern(
+  input: string,
+  pattern: RegExp,
+): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!pattern.test(trimmed)) {
+    return { valid: false, error: "validation.urlInvalid" };
+  }
+
+  return { valid: true };
+}
