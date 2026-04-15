@@ -2,6 +2,7 @@ import type { GeneratorInput, TranslationFn, CharLimitWarning } from "./types";
 import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
 import { SOCIAL_FIELDS } from "@config/social-fields";
+import { formatRigValue } from "@config/rig-fields";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
 
 const SOCIAL_ICONS: Record<string, string> = {
@@ -83,10 +84,13 @@ export function buildDescription(
   // 6. Rig
   if (hasEntries(input.rig)) {
     const rigLines = Object.entries(input.rig)
+      .map(([k, v]) => [k, formatRigValue(k, v ?? "")] as const)
       .filter(([, v]) => v && v.trim() !== "")
       .map(([k, v]) => `${k.toUpperCase()}: ${v}`)
       .join("\n");
-    sections.push(`${t("description.sections.rig")}\n${rigLines}`);
+    if (rigLines) {
+      sections.push(`${t("description.sections.rig")}\n${rigLines}`);
+    }
   }
 
   // 7. Spoiler Warning
