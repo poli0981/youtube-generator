@@ -36,6 +36,7 @@
     "timestamps": "Mốc thời gian",
     "timestampsPlaceholder": "0:00 Giới thiệu\n5:30 Chương 1\n15:00 Đánh Boss",
     "storeLinks": "Link mua game",
+    "storeLinkType": "Loại",
     "rig": "Cấu hình máy",
     "social": "Mạng xã hội & Donate",
     "warnings": "Cảnh báo",
@@ -236,6 +237,11 @@
     "emailMaxExceeded": "Tối đa {{max}} email (hiện tại {{count}})",
     "urlInvalid": "URL không hợp lệ. Phải bắt đầu bằng https://",
     "urlPrefixMismatch": "URL nên bắt đầu bằng {{expected}}"
+  },
+  "storeLinkTypes": {
+    "paid": "Trả phí",
+    "free": "Miễn phí",
+    "demo": "Demo miễn phí"
   },
   "playlist": {
     "title": "Tạo Playlist",

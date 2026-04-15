@@ -41,9 +41,14 @@
       "guide": "Este video presenta una guía silenciosa de {{gameName}} en {{channelName}}."
     },
     "noCommentaryLine": "Sin Comentarios — gameplay puro para tu disfrute.",
+    "storeLinkSuffix": {
+      "free": "gratis",
+      "demo": "demo gratis"
+    },
     "sections": {
       "timestamps": "⏱ MARCAS DE TIEMPO",
-      "storeLinks": "🎮 CONSIGUE EL JUEGO",
+      "storeLinksBuy": "🎮 CONSIGUE EL JUEGO (si quieres comprarlo)",
+      "storeLinksDownload": "⬇️ DESCARGA EL JUEGO (si quieres jugar)",
       "videoSettings": "🖥 AJUSTES DE VIDEO",
       "rig": "💻 MI EQUIPO",
       "spoilerWarning": "⚠️ ADVERTENCIA DE SPOILERS: Este video puede contener spoilers. ¡Míralo bajo tu propio riesgo!",

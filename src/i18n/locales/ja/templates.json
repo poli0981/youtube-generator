@@ -41,9 +41,14 @@
       "guide": "この動画は{{channelName}}による{{gameName}}の攻略ガイドです。"
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
+    "storeLinkSuffix": {
+      "free": "無料",
+      "demo": "無料体験版"
+    },
     "sections": {
       "timestamps": "⏱ タイムスタンプ",
-      "storeLinks": "🎮 ゲームを購入",
+      "storeLinksBuy": "🎮 ゲームを購入 (応援したい方へ)",
+      "storeLinksDownload": "⬇️ ゲームをダウンロード (遊びたい方へ)",
       "videoSettings": "🖥 動画設定",
       "rig": "💻 PC構成",
       "spoilerWarning": "⚠️ ネタバレ注意：この動画にはネタバレが含まれている可能性があります。自己責任でご視聴ください！",

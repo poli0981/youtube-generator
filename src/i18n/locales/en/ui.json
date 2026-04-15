@@ -36,6 +36,7 @@
     "timestamps": "Timestamps",
     "timestampsPlaceholder": "0:00 Intro\n5:30 Chapter 1\n15:00 Boss Fight",
     "storeLinks": "Store Links",
+    "storeLinkType": "Type",
     "rig": "My Rig",
     "social": "Social & Donate Links",
     "warnings": "Warnings",
@@ -236,6 +237,11 @@
     "emailMaxExceeded": "Maximum {{max}} emails allowed (currently {{count}})",
     "urlInvalid": "Invalid URL. Must start with https://",
     "urlPrefixMismatch": "Expected URL starting with {{expected}}"
+  },
+  "storeLinkTypes": {
+    "paid": "Paid",
+    "free": "Free",
+    "demo": "Free Demo"
   },
   "playlist": {
     "title": "Playlist Generator",

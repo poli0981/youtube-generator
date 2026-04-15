@@ -41,9 +41,14 @@
       "guide": "이 영상은 {{channelName}}에서 {{gameName}}의 무음 가이드를 담고 있습니다."
     },
     "noCommentaryLine": "무음 플레이 — 순수한 게임플레이를 즐겨보세요.",
+    "storeLinkSuffix": {
+      "free": "무료",
+      "demo": "무료 데모"
+    },
     "sections": {
       "timestamps": "⏱ 타임스탬프",
-      "storeLinks": "🎮 게임 구매",
+      "storeLinksBuy": "🎮 게임 구매 (구매하고 싶다면)",
+      "storeLinksDownload": "⬇️ 게임 다운로드 (플레이하고 싶다면)",
       "videoSettings": "🖥 영상 설정",
       "rig": "💻 내 장비",
       "spoilerWarning": "⚠️ 스포일러 경고: 이 영상에는 스포일러가 포함될 수 있습니다. 주의하여 시청하세요!",

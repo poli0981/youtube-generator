@@ -41,9 +41,14 @@
       "guide": "本视频展示了{{channelName}}的{{gameName}}无声攻略。"
     },
     "noCommentaryLine": "无解说 — 纯粹的游戏体验，尽情享受。",
+    "storeLinkSuffix": {
+      "free": "免费",
+      "demo": "免费试玩"
+    },
     "sections": {
       "timestamps": "⏱ 时间戳",
-      "storeLinks": "🎮 获取游戏",
+      "storeLinksBuy": "🎮 获取游戏 (如果你想购买)",
+      "storeLinksDownload": "⬇️ 下载游戏 (如果你想游玩)",
       "videoSettings": "🖥 视频设置",
       "rig": "💻 我的配置",
       "spoilerWarning": "⚠️ 剧透警告：本视频可能包含剧透内容，请自行斟酌观看！",

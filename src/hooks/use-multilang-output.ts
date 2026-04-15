@@ -36,6 +36,7 @@ export function useMultilangOutput(
         spoilerWarning: state.spoilerWarning,
         matureWarning: state.matureWarning,
         storeLinks: state.storeLinks,
+        storeLinkTypes: state.storeLinkTypes,
         social: state.social,
         rig: state.rig,
       };
@@ -67,6 +68,7 @@ export function useMultilangOutput(
     state.spoilerWarning,
     state.matureWarning,
     state.storeLinks,
+    state.storeLinkTypes,
     state.social,
     state.rig,
     includeMultilingualTags,

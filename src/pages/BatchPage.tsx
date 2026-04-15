@@ -65,6 +65,7 @@ export function BatchPage() {
           spoilerWarning: state.spoilerWarning,
           matureWarning: state.matureWarning,
           storeLinks: state.storeLinks,
+          storeLinkTypes: state.storeLinkTypes,
           social: state.social,
           rig: state.rig,
         };

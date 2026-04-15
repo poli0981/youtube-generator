@@ -42,14 +42,97 @@ describe("buildDescription", () => {
     expect(result).toContain("5:30 Boss");
   });
 
-  it("includes store links when provided", () => {
+  it("includes store links when provided (paid default → Buy heading)", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({ storeLinks: { Steam: "https://store.steampowered.com/app/123" } }),
       t,
     );
-    expect(result).toContain("GET THE GAME");
+    expect(result).toContain("GET THE GAME (if you want to buy)");
     expect(result).toContain("Steam: https://store.steampowered.com/app/123");
+    expect(result).not.toContain("DOWNLOAD THE GAME");
+  });
+
+  it("switches to Download heading when majority of links are free/demo", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        storeLinks: {
+          steam: "https://store.steampowered.com/app/1",
+          itchio: "https://dev.itch.io/demo",
+          epic: "https://store.epicgames.com/freegame",
+        },
+        storeLinkTypes: {
+          steam: "paid",
+          itchio: "demo",
+          epic: "free",
+        },
+      }),
+      t,
+    );
+    expect(result).toContain("DOWNLOAD THE GAME (if you want to play)");
+    expect(result).not.toContain("GET THE GAME");
+  });
+
+  it("ties favour the Buy heading", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        storeLinks: {
+          steam: "https://store.steampowered.com/app/1",
+          itchio: "https://dev.itch.io/game",
+        },
+        storeLinkTypes: { steam: "paid", itchio: "free" },
+      }),
+      t,
+    );
+    // 1 paid, 1 free → nonPaid (1) is NOT > entries.length/2 (1) → Buy
+    expect(result).toContain("GET THE GAME (if you want to buy)");
+  });
+
+  it("adds (free demo) suffix to demo links", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        storeLinks: { itchio: "https://dev.itch.io/demo" },
+        storeLinkTypes: { itchio: "demo" },
+      }),
+      t,
+    );
+    expect(result).toContain("(free demo)");
+  });
+
+  it("adds (free) suffix to free links but not paid ones", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        storeLinks: {
+          steam: "https://store.steampowered.com/app/1",
+          itchio: "https://dev.itch.io/game",
+        },
+        storeLinkTypes: { steam: "paid", itchio: "free" },
+      }),
+      t,
+    );
+    // Find the itchio line and make sure it has (free), Steam line does not
+    const lines = result.split("\n");
+    const itchLine = lines.find((l) => l.includes("itch.io"));
+    const steamLine = lines.find((l) => l.includes("steampowered"));
+    expect(itchLine).toContain("(free)");
+    expect(steamLine).not.toContain("(free)");
+  });
+
+  it("defaults unspecified link types to paid", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        storeLinks: { steam: "https://store.steampowered.com/app/1" },
+        // storeLinkTypes omitted entirely
+      }),
+      t,
+    );
+    expect(result).toContain("GET THE GAME (if you want to buy)");
+    expect(result).not.toContain("(free)");
   });
 
   it("includes video settings", () => {

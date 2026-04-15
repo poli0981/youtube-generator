@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { VideoType, Genre, SupportedLanguage } from "@engine/types";
+import type { VideoType, Genre, SupportedLanguage, StoreLinkType } from "@engine/types";
 import { DEFAULTS } from "@config/defaults";
 
 interface EditorData {
@@ -24,6 +24,7 @@ interface EditorData {
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Record<string, string>;
+  storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
   rig: Record<string, string>;
 }
@@ -35,6 +36,7 @@ interface EditorActions {
     key: string,
     value: string,
   ) => void;
+  setStoreLinkType: (platformId: string, type: StoreLinkType) => void;
   loadProfile: (profile: Partial<EditorData>) => void;
   loadPreset: (preset: Partial<EditorData>) => void;
   reset: () => void;
@@ -63,6 +65,7 @@ const initialState: EditorData = {
   spoilerWarning: DEFAULTS.editor.spoilerWarning,
   matureWarning: DEFAULTS.editor.matureWarning,
   storeLinks: { ...DEFAULTS.editor.storeLinks },
+  storeLinkTypes: { ...DEFAULTS.editor.storeLinkTypes },
   social: { ...DEFAULTS.editor.social },
   rig: { ...DEFAULTS.editor.rig },
 };
@@ -77,6 +80,11 @@ export const useEditorStore = create<EditorState>()(
       setNested: (group, key, value) =>
         set((state) => ({
           [group]: { ...state[group], [key]: value },
+        })),
+
+      setStoreLinkType: (platformId, type) =>
+        set((state) => ({
+          storeLinkTypes: { ...state.storeLinkTypes, [platformId]: type },
         })),
 
       loadProfile: (profile) => set((state) => ({ ...state, ...profile })),
@@ -109,6 +117,7 @@ export const useEditorStore = create<EditorState>()(
         spoilerWarning: state.spoilerWarning,
         matureWarning: state.matureWarning,
         storeLinks: state.storeLinks,
+        storeLinkTypes: state.storeLinkTypes,
         social: state.social,
         rig: state.rig,
       }),

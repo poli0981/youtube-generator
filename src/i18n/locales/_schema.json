@@ -9,13 +9,14 @@
       "dlcName", "dlcNamePlaceholder", "challengeName", "challengeNamePlaceholder",
       "resolution", "fps", "graphicsPreset",
       "timestamps", "timestampsPlaceholder",
-      "storeLinks", "rig", "social", "warnings",
+      "storeLinks", "storeLinkType", "rig", "social", "warnings",
       "spoilerWarning", "matureWarning",
       "playlistLink", "playlistLinkPlaceholder",
       "contactEmail", "contactEmailPlaceholder", "contactEmailHelp",
       "videoSettings", "quickPreview", "version",
       "clearDraft", "draftSaved", "clearDraftConfirm"
     ],
+    "storeLinkTypes": ["paid", "free", "demo"],
     "output": [
       "title", "description", "tags",
       "copyTitle", "copyDescription", "copyTags", "copyAll",
@@ -44,10 +45,11 @@
     "description.intro": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
     "description": ["noCommentaryLine"],
     "description.sections": [
-      "timestamps", "storeLinks", "videoSettings", "rig",
+      "timestamps", "storeLinksBuy", "storeLinksDownload", "videoSettings", "rig",
       "spoilerWarning", "matureWarning", "donate", "social",
       "playlist", "contact", "cta"
     ],
+    "description.storeLinkSuffix": ["free", "demo"],
     "hashtags": ["gameplay", "noCommentary", "genre"],
     "playlist.status": ["completed", "dropped", "incomplete", "in_progress"],
     "playlist": ["titleFormat", "videoCount", "storeSection", "footer"],
