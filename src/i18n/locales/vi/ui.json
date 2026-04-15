@@ -119,7 +119,8 @@
     "tactical": "Chiến thuật",
     "space": "Vũ trụ / Sci-Fi",
     "farming": "Nông trại / Life Sim",
-    "fmv": "FMV / Phim tương tác"
+    "fmv": "FMV / Phim tương tác",
+    "visual_novel": "Visual Novel / Tiểu thuyết đồ họa"
   },
   "rig": {
     "cpu": "CPU",

@@ -52,14 +52,29 @@ describe("generateTags", () => {
     expect(tags.some((t) => t.toLowerCase().includes("speedrun"))).toBe(true);
   });
 
-  it("includes multilingual tags (Japanese)", () => {
-    const tags = generateTags(makeInput());
+  it("includes multilingual tags only for the selected language (Japanese)", () => {
+    const tags = generateTags(makeInput({ language: "ja" }));
     expect(tags.some((t) => t.includes("ゲームプレイ"))).toBe(true);
+    // Should NOT leak other languages
+    expect(tags.some((t) => t.includes("không bình luận"))).toBe(false);
+    expect(tags.some((t) => t.includes("게임플레이"))).toBe(false);
   });
 
-  it("includes multilingual tags (Vietnamese)", () => {
-    const tags = generateTags(makeInput());
+  it("includes multilingual tags only for the selected language (Vietnamese)", () => {
+    const tags = generateTags(makeInput({ language: "vi" }));
     expect(tags.some((t) => t.includes("không bình luận"))).toBe(true);
+    expect(tags.some((t) => t.includes("ゲームプレイ"))).toBe(false);
+    expect(tags.some((t) => t.includes("游戏实况"))).toBe(false);
+  });
+
+  it("includes visual novel tags for visual_novel genre", () => {
+    const tags = generateTags(makeInput({ genre: "visual_novel" }));
+    expect(tags.some((t) => t.toLowerCase().includes("visual novel"))).toBe(true);
+  });
+
+  it("includes full_demo tags for full_demo video type", () => {
+    const tags = generateTags(makeInput({ videoType: "full_demo" }));
+    expect(tags.some((t) => t.toLowerCase().includes("demo"))).toBe(true);
   });
 
   it("has no duplicate tags (case-insensitive)", () => {

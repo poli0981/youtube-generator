@@ -119,7 +119,8 @@
     "tactical": "タクティカル / ターン制",
     "space": "宇宙 / SF",
     "farming": "農業 / ライフシム",
-    "fmv": "FMV / インタラクティブムービー"
+    "fmv": "FMV / インタラクティブムービー",
+    "visual_novel": "ビジュアルノベル"
   },
   "rig": {
     "cpu": "CPU",
