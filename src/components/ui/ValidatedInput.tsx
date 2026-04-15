@@ -30,14 +30,20 @@ export function ValidatedInput({
       setDisplayValue(newValue);
       const result = validate(newValue);
       if (result.valid && !result.error) {
+        // Fully valid: commit the value to the store.
         setError(null);
         onChange(newValue);
       } else if (result.valid && result.error) {
-        // Warning (valid but prefix mismatch)
+        // Warning (e.g. prefix mismatch from validateUrlWithPrefix).
+        // Surface the warning but still commit so the user can decide.
         setError(t(result.error, result.errorParams as Record<string, string>));
         onChange(newValue);
       } else {
+        // Invalid: show the error and CLEAR the committed value so the
+        // bad input never reaches the generated description/tags. The
+        // local displayValue is preserved so the user can keep editing.
         setError(t(result.error ?? "", result.errorParams as Record<string, string>));
+        onChange("");
       }
       setTouched(true);
     },
