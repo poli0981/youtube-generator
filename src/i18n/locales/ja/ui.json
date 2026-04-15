@@ -78,6 +78,8 @@
   "videoTypes": {
     "full": "フルゲームプレイ",
     "part": "ゲームプレイ パート",
+    "full_demo": "体験版フルプレイ",
+    "demo_part": "体験版 パート",
     "boss": "ボス戦",
     "boss_nohit": "ボス ノーヒット",
     "ending": "エンディング",

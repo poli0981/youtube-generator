@@ -5,6 +5,8 @@
     "videoType": {
       "full": "",
       "part": "第{{partNumber}}集",
+      "full_demo": "完整试玩",
+      "demo_part": "试玩第{{partNumber}}集",
       "boss": "{{bossName}} Boss战",
       "boss_nohit": "{{bossName}} Boss无伤",
       "ending": "结局",
@@ -23,6 +25,8 @@
     "intro": {
       "full": "本视频展示了{{channelName}}的{{gameName}}完整游戏实况。",
       "part": "本视频展示了{{channelName}}的{{gameName}}第{{partNumber}}集。",
+      "full_demo": "本视频展示了{{channelName}}的{{gameName}}完整试玩。",
+      "demo_part": "本视频展示了{{channelName}}的{{gameName}}试玩第{{partNumber}}集。",
       "boss": "本视频展示了{{channelName}}的{{gameName}}中{{bossName}} Boss战。",
       "boss_nohit": "本视频展示了{{channelName}}的{{gameName}}中{{bossName}} Boss战（无伤）。",
       "ending": "本视频展示了{{channelName}}的{{gameName}}结局。",

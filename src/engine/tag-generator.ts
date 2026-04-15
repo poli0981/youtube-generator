@@ -33,6 +33,8 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
 const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
   full: (g) => [`${g} full game`, `${g} full gameplay no commentary`, `${g} longplay`],
   part: (g) => [`${g} walkthrough`, `${g} playthrough`, `${g} let's play no commentary`],
+  full_demo: (g) => [`${g} demo`, `${g} full demo`, `${g} demo gameplay no commentary`, "game demo no commentary"],
+  demo_part: (g) => [`${g} demo part`, `${g} demo playthrough`, `${g} demo walkthrough`, "demo gameplay no commentary"],
   boss: (g) => [`${g} boss fight`, `${g} boss battle`, "boss fight no commentary"],
   boss_nohit: (g) => [`${g} boss no hit`, `${g} no damage boss`, "no hit boss fight"],
   ending: (g) => [`${g} ending`, `${g} all endings`, `${g} final boss`],

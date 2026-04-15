@@ -5,6 +5,8 @@
     "videoType": {
       "full": "",
       "part": "Parte {{partNumber}}",
+      "full_demo": "Demo Completa",
+      "demo_part": "Demo Parte {{partNumber}}",
       "boss": "{{bossName}} Pelea de Jefe",
       "boss_nohit": "{{bossName}} Jefe Sin Golpes",
       "ending": "Final",
@@ -23,6 +25,8 @@
     "intro": {
       "full": "Este video presenta el gameplay completo de {{gameName}} en {{channelName}}.",
       "part": "Este video presenta la Parte {{partNumber}} de {{gameName}} en {{channelName}}.",
+      "full_demo": "Este video presenta la demo completa de {{gameName}} en {{channelName}}.",
+      "demo_part": "Este video presenta la Parte {{partNumber}} de la demo de {{gameName}} en {{channelName}}.",
       "boss": "Este video presenta la pelea del jefe {{bossName}} de {{gameName}} en {{channelName}}.",
       "boss_nohit": "Este video presenta la pelea del jefe {{bossName}} (Sin Golpes) de {{gameName}} en {{channelName}}.",
       "ending": "Este video presenta el final de {{gameName}} en {{channelName}}.",

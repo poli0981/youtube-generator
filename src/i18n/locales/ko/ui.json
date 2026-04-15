@@ -78,6 +78,8 @@
   "videoTypes": {
     "full": "전체 게임플레이",
     "part": "게임플레이 파트",
+    "full_demo": "전체 데모",
+    "demo_part": "데모 파트",
     "boss": "보스전",
     "boss_nohit": "보스 노히트",
     "ending": "엔딩 / 모든 엔딩",

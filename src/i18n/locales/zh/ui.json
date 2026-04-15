@@ -78,6 +78,8 @@
   "videoTypes": {
     "full": "完整游戏实况",
     "part": "游戏实况分集",
+    "full_demo": "完整试玩",
+    "demo_part": "试玩分集",
     "boss": "Boss战",
     "boss_nohit": "Boss无伤",
     "ending": "结局 / 全结局",

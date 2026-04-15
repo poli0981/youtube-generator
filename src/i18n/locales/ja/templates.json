@@ -5,6 +5,8 @@
     "videoType": {
       "full": "",
       "part": "パート{{partNumber}}",
+      "full_demo": "体験版フルプレイ",
+      "demo_part": "体験版 パート{{partNumber}}",
       "boss": "{{bossName}} ボス戦",
       "boss_nohit": "{{bossName}} ボス ノーヒット",
       "ending": "エンディング",
@@ -23,6 +25,8 @@
     "intro": {
       "full": "この動画は{{channelName}}による{{gameName}}のフルゲームプレイです。",
       "part": "この動画は{{channelName}}による{{gameName}}のパート{{partNumber}}です。",
+      "full_demo": "この動画は{{channelName}}による{{gameName}}体験版のフルプレイです。",
+      "demo_part": "この動画は{{channelName}}による{{gameName}}体験版のパート{{partNumber}}です。",
       "boss": "この動画は{{channelName}}による{{gameName}}の{{bossName}}ボス戦です。",
       "boss_nohit": "この動画は{{channelName}}による{{gameName}}の{{bossName}}ボス戦（ノーヒット）です。",
       "ending": "この動画は{{channelName}}による{{gameName}}のエンディングです。",

@@ -22,7 +22,7 @@
       "copied", "charCount", "selectLanguages"
     ],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
-    "videoTypes": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
     "genres": ["action", "horror", "rpg", "fps", "openworld", "indie", "soulslike", "racing", "story", "simulation", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "battle_royale", "crpg", "tactical", "space", "farming", "fmv"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller"],
     "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs", "bluesky", "mastodon", "facebook", "fb_page", "fb_group"],
@@ -40,8 +40,8 @@
   },
   "templates": {
     "title": ["separator", "suffix"],
-    "title.videoType": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
-    "description.intro": ["full", "part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "title.videoType": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "description.intro": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
     "description": ["noCommentaryLine"],
     "description.sections": [
       "timestamps", "storeLinks", "videoSettings", "rig",
