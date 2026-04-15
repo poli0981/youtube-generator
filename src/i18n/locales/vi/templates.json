@@ -81,5 +81,17 @@
       "guide": "Playlist này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
       "highlights": "Playlist này là tổng hợp khoảnh khắc hay nhất của {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy."
     }
+  },
+  "timeline": {
+    "keywords": {
+      "chapter": "Chương {{n}}",
+      "part": "Phần {{n}}",
+      "boss": "Boss {{n}}",
+      "final_boss": "Boss cuối",
+      "intro": "Mở đầu",
+      "ending": "Kết thúc",
+      "tutorial": "Hướng dẫn",
+      "credits": "Credits"
+    }
   }
 }

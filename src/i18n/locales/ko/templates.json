@@ -81,5 +81,17 @@
       "guide": "이 플레이리스트는 {{channelName}}에서 {{gameName}}의 무음 가이드입니다.\n해설 없음.",
       "highlights": "이 플레이리스트는 {{channelName}}에서 {{gameName}}의 하이라이트 모음입니다.\n해설 없음."
     }
+  },
+  "timeline": {
+    "keywords": {
+      "chapter": "제{{n}}장",
+      "part": "파트 {{n}}",
+      "boss": "보스 {{n}}",
+      "final_boss": "최종 보스",
+      "intro": "인트로",
+      "ending": "엔딩",
+      "tutorial": "튜토리얼",
+      "credits": "크레딧"
+    }
   }
 }

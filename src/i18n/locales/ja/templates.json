@@ -81,5 +81,17 @@
       "guide": "このプレイリストは{{channelName}}での{{gameName}}の攻略ガイドです。\n解説なし — 純粋なゲームプレイ体験。",
       "highlights": "このプレイリストは{{channelName}}での{{gameName}}のハイライト集です。\n解説なし — 純粋なゲームプレイ体験。"
     }
+  },
+  "timeline": {
+    "keywords": {
+      "chapter": "第{{n}}章",
+      "part": "パート{{n}}",
+      "boss": "ボス{{n}}",
+      "final_boss": "ラスボス",
+      "intro": "オープニング",
+      "ending": "エンディング",
+      "tutorial": "チュートリアル",
+      "credits": "クレジット"
+    }
   }
 }

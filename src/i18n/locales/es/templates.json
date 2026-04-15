@@ -81,5 +81,17 @@
       "guide": "Esta playlist es una guía silenciosa de {{gameName}} en {{channelName}}.\nSin comentarios.",
       "highlights": "Esta playlist contiene los momentos destacados de {{gameName}} en {{channelName}}.\nSin comentarios."
     }
+  },
+  "timeline": {
+    "keywords": {
+      "chapter": "Capítulo {{n}}",
+      "part": "Parte {{n}}",
+      "boss": "Jefe {{n}}",
+      "final_boss": "Jefe Final",
+      "intro": "Introducción",
+      "ending": "Final",
+      "tutorial": "Tutorial",
+      "credits": "Créditos"
+    }
   }
 }

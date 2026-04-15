@@ -2,6 +2,7 @@ import type { GeneratorInput, TranslationFn, CharLimitWarning } from "./types";
 import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
 import { SOCIAL_FIELDS } from "@config/social-fields";
+import { parseTimeline, renderTimeline } from "./timeline-parser";
 
 const SOCIAL_ICONS: Record<string, string> = {
   kofi: "☕",
@@ -54,9 +55,11 @@ export function buildDescription(
   // 2. No Commentary tagline
   sections.push(t("description.noCommentaryLine"));
 
-  // 3. Timestamps
+  // 3. Timestamps (parsed + localized keywords)
   if (input.timestamps && input.timestamps.trim()) {
-    sections.push(`${t("description.sections.timestamps")}\n${input.timestamps.trim()}`);
+    const entries = parseTimeline(input.timestamps);
+    const rendered = renderTimeline(entries, input.language, t);
+    sections.push(`${t("description.sections.timestamps")}\n${rendered}`);
   }
 
   // 4. Store Links (use proper brand names from config)
