@@ -1,6 +1,8 @@
 export const VIDEO_TYPES = [
   { id: "full", labelKey: "videoTypes.full", icon: "🎮", extraFields: [] },
   { id: "part", labelKey: "videoTypes.part", icon: "📂", extraFields: ["partNumber"] },
+  { id: "full_demo", labelKey: "videoTypes.full_demo", icon: "🎬", extraFields: [] },
+  { id: "demo_part", labelKey: "videoTypes.demo_part", icon: "🎞", extraFields: ["partNumber"] },
   { id: "boss", labelKey: "videoTypes.boss", icon: "👹", extraFields: ["bossName"] },
   { id: "boss_nohit", labelKey: "videoTypes.boss_nohit", icon: "💀", extraFields: ["bossName"] },
   { id: "ending", labelKey: "videoTypes.ending", icon: "🏁", extraFields: [] },

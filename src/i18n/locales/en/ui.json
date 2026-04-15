@@ -78,6 +78,8 @@
   "videoTypes": {
     "full": "Full Gameplay",
     "part": "Gameplay Part",
+    "full_demo": "Full Demo",
+    "demo_part": "Demo Part",
     "boss": "Boss Fight",
     "boss_nohit": "Boss No Hit",
     "ending": "Ending / All Endings",

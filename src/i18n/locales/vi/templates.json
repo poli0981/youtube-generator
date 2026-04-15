@@ -5,6 +5,8 @@
     "videoType": {
       "full": "",
       "part": "Phần {{partNumber}}",
+      "full_demo": "Bản Demo",
+      "demo_part": "Demo Phần {{partNumber}}",
       "boss": "{{bossName}} Boss Fight",
       "boss_nohit": "{{bossName}} Boss No Hit",
       "ending": "Kết thúc",
@@ -23,6 +25,8 @@
     "intro": {
       "full": "Video này là full gameplay của {{gameName}} trên kênh {{channelName}}.",
       "part": "Video này là Phần {{partNumber}} của {{gameName}} trên kênh {{channelName}}.",
+      "full_demo": "Video này là bản demo đầy đủ của {{gameName}} trên kênh {{channelName}}.",
+      "demo_part": "Video này là Phần {{partNumber}} của bản demo {{gameName}} trên kênh {{channelName}}.",
       "boss": "Video này là trận đánh boss {{bossName}} trong {{gameName}} trên kênh {{channelName}}.",
       "boss_nohit": "Video này là trận đánh boss {{bossName}} (No Hit) trong {{gameName}} trên kênh {{channelName}}.",
       "ending": "Video này là phần kết thúc của {{gameName}} trên kênh {{channelName}}.",

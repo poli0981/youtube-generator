@@ -78,6 +78,8 @@
   "videoTypes": {
     "full": "Full Gameplay",
     "part": "Gameplay Phần",
+    "full_demo": "Bản Demo đầy đủ",
+    "demo_part": "Demo Phần",
     "boss": "Boss Fight",
     "boss_nohit": "Boss No Hit",
     "ending": "Kết thúc",
