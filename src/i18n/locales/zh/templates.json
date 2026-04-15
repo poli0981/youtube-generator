@@ -63,7 +63,7 @@
       "incomplete": "🔄 未完成",
       "in_progress": "▶️ 进行中"
     },
-    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "titleFormat": "{{status}} - {{gameName}}",
     "videoCount": "📹 {{count}}个视频",
     "storeSection": "🎮 获取游戏:",
     "footer": "👍 点赞 | 🔔 订阅获取更多游戏实况！",

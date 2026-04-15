@@ -63,7 +63,7 @@
       "incomplete": "🔄 Incomplete",
       "in_progress": "▶️ In Progress"
     },
-    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "titleFormat": "{{status}} - {{gameName}}",
     "videoCount": "📹 {{count}} video(s)",
     "storeSection": "🎮 Get the game:",
     "footer": "👍 Like | 🔔 Subscribe for more gameplay!",

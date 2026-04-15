@@ -63,7 +63,7 @@
       "incomplete": "🔄 Chưa hoàn thành",
       "in_progress": "▶️ Đang chơi"
     },
-    "titleFormat": "{{status}} — {{gameName}} — Gameplay No Commentary",
+    "titleFormat": "{{status}} - {{gameName}}",
     "videoCount": "📹 {{count}} video",
     "storeSection": "🎮 Tải / mua game:",
     "footer": "👍 Like | 🔔 Subscribe để xem thêm gameplay!",
