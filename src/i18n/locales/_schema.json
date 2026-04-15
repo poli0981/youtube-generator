@@ -51,6 +51,7 @@
     "hashtags": ["gameplay", "noCommentary", "genre"],
     "playlist.status": ["completed", "dropped", "incomplete", "in_progress"],
     "playlist": ["titleFormat", "videoCount", "storeSection", "footer"],
-    "playlist.description": ["full_gameplay", "boss_fights", "speedrun", "all_endings", "dlc", "100_percent", "guide", "highlights"]
+    "playlist.description": ["full_gameplay", "boss_fights", "speedrun", "all_endings", "dlc", "100_percent", "guide", "highlights"],
+    "timeline.keywords": ["chapter", "part", "boss", "final_boss", "intro", "ending", "tutorial", "credits"]
   }
 }

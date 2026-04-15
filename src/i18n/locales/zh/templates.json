@@ -81,5 +81,17 @@
       "guide": "本播放列表是{{channelName}}的{{gameName}}无声攻略。\n无解说。",
       "highlights": "本播放列表包含{{channelName}}的{{gameName}}精彩集锦。\n无解说。"
     }
+  },
+  "timeline": {
+    "keywords": {
+      "chapter": "第{{n}}章",
+      "part": "第{{n}}部分",
+      "boss": "Boss {{n}}",
+      "final_boss": "最终Boss",
+      "intro": "开场",
+      "ending": "结局",
+      "tutorial": "教程",
+      "credits": "片尾"
+    }
   }
 }

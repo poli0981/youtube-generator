@@ -81,5 +81,17 @@
       "guide": "This playlist is a silent guide for {{gameName}} on {{channelName}}.\nNo Commentary — pure gameplay experience.",
       "highlights": "This playlist contains gameplay highlights from {{gameName}} on {{channelName}}.\nNo Commentary — pure gameplay experience."
     }
+  },
+  "timeline": {
+    "keywords": {
+      "chapter": "Chapter {{n}}",
+      "part": "Part {{n}}",
+      "boss": "Boss {{n}}",
+      "final_boss": "Final Boss",
+      "intro": "Intro",
+      "ending": "Ending",
+      "tutorial": "Tutorial",
+      "credits": "Credits"
+    }
   }
 }
