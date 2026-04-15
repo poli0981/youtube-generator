@@ -47,6 +47,7 @@
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "视频设置",
     "quickPreview": "快速预览",
+    "version": "版本",
     "clearDraft": "清除草稿",
     "draftSaved": "草稿已保存",
     "clearDraftConfirm": "确定要清除所有表单数据吗？",
@@ -130,7 +131,8 @@
     "monitor": "显示器",
     "capture": "录制软件",
     "motherboard": "主板",
-    "controller": "手柄"
+    "controller": "手柄",
+    "video_editor": "视频编辑软件"
   },
   "social": {
     "kofi": "Ko-fi",

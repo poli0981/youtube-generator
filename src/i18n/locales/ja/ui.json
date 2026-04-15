@@ -47,6 +47,7 @@
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "動画設定",
     "quickPreview": "クイックプレビュー",
+    "version": "バージョン",
     "clearDraft": "下書きをクリア",
     "draftSaved": "下書き保存済み",
     "clearDraftConfirm": "フォームデータをすべてクリアしますか？",
@@ -130,7 +131,8 @@
     "monitor": "モニター",
     "capture": "キャプチャソフト",
     "motherboard": "マザーボード",
-    "controller": "コントローラー"
+    "controller": "コントローラー",
+    "video_editor": "動画編集ソフト"
   },
   "social": {
     "kofi": "Ko-fi",

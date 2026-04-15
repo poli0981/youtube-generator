@@ -47,6 +47,7 @@
     "contactEmailPlaceholder": "negocios@ejemplo.com",
     "videoSettings": "Ajustes de Video",
     "quickPreview": "Vista Previa Rápida",
+    "version": "Versión",
     "clearDraft": "Limpiar Borrador",
     "draftSaved": "Borrador guardado",
     "clearDraftConfirm": "¿Estás seguro de que quieres borrar todos los datos del formulario?",
@@ -130,7 +131,8 @@
     "monitor": "Monitor",
     "capture": "Software de Captura",
     "motherboard": "Placa Base",
-    "controller": "Mando"
+    "controller": "Mando",
+    "video_editor": "Editor de Video"
   },
   "social": {
     "kofi": "Ko-fi",

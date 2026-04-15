@@ -47,6 +47,7 @@
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "Video Settings",
     "quickPreview": "Quick Preview",
+    "version": "Version",
     "clearDraft": "Clear Draft",
     "draftSaved": "Draft saved",
     "clearDraftConfirm": "Are you sure you want to clear all form data?",
@@ -130,7 +131,8 @@
     "monitor": "Monitor",
     "capture": "Capture Software",
     "motherboard": "Motherboard",
-    "controller": "Controller"
+    "controller": "Controller",
+    "video_editor": "Video Editor"
   },
   "social": {
     "kofi": "Ko-fi",

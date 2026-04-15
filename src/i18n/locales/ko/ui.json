@@ -47,6 +47,7 @@
     "contactEmailPlaceholder": "business@example.com",
     "videoSettings": "영상 설정",
     "quickPreview": "빠른 미리보기",
+    "version": "버전",
     "clearDraft": "초안 지우기",
     "draftSaved": "초안 저장됨",
     "clearDraftConfirm": "모든 양식 데이터를 지우시겠습니까?",
@@ -130,7 +131,8 @@
     "monitor": "모니터",
     "capture": "캡처 소프트웨어",
     "motherboard": "메인보드",
-    "controller": "컨트롤러"
+    "controller": "컨트롤러",
+    "video_editor": "영상 편집 프로그램"
   },
   "social": {
     "kofi": "Ko-fi",
