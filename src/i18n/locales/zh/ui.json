@@ -48,6 +48,12 @@
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "联系邮箱",
     "contactEmailPlaceholder": "business@example.com",
+    "musicAttribution": "音乐 / 音效署名",
+    "musicAttributionPlaceholder": "音乐：Karl Casey @ White Bat Audio\n音效：Freesound.org",
+    "thumbnailText": "缩略图文字",
+    "thumbnailTextPlaceholder": "如：隐藏Boss无伤",
+    "pinnedComment": "置顶评论模板",
+    "pinnedCommentPlaceholder": "置顶评论内容...",
     "videoSettings": "视频设置",
     "quickPreview": "快速预览",
     "version": "版本",
@@ -66,7 +72,11 @@
     "copyAll": "复制全部",
     "copied": "已复制！",
     "charCount": "{{count}}/{{limit}}",
-    "selectLanguages": "选择语言"
+    "selectLanguages": "选择语言",
+    "thumbnailText": "缩略图文字",
+    "copyThumbnailText": "复制缩略图文字",
+    "pinnedComment": "置顶评论",
+    "copyPinnedComment": "复制置顶评论"
   },
   "common": {
     "save": "保存",

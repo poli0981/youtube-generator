@@ -48,6 +48,12 @@
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "문의 이메일",
     "contactEmailPlaceholder": "business@example.com",
+    "musicAttribution": "음악 / 사운드 크레딧",
+    "musicAttributionPlaceholder": "음악: Karl Casey @ White Bat Audio\n효과음: Freesound.org",
+    "thumbnailText": "썸네일 텍스트",
+    "thumbnailTextPlaceholder": "예: 시크릿 보스 노히트",
+    "pinnedComment": "고정 댓글 템플릿",
+    "pinnedCommentPlaceholder": "고정 댓글 내용...",
     "videoSettings": "영상 설정",
     "quickPreview": "빠른 미리보기",
     "version": "버전",
@@ -66,7 +72,11 @@
     "copyAll": "전체 복사",
     "copied": "복사 완료!",
     "charCount": "{{count}}/{{limit}}",
-    "selectLanguages": "언어 선택"
+    "selectLanguages": "언어 선택",
+    "thumbnailText": "썸네일 텍스트",
+    "copyThumbnailText": "썸네일 텍스트 복사",
+    "pinnedComment": "고정 댓글",
+    "copyPinnedComment": "고정 댓글 복사"
   },
   "common": {
     "save": "저장",

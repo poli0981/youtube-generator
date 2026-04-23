@@ -134,6 +134,14 @@ export function buildDescription(
     sections.push(t("description.sections.matureWarning"));
   }
 
+  // 8.5. Music / sound attribution — sits right before the donate
+  // block because both are "credits"-adjacent sections.
+  if (input.musicAttribution && input.musicAttribution.trim()) {
+    sections.push(
+      `${t("description.sections.music")}\n${input.musicAttribution.trim()}`,
+    );
+  }
+
   // 9. Donate Links (use proper labels + icons)
   const donateEntries = Object.entries(input.social)
     .filter(([k, v]) => {

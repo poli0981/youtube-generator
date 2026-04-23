@@ -48,6 +48,12 @@
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "Contact Email",
     "contactEmailPlaceholder": "business@example.com",
+    "musicAttribution": "Music / Sound Attribution",
+    "musicAttributionPlaceholder": "Music by Karl Casey @ White Bat Audio\nSFX from Freesound.org",
+    "thumbnailText": "Thumbnail Text",
+    "thumbnailTextPlaceholder": "e.g. SECRET BOSS NO HIT",
+    "pinnedComment": "Pinned Comment Template",
+    "pinnedCommentPlaceholder": "What should viewers do if they liked the video?",
     "videoSettings": "Video Settings",
     "quickPreview": "Quick Preview",
     "version": "Version",
@@ -66,7 +72,11 @@
     "copyAll": "Copy All",
     "copied": "Copied!",
     "charCount": "{{count}}/{{limit}}",
-    "selectLanguages": "Select Languages"
+    "selectLanguages": "Select Languages",
+    "thumbnailText": "Thumbnail Text",
+    "copyThumbnailText": "Copy thumbnail text",
+    "pinnedComment": "Pinned Comment",
+    "copyPinnedComment": "Copy pinned comment"
   },
   "common": {
     "save": "Save",

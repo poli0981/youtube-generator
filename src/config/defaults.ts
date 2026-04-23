@@ -21,6 +21,9 @@ export interface EditorDefaults {
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
+  musicAttribution: string;
+  thumbnailText: string;
+  pinnedComment: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Record<string, string>;
@@ -55,6 +58,9 @@ export const DEFAULTS = {
     timestamps: "",
     playlistLink: "",
     contactEmail: "",
+    musicAttribution: "",
+    thumbnailText: "",
+    pinnedComment: "",
     spoilerWarning: false,
     matureWarning: false,
     storeLinks: {},

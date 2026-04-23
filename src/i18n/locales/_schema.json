@@ -14,6 +14,9 @@
       "spoilerWarning", "matureWarning",
       "playlistLink", "playlistLinkPlaceholder",
       "contactEmail", "contactEmailPlaceholder", "contactEmailHelp",
+      "musicAttribution", "musicAttributionPlaceholder",
+      "thumbnailText", "thumbnailTextPlaceholder",
+      "pinnedComment", "pinnedCommentPlaceholder",
       "videoSettings", "quickPreview", "version",
       "clearDraft", "draftSaved", "clearDraftConfirm"
     ],
@@ -21,7 +24,9 @@
     "output": [
       "title", "description", "tags",
       "copyTitle", "copyDescription", "copyTags", "copyAll",
-      "copied", "charCount", "selectLanguages"
+      "copied", "charCount", "selectLanguages",
+      "thumbnailText", "copyThumbnailText",
+      "pinnedComment", "copyPinnedComment"
     ],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
     "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles"],
@@ -47,7 +52,7 @@
     "description": ["noCommentaryLine"],
     "description.sections": [
       "timestamps", "storeLinksBuy", "storeLinksDownload", "videoSettings", "rig",
-      "spoilerWarning", "matureWarning", "donate", "social",
+      "spoilerWarning", "matureWarning", "music", "donate", "social",
       "playlist", "contact", "cta"
     ],
     "description.storeLinkSuffix": ["free", "demo"],
