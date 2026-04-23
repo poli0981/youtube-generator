@@ -1,5 +1,6 @@
 import type { GeneratorInput, SupportedLanguage } from "./types";
 import { YT_LIMITS } from "./types";
+import { humanizeId } from "@utils/sanitize";
 
 /**
  * Genre tag pool registry.
@@ -172,7 +173,8 @@ function getQualityTags(gameName: string, resolution?: string, fps?: string): st
 
 function getTrendingTags(gameName: string, genre: string): string[] {
   const year = new Date().getFullYear().toString();
-  return [`${gameName} ${year}`, `best ${genre} games ${year}`, `${genre} gameplay ${year}`];
+  const genreLabel = humanizeId(genre);
+  return [`${gameName} ${year}`, `best ${genreLabel} games ${year}`, `${genreLabel} gameplay ${year}`];
 }
 
 export interface TagOptions {
