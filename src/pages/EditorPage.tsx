@@ -8,6 +8,9 @@ import { StoreLinkEditor } from "@components/editor/StoreLinkEditor";
 import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { WarningToggles } from "@components/editor/WarningToggles";
+import { ThumbnailHelper } from "@components/editor/ThumbnailHelper";
+import { PinnedCommentEditor } from "@components/editor/PinnedCommentEditor";
+import { MusicAttributionEditor } from "@components/editor/MusicAttributionEditor";
 import { QuickPreview } from "@components/editor/QuickPreview";
 import { DraftIndicator } from "@components/editor/DraftIndicator";
 import { PresetSelector } from "@components/presets/PresetSelector";
@@ -75,6 +78,9 @@ export function EditorPage() {
         />
 
         <WarningToggles />
+        <MusicAttributionEditor />
+        <ThumbnailHelper />
+        <PinnedCommentEditor />
         <StoreLinkEditor />
         <RigEditor />
         <SocialEditor />

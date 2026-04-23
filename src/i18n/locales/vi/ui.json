@@ -48,6 +48,12 @@
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "Email liên hệ",
     "contactEmailPlaceholder": "business@example.com",
+    "musicAttribution": "Credit nhạc / âm thanh",
+    "musicAttributionPlaceholder": "Nhạc: Karl Casey @ White Bat Audio\nSFX: Freesound.org",
+    "thumbnailText": "Text thumbnail",
+    "thumbnailTextPlaceholder": "vd: SECRET BOSS NO HIT",
+    "pinnedComment": "Bình luận ghim",
+    "pinnedCommentPlaceholder": "Nội dung bình luận ghim cho video...",
     "videoSettings": "Cài đặt Video",
     "quickPreview": "Xem trước nhanh",
     "version": "Phiên bản",
@@ -66,7 +72,11 @@
     "copyAll": "Sao chép tất cả",
     "copied": "Đã sao chép!",
     "charCount": "{{count}}/{{limit}}",
-    "selectLanguages": "Chọn ngôn ngữ"
+    "selectLanguages": "Chọn ngôn ngữ",
+    "thumbnailText": "Text thumbnail",
+    "copyThumbnailText": "Sao chép text thumbnail",
+    "pinnedComment": "Bình luận ghim",
+    "copyPinnedComment": "Sao chép bình luận ghim"
   },
   "common": {
     "save": "Lưu",

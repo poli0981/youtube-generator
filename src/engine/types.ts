@@ -103,6 +103,12 @@ export interface GeneratorInput {
   timestamps?: string;
   playlistLink?: string;
   contactEmail?: string;
+  /**
+   * Music / sound attribution credit. Free-form multiline string.
+   * When set, adds a "🎵 MUSIC / SOUND" section to the description
+   * before the donate links.
+   */
+  musicAttribution?: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Partial<Record<string, string>>;

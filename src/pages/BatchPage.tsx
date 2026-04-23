@@ -63,6 +63,7 @@ export function BatchPage() {
           timestamps: "",
           playlistLink: state.playlistLink,
           contactEmail: state.contactEmail,
+          musicAttribution: state.musicAttribution,
           spoilerWarning: state.spoilerWarning,
           matureWarning: state.matureWarning,
           storeLinks: state.storeLinks,

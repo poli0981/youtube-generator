@@ -48,6 +48,12 @@
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "連絡先メール",
     "contactEmailPlaceholder": "business@example.com",
+    "musicAttribution": "音楽・サウンドクレジット",
+    "musicAttributionPlaceholder": "音楽: Karl Casey @ White Bat Audio\n効果音: Freesound.org",
+    "thumbnailText": "サムネイルテキスト",
+    "thumbnailTextPlaceholder": "例: 隠しボス ノーヒット",
+    "pinnedComment": "固定コメントのテンプレート",
+    "pinnedCommentPlaceholder": "固定コメントに載せたい内容...",
     "videoSettings": "動画設定",
     "quickPreview": "クイックプレビュー",
     "version": "バージョン",
@@ -66,7 +72,11 @@
     "copyAll": "全てコピー",
     "copied": "コピーしました！",
     "charCount": "{{count}}/{{limit}}",
-    "selectLanguages": "言語を選択"
+    "selectLanguages": "言語を選択",
+    "thumbnailText": "サムネイルテキスト",
+    "copyThumbnailText": "サムネイルテキストをコピー",
+    "pinnedComment": "固定コメント",
+    "copyPinnedComment": "固定コメントをコピー"
   },
   "common": {
     "save": "保存",

@@ -200,6 +200,40 @@ describe("buildDescription", () => {
     expect(result).toContain("SPOILER WARNING");
   });
 
+  it("includes music attribution section when provided", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ musicAttribution: "Music by Karl Casey @ White Bat Audio" }),
+      t,
+    );
+    expect(result).toContain("🎵 MUSIC / SOUND");
+    expect(result).toContain("Music by Karl Casey @ White Bat Audio");
+  });
+
+  it("places music section before donate/social sections", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        musicAttribution: "Music credit here",
+        social: { twitter: "https://x.com/me", kofi: "https://ko-fi.com/me" },
+      }),
+      t,
+    );
+    const musicIdx = result.indexOf("🎵 MUSIC / SOUND");
+    const donateIdx = result.indexOf("SUPPORT THE CHANNEL");
+    expect(musicIdx).toBeGreaterThan(-1);
+    expect(donateIdx).toBeGreaterThan(-1);
+    expect(musicIdx).toBeLessThan(donateIdx);
+  });
+
+  it("omits the music section when attribution is blank or whitespace", () => {
+    const t = createMockT("en");
+    const blank = buildDescription(makeInput({ musicAttribution: "" }), t);
+    const whitespace = buildDescription(makeInput({ musicAttribution: "   \n  " }), t);
+    expect(blank).not.toContain("🎵 MUSIC / SOUND");
+    expect(whitespace).not.toContain("🎵 MUSIC / SOUND");
+  });
+
   it("includes mature warning when enabled", () => {
     const t = createMockT("en");
     const result = buildDescription(makeInput({ matureWarning: true }), t);

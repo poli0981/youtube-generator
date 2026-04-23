@@ -48,6 +48,12 @@
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "Correo de Contacto",
     "contactEmailPlaceholder": "negocios@ejemplo.com",
+    "musicAttribution": "Crédito Musical / Sonidos",
+    "musicAttributionPlaceholder": "Música: Karl Casey @ White Bat Audio\nEfectos: Freesound.org",
+    "thumbnailText": "Texto de Miniatura",
+    "thumbnailTextPlaceholder": "ej. JEFE SECRETO SIN GOLPES",
+    "pinnedComment": "Plantilla de Comentario Fijado",
+    "pinnedCommentPlaceholder": "Contenido del comentario fijado...",
     "videoSettings": "Ajustes de Video",
     "quickPreview": "Vista Previa Rápida",
     "version": "Versión",
@@ -66,7 +72,11 @@
     "copyAll": "Copiar Todo",
     "copied": "¡Copiado!",
     "charCount": "{{count}}/{{limit}}",
-    "selectLanguages": "Seleccionar Idiomas"
+    "selectLanguages": "Seleccionar Idiomas",
+    "thumbnailText": "Texto de Miniatura",
+    "copyThumbnailText": "Copiar texto de miniatura",
+    "pinnedComment": "Comentario Fijado",
+    "copyPinnedComment": "Copiar comentario fijado"
   },
   "common": {
     "save": "Guardar",

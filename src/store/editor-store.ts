@@ -22,6 +22,9 @@ interface EditorData {
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
+  musicAttribution: string;
+  thumbnailText: string;
+  pinnedComment: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Record<string, string>;
@@ -64,6 +67,9 @@ const initialState: EditorData = {
   timestamps: DEFAULTS.editor.timestamps,
   playlistLink: DEFAULTS.editor.playlistLink,
   contactEmail: DEFAULTS.editor.contactEmail,
+  musicAttribution: DEFAULTS.editor.musicAttribution,
+  thumbnailText: DEFAULTS.editor.thumbnailText,
+  pinnedComment: DEFAULTS.editor.pinnedComment,
   spoilerWarning: DEFAULTS.editor.spoilerWarning,
   matureWarning: DEFAULTS.editor.matureWarning,
   storeLinks: { ...DEFAULTS.editor.storeLinks },
@@ -130,6 +136,9 @@ export const useEditorStore = create<EditorState>()(
         timestamps: state.timestamps,
         playlistLink: state.playlistLink,
         contactEmail: state.contactEmail,
+        musicAttribution: state.musicAttribution,
+        thumbnailText: state.thumbnailText,
+        pinnedComment: state.pinnedComment,
         spoilerWarning: state.spoilerWarning,
         matureWarning: state.matureWarning,
         storeLinks: state.storeLinks,

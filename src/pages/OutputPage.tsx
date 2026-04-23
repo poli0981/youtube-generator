@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { OutputPreview } from "@components/output/OutputPreview";
+import { OutputExtras } from "@components/output/OutputExtras";
 import { CopyAllBar } from "@components/output/CopyAllBar";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
 import { useMultilangOutput } from "@hooks/use-multilang-output";
@@ -114,6 +115,9 @@ export function OutputPage() {
         )}
 
         {currentOutput && <OutputPreview output={isMultiLang ? currentOutput : undefined} />}
+        <div className="mt-6">
+          <OutputExtras />
+        </div>
       </div>
       <CopyAllBar extraText={isMultiLang ? allLangsCombined : undefined} />
     </div>
