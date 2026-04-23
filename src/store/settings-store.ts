@@ -7,7 +7,7 @@ import { saveSettings, loadSettings } from "@utils/storage-adapter";
 interface SettingsState {
   appLanguage: SupportedLanguage;
   defaultOutputLanguage: SupportedLanguage;
-  defaultGenre: GenreId;
+  defaultGenres: GenreId[];
   theme: "dark" | "light";
   autoSaveDraft: boolean;
   showCharCount: boolean;
@@ -19,14 +19,14 @@ interface SettingsState {
   setTheme: (theme: "dark" | "light") => void;
   setAppLanguage: (lang: SupportedLanguage) => void;
   setDefaultOutputLanguage: (lang: SupportedLanguage) => void;
-  setDefaultGenre: (genre: GenreId) => void;
+  setDefaultGenres: (genres: GenreId[]) => void;
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
 }
 
 interface SettingsData {
   appLanguage: SupportedLanguage;
   defaultOutputLanguage: SupportedLanguage;
-  defaultGenre: GenreId;
+  defaultGenres: GenreId[];
   theme: "dark" | "light";
   autoSaveDraft: boolean;
   showCharCount: boolean;
@@ -48,7 +48,7 @@ const detectedLang = detectBrowserLanguage();
 const initialSettings: SettingsData = {
   appLanguage: detectedLang,
   defaultOutputLanguage: detectedLang,
-  defaultGenre: "action",
+  defaultGenres: ["action"],
   theme: "dark",
   autoSaveDraft: true,
   showCharCount: true,
@@ -76,17 +76,30 @@ export const useSettingsStore = create<SettingsState>()(
 
       setDefaultOutputLanguage: (lang) => set({ defaultOutputLanguage: lang }),
 
-      setDefaultGenre: (genre) => set({ defaultGenre: genre }),
+      setDefaultGenres: (genres) => set({ defaultGenres: genres }),
 
       setSetting: (key, value) => set({ [key]: value }),
     }),
     {
       name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
+      // v1 → v2 upgrade: `defaultGenre: GenreId` became
+      // `defaultGenres: GenreId[]` in v0.5.
+      version: 2,
+      migrate: (persistedState: unknown, version: number): SettingsData => {
+        if (version < 2 && persistedState && typeof persistedState === "object") {
+          const state = persistedState as Record<string, unknown> & { defaultGenre?: unknown };
+          if (typeof state.defaultGenre === "string" && !Array.isArray(state.defaultGenres)) {
+            state.defaultGenres = [state.defaultGenre];
+            delete state.defaultGenre;
+          }
+        }
+        return persistedState as SettingsData;
+      },
       partialize: (state) => ({
         appLanguage: state.appLanguage,
         defaultOutputLanguage: state.defaultOutputLanguage,
-        defaultGenre: state.defaultGenre,
+        defaultGenres: state.defaultGenres,
         theme: state.theme,
         autoSaveDraft: state.autoSaveDraft,
         showCharCount: state.showCharCount,
@@ -99,7 +112,16 @@ export const useSettingsStore = create<SettingsState>()(
       onRehydrateStorage: () => {
         return () => {
           loadSettings<SettingsData>(STORE_KEY, initialSettings).then((data) => {
-            if (data) useSettingsStore.setState(data);
+            if (data) {
+              // The file-backed copy may still be v1-shaped; normalise
+              // before piping into the store.
+              const maybeOld = data as SettingsData & { defaultGenre?: GenreId };
+              if (typeof maybeOld.defaultGenre === "string" && !Array.isArray(maybeOld.defaultGenres)) {
+                maybeOld.defaultGenres = [maybeOld.defaultGenre];
+                delete maybeOld.defaultGenre;
+              }
+              useSettingsStore.setState(data);
+            }
           });
         };
       },
@@ -112,7 +134,7 @@ useSettingsStore.subscribe((state) => {
   const data: SettingsData = {
     appLanguage: state.appLanguage,
     defaultOutputLanguage: state.defaultOutputLanguage,
-    defaultGenre: state.defaultGenre,
+    defaultGenres: state.defaultGenres,
     theme: state.theme,
     autoSaveDraft: state.autoSaveDraft,
     showCharCount: state.showCharCount,

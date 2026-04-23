@@ -4,11 +4,12 @@ import { Toggle } from "@components/ui/Toggle";
 import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
+import { ChipGroup } from "@components/ui/ChipGroup";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
-import { GENRES } from "@config/genres";
+import { GENRES, type GenreId } from "@config/genres";
 import { useSettingsStore } from "@store/settings-store";
 import { IS_TAURI } from "@utils/platform";
-import type { SupportedLanguage } from "@engine/types";
+import { MAX_GENRES, type SupportedLanguage } from "@engine/types";
 import toast from "react-hot-toast";
 import { logger } from "@utils/logger";
 
@@ -53,8 +54,9 @@ export function SettingsPage() {
   }));
 
   const genreOptions = GENRES.map((g) => ({
-    value: g.id,
-    label: `${g.icon} ${t(g.labelKey)}`,
+    id: g.id,
+    label: t(g.labelKey),
+    icon: g.icon,
   }));
 
   const hashtagOptions = [
@@ -108,11 +110,13 @@ export function SettingsPage() {
             value={settings.defaultOutputLanguage}
             onChange={(v) => settings.setDefaultOutputLanguage(v as SupportedLanguage)}
           />
-          <Select
+          <ChipGroup
             label={t("settings.defaultGenre")}
+            multiple
+            max={MAX_GENRES}
             options={genreOptions}
-            value={settings.defaultGenre}
-            onChange={(v) => settings.setDefaultGenre(v as typeof settings.defaultGenre)}
+            value={settings.defaultGenres}
+            onChange={(next) => settings.setDefaultGenres(next as GenreId[])}
           />
         </section>
 

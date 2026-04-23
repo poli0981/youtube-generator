@@ -7,7 +7,7 @@ function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
   return {
     videoType: "full",
     language: "en",
-    genre: "action",
+    genres: ["action"],
     gameName: "Elden Ring",
     channelName: "TestChannel",
     platform: "steam",
@@ -43,9 +43,20 @@ describe("buildDescription", () => {
 
   it("sanitises hashtags for snake_case genre ids (fixes #visual_novel bug)", () => {
     const t = createMockT("en");
-    const result = buildDescription(makeInput({ genre: "visual_novel" }), t);
+    const result = buildDescription(makeInput({ genres: ["visual_novel"] }), t);
     expect(result).toContain("#visualnovel");
     expect(result).not.toContain("#visual_novel");
+  });
+
+  it("uses the first genre for the hashtag when multiple are selected", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ genres: ["hack_slash", "action", "soulslike"] }),
+      t,
+    );
+    expect(result).toContain("#hackslash");
+    expect(result).not.toContain("#action");
+    expect(result).not.toContain("#soulslike");
   });
 
   it("includes timestamps when provided", () => {

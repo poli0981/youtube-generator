@@ -9,7 +9,7 @@ export interface HistoryEntry {
   gameName: string;
   videoType: VideoType;
   language: SupportedLanguage;
-  genre: Genre;
+  genres: Genre[];
   title: string;
   description: string;
   tags: string;
@@ -21,6 +21,17 @@ interface HistoryState {
   addEntry: (data: Omit<HistoryEntry, "id" | "createdAt">, limit?: number) => void;
   deleteEntry: (id: string) => void;
   clearAll: () => void;
+}
+
+type LegacyEntry = Omit<HistoryEntry, "genres"> & { genre?: Genre; genres?: Genre[] };
+
+function normaliseEntry(e: LegacyEntry): HistoryEntry {
+  const { genre, ...rest } = e;
+  if (Array.isArray(rest.genres) && rest.genres.length > 0) {
+    return rest as HistoryEntry;
+  }
+  const fallback = genre ?? "action";
+  return { ...rest, genres: [fallback] } as HistoryEntry;
 }
 
 export const useHistoryStore = create<HistoryState>()(
@@ -49,6 +60,17 @@ export const useHistoryStore = create<HistoryState>()(
     {
       name: "ytdescgen-history",
       storage: createJSONStorage(() => localStorage),
+      // v1 → v2 upgrade: HistoryEntry.genre (single) became genres[] in v0.5.
+      version: 2,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version < 2 && persistedState && typeof persistedState === "object") {
+          const state = persistedState as { entries?: LegacyEntry[] };
+          if (Array.isArray(state.entries)) {
+            state.entries = state.entries.map(normaliseEntry);
+          }
+        }
+        return persistedState as { entries: HistoryEntry[] };
+      },
       partialize: (state) => ({ entries: state.entries }),
     },
   ),

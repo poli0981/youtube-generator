@@ -18,7 +18,7 @@ export function useMultilangOutput(
       const input: GeneratorInput = {
         videoType: state.videoType,
         language: lang,
-        genre: state.genre,
+        genres: state.genres,
         gameName: state.gameName,
         gameNameLocalized: state.gameNameLocalized,
         channelName: state.channelName,
@@ -50,7 +50,7 @@ export function useMultilangOutput(
   }, [
     languages,
     state.videoType,
-    state.genre,
+    state.genres,
     state.gameName,
     state.gameNameLocalized,
     state.channelName,

@@ -8,7 +8,7 @@ export interface GamePreset {
   id: string;
   gameName: string;
   gameNameLocalized?: Record<string, string>;
-  genre: Genre;
+  genres: Genre[];
   platform: string;
   storeLinks: Record<string, string>;
   spoilerWarning: boolean;
@@ -23,6 +23,17 @@ interface PresetState {
   deletePreset: (id: string) => void;
   getPreset: (id: string) => GamePreset | undefined;
   importPresets: (presets: GamePreset[]) => void;
+}
+
+type LegacyPreset = Omit<GamePreset, "genres"> & { genre?: Genre; genres?: Genre[] };
+
+function normalisePreset(p: LegacyPreset): GamePreset {
+  const { genre, ...rest } = p;
+  if (Array.isArray(rest.genres) && rest.genres.length > 0) {
+    return rest as GamePreset;
+  }
+  const fallback = genre ?? "action";
+  return { ...rest, genres: [fallback] } as GamePreset;
 }
 
 export const usePresetStore = create<PresetState>()(
@@ -54,7 +65,8 @@ export const usePresetStore = create<PresetState>()(
       importPresets: (presets) => {
         set((state) => {
           const existingIds = new Set(state.presets.map((p) => p.id));
-          const newPresets = presets.filter((p) => !existingIds.has(p.id));
+          const normalised = presets.map((p) => normalisePreset(p as LegacyPreset));
+          const newPresets = normalised.filter((p) => !existingIds.has(p.id));
           return { presets: [...state.presets, ...newPresets] };
         });
       },
@@ -62,6 +74,17 @@ export const usePresetStore = create<PresetState>()(
     {
       name: "ytdescgen-presets",
       storage: createJSONStorage(() => localStorage),
+      // v1 → v2 upgrade: GamePreset.genre (single) became genres[] in v0.5.
+      version: 2,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version < 2 && persistedState && typeof persistedState === "object") {
+          const state = persistedState as { presets?: LegacyPreset[] };
+          if (Array.isArray(state.presets)) {
+            state.presets = state.presets.map(normalisePreset);
+          }
+        }
+        return persistedState as { presets: GamePreset[] };
+      },
       partialize: (state) => ({ presets: state.presets }),
     },
   ),

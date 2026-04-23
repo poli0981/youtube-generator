@@ -6,7 +6,7 @@ function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
   return {
     videoType: "full",
     language: "en",
-    genre: "action",
+    genres: ["action"],
     gameName: "Elden Ring",
     channelName: "TestChannel",
     platform: "steam",
@@ -28,17 +28,17 @@ describe("generateTags", () => {
   });
 
   it("includes genre-specific tags for action", () => {
-    const tags = generateTags(makeInput({ genre: "action" }));
+    const tags = generateTags(makeInput({ genres: ["action"] }));
     expect(tags.some((t) => t.toLowerCase().includes("action"))).toBe(true);
   });
 
   it("includes genre-specific tags for horror", () => {
-    const tags = generateTags(makeInput({ genre: "horror" }));
+    const tags = generateTags(makeInput({ genres: ["horror"] }));
     expect(tags.some((t) => t.toLowerCase().includes("horror"))).toBe(true);
   });
 
   it("includes genre-specific tags for rpg", () => {
-    const tags = generateTags(makeInput({ genre: "rpg" }));
+    const tags = generateTags(makeInput({ genres: ["rpg"] }));
     expect(tags.some((t) => t.toLowerCase().includes("rpg"))).toBe(true);
   });
 
@@ -49,7 +49,7 @@ describe("generateTags", () => {
 
   it("humanises snake_case genres in trending tags (fixes visual_novel leak)", () => {
     const tags = generateTags(
-      makeInput({ genre: "visual_novel" }),
+      makeInput({ genres: ["visual_novel"] }),
       { includeTrendingTags: true },
     );
     // No tag should contain the raw underscore form
@@ -81,7 +81,7 @@ describe("generateTags", () => {
   });
 
   it("includes visual novel tags for visual_novel genre", () => {
-    const tags = generateTags(makeInput({ genre: "visual_novel" }));
+    const tags = generateTags(makeInput({ genres: ["visual_novel"] }));
     expect(tags.some((t) => t.toLowerCase().includes("visual novel"))).toBe(true);
   });
 

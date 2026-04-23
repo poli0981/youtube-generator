@@ -7,7 +7,7 @@ function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
   return {
     videoType: "full",
     language: "en",
-    genre: "action",
+    genres: ["action"],
     gameName: "Elden Ring",
     channelName: "TestChannel",
     platform: "steam",

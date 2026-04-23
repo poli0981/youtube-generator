@@ -13,7 +13,7 @@ export function useGeneratedOutput(): GeneratorOutput {
     () => ({
       videoType: state.videoType,
       language: state.language,
-      genre: state.genre,
+      genres: state.genres,
       gameName: state.gameName,
       gameNameLocalized: state.gameNameLocalized,
       channelName: state.channelName,
@@ -38,7 +38,7 @@ export function useGeneratedOutput(): GeneratorOutput {
     [
       state.videoType,
       state.language,
-      state.genre,
+      state.genres,
       state.gameName,
       state.gameNameLocalized,
       state.channelName,

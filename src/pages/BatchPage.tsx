@@ -47,7 +47,7 @@ export function BatchPage() {
         const input: GeneratorInput = {
           videoType: "part",
           language: lang,
-          genre: state.genre,
+          genres: state.genres,
           gameName: state.gameName,
           gameNameLocalized: state.gameNameLocalized,
           channelName: state.channelName,

@@ -14,7 +14,7 @@ import clsx from "clsx";
 export function OutputPage() {
   const { t } = useTranslation("ui");
   const defaultOutput = useGeneratedOutput();
-  const { gameName, videoType, language, genre } = useEditorStore();
+  const { gameName, videoType, language, genres } = useEditorStore();
   const addEntry = useHistoryStore((s) => s.addEntry);
   const historyLimit = useSettingsStore((s) => s.historyLimit);
   const savedRef = useRef<string>("");
@@ -49,14 +49,14 @@ export function OutputPage() {
         gameName,
         videoType,
         language,
-        genre,
+        genres,
         title: defaultOutput.title,
         description: defaultOutput.description,
         tags: defaultOutput.tagString,
       },
       historyLimit,
     );
-  }, [gameName, videoType, language, genre, defaultOutput.title, defaultOutput.description, defaultOutput.tagString, addEntry, historyLimit]);
+  }, [gameName, videoType, language, genres, defaultOutput.title, defaultOutput.description, defaultOutput.tagString, addEntry, historyLimit]);
 
   const allLangsCombined = useMemo(() => {
     if (!isMultiLang) return "";
