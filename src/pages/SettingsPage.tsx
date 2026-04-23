@@ -15,9 +15,9 @@ import { logger } from "@utils/logger";
 async function openSettingsFolder() {
   try {
     const { appDataDir } = await import("@tauri-apps/api/path");
-    const { open } = await import("@tauri-apps/plugin-shell");
+    const { openPath } = await import("@tauri-apps/plugin-opener");
     const dir = await appDataDir();
-    await open(dir);
+    await openPath(dir);
   } catch (e) {
     toast.error("Could not open settings folder");
     logger.error("settings", "Failed to open settings folder", String(e));
