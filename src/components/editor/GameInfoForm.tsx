@@ -66,6 +66,14 @@ export function GameInfoForm() {
           onChange={(e) => store.set("challengeName", e.target.value)}
         />
       )}
+      {extraFields.includes("modName") && (
+        <Input
+          label={t("editor.modName")}
+          placeholder={t("editor.modNamePlaceholder")}
+          value={store.modName ?? ""}
+          onChange={(e) => store.set("modName", e.target.value)}
+        />
+      )}
     </div>
   );
 }

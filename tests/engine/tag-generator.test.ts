@@ -47,6 +47,18 @@ describe("generateTags", () => {
     expect(tags.some((t) => t.toLowerCase().includes("boss"))).toBe(true);
   });
 
+  it("includes video type tags for mods", () => {
+    const tags = generateTags(makeInput({ videoType: "mods" }));
+    expect(tags.some((t) => t.toLowerCase().includes("mod"))).toBe(true);
+    expect(tags).toContain("modded gameplay no commentary");
+  });
+
+  it("includes video type tags for collectibles", () => {
+    const tags = generateTags(makeInput({ videoType: "collectibles" }));
+    expect(tags.some((t) => t.toLowerCase().includes("collectibles"))).toBe(true);
+    expect(tags).toContain("Elden Ring all collectibles");
+  });
+
   it("humanises snake_case genres in trending tags (fixes visual_novel leak)", () => {
     const tags = generateTags(
       makeInput({ genres: ["visual_novel"] }),

@@ -30,6 +30,8 @@
     "dlcNamePlaceholder": "VD: Shadow of the Erdtree",
     "challengeName": "Tên Challenge",
     "challengeNamePlaceholder": "VD: No Hit Run",
+    "modName": "Tên Mod",
+    "modNamePlaceholder": "vd: Requiem, NaturalVision Evolved",
     "resolution": "Độ phân giải",
     "fps": "FPS",
     "graphicsPreset": "Cài đặt đồ họa",
@@ -93,7 +95,9 @@
     "side_quest": "Nhiệm vụ phụ",
     "secret": "Bí mật / Ẩn",
     "comparison": "So sánh đồ họa",
-    "guide": "Hướng dẫn"
+    "guide": "Hướng dẫn",
+    "mods": "Chơi với Mod",
+    "collectibles": "Full Sưu Tầm"
   },
   "genres": {
     "action": "Hành động / Phiêu lưu",
@@ -229,7 +233,8 @@
     "historyLimit": "Giới hạn lịch sử",
     "multilingualTags": "Tags đa ngôn ngữ",
     "trendingTags": "Tags xu hướng",
-    "hashtagCount": "Số hashtag"
+    "hashtagCount": "Số hashtag",
+    "showQualityBadge": "Hiện badge chất lượng trong tiêu đề (vd: [2K 60FPS])"
   },
   "batch": {
     "title": "Chế độ hàng loạt",

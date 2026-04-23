@@ -7,6 +7,7 @@
       "channelName", "channelNamePlaceholder", "platform",
       "partNumber", "partNumberPlaceholder", "bossName", "bossNamePlaceholder",
       "dlcName", "dlcNamePlaceholder", "challengeName", "challengeNamePlaceholder",
+      "modName", "modNamePlaceholder",
       "resolution", "fps", "graphicsPreset",
       "timestamps", "timestampsPlaceholder",
       "storeLinks", "storeLinkType", "rig", "social", "warnings",
@@ -23,7 +24,7 @@
       "copied", "charCount", "selectLanguages"
     ],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
-    "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],
     "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs", "bluesky", "mastodon", "facebook", "fb_page", "fb_group"],
@@ -32,7 +33,7 @@
     "profiles": ["title", "createNew", "editProfile", "profileName", "profileNamePlaceholder", "loadProfile", "deleteConfirm", "emptyState", "exportProfiles", "importProfiles"],
     "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
-    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "autoSaveDraft", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "autoSaveDraft", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch"],
@@ -41,8 +42,8 @@
   },
   "templates": {
     "title": ["separator", "suffix"],
-    "title.videoType": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
-    "description.intro": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide"],
+    "title.videoType": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles"],
+    "description.intro": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles"],
     "description": ["noCommentaryLine"],
     "description.sections": [
       "timestamps", "storeLinksBuy", "storeLinksDownload", "videoSettings", "rig",

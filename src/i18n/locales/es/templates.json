@@ -18,7 +18,9 @@
       "side_quest": "Misiones Secundarias",
       "secret": "Secretos",
       "comparison": "Comparación de Gráficos",
-      "guide": "Guía Silenciosa"
+      "guide": "Guía Silenciosa",
+      "mods": "Mod {{modName}}",
+      "collectibles": "Todos los Coleccionables"
     }
   },
   "description": {
@@ -38,7 +40,9 @@
       "side_quest": "Este video presenta misiones secundarias y contenido opcional de {{gameName}} en {{channelName}}.",
       "secret": "Este video presenta secretos y contenido oculto de {{gameName}} en {{channelName}}.",
       "comparison": "Este video presenta una comparación de gráficos de {{gameName}} en {{channelName}}.",
-      "guide": "Este video presenta una guía silenciosa de {{gameName}} en {{channelName}}."
+      "guide": "Este video presenta una guía silenciosa de {{gameName}} en {{channelName}}.",
+      "mods": "Este video presenta el mod {{modName}} para {{gameName}} en {{channelName}}.",
+      "collectibles": "Este video cubre todos los coleccionables y el 100% de {{gameName}} en {{channelName}}."
     },
     "noCommentaryLine": "Sin Comentarios — gameplay puro para tu disfrute.",
     "storeLinkSuffix": {

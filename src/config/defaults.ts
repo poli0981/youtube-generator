@@ -14,6 +14,7 @@ export interface EditorDefaults {
   bossName: string;
   dlcName: string;
   challengeName: string;
+  modName: string;
   resolution: string;
   fps: string;
   graphicsPreset: string;
@@ -47,6 +48,7 @@ export const DEFAULTS = {
     bossName: "",
     dlcName: "",
     challengeName: "",
+    modName: "",
     resolution: "1080p",
     fps: "60",
     graphicsPreset: "Ultra",

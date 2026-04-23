@@ -30,6 +30,8 @@
     "dlcNamePlaceholder": "예: Shadow of the Erdtree",
     "challengeName": "챌린지 이름",
     "challengeNamePlaceholder": "예: 노히트 런",
+    "modName": "모드 이름",
+    "modNamePlaceholder": "예: Requiem, NaturalVision Evolved",
     "resolution": "해상도",
     "fps": "FPS",
     "graphicsPreset": "그래픽 프리셋",
@@ -93,7 +95,9 @@
     "side_quest": "서브 퀘스트",
     "secret": "비밀 / 숨겨진 요소",
     "comparison": "그래픽 비교",
-    "guide": "무음 가이드"
+    "guide": "무음 가이드",
+    "mods": "모드 플레이",
+    "collectibles": "모든 수집품"
   },
   "genres": {
     "action": "액션 / 어드벤처",
@@ -229,7 +233,8 @@
     "historyLimit": "기록 제한",
     "multilingualTags": "다국어 태그",
     "trendingTags": "인기 태그",
-    "hashtagCount": "해시태그 수"
+    "hashtagCount": "해시태그 수",
+    "showQualityBadge": "제목에 화질 배지 표시 (예: [2K 60FPS])"
   },
   "batch": {
     "title": "일괄 생성",

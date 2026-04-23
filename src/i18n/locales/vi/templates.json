@@ -18,7 +18,9 @@
       "side_quest": "Nhiệm vụ phụ",
       "secret": "Bí mật",
       "comparison": "So sánh",
-      "guide": "Hướng dẫn"
+      "guide": "Hướng dẫn",
+      "mods": "Mod {{modName}}",
+      "collectibles": "Tất cả Sưu tầm"
     }
   },
   "description": {
@@ -38,7 +40,9 @@
       "side_quest": "Video này là các nhiệm vụ phụ trong {{gameName}} trên kênh {{channelName}}.",
       "secret": "Video này là nội dung bí mật và ẩn trong {{gameName}} trên kênh {{channelName}}.",
       "comparison": "Video này so sánh đồ họa/hiệu suất của {{gameName}} trên kênh {{channelName}}.",
-      "guide": "Video này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}."
+      "guide": "Video này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}.",
+      "mods": "Video này showcase mod {{modName}} cho {{gameName}} trên kênh {{channelName}}.",
+      "collectibles": "Video này gom đủ mọi vật phẩm sưu tầm và 100% completion trong {{gameName}} trên kênh {{channelName}}."
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
     "storeLinkSuffix": {

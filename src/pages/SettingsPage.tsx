@@ -151,6 +151,11 @@ export function SettingsPage() {
             checked={settings.includeTrendingTags}
             onChange={(v) => settings.setSetting("includeTrendingTags", v)}
           />
+          <Toggle
+            label={t("settings.showQualityBadge")}
+            checked={settings.showQualityBadge}
+            onChange={(v) => settings.setSetting("showQualityBadge", v)}
+          />
           <Select
             label={t("settings.hashtagCount")}
             options={hashtagOptions}

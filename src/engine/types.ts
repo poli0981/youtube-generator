@@ -14,7 +14,9 @@ export type VideoType =
   | "side_quest"
   | "secret"
   | "comparison"
-  | "guide";
+  | "guide"
+  | "mods"
+  | "collectibles";
 
 export type Genre =
   | "action"
@@ -94,6 +96,7 @@ export interface GeneratorInput {
   bossName?: string;
   dlcName?: string;
   challengeName?: string;
+  modName?: string;
   resolution?: string;
   fps?: string;
   graphicsPreset?: string;

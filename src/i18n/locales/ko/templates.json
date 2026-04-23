@@ -18,7 +18,9 @@
       "side_quest": "서브 퀘스트",
       "secret": "비밀",
       "comparison": "그래픽 비교",
-      "guide": "무음 가이드"
+      "guide": "무음 가이드",
+      "mods": "{{modName}} 모드",
+      "collectibles": "모든 수집품"
     }
   },
   "description": {
@@ -38,7 +40,9 @@
       "side_quest": "이 영상은 {{channelName}}에서 {{gameName}}의 서브 퀘스트와 선택 콘텐츠를 담고 있습니다.",
       "secret": "이 영상은 {{channelName}}에서 {{gameName}}의 비밀과 숨겨진 요소를 담고 있습니다.",
       "comparison": "이 영상은 {{channelName}}에서 {{gameName}}의 그래픽 비교를 담고 있습니다.",
-      "guide": "이 영상은 {{channelName}}에서 {{gameName}}의 무음 가이드를 담고 있습니다."
+      "guide": "이 영상은 {{channelName}}에서 {{gameName}}의 무음 가이드를 담고 있습니다.",
+      "mods": "이 영상은 {{channelName}}에서 {{gameName}}의 {{modName}} 모드 플레이를 담고 있습니다.",
+      "collectibles": "이 영상은 {{channelName}}에서 {{gameName}}의 모든 수집 요소와 100% 완료 플레이를 담고 있습니다."
     },
     "noCommentaryLine": "무음 플레이 — 순수한 게임플레이를 즐겨보세요.",
     "storeLinkSuffix": {

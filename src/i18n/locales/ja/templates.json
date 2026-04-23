@@ -18,7 +18,9 @@
       "side_quest": "サブクエスト",
       "secret": "隠し要素",
       "comparison": "グラフィック比較",
-      "guide": "攻略ガイド"
+      "guide": "攻略ガイド",
+      "mods": "{{modName}} MOD",
+      "collectibles": "全コレクション"
     }
   },
   "description": {
@@ -38,7 +40,9 @@
       "side_quest": "この動画は{{channelName}}による{{gameName}}のサブクエストです。",
       "secret": "この動画は{{channelName}}による{{gameName}}の隠し要素です。",
       "comparison": "この動画は{{channelName}}による{{gameName}}のグラフィック比較です。",
-      "guide": "この動画は{{channelName}}による{{gameName}}の攻略ガイドです。"
+      "guide": "この動画は{{channelName}}による{{gameName}}の攻略ガイドです。",
+      "mods": "この動画は{{channelName}}による{{gameName}}の{{modName}} MODプレイです。",
+      "collectibles": "この動画は{{channelName}}による{{gameName}}のコレクション完全攻略です。"
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
     "storeLinkSuffix": {

@@ -16,6 +16,7 @@ interface SettingsState {
   includeMultilingualTags: boolean;
   includeTrendingTags: boolean;
   hashtagCount: number;
+  showQualityBadge: boolean;
   setTheme: (theme: "dark" | "light") => void;
   setAppLanguage: (lang: SupportedLanguage) => void;
   setDefaultOutputLanguage: (lang: SupportedLanguage) => void;
@@ -35,6 +36,7 @@ interface SettingsData {
   includeMultilingualTags: boolean;
   includeTrendingTags: boolean;
   hashtagCount: number;
+  showQualityBadge: boolean;
 }
 
 const detectBrowserLanguage = (): SupportedLanguage => {
@@ -57,6 +59,7 @@ const initialSettings: SettingsData = {
   includeMultilingualTags: true,
   includeTrendingTags: true,
   hashtagCount: 3,
+  showQualityBadge: true,
 };
 
 const STORE_KEY = "ytdescgen-settings";
@@ -108,6 +111,7 @@ export const useSettingsStore = create<SettingsState>()(
         includeMultilingualTags: state.includeMultilingualTags,
         includeTrendingTags: state.includeTrendingTags,
         hashtagCount: state.hashtagCount,
+        showQualityBadge: state.showQualityBadge,
       }),
       onRehydrateStorage: () => {
         return () => {
@@ -143,6 +147,7 @@ useSettingsStore.subscribe((state) => {
     includeMultilingualTags: state.includeMultilingualTags,
     includeTrendingTags: state.includeTrendingTags,
     hashtagCount: state.hashtagCount,
+    showQualityBadge: state.showQualityBadge,
   };
   saveSettings(STORE_KEY, data);
 });

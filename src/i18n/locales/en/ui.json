@@ -30,6 +30,8 @@
     "dlcNamePlaceholder": "e.g. Shadow of the Erdtree",
     "challengeName": "Challenge Name",
     "challengeNamePlaceholder": "e.g. No Hit Run",
+    "modName": "Mod Name",
+    "modNamePlaceholder": "e.g. Requiem, NaturalVision Evolved",
     "resolution": "Resolution",
     "fps": "FPS",
     "graphicsPreset": "Graphics Preset",
@@ -93,7 +95,9 @@
     "side_quest": "Side Quests",
     "secret": "Secrets / Hidden",
     "comparison": "Graphics Comparison",
-    "guide": "Silent Guide"
+    "guide": "Silent Guide",
+    "mods": "Modded Gameplay",
+    "collectibles": "All Collectibles"
   },
   "genres": {
     "action": "Action / Adventure",
@@ -229,7 +233,8 @@
     "historyLimit": "History Limit",
     "multilingualTags": "Include Multilingual Tags",
     "trendingTags": "Include Trending Tags",
-    "hashtagCount": "Hashtag Count"
+    "hashtagCount": "Hashtag Count",
+    "showQualityBadge": "Show quality badge in title (e.g. [2K 60FPS])"
   },
   "batch": {
     "title": "Batch Mode",

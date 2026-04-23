@@ -9,7 +9,8 @@ export function useMultilangOutput(
   languages: SupportedLanguage[],
 ): Record<string, GeneratorOutput> {
   const state = useEditorStore();
-  const { includeMultilingualTags, includeTrendingTags, hashtagCount } = useSettingsStore();
+  const { includeMultilingualTags, includeTrendingTags, hashtagCount, showQualityBadge } =
+    useSettingsStore();
 
   return useMemo(() => {
     const results: Record<string, GeneratorOutput> = {};
@@ -44,6 +45,7 @@ export function useMultilangOutput(
         includeMultilingualTags,
         includeTrendingTags,
         hashtagCount,
+        showQualityBadge,
       });
     }
     return results;
@@ -74,5 +76,6 @@ export function useMultilangOutput(
     includeMultilingualTags,
     includeTrendingTags,
     hashtagCount,
+    showQualityBadge,
   ]);
 }

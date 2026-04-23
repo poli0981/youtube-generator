@@ -18,7 +18,9 @@
       "side_quest": "支线任务",
       "secret": "秘密",
       "comparison": "画质对比",
-      "guide": "无声攻略"
+      "guide": "无声攻略",
+      "mods": "{{modName}} Mod",
+      "collectibles": "全收集要素"
     }
   },
   "description": {
@@ -38,7 +40,9 @@
       "side_quest": "本视频展示了{{channelName}}的{{gameName}}支线任务与可选内容。",
       "secret": "本视频展示了{{channelName}}的{{gameName}}秘密与隐藏内容。",
       "comparison": "本视频展示了{{channelName}}的{{gameName}}画质对比。",
-      "guide": "本视频展示了{{channelName}}的{{gameName}}无声攻略。"
+      "guide": "本视频展示了{{channelName}}的{{gameName}}无声攻略。",
+      "mods": "本视频展示了{{channelName}}的{{gameName}}之{{modName}} Mod游玩。",
+      "collectibles": "本视频展示了{{channelName}}的{{gameName}}全收集要素与100%完成度。"
     },
     "noCommentaryLine": "无解说 — 纯粹的游戏体验，尽情享受。",
     "storeLinkSuffix": {
