@@ -4,6 +4,7 @@ import { PLATFORMS } from "@config/platforms";
 import { SOCIAL_FIELDS } from "@config/social-fields";
 import { formatRigValue } from "@config/rig-fields";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
+import { sanitizeHashtag } from "@utils/sanitize";
 
 const SOCIAL_ICONS: Record<string, string> = {
   kofi: "☕",
@@ -66,10 +67,12 @@ export function buildDescription(
   // 4. Store Links (heading + per-link suffix by pricing category)
   if (hasEntries(input.storeLinks)) {
     const entries = Object.entries(input.storeLinks)
-      .filter(([, url]) => url && url.trim() !== "")
+      .filter((entry): entry is [string, string] =>
+        typeof entry[1] === "string" && entry[1].trim() !== "",
+      )
       .map(([id, url]) => ({
         id,
-        url: url!.trim(),
+        url: url.trim(),
         type: (input.storeLinkTypes?.[id] ?? "paid") as "paid" | "free" | "demo",
       }));
 
@@ -113,7 +116,7 @@ export function buildDescription(
     const rigLines = Object.entries(input.rig)
       .map(([k, v]) => [k, formatRigValue(k, v ?? "")] as const)
       .filter(([, v]) => v && v.trim() !== "")
-      .map(([k, v]) => `${k.toUpperCase()}: ${v}`)
+      .map(([k, v]) => `${k.replace(/_/g, " ").toUpperCase()}: ${v}`)
       .join("\n");
     if (rigLines) {
       sections.push(`${t("description.sections.rig")}\n${rigLines}`);
@@ -167,9 +170,9 @@ export function buildDescription(
 
   // 14. Hashtags
   const allHashtags = [
-    `#${gameName.replace(/\s+/g, "")}`,
+    `#${sanitizeHashtag(gameName)}`,
     "#GameplayNoCommentary",
-    `#${input.genre}`,
+    `#${sanitizeHashtag(input.genre)}`,
   ];
   sections.push(allHashtags.slice(0, hashtagCount).join(" "));
 

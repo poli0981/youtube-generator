@@ -31,6 +31,23 @@ describe("buildDescription", () => {
     expect(result).toContain("#EldenRing");
   });
 
+  it("sanitises hashtags for game names with special characters", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ gameName: "S.T.A.L.K.E.R. 2" }),
+      t,
+    );
+    expect(result).toContain("#STALKER2");
+    expect(result).not.toMatch(/#\s?S\./);
+  });
+
+  it("sanitises hashtags for snake_case genre ids (fixes #visual_novel bug)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ genre: "visual_novel" }), t);
+    expect(result).toContain("#visualnovel");
+    expect(result).not.toContain("#visual_novel");
+  });
+
   it("includes timestamps when provided", () => {
     const t = createMockT("en");
     const result = buildDescription(
@@ -154,6 +171,16 @@ describe("buildDescription", () => {
     expect(result).toContain("MY RIG");
     expect(result).toContain("CPU: i9-14900K");
     expect(result).toContain("GPU: RTX 4090");
+  });
+
+  it("humanises snake_case rig keys (e.g. video_editor → VIDEO EDITOR)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ rig: { video_editor: "davinci_resolve_studio|19.1" } }),
+      t,
+    );
+    expect(result).toContain("VIDEO EDITOR: DaVinci Resolve Studio 19.1");
+    expect(result).not.toContain("VIDEO_EDITOR");
   });
 
   it("includes spoiler warning when enabled", () => {

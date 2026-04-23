@@ -47,6 +47,19 @@ describe("generateTags", () => {
     expect(tags.some((t) => t.toLowerCase().includes("boss"))).toBe(true);
   });
 
+  it("humanises snake_case genres in trending tags (fixes visual_novel leak)", () => {
+    const tags = generateTags(
+      makeInput({ genre: "visual_novel" }),
+      { includeTrendingTags: true },
+    );
+    // No tag should contain the raw underscore form
+    expect(tags.every((t) => !t.includes("visual_novel"))).toBe(true);
+    // The humanised form should be present in the trending tags
+    const year = new Date().getFullYear().toString();
+    expect(tags.some((t) => t === `best visual novel games ${year}`)).toBe(true);
+    expect(tags.some((t) => t === `visual novel gameplay ${year}`)).toBe(true);
+  });
+
   it("includes video type tags for speedrun", () => {
     const tags = generateTags(makeInput({ videoType: "speedrun" }));
     expect(tags.some((t) => t.toLowerCase().includes("speedrun"))).toBe(true);
