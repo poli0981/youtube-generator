@@ -17,7 +17,7 @@ export function useKeyboardShortcuts({ onToggleHelp }: ShortcutOptions) {
     const handleKeyDown = (e: KeyboardEvent) => {
       const ctrl = e.ctrlKey || e.metaKey;
 
-      if (ctrl && e.key === "Enter") {
+      if (ctrl && (e.key === "Enter" || e.key === "g" || e.key === "G")) {
         e.preventDefault();
         navigate("/output");
       } else if (ctrl && e.shiftKey && e.key === "C") {

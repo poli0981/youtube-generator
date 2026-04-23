@@ -2,6 +2,7 @@
   "ui": {
     "app": ["title", "subtitle"],
     "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist", "logs"],
+    "editor.sections": ["gameInfo", "videoSettings", "contentDetails", "attribution", "rig", "storeAndSocial"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
       "channelName", "channelNamePlaceholder", "platform",
