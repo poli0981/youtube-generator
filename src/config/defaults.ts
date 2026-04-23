@@ -5,7 +5,7 @@ import type { SupportedLanguage, StoreLinkType } from "@engine/types";
 export interface EditorDefaults {
   videoType: VideoTypeId;
   language: SupportedLanguage;
-  genre: GenreId;
+  genres: GenreId[];
   gameName: string;
   gameNameLocalized: Record<string, string>;
   channelName: string;
@@ -31,14 +31,14 @@ export interface EditorDefaults {
 export interface SettingsDefaults {
   theme: "dark" | "light";
   defaultLanguage: string;
-  defaultGenre: GenreId;
+  defaultGenres: GenreId[];
 }
 
 export const DEFAULTS = {
   editor: {
     videoType: "full",
     language: "en",
-    genre: "action",
+    genres: ["action"],
     gameName: "",
     gameNameLocalized: {},
     channelName: "",
@@ -64,6 +64,6 @@ export const DEFAULTS = {
   settings: {
     theme: "dark",
     defaultLanguage: "en",
-    defaultGenre: "action",
+    defaultGenres: ["action"],
   } satisfies SettingsDefaults,
 } as const;

@@ -18,15 +18,29 @@ export type VideoType =
 
 export type Genre =
   | "action"
+  | "hack_slash"
+  | "beatemup"
+  | "platformer"
   | "horror"
+  | "survival_horror"
+  | "psychological_horror"
   | "rpg"
+  | "jrpg"
+  | "action_rpg"
+  | "crpg"
   | "fps"
+  | "arena_shooter"
+  | "tactical_fps"
+  | "boomer_shooter"
+  | "extraction_shooter"
+  | "shmup"
   | "openworld"
   | "indie"
   | "soulslike"
   | "racing"
   | "story"
   | "simulation"
+  | "city_builder"
   | "fighting"
   | "stealth"
   | "survival_craft"
@@ -37,13 +51,21 @@ export type Genre =
   | "puzzle"
   | "tower_defense"
   | "card_game"
+  | "deck_builder"
+  | "auto_battler"
   | "battle_royale"
-  | "crpg"
   | "tactical"
   | "space"
   | "farming"
   | "fmv"
   | "visual_novel";
+
+/**
+ * Max number of genres a user can multi-select in the editor.
+ * Tag dedup already collapses overlap, but 3 keeps the UI tidy and
+ * prevents the tag pool from exploding.
+ */
+export const MAX_GENRES = 3;
 
 export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
 
@@ -57,7 +79,13 @@ export type StoreLinkType = "paid" | "free" | "demo";
 export interface GeneratorInput {
   videoType: VideoType;
   language: SupportedLanguage;
-  genre: Genre;
+  /**
+   * Selected genres in user-preferred order. The first entry drives the
+   * genre hashtag and the trending-tag template; the rest contribute
+   * extra tags through the genre registry (dedup strips overlap).
+   * Consumers should assume at least one genre is present.
+   */
+  genres: Genre[];
   gameName: string;
   gameNameLocalized?: Partial<Record<SupportedLanguage, string>>;
   channelName: string;

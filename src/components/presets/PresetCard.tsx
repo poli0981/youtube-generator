@@ -23,7 +23,7 @@ export function PresetCard({ preset }: PresetCardProps) {
     loadPreset({
       gameName: preset.gameName,
       gameNameLocalized: preset.gameNameLocalized ? { ...preset.gameNameLocalized } : {},
-      genre: preset.genre,
+      genres: [...preset.genres],
       platform: preset.platform,
       storeLinks: { ...preset.storeLinks },
       spoilerWarning: preset.spoilerWarning,
@@ -31,19 +31,21 @@ export function PresetCard({ preset }: PresetCardProps) {
     });
   };
 
-  const genre = GENRES.find((g) => g.id === preset.genre);
+  const genreDefs = preset.genres
+    .map((id) => GENRES.find((g) => g.id === id))
+    .filter((g): g is (typeof GENRES)[number] => g !== undefined);
 
   return (
     <>
       <div className="flex items-center justify-between rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30">
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-text-primary">{preset.gameName}</h3>
-          <div className="mt-1.5 flex items-center gap-2 text-xs text-text-muted">
-            {genre && (
-              <span className="rounded bg-surface-2 px-1.5 py-0.5">
-                {genre.icon} {t(genre.labelKey)}
+          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-text-muted">
+            {genreDefs.map((g) => (
+              <span key={g.id} className="rounded bg-surface-2 px-1.5 py-0.5">
+                {g.icon} {t(g.labelKey)}
               </span>
-            )}
+            ))}
             <span>{preset.platform}</span>
           </div>
         </div>

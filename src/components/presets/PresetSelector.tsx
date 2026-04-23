@@ -22,7 +22,7 @@ export function PresetSelector() {
     loadPreset({
       gameName: preset.gameName,
       gameNameLocalized: preset.gameNameLocalized ? { ...preset.gameNameLocalized } : {},
-      genre: preset.genre,
+      genres: [...preset.genres],
       platform: preset.platform,
       storeLinks: { ...preset.storeLinks },
       spoilerWarning: preset.spoilerWarning,

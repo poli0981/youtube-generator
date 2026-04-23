@@ -6,7 +6,7 @@ import { DEFAULTS } from "@config/defaults";
 interface EditorData {
   videoType: VideoType;
   language: SupportedLanguage;
-  genre: Genre;
+  genres: Genre[];
   gameName: string;
   gameNameLocalized: Record<string, string>;
   channelName: string;
@@ -47,7 +47,7 @@ type EditorState = EditorData & EditorActions;
 const initialState: EditorData = {
   videoType: DEFAULTS.editor.videoType as VideoType,
   language: DEFAULTS.editor.language as SupportedLanguage,
-  genre: DEFAULTS.editor.genre as Genre,
+  genres: [...DEFAULTS.editor.genres] as Genre[],
   gameName: DEFAULTS.editor.gameName,
   gameNameLocalized: { ...DEFAULTS.editor.gameNameLocalized },
   channelName: DEFAULTS.editor.channelName,
@@ -96,10 +96,23 @@ export const useEditorStore = create<EditorState>()(
     {
       name: "ytdescgen-editor-draft",
       storage: createJSONStorage(() => localStorage),
+      // v1 → v2 upgrade: `genre: Genre` became `genres: Genre[]` in v0.5.
+      // Old drafts still round-trip by wrapping the single value.
+      version: 2,
+      migrate: (persistedState: unknown, version: number): EditorData => {
+        if (version < 2 && persistedState && typeof persistedState === "object") {
+          const state = persistedState as Record<string, unknown> & { genre?: unknown };
+          if (typeof state.genre === "string" && !Array.isArray(state.genres)) {
+            state.genres = [state.genre];
+            delete state.genre;
+          }
+        }
+        return persistedState as EditorData;
+      },
       partialize: (state) => ({
         videoType: state.videoType,
         language: state.language,
-        genre: state.genre,
+        genres: state.genres,
         gameName: state.gameName,
         gameNameLocalized: state.gameNameLocalized,
         channelName: state.channelName,

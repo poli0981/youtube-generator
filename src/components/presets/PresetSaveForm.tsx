@@ -23,7 +23,7 @@ export function PresetSaveForm({ open, onClose, editPreset }: PresetSaveFormProp
     const data = {
       gameName: gameName.trim() || "Unnamed Game",
       gameNameLocalized: editPreset?.gameNameLocalized ?? { ...editor.gameNameLocalized },
-      genre: editPreset?.genre ?? editor.genre,
+      genres: editPreset?.genres ?? [...editor.genres],
       platform: editPreset?.platform ?? editor.platform,
       storeLinks: editPreset?.storeLinks ?? { ...editor.storeLinks },
       spoilerWarning: editPreset?.spoilerWarning ?? editor.spoilerWarning,

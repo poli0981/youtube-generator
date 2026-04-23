@@ -60,6 +60,96 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
     "kinetic novel no commentary",
     `${g} story mode`,
   ],
+  hack_slash: (g) => [
+    `${g} hack and slash`,
+    "hack and slash no commentary",
+    `${g} combo gameplay`,
+    "character action game",
+  ],
+  beatemup: (g) => [
+    `${g} beat em up`,
+    "beat em up no commentary",
+    `${g} brawler`,
+    "belt scroll action",
+  ],
+  platformer: (g) => [
+    `${g} platformer`,
+    "platformer no commentary",
+    `${g} 2d platformer`,
+    `${g} 3d platformer`,
+  ],
+  survival_horror: (g) => [
+    `${g} survival horror`,
+    "survival horror no commentary",
+    `${g} resource management horror`,
+    "classic survival horror",
+  ],
+  psychological_horror: (g) => [
+    `${g} psychological horror`,
+    "psychological horror no commentary",
+    `${g} atmospheric horror`,
+    "mind bending horror gameplay",
+  ],
+  jrpg: (g) => [
+    `${g} JRPG`,
+    "JRPG no commentary",
+    `${g} japanese RPG`,
+    "turn based JRPG gameplay",
+  ],
+  action_rpg: (g) => [
+    `${g} action RPG`,
+    "action RPG no commentary",
+    `${g} ARPG`,
+    "action RPG gameplay",
+  ],
+  arena_shooter: (g) => [
+    `${g} arena shooter`,
+    "arena shooter no commentary",
+    `${g} arena FPS`,
+    "fast paced shooter gameplay",
+  ],
+  tactical_fps: (g) => [
+    `${g} tactical FPS`,
+    "tactical shooter no commentary",
+    `${g} milsim`,
+    "tactical FPS gameplay",
+  ],
+  boomer_shooter: (g) => [
+    `${g} boomer shooter`,
+    "boomer shooter no commentary",
+    `${g} retro fps`,
+    "90s shooter gameplay",
+  ],
+  extraction_shooter: (g) => [
+    `${g} extraction shooter`,
+    "extraction shooter no commentary",
+    `${g} loot and extract`,
+    "extraction FPS gameplay",
+  ],
+  shmup: (g) => [
+    `${g} shmup`,
+    `${g} bullet hell`,
+    "shoot em up no commentary",
+    "danmaku gameplay",
+  ],
+  city_builder: (g) => [
+    `${g} city builder`,
+    "city builder no commentary",
+    `${g} city building`,
+    "city sim gameplay",
+  ],
+  deck_builder: (g) => [
+    `${g} deck builder`,
+    "deck builder no commentary",
+    `${g} deckbuilding roguelike`,
+    "deck building gameplay",
+  ],
+  auto_battler: (g) => [
+    `${g} auto battler`,
+    "auto battler no commentary",
+    `${g} auto chess`,
+    "auto battler gameplay",
+  ],
 };
 
 const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
@@ -192,10 +282,13 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
   const coreFn = CORE_TAGS_BY_LANG[input.language] ?? CORE_TAGS_BY_LANG.en;
   allTags.push(...coreFn(gameName));
 
-  // Genre tags
-  const genreFn = GENRE_TAG_REGISTRY[input.genre];
-  if (genreFn) {
-    allTags.push(...genreFn(gameName));
+  // Genre tags — merge contributions from every selected genre.
+  // Final dedup at the bottom collapses overlap across the pools.
+  for (const genre of input.genres) {
+    const genreFn = GENRE_TAG_REGISTRY[genre];
+    if (genreFn) {
+      allTags.push(...genreFn(gameName));
+    }
   }
 
   // Video type tags
@@ -219,9 +312,12 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
     }
   }
 
-  // Trending tags (lowest priority)
-  if (includeTrendingTags) {
-    allTags.push(...getTrendingTags(gameName, input.genre));
+  // Trending tags (lowest priority). The first genre stands in as the
+  // "primary" genre for the template — multi-genre games usually have
+  // one headline category that searchers use.
+  const primaryGenre = input.genres[0];
+  if (includeTrendingTags && primaryGenre) {
+    allTags.push(...getTrendingTags(gameName, primaryGenre));
   }
 
   // Dedup (case-insensitive) and enforce per-tag char limit

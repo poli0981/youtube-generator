@@ -168,11 +168,13 @@ export function buildDescription(
   // 13. CTA
   sections.push(t("description.sections.cta"));
 
-  // 14. Hashtags
+  // 14. Hashtags — first genre is the primary tag; any further genres are
+  // already represented in the tag list so they don't duplicate here.
+  const primaryGenre = input.genres[0];
   const allHashtags = [
     `#${sanitizeHashtag(gameName)}`,
     "#GameplayNoCommentary",
-    `#${sanitizeHashtag(input.genre)}`,
+    ...(primaryGenre ? [`#${sanitizeHashtag(primaryGenre)}`] : []),
   ];
   sections.push(allHashtags.slice(0, hashtagCount).join(" "));
 
