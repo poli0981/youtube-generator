@@ -14,6 +14,14 @@
     "logs": "Registros"
   },
   "editor": {
+    "sections": {
+      "gameInfo": "Info del Juego",
+      "videoSettings": "Ajustes de Video",
+      "contentDetails": "Detalles del Contenido",
+      "attribution": "Créditos",
+      "rig": "Mi Equipo",
+      "storeAndSocial": "Tiendas y Social"
+    },
     "videoType": "Tipo de Video",
     "language": "Idioma de Salida",
     "genre": "Género del Juego",

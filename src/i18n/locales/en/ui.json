@@ -14,6 +14,14 @@
     "logs": "Logs"
   },
   "editor": {
+    "sections": {
+      "gameInfo": "Game Info",
+      "videoSettings": "Video Settings",
+      "contentDetails": "Content Details",
+      "attribution": "Attribution",
+      "rig": "My Rig",
+      "storeAndSocial": "Store & Social"
+    },
     "videoType": "Video Type",
     "language": "Output Language",
     "genre": "Game Genre",

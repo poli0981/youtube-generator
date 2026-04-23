@@ -14,6 +14,14 @@
     "logs": "日志"
   },
   "editor": {
+    "sections": {
+      "gameInfo": "游戏信息",
+      "videoSettings": "视频设置",
+      "contentDetails": "内容详情",
+      "attribution": "署名",
+      "rig": "我的配置",
+      "storeAndSocial": "商店与社交"
+    },
     "videoType": "视频类型",
     "language": "输出语言",
     "genre": "游戏类型",

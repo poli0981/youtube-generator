@@ -17,11 +17,13 @@ interface SettingsState {
   includeTrendingTags: boolean;
   hashtagCount: number;
   showQualityBadge: boolean;
+  editorAccordionState: Record<string, boolean>;
   setTheme: (theme: "dark" | "light") => void;
   setAppLanguage: (lang: SupportedLanguage) => void;
   setDefaultOutputLanguage: (lang: SupportedLanguage) => void;
   setDefaultGenres: (genres: GenreId[]) => void;
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
+  toggleEditorAccordion: (id: string) => void;
 }
 
 interface SettingsData {
@@ -37,6 +39,7 @@ interface SettingsData {
   includeTrendingTags: boolean;
   hashtagCount: number;
   showQualityBadge: boolean;
+  editorAccordionState: Record<string, boolean>;
 }
 
 const detectBrowserLanguage = (): SupportedLanguage => {
@@ -60,6 +63,14 @@ const initialSettings: SettingsData = {
   includeTrendingTags: true,
   hashtagCount: 3,
   showQualityBadge: true,
+  editorAccordionState: {
+    gameInfo: true,
+    videoSettings: true,
+    contentDetails: false,
+    attribution: false,
+    rig: false,
+    storeAndSocial: false,
+  },
 };
 
 const STORE_KEY = "ytdescgen-settings";
@@ -82,6 +93,14 @@ export const useSettingsStore = create<SettingsState>()(
       setDefaultGenres: (genres) => set({ defaultGenres: genres }),
 
       setSetting: (key, value) => set({ [key]: value }),
+
+      toggleEditorAccordion: (id) =>
+        set((state) => ({
+          editorAccordionState: {
+            ...state.editorAccordionState,
+            [id]: !state.editorAccordionState[id],
+          },
+        })),
     }),
     {
       name: STORE_KEY,
@@ -112,6 +131,7 @@ export const useSettingsStore = create<SettingsState>()(
         includeTrendingTags: state.includeTrendingTags,
         hashtagCount: state.hashtagCount,
         showQualityBadge: state.showQualityBadge,
+        editorAccordionState: state.editorAccordionState,
       }),
       onRehydrateStorage: () => {
         return () => {
@@ -148,6 +168,7 @@ useSettingsStore.subscribe((state) => {
     includeTrendingTags: state.includeTrendingTags,
     hashtagCount: state.hashtagCount,
     showQualityBadge: state.showQualityBadge,
+    editorAccordionState: state.editorAccordionState,
   };
   saveSettings(STORE_KEY, data);
 });

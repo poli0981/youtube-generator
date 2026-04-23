@@ -7,6 +7,7 @@ interface ShortcutHelpModalProps {
 }
 
 const shortcuts = [
+  { keys: "Ctrl + G", labelKey: "shortcuts.generate" },
   { keys: "Ctrl + Enter", labelKey: "shortcuts.generate" },
   { keys: "Ctrl + Shift + C", labelKey: "shortcuts.copyAll" },
   { keys: "Ctrl + S", labelKey: "shortcuts.saveDraft" },

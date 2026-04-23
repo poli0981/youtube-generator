@@ -14,6 +14,14 @@
     "logs": "Nhật ký"
   },
   "editor": {
+    "sections": {
+      "gameInfo": "Thông tin game",
+      "videoSettings": "Cài đặt video",
+      "contentDetails": "Nội dung video",
+      "attribution": "Credit / Ghi chú",
+      "rig": "Cấu hình máy",
+      "storeAndSocial": "Store & Mạng xã hội"
+    },
     "videoType": "Loại Video",
     "language": "Ngôn ngữ đầu ra",
     "genre": "Thể loại Game",

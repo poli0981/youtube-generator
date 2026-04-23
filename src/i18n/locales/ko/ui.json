@@ -14,6 +14,14 @@
     "logs": "로그"
   },
   "editor": {
+    "sections": {
+      "gameInfo": "게임 정보",
+      "videoSettings": "비디오 설정",
+      "contentDetails": "콘텐츠 상세",
+      "attribution": "크레딧",
+      "rig": "내 장비",
+      "storeAndSocial": "스토어 & 소셜"
+    },
     "videoType": "영상 유형",
     "language": "출력 언어",
     "genre": "게임 장르",
