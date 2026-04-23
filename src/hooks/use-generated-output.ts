@@ -7,8 +7,14 @@ import type { GeneratorOutput, GeneratorInput } from "@engine/types";
 
 export function useGeneratedOutput(): GeneratorOutput {
   const state = useEditorStore();
-  const { includeMultilingualTags, includeTrendingTags, hashtagCount, showQualityBadge } =
-    useSettingsStore();
+  const {
+    includeMultilingualTags,
+    includeTrendingTags,
+    hashtagCount,
+    showQualityBadge,
+    showCopyright,
+    showUsagePolicy,
+  } = useSettingsStore();
 
   const input: GeneratorInput = useMemo(
     () => ({
@@ -74,7 +80,18 @@ export function useGeneratedOutput(): GeneratorOutput {
         includeTrendingTags,
         hashtagCount,
         showQualityBadge,
+        showCopyright,
+        showUsagePolicy,
       }),
-    [input, t, includeMultilingualTags, includeTrendingTags, hashtagCount, showQualityBadge],
+    [
+      input,
+      t,
+      includeMultilingualTags,
+      includeTrendingTags,
+      hashtagCount,
+      showQualityBadge,
+      showCopyright,
+      showUsagePolicy,
+    ],
   );
 }

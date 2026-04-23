@@ -13,6 +13,16 @@ export interface RenderOptions extends TagOptions {
    * user's setting.
    */
   showQualityBadge?: boolean;
+  /**
+   * When true (and channelName is non-empty), the description ends with
+   * an auto-generated `© <year> <channelName>. All rights reserved.` line.
+   */
+  showCopyright?: boolean;
+  /**
+   * When true, the description appends a localised "usage policy" block
+   * (📋 USAGE POLICY) after the copyright line.
+   */
+  showUsagePolicy?: boolean;
 }
 
 export function renderAll(
@@ -21,7 +31,11 @@ export function renderAll(
   options?: RenderOptions,
 ): GeneratorOutput {
   const title = buildTitle(input, t, options?.showQualityBadge ?? true);
-  const description = buildDescription(input, t, options?.hashtagCount);
+  const description = buildDescription(input, t, {
+    hashtagCount: options?.hashtagCount,
+    showCopyright: options?.showCopyright,
+    showUsagePolicy: options?.showUsagePolicy,
+  });
   const tags = generateTags(input, options);
   const tagString = formatTagString(tags);
 

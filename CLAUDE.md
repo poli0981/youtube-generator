@@ -75,7 +75,8 @@ yt-desc-gen/
 │   │       └── _schema.json     # JSON schema for locale validation
 │   │
 │   ├── engine/                  # Core template engine (pure functions, no React)
-│   │   ├── title-builder.ts     # Title generation logic
+│   │   ├── title-builder.ts     # Title generation + quality-badge helper
+│   │   ├── title-variants.ts    # A/B variant title generator (v0.5)
 │   │   ├── description-builder.ts # Description generation logic
 │   │   ├── tag-generator.ts     # Tag generation + dedup + char limit
 │   │   ├── template-renderer.ts # Orchestrator: combines title + desc + tags
@@ -85,8 +86,9 @@ yt-desc-gen/
 │   │   ├── editor-store.ts      # Current editor form state
 │   │   ├── profile-store.ts     # Saved profiles (social, rig, channel)
 │   │   ├── preset-store.ts      # Game presets (name + store links)
+│   │   ├── template-store.ts    # Full-form snapshots (v0.5)
 │   │   ├── history-store.ts     # Generated output history
-│   │   └── settings-store.ts    # App settings (theme, default language)
+│   │   └── settings-store.ts    # App settings (theme, default language, description toggles)
 │   │
 │   ├── hooks/                   # Custom React hooks
 │   │   ├── use-generated-output.ts  # Memoized template rendering

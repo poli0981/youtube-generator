@@ -21,8 +21,14 @@ interface BatchResult {
 export function BatchPage() {
   const { t } = useTranslation("ui");
   const state = useEditorStore();
-  const { includeMultilingualTags, includeTrendingTags, hashtagCount, showQualityBadge } =
-    useSettingsStore();
+  const {
+    includeMultilingualTags,
+    includeTrendingTags,
+    hashtagCount,
+    showQualityBadge,
+    showCopyright,
+    showUsagePolicy,
+  } = useSettingsStore();
   const [startPart, setStartPart] = useState("1");
   const [endPart, setEndPart] = useState("5");
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([state.language]);
@@ -78,6 +84,8 @@ export function BatchPage() {
             includeTrendingTags,
             hashtagCount,
             showQualityBadge,
+            showCopyright,
+            showUsagePolicy,
           }),
         };
       });

@@ -84,7 +84,14 @@
     "thumbnailText": "Text thumbnail",
     "copyThumbnailText": "Sao chép text thumbnail",
     "pinnedComment": "Bình luận ghim",
-    "copyPinnedComment": "Sao chép bình luận ghim"
+    "copyPinnedComment": "Sao chép bình luận ghim",
+    "generateAlternatives": "Tạo biến thể tiêu đề",
+    "saveAsTemplate": "Lưu thành template",
+    "variants": {
+      "default": "Mặc định",
+      "typeFirst": "Loại video trước",
+      "qualityFirst": "Chất lượng trước"
+    }
   },
   "common": {
     "save": "Lưu",
@@ -215,6 +222,21 @@
     "exportProfiles": "Xuất hồ sơ",
     "importProfiles": "Nhập hồ sơ"
   },
+  "templates": {
+    "title": "Template",
+    "createNew": "Tạo template",
+    "saveAsTemplate": "Lưu thành template",
+    "templateName": "Tên template",
+    "templateNamePlaceholder": "vd: Elden Ring Boss Run",
+    "loadTemplate": "Áp dụng",
+    "deleteConfirm": "Bạn có chắc muốn xoá template này?",
+    "emptyState": "Chưa có template nào. Lưu form hiện tại để tái sử dụng.",
+    "saveHint": "Lưu toàn bộ field editor để sau này khôi phục đúng trạng thái.",
+    "savedAs": "Đã lưu '{{name}}'",
+    "appliedToast": "Đã áp dụng '{{name}}'",
+    "exportTemplates": "Xuất template",
+    "importTemplates": "Nhập template"
+  },
   "presets": {
     "title": "Cài đặt Game",
     "createNew": "Tạo preset",
@@ -252,7 +274,9 @@
     "multilingualTags": "Tags đa ngôn ngữ",
     "trendingTags": "Tags xu hướng",
     "hashtagCount": "Số hashtag",
-    "showQualityBadge": "Hiện badge chất lượng trong tiêu đề (vd: [2K 60FPS])"
+    "showQualityBadge": "Hiện badge chất lượng trong tiêu đề (vd: [2K 60FPS])",
+    "showCopyright": "Gắn dòng © copyright vào description",
+    "showUsagePolicy": "Gắn khối quy định sử dụng video vào description"
   },
   "batch": {
     "title": "Chế độ hàng loạt",

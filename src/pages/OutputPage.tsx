@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { Shuffle, Bookmark } from "lucide-react";
+import { Button } from "@components/ui/Button";
 import { OutputPreview } from "@components/output/OutputPreview";
 import { OutputExtras } from "@components/output/OutputExtras";
 import { CopyAllBar } from "@components/output/CopyAllBar";
+import { VariantPicker } from "@components/output/VariantPicker";
+import { TemplateSaveForm } from "@components/templates/TemplateSaveForm";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
 import { useMultilangOutput } from "@hooks/use-multilang-output";
 import { useEditorStore } from "@store/editor-store";
@@ -22,6 +26,8 @@ export function OutputPage() {
 
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([language]);
   const [activeTab, setActiveTab] = useState<SupportedLanguage>(language);
+  const [showVariants, setShowVariants] = useState(false);
+  const [showSaveTemplate, setShowSaveTemplate] = useState(false);
 
   const isMultiLang = selectedLangs.length > 1;
   const multilangOutputs = useMultilangOutput(isMultiLang ? selectedLangs : []);
@@ -73,25 +79,37 @@ export function OutputPage() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="mx-auto w-full max-w-4xl flex-1 p-6">
-        <div className="mb-4">
-          <span className="mb-2 block text-sm font-medium text-text-secondary">
-            {t("output.selectLanguages")}
-          </span>
+        <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+          <div className="flex-1">
+            <span className="mb-2 block text-sm font-medium text-text-secondary">
+              {t("output.selectLanguages")}
+            </span>
+            <div className="flex flex-wrap gap-2">
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <button
+                  key={lang.id}
+                  onClick={() => toggleLang(lang.id as SupportedLanguage)}
+                  className={clsx(
+                    "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+                    selectedLangs.includes(lang.id as SupportedLanguage)
+                      ? "bg-accent text-white"
+                      : "bg-surface-2 text-text-muted hover:text-text-primary",
+                  )}
+                >
+                  {lang.flag} {lang.nativeName}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="flex flex-wrap gap-2">
-            {SUPPORTED_LANGUAGES.map((lang) => (
-              <button
-                key={lang.id}
-                onClick={() => toggleLang(lang.id as SupportedLanguage)}
-                className={clsx(
-                  "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-                  selectedLangs.includes(lang.id as SupportedLanguage)
-                    ? "bg-accent text-white"
-                    : "bg-surface-2 text-text-muted hover:text-text-primary",
-                )}
-              >
-                {lang.flag} {lang.nativeName}
-              </button>
-            ))}
+            <Button variant="ghost" size="sm" onClick={() => setShowVariants(true)} disabled={!gameName}>
+              <Shuffle className="h-3.5 w-3.5" />
+              {t("output.generateAlternatives")}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setShowSaveTemplate(true)} disabled={!gameName}>
+              <Bookmark className="h-3.5 w-3.5" />
+              {t("output.saveAsTemplate")}
+            </Button>
           </div>
         </div>
 
@@ -120,6 +138,9 @@ export function OutputPage() {
         </div>
       </div>
       <CopyAllBar extraText={isMultiLang ? allLangsCombined : undefined} />
+
+      <VariantPicker open={showVariants} onClose={() => setShowVariants(false)} />
+      <TemplateSaveForm open={showSaveTemplate} onClose={() => setShowSaveTemplate(false)} />
     </div>
   );
 }

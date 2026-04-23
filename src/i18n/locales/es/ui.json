@@ -84,7 +84,14 @@
     "thumbnailText": "Texto de Miniatura",
     "copyThumbnailText": "Copiar texto de miniatura",
     "pinnedComment": "Comentario Fijado",
-    "copyPinnedComment": "Copiar comentario fijado"
+    "copyPinnedComment": "Copiar comentario fijado",
+    "generateAlternatives": "Generar Alternativas",
+    "saveAsTemplate": "Guardar como Plantilla",
+    "variants": {
+      "default": "Predeterminado",
+      "typeFirst": "Tipo Primero",
+      "qualityFirst": "Calidad Primero"
+    }
   },
   "common": {
     "save": "Guardar",
@@ -215,6 +222,21 @@
     "exportProfiles": "Exportar Perfiles",
     "importProfiles": "Importar Perfiles"
   },
+  "templates": {
+    "title": "Plantillas",
+    "createNew": "Crear Plantilla",
+    "saveAsTemplate": "Guardar como Plantilla",
+    "templateName": "Nombre de Plantilla",
+    "templateNamePlaceholder": "ej. Elden Ring Boss Run",
+    "loadTemplate": "Aplicar",
+    "deleteConfirm": "¿Seguro que quieres eliminar esta plantilla?",
+    "emptyState": "Aún no hay plantillas. Guarda el formulario actual para reutilizarlo más tarde.",
+    "saveHint": "Guarda todos los campos del editor para restaurar el estado exacto después.",
+    "savedAs": "Guardado como '{{name}}'",
+    "appliedToast": "Aplicado '{{name}}'",
+    "exportTemplates": "Exportar Plantillas",
+    "importTemplates": "Importar Plantillas"
+  },
   "presets": {
     "title": "Preajustes de Juego",
     "createNew": "Crear Preajuste",
@@ -252,7 +274,9 @@
     "multilingualTags": "Etiquetas Multilingües",
     "trendingTags": "Etiquetas Tendencia",
     "hashtagCount": "Cantidad de Hashtags",
-    "showQualityBadge": "Mostrar insignia de calidad en el título (ej. [2K 60FPS])"
+    "showQualityBadge": "Mostrar insignia de calidad en el título (ej. [2K 60FPS])",
+    "showCopyright": "Agregar línea de © copyright a la descripción",
+    "showUsagePolicy": "Agregar bloque de política de uso a la descripción"
   },
   "batch": {
     "title": "Generación por Lote",

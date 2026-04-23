@@ -62,7 +62,10 @@
       "social": "🔗 THEO DÕI MÌNH",
       "playlist": "▶️ Xem toàn bộ series: {{link}}",
       "contact": "📧 Liên hệ hợp tác: {{email}}",
-      "cta": "👍 Like | 🔔 Đăng ký | ↗️ Chia sẻ"
+      "cta": "👍 Like | 🔔 Đăng ký | ↗️ Chia sẻ",
+      "copyright": "© {{year}} {{channelName}}. Đã đăng ký bản quyền.",
+      "usagePolicyHeader": "📋 ĐIỀU KIỆN DÙNG VIDEO",
+      "usagePolicy": "• Luôn luôn ghi credit kèm link video gốc VÀ kênh (tối thiểu trong phần mô tả).\n• Không re-upload toàn bộ video hoặc phần lớn nội dung dưới dạng content của bạn.\n• Không kiếm tiền từ footage mà chưa có sự đồng ý rõ ràng.\n• Không chỉnh sửa footage theo cách xuyên tạc nội dung gốc hoặc người tạo.\n• Compilation, review, commentary, reaction video đều OK miễn là có credit.\nNếu không chắc, liên hệ qua các kênh social hoặc email ở phần mô tả."
     }
   },
   "hashtags": {
