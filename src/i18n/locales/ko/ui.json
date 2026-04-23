@@ -84,7 +84,14 @@
     "thumbnailText": "썸네일 텍스트",
     "copyThumbnailText": "썸네일 텍스트 복사",
     "pinnedComment": "고정 댓글",
-    "copyPinnedComment": "고정 댓글 복사"
+    "copyPinnedComment": "고정 댓글 복사",
+    "generateAlternatives": "제목 대안 생성",
+    "saveAsTemplate": "템플릿으로 저장",
+    "variants": {
+      "default": "기본",
+      "typeFirst": "유형 우선",
+      "qualityFirst": "화질 우선"
+    }
   },
   "common": {
     "save": "저장",
@@ -215,6 +222,21 @@
     "exportProfiles": "프로필 내보내기",
     "importProfiles": "프로필 가져오기"
   },
+  "templates": {
+    "title": "템플릿",
+    "createNew": "템플릿 만들기",
+    "saveAsTemplate": "템플릿으로 저장",
+    "templateName": "템플릿 이름",
+    "templateNamePlaceholder": "예: 엘든 링 보스전",
+    "loadTemplate": "적용",
+    "deleteConfirm": "이 템플릿을 삭제하시겠습니까?",
+    "emptyState": "아직 템플릿이 없습니다. 현재 폼을 저장하여 재사용하세요.",
+    "saveHint": "에디터의 모든 필드를 저장하여 나중에 동일한 상태로 복원할 수 있습니다.",
+    "savedAs": "'{{name}}'(으)로 저장됨",
+    "appliedToast": "'{{name}}' 적용됨",
+    "exportTemplates": "템플릿 내보내기",
+    "importTemplates": "템플릿 가져오기"
+  },
   "presets": {
     "title": "게임 프리셋",
     "createNew": "프리셋 만들기",
@@ -252,7 +274,9 @@
     "multilingualTags": "다국어 태그",
     "trendingTags": "인기 태그",
     "hashtagCount": "해시태그 수",
-    "showQualityBadge": "제목에 화질 배지 표시 (예: [2K 60FPS])"
+    "showQualityBadge": "제목에 화질 배지 표시 (예: [2K 60FPS])",
+    "showCopyright": "설명란에 © 저작권 줄 추가",
+    "showUsagePolicy": "설명란에 영상 사용 정책 블록 추가"
   },
   "batch": {
     "title": "일괄 생성",

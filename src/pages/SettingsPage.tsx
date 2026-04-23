@@ -156,6 +156,16 @@ export function SettingsPage() {
             checked={settings.showQualityBadge}
             onChange={(v) => settings.setSetting("showQualityBadge", v)}
           />
+          <Toggle
+            label={t("settings.showCopyright")}
+            checked={settings.showCopyright}
+            onChange={(v) => settings.setSetting("showCopyright", v)}
+          />
+          <Toggle
+            label={t("settings.showUsagePolicy")}
+            checked={settings.showUsagePolicy}
+            onChange={(v) => settings.setSetting("showUsagePolicy", v)}
+          />
           <Select
             label={t("settings.hashtagCount")}
             options={hashtagOptions}

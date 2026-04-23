@@ -84,7 +84,14 @@
     "thumbnailText": "Thumbnail Text",
     "copyThumbnailText": "Copy thumbnail text",
     "pinnedComment": "Pinned Comment",
-    "copyPinnedComment": "Copy pinned comment"
+    "copyPinnedComment": "Copy pinned comment",
+    "generateAlternatives": "Generate Alternatives",
+    "saveAsTemplate": "Save as Template",
+    "variants": {
+      "default": "Default",
+      "typeFirst": "Type First",
+      "qualityFirst": "Quality First"
+    }
   },
   "common": {
     "save": "Save",
@@ -227,6 +234,21 @@
     "exportPresets": "Export Presets",
     "importPresets": "Import Presets"
   },
+  "templates": {
+    "title": "Templates",
+    "createNew": "Create Template",
+    "saveAsTemplate": "Save as Template",
+    "templateName": "Template Name",
+    "templateNamePlaceholder": "e.g. Elden Ring Boss Run",
+    "loadTemplate": "Apply",
+    "deleteConfirm": "Are you sure you want to delete this template?",
+    "emptyState": "No templates yet. Save your current form as a template to reuse later.",
+    "saveHint": "Saves every field in the editor so you can restore the exact state later.",
+    "savedAs": "Saved as '{{name}}'",
+    "appliedToast": "Applied '{{name}}'",
+    "exportTemplates": "Export Templates",
+    "importTemplates": "Import Templates"
+  },
   "history": {
     "title": "History",
     "emptyState": "No generation history yet.",
@@ -252,7 +274,9 @@
     "multilingualTags": "Include Multilingual Tags",
     "trendingTags": "Include Trending Tags",
     "hashtagCount": "Hashtag Count",
-    "showQualityBadge": "Show quality badge in title (e.g. [2K 60FPS])"
+    "showQualityBadge": "Show quality badge in title (e.g. [2K 60FPS])",
+    "showCopyright": "Append © copyright line to description",
+    "showUsagePolicy": "Append usage policy block to description"
   },
   "batch": {
     "title": "Batch Mode",

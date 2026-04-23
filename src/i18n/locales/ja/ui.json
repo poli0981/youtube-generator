@@ -84,7 +84,14 @@
     "thumbnailText": "サムネイルテキスト",
     "copyThumbnailText": "サムネイルテキストをコピー",
     "pinnedComment": "固定コメント",
-    "copyPinnedComment": "固定コメントをコピー"
+    "copyPinnedComment": "固定コメントをコピー",
+    "generateAlternatives": "タイトル案を生成",
+    "saveAsTemplate": "テンプレートとして保存",
+    "variants": {
+      "default": "デフォルト",
+      "typeFirst": "タイプ優先",
+      "qualityFirst": "画質優先"
+    }
   },
   "common": {
     "save": "保存",
@@ -215,6 +222,21 @@
     "exportProfiles": "プロフィールをエクスポート",
     "importProfiles": "プロフィールをインポート"
   },
+  "templates": {
+    "title": "テンプレート",
+    "createNew": "新規作成",
+    "saveAsTemplate": "テンプレートとして保存",
+    "templateName": "テンプレート名",
+    "templateNamePlaceholder": "例: エルデンリング ボス戦",
+    "loadTemplate": "適用",
+    "deleteConfirm": "このテンプレートを削除してもよろしいですか？",
+    "emptyState": "まだテンプレートがありません。現在のフォームを保存して再利用できます。",
+    "saveHint": "エディタの全フィールドを保存し、あとで同じ状態に戻せます。",
+    "savedAs": "'{{name}}' として保存しました",
+    "appliedToast": "'{{name}}' を適用しました",
+    "exportTemplates": "テンプレートをエクスポート",
+    "importTemplates": "テンプレートをインポート"
+  },
   "presets": {
     "title": "ゲームプリセット",
     "createNew": "プリセット作成",
@@ -252,7 +274,9 @@
     "multilingualTags": "多言語タグを含む",
     "trendingTags": "トレンドタグを含む",
     "hashtagCount": "ハッシュタグ数",
-    "showQualityBadge": "タイトルに画質バッジを表示 (例: [2K 60FPS])"
+    "showQualityBadge": "タイトルに画質バッジを表示 (例: [2K 60FPS])",
+    "showCopyright": "説明欄に © 著作権行を追加",
+    "showUsagePolicy": "説明欄に動画利用ポリシーを追加"
   },
   "batch": {
     "title": "一括モード",

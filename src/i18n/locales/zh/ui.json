@@ -84,7 +84,14 @@
     "thumbnailText": "缩略图文字",
     "copyThumbnailText": "复制缩略图文字",
     "pinnedComment": "置顶评论",
-    "copyPinnedComment": "复制置顶评论"
+    "copyPinnedComment": "复制置顶评论",
+    "generateAlternatives": "生成标题备选",
+    "saveAsTemplate": "保存为模板",
+    "variants": {
+      "default": "默认",
+      "typeFirst": "类型优先",
+      "qualityFirst": "画质优先"
+    }
   },
   "common": {
     "save": "保存",
@@ -215,6 +222,21 @@
     "exportProfiles": "导出配置",
     "importProfiles": "导入配置"
   },
+  "templates": {
+    "title": "模板",
+    "createNew": "创建模板",
+    "saveAsTemplate": "保存为模板",
+    "templateName": "模板名称",
+    "templateNamePlaceholder": "如：艾尔登法环 Boss 战",
+    "loadTemplate": "应用",
+    "deleteConfirm": "确定要删除此模板吗？",
+    "emptyState": "还没有模板。保存当前表单以便复用。",
+    "saveHint": "保存编辑器中的所有字段，以便之后恢复到完全相同的状态。",
+    "savedAs": "已保存为 '{{name}}'",
+    "appliedToast": "已应用 '{{name}}'",
+    "exportTemplates": "导出模板",
+    "importTemplates": "导入模板"
+  },
   "presets": {
     "title": "游戏预设",
     "createNew": "创建预设",
@@ -252,7 +274,9 @@
     "multilingualTags": "多语言标签",
     "trendingTags": "热门标签",
     "hashtagCount": "话题标签数量",
-    "showQualityBadge": "在标题中显示画质标签 (如：[2K 60FPS])"
+    "showQualityBadge": "在标题中显示画质标签 (如：[2K 60FPS])",
+    "showCopyright": "在描述中添加 © 版权行",
+    "showUsagePolicy": "在描述中添加视频使用规则块"
   },
   "batch": {
     "title": "批量生成",

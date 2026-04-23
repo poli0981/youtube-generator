@@ -62,7 +62,10 @@
       "social": "🔗 SÍGUEME",
       "playlist": "▶️ Ver la serie completa: {{link}}",
       "contact": "📧 Consultas comerciales: {{email}}",
-      "cta": "👍 Me gusta | 🔔 Suscríbete | ↗️ Comparte"
+      "cta": "👍 Me gusta | 🔔 Suscríbete | ↗️ Comparte",
+      "copyright": "© {{year}} {{channelName}}. Todos los derechos reservados.",
+      "usagePolicyHeader": "📋 POLÍTICA DE USO",
+      "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción."
     }
   },
   "hashtags": {

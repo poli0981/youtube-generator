@@ -1,0 +1,87 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Modal } from "@components/ui/Modal";
+import { Button } from "@components/ui/Button";
+import { Input } from "@components/ui/Input";
+import { useEditorStore } from "@store/editor-store";
+import { useTemplateStore, type TemplateSnapshot } from "@store/template-store";
+import toast from "react-hot-toast";
+
+interface TemplateSaveFormProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+/**
+ * Prompts for a template name, then saves the entire editor form as a
+ * reusable snapshot. Leaves the editor state untouched.
+ */
+export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
+  const { t } = useTranslation("ui");
+  const editor = useEditorStore();
+  const addTemplate = useTemplateStore((s) => s.addTemplate);
+  const [name, setName] = useState("");
+
+  const handleSave = () => {
+    const snapshot: TemplateSnapshot = {
+      videoType: editor.videoType,
+      language: editor.language,
+      genres: [...editor.genres],
+      gameName: editor.gameName,
+      gameNameLocalized: { ...editor.gameNameLocalized },
+      channelName: editor.channelName,
+      platform: editor.platform,
+      partNumber: editor.partNumber,
+      bossName: editor.bossName,
+      dlcName: editor.dlcName,
+      challengeName: editor.challengeName,
+      modName: editor.modName,
+      resolution: editor.resolution,
+      fps: editor.fps,
+      graphicsPreset: editor.graphicsPreset,
+      timestamps: editor.timestamps,
+      playlistLink: editor.playlistLink,
+      contactEmail: editor.contactEmail,
+      musicAttribution: editor.musicAttribution,
+      thumbnailText: editor.thumbnailText,
+      pinnedComment: editor.pinnedComment,
+      spoilerWarning: editor.spoilerWarning,
+      matureWarning: editor.matureWarning,
+      storeLinks: { ...editor.storeLinks },
+      storeLinkTypes: { ...editor.storeLinkTypes },
+      social: { ...editor.social },
+      rig: { ...editor.rig },
+    };
+    addTemplate(name, snapshot);
+    toast.success(t("templates.savedAs", { name: name.trim() || "Untitled" }));
+    setName("");
+    onClose();
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={t("templates.saveAsTemplate")}
+      footer={
+        <>
+          <Button variant="ghost" onClick={onClose}>
+            {t("common.cancel")}
+          </Button>
+          <Button onClick={handleSave}>{t("common.save")}</Button>
+        </>
+      }
+    >
+      <div className="flex flex-col gap-3">
+        <Input
+          label={t("templates.templateName")}
+          placeholder={t("templates.templateNamePlaceholder")}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoFocus
+        />
+        <p className="text-xs text-text-muted">{t("templates.saveHint")}</p>
+      </div>
+    </Modal>
+  );
+}

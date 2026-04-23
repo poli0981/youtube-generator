@@ -234,6 +234,57 @@ describe("buildDescription", () => {
     expect(whitespace).not.toContain("🎵 MUSIC / SOUND");
   });
 
+  it("renders copyright line when showCopyright is true and channelName is set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput(), t, { showCopyright: true });
+    const year = new Date().getFullYear();
+    expect(result).toContain(`© ${year} TestChannel. All rights reserved.`);
+  });
+
+  it("skips copyright when channelName is blank even if toggle is on", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ channelName: "" }), t, {
+      showCopyright: true,
+    });
+    expect(result).not.toContain("All rights reserved");
+  });
+
+  it("skips copyright when the toggle is off", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput(), t, { showCopyright: false });
+    expect(result).not.toContain("All rights reserved");
+  });
+
+  it("renders the usage policy block when showUsagePolicy is true", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput(), t, { showUsagePolicy: true });
+    expect(result).toContain("📋 USAGE POLICY");
+    expect(result).toContain("Always credit");
+    expect(result).toContain("Compilation, review, commentary");
+  });
+
+  it("skips the usage policy when the toggle is off", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput(), t, { showUsagePolicy: false });
+    expect(result).not.toContain("📋 USAGE POLICY");
+  });
+
+  it("places copyright and usage policy between CTA and hashtags", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput(), t, {
+      showCopyright: true,
+      showUsagePolicy: true,
+    });
+    const ctaIdx = result.indexOf("Like | 🔔 Subscribe");
+    const copyrightIdx = result.indexOf("All rights reserved");
+    const policyIdx = result.indexOf("📋 USAGE POLICY");
+    const hashtagsIdx = result.indexOf("#EldenRing");
+    expect(ctaIdx).toBeGreaterThan(-1);
+    expect(copyrightIdx).toBeGreaterThan(ctaIdx);
+    expect(policyIdx).toBeGreaterThan(copyrightIdx);
+    expect(hashtagsIdx).toBeGreaterThan(policyIdx);
+  });
+
   it("includes mature warning when enabled", () => {
     const t = createMockT("en");
     const result = buildDescription(makeInput({ matureWarning: true }), t);

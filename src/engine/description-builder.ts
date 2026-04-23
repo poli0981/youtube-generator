@@ -34,11 +34,22 @@ function getLabelForId(id: string, configs: readonly { id: string; label: string
   return configs.find((c) => c.id === id)?.label ?? id;
 }
 
+export interface BuildDescriptionOptions {
+  hashtagCount?: number;
+  /** When true and channelName is non-empty, appends an auto-generated
+   *  copyright line after the CTA. */
+  showCopyright?: boolean;
+  /** When true, appends a localised usage-policy block after the
+   *  copyright line. */
+  showUsagePolicy?: boolean;
+}
+
 export function buildDescription(
   input: GeneratorInput,
   t: TranslationFn,
-  hashtagCount = 3,
+  options: BuildDescriptionOptions = {},
 ): string {
+  const { hashtagCount = 3, showCopyright = false, showUsagePolicy = false } = options;
   const sections: string[] = [];
   const gameName =
     input.gameNameLocalized?.[input.language] ?? input.gameName;
@@ -176,6 +187,25 @@ export function buildDescription(
 
   // 13. CTA
   sections.push(t("description.sections.cta"));
+
+  // 13.5 Copyright line — auto-generated from channelName + current year.
+  // Skipped when the creator hasn't set a channel name (nothing to claim).
+  if (showCopyright && input.channelName.trim()) {
+    const year = new Date().getFullYear();
+    sections.push(
+      t("description.sections.copyright", {
+        year: String(year),
+        channelName: input.channelName.trim(),
+      }),
+    );
+  }
+
+  // 13.7 Usage policy — fixed localised template behind a Settings toggle.
+  if (showUsagePolicy) {
+    const header = t("description.sections.usagePolicyHeader");
+    const body = t("description.sections.usagePolicy");
+    sections.push(`${header}\n${body}`);
+  }
 
   // 14. Hashtags — first genre is the primary tag; any further genres are
   // already represented in the tag list so they don't duplicate here.

@@ -17,6 +17,8 @@ interface SettingsState {
   includeTrendingTags: boolean;
   hashtagCount: number;
   showQualityBadge: boolean;
+  showCopyright: boolean;
+  showUsagePolicy: boolean;
   editorAccordionState: Record<string, boolean>;
   setTheme: (theme: "dark" | "light") => void;
   setAppLanguage: (lang: SupportedLanguage) => void;
@@ -39,6 +41,8 @@ interface SettingsData {
   includeTrendingTags: boolean;
   hashtagCount: number;
   showQualityBadge: boolean;
+  showCopyright: boolean;
+  showUsagePolicy: boolean;
   editorAccordionState: Record<string, boolean>;
 }
 
@@ -63,6 +67,8 @@ const initialSettings: SettingsData = {
   includeTrendingTags: true,
   hashtagCount: 3,
   showQualityBadge: true,
+  showCopyright: true,
+  showUsagePolicy: false,
   editorAccordionState: {
     gameInfo: true,
     videoSettings: true,
@@ -131,6 +137,8 @@ export const useSettingsStore = create<SettingsState>()(
         includeTrendingTags: state.includeTrendingTags,
         hashtagCount: state.hashtagCount,
         showQualityBadge: state.showQualityBadge,
+        showCopyright: state.showCopyright,
+        showUsagePolicy: state.showUsagePolicy,
         editorAccordionState: state.editorAccordionState,
       }),
       onRehydrateStorage: () => {
@@ -168,6 +176,8 @@ useSettingsStore.subscribe((state) => {
     includeTrendingTags: state.includeTrendingTags,
     hashtagCount: state.hashtagCount,
     showQualityBadge: state.showQualityBadge,
+    showCopyright: state.showCopyright,
+    showUsagePolicy: state.showUsagePolicy,
     editorAccordionState: state.editorAccordionState,
   };
   saveSettings(STORE_KEY, data);

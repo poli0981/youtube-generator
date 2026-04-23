@@ -62,7 +62,10 @@
       "social": "🔗 FOLLOW ME",
       "playlist": "▶️ Watch the full series: {{link}}",
       "contact": "📧 Business inquiries: {{email}}",
-      "cta": "👍 Like | 🔔 Subscribe | ↗️ Share"
+      "cta": "👍 Like | 🔔 Subscribe | ↗️ Share",
+      "copyright": "© {{year}} {{channelName}}. All rights reserved.",
+      "usagePolicyHeader": "📋 USAGE POLICY",
+      "usagePolicy": "• Always credit with a link to the original video AND channel (at minimum in the description).\n• Don't re-upload the full video or large portions as your own content.\n• Don't monetize footage without explicit consent.\n• Don't edit footage to misrepresent the original content or creator.\n• Compilation, review, commentary, and reaction videos are OK — as long as you credit.\nIf in doubt, reach out via the social links or email in the description."
     }
   },
   "hashtags": {
