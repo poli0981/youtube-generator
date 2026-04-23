@@ -15,6 +15,7 @@ interface EditorData {
   bossName: string;
   dlcName: string;
   challengeName: string;
+  modName: string;
   resolution: string;
   fps: string;
   graphicsPreset: string;
@@ -56,6 +57,7 @@ const initialState: EditorData = {
   bossName: DEFAULTS.editor.bossName,
   dlcName: DEFAULTS.editor.dlcName,
   challengeName: DEFAULTS.editor.challengeName,
+  modName: DEFAULTS.editor.modName,
   resolution: DEFAULTS.editor.resolution,
   fps: DEFAULTS.editor.fps,
   graphicsPreset: DEFAULTS.editor.graphicsPreset,
@@ -121,6 +123,7 @@ export const useEditorStore = create<EditorState>()(
         bossName: state.bossName,
         dlcName: state.dlcName,
         challengeName: state.challengeName,
+        modName: state.modName,
         resolution: state.resolution,
         fps: state.fps,
         graphicsPreset: state.graphicsPreset,

@@ -6,6 +6,13 @@ import { YT_LIMITS } from "./types";
 
 export interface RenderOptions extends TagOptions {
   hashtagCount?: number;
+  /**
+   * When true, buildTitle appends a `[2K 60FPS]`-style badge to the
+   * video-type segment whenever resolution/fps are above the defaults.
+   * Defaults to true at the engine level; callers override with the
+   * user's setting.
+   */
+  showQualityBadge?: boolean;
 }
 
 export function renderAll(
@@ -13,7 +20,7 @@ export function renderAll(
   t: TranslationFn,
   options?: RenderOptions,
 ): GeneratorOutput {
-  const title = buildTitle(input, t);
+  const title = buildTitle(input, t, options?.showQualityBadge ?? true);
   const description = buildDescription(input, t, options?.hashtagCount);
   const tags = generateTags(input, options);
   const tagString = formatTagString(tags);

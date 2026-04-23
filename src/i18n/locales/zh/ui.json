@@ -30,6 +30,8 @@
     "dlcNamePlaceholder": "例如：Shadow of the Erdtree",
     "challengeName": "挑战名称",
     "challengeNamePlaceholder": "例如：无伤通关",
+    "modName": "Mod 名称",
+    "modNamePlaceholder": "如：Requiem, NaturalVision Evolved",
     "resolution": "分辨率",
     "fps": "帧率",
     "graphicsPreset": "画质预设",
@@ -93,7 +95,9 @@
     "side_quest": "支线任务",
     "secret": "秘密 / 隐藏内容",
     "comparison": "画质对比",
-    "guide": "无声攻略"
+    "guide": "无声攻略",
+    "mods": "Mod 游玩",
+    "collectibles": "全收集要素"
   },
   "genres": {
     "action": "动作 / 冒险",
@@ -229,7 +233,8 @@
     "historyLimit": "历史记录上限",
     "multilingualTags": "多语言标签",
     "trendingTags": "热门标签",
-    "hashtagCount": "话题标签数量"
+    "hashtagCount": "话题标签数量",
+    "showQualityBadge": "在标题中显示画质标签 (如：[2K 60FPS])"
   },
   "batch": {
     "title": "批量生成",

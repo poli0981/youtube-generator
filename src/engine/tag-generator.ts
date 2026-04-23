@@ -179,6 +179,18 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
   secret: (g) => [`${g} secret`, `${g} hidden`, "secret content no commentary"],
   comparison: (g) => [`${g} comparison`, `${g} graphics comparison`, "comparison no commentary"],
   guide: (g) => [`${g} guide`, `${g} silent guide`, "guide no commentary"],
+  mods: (g) => [
+    `${g} mods`,
+    `${g} modded gameplay`,
+    "modded gameplay no commentary",
+    `${g} mod showcase`,
+  ],
+  collectibles: (g) => [
+    `${g} all collectibles`,
+    `${g} 100% collectibles`,
+    `${g} completionist no commentary`,
+    `${g} achievement guide`,
+  ],
 };
 
 /**

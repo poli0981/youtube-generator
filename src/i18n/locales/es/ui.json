@@ -30,6 +30,8 @@
     "dlcNamePlaceholder": "ej. Shadow of the Erdtree",
     "challengeName": "Nombre del Desafío",
     "challengeNamePlaceholder": "ej. Sin Golpes",
+    "modName": "Nombre del Mod",
+    "modNamePlaceholder": "ej. Requiem, NaturalVision Evolved",
     "resolution": "Resolución",
     "fps": "FPS",
     "graphicsPreset": "Calidad Gráfica",
@@ -93,7 +95,9 @@
     "side_quest": "Misiones Secundarias",
     "secret": "Secretos / Ocultos",
     "comparison": "Comparación de Gráficos",
-    "guide": "Guía Silenciosa"
+    "guide": "Guía Silenciosa",
+    "mods": "Gameplay con Mods",
+    "collectibles": "Todos los Coleccionables"
   },
   "genres": {
     "action": "Acción / Aventura",
@@ -229,7 +233,8 @@
     "historyLimit": "Límite de Historial",
     "multilingualTags": "Etiquetas Multilingües",
     "trendingTags": "Etiquetas Tendencia",
-    "hashtagCount": "Cantidad de Hashtags"
+    "hashtagCount": "Cantidad de Hashtags",
+    "showQualityBadge": "Mostrar insignia de calidad en el título (ej. [2K 60FPS])"
   },
   "batch": {
     "title": "Generación por Lote",

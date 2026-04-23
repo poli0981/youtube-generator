@@ -30,6 +30,8 @@
     "dlcNamePlaceholder": "例：Shadow of the Erdtree",
     "challengeName": "チャレンジ名",
     "challengeNamePlaceholder": "例：ノーヒットラン",
+    "modName": "MOD名",
+    "modNamePlaceholder": "例: Requiem, NaturalVision Evolved",
     "resolution": "解像度",
     "fps": "FPS",
     "graphicsPreset": "グラフィック設定",
@@ -93,7 +95,9 @@
     "side_quest": "サブクエスト",
     "secret": "隠し要素",
     "comparison": "グラフィック比較",
-    "guide": "攻略ガイド"
+    "guide": "攻略ガイド",
+    "mods": "MODプレイ",
+    "collectibles": "全コレクション"
   },
   "genres": {
     "action": "アクション / アドベンチャー",
@@ -229,7 +233,8 @@
     "historyLimit": "履歴上限",
     "multilingualTags": "多言語タグを含む",
     "trendingTags": "トレンドタグを含む",
-    "hashtagCount": "ハッシュタグ数"
+    "hashtagCount": "ハッシュタグ数",
+    "showQualityBadge": "タイトルに画質バッジを表示 (例: [2K 60FPS])"
   },
   "batch": {
     "title": "一括モード",

@@ -51,6 +51,7 @@ export function buildDescription(
     bossName: input.bossName ?? "",
     dlcName: input.dlcName ?? "",
     challengeName: input.challengeName ?? "",
+    modName: input.modName ?? "",
   });
   sections.push(intro);
 

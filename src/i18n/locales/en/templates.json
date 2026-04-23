@@ -18,7 +18,9 @@
       "side_quest": "Side Quest",
       "secret": "Secret",
       "comparison": "Comparison",
-      "guide": "Guide"
+      "guide": "Guide",
+      "mods": "{{modName}} Mods",
+      "collectibles": "All Collectibles"
     }
   },
   "description": {
@@ -38,7 +40,9 @@
       "side_quest": "This video features side quests and optional content from {{gameName}} on {{channelName}}.",
       "secret": "This video features secrets and hidden content from {{gameName}} on {{channelName}}.",
       "comparison": "This video compares the graphics/performance of {{gameName}} on {{channelName}}.",
-      "guide": "This video is a silent guide for {{gameName}} on {{channelName}}."
+      "guide": "This video is a silent guide for {{gameName}} on {{channelName}}.",
+      "mods": "This video features the {{modName}} mod for {{gameName}} on {{channelName}}.",
+      "collectibles": "This video covers all collectibles and 100% completion of {{gameName}} on {{channelName}}."
     },
     "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
     "storeLinkSuffix": {
