@@ -14,6 +14,7 @@ export function useGeneratedOutput(): GeneratorOutput {
     showQualityBadge,
     showCopyright,
     showUsagePolicy,
+    showSponsorCredit,
   } = useSettingsStore();
 
   const input: GeneratorInput = useMemo(
@@ -36,6 +37,8 @@ export function useGeneratedOutput(): GeneratorOutput {
       playlistLink: state.playlistLink,
       contactEmail: state.contactEmail,
       musicAttribution: state.musicAttribution,
+      sponsorName: state.sponsorName,
+      sponsorPlatform: state.sponsorPlatform,
       spoilerWarning: state.spoilerWarning,
       matureWarning: state.matureWarning,
       storeLinks: state.storeLinks,
@@ -62,6 +65,8 @@ export function useGeneratedOutput(): GeneratorOutput {
       state.playlistLink,
       state.contactEmail,
       state.musicAttribution,
+      state.sponsorName,
+      state.sponsorPlatform,
       state.spoilerWarning,
       state.matureWarning,
       state.storeLinks,
@@ -82,6 +87,7 @@ export function useGeneratedOutput(): GeneratorOutput {
         showQualityBadge,
         showCopyright,
         showUsagePolicy,
+        showSponsorCredit,
       }),
     [
       input,
@@ -92,6 +98,7 @@ export function useGeneratedOutput(): GeneratorOutput {
       showQualityBadge,
       showCopyright,
       showUsagePolicy,
+      showSponsorCredit,
     ],
   );
 }

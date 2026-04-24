@@ -58,6 +58,10 @@
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "音楽・サウンドクレジット",
     "musicAttributionPlaceholder": "音楽: Karl Casey @ White Bat Audio\n効果音: Freesound.org",
+    "sponsorName": "スポンサー (パブリッシャー / デベロッパー)",
+    "sponsorNamePlaceholder": "例: Ubisoft、カプコン、Devolver Digital",
+    "sponsorPlatform": "キーのプラットフォーム",
+    "sponsorPlatformPlaceholder": "例: Steam、Epic Games、GOG",
     "thumbnailText": "サムネイルテキスト",
     "thumbnailTextPlaceholder": "例: 隠しボス ノーヒット",
     "pinnedComment": "固定コメントのテンプレート",
@@ -275,7 +279,8 @@
     "hashtagCount": "ハッシュタグ数",
     "showQualityBadge": "タイトルに画質バッジを表示 (例: [2K 60FPS])",
     "showCopyright": "説明欄に © 著作権行を追加",
-    "showUsagePolicy": "説明欄に動画利用ポリシーを追加"
+    "showUsagePolicy": "説明欄に動画利用ポリシーを追加",
+    "showSponsorCredit": "説明欄にスポンサーへの感謝行を追加 (キー提供)"
   },
   "batch": {
     "title": "一括モード",

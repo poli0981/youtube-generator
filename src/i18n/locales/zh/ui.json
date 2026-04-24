@@ -58,6 +58,10 @@
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "音乐 / 音效署名",
     "musicAttributionPlaceholder": "音乐：Karl Casey @ White Bat Audio\n音效：Freesound.org",
+    "sponsorName": "赞助商 (发行商 / 开发商)",
+    "sponsorNamePlaceholder": "例如：Ubisoft、卡普空、Devolver Digital",
+    "sponsorPlatform": "激活码平台",
+    "sponsorPlatformPlaceholder": "例如：Steam、Epic Games、GOG",
     "thumbnailText": "缩略图文字",
     "thumbnailTextPlaceholder": "如：隐藏Boss无伤",
     "pinnedComment": "置顶评论模板",
@@ -275,7 +279,8 @@
     "hashtagCount": "话题标签数量",
     "showQualityBadge": "在标题中显示画质标签 (如：[2K 60FPS])",
     "showCopyright": "在描述中添加 © 版权行",
-    "showUsagePolicy": "在描述中添加视频使用规则块"
+    "showUsagePolicy": "在描述中添加视频使用规则块",
+    "showSponsorCredit": "在描述中添加赞助商感谢行（提供激活码）"
   },
   "batch": {
     "title": "批量生成",

@@ -77,9 +77,20 @@ describe("healSettings", () => {
       showQualityBadge: false,
       showCopyright: false,
       showUsagePolicy: true,
+      showSponsorCredit: true,
       editorAccordionState: { gameInfo: false, videoSettings: true },
     };
     const healed = healSettings(complete);
     expect(healed).toEqual(complete);
+  });
+
+  it("back-fills showSponsorCredit default when the key is absent (v3 → v4 payload)", () => {
+    // Simulates a settings file written in v0.6 phase 1 where the new
+    // sponsor toggle hadn't been introduced yet.
+    const healed = healSettings({
+      theme: "dark" as const,
+      showCopyright: true,
+    });
+    expect(healed.showSponsorCredit).toBe(false);
   });
 });

@@ -226,6 +226,93 @@ describe("buildDescription", () => {
     expect(musicIdx).toBeLessThan(donateIdx);
   });
 
+  it("renders the sponsor credit line when toggle is on and both sponsor fields are filled", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "Steam" }),
+      t,
+      { showSponsorCredit: true },
+    );
+    expect(result).toContain("🎁 Thanks to Ubisoft for providing the Steam key of this game.");
+  });
+
+  it("skips the sponsor credit when the toggle is off", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "Steam" }),
+      t,
+      { showSponsorCredit: false },
+    );
+    expect(result).not.toContain("🎁 Thanks to Ubisoft");
+  });
+
+  it("skips the sponsor credit when sponsorName is blank even if toggle is on", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ sponsorName: "", sponsorPlatform: "Steam" }),
+      t,
+      { showSponsorCredit: true },
+    );
+    expect(result).not.toContain("🎁");
+    expect(result).not.toContain("Steam key of this game");
+  });
+
+  it("skips the sponsor credit when sponsorPlatform is blank even if toggle is on", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "" }),
+      t,
+      { showSponsorCredit: true },
+    );
+    expect(result).not.toContain("🎁");
+    expect(result).not.toContain("Thanks to Ubisoft");
+  });
+
+  it("trims whitespace around sponsor fields before rendering", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ sponsorName: "  Ubisoft  ", sponsorPlatform: "  Steam  " }),
+      t,
+      { showSponsorCredit: true },
+    );
+    expect(result).toContain("Thanks to Ubisoft for providing the Steam key");
+    expect(result).not.toContain("  Ubisoft  ");
+  });
+
+  it("places the sponsor credit above the music section and donate block", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        sponsorName: "Ubisoft",
+        sponsorPlatform: "Steam",
+        musicAttribution: "Music credit",
+        social: { kofi: "https://ko-fi.com/me" },
+      }),
+      t,
+      { showSponsorCredit: true },
+    );
+    const sponsorIdx = result.indexOf("🎁");
+    const musicIdx = result.indexOf("🎵 MUSIC / SOUND");
+    const donateIdx = result.indexOf("SUPPORT THE CHANNEL");
+    expect(sponsorIdx).toBeGreaterThan(-1);
+    expect(musicIdx).toBeGreaterThan(sponsorIdx);
+    expect(donateIdx).toBeGreaterThan(musicIdx);
+  });
+
+  it("renders sponsor credit in Vietnamese with the localized template", () => {
+    const t = createMockT("vi");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        sponsorName: "Ubisoft",
+        sponsorPlatform: "Steam",
+      }),
+      t,
+      { showSponsorCredit: true },
+    );
+    expect(result).toContain("🎁 Cảm ơn Ubisoft đã tặng key Steam của game này.");
+  });
+
   it("omits the music section when attribution is blank or whitespace", () => {
     const t = createMockT("en");
     const blank = buildDescription(makeInput({ musicAttribution: "" }), t);
