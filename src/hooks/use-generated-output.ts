@@ -15,6 +15,7 @@ export function useGeneratedOutput(): GeneratorOutput {
     showCopyright,
     showUsagePolicy,
     showSponsorCredit,
+    titleFormat,
   } = useSettingsStore();
 
   const input: GeneratorInput = useMemo(
@@ -88,6 +89,7 @@ export function useGeneratedOutput(): GeneratorOutput {
         showCopyright,
         showUsagePolicy,
         showSponsorCredit,
+        titleFormat,
       }),
     [
       input,
@@ -99,6 +101,7 @@ export function useGeneratedOutput(): GeneratorOutput {
       showCopyright,
       showUsagePolicy,
       showSponsorCredit,
+      titleFormat,
     ],
   );
 }

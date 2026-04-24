@@ -280,7 +280,21 @@
     "showQualityBadge": "Hiện badge chất lượng trong tiêu đề (vd: [2K 60FPS])",
     "showCopyright": "Gắn dòng © copyright vào description",
     "showUsagePolicy": "Gắn khối quy định sử dụng video vào description",
-    "showSponsorCredit": "Hiện dòng cảm ơn sponsor (tặng key) trong description"
+    "showSponsorCredit": "Hiện dòng cảm ơn sponsor (tặng key) trong description",
+    "titleFormatTitle": "Định dạng tiêu đề",
+    "descriptionSettingsTitle": "Mô tả",
+    "badgePosition": "Vị trí badge chất lượng",
+    "badgePositionPrefix": "Đầu (trước tên game)",
+    "badgePositionMiddle": "Giữa (gắn với loại video)",
+    "badgePositionSuffix": "Cuối (trước đuôi)",
+    "titleSeparator": "Dấu phân tách",
+    "titleSeparatorEmDash": "Gạch dài ( — )",
+    "titleSeparatorHyphen": "Gạch ngang ( - )",
+    "titleSeparatorColon": "Hai chấm ( : )",
+    "titleSeparatorPipe": "Sổ đứng ( | )",
+    "badgeCase": "Kiểu chữ badge",
+    "badgeCaseUpper": "VIẾT HOA (2K)",
+    "badgeCaseLower": "viết thường (2k)"
   },
   "batch": {
     "title": "Chế độ hàng loạt",

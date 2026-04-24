@@ -280,7 +280,21 @@
     "showQualityBadge": "Show quality badge in title (e.g. [2K 60FPS])",
     "showCopyright": "Append © copyright line to description",
     "showUsagePolicy": "Append usage policy block to description",
-    "showSponsorCredit": "Show sponsor credit line in description (thanks for the key)"
+    "showSponsorCredit": "Show sponsor credit line in description (thanks for the key)",
+    "titleFormatTitle": "Title Format",
+    "descriptionSettingsTitle": "Description",
+    "badgePosition": "Quality badge position",
+    "badgePositionPrefix": "Prefix (before game name)",
+    "badgePositionMiddle": "Middle (attached to video type)",
+    "badgePositionSuffix": "Suffix (before tail)",
+    "titleSeparator": "Segment separator",
+    "titleSeparatorEmDash": "Em dash ( — )",
+    "titleSeparatorHyphen": "Hyphen ( - )",
+    "titleSeparatorColon": "Colon ( : )",
+    "titleSeparatorPipe": "Pipe ( | )",
+    "badgeCase": "Badge case",
+    "badgeCaseUpper": "UPPERCASE (2K)",
+    "badgeCaseLower": "lowercase (2k)"
   },
   "batch": {
     "title": "Batch Mode",

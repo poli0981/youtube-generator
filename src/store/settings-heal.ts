@@ -1,5 +1,13 @@
 import type { GenreId } from "@config/genres";
-import type { SupportedLanguage } from "@engine/types";
+import type { SupportedLanguage, TitleFormatConfig } from "@engine/types";
+
+// Re-exported so UI + persist layers can import everything from one module.
+export type {
+  TitleBadgeCase,
+  TitleBadgePosition,
+  TitleFormatConfig,
+  TitleSeparatorId,
+} from "@engine/types";
 
 /**
  * Shape of the settings payload that is persisted to disk + localStorage.
@@ -23,6 +31,7 @@ export interface SettingsData {
   showCopyright: boolean;
   showUsagePolicy: boolean;
   showSponsorCredit: boolean;
+  titleFormat: TitleFormatConfig;
   editorAccordionState: Record<string, boolean>;
 }
 
@@ -52,6 +61,13 @@ export const initialSettings: SettingsData = {
   showCopyright: true,
   showUsagePolicy: false,
   showSponsorCredit: false,
+  titleFormat: {
+    // Defaults reproduce v0.6 output byte-for-byte: badge glued to the
+    // video-type segment, em-dash separator, upper-case badge label.
+    badgePosition: "middle",
+    separator: "emDash",
+    badgeCase: "upper",
+  },
   editorAccordionState: {
     gameInfo: true,
     videoSettings: true,
@@ -85,6 +101,15 @@ export function healSettings(raw: unknown): SettingsData {
   // v2 → v3: `autoSaveDraft` removed (the draft autosaves unconditionally
   // via the editor store's persist middleware, so the toggle was dead).
   delete incoming.autoSaveDraft;
+
+  // v4 → v5: `titleFormat` nested config added. Merge sub-keys defensively
+  // so a hand-edited / partial object doesn't drop defaults and leave
+  // downstream consumers with `undefined` badgePosition etc.
+  const incomingTf =
+    typeof incoming.titleFormat === "object" && incoming.titleFormat !== null
+      ? (incoming.titleFormat as Partial<TitleFormatConfig>)
+      : {};
+  incoming.titleFormat = { ...initialSettings.titleFormat, ...incomingTf };
 
   return { ...initialSettings, ...incoming } as SettingsData;
 }

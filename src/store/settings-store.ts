@@ -3,9 +3,20 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import type { GenreId } from "@config/genres";
 import type { SupportedLanguage } from "@engine/types";
 import { saveSettings, loadSettings } from "@utils/storage-adapter";
-import { healSettings, initialSettings, type SettingsData } from "./settings-heal";
+import {
+  healSettings,
+  initialSettings,
+  type SettingsData,
+  type TitleFormatConfig,
+} from "./settings-heal";
 
-export type { SettingsData } from "./settings-heal";
+export type {
+  SettingsData,
+  TitleFormatConfig,
+  TitleBadgePosition,
+  TitleSeparatorId,
+  TitleBadgeCase,
+} from "./settings-heal";
 export { healSettings, initialSettings } from "./settings-heal";
 
 interface SettingsState extends SettingsData {
@@ -14,6 +25,7 @@ interface SettingsState extends SettingsData {
   setDefaultOutputLanguage: (lang: SupportedLanguage) => void;
   setDefaultGenres: (genres: GenreId[]) => void;
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
+  setTitleFormat: (patch: Partial<TitleFormatConfig>) => void;
   toggleEditorAccordion: (id: string) => void;
 }
 
@@ -38,6 +50,9 @@ export const useSettingsStore = create<SettingsState>()(
 
       setSetting: (key, value) => set({ [key]: value }),
 
+      setTitleFormat: (patch) =>
+        set((state) => ({ titleFormat: { ...state.titleFormat, ...patch } })),
+
       toggleEditorAccordion: (id) =>
         set((state) => ({
           editorAccordionState: {
@@ -49,7 +64,7 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
-      version: 4,
+      version: 5,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -84,6 +99,7 @@ function extractData(state: SettingsData): SettingsData {
     showCopyright: state.showCopyright,
     showUsagePolicy: state.showUsagePolicy,
     showSponsorCredit: state.showSponsorCredit,
+    titleFormat: { ...state.titleFormat },
     editorAccordionState: state.editorAccordionState,
   };
 }

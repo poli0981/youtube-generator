@@ -280,7 +280,21 @@
     "showQualityBadge": "タイトルに画質バッジを表示 (例: [2K 60FPS])",
     "showCopyright": "説明欄に © 著作権行を追加",
     "showUsagePolicy": "説明欄に動画利用ポリシーを追加",
-    "showSponsorCredit": "説明欄にスポンサーへの感謝行を追加 (キー提供)"
+    "showSponsorCredit": "説明欄にスポンサーへの感謝行を追加 (キー提供)",
+    "titleFormatTitle": "タイトル書式",
+    "descriptionSettingsTitle": "説明欄",
+    "badgePosition": "品質バッジの位置",
+    "badgePositionPrefix": "先頭 (ゲーム名の前)",
+    "badgePositionMiddle": "中央 (動画タイプに付随)",
+    "badgePositionSuffix": "末尾 (末尾の前)",
+    "titleSeparator": "区切り文字",
+    "titleSeparatorEmDash": "エムダッシュ ( — )",
+    "titleSeparatorHyphen": "ハイフン ( - )",
+    "titleSeparatorColon": "コロン ( : )",
+    "titleSeparatorPipe": "パイプ ( | )",
+    "badgeCase": "バッジの大文字小文字",
+    "badgeCaseUpper": "大文字 (2K)",
+    "badgeCaseLower": "小文字 (2k)"
   },
   "batch": {
     "title": "一括モード",

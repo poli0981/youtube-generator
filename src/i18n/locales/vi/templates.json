@@ -1,6 +1,12 @@
 {
   "title": {
     "separator": " — ",
+    "separators": {
+      "emDash": " — ",
+      "hyphen": " - ",
+      "colon": ": ",
+      "pipe": " | "
+    },
     "suffix": "Gameplay No Commentary",
     "videoType": {
       "full": "",

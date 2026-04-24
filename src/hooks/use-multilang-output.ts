@@ -16,6 +16,8 @@ export function useMultilangOutput(
     showQualityBadge,
     showCopyright,
     showUsagePolicy,
+    showSponsorCredit,
+    titleFormat,
   } = useSettingsStore();
 
   return useMemo(() => {
@@ -41,6 +43,8 @@ export function useMultilangOutput(
         playlistLink: state.playlistLink,
         contactEmail: state.contactEmail,
         musicAttribution: state.musicAttribution,
+        sponsorName: state.sponsorName,
+        sponsorPlatform: state.sponsorPlatform,
         spoilerWarning: state.spoilerWarning,
         matureWarning: state.matureWarning,
         storeLinks: state.storeLinks,
@@ -55,6 +59,8 @@ export function useMultilangOutput(
         showQualityBadge,
         showCopyright,
         showUsagePolicy,
+        showSponsorCredit,
+        titleFormat,
       });
     }
     return results;
@@ -77,6 +83,8 @@ export function useMultilangOutput(
     state.playlistLink,
     state.contactEmail,
     state.musicAttribution,
+    state.sponsorName,
+    state.sponsorPlatform,
     state.spoilerWarning,
     state.matureWarning,
     state.storeLinks,
@@ -89,5 +97,7 @@ export function useMultilangOutput(
     showQualityBadge,
     showCopyright,
     showUsagePolicy,
+    showSponsorCredit,
+    titleFormat,
   ]);
 }

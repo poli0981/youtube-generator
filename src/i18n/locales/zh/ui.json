@@ -280,7 +280,21 @@
     "showQualityBadge": "在标题中显示画质标签 (如：[2K 60FPS])",
     "showCopyright": "在描述中添加 © 版权行",
     "showUsagePolicy": "在描述中添加视频使用规则块",
-    "showSponsorCredit": "在描述中添加赞助商感谢行（提供激活码）"
+    "showSponsorCredit": "在描述中添加赞助商感谢行（提供激活码）",
+    "titleFormatTitle": "标题格式",
+    "descriptionSettingsTitle": "描述",
+    "badgePosition": "画质徽章位置",
+    "badgePositionPrefix": "前缀 (游戏名前)",
+    "badgePositionMiddle": "中间 (与视频类型相连)",
+    "badgePositionSuffix": "后缀 (尾部前)",
+    "titleSeparator": "分隔符",
+    "titleSeparatorEmDash": "长破折号 ( — )",
+    "titleSeparatorHyphen": "连字符 ( - )",
+    "titleSeparatorColon": "冒号 ( : )",
+    "titleSeparatorPipe": "竖线 ( | )",
+    "badgeCase": "徽章大小写",
+    "badgeCaseUpper": "大写 (2K)",
+    "badgeCaseLower": "小写 (2k)"
   },
   "batch": {
     "title": "批量生成",

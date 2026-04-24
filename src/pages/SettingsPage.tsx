@@ -9,7 +9,13 @@ import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES, type GenreId } from "@config/genres";
 import { useSettingsStore } from "@store/settings-store";
 import { IS_TAURI } from "@utils/platform";
-import { MAX_GENRES, type SupportedLanguage } from "@engine/types";
+import {
+  MAX_GENRES,
+  type SupportedLanguage,
+  type TitleBadgePosition,
+  type TitleSeparatorId,
+  type TitleBadgeCase,
+} from "@engine/types";
 import toast from "react-hot-toast";
 import { logger } from "@utils/logger";
 
@@ -65,6 +71,24 @@ export function SettingsPage() {
     { value: "3", label: "3" },
   ];
 
+  const badgePositionOptions = [
+    { value: "prefix", label: t("settings.badgePositionPrefix") },
+    { value: "middle", label: t("settings.badgePositionMiddle") },
+    { value: "suffix", label: t("settings.badgePositionSuffix") },
+  ];
+
+  const titleSeparatorOptions = [
+    { value: "emDash", label: t("settings.titleSeparatorEmDash") },
+    { value: "hyphen", label: t("settings.titleSeparatorHyphen") },
+    { value: "colon", label: t("settings.titleSeparatorColon") },
+    { value: "pipe", label: t("settings.titleSeparatorPipe") },
+  ];
+
+  const badgeCaseOptions = [
+    { value: "upper", label: t("settings.badgeCaseUpper") },
+    { value: "lower", label: t("settings.badgeCaseLower") },
+  ];
+
   return (
     <div className="mx-auto max-w-2xl p-6">
       <div className="mb-6 flex items-center justify-between">
@@ -84,6 +108,7 @@ export function SettingsPage() {
       </div>
 
       <div className="flex flex-col gap-8">
+        {/* 1. Appearance — theme toggle only. */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.appearance")}</h2>
           <Toggle
@@ -93,6 +118,7 @@ export function SettingsPage() {
           />
         </section>
 
+        {/* 2. Language & Defaults — app + output language, default genres. */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.defaults")}</h2>
           <Select
@@ -120,6 +146,7 @@ export function SettingsPage() {
           />
         </section>
 
+        {/* 3. Editor — UI knobs that affect the editor page itself. */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.editorSettings")}</h2>
           <Toggle
@@ -134,23 +161,47 @@ export function SettingsPage() {
           />
         </section>
 
+        {/* 4. Title format — NEW in v0.7. Quality badge + format knobs. */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.tagSettings")}</h2>
-          <Toggle
-            label={t("settings.multilingualTags")}
-            checked={settings.includeMultilingualTags}
-            onChange={(v) => settings.setSetting("includeMultilingualTags", v)}
-          />
-          <Toggle
-            label={t("settings.trendingTags")}
-            checked={settings.includeTrendingTags}
-            onChange={(v) => settings.setSetting("includeTrendingTags", v)}
-          />
+          <h2 className="text-sm font-semibold text-text-secondary">
+            {t("settings.titleFormatTitle")}
+          </h2>
           <Toggle
             label={t("settings.showQualityBadge")}
             checked={settings.showQualityBadge}
             onChange={(v) => settings.setSetting("showQualityBadge", v)}
           />
+          <Select
+            label={t("settings.badgePosition")}
+            options={badgePositionOptions}
+            value={settings.titleFormat.badgePosition}
+            onChange={(v) =>
+              settings.setTitleFormat({ badgePosition: v as TitleBadgePosition })
+            }
+          />
+          <Select
+            label={t("settings.titleSeparator")}
+            options={titleSeparatorOptions}
+            value={settings.titleFormat.separator}
+            onChange={(v) =>
+              settings.setTitleFormat({ separator: v as TitleSeparatorId })
+            }
+          />
+          <Select
+            label={t("settings.badgeCase")}
+            options={badgeCaseOptions}
+            value={settings.titleFormat.badgeCase}
+            onChange={(v) =>
+              settings.setTitleFormat({ badgeCase: v as TitleBadgeCase })
+            }
+          />
+        </section>
+
+        {/* 5. Description — controls for auto-generated description blocks. */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-sm font-semibold text-text-secondary">
+            {t("settings.descriptionSettingsTitle")}
+          </h2>
           <Toggle
             label={t("settings.showCopyright")}
             checked={settings.showCopyright}
@@ -174,6 +225,22 @@ export function SettingsPage() {
           />
         </section>
 
+        {/* 6. Tags — tag-pool controls (narrowed from the old mixed section). */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.tagSettings")}</h2>
+          <Toggle
+            label={t("settings.multilingualTags")}
+            checked={settings.includeMultilingualTags}
+            onChange={(v) => settings.setSetting("includeMultilingualTags", v)}
+          />
+          <Toggle
+            label={t("settings.trendingTags")}
+            checked={settings.includeTrendingTags}
+            onChange={(v) => settings.setSetting("includeTrendingTags", v)}
+          />
+        </section>
+
+        {/* 7. History. */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.historySettings")}</h2>
           <Input

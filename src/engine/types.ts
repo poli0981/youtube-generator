@@ -163,3 +163,31 @@ export const YT_LIMITS = {
 export interface TranslationFn {
   (key: string, options?: Record<string, string>): string;
 }
+
+/**
+ * Where the quality-badge ("[2K]") sits relative to the other title segments:
+ * - "middle"  → attached to the video-type segment (v0.6 behavior)
+ * - "prefix"  → before the game name, e.g. "[2K] Elden Ring — …"
+ * - "suffix"  → before the "Gameplay No Commentary" tail
+ */
+export type TitleBadgePosition = "prefix" | "middle" | "suffix";
+
+/**
+ * Stable IDs for the segment separator. The actual character is resolved
+ * per-locale via `templates.title.separators.<id>` so locales can pick
+ * their own punctuation conventions.
+ */
+export type TitleSeparatorId = "emDash" | "hyphen" | "colon" | "pipe";
+
+/** Case of the quality-badge label in the rendered title ("2K" vs "2k"). */
+export type TitleBadgeCase = "upper" | "lower";
+
+/**
+ * User-configurable title formatting. Defaults (middle / emDash / upper)
+ * reproduce v0.6 output byte-for-byte.
+ */
+export interface TitleFormatConfig {
+  badgePosition: TitleBadgePosition;
+  separator: TitleSeparatorId;
+  badgeCase: TitleBadgeCase;
+}

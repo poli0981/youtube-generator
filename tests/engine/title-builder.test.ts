@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { buildTitle, buildQualityBadge, checkTitleWarning } from "@engine/title-builder";
 import { createMockT } from "../helpers/mock-t";
-import type { GeneratorInput } from "@engine/types";
+import type { GeneratorInput, TranslationFn } from "@engine/types";
 
 function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
   return {
@@ -161,6 +161,98 @@ describe("buildTitle", () => {
     const t = createMockT("en");
     const result = buildTitle(makeInput({ videoType: "collectibles" }), t);
     expect(result).toBe("Elden Ring — All Collectibles — Gameplay No Commentary");
+  });
+});
+
+describe("buildTitle with options bag (v0.7 title-format)", () => {
+  const baseInput = (): Parameters<typeof makeInput>[0] => ({
+    videoType: "part",
+    partNumber: "5",
+    resolution: "1440p",
+    fps: "60",
+  });
+
+  it("defaults (no opts) match v0.6 behaviour byte-for-byte", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, {});
+    expect(result).toBe("Elden Ring — Part 5 [2K] — Gameplay No Commentary");
+  });
+
+  it("prefix position puts the badge before the game name", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, { badgePosition: "prefix" });
+    expect(result).toBe("[2K] Elden Ring — Part 5 — Gameplay No Commentary");
+  });
+
+  it("suffix position puts the badge before the tail", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, { badgePosition: "suffix" });
+    expect(result).toBe("Elden Ring — Part 5 — [2K] Gameplay No Commentary");
+  });
+
+  it("lower-case badge writes [2k] instead of [2K]", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, {
+      badgePosition: "prefix",
+      badgeCase: "lower",
+    });
+    expect(result).toBe("[2k] Elden Ring — Part 5 — Gameplay No Commentary");
+  });
+
+  it("hyphen separator renders ` - ` between segments", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, {
+      badgePosition: "prefix",
+      separator: "hyphen",
+      badgeCase: "lower",
+    });
+    expect(result).toBe("[2k] Elden Ring - Part 5 - Gameplay No Commentary");
+  });
+
+  it("colon separator survives multi-char joins", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, { separator: "colon" });
+    expect(result).toBe("Elden Ring: Part 5 [2K]: Gameplay No Commentary");
+  });
+
+  it("pipe separator renders ` | `", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, { separator: "pipe" });
+    expect(result).toBe("Elden Ring | Part 5 [2K] | Gameplay No Commentary");
+  });
+
+  it("empty badge collapses all three positions to identical output", () => {
+    const t = createMockT("en");
+    const input = makeInput({ videoType: "part", partNumber: "5", resolution: "1080p", fps: "60" });
+    const prefix = buildTitle(input, t, { badgePosition: "prefix" });
+    const middle = buildTitle(input, t, { badgePosition: "middle" });
+    const suffix = buildTitle(input, t, { badgePosition: "suffix" });
+    const expected = "Elden Ring — Part 5 — Gameplay No Commentary";
+    expect(prefix).toBe(expected);
+    expect(middle).toBe(expected);
+    expect(suffix).toBe(expected);
+  });
+
+  it("falls back to legacy title.separator when the id-keyed form is missing", () => {
+    // Mimic a locale that hasn't migrated to the new separators block:
+    // only expose `title.separator` and `title.suffix`, plus the minimum
+    // video-type keys needed for the assertion.
+    const legacyT: TranslationFn = (key, vars) => {
+      if (key === "title.separator") return " >>> ";
+      if (key === "title.suffix") return "Gameplay No Commentary";
+      if (key === "title.videoType.part") return `Part ${vars?.partNumber ?? ""}`;
+      // Everything else (including `title.separators.*`) returns the key
+      // itself, which the builder must detect and fall back on.
+      return key;
+    };
+    const result = buildTitle(makeInput(baseInput()), legacyT, { separator: "hyphen" });
+    expect(result).toBe("Elden Ring >>> Part 5 [2K] >>> Gameplay No Commentary");
+  });
+
+  it("legacy boolean third arg still suppresses the badge", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput(baseInput()), t, false);
+    expect(result).toBe("Elden Ring — Part 5 — Gameplay No Commentary");
   });
 });
 
