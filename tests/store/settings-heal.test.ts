@@ -22,6 +22,8 @@ describe("healSettings", () => {
         separator: "emDash",
         badgeCase: "upper",
       });
+      expect(healed.showPinnedCommentTemplate).toBe(false);
+      expect(healed.pinnedCommentIncludeAskNextGame).toBe(true);
       expect(healed.editorAccordionState).toEqual(
         expect.objectContaining({ gameInfo: true }),
       );
@@ -88,6 +90,8 @@ describe("healSettings", () => {
         separator: "hyphen" as const,
         badgeCase: "lower" as const,
       },
+      showPinnedCommentTemplate: true,
+      pinnedCommentIncludeAskNextGame: false,
       editorAccordionState: { gameInfo: false, videoSettings: true },
     };
     const healed = healSettings(complete);
@@ -140,5 +144,29 @@ describe("healSettings", () => {
         badgeCase: "upper",
       });
     }
+  });
+
+  it("back-fills pinned-comment toggles when the keys are absent (v5 → v6 payload)", () => {
+    // Simulates a settings file written in v0.7 phase 1, before the
+    // pinned-comment template feature existed.
+    const healed = healSettings({
+      theme: "dark" as const,
+      titleFormat: {
+        badgePosition: "middle",
+        separator: "emDash",
+        badgeCase: "upper",
+      },
+    });
+    expect(healed.showPinnedCommentTemplate).toBe(false);
+    expect(healed.pinnedCommentIncludeAskNextGame).toBe(true);
+  });
+
+  it("preserves user-set pinned-comment toggles when they differ from defaults", () => {
+    const healed = healSettings({
+      showPinnedCommentTemplate: true,
+      pinnedCommentIncludeAskNextGame: false,
+    });
+    expect(healed.showPinnedCommentTemplate).toBe(true);
+    expect(healed.pinnedCommentIncludeAskNextGame).toBe(false);
   });
 });

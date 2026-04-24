@@ -1,6 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { VideoType, Genre, SupportedLanguage, StoreLinkType } from "@engine/types";
+import type {
+  VideoType,
+  Genre,
+  SupportedLanguage,
+  StoreLinkType,
+  PlaythroughStatus,
+  DifficultyLevel,
+  ContentWarning,
+} from "@engine/types";
 import { DEFAULTS } from "@config/defaults";
 
 interface EditorData {
@@ -29,6 +37,10 @@ interface EditorData {
   pinnedComment: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
+  playthroughStatus: PlaythroughStatus;
+  difficulty: DifficultyLevel;
+  difficultyCustomLabel: string;
+  contentWarnings: ContentWarning[];
   storeLinks: Record<string, string>;
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
@@ -76,6 +88,10 @@ const initialState: EditorData = {
   pinnedComment: DEFAULTS.editor.pinnedComment,
   spoilerWarning: DEFAULTS.editor.spoilerWarning,
   matureWarning: DEFAULTS.editor.matureWarning,
+  playthroughStatus: DEFAULTS.editor.playthroughStatus as PlaythroughStatus,
+  difficulty: DEFAULTS.editor.difficulty as DifficultyLevel,
+  difficultyCustomLabel: DEFAULTS.editor.difficultyCustomLabel,
+  contentWarnings: [...DEFAULTS.editor.contentWarnings] as ContentWarning[],
   storeLinks: { ...DEFAULTS.editor.storeLinks },
   storeLinkTypes: { ...DEFAULTS.editor.storeLinkTypes },
   social: { ...DEFAULTS.editor.social },
@@ -109,10 +125,13 @@ export const useEditorStore = create<EditorState>()(
       name: "ytdescgen-editor-draft",
       storage: createJSONStorage(() => localStorage),
       // v1 → v2: `genre: Genre` became `genres: Genre[]` in v0.5.
-      // v2 → v3: sponsor credit fields added in v0.6. Missing entries fall
-      // back to the spread of `initialState` at store creation, but we
-      // still normalise the blob here so legacy drafts round-trip cleanly.
-      version: 3,
+      // v2 → v3: sponsor credit fields added in v0.6.
+      // v3 → v4: playthroughStatus / difficulty / difficultyCustomLabel /
+      //         contentWarnings added in v0.7 phase 2. Missing entries
+      //         fall back to the spread of `initialState`, but we still
+      //         normalise the blob here so legacy drafts round-trip
+      //         cleanly through the engine.
+      version: 4,
       migrate: (persistedState: unknown, version: number): EditorData => {
         if (!persistedState || typeof persistedState !== "object") {
           return { ...initialState };
@@ -129,6 +148,14 @@ export const useEditorStore = create<EditorState>()(
         if (version < 3) {
           if (typeof state.sponsorName !== "string") state.sponsorName = "";
           if (typeof state.sponsorPlatform !== "string") state.sponsorPlatform = "";
+        }
+        if (version < 4) {
+          if (typeof state.playthroughStatus !== "string") state.playthroughStatus = "none";
+          if (typeof state.difficulty !== "string") state.difficulty = "none";
+          if (typeof state.difficultyCustomLabel !== "string") {
+            state.difficultyCustomLabel = "";
+          }
+          if (!Array.isArray(state.contentWarnings)) state.contentWarnings = [];
         }
         return { ...initialState, ...state } as EditorData;
       },
@@ -158,6 +185,10 @@ export const useEditorStore = create<EditorState>()(
         pinnedComment: state.pinnedComment,
         spoilerWarning: state.spoilerWarning,
         matureWarning: state.matureWarning,
+        playthroughStatus: state.playthroughStatus,
+        difficulty: state.difficulty,
+        difficultyCustomLabel: state.difficultyCustomLabel,
+        contentWarnings: state.contentWarnings,
         storeLinks: state.storeLinks,
         storeLinkTypes: state.storeLinkTypes,
         social: state.social,

@@ -66,6 +66,31 @@
     "thumbnailTextPlaceholder": "vd: SECRET BOSS NO HIT",
     "pinnedComment": "Bình luận ghim",
     "pinnedCommentPlaceholder": "Nội dung bình luận ghim cho video...",
+    "playthrough": "Kiểu chơi",
+    "playthroughOptions": {
+      "none": "— Chưa chọn —",
+      "blind": "Blind (lần đầu)",
+      "replay": "Chơi lại",
+      "newgame_plus": "New Game+",
+      "postgame": "Post-game / endgame"
+    },
+    "difficulty": "Độ khó",
+    "difficultyOptions": {
+      "none": "— Chưa chọn —",
+      "easy": "Dễ",
+      "normal": "Thường",
+      "hard": "Khó",
+      "nightmare": "Ác mộng / Cực khó",
+      "custom": "Tuỳ chỉnh…"
+    },
+    "difficultyCustomLabel": "Nhãn độ khó tuỳ chỉnh",
+    "difficultyCustomPlaceholder": "vd: Lethal, NG+7, Fromsoft default",
+    "contentWarnings": "Cảnh báo nội dung",
+    "contentWarningOptions": {
+      "flashing_lights": "⚡ Ánh sáng chớp",
+      "loud_noises": "🔊 Âm thanh lớn",
+      "jump_scares": "😱 Jump scare"
+    },
     "videoSettings": "Cài đặt Video",
     "quickPreview": "Xem trước nhanh",
     "version": "Phiên bản",
@@ -89,6 +114,8 @@
     "copyThumbnailText": "Sao chép text thumbnail",
     "pinnedComment": "Bình luận ghim",
     "copyPinnedComment": "Sao chép bình luận ghim",
+    "pinnedCommentTemplate": "Bình luận ghim (Mẫu)",
+    "copyPinnedCommentTemplate": "Sao chép mẫu bình luận ghim",
     "generateAlternatives": "Tạo biến thể tiêu đề",
     "saveAsTemplate": "Lưu thành template",
     "variants": {
@@ -294,7 +321,9 @@
     "titleSeparatorPipe": "Sổ đứng ( | )",
     "badgeCase": "Kiểu chữ badge",
     "badgeCaseUpper": "VIẾT HOA (2K)",
-    "badgeCaseLower": "viết thường (2k)"
+    "badgeCaseLower": "viết thường (2k)",
+    "showPinnedCommentTemplate": "Tạo mẫu bình luận ghim cùng với output",
+    "pinnedCommentIncludeAskNextGame": "Kèm câu hỏi \"chơi game nào tiếp theo?\""
   },
   "batch": {
     "title": "Chế độ hàng loạt",

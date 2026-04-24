@@ -66,6 +66,31 @@
     "thumbnailTextPlaceholder": "예: 시크릿 보스 노히트",
     "pinnedComment": "고정 댓글 템플릿",
     "pinnedCommentPlaceholder": "고정 댓글 내용...",
+    "playthrough": "플레이 방식",
+    "playthroughOptions": {
+      "none": "— 선택 안 함 —",
+      "blind": "초회차 (블라인드)",
+      "replay": "재플레이",
+      "newgame_plus": "New Game+",
+      "postgame": "엔드 콘텐츠 / 후반부"
+    },
+    "difficulty": "난이도",
+    "difficultyOptions": {
+      "none": "— 선택 안 함 —",
+      "easy": "쉬움",
+      "normal": "보통",
+      "hard": "어려움",
+      "nightmare": "악몽 / 최고 난이도",
+      "custom": "사용자 지정…"
+    },
+    "difficultyCustomLabel": "사용자 지정 난이도 라벨",
+    "difficultyCustomPlaceholder": "예: Lethal, NG+7, Fromsoft default",
+    "contentWarnings": "콘텐츠 경고",
+    "contentWarningOptions": {
+      "flashing_lights": "⚡ 점멸 효과",
+      "loud_noises": "🔊 큰 소리",
+      "jump_scares": "😱 점프 스케어"
+    },
     "videoSettings": "영상 설정",
     "quickPreview": "빠른 미리보기",
     "version": "버전",
@@ -89,6 +114,8 @@
     "copyThumbnailText": "썸네일 텍스트 복사",
     "pinnedComment": "고정 댓글",
     "copyPinnedComment": "고정 댓글 복사",
+    "pinnedCommentTemplate": "고정 댓글 (템플릿)",
+    "copyPinnedCommentTemplate": "고정 댓글 템플릿 복사",
     "generateAlternatives": "제목 대안 생성",
     "saveAsTemplate": "템플릿으로 저장",
     "variants": {
@@ -294,7 +321,9 @@
     "titleSeparatorPipe": "파이프 ( | )",
     "badgeCase": "배지 대소문자",
     "badgeCaseUpper": "대문자 (2K)",
-    "badgeCaseLower": "소문자 (2k)"
+    "badgeCaseLower": "소문자 (2k)",
+    "showPinnedCommentTemplate": "출력과 함께 고정 댓글 템플릿 생성",
+    "pinnedCommentIncludeAskNextGame": "\"다음에 어떤 게임을 플레이할까요?\" 문구 포함"
   },
   "batch": {
     "title": "일괄 생성",

@@ -9,6 +9,7 @@ import { StoreLinkEditor } from "@components/editor/StoreLinkEditor";
 import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { WarningToggles } from "@components/editor/WarningToggles";
+import { ContentDetailsForm } from "@components/editor/ContentDetailsForm";
 import { ThumbnailHelper } from "@components/editor/ThumbnailHelper";
 import { PinnedCommentEditor } from "@components/editor/PinnedCommentEditor";
 import { MusicAttributionEditor } from "@components/editor/MusicAttributionEditor";
@@ -92,6 +93,7 @@ export function EditorPage() {
           onToggle={() => toggleAccordion("contentDetails")}
         >
           <TimestampEditor />
+          <ContentDetailsForm />
           <WarningToggles />
           <ValidatedInput
             label={t("editor.playlistLink")}

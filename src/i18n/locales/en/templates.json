@@ -72,7 +72,53 @@
       "cta": "👍 Like | 🔔 Subscribe | ↗️ Share",
       "copyright": "© {{year}} {{channelName}}. All rights reserved.",
       "usagePolicyHeader": "📋 USAGE POLICY",
-      "usagePolicy": "• Always credit with a link to the original video AND channel (at minimum in the description).\n• Don't re-upload the full video or large portions as your own content.\n• Don't monetize footage without explicit consent.\n• Don't edit footage to misrepresent the original content or creator.\n• Compilation, review, commentary, and reaction videos are OK — as long as you credit.\nIf in doubt, reach out via the social links or email in the description."
+      "usagePolicy": "• Always credit with a link to the original video AND channel (at minimum in the description).\n• Don't re-upload the full video or large portions as your own content.\n• Don't monetize footage without explicit consent.\n• Don't edit footage to misrepresent the original content or creator.\n• Compilation, review, commentary, and reaction videos are OK — as long as you credit.\nIf in doubt, reach out via the social links or email in the description.",
+      "playthrough": "🎯 Playthrough: {{value}}",
+      "difficulty": "🎮 DIFFICULTY",
+      "contentWarnings": "⚠️ CONTENT WARNINGS"
+    },
+    "playthrough": {
+      "blind": "Blind run (first time playing)",
+      "replay": "Replay (returning to this one)",
+      "newgame_plus": "New Game+",
+      "postgame": "Post-game / endgame content"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "nightmare": "Nightmare / Extreme"
+    },
+    "contentWarnings": {
+      "flashing_lights": "⚡ Flashing lights / strobe effects",
+      "loud_noises": "🔊 Loud noises / sudden volume spikes",
+      "jump_scares": "😱 Jump scares"
+    }
+  },
+  "pinnedComment": {
+    "thanksForWatching": "Thanks for watching! Hope you enjoyed the gameplay.",
+    "playlistPrompt": "📺 Watch the full series here: {{link}}",
+    "engagementPrompt": "Don't forget to like & subscribe if you want to see more — it really helps out the channel 💚",
+    "askNextGame": "💬 What game should I play next? Drop your suggestions below!",
+    "greetings": {
+      "full": "This one's the full run of {{gameName}} — hope you enjoy every minute of it.",
+      "part": "Welcome back to {{gameName}} on {{channelName}}!",
+      "full_demo": "Full demo of {{gameName}} — should I play the full game when it launches?",
+      "demo_part": "Demo continues — hyped for the full release. Are you in?",
+      "boss": "That boss was a ride. Let me know in the comments how your fight went!",
+      "boss_nohit": "No-hit run — took a few tries. If you enjoyed the attempt, drop a like!",
+      "ending": "⚠️ That's the ending — thanks for following the journey on {{channelName}}.",
+      "speedrun": "Speedrun attempt complete — times and routes welcome in the comments!",
+      "100percent": "100% complete 🏆 Thanks for sticking with the run to the very end.",
+      "dlc": "DLC run for {{gameName}} — let me know which moment hit hardest.",
+      "newgame_plus": "NG+ means harder everything. Respect to anyone replaying with me.",
+      "challenge": "Challenge run complete. Respect to anyone attempting the same.",
+      "side_quest": "Side-quest detour — thanks for the break from the main story!",
+      "secret": "Secret content unlocked 🔓 Let me know if you want more deep-dive hunts.",
+      "comparison": "Graphics comparison for {{gameName}} — which one wins for you?",
+      "guide": "Hope this silent guide helped. Timestamps in the description.",
+      "mods": "Modded run — full load order / credits in the description.",
+      "collectibles": "Every collectible in one video. Thanks for the support!"
     }
   },
   "hashtags": {

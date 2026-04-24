@@ -66,6 +66,31 @@
     "thumbnailTextPlaceholder": "如：隐藏Boss无伤",
     "pinnedComment": "置顶评论模板",
     "pinnedCommentPlaceholder": "置顶评论内容...",
+    "playthrough": "游玩方式",
+    "playthroughOptions": {
+      "none": "— 未选择 —",
+      "blind": "初见游玩",
+      "replay": "重玩",
+      "newgame_plus": "New Game+",
+      "postgame": "通关后 / 后期内容"
+    },
+    "difficulty": "难度",
+    "difficultyOptions": {
+      "none": "— 未选择 —",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "nightmare": "噩梦 / 极难",
+      "custom": "自定义…"
+    },
+    "difficultyCustomLabel": "自定义难度标签",
+    "difficultyCustomPlaceholder": "如: Lethal, NG+7, Fromsoft default",
+    "contentWarnings": "内容警告",
+    "contentWarningOptions": {
+      "flashing_lights": "⚡ 闪光",
+      "loud_noises": "🔊 大音量",
+      "jump_scares": "😱 惊吓镜头"
+    },
     "videoSettings": "视频设置",
     "quickPreview": "快速预览",
     "version": "版本",
@@ -89,6 +114,8 @@
     "copyThumbnailText": "复制缩略图文字",
     "pinnedComment": "置顶评论",
     "copyPinnedComment": "复制置顶评论",
+    "pinnedCommentTemplate": "置顶评论 (模板)",
+    "copyPinnedCommentTemplate": "复制置顶评论模板",
     "generateAlternatives": "生成标题备选",
     "saveAsTemplate": "保存为模板",
     "variants": {
@@ -294,7 +321,9 @@
     "titleSeparatorPipe": "竖线 ( | )",
     "badgeCase": "徽章大小写",
     "badgeCaseUpper": "大写 (2K)",
-    "badgeCaseLower": "小写 (2k)"
+    "badgeCaseLower": "小写 (2k)",
+    "showPinnedCommentTemplate": "生成置顶评论模板并与输出一起显示",
+    "pinnedCommentIncludeAskNextGame": "包含「下一期玩什么游戏？」提问"
   },
   "batch": {
     "title": "批量生成",

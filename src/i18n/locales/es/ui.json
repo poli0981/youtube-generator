@@ -66,6 +66,31 @@
     "thumbnailTextPlaceholder": "ej. JEFE SECRETO SIN GOLPES",
     "pinnedComment": "Plantilla de Comentario Fijado",
     "pinnedCommentPlaceholder": "Contenido del comentario fijado...",
+    "playthrough": "Tipo de partida",
+    "playthroughOptions": {
+      "none": "— Sin elegir —",
+      "blind": "A ciegas (primera vez)",
+      "replay": "Rejugada",
+      "newgame_plus": "New Game+",
+      "postgame": "Post-game / contenido final"
+    },
+    "difficulty": "Dificultad",
+    "difficultyOptions": {
+      "none": "— Sin elegir —",
+      "easy": "Fácil",
+      "normal": "Normal",
+      "hard": "Difícil",
+      "nightmare": "Pesadilla / Extremo",
+      "custom": "Personalizada…"
+    },
+    "difficultyCustomLabel": "Etiqueta de dificultad personalizada",
+    "difficultyCustomPlaceholder": "ej. Lethal, NG+7, Fromsoft default",
+    "contentWarnings": "Advertencias de contenido",
+    "contentWarningOptions": {
+      "flashing_lights": "⚡ Luces parpadeantes",
+      "loud_noises": "🔊 Ruidos fuertes",
+      "jump_scares": "😱 Sustos repentinos"
+    },
     "videoSettings": "Ajustes de Video",
     "quickPreview": "Vista Previa Rápida",
     "version": "Versión",
@@ -89,6 +114,8 @@
     "copyThumbnailText": "Copiar texto de miniatura",
     "pinnedComment": "Comentario Fijado",
     "copyPinnedComment": "Copiar comentario fijado",
+    "pinnedCommentTemplate": "Comentario Fijado (Plantilla)",
+    "copyPinnedCommentTemplate": "Copiar plantilla de comentario fijado",
     "generateAlternatives": "Generar Alternativas",
     "saveAsTemplate": "Guardar como Plantilla",
     "variants": {
@@ -294,7 +321,9 @@
     "titleSeparatorPipe": "Barra vertical ( | )",
     "badgeCase": "Mayúsculas / minúsculas",
     "badgeCaseUpper": "MAYÚSCULAS (2K)",
-    "badgeCaseLower": "minúsculas (2k)"
+    "badgeCaseLower": "minúsculas (2k)",
+    "showPinnedCommentTemplate": "Generar plantilla de comentario fijado junto al resultado",
+    "pinnedCommentIncludeAskNextGame": "Incluir la pregunta \"¿qué juego debería jugar a continuación?\""
   },
   "batch": {
     "title": "Generación por Lote",

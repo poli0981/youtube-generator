@@ -1,14 +1,14 @@
 import { useMemo } from "react";
 import i18n from "i18next";
-import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { renderAll } from "@engine/template-renderer";
-import type { GeneratorInput, GeneratorOutput, SupportedLanguage } from "@engine/types";
+import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
+import { useCurrentGeneratorInput } from "./use-current-generator-input";
 
 export function useMultilangOutput(
   languages: SupportedLanguage[],
 ): Record<string, GeneratorOutput> {
-  const state = useEditorStore();
+  const baseInput = useCurrentGeneratorInput();
   const {
     includeMultilingualTags,
     includeTrendingTags,
@@ -24,34 +24,7 @@ export function useMultilangOutput(
     const results: Record<string, GeneratorOutput> = {};
     for (const lang of languages) {
       const tFn = i18n.getFixedT(lang, "templates");
-      const input: GeneratorInput = {
-        videoType: state.videoType,
-        language: lang,
-        genres: state.genres,
-        gameName: state.gameName,
-        gameNameLocalized: state.gameNameLocalized,
-        channelName: state.channelName,
-        platform: state.platform,
-        partNumber: state.partNumber,
-        bossName: state.bossName,
-        dlcName: state.dlcName,
-        challengeName: state.challengeName,
-        resolution: state.resolution,
-        fps: state.fps,
-        graphicsPreset: state.graphicsPreset,
-        timestamps: state.timestamps,
-        playlistLink: state.playlistLink,
-        contactEmail: state.contactEmail,
-        musicAttribution: state.musicAttribution,
-        sponsorName: state.sponsorName,
-        sponsorPlatform: state.sponsorPlatform,
-        spoilerWarning: state.spoilerWarning,
-        matureWarning: state.matureWarning,
-        storeLinks: state.storeLinks,
-        storeLinkTypes: state.storeLinkTypes,
-        social: state.social,
-        rig: state.rig,
-      };
+      const input = { ...baseInput, language: lang };
       results[lang] = renderAll(input, tFn, {
         includeMultilingualTags,
         includeTrendingTags,
@@ -66,31 +39,7 @@ export function useMultilangOutput(
     return results;
   }, [
     languages,
-    state.videoType,
-    state.genres,
-    state.gameName,
-    state.gameNameLocalized,
-    state.channelName,
-    state.platform,
-    state.partNumber,
-    state.bossName,
-    state.dlcName,
-    state.challengeName,
-    state.resolution,
-    state.fps,
-    state.graphicsPreset,
-    state.timestamps,
-    state.playlistLink,
-    state.contactEmail,
-    state.musicAttribution,
-    state.sponsorName,
-    state.sponsorPlatform,
-    state.spoilerWarning,
-    state.matureWarning,
-    state.storeLinks,
-    state.storeLinkTypes,
-    state.social,
-    state.rig,
+    baseInput,
     includeMultilingualTags,
     includeTrendingTags,
     hashtagCount,

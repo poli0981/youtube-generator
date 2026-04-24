@@ -66,6 +66,31 @@
     "thumbnailTextPlaceholder": "例: 隠しボス ノーヒット",
     "pinnedComment": "固定コメントのテンプレート",
     "pinnedCommentPlaceholder": "固定コメントに載せたい内容...",
+    "playthrough": "プレイスタイル",
+    "playthroughOptions": {
+      "none": "— 未選択 —",
+      "blind": "初見",
+      "replay": "再プレイ",
+      "newgame_plus": "New Game+",
+      "postgame": "エンドゲーム"
+    },
+    "difficulty": "難易度",
+    "difficultyOptions": {
+      "none": "— 未選択 —",
+      "easy": "イージー",
+      "normal": "ノーマル",
+      "hard": "ハード",
+      "nightmare": "ナイトメア / 最難関",
+      "custom": "カスタム…"
+    },
+    "difficultyCustomLabel": "カスタム難易度ラベル",
+    "difficultyCustomPlaceholder": "例: Lethal, NG+7, Fromsoft default",
+    "contentWarnings": "コンテンツ警告",
+    "contentWarningOptions": {
+      "flashing_lights": "⚡ 光の点滅",
+      "loud_noises": "🔊 大音量",
+      "jump_scares": "😱 ジャンプスケア"
+    },
     "videoSettings": "動画設定",
     "quickPreview": "クイックプレビュー",
     "version": "バージョン",
@@ -89,6 +114,8 @@
     "copyThumbnailText": "サムネイルテキストをコピー",
     "pinnedComment": "固定コメント",
     "copyPinnedComment": "固定コメントをコピー",
+    "pinnedCommentTemplate": "固定コメント (テンプレート)",
+    "copyPinnedCommentTemplate": "固定コメントのテンプレートをコピー",
     "generateAlternatives": "タイトル案を生成",
     "saveAsTemplate": "テンプレートとして保存",
     "variants": {
@@ -294,7 +321,9 @@
     "titleSeparatorPipe": "パイプ ( | )",
     "badgeCase": "バッジの大文字小文字",
     "badgeCaseUpper": "大文字 (2K)",
-    "badgeCaseLower": "小文字 (2k)"
+    "badgeCaseLower": "小文字 (2k)",
+    "showPinnedCommentTemplate": "出力と並べて固定コメントのテンプレートを生成する",
+    "pinnedCommentIncludeAskNextGame": "「次は何のゲーム？」の呼びかけを含める"
   },
   "batch": {
     "title": "一括モード",
