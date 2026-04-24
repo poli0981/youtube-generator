@@ -280,7 +280,21 @@
     "showQualityBadge": "제목에 화질 배지 표시 (예: [2K 60FPS])",
     "showCopyright": "설명란에 © 저작권 줄 추가",
     "showUsagePolicy": "설명란에 영상 사용 정책 블록 추가",
-    "showSponsorCredit": "설명란에 스폰서 감사 문구 추가 (키 제공)"
+    "showSponsorCredit": "설명란에 스폰서 감사 문구 추가 (키 제공)",
+    "titleFormatTitle": "제목 형식",
+    "descriptionSettingsTitle": "설명",
+    "badgePosition": "품질 배지 위치",
+    "badgePositionPrefix": "접두부 (게임명 앞)",
+    "badgePositionMiddle": "중간 (영상 유형에 부착)",
+    "badgePositionSuffix": "접미부 (끝 앞)",
+    "titleSeparator": "구분자",
+    "titleSeparatorEmDash": "엠 대시 ( — )",
+    "titleSeparatorHyphen": "하이픈 ( - )",
+    "titleSeparatorColon": "콜론 ( : )",
+    "titleSeparatorPipe": "파이프 ( | )",
+    "badgeCase": "배지 대소문자",
+    "badgeCaseUpper": "대문자 (2K)",
+    "badgeCaseLower": "소문자 (2k)"
   },
   "batch": {
     "title": "일괄 생성",

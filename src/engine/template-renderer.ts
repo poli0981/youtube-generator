@@ -1,4 +1,10 @@
-import type { GeneratorInput, GeneratorOutput, TranslationFn, CharLimitWarning } from "./types";
+import type {
+  GeneratorInput,
+  GeneratorOutput,
+  TranslationFn,
+  CharLimitWarning,
+  TitleFormatConfig,
+} from "./types";
 import { buildTitle, checkTitleWarning } from "./title-builder";
 import { buildDescription, checkDescriptionWarning } from "./description-builder";
 import { generateTags, formatTagString, type TagOptions } from "./tag-generator";
@@ -13,6 +19,12 @@ export interface RenderOptions extends TagOptions {
    * user's setting.
    */
   showQualityBadge?: boolean;
+  /**
+   * Title formatting knobs (badge position, separator, badge case).
+   * Partial — any omitted sub-key falls back to the v0.6 default inside
+   * buildTitle. Flowed from the user's Settings.
+   */
+  titleFormat?: Partial<TitleFormatConfig>;
   /**
    * When true (and channelName is non-empty), the description ends with
    * an auto-generated `© <year> <channelName>. All rights reserved.` line.
@@ -36,7 +48,12 @@ export function renderAll(
   t: TranslationFn,
   options?: RenderOptions,
 ): GeneratorOutput {
-  const title = buildTitle(input, t, options?.showQualityBadge ?? true);
+  const title = buildTitle(input, t, {
+    showQualityBadge: options?.showQualityBadge ?? true,
+    badgePosition: options?.titleFormat?.badgePosition,
+    separator: options?.titleFormat?.separator,
+    badgeCase: options?.titleFormat?.badgeCase,
+  });
   const description = buildDescription(input, t, {
     hashtagCount: options?.hashtagCount,
     showCopyright: options?.showCopyright,

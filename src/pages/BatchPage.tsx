@@ -28,6 +28,8 @@ export function BatchPage() {
     showQualityBadge,
     showCopyright,
     showUsagePolicy,
+    showSponsorCredit,
+    titleFormat,
   } = useSettingsStore();
   const [startPart, setStartPart] = useState("1");
   const [endPart, setEndPart] = useState("5");
@@ -70,6 +72,8 @@ export function BatchPage() {
           playlistLink: state.playlistLink,
           contactEmail: state.contactEmail,
           musicAttribution: state.musicAttribution,
+          sponsorName: state.sponsorName,
+          sponsorPlatform: state.sponsorPlatform,
           spoilerWarning: state.spoilerWarning,
           matureWarning: state.matureWarning,
           storeLinks: state.storeLinks,
@@ -86,6 +90,8 @@ export function BatchPage() {
             showQualityBadge,
             showCopyright,
             showUsagePolicy,
+            showSponsorCredit,
+            titleFormat,
           }),
         };
       });

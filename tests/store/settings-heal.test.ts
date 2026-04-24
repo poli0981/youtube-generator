@@ -17,6 +17,11 @@ describe("healSettings", () => {
       expect(healed.showCopyright).toBe(true);
       expect(healed.showUsagePolicy).toBe(false);
       expect(healed.defaultGenres).toEqual(["action"]);
+      expect(healed.titleFormat).toEqual({
+        badgePosition: "middle",
+        separator: "emDash",
+        badgeCase: "upper",
+      });
       expect(healed.editorAccordionState).toEqual(
         expect.objectContaining({ gameInfo: true }),
       );
@@ -78,6 +83,11 @@ describe("healSettings", () => {
       showCopyright: false,
       showUsagePolicy: true,
       showSponsorCredit: true,
+      titleFormat: {
+        badgePosition: "prefix" as const,
+        separator: "hyphen" as const,
+        badgeCase: "lower" as const,
+      },
       editorAccordionState: { gameInfo: false, videoSettings: true },
     };
     const healed = healSettings(complete);
@@ -92,5 +102,43 @@ describe("healSettings", () => {
       showCopyright: true,
     });
     expect(healed.showSponsorCredit).toBe(false);
+  });
+
+  it("back-fills titleFormat default when the key is absent (v4 → v5 payload)", () => {
+    // Simulates a settings file written in v0.6 where titleFormat did
+    // not exist yet.
+    const healed = healSettings({
+      theme: "dark" as const,
+      showCopyright: true,
+    });
+    expect(healed.titleFormat).toEqual({
+      badgePosition: "middle",
+      separator: "emDash",
+      badgeCase: "upper",
+    });
+  });
+
+  it("merges partial titleFormat, filling missing sub-keys with defaults", () => {
+    const healed = healSettings({
+      titleFormat: { badgePosition: "prefix" },
+    });
+    // User-set value preserved:
+    expect(healed.titleFormat.badgePosition).toBe("prefix");
+    // Missing sub-keys back-filled from defaults:
+    expect(healed.titleFormat.separator).toBe("emDash");
+    expect(healed.titleFormat.badgeCase).toBe("upper");
+  });
+
+  it("replaces a non-object titleFormat value with defaults", () => {
+    // A corrupt on-disk file might have `titleFormat: null` or a string.
+    const healedFromNull = healSettings({ titleFormat: null });
+    const healedFromString = healSettings({ titleFormat: "bogus" });
+    for (const healed of [healedFromNull, healedFromString]) {
+      expect(healed.titleFormat).toEqual({
+        badgePosition: "middle",
+        separator: "emDash",
+        badgeCase: "upper",
+      });
+    }
   });
 });

@@ -280,7 +280,21 @@
     "showQualityBadge": "Mostrar insignia de calidad en el título (ej. [2K 60FPS])",
     "showCopyright": "Agregar línea de © copyright a la descripción",
     "showUsagePolicy": "Agregar bloque de política de uso a la descripción",
-    "showSponsorCredit": "Mostrar línea de agradecimiento al patrocinador (clave) en la descripción"
+    "showSponsorCredit": "Mostrar línea de agradecimiento al patrocinador (clave) en la descripción",
+    "titleFormatTitle": "Formato del título",
+    "descriptionSettingsTitle": "Descripción",
+    "badgePosition": "Posición de la insignia de calidad",
+    "badgePositionPrefix": "Prefijo (antes del nombre del juego)",
+    "badgePositionMiddle": "Medio (junto al tipo de vídeo)",
+    "badgePositionSuffix": "Sufijo (antes de la cola)",
+    "titleSeparator": "Separador de segmentos",
+    "titleSeparatorEmDash": "Raya ( — )",
+    "titleSeparatorHyphen": "Guion ( - )",
+    "titleSeparatorColon": "Dos puntos ( : )",
+    "titleSeparatorPipe": "Barra vertical ( | )",
+    "badgeCase": "Mayúsculas / minúsculas",
+    "badgeCaseUpper": "MAYÚSCULAS (2K)",
+    "badgeCaseLower": "minúsculas (2k)"
   },
   "batch": {
     "title": "Generación por Lote",
