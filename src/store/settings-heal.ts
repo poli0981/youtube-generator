@@ -22,6 +22,7 @@ export interface SettingsData {
   showQualityBadge: boolean;
   showCopyright: boolean;
   showUsagePolicy: boolean;
+  showSponsorCredit: boolean;
   editorAccordionState: Record<string, boolean>;
 }
 
@@ -50,6 +51,7 @@ export const initialSettings: SettingsData = {
   showQualityBadge: true,
   showCopyright: true,
   showUsagePolicy: false,
+  showSponsorCredit: false,
   editorAccordionState: {
     gameInfo: true,
     videoSettings: true,

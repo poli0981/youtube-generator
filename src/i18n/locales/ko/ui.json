@@ -58,6 +58,10 @@
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "음악 / 사운드 크레딧",
     "musicAttributionPlaceholder": "음악: Karl Casey @ White Bat Audio\n효과음: Freesound.org",
+    "sponsorName": "스폰서 (퍼블리셔 / 개발사)",
+    "sponsorNamePlaceholder": "예: Ubisoft, 캡콤, Devolver Digital",
+    "sponsorPlatform": "키 플랫폼",
+    "sponsorPlatformPlaceholder": "예: Steam, Epic Games, GOG",
     "thumbnailText": "썸네일 텍스트",
     "thumbnailTextPlaceholder": "예: 시크릿 보스 노히트",
     "pinnedComment": "고정 댓글 템플릿",
@@ -275,7 +279,8 @@
     "hashtagCount": "해시태그 수",
     "showQualityBadge": "제목에 화질 배지 표시 (예: [2K 60FPS])",
     "showCopyright": "설명란에 © 저작권 줄 추가",
-    "showUsagePolicy": "설명란에 영상 사용 정책 블록 추가"
+    "showUsagePolicy": "설명란에 영상 사용 정책 블록 추가",
+    "showSponsorCredit": "설명란에 스폰서 감사 문구 추가 (키 제공)"
   },
   "batch": {
     "title": "일괄 생성",

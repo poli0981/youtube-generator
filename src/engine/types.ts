@@ -109,6 +109,17 @@ export interface GeneratorInput {
    * before the donate links.
    */
   musicAttribution?: string;
+  /**
+   * Name of the publisher / developer who provided the game key. Combined
+   * with {@link sponsorPlatform} and the `showSponsorCredit` render
+   * option to emit a "🎁 Thanks to …" line in the description.
+   */
+  sponsorName?: string;
+  /**
+   * Storefront the provided key unlocks on (e.g. "Steam", "Epic Games").
+   * Free-form string so regional / non-listed stores still work.
+   */
+  sponsorPlatform?: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
   storeLinks: Partial<Record<string, string>>;

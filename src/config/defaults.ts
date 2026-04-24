@@ -22,6 +22,8 @@ export interface EditorDefaults {
   playlistLink: string;
   contactEmail: string;
   musicAttribution: string;
+  sponsorName: string;
+  sponsorPlatform: string;
   thumbnailText: string;
   pinnedComment: string;
   spoilerWarning: boolean;
@@ -59,6 +61,8 @@ export const DEFAULTS = {
     playlistLink: "",
     contactEmail: "",
     musicAttribution: "",
+    sponsorName: "",
+    sponsorPlatform: "",
     thumbnailText: "",
     pinnedComment: "",
     spoilerWarning: false,
