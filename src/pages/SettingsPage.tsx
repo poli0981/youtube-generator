@@ -217,6 +217,22 @@ export function SettingsPage() {
             checked={settings.showSponsorCredit}
             onChange={(v) => settings.setSetting("showSponsorCredit", v)}
           />
+          <Toggle
+            label={t("settings.showPinnedCommentTemplate")}
+            checked={settings.showPinnedCommentTemplate}
+            onChange={(v) => settings.setSetting("showPinnedCommentTemplate", v)}
+          />
+          {settings.showPinnedCommentTemplate && (
+            <div className="ml-4 border-l-2 border-border pl-4">
+              <Toggle
+                label={t("settings.pinnedCommentIncludeAskNextGame")}
+                checked={settings.pinnedCommentIncludeAskNextGame}
+                onChange={(v) =>
+                  settings.setSetting("pinnedCommentIncludeAskNextGame", v)
+                }
+              />
+            </div>
+          )}
           <Select
             label={t("settings.hashtagCount")}
             options={hashtagOptions}

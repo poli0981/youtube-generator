@@ -432,6 +432,94 @@ describe("buildDescription", () => {
   });
 });
 
+describe("buildDescription — v0.7 content fields", () => {
+  it("renders the playthrough block after the intro when set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ playthroughStatus: "blind" }),
+      t,
+    );
+    expect(result).toContain("🎯 Playthrough:");
+    expect(result).toContain("Blind run (first time playing)");
+    // Lands between the intro line and the No-Commentary tagline:
+    const introIdx = result.indexOf("full gameplay of Elden Ring");
+    const playthroughIdx = result.indexOf("🎯 Playthrough");
+    const noCommentaryIdx = result.indexOf("No Commentary");
+    expect(playthroughIdx).toBeGreaterThan(introIdx);
+    expect(noCommentaryIdx).toBeGreaterThan(playthroughIdx);
+  });
+
+  it("omits the playthrough block when value is 'none'", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ playthroughStatus: "none" }),
+      t,
+    );
+    expect(result).not.toContain("🎯 Playthrough");
+  });
+
+  it("renders the difficulty block with a preset label", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ difficulty: "hard" }), t);
+    expect(result).toContain("🎮 DIFFICULTY");
+    expect(result).toContain("Hard");
+  });
+
+  it("renders a custom difficulty label when difficulty is 'custom'", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ difficulty: "custom", difficultyCustomLabel: "Lethal" }),
+      t,
+    );
+    expect(result).toContain("🎮 DIFFICULTY\nLethal");
+  });
+
+  it("skips the difficulty block when difficulty is 'custom' but label is blank", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ difficulty: "custom", difficultyCustomLabel: "   " }),
+      t,
+    );
+    expect(result).not.toContain("🎮 DIFFICULTY");
+  });
+
+  it("renders content warnings as a bulleted block", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["flashing_lights", "loud_noises"] }),
+      t,
+    );
+    expect(result).toContain("⚠️ CONTENT WARNINGS");
+    expect(result).toContain("• ⚡ Flashing lights");
+    expect(result).toContain("• 🔊 Loud noises");
+    expect(result).not.toContain("• 😱 Jump scares");
+  });
+
+  it("omits the content-warnings block when the list is empty", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ contentWarnings: [] }), t);
+    expect(result).not.toContain("⚠️ CONTENT WARNINGS");
+  });
+
+  it("places content warnings between the spoiler and mature warnings", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        spoilerWarning: true,
+        matureWarning: true,
+        contentWarnings: ["jump_scares"],
+      }),
+      t,
+    );
+    const spoilerIdx = result.indexOf("SPOILER WARNING");
+    const contentIdx = result.indexOf("⚠️ CONTENT WARNINGS");
+    const matureIdx = result.indexOf("MATURE CONTENT");
+    expect(spoilerIdx).toBeGreaterThan(-1);
+    expect(contentIdx).toBeGreaterThan(spoilerIdx);
+    expect(matureIdx).toBeGreaterThan(contentIdx);
+  });
+});
+
 describe("checkDescriptionWarning", () => {
   it("returns null for description under limit", () => {
     expect(checkDescriptionWarning("Short description")).toBeNull();

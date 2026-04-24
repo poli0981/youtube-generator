@@ -9,18 +9,28 @@ import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { renderAll } from "@engine/template-renderer";
+import { buildPinnedComment } from "@engine/pinned-comment-builder";
 import { YT_LIMITS } from "@engine/types";
-import type { GeneratorInput, GeneratorOutput, SupportedLanguage } from "@engine/types";
+import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
+import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import clsx from "clsx";
+
+interface BatchLanguageRow {
+  language: SupportedLanguage;
+  output: GeneratorOutput;
+  /** Empty string when the pinned-comment template setting is off. */
+  pinnedComment: string;
+}
 
 interface BatchResult {
   partNumber: string;
-  languages: { language: SupportedLanguage; output: GeneratorOutput }[];
+  languages: BatchLanguageRow[];
 }
 
 export function BatchPage() {
   const { t } = useTranslation("ui");
   const state = useEditorStore();
+  const baseInput = useCurrentGeneratorInput();
   const {
     includeMultilingualTags,
     includeTrendingTags,
@@ -29,6 +39,8 @@ export function BatchPage() {
     showCopyright,
     showUsagePolicy,
     showSponsorCredit,
+    showPinnedCommentTemplate,
+    pinnedCommentIncludeAskNextGame,
     titleFormat,
   } = useSettingsStore();
   const [startPart, setStartPart] = useState("1");
@@ -51,49 +63,36 @@ export function BatchPage() {
     const outputs: BatchResult[] = [];
 
     for (let i = start; i <= Math.min(end, start + 99); i++) {
-      const languages = selectedLangs.map((lang) => {
+      const languages: BatchLanguageRow[] = selectedLangs.map((lang) => {
         const tFn = i18n.getFixedT(lang, "templates");
-        const input: GeneratorInput = {
-          videoType: "part",
+        // Batch generates "part" entries regardless of the editor's
+        // currently-selected video type — the page exists to spin out a
+        // series, not to batch-duplicate whatever the user last picked.
+        const input = {
+          ...baseInput,
+          videoType: "part" as const,
           language: lang,
-          genres: state.genres,
-          gameName: state.gameName,
-          gameNameLocalized: state.gameNameLocalized,
-          channelName: state.channelName,
-          platform: state.platform,
           partNumber: String(i),
-          bossName: state.bossName,
-          dlcName: state.dlcName,
-          challengeName: state.challengeName,
-          resolution: state.resolution,
-          fps: state.fps,
-          graphicsPreset: state.graphicsPreset,
+          // Batch intentionally leaves the per-part timeline empty; the
+          // editor's timestamps field is a single-video artifact.
           timestamps: "",
-          playlistLink: state.playlistLink,
-          contactEmail: state.contactEmail,
-          musicAttribution: state.musicAttribution,
-          sponsorName: state.sponsorName,
-          sponsorPlatform: state.sponsorPlatform,
-          spoilerWarning: state.spoilerWarning,
-          matureWarning: state.matureWarning,
-          storeLinks: state.storeLinks,
-          storeLinkTypes: state.storeLinkTypes,
-          social: state.social,
-          rig: state.rig,
         };
-        return {
-          language: lang,
-          output: renderAll(input, tFn, {
-            includeMultilingualTags,
-            includeTrendingTags,
-            hashtagCount,
-            showQualityBadge,
-            showCopyright,
-            showUsagePolicy,
-            showSponsorCredit,
-            titleFormat,
-          }),
-        };
+        const output = renderAll(input, tFn, {
+          includeMultilingualTags,
+          includeTrendingTags,
+          hashtagCount,
+          showQualityBadge,
+          showCopyright,
+          showUsagePolicy,
+          showSponsorCredit,
+          titleFormat,
+        });
+        const pinnedComment = showPinnedCommentTemplate
+          ? buildPinnedComment(input, tFn, {
+              includeAskNextGame: pinnedCommentIncludeAskNextGame,
+            })
+          : "";
+        return { language: lang, output, pinnedComment };
       });
       outputs.push({ partNumber: String(i), languages });
     }
@@ -105,7 +104,12 @@ export function BatchPage() {
       results
         .map((r) =>
           r.languages
-            .map((l) => `[${l.language.toUpperCase()}]\n${l.output.title}\n\n${l.output.description}`)
+            .map((l) => {
+              const pinnedBlock = l.pinnedComment
+                ? `\n\n📌 PINNED COMMENT\n${l.pinnedComment}`
+                : "";
+              return `[${l.language.toUpperCase()}]\n${l.output.title}\n\n${l.output.description}${pinnedBlock}`;
+            })
             .join("\n\n---\n\n"),
         )
         .join("\n\n===\n\n"),
@@ -196,6 +200,12 @@ export function BatchPage() {
                       <div className="flex gap-2">
                         <CopyButton text={lang.output.description} label={t("output.copyDescription")} />
                         <CopyButton text={lang.output.tagString} label={t("output.copyTags")} />
+                        {lang.pinnedComment && (
+                          <CopyButton
+                            text={lang.pinnedComment}
+                            label={t("output.copyPinnedCommentTemplate")}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}

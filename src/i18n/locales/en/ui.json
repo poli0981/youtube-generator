@@ -66,6 +66,31 @@
     "thumbnailTextPlaceholder": "e.g. SECRET BOSS NO HIT",
     "pinnedComment": "Pinned Comment Template",
     "pinnedCommentPlaceholder": "What should viewers do if they liked the video?",
+    "playthrough": "Playthrough",
+    "playthroughOptions": {
+      "none": "— Not set —",
+      "blind": "Blind (first time)",
+      "replay": "Replay",
+      "newgame_plus": "New Game+",
+      "postgame": "Post-game / endgame"
+    },
+    "difficulty": "Difficulty",
+    "difficultyOptions": {
+      "none": "— Not set —",
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "nightmare": "Nightmare / Extreme",
+      "custom": "Custom…"
+    },
+    "difficultyCustomLabel": "Custom difficulty label",
+    "difficultyCustomPlaceholder": "e.g. Lethal, NG+7, Fromsoft default",
+    "contentWarnings": "Content warnings",
+    "contentWarningOptions": {
+      "flashing_lights": "⚡ Flashing lights",
+      "loud_noises": "🔊 Loud noises",
+      "jump_scares": "😱 Jump scares"
+    },
     "videoSettings": "Video Settings",
     "quickPreview": "Quick Preview",
     "version": "Version",
@@ -89,6 +114,8 @@
     "copyThumbnailText": "Copy thumbnail text",
     "pinnedComment": "Pinned Comment",
     "copyPinnedComment": "Copy pinned comment",
+    "pinnedCommentTemplate": "Pinned Comment (Template)",
+    "copyPinnedCommentTemplate": "Copy pinned comment template",
     "generateAlternatives": "Generate Alternatives",
     "saveAsTemplate": "Save as Template",
     "variants": {
@@ -294,7 +321,9 @@
     "titleSeparatorPipe": "Pipe ( | )",
     "badgeCase": "Badge case",
     "badgeCaseUpper": "UPPERCASE (2K)",
-    "badgeCaseLower": "lowercase (2k)"
+    "badgeCaseLower": "lowercase (2k)",
+    "showPinnedCommentTemplate": "Generate a pinned-comment template alongside output",
+    "pinnedCommentIncludeAskNextGame": "Include \"what game should I play next?\" prompt"
   },
   "batch": {
     "title": "Batch Mode",

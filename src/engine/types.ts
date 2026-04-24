@@ -78,6 +78,52 @@ export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
  */
 export type StoreLinkType = "paid" | "free" | "demo";
 
+/**
+ * Playthrough state (v0.7 phase 2). Explains how the creator is
+ * approaching this run — viewers repeatedly ask "is this your first
+ * time?" / "NG+?", so surfacing the answer in the description removes a
+ * whole class of comment friction.
+ *
+ * `"none"` is the sentinel for "creator hasn't picked" → section is
+ * skipped entirely, not rendered with a blank value.
+ */
+export const PLAYTHROUGH_STATUSES = [
+  "none",
+  "blind",
+  "replay",
+  "newgame_plus",
+  "postgame",
+] as const;
+export type PlaythroughStatus = (typeof PLAYTHROUGH_STATUSES)[number];
+
+/**
+ * Difficulty level (v0.7 phase 2). Covers the common ladder across most
+ * games; `"custom"` reveals a free-form label field for games whose
+ * difficulty names don't fit (e.g. "Lethal", "Fromsoft default").
+ * `"none"` → skip the section.
+ */
+export const DIFFICULTY_LEVELS = [
+  "none",
+  "easy",
+  "normal",
+  "hard",
+  "nightmare",
+  "custom",
+] as const;
+export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
+
+/**
+ * Accessibility-oriented content warnings (v0.7 phase 2). Multi-select:
+ * a single video can have flashing lights AND loud noises AND jump
+ * scares. Empty array → skip the section entirely.
+ */
+export const CONTENT_WARNINGS = [
+  "flashing_lights",
+  "loud_noises",
+  "jump_scares",
+] as const;
+export type ContentWarning = (typeof CONTENT_WARNINGS)[number];
+
 export interface GeneratorInput {
   videoType: VideoType;
   language: SupportedLanguage;
@@ -122,6 +168,24 @@ export interface GeneratorInput {
   sponsorPlatform?: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
+  /**
+   * Playthrough state — renders a "🎯 Playthrough: …" block above
+   * `noCommentaryLine`. Defaults to `"none"` (skipped).
+   */
+  playthroughStatus?: PlaythroughStatus;
+  /**
+   * Preset / custom difficulty — renders a "🎮 DIFFICULTY" block after
+   * the Video Settings section. When `"custom"`, the value is taken
+   * from {@link difficultyCustomLabel} instead of the locale preset.
+   */
+  difficulty?: DifficultyLevel;
+  /** Free-form label used when `difficulty === "custom"`. */
+  difficultyCustomLabel?: string;
+  /**
+   * Accessibility warnings — renders a "⚠️ CONTENT WARNINGS" bulleted
+   * block after the spoiler section. Empty / missing → skipped.
+   */
+  contentWarnings?: ContentWarning[];
   storeLinks: Partial<Record<string, string>>;
   /**
    * Parallel map from the same platform id to a pricing category.

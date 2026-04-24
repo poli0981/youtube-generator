@@ -74,6 +74,14 @@ export function buildDescription(
   });
   sections.push(intro);
 
+  // 1.5 Playthrough status — surfaces "is this a blind run / NG+ / …"
+  // right after the intro because that context frames how viewers read
+  // everything below. Skipped when creator hasn't picked a value.
+  if (input.playthroughStatus && input.playthroughStatus !== "none") {
+    const label = t(`description.playthrough.${input.playthroughStatus}`);
+    sections.push(t("description.sections.playthrough", { value: label }));
+  }
+
   // 2. No Commentary tagline
   sections.push(t("description.noCommentaryLine"));
 
@@ -131,6 +139,21 @@ export function buildDescription(
     sections.push(`${t("description.sections.videoSettings")}\n${settings.join(" | ")}`);
   }
 
+  // 5.5 Difficulty — sits with Video Settings because a difficulty
+  // choice is another gameplay setting, not a content warning. For
+  // `"custom"`, the user's free-form label is used verbatim (not
+  // translated — intentional: lets creators use game-specific names
+  // like "Lethal" without per-locale fallback friction).
+  if (input.difficulty && input.difficulty !== "none") {
+    const value =
+      input.difficulty === "custom"
+        ? (input.difficultyCustomLabel ?? "").trim()
+        : t(`description.difficulty.${input.difficulty}`);
+    if (value) {
+      sections.push(`${t("description.sections.difficulty")}\n${value}`);
+    }
+  }
+
   // 6. Rig
   if (hasEntries(input.rig)) {
     const rigLines = Object.entries(input.rig)
@@ -146,6 +169,22 @@ export function buildDescription(
   // 7. Spoiler Warning
   if (input.spoilerWarning) {
     sections.push(t("description.sections.spoilerWarning"));
+  }
+
+  // 7.5 Content warnings — accessibility block. Rendered as a bulleted
+  // list so viewers using screen readers or avoiding triggers can scan
+  // quickly. Each warning has its own emoji bullet (⚡ / 🔊 / 😱) and a
+  // localised label. Empty array → skipped, matching the behaviour for
+  // every other opt-in section.
+  if (input.contentWarnings && input.contentWarnings.length > 0) {
+    const bullets = input.contentWarnings
+      .map((w) => t(`description.contentWarnings.${w}`))
+      .filter((line) => line && line.trim() !== "")
+      .map((line) => `• ${line}`)
+      .join("\n");
+    if (bullets) {
+      sections.push(`${t("description.sections.contentWarnings")}\n${bullets}`);
+    }
   }
 
   // 8. Mature Warning

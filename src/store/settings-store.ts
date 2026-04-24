@@ -64,7 +64,7 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
-      version: 5,
+      version: 6,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -99,6 +99,8 @@ function extractData(state: SettingsData): SettingsData {
     showCopyright: state.showCopyright,
     showUsagePolicy: state.showUsagePolicy,
     showSponsorCredit: state.showSponsorCredit,
+    showPinnedCommentTemplate: state.showPinnedCommentTemplate,
+    pinnedCommentIncludeAskNextGame: state.pinnedCommentIncludeAskNextGame,
     titleFormat: { ...state.titleFormat },
     editorAccordionState: state.editorAccordionState,
   };

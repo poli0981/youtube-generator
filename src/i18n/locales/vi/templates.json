@@ -72,7 +72,53 @@
       "cta": "👍 Like | 🔔 Đăng ký | ↗️ Chia sẻ",
       "copyright": "© {{year}} {{channelName}}. Đã đăng ký bản quyền.",
       "usagePolicyHeader": "📋 ĐIỀU KIỆN DÙNG VIDEO",
-      "usagePolicy": "• Luôn luôn ghi credit kèm link video gốc VÀ kênh (tối thiểu trong phần mô tả).\n• Không re-upload toàn bộ video hoặc phần lớn nội dung dưới dạng content của bạn.\n• Không kiếm tiền từ footage mà chưa có sự đồng ý rõ ràng.\n• Không chỉnh sửa footage theo cách xuyên tạc nội dung gốc hoặc người tạo.\n• Compilation, review, commentary, reaction video đều OK miễn là có credit.\nNếu không chắc, liên hệ qua các kênh social hoặc email ở phần mô tả."
+      "usagePolicy": "• Luôn luôn ghi credit kèm link video gốc VÀ kênh (tối thiểu trong phần mô tả).\n• Không re-upload toàn bộ video hoặc phần lớn nội dung dưới dạng content của bạn.\n• Không kiếm tiền từ footage mà chưa có sự đồng ý rõ ràng.\n• Không chỉnh sửa footage theo cách xuyên tạc nội dung gốc hoặc người tạo.\n• Compilation, review, commentary, reaction video đều OK miễn là có credit.\nNếu không chắc, liên hệ qua các kênh social hoặc email ở phần mô tả.",
+      "playthrough": "🎯 Playthrough: {{value}}",
+      "difficulty": "🎮 ĐỘ KHÓ",
+      "contentWarnings": "⚠️ CẢNH BÁO NỘI DUNG"
+    },
+    "playthrough": {
+      "blind": "Chơi lần đầu (blind run)",
+      "replay": "Chơi lại",
+      "newgame_plus": "New Game+",
+      "postgame": "Post-game / endgame"
+    },
+    "difficulty": {
+      "easy": "Dễ",
+      "normal": "Thường",
+      "hard": "Khó",
+      "nightmare": "Ác mộng / Cực khó"
+    },
+    "contentWarnings": {
+      "flashing_lights": "⚡ Ánh sáng chớp / hiệu ứng strobe",
+      "loud_noises": "🔊 Âm thanh lớn / tiếng nổ bất ngờ",
+      "jump_scares": "😱 Jump scare"
+    }
+  },
+  "pinnedComment": {
+    "thanksForWatching": "Cảm ơn mọi người đã xem! Hi vọng các bạn thích video gameplay này.",
+    "playlistPrompt": "📺 Xem toàn bộ series tại đây: {{link}}",
+    "engagementPrompt": "Đừng quên like & subscribe nếu muốn xem thêm — ủng hộ kênh rất nhiều 💚",
+    "askNextGame": "💬 Các bạn muốn mình chơi game nào tiếp theo? Comment gợi ý nha!",
+    "greetings": {
+      "full": "Đây là bản chơi full {{gameName}} — chúc mọi người thưởng thức trọn vẹn.",
+      "part": "Chào mừng các bạn quay lại với {{gameName}} trên {{channelName}}!",
+      "full_demo": "Full demo của {{gameName}} — các bạn có muốn mình chơi bản full khi ra mắt không?",
+      "demo_part": "Demo tiếp tục — đang hype chờ bản full. Các bạn cùng hype không?",
+      "boss": "Con boss này căng thật. Comment chia sẻ trận của bạn nhé!",
+      "boss_nohit": "No-hit run — thử mấy lần mới được. Thấy hay nhớ thả like!",
+      "ending": "⚠️ Đây là ending — cảm ơn mọi người đã đồng hành cùng {{channelName}}.",
+      "speedrun": "Speedrun hoàn tất — times và route chia sẻ ở comment nhé!",
+      "100percent": "100% hoàn thành 🏆 Cảm ơn các bạn đã theo dõi đến tận cuối.",
+      "dlc": "Bản DLC của {{gameName}} — moment nào ấn tượng nhất với bạn?",
+      "newgame_plus": "NG+ tức là mọi thứ khó hơn. Respect ai đang chơi lại cùng mình.",
+      "challenge": "Challenge run hoàn tất. Respect ai định thử thách tương tự.",
+      "side_quest": "Đi side-quest đổi gió — cảm ơn các bạn đã tạm xa main story!",
+      "secret": "Mở khóa nội dung bí mật 🔓 Muốn xem thêm deep-dive thì comment nha.",
+      "comparison": "So sánh đồ hoạ {{gameName}} — bản nào thắng với bạn?",
+      "guide": "Hy vọng silent guide này hữu ích. Timestamps có trong mô tả.",
+      "mods": "Modded run — full load order / credits trong mô tả.",
+      "collectibles": "Full collectible trong 1 video. Cảm ơn các bạn đã ủng hộ!"
     }
   },
   "hashtags": {

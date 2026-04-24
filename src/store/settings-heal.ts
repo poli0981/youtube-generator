@@ -31,6 +31,20 @@ export interface SettingsData {
   showCopyright: boolean;
   showUsagePolicy: boolean;
   showSponsorCredit: boolean;
+  /**
+   * When true, Output + Batch render a generated pinned-comment
+   * template alongside the user's freeform pinnedComment field. Default
+   * off — the template is opt-in, so v0.6 users don't see a new block
+   * appear after upgrade without asking for it.
+   */
+  showPinnedCommentTemplate: boolean;
+  /**
+   * Child toggle for {@link showPinnedCommentTemplate}. When true (the
+   * default), the generated template includes the "what game should I
+   * play next?" prompt. Creators running a fixed series can turn this
+   * off without disabling the whole template.
+   */
+  pinnedCommentIncludeAskNextGame: boolean;
   titleFormat: TitleFormatConfig;
   editorAccordionState: Record<string, boolean>;
 }
@@ -61,6 +75,8 @@ export const initialSettings: SettingsData = {
   showCopyright: true,
   showUsagePolicy: false,
   showSponsorCredit: false,
+  showPinnedCommentTemplate: false,
+  pinnedCommentIncludeAskNextGame: true,
   titleFormat: {
     // Defaults reproduce v0.6 output byte-for-byte: badge glued to the
     // video-type segment, em-dash separator, upper-case badge label.

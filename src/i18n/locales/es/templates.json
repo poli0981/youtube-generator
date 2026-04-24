@@ -72,7 +72,53 @@
       "cta": "👍 Me gusta | 🔔 Suscríbete | ↗️ Comparte",
       "copyright": "© {{year}} {{channelName}}. Todos los derechos reservados.",
       "usagePolicyHeader": "📋 POLÍTICA DE USO",
-      "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción."
+      "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción.",
+      "playthrough": "🎯 Partida: {{value}}",
+      "difficulty": "🎮 DIFICULTAD",
+      "contentWarnings": "⚠️ ADVERTENCIAS DE CONTENIDO"
+    },
+    "playthrough": {
+      "blind": "Partida a ciegas (primera vez)",
+      "replay": "Rejugada",
+      "newgame_plus": "New Game+",
+      "postgame": "Post-game / contenido final"
+    },
+    "difficulty": {
+      "easy": "Fácil",
+      "normal": "Normal",
+      "hard": "Difícil",
+      "nightmare": "Pesadilla / Extremo"
+    },
+    "contentWarnings": {
+      "flashing_lights": "⚡ Luces parpadeantes / efecto estroboscópico",
+      "loud_noises": "🔊 Ruidos fuertes / picos de volumen",
+      "jump_scares": "😱 Sustos repentinos"
+    }
+  },
+  "pinnedComment": {
+    "thanksForWatching": "¡Gracias por ver! Espero que hayas disfrutado la partida.",
+    "playlistPrompt": "📺 Mira la serie completa aquí: {{link}}",
+    "engagementPrompt": "No olvides dar like y suscribirte si quieres ver más — ayuda muchísimo al canal 💚",
+    "askNextGame": "💬 ¿Qué juego debería jugar a continuación? ¡Déjame tus sugerencias!",
+    "greetings": {
+      "full": "Partida completa de {{gameName}} — espero que la disfrutes de principio a fin.",
+      "part": "¡Bienvenidos de vuelta a {{gameName}} en {{channelName}}!",
+      "full_demo": "Demo completa de {{gameName}} — ¿debería jugar el juego completo cuando salga?",
+      "demo_part": "La demo continúa — con muchas ganas del lanzamiento. ¿Ustedes también?",
+      "boss": "Ese jefe fue intenso. ¡Cuéntame en los comentarios cómo te fue en tu pelea!",
+      "boss_nohit": "Run sin recibir daño — me tomó varios intentos. Si te gustó, deja un like.",
+      "ending": "⚠️ Este es el final — gracias por acompañarme en este viaje en {{channelName}}.",
+      "speedrun": "Intento de speedrun completado — bienvenidos tiempos y rutas en los comentarios.",
+      "100percent": "100% completado 🏆 Gracias por quedarte hasta el final.",
+      "dlc": "DLC de {{gameName}} — ¿qué momento te impactó más?",
+      "newgame_plus": "NG+ significa que todo es más difícil. Respeto a quienes lo están rejugando conmigo.",
+      "challenge": "Desafío completado. Respeto a quien intente lo mismo.",
+      "side_quest": "Desvío de misión secundaria — ¡gracias por la pausa de la historia principal!",
+      "secret": "Contenido secreto desbloqueado 🔓 Dime si quieres más búsquedas a fondo.",
+      "comparison": "Comparación gráfica de {{gameName}} — ¿cuál gana para ti?",
+      "guide": "Espero que esta guía silenciosa te haya ayudado. Los tiempos están en la descripción.",
+      "mods": "Partida con mods — el orden de carga y créditos están en la descripción.",
+      "collectibles": "Todos los coleccionables en un solo vídeo. ¡Gracias por el apoyo!"
     }
   },
   "hashtags": {

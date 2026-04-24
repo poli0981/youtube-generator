@@ -72,7 +72,53 @@
       "cta": "👍 点赞 | 🔔 订阅 | ↗️ 分享",
       "copyright": "© {{year}} {{channelName}}. 版权所有。",
       "usagePolicyHeader": "📋 视频使用规则",
-      "usagePolicy": "• 请务必附上原视频链接和频道的 credit（至少在描述中）。\n• 请勿将完整视频或大部分内容作为自己的内容重新上传。\n• 未经明确同意，请勿对素材进行商业化。\n• 请勿以歪曲原内容或创作者的方式剪辑素材。\n• 合集、评测、解说、反应视频均可 — 只要标明出处。\n如有疑问，请通过描述中的社交账号或邮箱联系我。"
+      "usagePolicy": "• 请务必附上原视频链接和频道的 credit（至少在描述中）。\n• 请勿将完整视频或大部分内容作为自己的内容重新上传。\n• 未经明确同意，请勿对素材进行商业化。\n• 请勿以歪曲原内容或创作者的方式剪辑素材。\n• 合集、评测、解说、反应视频均可 — 只要标明出处。\n如有疑问，请通过描述中的社交账号或邮箱联系我。",
+      "playthrough": "🎯 游玩方式: {{value}}",
+      "difficulty": "🎮 难度",
+      "contentWarnings": "⚠️ 内容警告"
+    },
+    "playthrough": {
+      "blind": "初见游玩 (blind)",
+      "replay": "重新游玩",
+      "newgame_plus": "New Game+",
+      "postgame": "通关后 / 后期内容"
+    },
+    "difficulty": {
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "nightmare": "噩梦 / 极难"
+    },
+    "contentWarnings": {
+      "flashing_lights": "⚡ 闪光 / 频闪效果",
+      "loud_noises": "🔊 大音量 / 突发音量",
+      "jump_scares": "😱 惊吓镜头"
+    }
+  },
+  "pinnedComment": {
+    "thanksForWatching": "感谢观看！希望你喜欢这次的实况。",
+    "playlistPrompt": "📺 完整系列在这里: {{link}}",
+    "engagementPrompt": "如果喜欢记得点赞和订阅 — 对频道帮助很大 💚",
+    "askNextGame": "💬 下一期想看我玩什么游戏？评论区留言告诉我！",
+    "greetings": {
+      "full": "{{gameName}} 的完整流程 — 希望你从头到尾都喜欢。",
+      "part": "欢迎回到 {{channelName}} 的 {{gameName}} 实况！",
+      "full_demo": "{{gameName}} 的完整试玩 — 正式版发售时要继续玩吗？",
+      "demo_part": "试玩继续 — 非常期待正式版。你也一样吗？",
+      "boss": "这场 Boss 战挺激烈的。评论区聊聊你的战斗体验吧！",
+      "boss_nohit": "无伤挑战 — 尝试了好几次。如果喜欢记得点赞！",
+      "ending": "⚠️ 这就是结局 — 感谢一路陪伴 {{channelName}} 走完旅程。",
+      "speedrun": "速通尝试完成 — 欢迎评论区分享时间和路线！",
+      "100percent": "100% 全收集完成 🏆 感谢一路支持到最后。",
+      "dlc": "{{gameName}} DLC — 哪一段最打动你？",
+      "newgame_plus": "NG+ 意味着一切更难。敬重一起重玩的各位。",
+      "challenge": "挑战完成。敬重想尝试同样挑战的朋友。",
+      "side_quest": "支线任务小憩 — 感谢让我们从主线暂歇一下！",
+      "secret": "解锁隐藏内容 🔓 想看更多深挖内容的话评论告诉我。",
+      "comparison": "{{gameName}} 画面对比 — 你更喜欢哪一个？",
+      "guide": "希望这份无解说攻略对你有帮助。时间戳在描述中。",
+      "mods": "MOD 实况 — 完整加载顺序和致谢在描述中。",
+      "collectibles": "全收集一期完成。感谢大家支持！"
     }
   },
   "hashtags": {

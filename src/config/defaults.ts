@@ -1,6 +1,12 @@
 import type { VideoTypeId } from "./video-types";
 import type { GenreId } from "./genres";
-import type { SupportedLanguage, StoreLinkType } from "@engine/types";
+import type {
+  SupportedLanguage,
+  StoreLinkType,
+  PlaythroughStatus,
+  DifficultyLevel,
+  ContentWarning,
+} from "@engine/types";
 
 export interface EditorDefaults {
   videoType: VideoTypeId;
@@ -28,6 +34,10 @@ export interface EditorDefaults {
   pinnedComment: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
+  playthroughStatus: PlaythroughStatus;
+  difficulty: DifficultyLevel;
+  difficultyCustomLabel: string;
+  contentWarnings: ContentWarning[];
   storeLinks: Record<string, string>;
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
@@ -67,6 +77,10 @@ export const DEFAULTS = {
     pinnedComment: "",
     spoilerWarning: false,
     matureWarning: false,
+    playthroughStatus: "none",
+    difficulty: "none",
+    difficultyCustomLabel: "",
+    contentWarnings: [],
     storeLinks: {},
     storeLinkTypes: {},
     social: {},
