@@ -42,7 +42,7 @@
     "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
     "templates": ["title", "createNew", "saveAsTemplate", "templateName", "templateNamePlaceholder", "loadTemplate", "deleteConfirm", "emptyState", "saveHint", "savedAs", "appliedToast", "exportTemplates", "importTemplates"],
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
-    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "autoSaveDraft", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch"],

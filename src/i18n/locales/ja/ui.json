@@ -267,7 +267,6 @@
     "appLanguage": "アプリの言語",
     "defaultOutputLanguage": "デフォルト出力言語",
     "defaultGenre": "デフォルトジャンル",
-    "autoSaveDraft": "下書き自動保存",
     "showCharCount": "文字数を表示",
     "compactTagDisplay": "コンパクトタグ表示",
     "historyLimit": "履歴上限",

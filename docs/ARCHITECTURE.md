@@ -254,9 +254,9 @@ Zustand Stores:
 │  SettingsStore                                 │
 │  - theme: "dark" | "light"                     │
 │  - defaultLanguage: SupportedLanguage          │
-│  - defaultGenre: Genre                         │
-│  - autoSaveDraft: boolean                      │
-│  Middleware: persist (localStorage)             │
+│  - defaultGenres: GenreId[]                    │
+│  - (flags: quality badge / copyright / ...)    │
+│  Middleware: persist (localStorage + file)     │
 └───────────────────────────────────────────────┘
 ```
 

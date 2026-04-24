@@ -267,7 +267,6 @@
     "appLanguage": "Idioma de la App",
     "defaultOutputLanguage": "Idioma de Salida Predeterminado",
     "defaultGenre": "Géneros Predeterminados",
-    "autoSaveDraft": "Guardar Borrador Automáticamente",
     "showCharCount": "Mostrar Contador de Caracteres",
     "compactTagDisplay": "Vista Compacta de Etiquetas",
     "historyLimit": "Límite de Historial",
