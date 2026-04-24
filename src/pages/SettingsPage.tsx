@@ -123,11 +123,6 @@ export function SettingsPage() {
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.editorSettings")}</h2>
           <Toggle
-            label={t("settings.autoSaveDraft")}
-            checked={settings.autoSaveDraft}
-            onChange={(v) => settings.setSetting("autoSaveDraft", v)}
-          />
-          <Toggle
             label={t("settings.showCharCount")}
             checked={settings.showCharCount}
             onChange={(v) => settings.setSetting("showCharCount", v)}
