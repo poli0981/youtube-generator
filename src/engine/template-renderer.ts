@@ -23,6 +23,12 @@ export interface RenderOptions extends TagOptions {
    * (📋 USAGE POLICY) after the copyright line.
    */
   showUsagePolicy?: boolean;
+  /**
+   * When true and both `sponsorName` and `sponsorPlatform` are set on
+   * the input, the description emits a "🎁 Thanks to …" credit line
+   * above the music / donate block.
+   */
+  showSponsorCredit?: boolean;
 }
 
 export function renderAll(
@@ -35,6 +41,7 @@ export function renderAll(
     hashtagCount: options?.hashtagCount,
     showCopyright: options?.showCopyright,
     showUsagePolicy: options?.showUsagePolicy,
+    showSponsorCredit: options?.showSponsorCredit,
   });
   const tags = generateTags(input, options);
   const tagString = formatTagString(tags);

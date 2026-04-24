@@ -42,6 +42,9 @@ export interface BuildDescriptionOptions {
   /** When true, appends a localised usage-policy block after the
    *  copyright line. */
   showUsagePolicy?: boolean;
+  /** When true and both `sponsorName` and `sponsorPlatform` are set,
+   *  emits a "🎁 Thanks to …" credit line above the music section. */
+  showSponsorCredit?: boolean;
 }
 
 export function buildDescription(
@@ -49,7 +52,12 @@ export function buildDescription(
   t: TranslationFn,
   options: BuildDescriptionOptions = {},
 ): string {
-  const { hashtagCount = 3, showCopyright = false, showUsagePolicy = false } = options;
+  const {
+    hashtagCount = 3,
+    showCopyright = false,
+    showUsagePolicy = false,
+    showSponsorCredit = false,
+  } = options;
   const sections: string[] = [];
   const gameName =
     input.gameNameLocalized?.[input.language] ?? input.gameName;
@@ -143,6 +151,26 @@ export function buildDescription(
   // 8. Mature Warning
   if (input.matureWarning) {
     sections.push(t("description.sections.matureWarning"));
+  }
+
+  // 8.3. Sponsor credit — appears above the music / donate block so the
+  // "thanks to X" line stands out. Only renders when both the toggle is
+  // on AND the creator has filled in BOTH the sponsor name and the
+  // platform; partial data is treated as "not ready, skip" rather than
+  // rendered with holes.
+  if (
+    showSponsorCredit &&
+    input.sponsorName &&
+    input.sponsorName.trim() &&
+    input.sponsorPlatform &&
+    input.sponsorPlatform.trim()
+  ) {
+    sections.push(
+      t("description.sections.sponsorCredit", {
+        sponsor: input.sponsorName.trim(),
+        platform: input.sponsorPlatform.trim(),
+      }),
+    );
   }
 
   // 8.5. Music / sound attribution — sits right before the donate

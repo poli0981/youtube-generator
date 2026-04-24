@@ -58,6 +58,10 @@
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "Credit nhạc / âm thanh",
     "musicAttributionPlaceholder": "Nhạc: Karl Casey @ White Bat Audio\nSFX: Freesound.org",
+    "sponsorName": "Sponsor (publisher / developer)",
+    "sponsorNamePlaceholder": "Ví dụ: Ubisoft, Capcom, Devolver Digital",
+    "sponsorPlatform": "Platform của key",
+    "sponsorPlatformPlaceholder": "Ví dụ: Steam, Epic Games, GOG",
     "thumbnailText": "Text thumbnail",
     "thumbnailTextPlaceholder": "vd: SECRET BOSS NO HIT",
     "pinnedComment": "Bình luận ghim",
@@ -275,7 +279,8 @@
     "hashtagCount": "Số hashtag",
     "showQualityBadge": "Hiện badge chất lượng trong tiêu đề (vd: [2K 60FPS])",
     "showCopyright": "Gắn dòng © copyright vào description",
-    "showUsagePolicy": "Gắn khối quy định sử dụng video vào description"
+    "showUsagePolicy": "Gắn khối quy định sử dụng video vào description",
+    "showSponsorCredit": "Hiện dòng cảm ơn sponsor (tặng key) trong description"
   },
   "batch": {
     "title": "Chế độ hàng loạt",

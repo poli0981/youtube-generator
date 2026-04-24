@@ -23,6 +23,8 @@ interface EditorData {
   playlistLink: string;
   contactEmail: string;
   musicAttribution: string;
+  sponsorName: string;
+  sponsorPlatform: string;
   thumbnailText: string;
   pinnedComment: string;
   spoilerWarning: boolean;
@@ -68,6 +70,8 @@ const initialState: EditorData = {
   playlistLink: DEFAULTS.editor.playlistLink,
   contactEmail: DEFAULTS.editor.contactEmail,
   musicAttribution: DEFAULTS.editor.musicAttribution,
+  sponsorName: DEFAULTS.editor.sponsorName,
+  sponsorPlatform: DEFAULTS.editor.sponsorPlatform,
   thumbnailText: DEFAULTS.editor.thumbnailText,
   pinnedComment: DEFAULTS.editor.pinnedComment,
   spoilerWarning: DEFAULTS.editor.spoilerWarning,
@@ -104,18 +108,29 @@ export const useEditorStore = create<EditorState>()(
     {
       name: "ytdescgen-editor-draft",
       storage: createJSONStorage(() => localStorage),
-      // v1 → v2 upgrade: `genre: Genre` became `genres: Genre[]` in v0.5.
-      // Old drafts still round-trip by wrapping the single value.
-      version: 2,
+      // v1 → v2: `genre: Genre` became `genres: Genre[]` in v0.5.
+      // v2 → v3: sponsor credit fields added in v0.6. Missing entries fall
+      // back to the spread of `initialState` at store creation, but we
+      // still normalise the blob here so legacy drafts round-trip cleanly.
+      version: 3,
       migrate: (persistedState: unknown, version: number): EditorData => {
-        if (version < 2 && persistedState && typeof persistedState === "object") {
-          const state = persistedState as Record<string, unknown> & { genre?: unknown };
-          if (typeof state.genre === "string" && !Array.isArray(state.genres)) {
-            state.genres = [state.genre];
-            delete state.genre;
-          }
+        if (!persistedState || typeof persistedState !== "object") {
+          return { ...initialState };
         }
-        return persistedState as EditorData;
+        const state = persistedState as Record<string, unknown> & {
+          genre?: unknown;
+          sponsorName?: unknown;
+          sponsorPlatform?: unknown;
+        };
+        if (version < 2 && typeof state.genre === "string" && !Array.isArray(state.genres)) {
+          state.genres = [state.genre];
+          delete state.genre;
+        }
+        if (version < 3) {
+          if (typeof state.sponsorName !== "string") state.sponsorName = "";
+          if (typeof state.sponsorPlatform !== "string") state.sponsorPlatform = "";
+        }
+        return { ...initialState, ...state } as EditorData;
       },
       partialize: (state) => ({
         videoType: state.videoType,
@@ -137,6 +152,8 @@ export const useEditorStore = create<EditorState>()(
         playlistLink: state.playlistLink,
         contactEmail: state.contactEmail,
         musicAttribution: state.musicAttribution,
+        sponsorName: state.sponsorName,
+        sponsorPlatform: state.sponsorPlatform,
         thumbnailText: state.thumbnailText,
         pinnedComment: state.pinnedComment,
         spoilerWarning: state.spoilerWarning,

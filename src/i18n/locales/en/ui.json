@@ -58,6 +58,10 @@
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "Music / Sound Attribution",
     "musicAttributionPlaceholder": "Music by Karl Casey @ White Bat Audio\nSFX from Freesound.org",
+    "sponsorName": "Sponsor (publisher / developer)",
+    "sponsorNamePlaceholder": "e.g. Ubisoft, Capcom, Devolver Digital",
+    "sponsorPlatform": "Key platform",
+    "sponsorPlatformPlaceholder": "e.g. Steam, Epic Games, GOG",
     "thumbnailText": "Thumbnail Text",
     "thumbnailTextPlaceholder": "e.g. SECRET BOSS NO HIT",
     "pinnedComment": "Pinned Comment Template",
@@ -275,7 +279,8 @@
     "hashtagCount": "Hashtag Count",
     "showQualityBadge": "Show quality badge in title (e.g. [2K 60FPS])",
     "showCopyright": "Append © copyright line to description",
-    "showUsagePolicy": "Append usage policy block to description"
+    "showUsagePolicy": "Append usage policy block to description",
+    "showSponsorCredit": "Show sponsor credit line in description (thanks for the key)"
   },
   "batch": {
     "title": "Batch Mode",

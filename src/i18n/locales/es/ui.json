@@ -58,6 +58,10 @@
     "contactEmailPlaceholder": "negocios@ejemplo.com",
     "musicAttribution": "Crédito Musical / Sonidos",
     "musicAttributionPlaceholder": "Música: Karl Casey @ White Bat Audio\nEfectos: Freesound.org",
+    "sponsorName": "Patrocinador (editor / desarrollador)",
+    "sponsorNamePlaceholder": "ej. Ubisoft, Capcom, Devolver Digital",
+    "sponsorPlatform": "Plataforma de la clave",
+    "sponsorPlatformPlaceholder": "ej. Steam, Epic Games, GOG",
     "thumbnailText": "Texto de Miniatura",
     "thumbnailTextPlaceholder": "ej. JEFE SECRETO SIN GOLPES",
     "pinnedComment": "Plantilla de Comentario Fijado",
@@ -275,7 +279,8 @@
     "hashtagCount": "Cantidad de Hashtags",
     "showQualityBadge": "Mostrar insignia de calidad en el título (ej. [2K 60FPS])",
     "showCopyright": "Agregar línea de © copyright a la descripción",
-    "showUsagePolicy": "Agregar bloque de política de uso a la descripción"
+    "showUsagePolicy": "Agregar bloque de política de uso a la descripción",
+    "showSponsorCredit": "Mostrar línea de agradecimiento al patrocinador (clave) en la descripción"
   },
   "batch": {
     "title": "Generación por Lote",

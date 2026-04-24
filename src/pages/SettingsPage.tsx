@@ -161,6 +161,11 @@ export function SettingsPage() {
             checked={settings.showUsagePolicy}
             onChange={(v) => settings.setSetting("showUsagePolicy", v)}
           />
+          <Toggle
+            label={t("settings.showSponsorCredit")}
+            checked={settings.showSponsorCredit}
+            onChange={(v) => settings.setSetting("showSponsorCredit", v)}
+          />
           <Select
             label={t("settings.hashtagCount")}
             options={hashtagOptions}
