@@ -26,7 +26,8 @@
       "comparison": "Comparison",
       "guide": "Guide",
       "mods": "{{modName}} Mods",
-      "collectibles": "All Collectibles"
+      "collectibles": "All Collectibles",
+      "livestream": "🔴 LIVE"
     }
   },
   "description": {
@@ -48,7 +49,8 @@
       "comparison": "This video compares the graphics/performance of {{gameName}} on {{channelName}}.",
       "guide": "This video is a silent guide for {{gameName}} on {{channelName}}.",
       "mods": "This video features the {{modName}} mod for {{gameName}} on {{channelName}}.",
-      "collectibles": "This video covers all collectibles and 100% completion of {{gameName}} on {{channelName}}."
+      "collectibles": "This video covers all collectibles and 100% completion of {{gameName}} on {{channelName}}.",
+      "livestream": "Live stream of {{gameName}} on {{channelName}}. Join the chat and say hi!"
     },
     "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
     "storeLinkSuffix": {
@@ -93,6 +95,49 @@
       "flashing_lights": "⚡ Flashing lights / strobe effects",
       "loud_noises": "🔊 Loud noises / sudden volume spikes",
       "jump_scares": "😱 Jump scares"
+    },
+    "graphics": {
+      "settingSuffix": "Setting",
+      "with": "with",
+      "artStyle": "Art Style",
+      "presetOptions": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "very_high": "Very High",
+        "cinematic": "Cinematic",
+        "ultra": "Ultra",
+        "extreme": "Extreme"
+      },
+      "rtOptions": {
+        "ray_tracing": "Ray Tracing",
+        "full_rt": "Full Ray Tracing",
+        "path_tracing": "Path Tracing",
+        "ray_reconstruction": "Ray Reconstruction"
+      },
+      "upscaleQualityOptions": {
+        "native_aa": "Native AA",
+        "quality": "Quality",
+        "balanced": "Balanced",
+        "performance": "Performance",
+        "ultra_performance": "Ultra Performance"
+      },
+      "artStyleOptions": {
+        "realistic": "Realistic",
+        "stylized": "Stylized",
+        "anime": "Anime",
+        "cel_shaded": "Cel-shaded",
+        "low_poly": "Low-poly",
+        "voxel": "Voxel",
+        "pixel_art": "Pixel Art",
+        "hand_drawn": "Hand-drawn",
+        "comic": "Comic",
+        "photorealistic": "Photorealistic"
+      }
+    },
+    "livestream": {
+      "scheduledLine": "🔴 LIVE on {{time}}",
+      "watchLine": "Watch / replay: {{link}}"
     }
   },
   "pinnedComment": {
@@ -100,6 +145,7 @@
     "playlistPrompt": "📺 Watch the full series here: {{link}}",
     "engagementPrompt": "Don't forget to like & subscribe if you want to see more — it really helps out the channel 💚",
     "askNextGame": "💬 What game should I play next? Drop your suggestions below!",
+    "genrePlaylistSuggestion": "📺 More {{genreLabel}} gameplay on the channel: {{link}}",
     "greetings": {
       "full": "This one's the full run of {{gameName}} — hope you enjoy every minute of it.",
       "part": "Welcome back to {{gameName}} on {{channelName}}!",
@@ -118,7 +164,8 @@
       "comparison": "Graphics comparison for {{gameName}} — which one wins for you?",
       "guide": "Hope this silent guide helped. Timestamps in the description.",
       "mods": "Modded run — full load order / credits in the description.",
-      "collectibles": "Every collectible in one video. Thanks for the support!"
+      "collectibles": "Every collectible in one video. Thanks for the support!",
+      "livestream": "Welcome to the stream of {{gameName}}! Drop a hello in the chat 👋"
     }
   },
   "hashtags": {

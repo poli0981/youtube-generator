@@ -3,12 +3,26 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
 import { saveSettings } from "@utils/storage-adapter";
 import type { VideoType, Genre, SupportedLanguage, StoreLinkType } from "@engine/types";
+import type {
+  GraphicsPreset,
+  RTMode,
+  FrameGenVendor,
+  FrameGenMultiplier,
+  UpscaleQuality,
+  ArtStyle,
+} from "@config/graphics-settings";
 
 /**
  * Full snapshot of the editor form. Matches the `partialize` output of
  * editor-store so a template can be applied back via `loadProfile` /
  * `loadPreset` (both accept `Partial<EditorData>`) and restore every
  * field the creator had set.
+ *
+ * Pre-v0.8 snapshots persisted `graphicsPreset` as free-form text. The
+ * type here uses the v0.8 enum — TS believes legacy strings like "Ultra"
+ * are `GraphicsPreset`, but `editor-store.normalizeEditorPatch` runs on
+ * `loadProfile` / `loadPreset` and maps them through the same logic as
+ * the persist v4→v5 migration, so behaviour is correct at runtime.
  */
 export interface TemplateSnapshot {
   videoType: VideoType;
@@ -23,9 +37,21 @@ export interface TemplateSnapshot {
   dlcName: string;
   challengeName: string;
   modName: string;
+  /** Livestream-only (v0.8 phase 2). Optional for back-compat. */
+  liveUrl?: string;
+  scheduledTime?: string;
   resolution: string;
   fps: string;
-  graphicsPreset: string;
+  graphicsPreset: GraphicsPreset;
+  /** v0.8 phase 2 fields — optional for back-compat with pre-v0.8 templates. */
+  graphicsPresetCustom?: string;
+  skipGraphicsSettings?: boolean;
+  rayTracingModes?: RTMode[];
+  frameGenVendor?: FrameGenVendor;
+  frameGenMultiplier?: FrameGenMultiplier;
+  upscaleQuality?: UpscaleQuality;
+  artStyle?: ArtStyle;
+  versionInfo?: string;
   timestamps: string;
   playlistLink: string;
   contactEmail: string;

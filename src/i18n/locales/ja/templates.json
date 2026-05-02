@@ -26,7 +26,8 @@
       "comparison": "グラフィック比較",
       "guide": "攻略ガイド",
       "mods": "{{modName}} MOD",
-      "collectibles": "全コレクション"
+      "collectibles": "全コレクション",
+      "livestream": "🔴 LIVE"
     }
   },
   "description": {
@@ -48,7 +49,8 @@
       "comparison": "この動画は{{channelName}}による{{gameName}}のグラフィック比較です。",
       "guide": "この動画は{{channelName}}による{{gameName}}の攻略ガイドです。",
       "mods": "この動画は{{channelName}}による{{gameName}}の{{modName}} MODプレイです。",
-      "collectibles": "この動画は{{channelName}}による{{gameName}}のコレクション完全攻略です。"
+      "collectibles": "この動画は{{channelName}}による{{gameName}}のコレクション完全攻略です。",
+      "livestream": "{{channelName}}にて{{gameName}}のライブ配信中。チャットで一緒に盛り上がろう！"
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
     "storeLinkSuffix": {
@@ -93,6 +95,49 @@
       "flashing_lights": "⚡ 光の点滅 / ストロボ効果",
       "loud_noises": "🔊 大音量 / 突発的な音量",
       "jump_scares": "😱 ジャンプスケア"
+    },
+    "graphics": {
+      "settingSuffix": "Setting",
+      "with": "+",
+      "artStyle": "アートスタイル",
+      "presetOptions": {
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "very_high": "最高",
+        "cinematic": "シネマティック",
+        "ultra": "ウルトラ",
+        "extreme": "エクストリーム"
+      },
+      "rtOptions": {
+        "ray_tracing": "Ray Tracing",
+        "full_rt": "Full Ray Tracing",
+        "path_tracing": "Path Tracing",
+        "ray_reconstruction": "Ray Reconstruction"
+      },
+      "upscaleQualityOptions": {
+        "native_aa": "Native AA",
+        "quality": "Quality",
+        "balanced": "Balanced",
+        "performance": "Performance",
+        "ultra_performance": "Ultra Performance"
+      },
+      "artStyleOptions": {
+        "realistic": "リアル",
+        "stylized": "スタイライズド",
+        "anime": "アニメ",
+        "cel_shaded": "セルシェーディング",
+        "low_poly": "ローポリ",
+        "voxel": "ボクセル",
+        "pixel_art": "ピクセルアート",
+        "hand_drawn": "手描き",
+        "comic": "コミック",
+        "photorealistic": "フォトリアル"
+      }
+    },
+    "livestream": {
+      "scheduledLine": "🔴 LIVE 配信日時: {{time}}",
+      "watchLine": "視聴・見逃し配信: {{link}}"
     }
   },
   "pinnedComment": {
@@ -100,6 +145,7 @@
     "playlistPrompt": "📺 シリーズ全部はこちら: {{link}}",
     "engagementPrompt": "気に入っていただけたら高評価＆チャンネル登録をお願いします — チャンネルの支えになります 💚",
     "askNextGame": "💬 次は何のゲームを実況してほしい？コメントで教えてください！",
+    "genrePlaylistSuggestion": "📺 もっと {{genreLabel}} のゲームプレイ動画はこちら: {{link}}",
     "greetings": {
       "full": "{{gameName}} のフルプレイです — 最後まで楽しんでいただけたら幸いです。",
       "part": "{{channelName}} の {{gameName}} 実況へようこそ！",
@@ -118,7 +164,8 @@
       "comparison": "{{gameName}} のグラフィック比較 — どちらが好みですか？",
       "guide": "サイレント攻略がお役に立てば幸いです。タイムスタンプは説明欄に。",
       "mods": "MOD プレイ — ロードオーダーとクレジットは説明欄に。",
-      "collectibles": "全収集要素を 1 本に。応援ありがとうございました！"
+      "collectibles": "全収集要素を 1 本に。応援ありがとうございました！",
+      "livestream": "{{gameName}} のライブ配信へようこそ！チャットで挨拶してね 👋"
     }
   },
   "hashtags": {

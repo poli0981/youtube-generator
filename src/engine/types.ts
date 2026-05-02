@@ -1,3 +1,12 @@
+import type {
+  GraphicsPreset,
+  RTMode,
+  FrameGenVendor,
+  FrameGenMultiplier,
+  UpscaleQuality,
+  ArtStyle,
+} from "@config/graphics-settings";
+
 export type VideoType =
   | "full"
   | "part"
@@ -16,7 +25,8 @@ export type VideoType =
   | "comparison"
   | "guide"
   | "mods"
-  | "collectibles";
+  | "collectibles"
+  | "livestream";
 
 export type Genre =
   | "action"
@@ -143,9 +153,43 @@ export interface GeneratorInput {
   dlcName?: string;
   challengeName?: string;
   modName?: string;
+  /** Livestream-only: canonical YouTube/Twitch live URL. */
+  liveUrl?: string;
+  /** Livestream-only: ISO datetime (`<input type="datetime-local">`). */
+  scheduledTime?: string;
   resolution?: string;
   fps?: string;
-  graphicsPreset?: string;
+  /**
+   * Graphics-quality preset (v0.8 enum + `"custom"` escape hatch).
+   * Pre-v0.8 drafts persisted this as free-form text — the editor-store
+   * v4→v5 migration maps known labels to enum values and routes anything
+   * else into {@link graphicsPresetCustom}.
+   */
+  graphicsPreset?: GraphicsPreset;
+  /** Free-form preset name when {@link graphicsPreset} === `"custom"`. */
+  graphicsPresetCustom?: string;
+  /**
+   * When true, the entire 🖥 VIDEO SETTINGS section is omitted from the
+   * description — for 2D / pixel-art / web games that have no in-game
+   * graphics settings to talk about.
+   */
+  skipGraphicsSettings?: boolean;
+  /** Multi-select RT modes layered on the graphics line. */
+  rayTracingModes?: RTMode[];
+  /** GPU vendor whose upscaling / frame-gen the creator used. */
+  frameGenVendor?: FrameGenVendor;
+  /** Frame-generation multiplier (only meaningful when vendor !== "none"). */
+  frameGenMultiplier?: FrameGenMultiplier;
+  /** Upscaling quality (DLSS / FSR / XeSS quality preset). */
+  upscaleQuality?: UpscaleQuality;
+  /** High-level art-style descriptor — surfaces a separate line. */
+  artStyle?: ArtStyle;
+  /**
+   * Free-form short string for driver / game version, e.g.
+   * "GeForce 565.90 | Game v1.4". Surfaces as the trailing token of the
+   * video-settings line.
+   */
+  versionInfo?: string;
   timestamps?: string;
   playlistLink?: string;
   contactEmail?: string;

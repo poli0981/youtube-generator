@@ -31,6 +31,85 @@ describe("buildPinnedComment", () => {
     expect(result).toContain("What game should I play next?");
   });
 
+  it("uses the livestream-specific greeting when videoType is livestream", () => {
+    const t = createMockT("en");
+    const result = buildPinnedComment(
+      makeInput({ videoType: "livestream", gameName: "Elden Ring" }),
+      t,
+    );
+    expect(result).toContain("Welcome to the stream of Elden Ring");
+    expect(result).toContain("Drop a hello in the chat");
+  });
+
+  it("includes the genre-playlist suggestion when option + URL + label all present", () => {
+    const t = createMockT("en");
+    const result = buildPinnedComment(
+      makeInput({ genres: ["horror"] }),
+      t,
+      {
+        includeGenrePlaylist: true,
+        genrePlaylists: {
+          horror: "https://www.youtube.com/playlist?list=PLhorror",
+        },
+        genreLabels: { horror: "Horror" },
+      },
+    );
+    expect(result).toContain(
+      "📺 More Horror gameplay on the channel: https://www.youtube.com/playlist?list=PLhorror",
+    );
+  });
+
+  it("omits the genre-playlist line when the option is off", () => {
+    const t = createMockT("en");
+    const result = buildPinnedComment(
+      makeInput({ genres: ["horror"] }),
+      t,
+      {
+        includeGenrePlaylist: false,
+        genrePlaylists: {
+          horror: "https://www.youtube.com/playlist?list=PLhorror",
+        },
+        genreLabels: { horror: "Horror" },
+      },
+    );
+    expect(result).not.toContain("More Horror gameplay");
+  });
+
+  it("omits the genre-playlist line when no URL is configured for the primary genre", () => {
+    const t = createMockT("en");
+    const result = buildPinnedComment(
+      makeInput({ genres: ["rpg"] }),
+      t,
+      {
+        includeGenrePlaylist: true,
+        genrePlaylists: {
+          horror: "https://www.youtube.com/playlist?list=PLhorror",
+        },
+        genreLabels: { horror: "Horror", rpg: "RPG" },
+      },
+    );
+    expect(result).not.toContain("More");
+    expect(result).not.toContain("playlist?list=PLhorror");
+  });
+
+  it("uses the primary (first) genre, ignoring secondary genres", () => {
+    const t = createMockT("en");
+    const result = buildPinnedComment(
+      makeInput({ genres: ["action", "horror"] }),
+      t,
+      {
+        includeGenrePlaylist: true,
+        genrePlaylists: {
+          action: "https://www.youtube.com/playlist?list=PLaction",
+          horror: "https://www.youtube.com/playlist?list=PLhorror",
+        },
+        genreLabels: { action: "Action", horror: "Horror" },
+      },
+    );
+    expect(result).toContain("More Action gameplay");
+    expect(result).not.toContain("More Horror gameplay");
+  });
+
   it("interpolates localized game name when present", () => {
     const t = createMockT("ja");
     const result = buildPinnedComment(

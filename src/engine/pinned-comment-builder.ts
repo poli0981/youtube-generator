@@ -1,4 +1,4 @@
-import type { GeneratorInput, TranslationFn } from "./types";
+import type { GeneratorInput, TranslationFn, Genre } from "./types";
 
 export interface BuildPinnedCommentOptions {
   /**
@@ -12,6 +12,22 @@ export interface BuildPinnedCommentOptions {
    * "watch the full series here" line pointing at the playlist.
    */
   includePlaylistLink?: boolean;
+  /**
+   * When true, the primary genre has a configured playlist URL in
+   * {@link genrePlaylists}, AND the matching label exists in
+   * {@link genreLabels}, the template includes a "More <genre>
+   * gameplay on the channel" line. v0.8 phase 2 — settings → Genre
+   * Playlists map drives this.
+   */
+  includeGenrePlaylist?: boolean;
+  /** Per-genre playlist URLs, supplied by the caller from settings. */
+  genrePlaylists?: Partial<Record<Genre, string>>;
+  /**
+   * Per-genre human labels (already i18n-resolved by the caller). Kept
+   * separate from `genrePlaylists` so the engine stays config-free —
+   * the caller owns label resolution via the `ui.json` namespace.
+   */
+  genreLabels?: Partial<Record<Genre, string>>;
 }
 
 /**
@@ -38,7 +54,13 @@ export function buildPinnedComment(
   t: TranslationFn,
   options: BuildPinnedCommentOptions = {},
 ): string {
-  const { includeAskNextGame = true, includePlaylistLink = true } = options;
+  const {
+    includeAskNextGame = true,
+    includePlaylistLink = true,
+    includeGenrePlaylist = false,
+    genrePlaylists,
+    genreLabels,
+  } = options;
   const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
 
   const vars: Record<string, string> = {
@@ -67,6 +89,24 @@ export function buildPinnedComment(
       link: input.playlistLink.trim(),
     });
     if (playlist && playlist !== "pinnedComment.playlistPrompt") lines.push(playlist);
+  }
+
+  // Genre-playlist auto-suggestion. The primary genre (genres[0]) is the
+  // template trigger; secondary genres don't get their own line because
+  // the pinned comment would balloon for multi-genre videos.
+  if (includeGenrePlaylist) {
+    const primary = input.genres[0];
+    const url = primary ? genrePlaylists?.[primary]?.trim() : "";
+    const label = primary ? genreLabels?.[primary] : "";
+    if (primary && url && label) {
+      const line = t("pinnedComment.genrePlaylistSuggestion", {
+        genreLabel: label,
+        link: url,
+      });
+      if (line && line !== "pinnedComment.genrePlaylistSuggestion") {
+        lines.push(line);
+      }
+    }
   }
 
   const engagement = t("pinnedComment.engagementPrompt");

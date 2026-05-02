@@ -43,6 +43,73 @@
     "resolution": "Resolution",
     "fps": "FPS",
     "graphicsPreset": "Graphics Preset",
+    "graphicsPresetOptions": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "very_high": "Very High",
+      "cinematic": "Cinematic",
+      "ultra": "Ultra",
+      "extreme": "Extreme",
+      "custom": "Custom…"
+    },
+    "graphicsPresetCustom": "Custom preset name",
+    "graphicsPresetCustomPlaceholder": "e.g. Epic, Maximum",
+    "skipGraphicsSettings": "This game has no in-game graphics settings",
+    "skipGraphicsSettingsHelp": "Hide the Video Settings section in the description for 2D / pixel-art / web games.",
+    "rayTracing": "Ray Tracing",
+    "rtOptions": {
+      "ray_tracing": "Ray Tracing",
+      "full_rt": "Full Ray Tracing",
+      "path_tracing": "Path Tracing",
+      "ray_reconstruction": "Ray Reconstruction"
+    },
+    "frameGenVendor": "Frame Gen Vendor",
+    "frameGenVendorOptions": {
+      "none": "None",
+      "nvidia": "NVIDIA",
+      "amd": "AMD",
+      "intel": "Intel"
+    },
+    "frameGenMultiplier": "Frame Gen Multiplier",
+    "frameGenMultiplierOptions": {
+      "none": "None",
+      "x2": "x2",
+      "x3": "x3",
+      "x4": "x4",
+      "x6": "x6"
+    },
+    "upscaleQuality": "Upscaling Quality",
+    "upscaleQualityOptions": {
+      "none": "None",
+      "native_aa": "Native AA",
+      "quality": "Quality",
+      "balanced": "Balanced",
+      "performance": "Performance",
+      "ultra_performance": "Ultra Performance"
+    },
+    "artStyle": "Art Style",
+    "artStyleOptions": {
+      "none": "— Not set —",
+      "realistic": "Realistic",
+      "stylized": "Stylized",
+      "anime": "Anime",
+      "cel_shaded": "Cel-shaded",
+      "low_poly": "Low-poly",
+      "voxel": "Voxel",
+      "pixel_art": "Pixel Art",
+      "hand_drawn": "Hand-drawn",
+      "comic": "Comic",
+      "photorealistic": "Photorealistic"
+    },
+    "versionInfo": "Driver / Game Version",
+    "versionInfoPlaceholder": "e.g. GeForce 565.90 | Game v1.4",
+    "liveUrl": "Live URL",
+    "liveUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+    "scheduledTime": "Scheduled Time",
+    "skipGraphicsHintLabel": "This looks like a game without graphics settings — hide the section?",
+    "skipGraphicsHintHide": "Hide",
+    "skipGraphicsHintKeep": "Keep",
     "timestamps": "Timestamps",
     "timestampsPlaceholder": "0:00 Intro\n5:30 Chapter 1\n15:00 Boss Fight",
     "storeLinks": "Store Links",
@@ -157,7 +224,8 @@
     "comparison": "Graphics Comparison",
     "guide": "Silent Guide",
     "mods": "Modded Gameplay",
-    "collectibles": "All Collectibles"
+    "collectibles": "All Collectibles",
+    "livestream": "Livestream"
   },
   "genres": {
     "action": "Action / Adventure",
@@ -327,7 +395,11 @@
     "badgeCaseUpper": "UPPERCASE (2K)",
     "badgeCaseLower": "lowercase (2k)",
     "showPinnedCommentTemplate": "Generate a pinned-comment template alongside output",
-    "pinnedCommentIncludeAskNextGame": "Include \"what game should I play next?\" prompt"
+    "pinnedCommentIncludeAskNextGame": "Include \"what game should I play next?\" prompt",
+    "pinnedCommentIncludeGenrePlaylist": "Include genre-playlist suggestion in pinned comment",
+    "genrePlaylistsTitle": "Genre Playlists",
+    "genrePlaylistsHelp": "Configure a YouTube playlist URL per genre. The pinned-comment template will auto-suggest the matching playlist when the video's primary genre is selected.",
+    "genrePlaylistsEmptyHint": "Leave empty to skip a genre."
   },
   "batch": {
     "title": "Batch Mode",

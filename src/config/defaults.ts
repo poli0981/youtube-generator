@@ -1,6 +1,14 @@
 import type { VideoTypeId } from "./video-types";
 import type { GenreId } from "./genres";
 import type {
+  GraphicsPreset,
+  RTMode,
+  FrameGenVendor,
+  FrameGenMultiplier,
+  UpscaleQuality,
+  ArtStyle,
+} from "./graphics-settings";
+import type {
   SupportedLanguage,
   StoreLinkType,
   PlaythroughStatus,
@@ -21,9 +29,21 @@ export interface EditorDefaults {
   dlcName: string;
   challengeName: string;
   modName: string;
+  /** Livestream-only: live URL on YouTube/Twitch. */
+  liveUrl: string;
+  /** Livestream-only: ISO scheduled datetime. */
+  scheduledTime: string;
   resolution: string;
   fps: string;
-  graphicsPreset: string;
+  graphicsPreset: GraphicsPreset;
+  graphicsPresetCustom: string;
+  skipGraphicsSettings: boolean;
+  rayTracingModes: RTMode[];
+  frameGenVendor: FrameGenVendor;
+  frameGenMultiplier: FrameGenMultiplier;
+  upscaleQuality: UpscaleQuality;
+  artStyle: ArtStyle;
+  versionInfo: string;
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
@@ -64,9 +84,19 @@ export const DEFAULTS = {
     dlcName: "",
     challengeName: "",
     modName: "",
+    liveUrl: "",
+    scheduledTime: "",
     resolution: "1080p",
     fps: "60",
-    graphicsPreset: "Ultra",
+    graphicsPreset: "medium",
+    graphicsPresetCustom: "",
+    skipGraphicsSettings: false,
+    rayTracingModes: [],
+    frameGenVendor: "none",
+    frameGenMultiplier: "none",
+    upscaleQuality: "none",
+    artStyle: "none",
+    versionInfo: "",
     timestamps: "",
     playlistLink: "",
     contactEmail: "",

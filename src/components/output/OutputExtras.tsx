@@ -5,6 +5,8 @@ import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import { buildPinnedComment } from "@engine/pinned-comment-builder";
+import { GENRES } from "@config/genres";
+import type { Genre } from "@engine/types";
 import { CopyButton } from "./CopyButton";
 
 /**
@@ -24,13 +26,37 @@ export function OutputExtras() {
   const pinnedComment = useEditorStore((s) => s.pinnedComment);
   const showPinnedCommentTemplate = useSettingsStore((s) => s.showPinnedCommentTemplate);
   const includeAskNextGame = useSettingsStore((s) => s.pinnedCommentIncludeAskNextGame);
+  const includeGenrePlaylist = useSettingsStore(
+    (s) => s.pinnedCommentIncludeGenrePlaylist,
+  );
+  const genrePlaylists = useSettingsStore((s) => s.genrePlaylists);
   const input = useCurrentGeneratorInput();
+
+  // Resolve genre labels via the UI-namespace translator. The pinned-comment
+  // builder is config-free by design — labels come in pre-resolved.
+  const genreLabels = useMemo(() => {
+    const map: Partial<Record<Genre, string>> = {};
+    for (const g of GENRES) map[g.id as Genre] = t(g.labelKey);
+    return map;
+  }, [t]);
 
   const templateText = useMemo(() => {
     if (!showPinnedCommentTemplate) return "";
     const tFn = i18n.getFixedT(input.language, "templates");
-    return buildPinnedComment(input, tFn, { includeAskNextGame });
-  }, [showPinnedCommentTemplate, input, includeAskNextGame]);
+    return buildPinnedComment(input, tFn, {
+      includeAskNextGame,
+      includeGenrePlaylist,
+      genrePlaylists,
+      genreLabels,
+    });
+  }, [
+    showPinnedCommentTemplate,
+    input,
+    includeAskNextGame,
+    includeGenrePlaylist,
+    genrePlaylists,
+    genreLabels,
+  ]);
 
   const hasThumbnail = thumbnailText && thumbnailText.trim() !== "";
   const hasPinned = pinnedComment && pinnedComment.trim() !== "";

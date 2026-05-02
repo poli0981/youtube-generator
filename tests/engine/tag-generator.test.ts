@@ -63,6 +63,13 @@ describe("generateTags", () => {
     expect(tags).toContain("Elden Ring all collectibles");
   });
 
+  it("includes video type tags for livestream", () => {
+    const tags = generateTags(makeInput({ videoType: "livestream" }));
+    expect(tags).toContain("livestream");
+    expect(tags).toContain("live gameplay");
+    expect(tags.some((t) => /elden ring (live|stream)/i.test(t))).toBe(true);
+  });
+
   it("humanises snake_case genres in trending tags (fixes visual_novel leak)", () => {
     const tags = generateTags(
       makeInput({ genres: ["visual_novel"] }),

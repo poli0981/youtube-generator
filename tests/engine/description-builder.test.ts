@@ -163,14 +163,172 @@ describe("buildDescription", () => {
     expect(result).not.toContain("(free)");
   });
 
-  it("includes video settings", () => {
+  it("includes video settings with the v0.8 graphics line", () => {
     const t = createMockT("en");
     const result = buildDescription(
-      makeInput({ resolution: "4K", fps: "60", graphicsPreset: "Ultra" }),
+      makeInput({ resolution: "4K", fps: "60", graphicsPreset: "ultra" }),
       t,
     );
     expect(result).toContain("VIDEO SETTINGS");
-    expect(result).toContain("4K | 60 FPS | Ultra");
+    expect(result).toContain("4K | 60 FPS | Ultra Setting");
+  });
+
+  it("composes Cinematic + NVIDIA Frame Gen x2 + Ray Tracing line", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1440p",
+        fps: "120",
+        graphicsPreset: "cinematic",
+        frameGenVendor: "nvidia",
+        frameGenMultiplier: "x2",
+        rayTracingModes: ["ray_tracing"],
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "1440p | 120 FPS | Cinematic Setting - NVIDIA Frame Generation x2 with Ray Tracing",
+    );
+  });
+
+  it("combines upscaling quality and frame generation under one vendor", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "4K",
+        fps: "60",
+        graphicsPreset: "ultra",
+        frameGenVendor: "amd",
+        upscaleQuality: "quality",
+        frameGenMultiplier: "x3",
+        rayTracingModes: ["full_rt"],
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "Ultra Setting - AMD FSR Quality + Frame Generation x3 with Full Ray Tracing",
+    );
+  });
+
+  it("emits multiple RT modes joined with commas", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1080p",
+        fps: "60",
+        graphicsPreset: "high",
+        rayTracingModes: ["path_tracing", "ray_reconstruction"],
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "High Setting with Path Tracing, Ray Reconstruction",
+    );
+  });
+
+  it("uses the user's free-form label when graphicsPreset is custom", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1080p",
+        fps: "60",
+        graphicsPreset: "custom",
+        graphicsPresetCustom: "Epic",
+      }),
+      t,
+    );
+    expect(result).toContain("1080p | 60 FPS | Epic Setting");
+  });
+
+  it("appends an Art Style token when set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        graphicsPreset: "medium",
+        artStyle: "pixel_art",
+      }),
+      t,
+    );
+    expect(result).toContain("Medium Setting | Art Style: Pixel Art");
+  });
+
+  it("appends a free-form versionInfo token at the end of the line", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1080p",
+        fps: "60",
+        graphicsPreset: "ultra",
+        versionInfo: "GeForce 565.90 | Game v1.4",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "1080p | 60 FPS | Ultra Setting | GeForce 565.90 | Game v1.4",
+    );
+  });
+
+  it("omits the entire VIDEO SETTINGS section when skipGraphicsSettings is true", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1080p",
+        fps: "60",
+        graphicsPreset: "ultra",
+        skipGraphicsSettings: true,
+      }),
+      t,
+    );
+    expect(result).not.toContain("VIDEO SETTINGS");
+    expect(result).not.toContain("Ultra Setting");
+  });
+
+  it("renders livestream intro + watch link + scheduled time", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "livestream",
+        gameName: "Elden Ring",
+        channelName: "TestChannel",
+        liveUrl: "https://www.youtube.com/watch?v=live123",
+        scheduledTime: "2026-05-04T20:00:00",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "Live stream of Elden Ring on TestChannel",
+    );
+    expect(result).toContain("🔴 LIVE on");
+    expect(result).toContain("Watch / replay: https://www.youtube.com/watch?v=live123");
+  });
+
+  it("falls back to the raw scheduledTime string when it can't be parsed", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "livestream",
+        liveUrl: "https://www.youtube.com/watch?v=abc",
+        scheduledTime: "tomorrow at 8pm", // not ISO
+      }),
+      t,
+    );
+    expect(result).toContain("🔴 LIVE on tomorrow at 8pm");
+  });
+
+  it("skips the livestream block when no live metadata is set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "livestream",
+        gameName: "Elden Ring",
+        channelName: "TestChannel",
+      }),
+      t,
+    );
+    // Intro still emits, but no metadata block
+    expect(result).toContain("Live stream of Elden Ring on TestChannel");
+    expect(result).not.toContain("🔴 LIVE on");
+    expect(result).not.toContain("Watch / replay:");
   });
 
   it("includes rig info when provided", () => {
