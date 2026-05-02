@@ -33,6 +33,7 @@ interface EditorData {
   dlcName: string;
   challengeName: string;
   modName: string;
+  modList: string;
   liveUrl: string;
   scheduledTime: string;
   resolution: string;
@@ -64,6 +65,11 @@ interface EditorData {
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
   rig: Record<string, string>;
+  vnBankName: string;
+  vnBankAccount: string;
+  vnBankHolder: string;
+  vnMomo: string;
+  vnZalopay: string;
 }
 
 /**
@@ -136,6 +142,7 @@ const initialState: EditorData = {
   dlcName: DEFAULTS.editor.dlcName,
   challengeName: DEFAULTS.editor.challengeName,
   modName: DEFAULTS.editor.modName,
+  modList: DEFAULTS.editor.modList,
   liveUrl: DEFAULTS.editor.liveUrl,
   scheduledTime: DEFAULTS.editor.scheduledTime,
   resolution: DEFAULTS.editor.resolution,
@@ -167,6 +174,11 @@ const initialState: EditorData = {
   storeLinkTypes: { ...DEFAULTS.editor.storeLinkTypes },
   social: { ...DEFAULTS.editor.social },
   rig: { ...DEFAULTS.editor.rig },
+  vnBankName: DEFAULTS.editor.vnBankName,
+  vnBankAccount: DEFAULTS.editor.vnBankAccount,
+  vnBankHolder: DEFAULTS.editor.vnBankHolder,
+  vnMomo: DEFAULTS.editor.vnMomo,
+  vnZalopay: DEFAULTS.editor.vnZalopay,
 };
 
 export const useEditorStore = create<EditorState>()(
@@ -213,7 +225,12 @@ export const useEditorStore = create<EditorState>()(
       //         legacy `graphicsPreset` text needs explicit mapping so
       //         "Ultra"-era drafts don't end up with an enum value
       //         outside the GraphicsPreset literal union.
-      version: 5,
+      // v5 → v6: v0.8 polish. Vietnam-specific donate fields
+      //         (vnBankName / vnBankAccount / vnBankHolder / vnMomo /
+      //         vnZalopay) and a long-form modList textarea joined the
+      //         schema. All additive — empty-string defaults round-trip
+      //         cleanly without any value mapping.
+      version: 6,
       migrate: (persistedState: unknown, version: number): EditorData => {
         if (!persistedState || typeof persistedState !== "object") {
           return { ...initialState };
@@ -264,6 +281,14 @@ export const useEditorStore = create<EditorState>()(
           if (typeof state.liveUrl !== "string") state.liveUrl = "";
           if (typeof state.scheduledTime !== "string") state.scheduledTime = "";
         }
+        if (version < 6) {
+          if (typeof state.modList !== "string") state.modList = "";
+          if (typeof state.vnBankName !== "string") state.vnBankName = "";
+          if (typeof state.vnBankAccount !== "string") state.vnBankAccount = "";
+          if (typeof state.vnBankHolder !== "string") state.vnBankHolder = "";
+          if (typeof state.vnMomo !== "string") state.vnMomo = "";
+          if (typeof state.vnZalopay !== "string") state.vnZalopay = "";
+        }
         return { ...initialState, ...state } as EditorData;
       },
       partialize: (state) => ({
@@ -279,6 +304,7 @@ export const useEditorStore = create<EditorState>()(
         dlcName: state.dlcName,
         challengeName: state.challengeName,
         modName: state.modName,
+        modList: state.modList,
         liveUrl: state.liveUrl,
         scheduledTime: state.scheduledTime,
         resolution: state.resolution,
@@ -310,6 +336,11 @@ export const useEditorStore = create<EditorState>()(
         storeLinkTypes: state.storeLinkTypes,
         social: state.social,
         rig: state.rig,
+        vnBankName: state.vnBankName,
+        vnBankAccount: state.vnBankAccount,
+        vnBankHolder: state.vnBankHolder,
+        vnMomo: state.vnMomo,
+        vnZalopay: state.vnZalopay,
       }),
     },
   ),

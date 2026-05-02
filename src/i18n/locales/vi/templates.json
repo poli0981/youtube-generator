@@ -63,6 +63,8 @@
       "storeLinksDownload": "⬇️ TẢI GAME (nếu bạn muốn chơi)",
       "videoSettings": "🖥 CÀI ĐẶT VIDEO",
       "rig": "💻 CẤU HÌNH MÁY",
+      "modList": "🧩 DANH SÁCH MOD",
+      "vnDonate": "🏦 CHUYỂN KHOẢN / VÍ ĐIỆN TỬ (Việt Nam)",
       "spoilerWarning": "⚠️ CẢNH BÁO SPOILER: Video này có thể chứa nội dung spoiler. Xem theo ý muốn của bạn!",
       "matureWarning": "🔞 NỘI DUNG NGƯỜI LỚN (18+): Chứa bạo lực / ngôn ngữ mạnh / nội dung nhạy cảm.",
       "sponsorCredit": "🎁 Cảm ơn {{sponsor}} đã tặng key {{platform}} của game này.",
@@ -97,7 +99,6 @@
       "jump_scares": "😱 Jump scare"
     },
     "graphics": {
-      "settingSuffix": "Setting",
       "with": "với",
       "artStyle": "Phong cách hình ảnh",
       "presetOptions": {
@@ -133,7 +134,10 @@
         "hand_drawn": "Vẽ tay",
         "comic": "Truyện tranh",
         "photorealistic": "Siêu thực"
-      }
+      },
+      "videoLabel": "Video",
+      "inGameSettingLabel": "In-game Setting",
+      "versionLabel": "Version"
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE vào {{time}}",

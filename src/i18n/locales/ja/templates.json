@@ -63,6 +63,8 @@
       "storeLinksDownload": "⬇️ ゲームをダウンロード (遊びたい方へ)",
       "videoSettings": "🖥 動画設定",
       "rig": "💻 PC構成",
+      "modList": "🧩 MODリスト",
+      "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
       "spoilerWarning": "⚠️ ネタバレ注意：この動画にはネタバレが含まれている可能性があります。自己責任でご視聴ください！",
       "matureWarning": "🔞 成人向けコンテンツ (18+)：暴力 / 強い言葉 / グラフィックコンテンツを含みます。",
       "sponsorCredit": "🎁 本作の {{platform}} キーをご提供いただいた {{sponsor}} 様、ありがとうございます。",
@@ -97,7 +99,6 @@
       "jump_scares": "😱 ジャンプスケア"
     },
     "graphics": {
-      "settingSuffix": "Setting",
       "with": "+",
       "artStyle": "アートスタイル",
       "presetOptions": {
@@ -133,7 +134,10 @@
         "hand_drawn": "手描き",
         "comic": "コミック",
         "photorealistic": "フォトリアル"
-      }
+      },
+      "videoLabel": "Video",
+      "inGameSettingLabel": "In-game Setting",
+      "versionLabel": "Version"
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE 配信日時: {{time}}",

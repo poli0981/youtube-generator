@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/Input";
+import { Textarea } from "@components/ui/Textarea";
 import { VIDEO_TYPES } from "@config/video-types";
 import { useEditorStore } from "@store/editor-store";
 
@@ -52,12 +53,21 @@ export function ExtraFieldsInput() {
         />
       )}
       {extraFields.includes("modName") && (
-        <Input
-          label={t("editor.modName")}
-          placeholder={t("editor.modNamePlaceholder")}
-          value={store.modName ?? ""}
-          onChange={(e) => store.set("modName", e.target.value)}
-        />
+        <>
+          <Input
+            label={t("editor.modName")}
+            placeholder={t("editor.modNamePlaceholder")}
+            value={store.modName ?? ""}
+            onChange={(e) => store.set("modName", e.target.value)}
+          />
+          <Textarea
+            label={t("editor.modList")}
+            placeholder={t("editor.modListPlaceholder")}
+            value={store.modList ?? ""}
+            onChange={(e) => store.set("modList", e.target.value)}
+            rows={5}
+          />
+        </>
       )}
       {extraFields.includes("liveUrl") && (
         <Input
