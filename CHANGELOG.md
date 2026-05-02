@@ -2,6 +2,58 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.8.1 — 2026-05-02
+
+Patch release fixing a v0.8 regression in the genre-playlist suggestion feature.
+
+### Fixed
+
+- **Genre-playlist URL validator** ([#36](https://github.com/poli0981/youtube-generator/pull/36)) accepted only `https://www.youtube.com/playlist?list=…` with the literal `www.` subdomain and rejected any extra query parameters. Real share URLs from YouTube emit `https://youtube.com/…` (no `www.`) or `…&si=…` tracking params, both of which silently failed validation and the `ValidatedInput` component then wiped the entry from the settings store. Now accepts: optional `www.`, `list=…` at any position in the query string with sibling params before/after, and a trailing fragment. `watch?v=…` and `youtu.be/…` short URLs still rejected (path must be `/playlist`).
+
+### Under the hood
+
+- 4 new validation tests cover the relaxed regex (no-www, mixed query order, trailing fragment, `&si=` tracking suffix). Full suite: 253 tests green.
+
+## v0.8.0 — 2026-05-02
+
+Three-PR release covering graphics rebuild, livestream support, pinned-comment polish, and Vietnamese-specific donate fields. PRs that landed: [#32](https://github.com/poli0981/youtube-generator/pull/32) (phase 1), [#33](https://github.com/poli0981/youtube-generator/pull/33) (phase 2), [#34](https://github.com/poli0981/youtube-generator/pull/34) (polish), [#35](https://github.com/poli0981/youtube-generator/pull/35) (version bump).
+
+### Added
+
+- **Graphics Settings v2** — preset is now an enum (`Low` → `Extreme` + `Custom`) instead of free-form text, default `Medium`. New multi-select **Ray Tracing** modes (Ray Tracing / Full Ray Tracing / Path Tracing / Ray Reconstruction), **Frame Generation** vendor + multiplier (NVIDIA / AMD / Intel × x2 / x3 / x4 / x6), **Upscaling Quality** (DLSS / FSR / XeSS quality presets), **Art Style** dropdown, free-form **Driver / Game Version** field, and a **Skip-graphics toggle** for 2D / pixel-art / web games (auto-suggested when a `visual_novel` / `fmv` / `rhythm` genre is added). Description renders a labelled multi-line block: `Video: 1080p - 60 FPS` / `In-game Setting: Cinematic - NVIDIA Frame Generation x2 with Ray Tracing` / `Art Style: …` / `Version: …`.
+- **Livestream** — new VideoType with `liveUrl` + `scheduledTime` extras. Title gets `🔴 LIVE` segment, description gets `🔴 LIVE on {{time}}` / `Watch / replay: {{link}}` block (locale-aware datetime via `Intl.DateTimeFormat`), tag pool gets `livestream` / `live gameplay` / `${gameName} live` / `${gameName} stream`, pinned-comment template gets a livestream-specific greeting.
+- **Pinned-comment genre playlists** — Settings → Genre Playlists section configures one YouTube playlist URL per genre. When the new `pinnedCommentIncludeGenrePlaylist` toggle is on, the template auto-suggests `📺 More <genre> gameplay on the channel: <link>` for the video's primary genre.
+- **Vietnamese donate** — five new editor fields (bank name, account number, account holder, MoMo, ZaloPay) in a new `VietnameseDonateEditor` component. Description block `🏦 CHUYỂN KHOẢN / VÍ ĐIỆN TỬ (Việt Nam)` only renders when output language is `vi`; bank line drops the parens when holder is empty; e-wallet lines render independently.
+- **Mod List textarea** — new `modList` field exposed alongside `modName` for the `mods` videoType. Description gets a `🧩 MOD LIST` block right after MY RIG.
+- **Publisher / Developer site** — 10th store-link platform with a permissive HTTPS pattern for indie / niche releases.
+- **URL paste auto-extract** — pasting a Steam / itch.io / GOG URL into a store-link input auto-fills an empty Game Name with a 5s Undo toast. Other storefronts skipped because their URL slugs aren't stable.
+- **YouTube playlist URL validator** — `validatePlaylistUrl` for the editor's playlist-link field and the new Genre Playlists settings. (Note: a regression in the strict regex shipped here; corrected in v0.8.1.)
+
+### Fixed
+
+- **Long-game-name tag bug** ([#32](https://github.com/poli0981/youtube-generator/pull/32)) — composite tags built from a long game name (`Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition`) used to silently disappear because they exceeded YouTube's 30-char per-tag limit. New `tagFriendlyGameName` helper strips trademark marks + edition qualifiers, then composes ≤21-char form for composite tags + bare ≤30-char form. The game name now always lands in the tag list.
+
+### Changed
+
+- **Editor store**: v4 → v5 (graphics enum + livestream + new fields, legacy `graphicsPreset` text mapped via `legacyGraphicsPresetToEnum`); v5 → v6 (additive — VN donate fields + modList).
+- **Settings store**: v6 → v7 (additive — `genrePlaylists` map + the new pinned-comment toggle).
+- **TemplateSnapshot** — extended to capture the v0.7 phase 2 fields that had been missing (`playthroughStatus`, `difficulty`, `difficultyCustomLabel`, `contentWarnings`) plus all v0.8 fields. Saving a template now preserves full editor state.
+- **Video Settings description block** — was a single pipe-separated line `1080p | 60 FPS | Cinematic Setting - …`, now multi-line with explicit labels matching the rig + timestamps shape.
+
+### Under the hood
+
+- New `src/config/graphics-settings.ts` houses every graphics-related enum + the `GENRES_WITHOUT_GRAPHICS_SETTINGS` allowlist for the auto-suggest hint.
+- New `src/utils/url-extractors.ts` implements Steam / itch.io / GOG slug extraction with a shared `titleCase` helper.
+- Brand-name table (`VENDOR_GFX_BRANDS`) is engine-internal and English-only across locales (DLSS / FSR / XeSS preserved verbatim for SEO).
+- All 6 locales updated: 391 ui + 164 template keys each. Vietnamese fully translated; ja / es / ko / zh seeded with English defaults for the new strings.
+- Full suite: 249 tests green; main bundle 239 KB.
+
+### Migration notes
+
+- No manual action required. First launch after upgrade heals any missing keys in place.
+- Pre-v0.8 free-form `graphicsPreset` text values map automatically: known labels ("Ultra", "Very High", …) become enum values; anything else lands in the new Custom slot ("Epic" → `graphicsPreset: "custom"` + `graphicsPresetCustom: "Epic"`).
+- Existing `Profile` and `TemplateSnapshot` shapes are TS-extended to the v0.8 enum types; legacy on-disk values round-trip via `normalizeEditorPatch` on `loadProfile` / `loadPreset`.
+
 ## v0.7.0 — 2026-04-24
 
 Two-phase release. Phase 1 landed as [#30](https://github.com/poli0981/youtube-generator/pull/30); this entry is cumulative across both phases.
