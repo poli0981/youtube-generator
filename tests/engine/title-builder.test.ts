@@ -33,6 +33,12 @@ describe("buildTitle", () => {
     expect(result).toBe("Elden Ring — Part 5 — Gameplay No Commentary");
   });
 
+  it("renders livestream type with the 🔴 LIVE label", () => {
+    const t = createMockT("en");
+    const result = buildTitle(makeInput({ videoType: "livestream" }), t);
+    expect(result).toBe("Elden Ring — 🔴 LIVE — Gameplay No Commentary");
+  });
+
   it("generates boss title with boss name", () => {
     const t = createMockT("en");
     const result = buildTitle(

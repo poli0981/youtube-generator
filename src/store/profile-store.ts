@@ -2,7 +2,15 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
 import { saveSettings } from "@utils/storage-adapter";
+import type { GraphicsPreset } from "@config/graphics-settings";
 
+/**
+ * `graphicsPreset` was free-form text pre-v0.8. The type uses the v0.8
+ * enum so call sites pass the value cleanly into `loadProfile` — TS
+ * believes legacy strings like "Ultra" are valid enum values, but
+ * `editor-store.normalizeEditorPatch` runs on load and maps them
+ * through the same v4→v5 logic as the persist migration.
+ */
 export interface Profile {
   id: string;
   name: string;
@@ -12,7 +20,7 @@ export interface Profile {
   rig: Record<string, string>;
   resolution: string;
   fps: string;
-  graphicsPreset: string;
+  graphicsPreset: GraphicsPreset;
   createdAt: string;
   updatedAt: string;
 }

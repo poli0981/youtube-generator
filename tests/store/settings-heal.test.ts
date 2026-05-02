@@ -92,6 +92,8 @@ describe("healSettings", () => {
       },
       showPinnedCommentTemplate: true,
       pinnedCommentIncludeAskNextGame: false,
+      pinnedCommentIncludeGenrePlaylist: true,
+      genrePlaylists: { horror: "https://www.youtube.com/playlist?list=abc" },
       editorAccordionState: { gameInfo: false, videoSettings: true },
     };
     const healed = healSettings(complete);
@@ -168,5 +170,39 @@ describe("healSettings", () => {
     });
     expect(healed.showPinnedCommentTemplate).toBe(true);
     expect(healed.pinnedCommentIncludeAskNextGame).toBe(false);
+  });
+
+  it("back-fills genre-playlist defaults when the keys are absent (v6 → v7 payload)", () => {
+    // Simulates a settings file written in v0.7 phase 2, before the
+    // pinned-comment genre-playlist feature existed.
+    const healed = healSettings({
+      theme: "dark" as const,
+      showPinnedCommentTemplate: true,
+    });
+    expect(healed.pinnedCommentIncludeGenrePlaylist).toBe(false);
+    expect(healed.genrePlaylists).toEqual({});
+  });
+
+  it("preserves user-set genrePlaylists map", () => {
+    const healed = healSettings({
+      genrePlaylists: {
+        horror: "https://www.youtube.com/playlist?list=horror",
+        rpg: "https://www.youtube.com/playlist?list=rpg",
+      },
+      pinnedCommentIncludeGenrePlaylist: true,
+    });
+    expect(healed.genrePlaylists).toEqual({
+      horror: "https://www.youtube.com/playlist?list=horror",
+      rpg: "https://www.youtube.com/playlist?list=rpg",
+    });
+    expect(healed.pinnedCommentIncludeGenrePlaylist).toBe(true);
+  });
+
+  it("replaces a non-object genrePlaylists value with the empty default", () => {
+    const healedFromNull = healSettings({ genrePlaylists: null });
+    const healedFromString = healSettings({ genrePlaylists: "bogus" });
+    for (const healed of [healedFromNull, healedFromString]) {
+      expect(healed.genrePlaylists).toEqual({});
+    }
   });
 });

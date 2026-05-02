@@ -45,6 +45,21 @@ export interface SettingsData {
    * off without disabling the whole template.
    */
   pinnedCommentIncludeAskNextGame: boolean;
+  /**
+   * Child toggle for {@link showPinnedCommentTemplate}. When true and the
+   * primary genre has a configured playlist URL in {@link genrePlaylists},
+   * the generated pinned comment includes a "More <genre> gameplay on the
+   * channel" line pointing at that playlist. v0.8 phase 2.
+   */
+  pinnedCommentIncludeGenrePlaylist: boolean;
+  /**
+   * Per-genre YouTube playlist URLs. Configure once in Settings → Genre
+   * Playlists, then the pinned-comment template auto-suggests the
+   * matching playlist based on the video's primary genre. Validated
+   * against {@link validatePlaylistUrl}; empty rows are not persisted.
+   * v0.8 phase 2.
+   */
+  genrePlaylists: Partial<Record<GenreId, string>>;
   titleFormat: TitleFormatConfig;
   editorAccordionState: Record<string, boolean>;
 }
@@ -77,6 +92,8 @@ export const initialSettings: SettingsData = {
   showSponsorCredit: false,
   showPinnedCommentTemplate: false,
   pinnedCommentIncludeAskNextGame: true,
+  pinnedCommentIncludeGenrePlaylist: false,
+  genrePlaylists: {},
   titleFormat: {
     // Defaults reproduce v0.6 output byte-for-byte: badge glued to the
     // video-type segment, em-dash separator, upper-case badge label.
@@ -126,6 +143,15 @@ export function healSettings(raw: unknown): SettingsData {
       ? (incoming.titleFormat as Partial<TitleFormatConfig>)
       : {};
   incoming.titleFormat = { ...initialSettings.titleFormat, ...incomingTf };
+
+  // v6 → v7: `genrePlaylists` map and `pinnedCommentIncludeGenrePlaylist`
+  // toggle added (v0.8 phase 2). Defensive merge for the nested map so
+  // existing entries survive while missing genres fall through to {}.
+  const incomingGp =
+    typeof incoming.genrePlaylists === "object" && incoming.genrePlaylists !== null
+      ? (incoming.genrePlaylists as Partial<Record<GenreId, string>>)
+      : {};
+  incoming.genrePlaylists = { ...initialSettings.genrePlaylists, ...incomingGp };
 
   return { ...initialSettings, ...incoming } as SettingsData;
 }

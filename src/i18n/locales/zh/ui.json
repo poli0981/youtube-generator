@@ -43,6 +43,73 @@
     "resolution": "分辨率",
     "fps": "帧率",
     "graphicsPreset": "画质预设",
+    "graphicsPresetOptions": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "very_high": "Very High",
+      "cinematic": "Cinematic",
+      "ultra": "Ultra",
+      "extreme": "Extreme",
+      "custom": "Custom…"
+    },
+    "graphicsPresetCustom": "Custom preset name",
+    "graphicsPresetCustomPlaceholder": "e.g. Epic, Maximum",
+    "skipGraphicsSettings": "This game has no in-game graphics settings",
+    "skipGraphicsSettingsHelp": "Hide the Video Settings section in the description for 2D / pixel-art / web games.",
+    "rayTracing": "Ray Tracing",
+    "rtOptions": {
+      "ray_tracing": "Ray Tracing",
+      "full_rt": "Full Ray Tracing",
+      "path_tracing": "Path Tracing",
+      "ray_reconstruction": "Ray Reconstruction"
+    },
+    "frameGenVendor": "Frame Gen Vendor",
+    "frameGenVendorOptions": {
+      "none": "None",
+      "nvidia": "NVIDIA",
+      "amd": "AMD",
+      "intel": "Intel"
+    },
+    "frameGenMultiplier": "Frame Gen Multiplier",
+    "frameGenMultiplierOptions": {
+      "none": "None",
+      "x2": "x2",
+      "x3": "x3",
+      "x4": "x4",
+      "x6": "x6"
+    },
+    "upscaleQuality": "Upscaling Quality",
+    "upscaleQualityOptions": {
+      "none": "None",
+      "native_aa": "Native AA",
+      "quality": "Quality",
+      "balanced": "Balanced",
+      "performance": "Performance",
+      "ultra_performance": "Ultra Performance"
+    },
+    "artStyle": "Art Style",
+    "artStyleOptions": {
+      "none": "— Not set —",
+      "realistic": "Realistic",
+      "stylized": "Stylized",
+      "anime": "Anime",
+      "cel_shaded": "Cel-shaded",
+      "low_poly": "Low-poly",
+      "voxel": "Voxel",
+      "pixel_art": "Pixel Art",
+      "hand_drawn": "Hand-drawn",
+      "comic": "Comic",
+      "photorealistic": "Photorealistic"
+    },
+    "versionInfo": "Driver / Game Version",
+    "versionInfoPlaceholder": "e.g. GeForce 565.90 | Game v1.4",
+    "liveUrl": "Live URL",
+    "liveUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+    "scheduledTime": "Scheduled Time",
+    "skipGraphicsHintLabel": "This looks like a game without graphics settings — hide the section?",
+    "skipGraphicsHintHide": "Hide",
+    "skipGraphicsHintKeep": "Keep",
     "timestamps": "时间戳",
     "timestampsPlaceholder": "0:00 开场\n5:30 第一章\n15:00 Boss战",
     "storeLinks": "商店链接",
@@ -157,7 +224,8 @@
     "comparison": "画质对比",
     "guide": "无声攻略",
     "mods": "Mod 游玩",
-    "collectibles": "全收集要素"
+    "collectibles": "全收集要素",
+    "livestream": "直播"
   },
   "genres": {
     "action": "动作 / 冒险",
@@ -327,7 +395,11 @@
     "badgeCaseUpper": "大写 (2K)",
     "badgeCaseLower": "小写 (2k)",
     "showPinnedCommentTemplate": "生成置顶评论模板并与输出一起显示",
-    "pinnedCommentIncludeAskNextGame": "包含「下一期玩什么游戏？」提问"
+    "pinnedCommentIncludeAskNextGame": "包含「下一期玩什么游戏？」提问",
+    "pinnedCommentIncludeGenrePlaylist": "Include genre-playlist suggestion in pinned comment",
+    "genrePlaylistsTitle": "Genre Playlists",
+    "genrePlaylistsHelp": "Configure a YouTube playlist URL per genre. The pinned-comment template will auto-suggest the matching playlist when the video's primary genre is selected.",
+    "genrePlaylistsEmptyHint": "Leave empty to skip a genre."
   },
   "batch": {
     "title": "批量生成",

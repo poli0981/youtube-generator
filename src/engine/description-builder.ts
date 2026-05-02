@@ -34,6 +34,125 @@ function getLabelForId(id: string, configs: readonly { id: string; label: string
   return configs.find((c) => c.id === id)?.label ?? id;
 }
 
+/**
+ * Locale-aware short formatter for the livestream `scheduledTime` field.
+ * The editor stores ISO strings (`<input type="datetime-local">` output);
+ * we render them as "Sat, May 2, 8:00 PM" in en, and equivalent native
+ * forms elsewhere via `Intl.DateTimeFormat`. Falls back to the raw input
+ * if it can't be parsed — better than emitting "Invalid Date".
+ */
+function formatScheduledTime(iso: string, language: string): string {
+  const trimmed = iso.trim();
+  if (!trimmed) return "";
+  const date = new Date(trimmed);
+  if (Number.isNaN(date.getTime())) return trimmed;
+  try {
+    return new Intl.DateTimeFormat(language, {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(date);
+  } catch {
+    return trimmed;
+  }
+}
+
+/**
+ * Brand names by GPU vendor — kept in English on purpose. These are
+ * trademarked product names viewers are searching for verbatim ("DLSS",
+ * "FSR", "XeSS"); translating them would hurt SEO. Frame-gen branding
+ * is similarly fixed: "Frame Generation" (NVIDIA), "Fluid Motion Frames"
+ * (AMD's official term), "XeFG" (Intel's announced FG tech).
+ */
+const VENDOR_GFX_BRANDS: Record<
+  "nvidia" | "amd" | "intel",
+  { upscale: string; framegen: string }
+> = {
+  nvidia: { upscale: "NVIDIA DLSS", framegen: "NVIDIA Frame Generation" },
+  amd: { upscale: "AMD FSR", framegen: "AMD Fluid Motion Frames" },
+  intel: { upscale: "Intel XeSS", framegen: "Intel XeFG" },
+};
+
+/**
+ * Compose the third token of the "🖥 VIDEO SETTINGS" line — e.g.
+ * `Cinematic Setting - NVIDIA Frame Generation x2 with Ray Tracing`.
+ *
+ * Returns an empty string when nothing meaningful can be said (no preset
+ * label AND no modifiers AND no RT modes); the caller treats that as
+ * "skip this token" rather than emitting an awkward bare string.
+ */
+function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
+  // 1. Preset label — `"custom"` reads from the free-form slot; everything
+  //    else goes through i18n. Missing translation falls back to nothing
+  //    rather than leaking the raw key.
+  let presetLabel = "";
+  if (input.graphicsPreset === "custom") {
+    presetLabel = (input.graphicsPresetCustom ?? "").trim();
+  } else if (input.graphicsPreset) {
+    const key = `description.graphics.presetOptions.${input.graphicsPreset}`;
+    const resolved = t(key);
+    if (resolved && resolved !== key) presetLabel = resolved;
+  }
+
+  // 2. Modifier (upscale + frame-gen). Vendor gates the whole clause —
+  //    upscaling/frame-gen quality without a vendor is meaningless.
+  const vendor =
+    input.frameGenVendor && input.frameGenVendor !== "none"
+      ? input.frameGenVendor
+      : null;
+  const upscaleQ =
+    input.upscaleQuality && input.upscaleQuality !== "none"
+      ? input.upscaleQuality
+      : null;
+  const fgMul =
+    input.frameGenMultiplier && input.frameGenMultiplier !== "none"
+      ? input.frameGenMultiplier
+      : null;
+
+  let modifier = "";
+  if (vendor) {
+    const brands = VENDOR_GFX_BRANDS[vendor];
+    const parts: string[] = [];
+    if (upscaleQ) {
+      const qLabel = t(`description.graphics.upscaleQualityOptions.${upscaleQ}`);
+      parts.push(`${brands.upscale} ${qLabel}`);
+    }
+    if (fgMul) {
+      // When upscaling is also present, just say "Frame Generation x2"
+      // without re-stating the brand — the upscaler already established
+      // it. Otherwise spell out "NVIDIA Frame Generation x2".
+      parts.push(parts.length > 0 ? `Frame Generation ${fgMul}` : `${brands.framegen} ${fgMul}`);
+    }
+    modifier = parts.join(" + ");
+  }
+
+  // 3. Ray-tracing clause. Each mode runs through i18n; falls back to
+  //    the snake_case id if a locale hasn't translated it.
+  const rtModes = input.rayTracingModes ?? [];
+  let rtClause = "";
+  if (rtModes.length > 0) {
+    const labels = rtModes.map((m) => {
+      const key = `description.graphics.rtOptions.${m}`;
+      const resolved = t(key);
+      return resolved === key ? m : resolved;
+    });
+    rtClause = ` ${t("description.graphics.with")} ${labels.join(", ")}`;
+  }
+
+  if (!presetLabel && !modifier && !rtClause) return "";
+  if (!presetLabel) {
+    // No anchor preset (e.g. `custom` with empty free-form): fall back
+    // to just the modifier + RT clause, trimmed.
+    return `${modifier}${rtClause}`.trim();
+  }
+  const settingSuffix = t("description.graphics.settingSuffix");
+  const head = `${presetLabel} ${settingSuffix}`;
+  const middle = modifier ? ` - ${modifier}` : "";
+  return `${head}${middle}${rtClause}`;
+}
+
 export interface BuildDescriptionOptions {
   hashtagCount?: number;
   /** When true and channelName is non-empty, appends an auto-generated
@@ -73,6 +192,24 @@ export function buildDescription(
     modName: input.modName ?? "",
   });
   sections.push(intro);
+
+  // 1.25 Livestream metadata — only emitted for livestream-type videos
+  // when at least one of `liveUrl` / `scheduledTime` is set. Sits right
+  // after the intro so viewers can grab the live link before scrolling
+  // through the rest of the description.
+  if (input.videoType === "livestream") {
+    const lines: string[] = [];
+    if (input.scheduledTime && input.scheduledTime.trim()) {
+      const formatted = formatScheduledTime(input.scheduledTime, input.language);
+      const line = t("description.livestream.scheduledLine", { time: formatted });
+      if (line && line !== "description.livestream.scheduledLine") lines.push(line);
+    }
+    if (input.liveUrl && input.liveUrl.trim()) {
+      const line = t("description.livestream.watchLine", { link: input.liveUrl.trim() });
+      if (line && line !== "description.livestream.watchLine") lines.push(line);
+    }
+    if (lines.length > 0) sections.push(lines.join("\n"));
+  }
 
   // 1.5 Playthrough status — surfaces "is this a blind run / NG+ / …"
   // right after the intro because that context frames how viewers read
@@ -130,13 +267,29 @@ export function buildDescription(
     }
   }
 
-  // 5. Video Settings
-  const settings: string[] = [];
-  if (input.resolution) settings.push(input.resolution);
-  if (input.fps) settings.push(`${input.fps} FPS`);
-  if (input.graphicsPreset) settings.push(input.graphicsPreset);
-  if (settings.length > 0) {
-    sections.push(`${t("description.sections.videoSettings")}\n${settings.join(" | ")}`);
+  // 5. Video Settings — skipped entirely for 2D / pixel-art / no-in-game-
+  //    settings games (the user toggles that explicitly; v0.8 phase 2 also
+  //    auto-suggests it on certain genres but the toggle is the source of
+  //    truth at render time).
+  if (!input.skipGraphicsSettings) {
+    const settings: string[] = [];
+    if (input.resolution) settings.push(input.resolution);
+    if (input.fps) settings.push(`${input.fps} FPS`);
+    const gfxPart = composeGraphicsPart(input, t);
+    if (gfxPart) settings.push(gfxPart);
+    if (input.artStyle && input.artStyle !== "none") {
+      const styleKey = `description.graphics.artStyleOptions.${input.artStyle}`;
+      const styleLabel = t(styleKey);
+      if (styleLabel && styleLabel !== styleKey) {
+        settings.push(`${t("description.graphics.artStyle")}: ${styleLabel}`);
+      }
+    }
+    if (input.versionInfo && input.versionInfo.trim()) {
+      settings.push(input.versionInfo.trim());
+    }
+    if (settings.length > 0) {
+      sections.push(`${t("description.sections.videoSettings")}\n${settings.join(" | ")}`);
+    }
   }
 
   // 5.5 Difficulty — sits with Video Settings because a difficulty

@@ -26,7 +26,8 @@
       "comparison": "Comparación de Gráficos",
       "guide": "Guía Silenciosa",
       "mods": "Mod {{modName}}",
-      "collectibles": "Todos los Coleccionables"
+      "collectibles": "Todos los Coleccionables",
+      "livestream": "🔴 EN VIVO"
     }
   },
   "description": {
@@ -48,7 +49,8 @@
       "comparison": "Este video presenta una comparación de gráficos de {{gameName}} en {{channelName}}.",
       "guide": "Este video presenta una guía silenciosa de {{gameName}} en {{channelName}}.",
       "mods": "Este video presenta el mod {{modName}} para {{gameName}} en {{channelName}}.",
-      "collectibles": "Este video cubre todos los coleccionables y el 100% de {{gameName}} en {{channelName}}."
+      "collectibles": "Este video cubre todos los coleccionables y el 100% de {{gameName}} en {{channelName}}.",
+      "livestream": "Stream en vivo de {{gameName}} en {{channelName}}. ¡Únete al chat y saluda!"
     },
     "noCommentaryLine": "Sin Comentarios — gameplay puro para tu disfrute.",
     "storeLinkSuffix": {
@@ -93,6 +95,49 @@
       "flashing_lights": "⚡ Luces parpadeantes / efecto estroboscópico",
       "loud_noises": "🔊 Ruidos fuertes / picos de volumen",
       "jump_scares": "😱 Sustos repentinos"
+    },
+    "graphics": {
+      "settingSuffix": "Setting",
+      "with": "con",
+      "artStyle": "Estilo Artístico",
+      "presetOptions": {
+        "low": "Bajo",
+        "medium": "Medio",
+        "high": "Alto",
+        "very_high": "Muy Alto",
+        "cinematic": "Cinematográfico",
+        "ultra": "Ultra",
+        "extreme": "Extremo"
+      },
+      "rtOptions": {
+        "ray_tracing": "Ray Tracing",
+        "full_rt": "Full Ray Tracing",
+        "path_tracing": "Path Tracing",
+        "ray_reconstruction": "Ray Reconstruction"
+      },
+      "upscaleQualityOptions": {
+        "native_aa": "Native AA",
+        "quality": "Quality",
+        "balanced": "Balanced",
+        "performance": "Performance",
+        "ultra_performance": "Ultra Performance"
+      },
+      "artStyleOptions": {
+        "realistic": "Realista",
+        "stylized": "Estilizado",
+        "anime": "Anime",
+        "cel_shaded": "Cel-shading",
+        "low_poly": "Low-poly",
+        "voxel": "Voxel",
+        "pixel_art": "Pixel Art",
+        "hand_drawn": "Dibujo a mano",
+        "comic": "Cómic",
+        "photorealistic": "Fotorrealista"
+      }
+    },
+    "livestream": {
+      "scheduledLine": "🔴 EN VIVO el {{time}}",
+      "watchLine": "Ver / repetir: {{link}}"
     }
   },
   "pinnedComment": {
@@ -100,6 +145,7 @@
     "playlistPrompt": "📺 Mira la serie completa aquí: {{link}}",
     "engagementPrompt": "No olvides dar like y suscribirte si quieres ver más — ayuda muchísimo al canal 💚",
     "askNextGame": "💬 ¿Qué juego debería jugar a continuación? ¡Déjame tus sugerencias!",
+    "genrePlaylistSuggestion": "📺 Más gameplay de {{genreLabel}} en el canal: {{link}}",
     "greetings": {
       "full": "Partida completa de {{gameName}} — espero que la disfrutes de principio a fin.",
       "part": "¡Bienvenidos de vuelta a {{gameName}} en {{channelName}}!",
@@ -118,7 +164,8 @@
       "comparison": "Comparación gráfica de {{gameName}} — ¿cuál gana para ti?",
       "guide": "Espero que esta guía silenciosa te haya ayudado. Los tiempos están en la descripción.",
       "mods": "Partida con mods — el orden de carga y créditos están en la descripción.",
-      "collectibles": "Todos los coleccionables en un solo vídeo. ¡Gracias por el apoyo!"
+      "collectibles": "Todos los coleccionables en un solo vídeo. ¡Gracias por el apoyo!",
+      "livestream": "¡Bienvenidos al stream de {{gameName}}! Déjenme un saludo en el chat 👋"
     }
   },
   "hashtags": {

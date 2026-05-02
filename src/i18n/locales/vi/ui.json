@@ -43,6 +43,73 @@
     "resolution": "Độ phân giải",
     "fps": "FPS",
     "graphicsPreset": "Cài đặt đồ họa",
+    "graphicsPresetOptions": {
+      "low": "Thấp",
+      "medium": "Trung bình",
+      "high": "Cao",
+      "very_high": "Rất cao",
+      "cinematic": "Cinematic",
+      "ultra": "Ultra",
+      "extreme": "Cực đại",
+      "custom": "Tùy chỉnh…"
+    },
+    "graphicsPresetCustom": "Tên preset tuỳ chỉnh",
+    "graphicsPresetCustomPlaceholder": "vd: Epic, Maximum",
+    "skipGraphicsSettings": "Game này không có cài đặt đồ hoạ trong game",
+    "skipGraphicsSettingsHelp": "Ẩn phần Video Settings trong description cho các game 2D / pixel-art / web.",
+    "rayTracing": "Ray Tracing",
+    "rtOptions": {
+      "ray_tracing": "Ray Tracing",
+      "full_rt": "Full Ray Tracing",
+      "path_tracing": "Path Tracing",
+      "ray_reconstruction": "Ray Reconstruction"
+    },
+    "frameGenVendor": "Nhà SX Frame Gen",
+    "frameGenVendorOptions": {
+      "none": "Không",
+      "nvidia": "NVIDIA",
+      "amd": "AMD",
+      "intel": "Intel"
+    },
+    "frameGenMultiplier": "Hệ số Frame Gen",
+    "frameGenMultiplierOptions": {
+      "none": "Không",
+      "x2": "x2",
+      "x3": "x3",
+      "x4": "x4",
+      "x6": "x6"
+    },
+    "upscaleQuality": "Chất lượng Upscale",
+    "upscaleQualityOptions": {
+      "none": "Không",
+      "native_aa": "Native AA",
+      "quality": "Quality",
+      "balanced": "Balanced",
+      "performance": "Performance",
+      "ultra_performance": "Ultra Performance"
+    },
+    "artStyle": "Phong cách hình ảnh",
+    "artStyleOptions": {
+      "none": "— Chưa chọn —",
+      "realistic": "Hiện thực",
+      "stylized": "Cách điệu",
+      "anime": "Anime",
+      "cel_shaded": "Cel-shading",
+      "low_poly": "Low-poly",
+      "voxel": "Voxel",
+      "pixel_art": "Pixel Art",
+      "hand_drawn": "Vẽ tay",
+      "comic": "Truyện tranh",
+      "photorealistic": "Siêu thực"
+    },
+    "versionInfo": "Phiên bản Driver / Game",
+    "versionInfoPlaceholder": "vd: GeForce 565.90 | Game v1.4",
+    "liveUrl": "URL Livestream",
+    "liveUrlPlaceholder": "https://www.youtube.com/watch?v=...",
+    "scheduledTime": "Thời gian phát",
+    "skipGraphicsHintLabel": "Có vẻ game này không có cài đặt đồ hoạ — ẩn phần này luôn nhé?",
+    "skipGraphicsHintHide": "Ẩn",
+    "skipGraphicsHintKeep": "Giữ",
     "timestamps": "Mốc thời gian",
     "timestampsPlaceholder": "0:00 Giới thiệu\n5:30 Chương 1\n15:00 Đánh Boss",
     "storeLinks": "Link mua game",
@@ -157,7 +224,8 @@
     "comparison": "So sánh đồ họa",
     "guide": "Hướng dẫn",
     "mods": "Chơi với Mod",
-    "collectibles": "Full Sưu Tầm"
+    "collectibles": "Full Sưu Tầm",
+    "livestream": "Livestream"
   },
   "genres": {
     "action": "Hành động / Phiêu lưu",
@@ -327,7 +395,11 @@
     "badgeCaseUpper": "VIẾT HOA (2K)",
     "badgeCaseLower": "viết thường (2k)",
     "showPinnedCommentTemplate": "Tạo mẫu bình luận ghim cùng với output",
-    "pinnedCommentIncludeAskNextGame": "Kèm câu hỏi \"chơi game nào tiếp theo?\""
+    "pinnedCommentIncludeAskNextGame": "Kèm câu hỏi \"chơi game nào tiếp theo?\"",
+    "pinnedCommentIncludeGenrePlaylist": "Kèm gợi ý playlist theo thể loại trong pinned comment",
+    "genrePlaylistsTitle": "Playlist theo thể loại",
+    "genrePlaylistsHelp": "Cấu hình URL YouTube playlist cho từng thể loại. Pinned comment sẽ tự động gợi ý playlist phù hợp với thể loại chính của video.",
+    "genrePlaylistsEmptyHint": "Bỏ trống nếu chưa có playlist cho thể loại đó."
   },
   "batch": {
     "title": "Chế độ hàng loạt",

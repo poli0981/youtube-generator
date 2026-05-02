@@ -9,6 +9,15 @@ import type {
   DifficultyLevel,
   ContentWarning,
 } from "@engine/types";
+import {
+  GRAPHICS_PRESETS,
+  type GraphicsPreset,
+  type RTMode,
+  type FrameGenVendor,
+  type FrameGenMultiplier,
+  type UpscaleQuality,
+  type ArtStyle,
+} from "@config/graphics-settings";
 import { DEFAULTS } from "@config/defaults";
 
 interface EditorData {
@@ -24,9 +33,19 @@ interface EditorData {
   dlcName: string;
   challengeName: string;
   modName: string;
+  liveUrl: string;
+  scheduledTime: string;
   resolution: string;
   fps: string;
-  graphicsPreset: string;
+  graphicsPreset: GraphicsPreset;
+  graphicsPresetCustom: string;
+  skipGraphicsSettings: boolean;
+  rayTracingModes: RTMode[];
+  frameGenVendor: FrameGenVendor;
+  frameGenMultiplier: FrameGenMultiplier;
+  upscaleQuality: UpscaleQuality;
+  artStyle: ArtStyle;
+  versionInfo: string;
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
@@ -45,6 +64,48 @@ interface EditorData {
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
   rig: Record<string, string>;
+}
+
+/**
+ * Map a free-form pre-v0.8 `graphicsPreset` string ("Ultra", "Very High",
+ * "Epic"…) to the v0.8 enum. Anything unrecognised is captured into the
+ * Custom slot rather than dropped, so an existing draft round-trips
+ * lossless through the migration. Exported for unit tests.
+ */
+export function legacyGraphicsPresetToEnum(legacy: string): {
+  preset: GraphicsPreset;
+  custom: string;
+} {
+  const trimmed = legacy.trim();
+  if (!trimmed) return { preset: "medium", custom: "" };
+  const normalised = trimmed.toLowerCase();
+  const known = GRAPHICS_PRESETS.find(
+    (p) => p !== "custom" && p.replace(/_/g, " ") === normalised,
+  );
+  if (known) return { preset: known, custom: "" };
+  return { preset: "custom", custom: trimmed };
+}
+
+/**
+ * Normalise a partial editor patch coming from a profile / preset /
+ * template snapshot. Reused by `loadProfile` and `loadPreset` so legacy
+ * string `graphicsPreset` values from before v0.8 are mapped through the
+ * same logic as the persist-store v4→v5 migration. Pre-v0.8 snapshots
+ * declare `graphicsPreset: string` rather than the v0.8 enum, which TS
+ * accepts via structural compatibility — we sniff the runtime value here
+ * via an `unknown` cast.
+ */
+function normalizeEditorPatch(patch: Partial<EditorData>): Partial<EditorData> {
+  const out: Partial<EditorData> = { ...patch };
+  const raw: unknown = (patch as { graphicsPreset?: unknown }).graphicsPreset;
+  if (typeof raw === "string" && !(GRAPHICS_PRESETS as readonly string[]).includes(raw)) {
+    const { preset, custom } = legacyGraphicsPresetToEnum(raw);
+    out.graphicsPreset = preset;
+    if (typeof patch.graphicsPresetCustom !== "string") {
+      out.graphicsPresetCustom = custom;
+    }
+  }
+  return out;
 }
 
 interface EditorActions {
@@ -75,9 +136,19 @@ const initialState: EditorData = {
   dlcName: DEFAULTS.editor.dlcName,
   challengeName: DEFAULTS.editor.challengeName,
   modName: DEFAULTS.editor.modName,
+  liveUrl: DEFAULTS.editor.liveUrl,
+  scheduledTime: DEFAULTS.editor.scheduledTime,
   resolution: DEFAULTS.editor.resolution,
   fps: DEFAULTS.editor.fps,
   graphicsPreset: DEFAULTS.editor.graphicsPreset,
+  graphicsPresetCustom: DEFAULTS.editor.graphicsPresetCustom,
+  skipGraphicsSettings: DEFAULTS.editor.skipGraphicsSettings,
+  rayTracingModes: [...DEFAULTS.editor.rayTracingModes],
+  frameGenVendor: DEFAULTS.editor.frameGenVendor,
+  frameGenMultiplier: DEFAULTS.editor.frameGenMultiplier,
+  upscaleQuality: DEFAULTS.editor.upscaleQuality,
+  artStyle: DEFAULTS.editor.artStyle,
+  versionInfo: DEFAULTS.editor.versionInfo,
   timestamps: DEFAULTS.editor.timestamps,
   playlistLink: DEFAULTS.editor.playlistLink,
   contactEmail: DEFAULTS.editor.contactEmail,
@@ -115,9 +186,11 @@ export const useEditorStore = create<EditorState>()(
           storeLinkTypes: { ...state.storeLinkTypes, [platformId]: type },
         })),
 
-      loadProfile: (profile) => set((state) => ({ ...state, ...profile })),
+      loadProfile: (profile) =>
+        set((state) => ({ ...state, ...normalizeEditorPatch(profile) })),
 
-      loadPreset: (preset) => set((state) => ({ ...state, ...preset })),
+      loadPreset: (preset) =>
+        set((state) => ({ ...state, ...normalizeEditorPatch(preset) })),
 
       reset: () => set(initialState),
     }),
@@ -131,7 +204,16 @@ export const useEditorStore = create<EditorState>()(
       //         fall back to the spread of `initialState`, but we still
       //         normalise the blob here so legacy drafts round-trip
       //         cleanly through the engine.
-      version: 4,
+      // v4 → v5: graphics-settings v2 (v0.8 phase 2). Free-form
+      //         `graphicsPreset` text became an enum + `Custom` field;
+      //         RT modes, frame-gen vendor + multiplier, upscaling
+      //         quality, art style, version info, and the livestream
+      //         extras (liveUrl, scheduledTime) joined the schema.
+      //         Missing fields fall through to `initialState`, but
+      //         legacy `graphicsPreset` text needs explicit mapping so
+      //         "Ultra"-era drafts don't end up with an enum value
+      //         outside the GraphicsPreset literal union.
+      version: 5,
       migrate: (persistedState: unknown, version: number): EditorData => {
         if (!persistedState || typeof persistedState !== "object") {
           return { ...initialState };
@@ -157,6 +239,31 @@ export const useEditorStore = create<EditorState>()(
           }
           if (!Array.isArray(state.contentWarnings)) state.contentWarnings = [];
         }
+        if (version < 5) {
+          // Map legacy free-form preset text to the new enum + Custom slot.
+          const legacy = typeof state.graphicsPreset === "string" ? state.graphicsPreset : "";
+          const isAlreadyEnum = (GRAPHICS_PRESETS as readonly string[]).includes(legacy);
+          if (!isAlreadyEnum) {
+            const { preset, custom } = legacyGraphicsPresetToEnum(legacy);
+            state.graphicsPreset = preset;
+            if (typeof state.graphicsPresetCustom !== "string") {
+              state.graphicsPresetCustom = custom;
+            }
+          } else if (typeof state.graphicsPresetCustom !== "string") {
+            state.graphicsPresetCustom = "";
+          }
+          if (typeof state.skipGraphicsSettings !== "boolean") {
+            state.skipGraphicsSettings = false;
+          }
+          if (!Array.isArray(state.rayTracingModes)) state.rayTracingModes = [];
+          if (typeof state.frameGenVendor !== "string") state.frameGenVendor = "none";
+          if (typeof state.frameGenMultiplier !== "string") state.frameGenMultiplier = "none";
+          if (typeof state.upscaleQuality !== "string") state.upscaleQuality = "none";
+          if (typeof state.artStyle !== "string") state.artStyle = "none";
+          if (typeof state.versionInfo !== "string") state.versionInfo = "";
+          if (typeof state.liveUrl !== "string") state.liveUrl = "";
+          if (typeof state.scheduledTime !== "string") state.scheduledTime = "";
+        }
         return { ...initialState, ...state } as EditorData;
       },
       partialize: (state) => ({
@@ -172,9 +279,19 @@ export const useEditorStore = create<EditorState>()(
         dlcName: state.dlcName,
         challengeName: state.challengeName,
         modName: state.modName,
+        liveUrl: state.liveUrl,
+        scheduledTime: state.scheduledTime,
         resolution: state.resolution,
         fps: state.fps,
         graphicsPreset: state.graphicsPreset,
+        graphicsPresetCustom: state.graphicsPresetCustom,
+        skipGraphicsSettings: state.skipGraphicsSettings,
+        rayTracingModes: state.rayTracingModes,
+        frameGenVendor: state.frameGenVendor,
+        frameGenMultiplier: state.frameGenMultiplier,
+        upscaleQuality: state.upscaleQuality,
+        artStyle: state.artStyle,
+        versionInfo: state.versionInfo,
         timestamps: state.timestamps,
         playlistLink: state.playlistLink,
         contactEmail: state.contactEmail,

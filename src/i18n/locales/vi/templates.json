@@ -26,7 +26,8 @@
       "comparison": "So sánh",
       "guide": "Hướng dẫn",
       "mods": "Mod {{modName}}",
-      "collectibles": "Tất cả Sưu tầm"
+      "collectibles": "Tất cả Sưu tầm",
+      "livestream": "🔴 LIVE"
     }
   },
   "description": {
@@ -48,7 +49,8 @@
       "comparison": "Video này so sánh đồ họa/hiệu suất của {{gameName}} trên kênh {{channelName}}.",
       "guide": "Video này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}.",
       "mods": "Video này showcase mod {{modName}} cho {{gameName}} trên kênh {{channelName}}.",
-      "collectibles": "Video này gom đủ mọi vật phẩm sưu tầm và 100% completion trong {{gameName}} trên kênh {{channelName}}."
+      "collectibles": "Video này gom đủ mọi vật phẩm sưu tầm và 100% completion trong {{gameName}} trên kênh {{channelName}}.",
+      "livestream": "Livestream {{gameName}} trên kênh {{channelName}}. Tham gia chat và chào mọi người nhé!"
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
     "storeLinkSuffix": {
@@ -93,6 +95,49 @@
       "flashing_lights": "⚡ Ánh sáng chớp / hiệu ứng strobe",
       "loud_noises": "🔊 Âm thanh lớn / tiếng nổ bất ngờ",
       "jump_scares": "😱 Jump scare"
+    },
+    "graphics": {
+      "settingSuffix": "Setting",
+      "with": "với",
+      "artStyle": "Phong cách hình ảnh",
+      "presetOptions": {
+        "low": "Thấp",
+        "medium": "Trung bình",
+        "high": "Cao",
+        "very_high": "Rất cao",
+        "cinematic": "Cinematic",
+        "ultra": "Ultra",
+        "extreme": "Cực đại"
+      },
+      "rtOptions": {
+        "ray_tracing": "Ray Tracing",
+        "full_rt": "Full Ray Tracing",
+        "path_tracing": "Path Tracing",
+        "ray_reconstruction": "Ray Reconstruction"
+      },
+      "upscaleQualityOptions": {
+        "native_aa": "Native AA",
+        "quality": "Quality",
+        "balanced": "Balanced",
+        "performance": "Performance",
+        "ultra_performance": "Ultra Performance"
+      },
+      "artStyleOptions": {
+        "realistic": "Hiện thực",
+        "stylized": "Cách điệu",
+        "anime": "Anime",
+        "cel_shaded": "Cel-shading",
+        "low_poly": "Low-poly",
+        "voxel": "Voxel",
+        "pixel_art": "Pixel Art",
+        "hand_drawn": "Vẽ tay",
+        "comic": "Truyện tranh",
+        "photorealistic": "Siêu thực"
+      }
+    },
+    "livestream": {
+      "scheduledLine": "🔴 LIVE vào {{time}}",
+      "watchLine": "Xem / xem lại: {{link}}"
     }
   },
   "pinnedComment": {
@@ -100,6 +145,7 @@
     "playlistPrompt": "📺 Xem toàn bộ series tại đây: {{link}}",
     "engagementPrompt": "Đừng quên like & subscribe nếu muốn xem thêm — ủng hộ kênh rất nhiều 💚",
     "askNextGame": "💬 Các bạn muốn mình chơi game nào tiếp theo? Comment gợi ý nha!",
+    "genrePlaylistSuggestion": "📺 Xem thêm các video {{genreLabel}} khác trên kênh: {{link}}",
     "greetings": {
       "full": "Đây là bản chơi full {{gameName}} — chúc mọi người thưởng thức trọn vẹn.",
       "part": "Chào mừng các bạn quay lại với {{gameName}} trên {{channelName}}!",
@@ -118,7 +164,8 @@
       "comparison": "So sánh đồ hoạ {{gameName}} — bản nào thắng với bạn?",
       "guide": "Hy vọng silent guide này hữu ích. Timestamps có trong mô tả.",
       "mods": "Modded run — full load order / credits trong mô tả.",
-      "collectibles": "Full collectible trong 1 video. Cảm ơn các bạn đã ủng hộ!"
+      "collectibles": "Full collectible trong 1 video. Cảm ơn các bạn đã ủng hộ!",
+      "livestream": "Chào mừng đến với buổi stream {{gameName}}! Để lại lời chào trong chat nhé 👋"
     }
   },
   "hashtags": {

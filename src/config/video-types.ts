@@ -17,6 +17,12 @@ export const VIDEO_TYPES = [
   { id: "guide", labelKey: "videoTypes.guide", icon: "📘", extraFields: [] },
   { id: "mods", labelKey: "videoTypes.mods", icon: "🧩", extraFields: ["modName"] },
   { id: "collectibles", labelKey: "videoTypes.collectibles", icon: "⭐", extraFields: [] },
+  {
+    id: "livestream",
+    labelKey: "videoTypes.livestream",
+    icon: "🔴",
+    extraFields: ["liveUrl", "scheduledTime"],
+  },
 ] as const;
 
 export type VideoTypeId = (typeof VIDEO_TYPES)[number]["id"];

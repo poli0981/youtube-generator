@@ -242,6 +242,13 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
     `${g} completionist no commentary`,
     `${g} achievement guide`,
   ],
+  livestream: (g) => [
+    "livestream",
+    "live gameplay",
+    `${g} live`,
+    `${g} stream`,
+    `${g} livestream`,
+  ],
 };
 
 /**

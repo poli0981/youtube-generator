@@ -5,9 +5,11 @@ import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
 import { ChipGroup } from "@components/ui/ChipGroup";
+import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES, type GenreId } from "@config/genres";
 import { useSettingsStore } from "@store/settings-store";
+import { validatePlaylistUrl } from "@utils/validation";
 import { IS_TAURI } from "@utils/platform";
 import {
   MAX_GENRES,
@@ -223,12 +225,19 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showPinnedCommentTemplate", v)}
           />
           {settings.showPinnedCommentTemplate && (
-            <div className="ml-4 border-l-2 border-border pl-4">
+            <div className="ml-4 flex flex-col gap-2 border-l-2 border-border pl-4">
               <Toggle
                 label={t("settings.pinnedCommentIncludeAskNextGame")}
                 checked={settings.pinnedCommentIncludeAskNextGame}
                 onChange={(v) =>
                   settings.setSetting("pinnedCommentIncludeAskNextGame", v)
+                }
+              />
+              <Toggle
+                label={t("settings.pinnedCommentIncludeGenrePlaylist")}
+                checked={settings.pinnedCommentIncludeGenrePlaylist}
+                onChange={(v) =>
+                  settings.setSetting("pinnedCommentIncludeGenrePlaylist", v)
                 }
               />
             </div>
@@ -254,6 +263,47 @@ export function SettingsPage() {
             checked={settings.includeTrendingTags}
             onChange={(v) => settings.setSetting("includeTrendingTags", v)}
           />
+        </section>
+
+        {/* 6.5 Genre Playlists — per-genre YouTube playlist URLs that the
+            pinned-comment template can auto-suggest based on the video's
+            primary genre. v0.8 phase 2. */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-sm font-semibold text-text-secondary">
+            {t("settings.genrePlaylistsTitle")}
+          </h2>
+          <p className="text-xs text-text-muted">{t("settings.genrePlaylistsHelp")}</p>
+          <p className="text-xs text-text-muted">{t("settings.genrePlaylistsEmptyHint")}</p>
+          <div className="flex flex-col gap-2">
+            {GENRES.map((g) => (
+              <ValidatedInput
+                key={g.id}
+                label={`${g.icon} ${t(g.labelKey)}`}
+                placeholder="https://www.youtube.com/playlist?list=..."
+                value={settings.genrePlaylists[g.id] ?? ""}
+                onChange={(v) => {
+                  const trimmed = v.trim();
+                  if (trimmed) {
+                    settings.setSetting("genrePlaylists", {
+                      ...settings.genrePlaylists,
+                      [g.id]: trimmed,
+                    });
+                  } else {
+                    // Empty input → drop this genre's entry entirely so the
+                    // map stays sparse. Filter pattern instead of `delete`
+                    // satisfies @typescript-eslint/no-dynamic-delete.
+                    const next = Object.fromEntries(
+                      Object.entries(settings.genrePlaylists).filter(
+                        ([k]) => k !== g.id,
+                      ),
+                    );
+                    settings.setSetting("genrePlaylists", next);
+                  }
+                }}
+                validate={validatePlaylistUrl}
+              />
+            ))}
+          </div>
         </section>
 
         {/* 7. History. */}

@@ -26,7 +26,8 @@
       "comparison": "画质对比",
       "guide": "无声攻略",
       "mods": "{{modName}} Mod",
-      "collectibles": "全收集要素"
+      "collectibles": "全收集要素",
+      "livestream": "🔴 直播"
     }
   },
   "description": {
@@ -48,7 +49,8 @@
       "comparison": "本视频展示了{{channelName}}的{{gameName}}画质对比。",
       "guide": "本视频展示了{{channelName}}的{{gameName}}无声攻略。",
       "mods": "本视频展示了{{channelName}}的{{gameName}}之{{modName}} Mod游玩。",
-      "collectibles": "本视频展示了{{channelName}}的{{gameName}}全收集要素与100%完成度。"
+      "collectibles": "本视频展示了{{channelName}}的{{gameName}}全收集要素与100%完成度。",
+      "livestream": "{{channelName}} 频道正在直播 {{gameName}}。来聊天室打个招呼吧！"
     },
     "noCommentaryLine": "无解说 — 纯粹的游戏体验，尽情享受。",
     "storeLinkSuffix": {
@@ -93,6 +95,49 @@
       "flashing_lights": "⚡ 闪光 / 频闪效果",
       "loud_noises": "🔊 大音量 / 突发音量",
       "jump_scares": "😱 惊吓镜头"
+    },
+    "graphics": {
+      "settingSuffix": "Setting",
+      "with": "+",
+      "artStyle": "画风",
+      "presetOptions": {
+        "low": "低",
+        "medium": "中",
+        "high": "高",
+        "very_high": "极高",
+        "cinematic": "电影级",
+        "ultra": "超高",
+        "extreme": "极致"
+      },
+      "rtOptions": {
+        "ray_tracing": "Ray Tracing",
+        "full_rt": "Full Ray Tracing",
+        "path_tracing": "Path Tracing",
+        "ray_reconstruction": "Ray Reconstruction"
+      },
+      "upscaleQualityOptions": {
+        "native_aa": "Native AA",
+        "quality": "Quality",
+        "balanced": "Balanced",
+        "performance": "Performance",
+        "ultra_performance": "Ultra Performance"
+      },
+      "artStyleOptions": {
+        "realistic": "写实",
+        "stylized": "风格化",
+        "anime": "动漫",
+        "cel_shaded": "卡通渲染",
+        "low_poly": "低多边形",
+        "voxel": "体素",
+        "pixel_art": "像素艺术",
+        "hand_drawn": "手绘",
+        "comic": "漫画",
+        "photorealistic": "超写实"
+      }
+    },
+    "livestream": {
+      "scheduledLine": "🔴 直播时间: {{time}}",
+      "watchLine": "观看 / 回放: {{link}}"
     }
   },
   "pinnedComment": {
@@ -100,6 +145,7 @@
     "playlistPrompt": "📺 完整系列在这里: {{link}}",
     "engagementPrompt": "如果喜欢记得点赞和订阅 — 对频道帮助很大 💚",
     "askNextGame": "💬 下一期想看我玩什么游戏？评论区留言告诉我！",
+    "genrePlaylistSuggestion": "📺 频道更多 {{genreLabel}} 游戏视频: {{link}}",
     "greetings": {
       "full": "{{gameName}} 的完整流程 — 希望你从头到尾都喜欢。",
       "part": "欢迎回到 {{channelName}} 的 {{gameName}} 实况！",
@@ -118,7 +164,8 @@
       "comparison": "{{gameName}} 画面对比 — 你更喜欢哪一个？",
       "guide": "希望这份无解说攻略对你有帮助。时间戳在描述中。",
       "mods": "MOD 实况 — 完整加载顺序和致谢在描述中。",
-      "collectibles": "全收集一期完成。感谢大家支持！"
+      "collectibles": "全收集一期完成。感谢大家支持！",
+      "livestream": "欢迎来到 {{gameName}} 直播！记得在聊天室打个招呼 👋"
     }
   },
   "hashtags": {
