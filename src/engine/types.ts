@@ -153,6 +153,13 @@ export interface GeneratorInput {
   dlcName?: string;
   challengeName?: string;
   modName?: string;
+  /**
+   * Long-form mod credit list (multi-line text). Renders into a separate
+   * `🧩 MOD LIST` description section when {@link videoType} is `"mods"`.
+   * Free-form so creators can paste straight from a Wabbajack / Vortex /
+   * Mod Organizer modlist.
+   */
+  modList?: string;
   /** Livestream-only: canonical YouTube/Twitch live URL. */
   liveUrl?: string;
   /** Livestream-only: ISO datetime (`<input type="datetime-local">`). */
@@ -238,6 +245,17 @@ export interface GeneratorInput {
   storeLinkTypes?: Partial<Record<string, StoreLinkType>>;
   social: Partial<Record<string, string>>;
   rig: Partial<Record<string, string>>;
+  /**
+   * Vietnam-specific donate metadata (v0.8 polish). The corresponding
+   * `🏦 CHUYỂN KHOẢN / VÍ ĐIỆN TỬ` description block is gated on
+   * {@link language} === `"vi"` — non-Vietnamese viewers don't typically
+   * use VN bank transfer, so the block stays out of their description.
+   */
+  vnBankName?: string;
+  vnBankAccount?: string;
+  vnBankHolder?: string;
+  vnMomo?: string;
+  vnZalopay?: string;
 }
 
 export interface GeneratorOutput {

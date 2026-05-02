@@ -163,14 +163,15 @@ describe("buildDescription", () => {
     expect(result).not.toContain("(free)");
   });
 
-  it("includes video settings with the v0.8 graphics line", () => {
+  it("includes video settings with the v0.8-polish multi-line block", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({ resolution: "4K", fps: "60", graphicsPreset: "ultra" }),
       t,
     );
     expect(result).toContain("VIDEO SETTINGS");
-    expect(result).toContain("4K | 60 FPS | Ultra Setting");
+    expect(result).toContain("Video: 4K - 60 FPS");
+    expect(result).toContain("In-game Setting: Ultra");
   });
 
   it("composes Cinematic + NVIDIA Frame Gen x2 + Ray Tracing line", () => {
@@ -186,8 +187,9 @@ describe("buildDescription", () => {
       }),
       t,
     );
+    expect(result).toContain("Video: 1440p - 120 FPS");
     expect(result).toContain(
-      "1440p | 120 FPS | Cinematic Setting - NVIDIA Frame Generation x2 with Ray Tracing",
+      "In-game Setting: Cinematic - NVIDIA Frame Generation x2 with Ray Tracing",
     );
   });
 
@@ -206,7 +208,7 @@ describe("buildDescription", () => {
       t,
     );
     expect(result).toContain(
-      "Ultra Setting - AMD FSR Quality + Frame Generation x3 with Full Ray Tracing",
+      "In-game Setting: Ultra - AMD FSR Quality + Frame Generation x3 with Full Ray Tracing",
     );
   });
 
@@ -222,7 +224,7 @@ describe("buildDescription", () => {
       t,
     );
     expect(result).toContain(
-      "High Setting with Path Tracing, Ray Reconstruction",
+      "In-game Setting: High with Path Tracing, Ray Reconstruction",
     );
   });
 
@@ -237,10 +239,11 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    expect(result).toContain("1080p | 60 FPS | Epic Setting");
+    expect(result).toContain("Video: 1080p - 60 FPS");
+    expect(result).toContain("In-game Setting: Epic");
   });
 
-  it("appends an Art Style token when set", () => {
+  it("emits Art Style on its own line", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({
@@ -249,10 +252,11 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    expect(result).toContain("Medium Setting | Art Style: Pixel Art");
+    expect(result).toContain("In-game Setting: Medium");
+    expect(result).toContain("Art Style: Pixel Art");
   });
 
-  it("appends a free-form versionInfo token at the end of the line", () => {
+  it("emits Version on its own line", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({
@@ -263,9 +267,37 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "1080p | 60 FPS | Ultra Setting | GeForce 565.90 | Game v1.4",
+    expect(result).toContain("Video: 1080p - 60 FPS");
+    expect(result).toContain("In-game Setting: Ultra");
+    expect(result).toContain("Version: GeForce 565.90 | Game v1.4");
+  });
+
+  it("renders the four video-settings tokens as separate labelled lines", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1440p",
+        fps: "60",
+        graphicsPreset: "cinematic",
+        frameGenVendor: "nvidia",
+        frameGenMultiplier: "x2",
+        rayTracingModes: ["ray_tracing"],
+        artStyle: "realistic",
+        versionInfo: "GeForce 566.36",
+      }),
+      t,
     );
+    // Each line carries its own label — find the section and verify the
+    // four expected lines are present in order.
+    const section = result.split("🖥 VIDEO SETTINGS\n")[1]?.split("\n\n")[0];
+    expect(section).toBeTruthy();
+    const lines = section!.split("\n");
+    expect(lines[0]).toBe("Video: 1440p - 60 FPS");
+    expect(lines[1]).toBe(
+      "In-game Setting: Cinematic - NVIDIA Frame Generation x2 with Ray Tracing",
+    );
+    expect(lines[2]).toBe("Art Style: Realistic");
+    expect(lines[3]).toBe("Version: GeForce 566.36");
   });
 
   it("omits the entire VIDEO SETTINGS section when skipGraphicsSettings is true", () => {
@@ -313,6 +345,99 @@ describe("buildDescription", () => {
       t,
     );
     expect(result).toContain("🔴 LIVE on tomorrow at 8pm");
+  });
+
+  it("renders the Vietnam donate block when language is 'vi' and bank fields set", () => {
+    const t = createMockT("en"); // mock-t falls back to en for keys not in vi mock; section header is what matters
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        vnBankName: "Vietcombank",
+        vnBankAccount: "0123456789",
+        vnBankHolder: "NGUYEN VAN A",
+        vnMomo: "0901234567",
+        vnZalopay: "0907654321",
+      }),
+      t,
+    );
+    expect(result).toContain("BANK TRANSFER / E-WALLET (Vietnam)");
+    expect(result).toContain("🏦 Vietcombank: 0123456789 (NGUYEN VAN A)");
+    expect(result).toContain("💸 MoMo: 0901234567");
+    expect(result).toContain("💸 ZaloPay: 0907654321");
+  });
+
+  it("omits the holder parens when the holder field is empty", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        vnBankName: "MB Bank",
+        vnBankAccount: "9876543210",
+      }),
+      t,
+    );
+    expect(result).toContain("🏦 MB Bank: 9876543210");
+    expect(result).not.toContain("()");
+  });
+
+  it("skips the bank line when only one of bankName/bankAccount is set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        vnBankName: "Vietcombank",
+        // vnBankAccount missing
+        vnMomo: "0901234567",
+      }),
+      t,
+    );
+    expect(result).not.toContain("🏦 Vietcombank");
+    // MoMo line still emits
+    expect(result).toContain("💸 MoMo: 0901234567");
+  });
+
+  it("never renders the Vietnam donate block when language is not 'vi'", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "en",
+        vnBankName: "Vietcombank",
+        vnBankAccount: "0123456789",
+        vnMomo: "0901234567",
+      }),
+      t,
+    );
+    expect(result).not.toContain("BANK TRANSFER");
+    expect(result).not.toContain("🏦 Vietcombank");
+    expect(result).not.toContain("💸 MoMo");
+  });
+
+  it("renders the Mod List block when videoType is 'mods' and modList is non-empty", () => {
+    const t = createMockT("en");
+    const modList = "• Requiem\n• NaturalVision Evolved\n• Custom Skinpack v2.1";
+    const result = buildDescription(
+      makeInput({
+        videoType: "mods",
+        modName: "Requiem",
+        modList,
+      }),
+      t,
+    );
+    expect(result).toContain("🧩 MOD LIST");
+    expect(result).toContain(modList);
+  });
+
+  it("never renders the Mod List block for non-mods video types", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "full",
+        modList: "• Requiem",
+      }),
+      t,
+    );
+    expect(result).not.toContain("MOD LIST");
+    expect(result).not.toContain("Requiem");
   });
 
   it("skips the livestream block when no live metadata is set", () => {

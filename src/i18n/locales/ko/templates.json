@@ -63,6 +63,8 @@
       "storeLinksDownload": "⬇️ 게임 다운로드 (플레이하고 싶다면)",
       "videoSettings": "🖥 영상 설정",
       "rig": "💻 내 장비",
+      "modList": "🧩 모드 목록",
+      "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
       "spoilerWarning": "⚠️ 스포일러 경고: 이 영상에는 스포일러가 포함될 수 있습니다. 주의하여 시청하세요!",
       "matureWarning": "🔞 성인 콘텐츠 (18+): 폭력 / 강한 언어 / 선정적 콘텐츠를 포함합니다.",
       "sponsorCredit": "🎁 이 게임의 {{platform}} 키를 제공해 주신 {{sponsor}}님께 감사드립니다.",
@@ -97,7 +99,6 @@
       "jump_scares": "😱 점프 스케어"
     },
     "graphics": {
-      "settingSuffix": "Setting",
       "with": "+",
       "artStyle": "아트 스타일",
       "presetOptions": {
@@ -133,7 +134,10 @@
         "hand_drawn": "손 그림",
         "comic": "만화",
         "photorealistic": "포토리얼"
-      }
+      },
+      "videoLabel": "Video",
+      "inGameSettingLabel": "In-game Setting",
+      "versionLabel": "Version"
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE 방송 일시: {{time}}",

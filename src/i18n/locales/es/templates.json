@@ -63,6 +63,8 @@
       "storeLinksDownload": "⬇️ DESCARGA EL JUEGO (si quieres jugar)",
       "videoSettings": "🖥 AJUSTES DE VIDEO",
       "rig": "💻 MI EQUIPO",
+      "modList": "🧩 LISTA DE MODS",
+      "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
       "spoilerWarning": "⚠️ ADVERTENCIA DE SPOILERS: Este video puede contener spoilers. ¡Míralo bajo tu propio riesgo!",
       "matureWarning": "🔞 CONTENIDO PARA ADULTOS (18+): Contiene violencia / lenguaje fuerte / contenido gráfico.",
       "sponsorCredit": "🎁 Gracias a {{sponsor}} por proporcionar la clave de {{platform}} de este juego.",
@@ -97,7 +99,6 @@
       "jump_scares": "😱 Sustos repentinos"
     },
     "graphics": {
-      "settingSuffix": "Setting",
       "with": "con",
       "artStyle": "Estilo Artístico",
       "presetOptions": {
@@ -133,7 +134,10 @@
         "hand_drawn": "Dibujo a mano",
         "comic": "Cómic",
         "photorealistic": "Fotorrealista"
-      }
+      },
+      "videoLabel": "Video",
+      "inGameSettingLabel": "In-game Setting",
+      "versionLabel": "Version"
     },
     "livestream": {
       "scheduledLine": "🔴 EN VIVO el {{time}}",

@@ -29,6 +29,8 @@ export interface EditorDefaults {
   dlcName: string;
   challengeName: string;
   modName: string;
+  /** Long-form mod credit list (multi-line) — only rendered for `mods` videoType. */
+  modList: string;
   /** Livestream-only: live URL on YouTube/Twitch. */
   liveUrl: string;
   /** Livestream-only: ISO scheduled datetime. */
@@ -62,6 +64,13 @@ export interface EditorDefaults {
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
   rig: Record<string, string>;
+  /** Vietnam-specific donate: bank transfer + e-wallet fields. Only
+   *  rendered into the description when output language is Vietnamese. */
+  vnBankName: string;
+  vnBankAccount: string;
+  vnBankHolder: string;
+  vnMomo: string;
+  vnZalopay: string;
 }
 
 export interface SettingsDefaults {
@@ -84,6 +93,7 @@ export const DEFAULTS = {
     dlcName: "",
     challengeName: "",
     modName: "",
+    modList: "",
     liveUrl: "",
     scheduledTime: "",
     resolution: "1080p",
@@ -115,6 +125,11 @@ export const DEFAULTS = {
     storeLinkTypes: {},
     social: {},
     rig: {},
+    vnBankName: "",
+    vnBankAccount: "",
+    vnBankHolder: "",
+    vnMomo: "",
+    vnZalopay: "",
   } satisfies EditorDefaults,
 
   settings: {

@@ -8,6 +8,7 @@ import { TimestampEditor } from "@components/editor/TimestampEditor";
 import { StoreLinkEditor } from "@components/editor/StoreLinkEditor";
 import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
+import { VietnameseDonateEditor } from "@components/editor/VietnameseDonateEditor";
 import { WarningToggles } from "@components/editor/WarningToggles";
 import { ContentDetailsForm } from "@components/editor/ContentDetailsForm";
 import { ThumbnailHelper } from "@components/editor/ThumbnailHelper";
@@ -144,6 +145,7 @@ export function EditorPage() {
         >
           <StoreLinkEditor />
           <SocialEditor />
+          <VietnameseDonateEditor />
         </Accordion>
       </div>
 

@@ -76,12 +76,17 @@ const VENDOR_GFX_BRANDS: Record<
 };
 
 /**
- * Compose the third token of the "🖥 VIDEO SETTINGS" line — e.g.
- * `Cinematic Setting - NVIDIA Frame Generation x2 with Ray Tracing`.
+ * Compose the value half of the "In-game Setting:" line — e.g.
+ * `Cinematic - NVIDIA Frame Generation x2 with Ray Tracing`.
+ *
+ * The `<label>: ` prefix is added by the caller (so the renderer can
+ * emit a multi-line block matching the rig / timestamps style). We drop
+ * the legacy "Setting" suffix here — having both the label AND a
+ * trailing "Setting" word read as redundant ("In-game Setting: Ultra
+ * Setting").
  *
  * Returns an empty string when nothing meaningful can be said (no preset
- * label AND no modifiers AND no RT modes); the caller treats that as
- * "skip this token" rather than emitting an awkward bare string.
+ * label AND no modifiers AND no RT modes); the caller skips the line.
  */
 function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
   // 1. Preset label — `"custom"` reads from the free-form slot; everything
@@ -147,10 +152,8 @@ function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
     // to just the modifier + RT clause, trimmed.
     return `${modifier}${rtClause}`.trim();
   }
-  const settingSuffix = t("description.graphics.settingSuffix");
-  const head = `${presetLabel} ${settingSuffix}`;
   const middle = modifier ? ` - ${modifier}` : "";
-  return `${head}${middle}${rtClause}`;
+  return `${presetLabel}${middle}${rtClause}`;
 }
 
 export interface BuildDescriptionOptions {
@@ -271,24 +274,45 @@ export function buildDescription(
   //    settings games (the user toggles that explicitly; v0.8 phase 2 also
   //    auto-suggests it on certain genres but the toggle is the source of
   //    truth at render time).
+  //
+  //    v0.8 polish: each token now sits on its own line with a label
+  //    ("Video:", "In-game Setting:", "Art Style:", "Version:"), matching
+  //    the key-value-per-line shape of the rig and timestamps blocks.
+  //    Lines with no value are dropped; if every line is dropped, the
+  //    whole section is dropped.
   if (!input.skipGraphicsSettings) {
-    const settings: string[] = [];
-    if (input.resolution) settings.push(input.resolution);
-    if (input.fps) settings.push(`${input.fps} FPS`);
+    const lines: string[] = [];
+
+    // Capture-side: resolution + FPS, joined with " - " on a single line.
+    const captureParts: string[] = [];
+    if (input.resolution) captureParts.push(input.resolution);
+    if (input.fps) captureParts.push(`${input.fps} FPS`);
+    if (captureParts.length > 0) {
+      lines.push(`${t("description.graphics.videoLabel")}: ${captureParts.join(" - ")}`);
+    }
+
+    // In-game side: preset + modifiers + RT.
     const gfxPart = composeGraphicsPart(input, t);
-    if (gfxPart) settings.push(gfxPart);
+    if (gfxPart) {
+      lines.push(`${t("description.graphics.inGameSettingLabel")}: ${gfxPart}`);
+    }
+
+    // Art style — own line so it stays visible alongside the in-game preset.
     if (input.artStyle && input.artStyle !== "none") {
       const styleKey = `description.graphics.artStyleOptions.${input.artStyle}`;
       const styleLabel = t(styleKey);
       if (styleLabel && styleLabel !== styleKey) {
-        settings.push(`${t("description.graphics.artStyle")}: ${styleLabel}`);
+        lines.push(`${t("description.graphics.artStyle")}: ${styleLabel}`);
       }
     }
+
+    // Driver / game version — free-form, own line.
     if (input.versionInfo && input.versionInfo.trim()) {
-      settings.push(input.versionInfo.trim());
+      lines.push(`${t("description.graphics.versionLabel")}: ${input.versionInfo.trim()}`);
     }
-    if (settings.length > 0) {
-      sections.push(`${t("description.sections.videoSettings")}\n${settings.join(" | ")}`);
+
+    if (lines.length > 0) {
+      sections.push(`${t("description.sections.videoSettings")}\n${lines.join("\n")}`);
     }
   }
 
@@ -317,6 +341,21 @@ export function buildDescription(
     if (rigLines) {
       sections.push(`${t("description.sections.rig")}\n${rigLines}`);
     }
+  }
+
+  // 6.5 Mod list — only meaningful for the `mods` videoType. Free-form
+  // multi-line text the creator pastes from their mod manager (Wabbajack,
+  // Vortex, Mod Organizer…). The single-line `modName` field stays in the
+  // title / intro for short identification; this block lists the full
+  // load order for the description.
+  if (
+    input.videoType === "mods" &&
+    input.modList &&
+    input.modList.trim()
+  ) {
+    sections.push(
+      `${t("description.sections.modList")}\n${input.modList.trim()}`,
+    );
   }
 
   // 7. Spoiler Warning
@@ -382,6 +421,32 @@ export function buildDescription(
     .map(([k, v]) => `${SOCIAL_ICONS[k] ?? "💰"} ${getLabelForId(k, SOCIAL_FIELDS)}: ${v}`);
   if (donateEntries.length > 0) {
     sections.push(`${t("description.sections.donate")}\n${donateEntries.join("\n")}`);
+  }
+
+  // 9.5 Vietnam donate (bank + e-wallets) — gated on output language
+  // because non-Vietnamese viewers don't typically use VN bank
+  // transfer / MoMo / ZaloPay. Bank line requires both `vnBankName` and
+  // `vnBankAccount`; holder is decorative. Each e-wallet line is
+  // independent.
+  if (input.language === "vi") {
+    const vnLines: string[] = [];
+    const bankName = input.vnBankName?.trim() ?? "";
+    const bankAccount = input.vnBankAccount?.trim() ?? "";
+    const bankHolder = input.vnBankHolder?.trim() ?? "";
+    if (bankName && bankAccount) {
+      vnLines.push(
+        bankHolder
+          ? `🏦 ${bankName}: ${bankAccount} (${bankHolder})`
+          : `🏦 ${bankName}: ${bankAccount}`,
+      );
+    }
+    const momo = input.vnMomo?.trim() ?? "";
+    if (momo) vnLines.push(`💸 MoMo: ${momo}`);
+    const zalopay = input.vnZalopay?.trim() ?? "";
+    if (zalopay) vnLines.push(`💸 ZaloPay: ${zalopay}`);
+    if (vnLines.length > 0) {
+      sections.push(`${t("description.sections.vnDonate")}\n${vnLines.join("\n")}`);
+    }
   }
 
   // 10. Social Links (use proper labels + icons)

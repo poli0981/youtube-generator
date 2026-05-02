@@ -63,6 +63,8 @@
       "storeLinksDownload": "⬇️ 下载游戏 (如果你想游玩)",
       "videoSettings": "🖥 视频设置",
       "rig": "💻 我的配置",
+      "modList": "🧩 MOD 列表",
+      "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
       "spoilerWarning": "⚠️ 剧透警告：本视频可能包含剧透内容，请自行斟酌观看！",
       "matureWarning": "🔞 成人内容 (18+)：包含暴力 / 强烈语言 / 血腥内容。",
       "sponsorCredit": "🎁 感谢 {{sponsor}} 提供本游戏的 {{platform}} 激活码。",
@@ -97,7 +99,6 @@
       "jump_scares": "😱 惊吓镜头"
     },
     "graphics": {
-      "settingSuffix": "Setting",
       "with": "+",
       "artStyle": "画风",
       "presetOptions": {
@@ -133,7 +134,10 @@
         "hand_drawn": "手绘",
         "comic": "漫画",
         "photorealistic": "超写实"
-      }
+      },
+      "videoLabel": "Video",
+      "inGameSettingLabel": "In-game Setting",
+      "versionLabel": "Version"
     },
     "livestream": {
       "scheduledLine": "🔴 直播时间: {{time}}",

@@ -63,6 +63,8 @@
       "storeLinksDownload": "⬇️ DOWNLOAD THE GAME (if you want to play)",
       "videoSettings": "🖥 VIDEO SETTINGS",
       "rig": "💻 MY RIG",
+      "modList": "🧩 MOD LIST",
+      "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
       "spoilerWarning": "⚠️ SPOILER WARNING: This video may contain spoilers. Watch at your own risk!",
       "matureWarning": "🔞 MATURE CONTENT (18+): Contains violence / strong language / graphic content.",
       "sponsorCredit": "🎁 Thanks to {{sponsor}} for providing the {{platform}} key of this game.",
@@ -97,7 +99,6 @@
       "jump_scares": "😱 Jump scares"
     },
     "graphics": {
-      "settingSuffix": "Setting",
       "with": "with",
       "artStyle": "Art Style",
       "presetOptions": {
@@ -133,7 +134,10 @@
         "hand_drawn": "Hand-drawn",
         "comic": "Comic",
         "photorealistic": "Photorealistic"
-      }
+      },
+      "videoLabel": "Video",
+      "inGameSettingLabel": "In-game Setting",
+      "versionLabel": "Version"
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE on {{time}}",

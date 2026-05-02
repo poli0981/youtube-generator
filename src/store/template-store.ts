@@ -2,7 +2,15 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
 import { saveSettings } from "@utils/storage-adapter";
-import type { VideoType, Genre, SupportedLanguage, StoreLinkType } from "@engine/types";
+import type {
+  VideoType,
+  Genre,
+  SupportedLanguage,
+  StoreLinkType,
+  PlaythroughStatus,
+  DifficultyLevel,
+  ContentWarning,
+} from "@engine/types";
 import type {
   GraphicsPreset,
   RTMode,
@@ -37,6 +45,8 @@ export interface TemplateSnapshot {
   dlcName: string;
   challengeName: string;
   modName: string;
+  /** Long-form mod credit list (v0.8 polish). Optional for back-compat. */
+  modList?: string;
   /** Livestream-only (v0.8 phase 2). Optional for back-compat. */
   liveUrl?: string;
   scheduledTime?: string;
@@ -60,10 +70,25 @@ export interface TemplateSnapshot {
   pinnedComment: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
+  /**
+   * v0.7 phase 2 fields. Marked optional because templates saved before
+   * v0.8 polish don't carry them; `loadProfile` spreads `...patch` onto
+   * the editor state, so missing keys keep the editor's existing values.
+   */
+  playthroughStatus?: PlaythroughStatus;
+  difficulty?: DifficultyLevel;
+  difficultyCustomLabel?: string;
+  contentWarnings?: ContentWarning[];
   storeLinks: Record<string, string>;
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
   rig: Record<string, string>;
+  /** Vietnam donate (v0.8 polish). Optional for back-compat. */
+  vnBankName?: string;
+  vnBankAccount?: string;
+  vnBankHolder?: string;
+  vnMomo?: string;
+  vnZalopay?: string;
 }
 
 export interface EditorTemplate {

@@ -36,6 +36,7 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
       dlcName: editor.dlcName,
       challengeName: editor.challengeName,
       modName: editor.modName,
+      modList: editor.modList,
       liveUrl: editor.liveUrl,
       scheduledTime: editor.scheduledTime,
       resolution: editor.resolution,
@@ -57,10 +58,19 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
       pinnedComment: editor.pinnedComment,
       spoilerWarning: editor.spoilerWarning,
       matureWarning: editor.matureWarning,
+      playthroughStatus: editor.playthroughStatus,
+      difficulty: editor.difficulty,
+      difficultyCustomLabel: editor.difficultyCustomLabel,
+      contentWarnings: [...editor.contentWarnings],
       storeLinks: { ...editor.storeLinks },
       storeLinkTypes: { ...editor.storeLinkTypes },
       social: { ...editor.social },
       rig: { ...editor.rig },
+      vnBankName: editor.vnBankName,
+      vnBankAccount: editor.vnBankAccount,
+      vnBankHolder: editor.vnBankHolder,
+      vnMomo: editor.vnMomo,
+      vnZalopay: editor.vnZalopay,
     };
     addTemplate(name, snapshot);
     toast.success(t("templates.savedAs", { name: name.trim() || "Untitled" }));
