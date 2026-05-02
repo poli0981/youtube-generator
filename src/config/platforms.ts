@@ -87,6 +87,17 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     urlPrefix: "https://www.amazon.com/luna/",
     urlPattern: /^https:\/\/www\.amazon\.com\/[^\s]+$/i,
   },
+  {
+    // Catch-all for indie / niche releases distributed only from a
+    // publisher's or developer's own site. Pattern is intentionally
+    // loose (any HTTPS URL with a host) — these sites don't share a
+    // common shape, and tightening the regex would just lock real
+    // links out of the description.
+    id: "publisher",
+    label: "Publisher / Developer site",
+    urlPrefix: "https://",
+    urlPattern: /^https:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/[^\s]*)?$/i,
+  },
 ] as const;
 
 export type PlatformId = (typeof PLATFORMS)[number]["id"];

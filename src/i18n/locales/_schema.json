@@ -25,6 +25,7 @@
       "videoSettings", "quickPreview", "version",
       "clearDraft", "draftSaved", "clearDraftConfirm"
     ],
+    "editor.toast": ["urlAutoFilled"],
     "editor.playthroughOptions": ["none", "blind", "replay", "newgame_plus", "postgame"],
     "editor.difficultyOptions": ["none", "easy", "normal", "hard", "nightmare", "custom"],
     "editor.contentWarningOptions": ["flashing_lights", "loud_noises", "jump_scares"],
@@ -39,7 +40,7 @@
       "generateAlternatives", "saveAsTemplate"
     ],
     "output.variants": ["default", "typeFirst", "qualityFirst"],
-    "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate"],
+    "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate", "undo"],
     "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],
@@ -53,7 +54,7 @@
     "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy", "showSponsorCredit", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close"],
-    "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch"],
+    "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid"],
     "logs": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
     "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
   },

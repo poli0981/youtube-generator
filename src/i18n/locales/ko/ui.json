@@ -97,7 +97,10 @@
     "clearDraft": "초안 지우기",
     "draftSaved": "초안 저장됨",
     "clearDraftConfirm": "모든 양식 데이터를 지우시겠습니까?",
-    "contactEmailHelp": "최대 3개 이메일, 쉼표로 구분"
+    "contactEmailHelp": "최대 3개 이메일, 쉼표로 구분",
+    "toast": {
+      "urlAutoFilled": "URL에서 '{{name}}'을(를) 자동 채웠습니다"
+    }
   },
   "output": {
     "title": "제목",
@@ -133,7 +136,8 @@
     "import": "가져오기",
     "reset": "초기화",
     "search": "검색",
-    "generate": "생성"
+    "generate": "생성",
+    "undo": "되돌리기"
   },
   "videoTypes": {
     "full": "전체 게임플레이",
@@ -345,7 +349,8 @@
     "emailInvalid": "잘못된 이메일: {{email}}",
     "emailMaxExceeded": "최대 {{max}}개 이메일 허용 (현재 {{count}}개)",
     "urlInvalid": "잘못된 URL입니다. https://로 시작해야 합니다",
-    "urlPrefixMismatch": "{{expected}}로 시작하는 URL이 필요합니다"
+    "urlPrefixMismatch": "{{expected}}로 시작하는 URL이 필요합니다",
+    "playlistUrlInvalid": "잘못된 YouTube 재생목록 URL입니다. 예상 형식: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "유료",

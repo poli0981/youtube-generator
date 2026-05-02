@@ -97,7 +97,10 @@
     "clearDraft": "Xóa bản nháp",
     "draftSaved": "Đã lưu nháp",
     "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?",
-    "contactEmailHelp": "Tối đa 3 email, cách nhau bằng dấu phẩy"
+    "contactEmailHelp": "Tối đa 3 email, cách nhau bằng dấu phẩy",
+    "toast": {
+      "urlAutoFilled": "Đã tự động điền '{{name}}' từ URL"
+    }
   },
   "output": {
     "title": "Tiêu đề",
@@ -133,7 +136,8 @@
     "import": "Nhập",
     "reset": "Đặt lại",
     "search": "Tìm kiếm",
-    "generate": "Tạo"
+    "generate": "Tạo",
+    "undo": "Hoàn tác"
   },
   "videoTypes": {
     "full": "Full Gameplay",
@@ -345,7 +349,8 @@
     "emailInvalid": "Email không hợp lệ: {{email}}",
     "emailMaxExceeded": "Tối đa {{max}} email (hiện tại {{count}})",
     "urlInvalid": "URL không hợp lệ. Phải bắt đầu bằng https://",
-    "urlPrefixMismatch": "URL nên bắt đầu bằng {{expected}}"
+    "urlPrefixMismatch": "URL nên bắt đầu bằng {{expected}}",
+    "playlistUrlInvalid": "URL playlist YouTube không hợp lệ. Định dạng mong muốn: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "Trả phí",

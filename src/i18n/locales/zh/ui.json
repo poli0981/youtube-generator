@@ -97,7 +97,10 @@
     "clearDraft": "清除草稿",
     "draftSaved": "草稿已保存",
     "clearDraftConfirm": "确定要清除所有表单数据吗？",
-    "contactEmailHelp": "最多3个邮箱，用逗号分隔"
+    "contactEmailHelp": "最多3个邮箱，用逗号分隔",
+    "toast": {
+      "urlAutoFilled": "已从URL自动填入「{{name}}」"
+    }
   },
   "output": {
     "title": "标题",
@@ -133,7 +136,8 @@
     "import": "导入",
     "reset": "重置",
     "search": "搜索",
-    "generate": "生成"
+    "generate": "生成",
+    "undo": "撤销"
   },
   "videoTypes": {
     "full": "完整游戏实况",
@@ -345,7 +349,8 @@
     "emailInvalid": "无效邮箱: {{email}}",
     "emailMaxExceeded": "最多允许{{max}}个邮箱 (当前{{count}}个)",
     "urlInvalid": "无效URL。必须以https://开头",
-    "urlPrefixMismatch": "URL应以{{expected}}开头"
+    "urlPrefixMismatch": "URL应以{{expected}}开头",
+    "playlistUrlInvalid": "无效的YouTube播放列表URL。期望格式: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "付费",

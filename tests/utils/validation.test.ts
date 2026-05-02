@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateUrlWithPattern } from "@utils/validation";
+import { validateUrlWithPattern, validatePlaylistUrl } from "@utils/validation";
 import { PLATFORMS } from "@config/platforms";
 
 function platform(id: string) {
@@ -113,5 +113,96 @@ describe("validateUrlWithPattern — itch.io", () => {
 
   it("accepts empty input (not an error)", () => {
     expect(validateUrlWithPattern("", itch.urlPattern).valid).toBe(true);
+  });
+});
+
+describe("validateUrlWithPattern — Publisher / Developer site", () => {
+  const publisher = platform("publisher");
+
+  it("accepts a generic publisher HTTPS URL", () => {
+    expect(
+      validateUrlWithPattern(
+        "https://playmygame.com/buy",
+        publisher.urlPattern,
+      ).valid,
+    ).toBe(true);
+  });
+
+  it("accepts a bare host without path", () => {
+    expect(
+      validateUrlWithPattern("https://playmygame.com", publisher.urlPattern).valid,
+    ).toBe(true);
+  });
+
+  it("rejects http (non-https) URLs", () => {
+    expect(
+      validateUrlWithPattern("http://playmygame.com", publisher.urlPattern).valid,
+    ).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validateUrlWithPattern("", publisher.urlPattern).valid).toBe(true);
+  });
+});
+
+describe("validatePlaylistUrl", () => {
+  it("accepts a canonical playlist URL", () => {
+    const result = validatePlaylistUrl(
+      "https://www.youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHjMZOz59Oq8B1X22",
+    );
+    expect(result.valid).toBe(true);
+    expect(result.error).toBeUndefined();
+  });
+
+  it("accepts a short playlist id", () => {
+    expect(
+      validatePlaylistUrl("https://www.youtube.com/playlist?list=abc_DEF-123").valid,
+    ).toBe(true);
+  });
+
+  it("rejects a watch?v= URL (most common mistake)", () => {
+    const result = validatePlaylistUrl(
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    );
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.playlistUrlInvalid");
+    expect(result.errorParams?.expected).toBe(
+      "https://www.youtube.com/playlist?list=[id]",
+    );
+  });
+
+  it("rejects a watch URL with both v= and list= params", () => {
+    expect(
+      validatePlaylistUrl(
+        "https://www.youtube.com/watch?v=abc&list=PLrAXtmRdnEQy6nuLMHj",
+      ).valid,
+    ).toBe(false);
+  });
+
+  it("rejects a youtu.be short URL", () => {
+    expect(
+      validatePlaylistUrl("https://youtu.be/dQw4w9WgXcQ").valid,
+    ).toBe(false);
+  });
+
+  it("rejects an http (non-https) URL", () => {
+    expect(
+      validatePlaylistUrl("http://www.youtube.com/playlist?list=abc").valid,
+    ).toBe(false);
+  });
+
+  it("rejects a playlist URL with no id", () => {
+    expect(
+      validatePlaylistUrl("https://www.youtube.com/playlist?list=").valid,
+    ).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validatePlaylistUrl("").valid).toBe(true);
+    expect(validatePlaylistUrl("   ").valid).toBe(true);
+  });
+
+  it("rejects a totally unrelated URL", () => {
+    expect(validatePlaylistUrl("https://example.com/playlist").valid).toBe(false);
   });
 });

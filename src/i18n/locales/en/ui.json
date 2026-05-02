@@ -97,7 +97,10 @@
     "clearDraft": "Clear Draft",
     "draftSaved": "Draft saved",
     "clearDraftConfirm": "Are you sure you want to clear all form data?",
-    "contactEmailHelp": "Up to 3 emails, comma-separated"
+    "contactEmailHelp": "Up to 3 emails, comma-separated",
+    "toast": {
+      "urlAutoFilled": "Auto-filled '{{name}}' from URL"
+    }
   },
   "output": {
     "title": "Title",
@@ -133,7 +136,8 @@
     "import": "Import",
     "reset": "Reset",
     "search": "Search",
-    "generate": "Generate"
+    "generate": "Generate",
+    "undo": "Undo"
   },
   "videoTypes": {
     "full": "Full Gameplay",
@@ -345,7 +349,8 @@
     "emailInvalid": "Invalid email: {{email}}",
     "emailMaxExceeded": "Maximum {{max}} emails allowed (currently {{count}})",
     "urlInvalid": "Invalid URL. Must start with https://",
-    "urlPrefixMismatch": "Expected URL starting with {{expected}}"
+    "urlPrefixMismatch": "Expected URL starting with {{expected}}",
+    "playlistUrlInvalid": "Invalid YouTube playlist URL. Expected: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "Paid",

@@ -3,6 +3,57 @@ import { YT_LIMITS } from "./types";
 import { humanizeId } from "@utils/sanitize";
 
 /**
+ * Reserve a 9-char tail for the most common composite suffix (" gameplay").
+ * Composites whose suffix is longer than 9 chars may still get filtered out
+ * by the per-tag char limit, but the bare game name and short composites are
+ * guaranteed to land — fixing the silent-drop case where a long name made
+ * every game-name-bearing tag disappear.
+ */
+const COMPOSITE_NAME_BUDGET = YT_LIMITS.SINGLE_TAG_MAX - 9;
+
+const QUALIFIER_SUFFIX_RE =
+  /[:\s]+(?:Definitive|Complete|Collector'?s?|Deluxe|Game\s+of\s+the\s+Year|GOTY|Ultimate|Special|Anniversary|Remastered|Remake|Enhanced|HD)(?:\s+(?:Edition|Cut|Version))?\s*$/i;
+
+/**
+ * Returns a shortened, tag-friendly form of `name` whose length is ≤ `budget`.
+ *
+ * Strips trademark marks, then iteratively peels off common edition
+ * qualifiers ("Definitive Edition", "Remastered", "GOTY", …). If the result
+ * is still over budget, drops everything after the first colon. Falls back
+ * to picking leading whole words that fit.
+ *
+ * Pure — exported for testing.
+ */
+export function tagFriendlyGameName(name: string, budget: number): string {
+  let n = name.replace(/[™®©]/g, "").trim();
+  let prev: string;
+  do {
+    prev = n;
+    n = n.replace(QUALIFIER_SUFFIX_RE, "").trim();
+  } while (n !== prev);
+
+  if (n.length <= budget) return n;
+
+  const colonIdx = n.indexOf(":");
+  if (colonIdx > 0) {
+    const head = n.slice(0, colonIdx).trim();
+    if (head.length <= budget) return head;
+    n = head;
+  }
+
+  const words = n.split(/\s+/);
+  const acc: string[] = [];
+  let len = 0;
+  for (const w of words) {
+    const sep = acc.length === 0 ? 0 : 1;
+    if (len + sep + w.length > budget) break;
+    acc.push(w);
+    len += sep + w.length;
+  }
+  return acc.join(" ") || n.slice(0, budget);
+}
+
+/**
  * Genre tag pool registry.
  *
  * Each entry returns an array of tags for the given game name. These tags
@@ -286,41 +337,61 @@ export interface TagOptions {
 
 export function generateTags(input: GeneratorInput, options?: TagOptions): string[] {
   const { includeMultilingualTags = true, includeTrendingTags = true } = options ?? {};
-  const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
+  const rawName = input.gameNameLocalized?.[input.language] ?? input.gameName;
+
+  // Two friendly forms of the game name:
+  //   • bareNameTag — fits the per-tag 30-char limit; always added so the
+  //     game name appears as a standalone tag even when long.
+  //   • composeName — shorter still, used inside composite tags like
+  //     `${name} gameplay` so the composites also fit ≤ 30.
+  // For short names both equal `rawName` and behaviour matches v0.7.
+  const bareNameTag =
+    rawName.length <= YT_LIMITS.SINGLE_TAG_MAX
+      ? rawName
+      : tagFriendlyGameName(rawName, YT_LIMITS.SINGLE_TAG_MAX);
+  const composeName =
+    rawName.length <= COMPOSITE_NAME_BUDGET
+      ? rawName
+      : tagFriendlyGameName(rawName, COMPOSITE_NAME_BUDGET);
 
   const allTags: string[] = [];
 
+  // Always seed the bare game-name tag(s) so they survive dedup even when
+  // the pool composites overflow.
+  if (bareNameTag) allTags.push(bareNameTag);
+  if (composeName && composeName !== bareNameTag) allTags.push(composeName);
+
   // Core tags — language-specific (highest priority)
   const coreFn = CORE_TAGS_BY_LANG[input.language] ?? CORE_TAGS_BY_LANG.en;
-  allTags.push(...coreFn(gameName));
+  allTags.push(...coreFn(composeName));
 
   // Genre tags — merge contributions from every selected genre.
   // Final dedup at the bottom collapses overlap across the pools.
   for (const genre of input.genres) {
     const genreFn = GENRE_TAG_REGISTRY[genre];
     if (genreFn) {
-      allTags.push(...genreFn(gameName));
+      allTags.push(...genreFn(composeName));
     }
   }
 
   // Video type tags
   const typeFn = VIDEO_TYPE_TAGS[input.videoType];
   if (typeFn) {
-    allTags.push(...typeFn(gameName));
+    allTags.push(...typeFn(composeName));
   }
 
   // Platform tags
-  allTags.push(...getPlatformTags(gameName, input.platform));
+  allTags.push(...getPlatformTags(composeName, input.platform));
 
   // Quality tags
-  allTags.push(...getQualityTags(gameName, input.resolution, input.fps));
+  allTags.push(...getQualityTags(composeName, input.resolution, input.fps));
 
   // Multilingual tags — only the selected language (v0.3.0 fix: was
   // previously iterating over every language entry).
   if (includeMultilingualTags) {
     const langFn = MULTILINGUAL_TAGS[input.language];
     if (langFn) {
-      allTags.push(...langFn(gameName));
+      allTags.push(...langFn(composeName));
     }
   }
 
@@ -329,7 +400,7 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
   // one headline category that searchers use.
   const primaryGenre = input.genres[0];
   if (includeTrendingTags && primaryGenre) {
-    allTags.push(...getTrendingTags(gameName, primaryGenre));
+    allTags.push(...getTrendingTags(composeName, primaryGenre));
   }
 
   // Dedup (case-insensitive) and enforce per-tag char limit

@@ -24,7 +24,7 @@ import { Accordion } from "@components/ui/Accordion";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useTranslation } from "react-i18next";
-import { validateEmails, validateUrl } from "@utils/validation";
+import { validateEmails, validatePlaylistUrl } from "@utils/validation";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
@@ -100,7 +100,7 @@ export function EditorPage() {
             placeholder={t("editor.playlistLinkPlaceholder")}
             value={store.playlistLink ?? ""}
             onChange={(v) => store.set("playlistLink", v)}
-            validate={validateUrl}
+            validate={validatePlaylistUrl}
           />
           <ValidatedInput
             label={t("editor.contactEmail")}
