@@ -104,9 +104,19 @@ export function validateUrlWithPattern(
  * the genre-playlist suggestion in the pinned-comment template both rely
  * on the link being a real `?list=…` playlist URL — accepting a video URL
  * (`watch?v=…`) here would produce broken output.
+ *
+ * v0.8.1: relaxed from the v0.8 shape so real share URLs go through:
+ * - `www.` is optional (YouTube emits both `www.youtube.com` and
+ *   `youtube.com` depending on context).
+ * - `list=` may sit anywhere in the query string and be flanked by
+ *   other params (`si=…`, `pp=…`, `index=…`, etc.).
+ * - A trailing fragment (`#…`) is tolerated.
+ *
+ * `watch?v=…` URLs and `youtu.be/…` short links remain rejected because
+ * the path must be exactly `/playlist`.
  */
 const YT_PLAYLIST_REGEX =
-  /^https:\/\/www\.youtube\.com\/playlist\?list=[A-Za-z0-9_-]+$/;
+  /^https:\/\/(?:www\.)?youtube\.com\/playlist\?(?:[^#]*&)?list=[A-Za-z0-9_-]+(?:&[^#]*)?(?:#.*)?$/;
 const PLAYLIST_URL_EXPECTED = "https://www.youtube.com/playlist?list=[id]";
 
 export function validatePlaylistUrl(input: string): ValidationResult {

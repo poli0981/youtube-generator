@@ -160,6 +160,38 @@ describe("validatePlaylistUrl", () => {
     ).toBe(true);
   });
 
+  it("accepts a bare youtube.com host without the www. subdomain (v0.8.1 fix)", () => {
+    expect(
+      validatePlaylistUrl(
+        "https://youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHjMZOz59Oq8B1X22",
+      ).valid,
+    ).toBe(true);
+  });
+
+  it("accepts an extra trailing query parameter alongside list= (v0.8.1 fix)", () => {
+    expect(
+      validatePlaylistUrl(
+        "https://www.youtube.com/playlist?list=PLabc&si=xyz123",
+      ).valid,
+    ).toBe(true);
+  });
+
+  it("accepts a list= param sitting after another query param (v0.8.1 fix)", () => {
+    expect(
+      validatePlaylistUrl(
+        "https://www.youtube.com/playlist?si=foo&list=PLabc",
+      ).valid,
+    ).toBe(true);
+  });
+
+  it("accepts a trailing fragment (v0.8.1 fix)", () => {
+    expect(
+      validatePlaylistUrl(
+        "https://www.youtube.com/playlist?list=PLabc#bookmark",
+      ).valid,
+    ).toBe(true);
+  });
+
   it("rejects a watch?v= URL (most common mistake)", () => {
     const result = validatePlaylistUrl(
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
