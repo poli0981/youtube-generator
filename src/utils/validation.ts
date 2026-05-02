@@ -98,3 +98,31 @@ export function validateUrlWithPattern(
 
   return { valid: true };
 }
+
+/**
+ * Strict validator for YouTube playlist URLs. The output description and
+ * the genre-playlist suggestion in the pinned-comment template both rely
+ * on the link being a real `?list=…` playlist URL — accepting a video URL
+ * (`watch?v=…`) here would produce broken output.
+ */
+const YT_PLAYLIST_REGEX =
+  /^https:\/\/www\.youtube\.com\/playlist\?list=[A-Za-z0-9_-]+$/;
+const PLAYLIST_URL_EXPECTED = "https://www.youtube.com/playlist?list=[id]";
+
+export function validatePlaylistUrl(input: string): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!YT_PLAYLIST_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: "validation.playlistUrlInvalid",
+      errorParams: { expected: PLAYLIST_URL_EXPECTED },
+    };
+  }
+
+  return { valid: true };
+}

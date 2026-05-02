@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { generateTags, formatTagString } from "@engine/tag-generator";
+import {
+  generateTags,
+  formatTagString,
+  tagFriendlyGameName,
+} from "@engine/tag-generator";
 import type { GeneratorInput } from "@engine/types";
 
 function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
@@ -141,5 +145,80 @@ describe("formatTagString", () => {
 
   it("returns empty string for empty array", () => {
     expect(formatTagString([])).toBe("");
+  });
+});
+
+describe("tagFriendlyGameName", () => {
+  it("returns the input unchanged when it already fits", () => {
+    expect(tagFriendlyGameName("Elden Ring", 30)).toBe("Elden Ring");
+  });
+
+  it("strips a trailing 'Definitive Edition' qualifier", () => {
+    expect(tagFriendlyGameName("Some Game: Definitive Edition", 30)).toBe(
+      "Some Game",
+    );
+  });
+
+  it("iteratively strips multiple trailing qualifiers", () => {
+    expect(
+      tagFriendlyGameName(
+        "Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition",
+        30,
+      ),
+    ).toBe("Tony Hawk's Pro Skater 1+2");
+  });
+
+  it("strips trademark marks", () => {
+    expect(tagFriendlyGameName("Halo™ Infinite", 30)).toBe("Halo Infinite");
+  });
+
+  it("falls back to the head before a colon when stripping qualifiers isn't enough", () => {
+    expect(
+      tagFriendlyGameName(
+        "A Very Long Subtitle: That Keeps Going Forever Indeed",
+        25,
+      ),
+    ).toBe("A Very Long Subtitle");
+  });
+
+  it("falls back to leading-words truncation for unstoppably long names", () => {
+    expect(
+      tagFriendlyGameName(
+        "An Extremely Verbose Name Without Any Qualifiers Whatsoever",
+        20,
+      ),
+    ).toBe("An Extremely Verbose");
+  });
+});
+
+describe("generateTags — long game names (regression for v0.7 silent drop)", () => {
+  it("includes a friendly form of long game names in the tag list", () => {
+    const longName =
+      "Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition";
+    const tags = generateTags(makeInput({ gameName: longName }));
+    const lowered = tags.map((t) => t.toLowerCase());
+
+    // Some form of the game name appears
+    expect(lowered.some((t) => t.includes("tony hawk"))).toBe(true);
+    // At least one composite mentions the friendly name
+    expect(lowered.some((t) => /tony hawk.*gameplay/.test(t))).toBe(true);
+    // Per-tag char limit is still respected
+    expect(tags.every((t) => t.length <= 30)).toBe(true);
+  });
+
+  it("preserves the original full game name when it fits ≤ 30 chars", () => {
+    const tags = generateTags(makeInput({ gameName: "Elden Ring" }));
+    expect(tags).toContain("Elden Ring");
+  });
+
+  it("emits both the long-form bare tag and the short composite form", () => {
+    // Bare-name budget = 30, compose budget = 21. A 25-char name falls
+    // between these so the two friendly forms differ.
+    const longName = "Some Lengthy Game Title XX"; // 26 chars, no qualifier match
+    const tags = generateTags(makeInput({ gameName: longName }));
+    expect(tags).toContain(longName);
+    // Composite must be present and ≤ 30 chars
+    expect(tags.some((t) => /gameplay/i.test(t))).toBe(true);
+    expect(tags.every((t) => t.length <= 30)).toBe(true);
   });
 });

@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, type ClipboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import type { ValidationResult } from "@utils/validation";
 import clsx from "clsx";
@@ -10,6 +10,13 @@ interface ValidatedInputProps {
   validate: (value: string) => ValidationResult;
   placeholder?: string;
   helpText?: string;
+  /**
+   * Forwarded to the inner `<input>`. Used by StoreLinkEditor to sniff a
+   * pasted URL and auto-fill the Game Name field — see
+   * `extractGameNameFromUrl`. The handler runs alongside the normal paste
+   * flow; nothing here interferes with the value committed via onChange.
+   */
+  onPaste?: (e: ClipboardEvent<HTMLInputElement>) => void;
 }
 
 export function ValidatedInput({
@@ -19,6 +26,7 @@ export function ValidatedInput({
   validate,
   placeholder,
   helpText,
+  onPaste,
 }: ValidatedInputProps) {
   const { t } = useTranslation("ui");
   const [displayValue, setDisplayValue] = useState(value);
@@ -58,6 +66,7 @@ export function ValidatedInput({
         value={displayValue}
         onChange={(e) => handleChange(e.target.value)}
         onBlur={() => setTouched(true)}
+        onPaste={onPaste}
         placeholder={placeholder}
         className={clsx(
           "rounded-lg border bg-surface-1 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50",

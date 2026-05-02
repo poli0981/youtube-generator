@@ -97,7 +97,10 @@
     "clearDraft": "下書きをクリア",
     "draftSaved": "下書き保存済み",
     "clearDraftConfirm": "フォームデータをすべてクリアしますか？",
-    "contactEmailHelp": "最大3つのメール、カンマ区切り"
+    "contactEmailHelp": "最大3つのメール、カンマ区切り",
+    "toast": {
+      "urlAutoFilled": "URLから「{{name}}」を自動入力しました"
+    }
   },
   "output": {
     "title": "タイトル",
@@ -133,7 +136,8 @@
     "import": "インポート",
     "reset": "リセット",
     "search": "検索",
-    "generate": "生成"
+    "generate": "生成",
+    "undo": "元に戻す"
   },
   "videoTypes": {
     "full": "フルゲームプレイ",
@@ -345,7 +349,8 @@
     "emailInvalid": "無効なメール: {{email}}",
     "emailMaxExceeded": "最大{{max}}件のメール (現在{{count}}件)",
     "urlInvalid": "無効なURL。https://で始める必要があります",
-    "urlPrefixMismatch": "{{expected}}で始まるURLが必要です"
+    "urlPrefixMismatch": "{{expected}}で始まるURLが必要です",
+    "playlistUrlInvalid": "無効なYouTubeプレイリストURLです。期待される形式: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "有料",
