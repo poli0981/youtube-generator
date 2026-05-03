@@ -23,12 +23,6 @@ export const VIDEO_TYPES = [
     icon: "🔴",
     extraFields: ["liveUrl", "scheduledTime"],
   },
-  {
-    id: "gacha_quest",
-    labelKey: "videoTypes.gacha_quest",
-    icon: "🎴",
-    extraFields: ["gachaQuestType", "chapterName", "questName", "partNumber"],
-  },
 ] as const;
 
 export type VideoTypeId = (typeof VIDEO_TYPES)[number]["id"];

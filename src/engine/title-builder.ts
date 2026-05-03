@@ -7,11 +7,6 @@ import type {
   TitleBadgeCase,
 } from "./types";
 import { YT_LIMITS } from "./types";
-import {
-  DEFAULT_GACHA_QUEST_TYPE,
-  GACHA_PART_SUFFIX_STYLES,
-  type GachaQuestType,
-} from "@config/gacha-quest-types";
 
 /**
  * Compact "[2K 60FPS]" badge appended to the video-type segment when the
@@ -125,27 +120,6 @@ function composeTitle(args: ComposeArgs): string {
   return parts.join(separator);
 }
 
-/**
- * Build the per-quest-type partNumber suffix for a gacha title — e.g.
- * `" - Part 5"`, `" - Day 3"`, `" - Floor 12"`. Driven by the
- * {@link GACHA_PART_SUFFIX_STYLES} mapping so each quest type renders
- * its own canonical wording. Returns an empty string when the part
- * number is blank or the quest type doesn't carry a suffix.
- */
-export function buildGachaPartSuffix(
-  questType: GachaQuestType,
-  partNumber: string | undefined,
-  t: TranslationFn,
-): string {
-  const n = (partNumber ?? "").trim();
-  if (!n) return "";
-  const style = GACHA_PART_SUFFIX_STYLES[questType];
-  if (style === "none") return "";
-  const key = `title.gachaPartSuffix.${style}`;
-  const resolved = t(key, { n });
-  return resolved && resolved !== key ? resolved : "";
-}
-
 export function buildTitle(
   input: GeneratorInput,
   t: TranslationFn,
@@ -161,38 +135,6 @@ export function buildTitle(
 
   const suffix = t("title.suffix");
 
-  const gameName =
-    input.gameNameLocalized?.[input.language] ?? input.gameName;
-
-  let badge = opts.showQualityBadge ? buildQualityBadge(input.resolution, input.fps) : "";
-  if (badge && opts.badgeCase === "lower") badge = badge.toLowerCase();
-
-  // Gacha-quest titles compose their own head segment via the
-  // per-quest-type i18n template (which already embeds gameName +
-  // chapterName / questName + the optional partSuffix). The standard
-  // suffix ("Gameplay No Commentary") still tails the result, and the
-  // quality badge respects `badgePosition` as usual.
-  if (input.videoType === "gacha_quest") {
-    const questType = input.gachaQuestType ?? DEFAULT_GACHA_QUEST_TYPE;
-    const partSuffix = buildGachaPartSuffix(questType, input.partNumber, t);
-    const gachaHeadKey = `title.gachaQuestType.${questType}`;
-    const gachaHead = t(gachaHeadKey, {
-      gameName,
-      chapterName: input.chapterName ?? "",
-      questName: input.questName ?? "",
-      partSuffix,
-    });
-
-    return composeTitle({
-      gameName: gachaHead,
-      videoTypeLabel: "",
-      suffix,
-      badge,
-      separator,
-      position: opts.badgePosition,
-    });
-  }
-
   const videoTypeLabel = t(`title.videoType.${input.videoType}`, {
     partNumber: input.partNumber ?? "",
     bossName: input.bossName ?? "",
@@ -200,6 +142,12 @@ export function buildTitle(
     challengeName: input.challengeName ?? "",
     modName: input.modName ?? "",
   });
+
+  const gameName =
+    input.gameNameLocalized?.[input.language] ?? input.gameName;
+
+  let badge = opts.showQualityBadge ? buildQualityBadge(input.resolution, input.fps) : "";
+  if (badge && opts.badgeCase === "lower") badge = badge.toLowerCase();
 
   return composeTitle({
     gameName,

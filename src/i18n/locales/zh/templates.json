@@ -27,32 +27,7 @@
       "guide": "无声攻略",
       "mods": "{{modName}} Mod",
       "collectibles": "全收集要素",
-      "livestream": "🔴 直播",
-      "gacha_quest": ""
-    },
-    "gachaQuestType": {
-      "main_story": "{{gameName}} — {{chapterName}}{{partSuffix}}",
-      "world_quest": "{{gameName}} — World Quest: {{questName}}",
-      "side_quest": "{{gameName}} — Side Quest: {{questName}}",
-      "spinoff_quest": "{{gameName}} — Spinoff: {{questName}}",
-      "companion_quest": "{{gameName}} — Companion Quest: {{questName}}",
-      "bond_quest": "{{gameName}} — Bond Quest: {{questName}}",
-      "event": "{{gameName}} — Event: {{questName}}",
-      "anniversary": "{{gameName}} — {{chapterName}} Anniversary{{partSuffix}}",
-      "crossover": "{{gameName}} — Crossover: {{questName}}",
-      "dating_event": "{{gameName}} — Dating Event: {{questName}}",
-      "tutorial_quest": "{{gameName}} — Tutorial: {{questName}}",
-      "guide_quest": "{{gameName}} — Guide: {{questName}}",
-      "trial_quest": "{{gameName}} — Trial: {{questName}}",
-      "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
-      "coop": "{{gameName}} — Co-op: {{questName}}",
-      "daily_commission": "{{gameName}} — Daily Commissions{{partSuffix}}",
-      "showcase": "{{gameName}} — Showcase: {{questName}}"
-    },
-    "gachaPartSuffix": {
-      "part": " - Part {{n}}",
-      "day": " - Day {{n}}",
-      "floor": " - Floor {{n}}"
+      "livestream": "🔴 直播"
     }
   },
   "description": {
@@ -75,24 +50,7 @@
       "guide": "本视频展示了{{channelName}}的{{gameName}}无声攻略。",
       "mods": "本视频展示了{{channelName}}的{{gameName}}之{{modName}} Mod游玩。",
       "collectibles": "本视频展示了{{channelName}}的{{gameName}}全收集要素与100%完成度。",
-      "livestream": "{{channelName}} 频道正在直播 {{gameName}}。来聊天室打个招呼吧！",
-      "gacha_quest_main_story": "Welcome to {{chapterName}} of {{gameName}} on {{channelName}}!",
-      "gacha_quest_world_quest": "Today's video covers the World Quest \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_side_quest": "Side Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_spinoff_quest": "Spinoff quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_companion_quest": "Companion Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_bond_quest": "Bond Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_event": "Limited-time Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_anniversary": "{{chapterName}} Anniversary celebration in {{gameName}} on {{channelName}}.",
-      "gacha_quest_crossover": "Crossover Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_dating_event": "Dating Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_tutorial_quest": "Tutorial \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_guide_quest": "Guide Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_trial_quest": "Trial Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
-      "gacha_quest_endgame": "Endgame mode \"{{chapterName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_coop": "Co-op session \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_daily_commission": "Daily Commissions in {{gameName}} on {{channelName}}.",
-      "gacha_quest_showcase": "Showcase \"{{questName}}\" from {{gameName}} on {{channelName}}."
+      "livestream": "{{channelName}} 频道正在直播 {{gameName}}。来聊天室打个招呼吧！"
     },
     "noCommentaryLine": "无解说 — 纯粹的游戏体验，尽情享受。",
     "storeLinkSuffix": {
@@ -211,8 +169,7 @@
       "guide": "希望这份无解说攻略对你有帮助。时间戳在描述中。",
       "mods": "MOD 实况 — 完整加载顺序和致谢在描述中。",
       "collectibles": "全收集一期完成。感谢大家支持！",
-      "livestream": "欢迎来到 {{gameName}} 直播！记得在聊天室打个招呼 👋",
-      "gacha_quest": "Welcome back to {{gameName}} on {{channelName}}!"
+      "livestream": "欢迎来到 {{gameName}} 直播！记得在聊天室打个招呼 👋"
     }
   },
   "hashtags": {

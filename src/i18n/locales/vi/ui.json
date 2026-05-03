@@ -42,37 +42,6 @@
     "modNamePlaceholder": "vd: Requiem, NaturalVision Evolved",
     "modList": "Danh sách mod",
     "modListPlaceholder": "Liệt kê các mod đã dùng, mỗi mod một dòng. Có thể paste trực tiếp từ mod manager.",
-    "gachaQuestType": "Loại nhiệm vụ",
-    "gachaQuestTypeOptions": {
-      "main_story": "Cốt truyện chính",
-      "world_quest": "Nhiệm vụ thế giới",
-      "side_quest": "Nhiệm vụ phụ",
-      "spinoff_quest": "Nhiệm vụ ngoại truyện",
-      "companion_quest": "Nhiệm vụ đồng hành",
-      "bond_quest": "Nhiệm vụ thân mật",
-      "event": "Sự kiện",
-      "anniversary": "Kỷ niệm",
-      "crossover": "Crossover",
-      "dating_event": "Sự kiện hẹn hò",
-      "tutorial_quest": "Hướng dẫn",
-      "guide_quest": "Nhiệm vụ chỉ dẫn",
-      "trial_quest": "Nhiệm vụ thử thách",
-      "endgame": "Chế độ cuối game",
-      "coop": "Co-op",
-      "daily_commission": "Nhiệm vụ hàng ngày",
-      "showcase": "Showcase"
-    },
-    "gachaQuestTypeGroups": {
-      "story": "Cốt truyện",
-      "events": "Sự kiện",
-      "tutorial_trial": "Hướng dẫn / Thử thách",
-      "endgame_multiplayer": "Cuối game / Nhiều người chơi",
-      "showcase": "Showcase"
-    },
-    "chapterName": "Chương / Cốt truyện",
-    "chapterNamePlaceholder": "vd: Chương 5 Hồi 2 — Nơi Vì Sao Rơi",
-    "questName": "Tên nhiệm vụ",
-    "questNamePlaceholder": "vd: Chòm Sao Đơn Độc",
     "vnDonate": "Donate (Việt Nam)",
     "vnDonateHelp": "Chỉ hiển thị trong description khi ngôn ngữ đầu ra là Tiếng Việt.",
     "vnBankName": "Tên ngân hàng",
@@ -274,8 +243,7 @@
     "guide": "Hướng dẫn",
     "mods": "Chơi với Mod",
     "collectibles": "Full Sưu Tầm",
-    "livestream": "Livestream",
-    "gacha_quest": "Game Gacha"
+    "livestream": "Livestream"
   },
   "genres": {
     "action": "Hành động / Phiêu lưu",

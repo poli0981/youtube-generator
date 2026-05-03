@@ -3,7 +3,6 @@ import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
 import { SOCIAL_FIELDS } from "@config/social-fields";
 import { formatRigValue } from "@config/rig-fields";
-import { DEFAULT_GACHA_QUEST_TYPE } from "@config/gacha-quest-types";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
 import { sanitizeHashtag } from "@utils/sanitize";
 
@@ -185,17 +184,8 @@ export function buildDescription(
   const gameName =
     input.gameNameLocalized?.[input.language] ?? input.gameName;
 
-  // 1. Intro. Gacha videos dispatch on `gachaQuestType` so each of the
-  // 17 patterns can frame the description with its own opening line
-  // ("World Quest …", "Spiral Abyss endgame", "Dating Event …"). All
-  // other video types fall through to the flat `description.intro.<id>`
-  // shape that's been around since v0.2.
-  let introKey = `description.intro.${input.videoType}`;
-  if (input.videoType === "gacha_quest") {
-    const questType = input.gachaQuestType ?? DEFAULT_GACHA_QUEST_TYPE;
-    introKey = `description.intro.gacha_quest_${questType}`;
-  }
-  const intro = t(introKey, {
+  // 1. Intro
+  const intro = t(`description.intro.${input.videoType}`, {
     gameName,
     channelName: input.channelName,
     partNumber: input.partNumber ?? "",
@@ -203,8 +193,6 @@ export function buildDescription(
     dlcName: input.dlcName ?? "",
     challengeName: input.challengeName ?? "",
     modName: input.modName ?? "",
-    chapterName: input.chapterName ?? "",
-    questName: input.questName ?? "",
   });
   sections.push(intro);
 

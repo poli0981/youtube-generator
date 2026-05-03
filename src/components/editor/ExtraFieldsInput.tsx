@@ -2,10 +2,6 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/Input";
 import { Textarea } from "@components/ui/Textarea";
 import { VIDEO_TYPES } from "@config/video-types";
-import {
-  GACHA_QUEST_TYPE_GROUPS,
-  type GachaQuestType,
-} from "@config/gacha-quest-types";
 import { useEditorStore } from "@store/editor-store";
 
 /**
@@ -24,53 +20,6 @@ export function ExtraFieldsInput() {
 
   return (
     <div className="flex flex-col gap-3">
-      {extraFields.includes("gachaQuestType") && (
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="gacha-quest-type"
-            className="text-sm font-medium text-text-secondary"
-          >
-            {t("editor.gachaQuestType")}
-          </label>
-          <select
-            id="gacha-quest-type"
-            value={store.gachaQuestType ?? "main_story"}
-            onChange={(e) =>
-              store.set("gachaQuestType", e.target.value as GachaQuestType)
-            }
-            className="rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
-          >
-            {GACHA_QUEST_TYPE_GROUPS.map((g) => (
-              <optgroup
-                key={g.group}
-                label={t(`editor.gachaQuestTypeGroups.${g.group}`)}
-              >
-                {g.members.map((m) => (
-                  <option key={m} value={m}>
-                    {t(`editor.gachaQuestTypeOptions.${m}`)}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </div>
-      )}
-      {extraFields.includes("chapterName") && (
-        <Input
-          label={t("editor.chapterName")}
-          placeholder={t("editor.chapterNamePlaceholder")}
-          value={store.chapterName ?? ""}
-          onChange={(e) => store.set("chapterName", e.target.value)}
-        />
-      )}
-      {extraFields.includes("questName") && (
-        <Input
-          label={t("editor.questName")}
-          placeholder={t("editor.questNamePlaceholder")}
-          value={store.questName ?? ""}
-          onChange={(e) => store.set("questName", e.target.value)}
-        />
-      )}
       {extraFields.includes("partNumber") && (
         <Input
           label={t("editor.partNumber")}

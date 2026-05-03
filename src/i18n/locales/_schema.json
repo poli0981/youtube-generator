@@ -10,9 +10,6 @@
       "dlcName", "dlcNamePlaceholder", "challengeName", "challengeNamePlaceholder",
       "modName", "modNamePlaceholder",
       "modList", "modListPlaceholder",
-      "gachaQuestType",
-      "chapterName", "chapterNamePlaceholder",
-      "questName", "questNamePlaceholder",
       "vnDonate", "vnDonateHelp",
       "vnBankName", "vnBankNamePlaceholder",
       "vnBankAccount", "vnBankAccountPlaceholder",
@@ -52,14 +49,6 @@
     "editor.playthroughOptions": ["none", "blind", "replay", "newgame_plus", "postgame"],
     "editor.difficultyOptions": ["none", "easy", "normal", "hard", "nightmare", "custom"],
     "editor.contentWarningOptions": ["flashing_lights", "loud_noises", "jump_scares"],
-    "editor.gachaQuestTypeOptions": [
-      "main_story", "world_quest", "side_quest", "spinoff_quest", "companion_quest", "bond_quest",
-      "event", "anniversary", "crossover", "dating_event",
-      "tutorial_quest", "guide_quest", "trial_quest",
-      "endgame", "coop", "daily_commission",
-      "showcase"
-    ],
-    "editor.gachaQuestTypeGroups": ["story", "events", "tutorial_trial", "endgame_multiplayer", "showcase"],
     "storeLinkTypes": ["paid", "free", "demo"],
     "output": [
       "title", "description", "tags",
@@ -72,7 +61,7 @@
     ],
     "output.variants": ["default", "typeFirst", "qualityFirst"],
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate", "undo", "dismiss"],
-    "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream", "gacha_quest"],
+    "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],
     "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs", "bluesky", "mastodon", "facebook", "fb_page", "fb_group"],
@@ -92,23 +81,8 @@
   "templates": {
     "title": ["separator", "suffix"],
     "title.separators": ["emDash", "hyphen", "colon", "pipe"],
-    "title.videoType": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream", "gacha_quest"],
-    "title.gachaQuestType": [
-      "main_story", "world_quest", "side_quest", "spinoff_quest", "companion_quest", "bond_quest",
-      "event", "anniversary", "crossover", "dating_event",
-      "tutorial_quest", "guide_quest", "trial_quest",
-      "endgame", "coop", "daily_commission",
-      "showcase"
-    ],
-    "title.gachaPartSuffix": ["part", "day", "floor"],
-    "description.intro": [
-      "full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream",
-      "gacha_quest_main_story", "gacha_quest_world_quest", "gacha_quest_side_quest", "gacha_quest_spinoff_quest", "gacha_quest_companion_quest", "gacha_quest_bond_quest",
-      "gacha_quest_event", "gacha_quest_anniversary", "gacha_quest_crossover", "gacha_quest_dating_event",
-      "gacha_quest_tutorial_quest", "gacha_quest_guide_quest", "gacha_quest_trial_quest",
-      "gacha_quest_endgame", "gacha_quest_coop", "gacha_quest_daily_commission",
-      "gacha_quest_showcase"
-    ],
+    "title.videoType": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream"],
+    "description.intro": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream"],
     "description": ["noCommentaryLine"],
     "description.sections": [
       "timestamps", "storeLinksBuy", "storeLinksDownload", "videoSettings", "rig",
@@ -132,8 +106,7 @@
     "pinnedComment.greetings": [
       "full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending",
       "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest",
-      "secret", "comparison", "guide", "mods", "collectibles", "livestream",
-      "gacha_quest"
+      "secret", "comparison", "guide", "mods", "collectibles", "livestream"
     ],
     "hashtags": ["gameplay", "noCommentary", "genre"],
     "playlist.status": ["completed", "dropped", "incomplete", "in_progress"],
