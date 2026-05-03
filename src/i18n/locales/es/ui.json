@@ -42,6 +42,37 @@
     "modNamePlaceholder": "ej. Requiem, NaturalVision Evolved",
     "modList": "Mod List",
     "modListPlaceholder": "List the mods you used, one per line. Paste from your mod manager works.",
+    "gachaQuestType": "Quest Type",
+    "gachaQuestTypeOptions": {
+      "main_story": "Main Story",
+      "world_quest": "World Quest",
+      "side_quest": "Side Quest",
+      "spinoff_quest": "Spinoff Quest",
+      "companion_quest": "Companion Quest",
+      "bond_quest": "Bond Quest",
+      "event": "Event",
+      "anniversary": "Anniversary",
+      "crossover": "Crossover",
+      "dating_event": "Dating Event",
+      "tutorial_quest": "Tutorial",
+      "guide_quest": "Guide Quest",
+      "trial_quest": "Trial Quest",
+      "endgame": "Endgame Mode",
+      "coop": "Co-op",
+      "daily_commission": "Daily Commissions",
+      "showcase": "Showcase"
+    },
+    "gachaQuestTypeGroups": {
+      "story": "Story",
+      "events": "Events",
+      "tutorial_trial": "Tutorial / Trial",
+      "endgame_multiplayer": "Endgame / Multiplayer",
+      "showcase": "Showcase"
+    },
+    "chapterName": "Chapter / Story Arc",
+    "chapterNamePlaceholder": "e.g. Chapter 5 Act 2: Where the Stars Fall",
+    "questName": "Quest Name",
+    "questNamePlaceholder": "e.g. A Solitary Constellation",
     "vnDonate": "Donate (Vietnam)",
     "vnDonateHelp": "Only rendered into the description when output language is Vietnamese.",
     "vnBankName": "Bank name",
@@ -243,7 +274,8 @@
     "guide": "Guía Silenciosa",
     "mods": "Gameplay con Mods",
     "collectibles": "Todos los Coleccionables",
-    "livestream": "Livestream"
+    "livestream": "Livestream",
+    "gacha_quest": "Gacha Quest"
   },
   "genres": {
     "action": "Acción / Aventura",
