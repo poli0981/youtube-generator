@@ -29,10 +29,32 @@ export function useKeyboardShortcuts({ onToggleHelp }: ShortcutOptions) {
       } else if (ctrl && e.key === "/") {
         e.preventDefault();
         onToggleHelp();
+      } else if (
+        // Bare `?` (Shift+/) opens the cheatsheet too. Skip when the
+        // user is typing into a form field — `?` is a legitimate
+        // character in titles, descriptions, and other inputs.
+        e.key === "?" &&
+        !ctrl &&
+        !isEditableTarget(e.target)
+      ) {
+        e.preventDefault();
+        onToggleHelp();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [navigate, output.title, output.description, copy, onToggleHelp]);
+}
+
+/**
+ * True when the keydown target is an input the user might be typing
+ * into. Used to gate bare-character shortcuts (e.g. `?`) so they don't
+ * hijack normal text entry.
+ */
+function isEditableTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return true;
+  return target.isContentEditable;
 }

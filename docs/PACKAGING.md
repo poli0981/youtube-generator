@@ -239,48 +239,26 @@ Output locations:
 
 ### GitHub Actions Release
 
-```yaml
-# .github/workflows/release-desktop.yml
-name: Release Desktop
+The live workflow lives at [.github/workflows/release-desktop.yml](../.github/workflows/release-desktop.yml). Pushing a `v*` tag (e.g. `v0.10.0`) triggers a four-platform matrix build (Windows, macOS Intel, macOS ARM, Linux) and uploads each installer to a single draft GitHub Release named `YTDescGen v__VERSION__`. Publish the draft manually after smoke-testing the binaries.
 
-on:
-  push:
-    tags: ["v*"]
+Matrix entries (v0.9 phase 2):
 
-permissions:
-  contents: write
+| Runner | Target | Output |
+|---|---|---|
+| `windows-latest` | `x86_64-pc-windows-msvc` | `.msi`, `.exe` (NSIS) |
+| `macos-13` | `x86_64-apple-darwin` | `.dmg`, `.app.tar.gz` |
+| `macos-14` | `aarch64-apple-darwin` | `.dmg`, `.app.tar.gz` |
+| `ubuntu-latest` | `x86_64-unknown-linux-gnu` | `.AppImage`, `.deb` |
 
-jobs:
-  build:
-    strategy:
-      matrix:
-        include:
-          - os: windows-latest
-            target: x86_64-pc-windows-msvc
-          - os: macos-latest
-            target: aarch64-apple-darwin
-          - os: macos-latest
-            target: x86_64-apple-darwin
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-      - run: npm ci
-      - uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tagName: v__VERSION__
-          releaseName: "YTDescGen v__VERSION__"
-          releaseBody: "See CHANGELOG.md for details."
-          releaseDraft: true
-```
+Linux runners install `libwebkit2gtk-4.1-dev`, `libgtk-3-dev`, `libayatana-appindicator3-dev`, `librsvg2-dev`, and `patchelf` before building — Tauri's webview + AppImage tooling needs these.
+
+`fail-fast: false` keeps the other platforms going if one breaks. `args: --target ${{ matrix.target }}` is passed through to `tauri build` so each runner uses its explicit target triple.
+
+**Code signing is intentionally skipped** for both Windows and macOS — this is an open-source personal tool, and signing certificates carry recurring cost. End users will see the standard "unverified publisher" / "unidentified developer" prompts on first launch. Document the bypass steps in the release notes if needed.
+
+**Auto-changelog** (`git-cliff`) is out of scope; release notes come from the tag's annotated message via the default `tauri-action` behaviour. CHANGELOG.md is hand-maintained.
+
+**Backfill for pre-workflow tags:** `v0.8.0` and `v0.8.1` predate the multi-platform matrix and only have local Windows builds. To attach binaries retroactively, build manually then `gh release create v0.8.0 --notes-file CHANGELOG.md path/to/*.msi …`.
 
 ## Auto-Update Flow
 

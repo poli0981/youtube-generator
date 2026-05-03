@@ -209,6 +209,13 @@
     "clearDraft": "초안 지우기",
     "draftSaved": "초안 저장됨",
     "clearDraftConfirm": "모든 양식 데이터를 지우시겠습니까?",
+    "genreSearchPlaceholder": "장르 검색",
+    "genreSearchNoResults": "일치하는 장르 없음",
+    "genreGroups": {
+      "rpg": "모든 RPG",
+      "shooter": "모든 슈터",
+      "horror": "모든 호러"
+    },
     "contactEmailHelp": "최대 3개 이메일, 쉼표로 구분",
     "toast": {
       "urlAutoFilled": "URL에서 '{{name}}'을(를) 자동 채웠습니다"
@@ -465,7 +472,9 @@
     "copyAll": "전체 복사",
     "saveDraft": "초안 저장",
     "help": "도움말",
-    "close": "닫기"
+    "close": "닫기",
+    "searchPlaceholder": "단축키 검색",
+    "noResults": "일치하는 단축키 없음"
   },
   "validation": {
     "emailInvalid": "잘못된 이메일: {{email}}",

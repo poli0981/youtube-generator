@@ -209,6 +209,13 @@
     "clearDraft": "清除草稿",
     "draftSaved": "草稿已保存",
     "clearDraftConfirm": "确定要清除所有表单数据吗？",
+    "genreSearchPlaceholder": "搜索类型",
+    "genreSearchNoResults": "未找到类型",
+    "genreGroups": {
+      "rpg": "所有 RPG",
+      "shooter": "所有射击",
+      "horror": "所有恐怖"
+    },
     "contactEmailHelp": "最多3个邮箱，用逗号分隔",
     "toast": {
       "urlAutoFilled": "已从URL自动填入「{{name}}」"
@@ -465,7 +472,9 @@
     "copyAll": "复制全部",
     "saveDraft": "保存草稿",
     "help": "帮助",
-    "close": "关闭"
+    "close": "关闭",
+    "searchPlaceholder": "搜索快捷键",
+    "noResults": "未找到快捷键"
   },
   "validation": {
     "emailInvalid": "无效邮箱: {{email}}",

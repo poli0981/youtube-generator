@@ -209,6 +209,13 @@
     "clearDraft": "Xóa bản nháp",
     "draftSaved": "Đã lưu nháp",
     "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?",
+    "genreSearchPlaceholder": "Tìm thể loại",
+    "genreSearchNoResults": "Không có thể loại phù hợp",
+    "genreGroups": {
+      "rpg": "Tất cả RPG",
+      "shooter": "Tất cả Shooter",
+      "horror": "Tất cả Horror"
+    },
     "contactEmailHelp": "Tối đa 3 email, cách nhau bằng dấu phẩy",
     "toast": {
       "urlAutoFilled": "Đã tự động điền '{{name}}' từ URL"
@@ -465,7 +472,9 @@
     "copyAll": "Sao chép tất cả",
     "saveDraft": "Lưu nháp",
     "help": "Hiện phím tắt",
-    "close": "Đóng"
+    "close": "Đóng",
+    "searchPlaceholder": "Tìm phím tắt",
+    "noResults": "Không có phím tắt phù hợp"
   },
   "validation": {
     "emailInvalid": "Email không hợp lệ: {{email}}",

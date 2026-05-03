@@ -209,6 +209,13 @@
     "clearDraft": "Clear Draft",
     "draftSaved": "Draft saved",
     "clearDraftConfirm": "Are you sure you want to clear all form data?",
+    "genreSearchPlaceholder": "Search genres",
+    "genreSearchNoResults": "No matching genres",
+    "genreGroups": {
+      "rpg": "All RPGs",
+      "shooter": "All Shooters",
+      "horror": "All Horror"
+    },
     "contactEmailHelp": "Up to 3 emails, comma-separated",
     "toast": {
       "urlAutoFilled": "Auto-filled '{{name}}' from URL"
@@ -465,7 +472,9 @@
     "copyAll": "Copy All",
     "saveDraft": "Save Draft",
     "help": "Show Shortcuts",
-    "close": "Close Modal"
+    "close": "Close Modal",
+    "searchPlaceholder": "Search shortcuts",
+    "noResults": "No matching shortcuts"
   },
   "validation": {
     "emailInvalid": "Invalid email: {{email}}",
