@@ -45,6 +45,7 @@
     "editor.upscaleQualityOptions": ["none", "native_aa", "quality", "balanced", "performance", "ultra_performance"],
     "editor.artStyleOptions": ["none", "realistic", "stylized", "anime", "cel_shaded", "low_poly", "voxel", "pixel_art", "hand_drawn", "comic", "photorealistic"],
     "editor.toast": ["urlAutoFilled"],
+    "editor.warning": ["linkNameMismatch"],
     "editor.playthroughOptions": ["none", "blind", "replay", "newgame_plus", "postgame"],
     "editor.difficultyOptions": ["none", "easy", "normal", "hard", "nightmare", "custom"],
     "editor.contentWarningOptions": ["flashing_lights", "loud_noises", "jump_scares"],
@@ -59,7 +60,7 @@
       "generateAlternatives", "saveAsTemplate"
     ],
     "output.variants": ["default", "typeFirst", "qualityFirst"],
-    "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate", "undo"],
+    "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate", "undo", "dismiss"],
     "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
     "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],

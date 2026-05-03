@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import type { ClipboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
@@ -6,10 +7,19 @@ import { Select } from "@components/ui/Select";
 import { PLATFORMS } from "@config/platforms";
 import { useEditorStore } from "@store/editor-store";
 import { validateUrlWithPattern } from "@utils/validation";
-import { extractGameNameFromUrl } from "@utils/url-extractors";
+import {
+  extractGameNameFromUrl,
+  isLinkNameMismatch,
+} from "@utils/url-extractors";
 import type { StoreLinkType } from "@engine/types";
 
 const STORE_LINK_TYPE_VALUES: readonly StoreLinkType[] = ["paid", "free", "demo"];
+
+interface MismatchInfo {
+  host: string;
+  suggestedName: string;
+  fingerprint: string;
+}
 
 export function StoreLinkEditor() {
   const { t } = useTranslation("ui");
@@ -20,10 +30,40 @@ export function StoreLinkEditor() {
   const setNested = useEditorStore((s) => s.setNested);
   const setStoreLinkType = useEditorStore((s) => s.setStoreLinkType);
 
+  const [dismissedFingerprints, setDismissedFingerprints] = useState<
+    ReadonlySet<string>
+  >(new Set());
+
   const typeOptions = STORE_LINK_TYPE_VALUES.map((value) => ({
     value,
     label: t(`storeLinkTypes.${value}`),
   }));
+
+  // Find the first store link whose extracted name doesn't fit the
+  // typed Game Name (subset-tolerant check). Iteration order is
+  // PLATFORMS order. Dismissed fingerprints are skipped so a chain of
+  // mismatches surfaces one at a time.
+  const mismatch = useMemo<MismatchInfo | null>(() => {
+    const trimmed = gameName.trim();
+    if (!trimmed) return null;
+    for (const platform of PLATFORMS) {
+      const url = (storeLinks[platform.id] ?? "").trim();
+      if (!url) continue;
+      if (!isLinkNameMismatch(trimmed, url)) continue;
+      const suggestedName = extractGameNameFromUrl(url);
+      if (!suggestedName) continue;
+      const fingerprint = `${trimmed}|${url}`;
+      if (dismissedFingerprints.has(fingerprint)) continue;
+      let host: string;
+      try {
+        host = new URL(url).host;
+      } catch {
+        continue;
+      }
+      return { host, suggestedName, fingerprint };
+    }
+    return null;
+  }, [gameName, storeLinks, dismissedFingerprints]);
 
   // When a recognised store URL is pasted into any link input AND the
   // Game Name field is still empty, auto-fill it from the URL slug. The
@@ -60,6 +100,31 @@ export function StoreLinkEditor() {
   return (
     <div className="flex flex-col gap-3">
       <span className="text-sm font-medium text-text-secondary">{t("editor.storeLinks")}</span>
+      {mismatch && (
+        <div className="flex items-start gap-2 rounded-lg border border-warning bg-surface-2 px-3 py-2 text-sm">
+          <span className="flex-1 text-text-primary">
+            {t("editor.warning.linkNameMismatch", {
+              host: mismatch.host,
+              suggestedName: mismatch.suggestedName,
+              gameName: gameName.trim(),
+            })}
+          </span>
+          <button
+            type="button"
+            aria-label={t("common.dismiss")}
+            className="shrink-0 rounded px-2 py-0.5 text-base leading-none text-text-secondary hover:bg-surface-1"
+            onClick={() =>
+              setDismissedFingerprints((prev) => {
+                const next = new Set(prev);
+                next.add(mismatch.fingerprint);
+                return next;
+              })
+            }
+          >
+            ×
+          </button>
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         {PLATFORMS.map((platform) => {
           const currentType = storeLinkTypes[platform.id] ?? "paid";

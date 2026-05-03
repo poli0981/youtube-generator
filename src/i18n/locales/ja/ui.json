@@ -181,6 +181,9 @@
     "contactEmailHelp": "最大3つのメール、カンマ区切り",
     "toast": {
       "urlAutoFilled": "URLから「{{name}}」を自動入力しました"
+    },
+    "warning": {
+      "linkNameMismatch": "リンクを確認して再追加してください — 「{{host}}」は「{{suggestedName}}」を指していますが、ゲーム名は「{{gameName}}」です。"
     }
   },
   "output": {
@@ -218,7 +221,8 @@
     "reset": "リセット",
     "search": "検索",
     "generate": "生成",
-    "undo": "元に戻す"
+    "undo": "元に戻す",
+    "dismiss": "閉じる"
   },
   "videoTypes": {
     "full": "フルゲームプレイ",
