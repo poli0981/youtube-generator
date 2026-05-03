@@ -2,6 +2,39 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.9.0 — 2026-05-03
+
+Two-phase release. Phase 1 covered the gacha video type and four new URL extractors with a typed-name-mismatch banner; phase 2 wrapped the version with a QoL trio and a four-platform CI release matrix. PRs that landed: [#37](https://github.com/poli0981/youtube-generator/pull/37) (phase 1 B2), [#40](https://github.com/poli0981/youtube-generator/pull/40) (phase 1 B1, re-ship of #38), [#41](https://github.com/poli0981/youtube-generator/pull/41) (phase 2).
+
+### Added
+
+- **Gacha-quest video type** ([#40](https://github.com/poli0981/youtube-generator/pull/40)) — new `VideoType: "gacha_quest"` with a 17-value `gachaQuestType` enum grouped by use case (Story / Events / Tutorial-Trial / Endgame-Multiplayer / Showcase) plus free-form `chapterName` and `questName` extras. `partNumber` is reused, with the suffix wording driven by quest type — `main_story` → `"- Part N"`, `anniversary` + `daily_commission` → `"- Day N"`, `endgame` → `"- Floor N"`, every other quest type drops the suffix. Per-quest-type title format and intro template, single shared pinned-comment greeting.
+- **4 new URL extractors** ([#37](https://github.com/poli0981/youtube-generator/pull/37)) — Epic Games Store (locale-prefixed `/p/<slug>`, strips trailing 6+-char hex hash), Nintendo US (`/us/store/products/<slug>`, strips `-switch` / `-switch-2` platform suffix), Nintendo EU (`/<locale>/Games/<segment>/<slug>-<id>.html`, strips trailing numeric id), and Humble Bundle. PlayStation / Xbox / Amazon Luna stay unsupported because their canonical URLs use opaque product IDs.
+- **Name-mismatch warning banner** ([#37](https://github.com/poli0981/youtube-generator/pull/37)) — `StoreLinkEditor` shows a reactive banner above the platform grid when any filled link extracts to a name whose tokens aren't a subset of the typed Game Name. New `isLinkNameMismatch(gameName, url)` helper applies a subset-tolerant token comparison; apostrophes are stripped (not spaced) so `Marvel's` matches `Marvels` in Steam slugs. Per-pair dismissal (`gameName|url` fingerprint); banner re-shows automatically when either side changes.
+- **Keyboard-shortcuts cheatsheet** ([#41](https://github.com/poli0981/youtube-generator/pull/41)) — bare `?` key now opens the existing modal (Ctrl+/ still works); the `?` handler skips firing when the keydown target is an input / textarea / select / contentEditable element. The modal grows a search input that filters by translated label OR by the literal key combo string.
+- **Genre selector search + bulk-toggle** ([#41](https://github.com/poli0981/youtube-generator/pull/41)) — case-insensitive substring filter above the chip group, plus three bulk-select buttons ("All RPGs" / "All Shooters" / "All Horror") that replace the current selection with the first `MAX_GENRES` (3) ids of the matching `GENRE_GROUPS` entry. Filter clears on bulk-toggle.
+
+### Changed
+
+- **Editor store** v6 → v7 (additive — gacha extras `gachaQuestType` / `chapterName` / `questName`).
+- **TemplateSnapshot** — extends with the gacha extras as optional so legacy templates load cleanly.
+
+### CI / Release
+
+- **`release-desktop.yml`** ([#41](https://github.com/poli0981/youtube-generator/pull/41)) grows from a Windows-only build to a four-entry matrix: `windows-latest`, `macos-13` (Intel), `macos-14` (ARM), `ubuntu-latest`. `fail-fast: false` so one platform breaking doesn't cancel the others. Linux runner installs `libwebkit2gtk-4.1-dev` + companions for Tauri's webview + AppImage tooling. `tauri-action@v0` collects all artifacts onto a single draft GitHub Release named `YTDescGen v__VERSION__`. No code signing; release notes come from the tag message.
+
+### Under the hood
+
+- New `src/config/gacha-quest-types.ts` houses the 17-value enum, display-order grouping, and the per-quest-type partNumber suffix style map (`GACHA_PART_SUFFIX_STYLES`).
+- New `src/config/genres.ts:GENRE_GROUPS` typed `Record<GenreGroupId, readonly GenreId[]>` drives the bulk-toggle buttons.
+- All 6 locales updated: 428 ui + 203 template keys each (up from 391 + 164 in v0.8). en + vi fully translated; ja / es / ko / zh seeded with English placeholders for the new strings.
+- Full suite: 297 tests green; main bundle 270 KB.
+
+### Migration notes
+
+- No manual action required. First launch after upgrade heals any missing keys in place.
+- Pre-v0.9 drafts get `gachaQuestType: "main_story"` and empty `chapterName` / `questName` defaults. The fields only matter when `videoType === "gacha_quest"`.
+
 ## v0.8.1 — 2026-05-02
 
 Patch release fixing a v0.8 regression in the genre-playlist suggestion feature.
