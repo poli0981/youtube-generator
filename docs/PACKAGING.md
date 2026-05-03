@@ -239,24 +239,29 @@ Output locations:
 
 ### GitHub Actions Release
 
-The live workflow lives at [.github/workflows/release-desktop.yml](../.github/workflows/release-desktop.yml). Pushing a `v*` tag (e.g. `v0.10.0`) triggers a four-platform matrix build (Windows, macOS Intel, macOS ARM, Linux) and uploads each installer to a single draft GitHub Release named `YTDescGen v__VERSION__`. Publish the draft manually after smoke-testing the binaries.
+The live workflow lives at [.github/workflows/release-desktop.yml](../.github/workflows/release-desktop.yml). Pushing a `v*` tag (e.g. `v0.10.0`) triggers a three-platform matrix build (Windows, macOS ARM, Linux) and uploads each installer to a single draft GitHub Release named `YTDescGen v__VERSION__`. Publish the draft manually after smoke-testing the binaries.
 
-Matrix entries (v0.9 phase 2):
+Matrix entries:
 
 | Runner | Target | Output |
 |---|---|---|
 | `windows-latest` | `x86_64-pc-windows-msvc` | `.msi`, `.exe` (NSIS) |
-| `macos-13` | `x86_64-apple-darwin` | `.dmg`, `.app.tar.gz` |
-| `macos-14` | `aarch64-apple-darwin` | `.dmg`, `.app.tar.gz` |
+| `macos-14` | `aarch64-apple-darwin` | `.app.tar.gz` |
 | `ubuntu-latest` | `x86_64-unknown-linux-gnu` | `.AppImage`, `.deb` |
 
 Linux runners install `libwebkit2gtk-4.1-dev`, `libgtk-3-dev`, `libayatana-appindicator3-dev`, `librsvg2-dev`, and `patchelf` before building — Tauri's webview + AppImage tooling needs these.
 
-`fail-fast: false` keeps the other platforms going if one breaks. `args: --target ${{ matrix.target }}` is passed through to `tauri build` so each runner uses its explicit target triple.
+`fail-fast: false` keeps the other platforms going if one breaks. The `bundleArgs` matrix field is concatenated with `--target ${{ matrix.target }}` and passed through to `tauri build`.
+
+**macOS notes (v0.9.1+):**
+- **DMG bundling is skipped** (`--bundles app`). Tauri's DMG bundler runs an AppleScript that flakes intermittently on hosted macOS runners (the headless display can't load Finder fast enough for `osascript` to position icons), so we ship a `.app.tar.gz` instead. Users expand the archive and drag the `.app` into `/Applications`.
+- **Intel macOS (`macos-13`) is NOT built.** GitHub started deprecating the `macos-13` free runner pool in 2025; jobs queue indefinitely. If Intel support becomes a priority, switch the macos-14 entry's target to `universal-apple-darwin` (Tauri builds both archs and lipos them into one universal binary) — the runner already has the toolchain capacity.
 
 **Code signing is intentionally skipped** for both Windows and macOS — this is an open-source personal tool, and signing certificates carry recurring cost. End users will see the standard "unverified publisher" / "unidentified developer" prompts on first launch. Document the bypass steps in the release notes if needed.
 
 **Auto-changelog** (`git-cliff`) is out of scope; release notes come from the tag's annotated message via the default `tauri-action` behaviour. CHANGELOG.md is hand-maintained.
+
+**Manual re-run:** the workflow accepts `workflow_dispatch` with a `tag` input — `gh workflow run release-desktop.yml -f tag=v0.9.0` rebuilds an existing release without deleting + recreating the tag. Useful when a transient runner failure costs a single arch's binary.
 
 **Backfill for pre-workflow tags:** `v0.8.0` and `v0.8.1` predate the multi-platform matrix and only have local Windows builds. To attach binaries retroactively, build manually then `gh release create v0.8.0 --notes-file CHANGELOG.md path/to/*.msi …`.
 

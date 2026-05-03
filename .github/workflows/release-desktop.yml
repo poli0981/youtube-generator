@@ -3,6 +3,16 @@ name: Release Desktop
 on:
   push:
     tags: ["v*"]
+  # Manual re-run hook — lets us rebuild a release without deleting +
+  # recreating the tag. Useful when a transient runner failure (e.g.
+  # the macOS DMG bundler hitting an AppleScript flake) costs us one
+  # arch's binary on an otherwise-shipped tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to build (e.g. v0.9.0). The job still expects the manifests to already carry this version."
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -15,15 +25,34 @@ jobs:
         include:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-          - os: macos-13
-            target: x86_64-apple-darwin
+            # Default Windows bundles: MSI + NSIS (.exe). Both ship.
+            bundleArgs: ""
           - os: macos-14
             target: aarch64-apple-darwin
+            # macOS DMG bundling on hosted runners flakes inside
+            # `bundle_dmg.sh` (the AppleScript that sets icon
+            # positions in the DMG window times out on the headless
+            # runner). Build only the `.app` bundle; tauri-action
+            # tar.gzips it into a `.app.tar.gz` for upload. Users
+            # expand and drag-drop into /Applications.
+            #
+            # Intel macOS (x86_64) is NOT built — the `macos-13`
+            # free runner queue is functionally unavailable since
+            # GitHub started deprecating it. Revisit with a
+            # `universal-apple-darwin` build on this same runner if
+            # Intel support becomes a priority.
+            bundleArgs: "--bundles app"
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+            # Default Linux bundles: AppImage + deb. Both ship.
+            bundleArgs: ""
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          # On `workflow_dispatch` checkout the requested tag; on a
+          # tag push we already get the tag commit by default.
+          ref: ${{ github.event.inputs.tag || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -46,8 +75,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: v__VERSION__
-          releaseName: "YTDescGen v__VERSION__"
+          tagName: ${{ github.event.inputs.tag || 'v__VERSION__' }}
+          releaseName: "YTDescGen ${{ github.event.inputs.tag || 'v__VERSION__' }}"
           releaseBody: "See the assets to download the installer for your platform."
           releaseDraft: true
-          args: --target ${{ matrix.target }}
+          args: ${{ matrix.bundleArgs }} --target ${{ matrix.target }}
