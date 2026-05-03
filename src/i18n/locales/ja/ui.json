@@ -209,6 +209,13 @@
     "clearDraft": "下書きをクリア",
     "draftSaved": "下書き保存済み",
     "clearDraftConfirm": "フォームデータをすべてクリアしますか？",
+    "genreSearchPlaceholder": "ジャンルを検索",
+    "genreSearchNoResults": "該当するジャンルはありません",
+    "genreGroups": {
+      "rpg": "すべての RPG",
+      "shooter": "すべてのシューター",
+      "horror": "すべてのホラー"
+    },
     "contactEmailHelp": "最大3つのメール、カンマ区切り",
     "toast": {
       "urlAutoFilled": "URLから「{{name}}」を自動入力しました"
@@ -465,7 +472,9 @@
     "copyAll": "すべてコピー",
     "saveDraft": "下書き保存",
     "help": "ショートカット表示",
-    "close": "モーダルを閉じる"
+    "close": "モーダルを閉じる",
+    "searchPlaceholder": "ショートカットを検索",
+    "noResults": "該当するショートカットはありません"
   },
   "validation": {
     "emailInvalid": "無効なメール: {{email}}",

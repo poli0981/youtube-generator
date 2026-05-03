@@ -44,3 +44,32 @@ export const GENRES = [
 ] as const;
 
 export type GenreId = (typeof GENRES)[number]["id"];
+
+/**
+ * Ids for the bulk-select buttons rendered above the genre chip group.
+ * Each id maps to a curated set of genres in {@link GENRE_GROUPS} and
+ * an i18n label under `editor.genreGroups.<id>`.
+ */
+export type GenreGroupId = "rpg" | "shooter" | "horror";
+
+/**
+ * Bulk-toggle groups (v0.9 phase 2). Clicking the group's button
+ * REPLACES the current selection with the first {@link MAX_GENRES} ids
+ * from the list (so the selection stays under the cap regardless of
+ * how big the group is). Order in each list determines which ids get
+ * picked when the group exceeds the cap.
+ */
+export const GENRE_GROUPS: Record<GenreGroupId, readonly GenreId[]> = {
+  rpg: ["rpg", "jrpg", "action_rpg", "crpg"],
+  shooter: [
+    "fps",
+    "arena_shooter",
+    "tactical_fps",
+    "boomer_shooter",
+    "extraction_shooter",
+    "shmup",
+  ],
+  horror: ["horror", "survival_horror", "psychological_horror"],
+};
+
+export const GENRE_GROUP_IDS: readonly GenreGroupId[] = ["rpg", "shooter", "horror"];
