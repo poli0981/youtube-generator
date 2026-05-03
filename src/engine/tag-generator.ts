@@ -249,6 +249,17 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
     `${g} stream`,
     `${g} livestream`,
   ],
+  // One pool for the whole gacha bucket — quest-type-specific tags
+  // would balloon the pool and rarely surface in YouTube search anyway.
+  // The intro / title / hashtags already carry the per-quest framing.
+  gacha_quest: (g) => [
+    `${g} gameplay no commentary`,
+    `${g} quest`,
+    `${g} story`,
+    `${g} walkthrough`,
+    "gacha game gameplay",
+    "gacha rpg",
+  ],
 };
 
 /**
