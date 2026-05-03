@@ -19,6 +19,7 @@ import type {
   UpscaleQuality,
   ArtStyle,
 } from "@config/graphics-settings";
+import type { GachaQuestType } from "@config/gacha-quest-types";
 
 /**
  * Full snapshot of the editor form. Matches the `partialize` output of
@@ -50,6 +51,10 @@ export interface TemplateSnapshot {
   /** Livestream-only (v0.8 phase 2). Optional for back-compat. */
   liveUrl?: string;
   scheduledTime?: string;
+  /** Gacha-quest extras (v0.9 phase 1). Optional for back-compat. */
+  gachaQuestType?: GachaQuestType;
+  chapterName?: string;
+  questName?: string;
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;

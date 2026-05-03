@@ -27,7 +27,32 @@
       "guide": "攻略ガイド",
       "mods": "{{modName}} MOD",
       "collectibles": "全コレクション",
-      "livestream": "🔴 LIVE"
+      "livestream": "🔴 LIVE",
+      "gacha_quest": ""
+    },
+    "gachaQuestType": {
+      "main_story": "{{gameName}} — {{chapterName}}{{partSuffix}}",
+      "world_quest": "{{gameName}} — World Quest: {{questName}}",
+      "side_quest": "{{gameName}} — Side Quest: {{questName}}",
+      "spinoff_quest": "{{gameName}} — Spinoff: {{questName}}",
+      "companion_quest": "{{gameName}} — Companion Quest: {{questName}}",
+      "bond_quest": "{{gameName}} — Bond Quest: {{questName}}",
+      "event": "{{gameName}} — Event: {{questName}}",
+      "anniversary": "{{gameName}} — {{chapterName}} Anniversary{{partSuffix}}",
+      "crossover": "{{gameName}} — Crossover: {{questName}}",
+      "dating_event": "{{gameName}} — Dating Event: {{questName}}",
+      "tutorial_quest": "{{gameName}} — Tutorial: {{questName}}",
+      "guide_quest": "{{gameName}} — Guide: {{questName}}",
+      "trial_quest": "{{gameName}} — Trial: {{questName}}",
+      "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
+      "coop": "{{gameName}} — Co-op: {{questName}}",
+      "daily_commission": "{{gameName}} — Daily Commissions{{partSuffix}}",
+      "showcase": "{{gameName}} — Showcase: {{questName}}"
+    },
+    "gachaPartSuffix": {
+      "part": " - Part {{n}}",
+      "day": " - Day {{n}}",
+      "floor": " - Floor {{n}}"
     }
   },
   "description": {
@@ -50,7 +75,24 @@
       "guide": "この動画は{{channelName}}による{{gameName}}の攻略ガイドです。",
       "mods": "この動画は{{channelName}}による{{gameName}}の{{modName}} MODプレイです。",
       "collectibles": "この動画は{{channelName}}による{{gameName}}のコレクション完全攻略です。",
-      "livestream": "{{channelName}}にて{{gameName}}のライブ配信中。チャットで一緒に盛り上がろう！"
+      "livestream": "{{channelName}}にて{{gameName}}のライブ配信中。チャットで一緒に盛り上がろう！",
+      "gacha_quest_main_story": "Welcome to {{chapterName}} of {{gameName}} on {{channelName}}!",
+      "gacha_quest_world_quest": "Today's video covers the World Quest \"{{questName}}\" in {{gameName}} on {{channelName}}.",
+      "gacha_quest_side_quest": "Side Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_spinoff_quest": "Spinoff quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_companion_quest": "Companion Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_bond_quest": "Bond Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_event": "Limited-time Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
+      "gacha_quest_anniversary": "{{chapterName}} Anniversary celebration in {{gameName}} on {{channelName}}.",
+      "gacha_quest_crossover": "Crossover Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
+      "gacha_quest_dating_event": "Dating Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
+      "gacha_quest_tutorial_quest": "Tutorial \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_guide_quest": "Guide Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_trial_quest": "Trial Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
+      "gacha_quest_endgame": "Endgame mode \"{{chapterName}}\" in {{gameName}} on {{channelName}}.",
+      "gacha_quest_coop": "Co-op session \"{{questName}}\" in {{gameName}} on {{channelName}}.",
+      "gacha_quest_daily_commission": "Daily Commissions in {{gameName}} on {{channelName}}.",
+      "gacha_quest_showcase": "Showcase \"{{questName}}\" from {{gameName}} on {{channelName}}."
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
     "storeLinkSuffix": {
@@ -169,7 +211,8 @@
       "guide": "サイレント攻略がお役に立てば幸いです。タイムスタンプは説明欄に。",
       "mods": "MOD プレイ — ロードオーダーとクレジットは説明欄に。",
       "collectibles": "全収集要素を 1 本に。応援ありがとうございました！",
-      "livestream": "{{gameName}} のライブ配信へようこそ！チャットで挨拶してね 👋"
+      "livestream": "{{gameName}} のライブ配信へようこそ！チャットで挨拶してね 👋",
+      "gacha_quest": "Welcome back to {{gameName}} on {{channelName}}!"
     }
   },
   "hashtags": {

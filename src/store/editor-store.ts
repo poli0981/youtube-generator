@@ -18,6 +18,11 @@ import {
   type UpscaleQuality,
   type ArtStyle,
 } from "@config/graphics-settings";
+import {
+  GACHA_QUEST_TYPES,
+  DEFAULT_GACHA_QUEST_TYPE,
+  type GachaQuestType,
+} from "@config/gacha-quest-types";
 import { DEFAULTS } from "@config/defaults";
 
 interface EditorData {
@@ -36,6 +41,9 @@ interface EditorData {
   modList: string;
   liveUrl: string;
   scheduledTime: string;
+  gachaQuestType: GachaQuestType;
+  chapterName: string;
+  questName: string;
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;
@@ -145,6 +153,9 @@ const initialState: EditorData = {
   modList: DEFAULTS.editor.modList,
   liveUrl: DEFAULTS.editor.liveUrl,
   scheduledTime: DEFAULTS.editor.scheduledTime,
+  gachaQuestType: DEFAULTS.editor.gachaQuestType,
+  chapterName: DEFAULTS.editor.chapterName,
+  questName: DEFAULTS.editor.questName,
   resolution: DEFAULTS.editor.resolution,
   fps: DEFAULTS.editor.fps,
   graphicsPreset: DEFAULTS.editor.graphicsPreset,
@@ -230,7 +241,12 @@ export const useEditorStore = create<EditorState>()(
       //         vnZalopay) and a long-form modList textarea joined the
       //         schema. All additive — empty-string defaults round-trip
       //         cleanly without any value mapping.
-      version: 6,
+      // v6 → v7: v0.9 phase 1. Gacha-quest extras
+      //         (gachaQuestType / chapterName / questName) joined the
+      //         schema. Additive — pre-v0.9 drafts get the
+      //         `"main_story"` default for the enum + empty strings for
+      //         the free-form labels.
+      version: 7,
       migrate: (persistedState: unknown, version: number): EditorData => {
         if (!persistedState || typeof persistedState !== "object") {
           return { ...initialState };
@@ -289,6 +305,17 @@ export const useEditorStore = create<EditorState>()(
           if (typeof state.vnMomo !== "string") state.vnMomo = "";
           if (typeof state.vnZalopay !== "string") state.vnZalopay = "";
         }
+        if (version < 7) {
+          const gqt = state.gachaQuestType;
+          if (
+            typeof gqt !== "string" ||
+            !(GACHA_QUEST_TYPES as readonly string[]).includes(gqt)
+          ) {
+            state.gachaQuestType = DEFAULT_GACHA_QUEST_TYPE;
+          }
+          if (typeof state.chapterName !== "string") state.chapterName = "";
+          if (typeof state.questName !== "string") state.questName = "";
+        }
         return { ...initialState, ...state } as EditorData;
       },
       partialize: (state) => ({
@@ -307,6 +334,9 @@ export const useEditorStore = create<EditorState>()(
         modList: state.modList,
         liveUrl: state.liveUrl,
         scheduledTime: state.scheduledTime,
+        gachaQuestType: state.gachaQuestType,
+        chapterName: state.chapterName,
+        questName: state.questName,
         resolution: state.resolution,
         fps: state.fps,
         graphicsPreset: state.graphicsPreset,

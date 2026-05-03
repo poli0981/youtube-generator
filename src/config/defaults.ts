@@ -8,6 +8,7 @@ import type {
   UpscaleQuality,
   ArtStyle,
 } from "./graphics-settings";
+import { DEFAULT_GACHA_QUEST_TYPE, type GachaQuestType } from "./gacha-quest-types";
 import type {
   SupportedLanguage,
   StoreLinkType,
@@ -35,6 +36,12 @@ export interface EditorDefaults {
   liveUrl: string;
   /** Livestream-only: ISO scheduled datetime. */
   scheduledTime: string;
+  /** Gacha-quest selected pattern (v0.9). */
+  gachaQuestType: GachaQuestType;
+  /** Gacha-quest chapter / story-arc label (free-form). */
+  chapterName: string;
+  /** Gacha-quest individual quest / event name (free-form). */
+  questName: string;
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;
@@ -96,6 +103,9 @@ export const DEFAULTS = {
     modList: "",
     liveUrl: "",
     scheduledTime: "",
+    gachaQuestType: DEFAULT_GACHA_QUEST_TYPE,
+    chapterName: "",
+    questName: "",
     resolution: "1080p",
     fps: "60",
     graphicsPreset: "medium",

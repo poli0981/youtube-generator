@@ -27,7 +27,32 @@
       "guide": "Hướng dẫn",
       "mods": "Mod {{modName}}",
       "collectibles": "Tất cả Sưu tầm",
-      "livestream": "🔴 LIVE"
+      "livestream": "🔴 LIVE",
+      "gacha_quest": ""
+    },
+    "gachaQuestType": {
+      "main_story": "{{gameName}} — {{chapterName}}{{partSuffix}}",
+      "world_quest": "{{gameName}} — Nhiệm vụ thế giới: {{questName}}",
+      "side_quest": "{{gameName}} — Nhiệm vụ phụ: {{questName}}",
+      "spinoff_quest": "{{gameName}} — Ngoại truyện: {{questName}}",
+      "companion_quest": "{{gameName}} — Nhiệm vụ đồng hành: {{questName}}",
+      "bond_quest": "{{gameName}} — Nhiệm vụ thân mật: {{questName}}",
+      "event": "{{gameName}} — Sự kiện: {{questName}}",
+      "anniversary": "{{gameName}} — Kỷ niệm {{chapterName}}{{partSuffix}}",
+      "crossover": "{{gameName}} — Crossover: {{questName}}",
+      "dating_event": "{{gameName}} — Hẹn hò: {{questName}}",
+      "tutorial_quest": "{{gameName}} — Hướng dẫn: {{questName}}",
+      "guide_quest": "{{gameName}} — Chỉ dẫn: {{questName}}",
+      "trial_quest": "{{gameName}} — Thử thách: {{questName}}",
+      "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
+      "coop": "{{gameName}} — Co-op: {{questName}}",
+      "daily_commission": "{{gameName}} — Nhiệm vụ hàng ngày{{partSuffix}}",
+      "showcase": "{{gameName}} — Showcase: {{questName}}"
+    },
+    "gachaPartSuffix": {
+      "part": " - Phần {{n}}",
+      "day": " - Ngày {{n}}",
+      "floor": " - Tầng {{n}}"
     }
   },
   "description": {
@@ -50,7 +75,24 @@
       "guide": "Video này là hướng dẫn không lời cho {{gameName}} trên kênh {{channelName}}.",
       "mods": "Video này showcase mod {{modName}} cho {{gameName}} trên kênh {{channelName}}.",
       "collectibles": "Video này gom đủ mọi vật phẩm sưu tầm và 100% completion trong {{gameName}} trên kênh {{channelName}}.",
-      "livestream": "Livestream {{gameName}} trên kênh {{channelName}}. Tham gia chat và chào mọi người nhé!"
+      "livestream": "Livestream {{gameName}} trên kênh {{channelName}}. Tham gia chat và chào mọi người nhé!",
+      "gacha_quest_main_story": "Chào mừng đến với {{chapterName}} của {{gameName}} trên kênh {{channelName}}!",
+      "gacha_quest_world_quest": "Hôm nay mình làm Nhiệm vụ thế giới \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_side_quest": "Nhiệm vụ phụ \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_spinoff_quest": "Nhiệm vụ ngoại truyện \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_companion_quest": "Nhiệm vụ đồng hành \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_bond_quest": "Nhiệm vụ thân mật \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_event": "Sự kiện \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_anniversary": "Lễ kỷ niệm {{chapterName}} của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_crossover": "Sự kiện Crossover \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_dating_event": "Sự kiện hẹn hò \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_tutorial_quest": "Hướng dẫn \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_guide_quest": "Nhiệm vụ chỉ dẫn \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_trial_quest": "Nhiệm vụ thử thách \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_endgame": "Chế độ cuối game \"{{chapterName}}\" trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_coop": "Co-op \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_daily_commission": "Nhiệm vụ hàng ngày trong {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_showcase": "Showcase \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}."
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
     "storeLinkSuffix": {
@@ -169,7 +211,8 @@
       "guide": "Hy vọng silent guide này hữu ích. Timestamps có trong mô tả.",
       "mods": "Modded run — full load order / credits trong mô tả.",
       "collectibles": "Full collectible trong 1 video. Cảm ơn các bạn đã ủng hộ!",
-      "livestream": "Chào mừng đến với buổi stream {{gameName}}! Để lại lời chào trong chat nhé 👋"
+      "livestream": "Chào mừng đến với buổi stream {{gameName}}! Để lại lời chào trong chat nhé 👋",
+      "gacha_quest": "Chào các bạn đã quay trở lại với {{gameName}} trên kênh {{channelName}}!"
     }
   },
   "hashtags": {

@@ -803,6 +803,71 @@ describe("buildDescription — v0.7 content fields", () => {
   });
 });
 
+describe("buildDescription — gacha_quest video type (v0.9)", () => {
+  it("dispatches to the per-quest-type intro for main_story", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "gacha_quest",
+        gachaQuestType: "main_story",
+        gameName: "Genshin Impact",
+        chapterName: "Chapter 5 Act 2: Where the Stars Fall",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "Welcome to Chapter 5 Act 2: Where the Stars Fall of Genshin Impact on TestChannel!",
+    );
+  });
+
+  it("dispatches to the per-quest-type intro for world_quest", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "gacha_quest",
+        gachaQuestType: "world_quest",
+        gameName: "Genshin Impact",
+        questName: "A Solitary Constellation",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      'Today\'s video covers the World Quest "A Solitary Constellation" in Genshin Impact on TestChannel.',
+    );
+  });
+
+  it("dispatches to the per-quest-type intro for endgame", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "gacha_quest",
+        gachaQuestType: "endgame",
+        gameName: "Honkai: Star Rail",
+        chapterName: "Memory of Chaos",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      'Endgame mode "Memory of Chaos" in Honkai: Star Rail on TestChannel.',
+    );
+  });
+
+  it("falls back to main_story intro when gachaQuestType is missing", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoType: "gacha_quest",
+        gameName: "Wuthering Waves",
+        chapterName: "Chapter 1",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "Welcome to Chapter 1 of Wuthering Waves on TestChannel!",
+    );
+  });
+});
+
 describe("checkDescriptionWarning", () => {
   it("returns null for description under limit", () => {
     expect(checkDescriptionWarning("Short description")).toBeNull();

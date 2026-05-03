@@ -6,6 +6,7 @@ import type {
   UpscaleQuality,
   ArtStyle,
 } from "@config/graphics-settings";
+import type { GachaQuestType } from "@config/gacha-quest-types";
 
 export type VideoType =
   | "full"
@@ -26,7 +27,8 @@ export type VideoType =
   | "guide"
   | "mods"
   | "collectibles"
-  | "livestream";
+  | "livestream"
+  | "gacha_quest";
 
 export type Genre =
   | "action"
@@ -164,6 +166,24 @@ export interface GeneratorInput {
   liveUrl?: string;
   /** Livestream-only: ISO datetime (`<input type="datetime-local">`). */
   scheduledTime?: string;
+  /**
+   * Gacha-quest-only (v0.9 phase 1). Selected quest pattern; drives both
+   * the per-type title format and the per-type intro template. Defaults
+   * to `"main_story"` in the editor; missing values in pre-v0.9 drafts
+   * fall through to `"main_story"` via the editor-store v6→v7 migration.
+   */
+  gachaQuestType?: GachaQuestType;
+  /**
+   * Gacha-quest-only: human chapter / story-arc label, e.g.
+   * `"Chapter 5 Act 2: Where the Stars Fall"`, `"Penacony 2.0"`.
+   */
+  chapterName?: string;
+  /**
+   * Gacha-quest-only: individual quest / event name, e.g.
+   * `"A Solitary Constellation"`. Optional — `main_story`-style videos
+   * usually rely on `chapterName` only.
+   */
+  questName?: string;
   resolution?: string;
   fps?: string;
   /**
