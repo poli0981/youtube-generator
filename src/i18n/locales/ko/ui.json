@@ -181,6 +181,9 @@
     "contactEmailHelp": "최대 3개 이메일, 쉼표로 구분",
     "toast": {
       "urlAutoFilled": "URL에서 '{{name}}'을(를) 자동 채웠습니다"
+    },
+    "warning": {
+      "linkNameMismatch": "링크를 확인하고 다시 추가하세요 — '{{host}}'은(는) '{{suggestedName}}'을(를) 가리키지만, 게임 이름은 '{{gameName}}'입니다."
     }
   },
   "output": {
@@ -218,7 +221,8 @@
     "reset": "초기화",
     "search": "검색",
     "generate": "생성",
-    "undo": "되돌리기"
+    "undo": "되돌리기",
+    "dismiss": "닫기"
   },
   "videoTypes": {
     "full": "전체 게임플레이",

@@ -181,6 +181,9 @@
     "contactEmailHelp": "Tối đa 3 email, cách nhau bằng dấu phẩy",
     "toast": {
       "urlAutoFilled": "Đã tự động điền '{{name}}' từ URL"
+    },
+    "warning": {
+      "linkNameMismatch": "Kiểm tra link và thêm lại — '{{host}}' gợi ý '{{suggestedName}}', nhưng Tên Game đang là '{{gameName}}'."
     }
   },
   "output": {
@@ -218,7 +221,8 @@
     "reset": "Đặt lại",
     "search": "Tìm kiếm",
     "generate": "Tạo",
-    "undo": "Hoàn tác"
+    "undo": "Hoàn tác",
+    "dismiss": "Bỏ qua"
   },
   "videoTypes": {
     "full": "Full Gameplay",

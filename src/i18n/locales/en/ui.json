@@ -181,6 +181,9 @@
     "contactEmailHelp": "Up to 3 emails, comma-separated",
     "toast": {
       "urlAutoFilled": "Auto-filled '{{name}}' from URL"
+    },
+    "warning": {
+      "linkNameMismatch": "Check link and add again — '{{host}}' suggests '{{suggestedName}}', but Game Name is '{{gameName}}'."
     }
   },
   "output": {
@@ -218,7 +221,8 @@
     "reset": "Reset",
     "search": "Search",
     "generate": "Generate",
-    "undo": "Undo"
+    "undo": "Undo",
+    "dismiss": "Dismiss"
   },
   "videoTypes": {
     "full": "Full Gameplay",

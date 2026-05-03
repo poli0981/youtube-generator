@@ -181,6 +181,9 @@
     "contactEmailHelp": "最多3个邮箱，用逗号分隔",
     "toast": {
       "urlAutoFilled": "已从URL自动填入「{{name}}」"
+    },
+    "warning": {
+      "linkNameMismatch": "请检查链接并重新添加 — 「{{host}}」 看起来是「{{suggestedName}}」，但游戏名称是「{{gameName}}」。"
     }
   },
   "output": {
@@ -218,7 +221,8 @@
     "reset": "重置",
     "search": "搜索",
     "generate": "生成",
-    "undo": "撤销"
+    "undo": "撤销",
+    "dismiss": "关闭"
   },
   "videoTypes": {
     "full": "完整游戏实况",
