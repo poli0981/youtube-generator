@@ -1,0 +1,82 @@
+import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import {
+  Pencil,
+  FileText,
+  User,
+  Clock,
+  Settings,
+  Layers,
+  ListVideo,
+  ScrollText,
+  Info,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react";
+import clsx from "clsx";
+import { useSettingsStore } from "@store/settings-store";
+
+const tabs = [
+  { to: "/", labelKey: "tabs.editor", icon: Pencil },
+  { to: "/output", labelKey: "tabs.output", icon: FileText },
+  { to: "/batch", labelKey: "tabs.batch", icon: Layers },
+  { to: "/profiles", labelKey: "tabs.profiles", icon: User },
+  { to: "/history", labelKey: "tabs.history", icon: Clock },
+  { to: "/playlist", labelKey: "tabs.playlist", icon: ListVideo },
+  { to: "/logs", labelKey: "tabs.logs", icon: ScrollText },
+  { to: "/settings", labelKey: "tabs.settings", icon: Settings },
+  { to: "/about", labelKey: "tabs.about", icon: Info },
+] as const;
+
+export function Sidebar() {
+  const { t } = useTranslation("ui");
+  const collapsed = useSettingsStore((s) => s.sidebarCollapsed);
+  const setSetting = useSettingsStore((s) => s.setSetting);
+
+  const toggle = () => setSetting("sidebarCollapsed", !collapsed);
+
+  return (
+    <aside
+      className={clsx(
+        "flex shrink-0 flex-col border-r border-border bg-surface-1 transition-[width] duration-200",
+        collapsed ? "w-14" : "w-56",
+      )}
+    >
+      <button
+        type="button"
+        onClick={toggle}
+        aria-label={t(collapsed ? "sidebar.expand" : "sidebar.collapse")}
+        title={t(collapsed ? "sidebar.expand" : "sidebar.collapse")}
+        className="flex h-12 items-center justify-center border-b border-border text-text-muted transition-colors hover:bg-surface-2 hover:text-text-primary"
+      >
+        {collapsed ? (
+          <PanelLeftOpen className="h-5 w-5" />
+        ) : (
+          <PanelLeftClose className="h-5 w-5" />
+        )}
+      </button>
+      <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2">
+        {tabs.map((tab) => (
+          <NavLink
+            key={tab.to}
+            to={tab.to}
+            end={tab.to === "/"}
+            title={collapsed ? t(tab.labelKey) : undefined}
+            className={({ isActive }) =>
+              clsx(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                collapsed && "justify-center px-0",
+                isActive
+                  ? "bg-accent-muted text-accent"
+                  : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
+              )
+            }
+          >
+            <tab.icon className="h-4 w-4 shrink-0" />
+            {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
+          </NavLink>
+        ))}
+      </nav>
+    </aside>
+  );
+}

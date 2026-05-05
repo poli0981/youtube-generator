@@ -59,6 +59,14 @@ export interface EditorDefaults {
   musicAttribution: string;
   sponsorName: string;
   sponsorPlatform: string;
+  /**
+   * Free-text publisher / developer name shown alongside the
+   * Publisher / Developer site URL in the Store Links editor. Emitted
+   * as a YouTube tag (e.g. "Ubisoft", "FromSoftware") via tag-generator.
+   * Independent from {@link sponsorName}, which feeds the description's
+   * "🎁 Thanks to …" line and is not added to tags.
+   */
+  pubDevName: string;
   thumbnailText: string;
   pinnedComment: string;
   spoilerWarning: boolean;
@@ -123,6 +131,7 @@ export const DEFAULTS = {
     musicAttribution: "",
     sponsorName: "",
     sponsorPlatform: "",
+    pubDevName: "",
     thumbnailText: "",
     pinnedComment: "",
     spoilerWarning: false,

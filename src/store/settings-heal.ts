@@ -62,6 +62,13 @@ export interface SettingsData {
   genrePlaylists: Partial<Record<GenreId, string>>;
   titleFormat: TitleFormatConfig;
   editorAccordionState: Record<string, boolean>;
+  /**
+   * Vertical sidebar collapsed state (v0.10). When true, the left
+   * sidebar shows icons only; expanded shows icon + label. Toggled by
+   * the hamburger button or `Ctrl+B`. Persisted across reloads so
+   * narrow-screen users don't keep collapsing on every visit.
+   */
+  sidebarCollapsed: boolean;
 }
 
 export function detectBrowserLanguage(): SupportedLanguage {
@@ -109,6 +116,7 @@ export const initialSettings: SettingsData = {
     rig: false,
     storeAndSocial: false,
   },
+  sidebarCollapsed: false,
 };
 
 /**

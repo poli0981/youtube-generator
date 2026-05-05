@@ -61,6 +61,7 @@ interface EditorData {
   musicAttribution: string;
   sponsorName: string;
   sponsorPlatform: string;
+  pubDevName: string;
   thumbnailText: string;
   pinnedComment: string;
   spoilerWarning: boolean;
@@ -173,6 +174,7 @@ const initialState: EditorData = {
   musicAttribution: DEFAULTS.editor.musicAttribution,
   sponsorName: DEFAULTS.editor.sponsorName,
   sponsorPlatform: DEFAULTS.editor.sponsorPlatform,
+  pubDevName: DEFAULTS.editor.pubDevName,
   thumbnailText: DEFAULTS.editor.thumbnailText,
   pinnedComment: DEFAULTS.editor.pinnedComment,
   spoilerWarning: DEFAULTS.editor.spoilerWarning,
@@ -246,7 +248,11 @@ export const useEditorStore = create<EditorState>()(
       //         schema. Additive — pre-v0.9 drafts get the
       //         `"main_story"` default for the enum + empty strings for
       //         the free-form labels.
-      version: 7,
+      // v7 → v8: v0.10. `pubDevName` (free-text publisher / developer
+      //         label paired with the Publisher / Developer site URL)
+      //         joined the schema. Additive — empty-string default
+      //         round-trips cleanly.
+      version: 8,
       migrate: (persistedState: unknown, version: number): EditorData => {
         if (!persistedState || typeof persistedState !== "object") {
           return { ...initialState };
@@ -316,6 +322,9 @@ export const useEditorStore = create<EditorState>()(
           if (typeof state.chapterName !== "string") state.chapterName = "";
           if (typeof state.questName !== "string") state.questName = "";
         }
+        if (version < 8) {
+          if (typeof state.pubDevName !== "string") state.pubDevName = "";
+        }
         return { ...initialState, ...state } as EditorData;
       },
       partialize: (state) => ({
@@ -354,6 +363,7 @@ export const useEditorStore = create<EditorState>()(
         musicAttribution: state.musicAttribution,
         sponsorName: state.sponsorName,
         sponsorPlatform: state.sponsorPlatform,
+        pubDevName: state.pubDevName,
         thumbnailText: state.thumbnailText,
         pinnedComment: state.pinnedComment,
         spoilerWarning: state.spoilerWarning,

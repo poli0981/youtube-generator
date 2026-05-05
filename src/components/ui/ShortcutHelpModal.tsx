@@ -12,6 +12,7 @@ const SHORTCUTS = [
   { keys: "Ctrl + Enter", labelKey: "shortcuts.generate" },
   { keys: "Ctrl + Shift + C", labelKey: "shortcuts.copyAll" },
   { keys: "Ctrl + S", labelKey: "shortcuts.saveDraft" },
+  { keys: "Ctrl + B", labelKey: "shortcuts.toggleSidebar" },
   { keys: "Ctrl + /", labelKey: "shortcuts.help" },
   { keys: "?", labelKey: "shortcuts.help" },
   { keys: "Escape", labelKey: "shortcuts.close" },

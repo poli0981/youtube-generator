@@ -11,7 +11,30 @@
     "settings": "설정",
     "batch": "일괄",
     "playlist": "플레이리스트",
-    "logs": "로그"
+    "logs": "로그",
+    "about": "정보"
+  },
+  "sidebar": {
+    "expand": "사이드바 펼치기",
+    "collapse": "사이드바 접기"
+  },
+  "about": {
+    "tagline": "게임플레이 무편집 채널을 위한 YouTube 제목, 설명, 태그 생성기.",
+    "repoHeading": "저장소 및 라이선스",
+    "repoLabel": "GitHub 저장소",
+    "issuesLabel": "문제 보고",
+    "authorLabel": "저자",
+    "licenseLabel": "라이선스",
+    "connectHeading": "연결",
+    "thirdPartyHeading": "서드파티 크레딧",
+    "thirdPartyHelp": "YTDescGen은 다음 오픈소스 프로젝트를 기반으로 합니다. 버전은 package.json에서 자동으로 가져옵니다.",
+    "socials": {
+      "youtube": "YouTube 채널",
+      "x": "X / Twitter",
+      "discord": "Discord 서버",
+      "kofi": "Ko-fi",
+      "patreon": "Patreon"
+    }
   },
   "editor": {
     "sections": {
@@ -174,6 +197,8 @@
     "sponsorNamePlaceholder": "예: Ubisoft, 캡콤, Devolver Digital",
     "sponsorPlatform": "키 플랫폼",
     "sponsorPlatformPlaceholder": "예: Steam, Epic Games, GOG",
+    "pubDevName": "퍼블리셔 / 개발사 이름",
+    "pubDevNamePlaceholder": "예: Ubisoft, Capcom, FromSoftware",
     "thumbnailText": "썸네일 텍스트",
     "thumbnailTextPlaceholder": "예: 시크릿 보스 노히트",
     "pinnedComment": "고정 댓글 템플릿",
@@ -471,6 +496,7 @@
     "generate": "생성",
     "copyAll": "전체 복사",
     "saveDraft": "초안 저장",
+    "toggleSidebar": "사이드바 토글",
     "help": "도움말",
     "close": "닫기",
     "searchPlaceholder": "단축키 검색",
