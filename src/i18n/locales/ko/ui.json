@@ -174,6 +174,8 @@
     "sponsorNamePlaceholder": "예: Ubisoft, 캡콤, Devolver Digital",
     "sponsorPlatform": "키 플랫폼",
     "sponsorPlatformPlaceholder": "예: Steam, Epic Games, GOG",
+    "pubDevName": "퍼블리셔 / 개발사 이름",
+    "pubDevNamePlaceholder": "예: Ubisoft, Capcom, FromSoftware",
     "thumbnailText": "썸네일 텍스트",
     "thumbnailTextPlaceholder": "예: 시크릿 보스 노히트",
     "pinnedComment": "고정 댓글 템플릿",

@@ -421,6 +421,17 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
     allTags.push(...getTrendingTags(composeName, primaryGenre));
   }
 
+  // Publisher / Developer name (v0.10) — emitted as a bare tag only.
+  // Distinct semantic from the platform pool above, so the dedup pass
+  // catches any overlap with sponsorName-style entries case-insensitively.
+  // No composite (`${pubDevName} ${composeName}`) — would chew through
+  // the 500-char total budget for marginal search lift.
+  const pubDev = input.pubDevName?.trim();
+  if (pubDev) {
+    const trimmed = tagFriendlyGameName(pubDev, YT_LIMITS.SINGLE_TAG_MAX);
+    if (trimmed) allTags.push(trimmed);
+  }
+
   // Dedup (case-insensitive) and enforce per-tag char limit
   const seen = new Set<string>();
   const deduped: string[] = [];

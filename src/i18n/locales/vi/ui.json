@@ -174,6 +174,8 @@
     "sponsorNamePlaceholder": "Ví dụ: Ubisoft, Capcom, Devolver Digital",
     "sponsorPlatform": "Platform của key",
     "sponsorPlatformPlaceholder": "Ví dụ: Steam, Epic Games, GOG",
+    "pubDevName": "Tên Pub/Dev",
+    "pubDevNamePlaceholder": "Ví dụ: Ubisoft, Capcom, FromSoftware",
     "thumbnailText": "Text thumbnail",
     "thumbnailTextPlaceholder": "vd: SECRET BOSS NO HIT",
     "pinnedComment": "Bình luận ghim",

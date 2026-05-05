@@ -174,6 +174,8 @@
     "sponsorNamePlaceholder": "ej. Ubisoft, Capcom, Devolver Digital",
     "sponsorPlatform": "Plataforma de la clave",
     "sponsorPlatformPlaceholder": "ej. Steam, Epic Games, GOG",
+    "pubDevName": "Nombre del editor / desarrollador",
+    "pubDevNamePlaceholder": "p. ej. Ubisoft, Capcom, FromSoftware",
     "thumbnailText": "Texto de Miniatura",
     "thumbnailTextPlaceholder": "ej. JEFE SECRETO SIN GOLPES",
     "pinnedComment": "Plantilla de Comentario Fijado",

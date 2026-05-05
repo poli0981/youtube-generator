@@ -34,6 +34,7 @@
       "musicAttribution", "musicAttributionPlaceholder",
       "sponsorName", "sponsorNamePlaceholder",
       "sponsorPlatform", "sponsorPlatformPlaceholder",
+      "pubDevName", "pubDevNamePlaceholder",
       "thumbnailText", "thumbnailTextPlaceholder",
       "pinnedComment", "pinnedCommentPlaceholder",
       "playthrough", "difficulty", "difficultyCustomLabel", "difficultyCustomPlaceholder",

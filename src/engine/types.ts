@@ -237,6 +237,14 @@ export interface GeneratorInput {
    * Free-form string so regional / non-listed stores still work.
    */
   sponsorPlatform?: string;
+  /**
+   * Free-text publisher / developer label paired with the
+   * `Publisher / Developer site` URL in the Store Links editor. When
+   * non-empty, the tag generator emits it as a bare YouTube tag (e.g.
+   * "Ubisoft", "FromSoftware"). Distinct from {@link sponsorName}, which
+   * drives the description's "🎁 Thanks to …" line and is not tagged.
+   */
+  pubDevName?: string;
   spoilerWarning: boolean;
   matureWarning: boolean;
   /**

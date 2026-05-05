@@ -174,6 +174,8 @@
     "sponsorNamePlaceholder": "例: Ubisoft、カプコン、Devolver Digital",
     "sponsorPlatform": "キーのプラットフォーム",
     "sponsorPlatformPlaceholder": "例: Steam、Epic Games、GOG",
+    "pubDevName": "パブリッシャー / デベロッパー名",
+    "pubDevNamePlaceholder": "例: Ubisoft、Capcom、FromSoftware",
     "thumbnailText": "サムネイルテキスト",
     "thumbnailTextPlaceholder": "例: 隠しボス ノーヒット",
     "pinnedComment": "固定コメントのテンプレート",

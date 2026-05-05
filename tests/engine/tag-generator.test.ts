@@ -228,4 +228,37 @@ describe("generateTags — long game names (regression for v0.7 silent drop)", (
     expect(tags.some((t) => /gameplay/i.test(t))).toBe(true);
     expect(tags.every((t) => t.length <= 30)).toBe(true);
   });
+
+  it("emits pubDevName as a bare tag when set (v0.10)", () => {
+    const tags = generateTags(makeInput({ pubDevName: "FromSoftware" }));
+    expect(tags).toContain("FromSoftware");
+  });
+
+  it("does not emit a pubDev tag when pubDevName is empty", () => {
+    const baseline = generateTags(makeInput());
+    const withEmpty = generateTags(makeInput({ pubDevName: "" }));
+    const withWhitespace = generateTags(makeInput({ pubDevName: "   " }));
+    expect(withEmpty).toEqual(baseline);
+    expect(withWhitespace).toEqual(baseline);
+  });
+
+  it("dedups pubDevName against sponsorName case-insensitively", () => {
+    // sponsorName itself isn't tagged, so this guards against future
+    // reintroduction: a user typing the same publisher in both fields
+    // should see exactly one bare tag for that name.
+    const tags = generateTags(
+      makeInput({ sponsorName: "Acme Inc", pubDevName: "ACME INC" }),
+    );
+    const acme = tags.filter((t) => t.toLowerCase() === "acme inc");
+    expect(acme.length).toBe(1);
+  });
+
+  it("trims an over-long pubDevName to fit the 30-char per-tag limit", () => {
+    const long = "PlatinumGames International Holdings Limited";
+    const tags = generateTags(makeInput({ pubDevName: long }));
+    expect(tags.every((t) => t.length <= 30)).toBe(true);
+    // The trimmed form must start with the original first word so the
+    // tag remains a recognisable publisher anchor.
+    expect(tags.some((t) => t.startsWith("Platinum"))).toBe(true);
+  });
 });
