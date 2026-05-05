@@ -6,7 +6,7 @@ const isTauri = !!process.env.TAURI_ENV_PLATFORM;
 
 export default defineConfig({
   plugins: [react()],
-  base: isTauri ? "/" : "/yt-desc-gen/",
+  base: isTauri ? "/" : "/youtube-generator/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
