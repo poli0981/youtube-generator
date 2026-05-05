@@ -2,6 +2,39 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.10.0 — 2026-05-05
+
+Three independent features shipped in [#44](https://github.com/poli0981/youtube-generator/pull/44): a publisher-name tag for the Store Links editor, a hotfix for the live web build that had been serving a blank page since the v0.5 scaffold, and a vertical collapsible sidebar with a new About page.
+
+### Added
+
+- **Pub/Dev Name → tag** ([#44](https://github.com/poli0981/youtube-generator/pull/44)) — when the `Publisher / Developer site` URL is filled in, a free-text "Pub/Dev Name" input appears underneath. Whatever the user types becomes a bare YouTube tag (e.g. `Ubisoft`, `FromSoftware`) via the existing dedup + 30-char trim pipeline. Independent from `sponsorName` / `sponsorPlatform`, which still drive the description's "🎁 Thanks to …" line — different semantic, different output.
+- **Vertical collapsible sidebar** ([#44](https://github.com/poli0981/youtube-generator/pull/44)) — replaces the horizontal top tab bar. Hamburger toggle (`PanelLeftClose` / `PanelLeftOpen` from lucide), `w-56 ↔ w-14` width transition, persisted across reloads via the settings store. `Ctrl+B` shortcut wired (VS Code convention) and surfaced in the keyboard help cheatsheet.
+- **About page** ([#44](https://github.com/poli0981/youtube-generator/pull/44)) — new `/about` route with app metadata (version pulled live from `package.json`), repo / issues / author / license links, configurable social links (YouTube / X / Discord / Ko-fi / Patreon — empty entries hide their row), and a third-party credits list with versions read live from `package.json` deps. shadcn/ui evaluated and skipped — would have forced a 10+ component retrofit and a token-system swap (`--background` / `--foreground` / `--primary`) for one feature.
+
+### Fixed
+
+- **GitHub Pages white page** ([#44](https://github.com/poli0981/youtube-generator/pull/44)) — the deployed site at `https://poli0981.github.io/youtube-generator/` was blank because Vite's `base` was hardcoded to `/yt-desc-gen/` (an old project name carried over from the v0.5 scaffold). Every asset 404'd. Aligning the base with the actual repo name unblocks the live web build. `public/.nojekyll` added defensively.
+
+### Changed
+
+- **Editor store** v7 → v8 (additive — `pubDevName: ""` default).
+- **Settings store** v7 → v8 (additive — `sidebarCollapsed: false` default; healed automatically through `initialSettings` spread).
+- **AppShell** layout changed from `flex flex-col` (`Header` / `TabBar` / `main`) to a left-sidebar / right-pane (`Sidebar` / `Header` / `main`). Header stays at the top of the right pane.
+
+### Under the hood
+
+- `tag-generator.ts` gains a `pubDevName` step before the dedup pass; reuses `tagFriendlyGameName(name, 30)` for the per-tag char limit. 4 new tag-generator tests cover emission, empty / whitespace skip, dedup against `sponsorName`, and over-long truncation.
+- `TabBar.tsx` renamed to `Sidebar.tsx` (`git mv` to preserve blame).
+- New `src/config/about.ts` (single source of truth for app metadata + socials) and `src/config/third-party.ts` (credits with versions auto-derived from `package.json`).
+- All 6 locales (en / vi / ja / es / ko / zh) updated with `editor.pubDevName` + `editor.pubDevNamePlaceholder` (F1), plus `tabs.about`, `sidebar.{expand,collapse}`, the full `about.*` namespace including `about.socials.*`, and `shortcuts.toggleSidebar` (F3). `validate:locales` clean at 448 / 448 keys.
+- Full suite: 301 tests green; main bundle 277 KB.
+
+### Migration notes
+
+- No manual action required. First launch after upgrade heals any missing keys in place.
+- Pre-v0.10 drafts get `pubDevName: ""` and `sidebarCollapsed: false` by default — the fields only become visible once the user fills the publisher URL or toggles the sidebar.
+
 ## v0.9.0 — 2026-05-03
 
 Two-phase release. Phase 1 covered the gacha video type and four new URL extractors with a typed-name-mismatch banner; phase 2 wrapped the version with a QoL trio and a four-platform CI release matrix. PRs that landed: [#37](https://github.com/poli0981/youtube-generator/pull/37) (phase 1 B2), [#40](https://github.com/poli0981/youtube-generator/pull/40) (phase 1 B1, re-ship of #38), [#41](https://github.com/poli0981/youtube-generator/pull/41) (phase 2).
