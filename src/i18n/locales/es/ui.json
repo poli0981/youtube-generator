@@ -11,7 +11,30 @@
     "settings": "Ajustes",
     "batch": "Lote",
     "playlist": "Playlist",
-    "logs": "Registros"
+    "logs": "Registros",
+    "about": "Acerca de"
+  },
+  "sidebar": {
+    "expand": "Expandir barra lateral",
+    "collapse": "Colapsar barra lateral"
+  },
+  "about": {
+    "tagline": "Generador de título, descripción y etiquetas de YouTube para canales de Gameplay sin comentarios.",
+    "repoHeading": "Repositorio y Licencia",
+    "repoLabel": "Repositorio en GitHub",
+    "issuesLabel": "Reportar un Problema",
+    "authorLabel": "Autor",
+    "licenseLabel": "Licencia",
+    "connectHeading": "Contacto",
+    "thirdPartyHeading": "Créditos de Terceros",
+    "thirdPartyHelp": "YTDescGen se basa en estos proyectos de código abierto. Las versiones se toman automáticamente de package.json.",
+    "socials": {
+      "youtube": "Canal de YouTube",
+      "x": "X / Twitter",
+      "discord": "Servidor de Discord",
+      "kofi": "Ko-fi",
+      "patreon": "Patreon"
+    }
   },
   "editor": {
     "sections": {
@@ -473,6 +496,7 @@
     "generate": "Generar",
     "copyAll": "Copiar Todo",
     "saveDraft": "Guardar Borrador",
+    "toggleSidebar": "Mostrar/Ocultar Barra Lateral",
     "help": "Ayuda",
     "close": "Cerrar",
     "searchPlaceholder": "Buscar atajos",

@@ -64,7 +64,10 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
-      version: 7,
+      // v7 → v8: v0.10 added `sidebarCollapsed`. Additive — `healSettings`
+      // back-fills the default via the spread of `initialSettings`, so no
+      // explicit per-version migration step is required here.
+      version: 8,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -105,6 +108,7 @@ function extractData(state: SettingsData): SettingsData {
     genrePlaylists: { ...state.genrePlaylists },
     titleFormat: { ...state.titleFormat },
     editorAccordionState: state.editorAccordionState,
+    sidebarCollapsed: state.sidebarCollapsed,
   };
 }
 

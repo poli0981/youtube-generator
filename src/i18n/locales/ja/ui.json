@@ -11,7 +11,30 @@
     "settings": "設定",
     "batch": "一括",
     "playlist": "プレイリスト",
-    "logs": "ログ"
+    "logs": "ログ",
+    "about": "情報"
+  },
+  "sidebar": {
+    "expand": "サイドバーを展開",
+    "collapse": "サイドバーを折りたたむ"
+  },
+  "about": {
+    "tagline": "ゲームプレイ実況なしチャンネル向けのタイトル・説明文・タグ生成ツール。",
+    "repoHeading": "リポジトリ & ライセンス",
+    "repoLabel": "GitHub リポジトリ",
+    "issuesLabel": "問題を報告",
+    "authorLabel": "作者",
+    "licenseLabel": "ライセンス",
+    "connectHeading": "リンク",
+    "thirdPartyHeading": "サードパーティ クレジット",
+    "thirdPartyHelp": "YTDescGen は以下のオープンソースプロジェクトを利用しています。バージョンは package.json から自動取得しています。",
+    "socials": {
+      "youtube": "YouTube チャンネル",
+      "x": "X / Twitter",
+      "discord": "Discord サーバー",
+      "kofi": "Ko-fi",
+      "patreon": "Patreon"
+    }
   },
   "editor": {
     "sections": {
@@ -473,6 +496,7 @@
     "generate": "生成（出力へ切替）",
     "copyAll": "すべてコピー",
     "saveDraft": "下書き保存",
+    "toggleSidebar": "サイドバーの表示切替",
     "help": "ショートカット表示",
     "close": "モーダルを閉じる",
     "searchPlaceholder": "ショートカットを検索",

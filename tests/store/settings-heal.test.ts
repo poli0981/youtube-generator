@@ -95,6 +95,7 @@ describe("healSettings", () => {
       pinnedCommentIncludeGenrePlaylist: true,
       genrePlaylists: { horror: "https://www.youtube.com/playlist?list=abc" },
       editorAccordionState: { gameInfo: false, videoSettings: true },
+      sidebarCollapsed: true,
     };
     const healed = healSettings(complete);
     expect(healed).toEqual(complete);

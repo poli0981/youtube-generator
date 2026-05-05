@@ -11,7 +11,30 @@
     "settings": "Settings",
     "batch": "Batch",
     "playlist": "Playlist",
-    "logs": "Logs"
+    "logs": "Logs",
+    "about": "About"
+  },
+  "sidebar": {
+    "expand": "Expand sidebar",
+    "collapse": "Collapse sidebar"
+  },
+  "about": {
+    "tagline": "YouTube title, description, and tag generator for Gameplay No Commentary channels.",
+    "repoHeading": "Repository & License",
+    "repoLabel": "GitHub Repo",
+    "issuesLabel": "Report an Issue",
+    "authorLabel": "Author",
+    "licenseLabel": "License",
+    "connectHeading": "Connect",
+    "thirdPartyHeading": "Third-Party Credits",
+    "thirdPartyHelp": "YTDescGen is built on top of these open-source projects. Versions are pulled live from package.json.",
+    "socials": {
+      "youtube": "YouTube Channel",
+      "x": "X / Twitter",
+      "discord": "Discord Server",
+      "kofi": "Ko-fi",
+      "patreon": "Patreon"
+    }
   },
   "editor": {
     "sections": {
@@ -473,6 +496,7 @@
     "generate": "Generate (switch to Output)",
     "copyAll": "Copy All",
     "saveDraft": "Save Draft",
+    "toggleSidebar": "Toggle Sidebar",
     "help": "Show Shortcuts",
     "close": "Close Modal",
     "searchPlaceholder": "Search shortcuts",

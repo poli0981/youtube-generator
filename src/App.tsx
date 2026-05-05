@@ -26,6 +26,9 @@ const PlaylistPage = lazy(() =>
 const LogPage = lazy(() =>
   import("@pages/LogPage").then((m) => ({ default: m.LogPage })),
 );
+const AboutPage = lazy(() =>
+  import("@pages/AboutPage").then((m) => ({ default: m.AboutPage })),
+);
 
 function PageLoader() {
   return <div className="flex items-center justify-center p-12 text-text-muted">Loading...</div>;
@@ -90,6 +93,14 @@ export default function App() {
               element={
                 <Suspense fallback={<PageLoader />}>
                   <LogPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="about"
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  <AboutPage />
                 </Suspense>
               }
             />

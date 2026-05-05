@@ -6,9 +6,13 @@ import toast from "react-hot-toast";
 
 interface ShortcutOptions {
   onToggleHelp: () => void;
+  onToggleSidebar: () => void;
 }
 
-export function useKeyboardShortcuts({ onToggleHelp }: ShortcutOptions) {
+export function useKeyboardShortcuts({
+  onToggleHelp,
+  onToggleSidebar,
+}: ShortcutOptions) {
   const navigate = useNavigate();
   const output = useGeneratedOutput();
   const { copy } = useClipboard();
@@ -26,6 +30,10 @@ export function useKeyboardShortcuts({ onToggleHelp }: ShortcutOptions) {
       } else if (ctrl && !e.shiftKey && e.key === "s") {
         e.preventDefault();
         toast.success("Draft saved");
+      } else if (ctrl && !e.shiftKey && (e.key === "b" || e.key === "B")) {
+        // VS Code convention: Ctrl/Cmd+B toggles the sidebar.
+        e.preventDefault();
+        onToggleSidebar();
       } else if (ctrl && e.key === "/") {
         e.preventDefault();
         onToggleHelp();
@@ -44,7 +52,14 @@ export function useKeyboardShortcuts({ onToggleHelp }: ShortcutOptions) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [navigate, output.title, output.description, copy, onToggleHelp]);
+  }, [
+    navigate,
+    output.title,
+    output.description,
+    copy,
+    onToggleHelp,
+    onToggleSidebar,
+  ]);
 }
 
 /**

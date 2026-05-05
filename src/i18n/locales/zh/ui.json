@@ -11,7 +11,30 @@
     "settings": "设置",
     "batch": "批量",
     "playlist": "播放列表",
-    "logs": "日志"
+    "logs": "日志",
+    "about": "关于"
+  },
+  "sidebar": {
+    "expand": "展开侧边栏",
+    "collapse": "折叠侧边栏"
+  },
+  "about": {
+    "tagline": "为游戏实况无解说频道生成 YouTube 标题、描述和标签的工具。",
+    "repoHeading": "仓库与许可",
+    "repoLabel": "GitHub 仓库",
+    "issuesLabel": "报告问题",
+    "authorLabel": "作者",
+    "licenseLabel": "许可证",
+    "connectHeading": "联系方式",
+    "thirdPartyHeading": "第三方致谢",
+    "thirdPartyHelp": "YTDescGen 基于以下开源项目构建。版本号从 package.json 自动同步。",
+    "socials": {
+      "youtube": "YouTube 频道",
+      "x": "X / Twitter",
+      "discord": "Discord 服务器",
+      "kofi": "Ko-fi",
+      "patreon": "Patreon"
+    }
   },
   "editor": {
     "sections": {
@@ -473,6 +496,7 @@
     "generate": "生成",
     "copyAll": "复制全部",
     "saveDraft": "保存草稿",
+    "toggleSidebar": "切换侧边栏",
     "help": "帮助",
     "close": "关闭",
     "searchPlaceholder": "搜索快捷键",

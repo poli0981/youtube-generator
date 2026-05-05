@@ -1,7 +1,14 @@
 {
   "ui": {
     "app": ["title", "subtitle"],
-    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist", "logs"],
+    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist", "logs", "about"],
+    "sidebar": ["expand", "collapse"],
+    "about": [
+      "tagline",
+      "repoHeading", "repoLabel", "issuesLabel", "authorLabel", "licenseLabel",
+      "connectHeading", "thirdPartyHeading", "thirdPartyHelp"
+    ],
+    "about.socials": ["youtube", "x", "discord", "kofi", "patreon"],
     "editor.sections": ["gameInfo", "videoSettings", "contentDetails", "attribution", "rig", "storeAndSocial"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
@@ -87,7 +94,7 @@
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
     "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy", "showSponsorCredit", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
-    "shortcuts": ["title", "generate", "copyAll", "saveDraft", "help", "close", "searchPlaceholder", "noResults"],
+    "shortcuts": ["title", "generate", "copyAll", "saveDraft", "toggleSidebar", "help", "close", "searchPlaceholder", "noResults"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid"],
     "logs": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
     "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
