@@ -16,11 +16,11 @@ export const ABOUT = {
   licenseUrl: "https://github.com/poli0981/youtube-generator/blob/main/LICENSE",
   githubAuthor: "https://github.com/poli0981",
   socials: {
-    youtube: "", // TODO: fill in your YouTube channel URL before release
-    x: "",
-    discord: "",
-    kofi: "",
-    patreon: "",
+    youtube: "https://www.youtube.com/@SkullMute",
+    x: "https://x.com/SkullMute0011",
+    discord: "https://discord.gg/2aNR3aVt",
+    kofi: "https://ko-fi.com/skullmute",
+    patreon: "https://www.patreon.com/skullmute",
   },
 } as const;
 
