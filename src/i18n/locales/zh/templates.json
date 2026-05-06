@@ -117,9 +117,7 @@
       "cta": "👍 点赞 | 🔔 订阅 | ↗️ 分享",
       "copyright": "© {{year}} {{channelName}}. 版权所有。",
       "usagePolicyHeader": "📋 视频使用规则",
-      "usagePolicy": "• 请务必附上原视频链接和频道的 credit（至少在描述中）。\n• 请勿将完整视频或大部分内容作为自己的内容重新上传。\n• 未经明确同意，请勿对素材进行商业化。\n• 请勿以歪曲原内容或创作者的方式剪辑素材。\n• 合集、评测、解说、反应视频均可 — 只要标明出处。\n如有疑问，请通过描述中的社交账号或邮箱联系我。",
-      "playthrough": "🎯 游玩方式: {{value}}",
-      "difficulty": "🎮 难度"
+      "usagePolicy": "• 请务必附上原视频链接和频道的 credit（至少在描述中）。\n• 请勿将完整视频或大部分内容作为自己的内容重新上传。\n• 未经明确同意，请勿对素材进行商业化。\n• 请勿以歪曲原内容或创作者的方式剪辑素材。\n• 合集、评测、解说、反应视频均可 — 只要标明出处。\n如有疑问，请通过描述中的社交账号或邮箱联系我。"
     },
     "playthrough": {
       "blind": "初见游玩 (blind)",
@@ -132,6 +130,62 @@
       "normal": "普通",
       "hard": "困难",
       "nightmare": "噩梦 / 极难"
+    },
+    "playthroughNotes": {
+      "header": "▸ 🎮 本期游玩说明",
+      "intro": "本次游玩的设置、版本及游玩方式说明。",
+      "labels": {
+        "runType": "游玩类型",
+        "difficulty": "难度",
+        "endings": "展示的结局",
+        "languagePatch": "语言补丁",
+        "gameVersion": "游戏版本"
+      },
+      "languagePatchOptions": {
+        "official_en": "官方英文版",
+        "official_other": "官方版本（其他语言）",
+        "fan_translation": "民间翻译",
+        "mtl": "机器翻译",
+        "custom": "自定义"
+      },
+      "gameVersionOptions": {
+        "demo": "试玩版",
+        "early_access": "抢先体验版",
+        "beta": "测试版",
+        "prologue": "前传 / 预告",
+        "pre_release": "预发布版本",
+        "custom": "自定义"
+      }
+    },
+    "techNotes": {
+      "header": "▸ 🛠 技术说明",
+      "intro": "为保持透明度的制作和游玩说明。",
+      "items": {
+        "copyright_muted_sections": "因 YouTube 版权部分静音",
+        "volume_reduced_copyright": "因版权部分降低音量",
+        "music_replaced_copyright": "为避免版权索赔已替换游戏音乐",
+        "cutscene_audio_muted_only": "仅静音过场动画 — 游玩音频保留",
+        "original_audio_kept": "保留原音 — 接受可能的版权索赔风险",
+        "low_resolution_hardware": "因硬件限制以较低分辨率录制",
+        "low_graphics_performance": "为性能降低画质设置",
+        "fps_drops_hardware": "帧数下降 — 硬件原因（左上角可见 FPS 显示）",
+        "bug_from_game": "Bug / 卡顿来自游戏本身，并非录制问题",
+        "crash_kept_transparency": "为保持透明度保留游戏崩溃片段",
+        "loading_cut": "已剪掉读取画面",
+        "obs_artifacts_possible": "可能存在 OBS 录制造成的瑕疵",
+        "not_no_hit_run": "并非无伤通关 — 想看干净游玩请跳过",
+        "not_clean_walkthrough": "并非精修攻略 — 自然探索",
+        "casual_no_commentary": "休闲游玩，无解说",
+        "many_deaths_patience": "死亡较多 — 需要耐心观看",
+        "slow_exploration": "频繁折返 — 探索节奏较慢",
+        "puzzle_stuck_possible": "可能在解谜处卡住",
+        "grinding_cut": "已剪掉刷取/重复段落",
+        "not_speedrun_relaxed": "并非速通 — 轻松游玩",
+        "exploration_focus_skip_combat": "侧重探索 — 战斗可能被跳过",
+        "edited_for_pacing": "为节奏剪辑 — 并非实时",
+        "support_developers": "原版游戏音乐 — 请支持开发者",
+        "online_connectivity_issues": "联机游戏 — 可能存在连线问题"
+      }
     },
     "contentWarnings": {
       "header": "▸ ⚠️ 内容警告",

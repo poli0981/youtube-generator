@@ -117,9 +117,7 @@
       "cta": "👍 좋아요 | 🔔 구독 | ↗️ 공유",
       "copyright": "© {{year}} {{channelName}}. All rights reserved.",
       "usagePolicyHeader": "📋 영상 사용 정책",
-      "usagePolicy": "• 원본 영상 링크와 채널을 반드시 크레딧해주세요 (최소한 설명란에).\n• 전체 영상 또는 상당 부분을 본인 콘텐츠로 재업로드하지 마세요.\n• 명시적 동의 없이 수익화하지 마세요.\n• 원본 내용이나 제작자를 왜곡하는 방식으로 편집하지 마세요.\n• 컴필레이션, 리뷰, 해설, 리액션 영상은 크레딧만 하면 OK입니다.\n불확실한 경우 설명란의 소셜 계정이나 이메일로 연락주세요.",
-      "playthrough": "🎯 플레이 방식: {{value}}",
-      "difficulty": "🎮 난이도"
+      "usagePolicy": "• 원본 영상 링크와 채널을 반드시 크레딧해주세요 (최소한 설명란에).\n• 전체 영상 또는 상당 부분을 본인 콘텐츠로 재업로드하지 마세요.\n• 명시적 동의 없이 수익화하지 마세요.\n• 원본 내용이나 제작자를 왜곡하는 방식으로 편집하지 마세요.\n• 컴필레이션, 리뷰, 해설, 리액션 영상은 크레딧만 하면 OK입니다.\n불확실한 경우 설명란의 소셜 계정이나 이메일로 연락주세요."
     },
     "playthrough": {
       "blind": "초회차 플레이 (블라인드)",
@@ -132,6 +130,62 @@
       "normal": "보통",
       "hard": "어려움",
       "nightmare": "악몽 / 최고 난이도"
+    },
+    "playthroughNotes": {
+      "header": "▸ 🎮 플레이 노트",
+      "intro": "이번 플레이의 설정, 버전, 진행 방식에 대한 안내.",
+      "labels": {
+        "runType": "플레이 방식",
+        "difficulty": "난이도",
+        "endings": "공개된 엔딩",
+        "languagePatch": "언어 패치",
+        "gameVersion": "게임 버전"
+      },
+      "languagePatchOptions": {
+        "official_en": "공식 영어판",
+        "official_other": "공식판 (다른 언어)",
+        "fan_translation": "팬 번역",
+        "mtl": "기계 번역",
+        "custom": "사용자 지정"
+      },
+      "gameVersionOptions": {
+        "demo": "데모",
+        "early_access": "얼리 액세스",
+        "beta": "베타",
+        "prologue": "프롤로그 / 티저",
+        "pre_release": "프리릴리스",
+        "custom": "사용자 지정"
+      }
+    },
+    "techNotes": {
+      "header": "▸ 🛠 기술 노트",
+      "intro": "투명성을 위한 제작 및 플레이 스타일 노트.",
+      "items": {
+        "copyright_muted_sections": "YouTube 저작권으로 일부 구간 음소거",
+        "volume_reduced_copyright": "저작권 문제로 일부 구간 볼륨 다운",
+        "music_replaced_copyright": "저작권 회피를 위해 게임 음악 교체",
+        "cutscene_audio_muted_only": "컷씬 오디오만 음소거 — 게임플레이 오디오 유지",
+        "original_audio_kept": "원본 오디오 유지 — 클레임 위험 감수",
+        "low_resolution_hardware": "하드웨어 한계로 낮은 해상도 녹화",
+        "low_graphics_performance": "성능을 위해 그래픽 설정 낮춤",
+        "fps_drops_hardware": "FPS 저하 — 하드웨어 원인 (좌측 상단 FPS 표시)",
+        "bug_from_game": "버그/글리치는 게임 자체의 문제, 녹화 환경이 아님",
+        "crash_kept_transparency": "투명성을 위해 게임 크래시 그대로 유지",
+        "loading_cut": "로딩 화면은 잘라냄",
+        "obs_artifacts_possible": "OBS 녹화 아티팩트 가능성",
+        "not_no_hit_run": "노히트 런 아님 — 깔끔한 플레이를 원하면 건너뛰세요",
+        "not_clean_walkthrough": "정돈된 공략 아님 — 자연스러운 탐험",
+        "casual_no_commentary": "캐주얼 플레이, 해설 없음",
+        "many_deaths_patience": "사망 장면 다수 — 인내심 필요",
+        "slow_exploration": "되돌아가는 구간 다수 — 느린 탐험",
+        "puzzle_stuck_possible": "퍼즐에서 막힐 수 있음",
+        "grinding_cut": "노가다/반복 구간 잘라냄",
+        "not_speedrun_relaxed": "스피드런 아님 — 여유로운 플레이",
+        "exploration_focus_skip_combat": "탐험 중심 — 전투를 건너뛸 수 있음",
+        "edited_for_pacing": "리듬을 위해 편집 — 실시간 아님",
+        "support_developers": "원곡 사용 — 개발자를 응원해 주세요",
+        "online_connectivity_issues": "온라인 게임 — 연결 문제 가능성"
+      }
     },
     "contentWarnings": {
       "header": "▸ ⚠️ 콘텐츠 경고",
