@@ -1,22 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
-import { ChipGroup } from "@components/ui/ChipGroup";
 import { useEditorStore } from "@store/editor-store";
 import {
   PLAYTHROUGH_STATUSES,
   DIFFICULTY_LEVELS,
-  CONTENT_WARNINGS,
   type PlaythroughStatus,
   type DifficultyLevel,
-  type ContentWarning,
 } from "@engine/types";
 
 /**
- * Metadata that tells viewers "what kind of run is this and is it safe
- * to watch". Lives in the Content Details accordion alongside
- * timestamps + spoiler/mature toggles because all four are about
- * framing, not about the capture itself.
+ * Metadata that tells viewers "what kind of run is this". Lives in the
+ * Content Details accordion alongside timestamps. v0.11 moved the
+ * content-warning checklist out into its own component
+ * ({@link ContentWarningChecklist}) — 40+ items needed a searchable
+ * grouped layout that didn't fit the generic ChipGroup primitive.
  *
  * Design notes:
  * - Playthrough + Difficulty default to `"none"`, which renders as "(no
@@ -26,8 +24,6 @@ import {
  *   `"custom"` — free-form text is intentionally not translated, so
  *   game-specific names like "Lethal" or "Blueberry" survive a locale
  *   switch unchanged.
- * - Content warnings use the existing ChipGroup multi-select, capped at
- *   the full set (no `max` prop — every warning is additive).
  */
 export function ContentDetailsForm() {
   const { t } = useTranslation("ui");
@@ -41,11 +37,6 @@ export function ContentDetailsForm() {
   const difficultyOptions = DIFFICULTY_LEVELS.map((id) => ({
     value: id,
     label: t(`editor.difficultyOptions.${id}`),
-  }));
-
-  const contentWarningOptions = CONTENT_WARNINGS.map((id) => ({
-    id,
-    label: t(`editor.contentWarningOptions.${id}`),
   }));
 
   return (
@@ -70,13 +61,6 @@ export function ContentDetailsForm() {
           onChange={(e) => store.set("difficultyCustomLabel", e.target.value)}
         />
       )}
-      <ChipGroup
-        label={t("editor.contentWarnings")}
-        multiple
-        options={contentWarningOptions}
-        value={store.contentWarnings}
-        onChange={(next) => store.set("contentWarnings", next as ContentWarning[])}
-      />
     </div>
   );
 }

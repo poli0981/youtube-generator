@@ -10,6 +10,11 @@ import type { GraphicsPreset } from "@config/graphics-settings";
  * believes legacy strings like "Ultra" are valid enum values, but
  * `editor-store.normalizeEditorPatch` runs on load and maps them
  * through the same v4→v5 logic as the persist migration.
+ *
+ * v0.11: `thirdPartyAdText` joined the schema. Optional only on
+ * persisted shapes — pre-v0.11 profiles get a `""` back-fill via the
+ * profile-store v0→v1 migrate fn. Held on the profile (not per-video)
+ * because partner / affiliate copy is channel-stable.
  */
 export interface Profile {
   id: string;
@@ -21,6 +26,7 @@ export interface Profile {
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;
+  thirdPartyAdText: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -74,6 +80,22 @@ export const useProfileStore = create<ProfileState>()(
     {
       name: "ytdescgen-profiles",
       storage: createJSONStorage(() => localStorage),
+      // v0 (unversioned) → v1: v0.11 added `thirdPartyAdText`. The store
+      // had no version field before — anything `version < 1` is treated
+      // as "pre-v0.11" and gets the empty-string back-fill.
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (!persistedState || typeof persistedState !== "object") return persistedState;
+        if (version < 1) {
+          const state = persistedState as { profiles?: Array<Record<string, unknown>> };
+          if (Array.isArray(state.profiles)) {
+            state.profiles = state.profiles.map((p) =>
+              typeof p.thirdPartyAdText === "string" ? p : { ...p, thirdPartyAdText: "" },
+            );
+          }
+        }
+        return persistedState as { profiles: Profile[] };
+      },
       partialize: (state) => ({ profiles: state.profiles }),
     },
   ),

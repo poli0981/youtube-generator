@@ -67,9 +67,19 @@ export interface EditorDefaults {
    * "🎁 Thanks to …" line and is not added to tags.
    */
   pubDevName: string;
+  /**
+   * Channel-level third-party advertising / sponsor / partner copy
+   * (v0.11). Persisted on the Profile so it carries across all videos
+   * for a given channel. Empty string by default — the description
+   * block is gated on both this being non-empty AND the
+   * `showThirdPartyAds` settings toggle being on.
+   */
+  thirdPartyAdText: string;
   thumbnailText: string;
   pinnedComment: string;
+  /** @deprecated v0.11 — superseded by `contentWarnings` checklist. */
   spoilerWarning: boolean;
+  /** @deprecated v0.11 — superseded by `contentWarnings` checklist. */
   matureWarning: boolean;
   playthroughStatus: PlaythroughStatus;
   difficulty: DifficultyLevel;
@@ -132,6 +142,7 @@ export const DEFAULTS = {
     sponsorName: "",
     sponsorPlatform: "",
     pubDevName: "",
+    thirdPartyAdText: "",
     thumbnailText: "",
     pinnedComment: "",
     spoilerWarning: false,

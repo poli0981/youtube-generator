@@ -122,14 +122,35 @@ function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
     const brands = VENDOR_GFX_BRANDS[vendor];
     const parts: string[] = [];
     if (upscaleQ) {
-      const qLabel = t(`description.graphics.upscaleQualityOptions.${upscaleQ}`);
-      parts.push(`${brands.upscale} ${qLabel}`);
+      // v0.11: try the vendor-keyed full label first ("NVIDIA DLAA",
+      // "AMD FSR Native AA", "Intel XeSS Ultra Quality"). Fall back to
+      // the pre-v0.11 flat key + brand prefix for legacy locales /
+      // unmigrated translations. The vendor-keyed label embeds the
+      // brand so we don't double-prefix on this path.
+      const newKey = `description.graphics.upscale.${vendor}.${upscaleQ}`;
+      const newLabel = t(newKey);
+      if (newLabel && newLabel !== newKey && newLabel.trim()) {
+        parts.push(newLabel);
+      } else {
+        const legacyKey = `description.graphics.upscaleQualityOptions.${upscaleQ}`;
+        const legacyLabel = t(legacyKey);
+        if (legacyLabel && legacyLabel !== legacyKey) {
+          parts.push(`${brands.upscale} ${legacyLabel}`);
+        }
+      }
     }
     if (fgMul) {
-      // When upscaling is also present, just say "Frame Generation x2"
-      // without re-stating the brand — the upscaler already established
-      // it. Otherwise spell out "NVIDIA Frame Generation x2".
-      parts.push(parts.length > 0 ? `Frame Generation ${fgMul}` : `${brands.framegen} ${fgMul}`);
+      // Vendor-keyed full label embeds the brand AND the feature name
+      // ("NVIDIA Frame Generation x2", "AMD Fluid Motion Frames x3",
+      // "Intel XeFG x2"). Fall back to brand + raw multiplier for
+      // pre-v0.11 locales.
+      const newKey = `description.graphics.frameGen.${vendor}.${fgMul}`;
+      const newLabel = t(newKey);
+      if (newLabel && newLabel !== newKey && newLabel.trim()) {
+        parts.push(newLabel);
+      } else {
+        parts.push(`${brands.framegen} ${fgMul}`);
+      }
     }
     modifier = parts.join(" + ");
   }
@@ -168,6 +189,14 @@ export interface BuildDescriptionOptions {
   /** When true and both `sponsorName` and `sponsorPlatform` are set,
    *  emits a "🎁 Thanks to …" credit line above the music section. */
   showSponsorCredit?: boolean;
+  /** When true and the active profile's `thirdPartyAdText` is non-empty,
+   *  emits a "🤝 SPONSORS & PARTNERS" block (v0.11). */
+  showThirdPartyAds?: boolean;
+  /** Optional English-fixed translation function used by the unified
+   *  content-warnings block (v0.11) to render bilingual lines
+   *  `EN · output-language`. When omitted, the warnings block falls
+   *  back to single-language output via `t`. */
+  tEn?: TranslationFn;
 }
 
 export function buildDescription(
@@ -180,6 +209,8 @@ export function buildDescription(
     showCopyright = false,
     showUsagePolicy = false,
     showSponsorCredit = false,
+    showThirdPartyAds = false,
+    tEn,
   } = options;
   const sections: string[] = [];
   const gameName =
@@ -370,30 +401,43 @@ export function buildDescription(
     );
   }
 
-  // 7. Spoiler Warning
-  if (input.spoilerWarning) {
-    sections.push(t("description.sections.spoilerWarning"));
-  }
+  // 7. Content warnings — unified bilingual checklist (v0.11). Replaces
+  // the v0.7 trio of separate spoiler / generic-content-warnings /
+  // mature blocks. Renders header + intro + bulleted list. When the
+  // output language is not English, each piece is paired with its
+  // English equivalent: header `EN / LOCAL`, intro on two lines,
+  // bullets `• EN · LOCAL` (separator is U+00B7 MIDDLE DOT). When
+  // `tEn` is omitted (e.g. legacy callers / unit tests that haven't
+  // migrated), falls back to single-language output via `t` — degraded
+  // but never broken.
+  const cw = input.contentWarnings ?? [];
+  if (cw.length > 0) {
+    const isEn = input.language === "en";
+    const renderBilingual = !isEn && Boolean(tEn);
+    const tEnUse: TranslationFn = tEn ?? t;
 
-  // 7.5 Content warnings — accessibility block. Rendered as a bulleted
-  // list so viewers using screen readers or avoiding triggers can scan
-  // quickly. Each warning has its own emoji bullet (⚡ / 🔊 / 😱) and a
-  // localised label. Empty array → skipped, matching the behaviour for
-  // every other opt-in section.
-  if (input.contentWarnings && input.contentWarnings.length > 0) {
-    const bullets = input.contentWarnings
-      .map((w) => t(`description.contentWarnings.${w}`))
-      .filter((line) => line && line.trim() !== "")
-      .map((line) => `• ${line}`)
+    const headerEn = tEnUse("description.contentWarnings.header");
+    const headerLocal = t("description.contentWarnings.header");
+    const introEn = tEnUse("description.contentWarnings.intro");
+    const introLocal = t("description.contentWarnings.intro");
+
+    const headerLine = renderBilingual ? `${headerEn} / ${headerLocal}` : headerEn;
+    const introLines = renderBilingual ? `${introEn}\n${introLocal}` : introEn;
+
+    const bullets = cw
+      .map((id) => {
+        const key = `description.contentWarnings.items.${id}`;
+        const enLabel = tEnUse(key);
+        const localLabel = t(key);
+        if (!enLabel || enLabel === key || !enLabel.trim()) return null;
+        return renderBilingual ? `• ${enLabel} · ${localLabel}` : `• ${enLabel}`;
+      })
+      .filter((line): line is string => Boolean(line))
       .join("\n");
-    if (bullets) {
-      sections.push(`${t("description.sections.contentWarnings")}\n${bullets}`);
-    }
-  }
 
-  // 8. Mature Warning
-  if (input.matureWarning) {
-    sections.push(t("description.sections.matureWarning"));
+    if (bullets) {
+      sections.push(`${headerLine}\n${introLines}\n\n${bullets}`);
+    }
   }
 
   // 8.3. Sponsor credit — appears above the music / donate block so the
@@ -413,6 +457,21 @@ export function buildDescription(
         sponsor: input.sponsorName.trim(),
         platform: input.sponsorPlatform.trim(),
       }),
+    );
+  }
+
+  // 8.4. Third-party ads — channel-level partner / affiliate / sponsor
+  // copy stored on the active profile (v0.11). Multi-line preserved
+  // verbatim. Gated on settings toggle AND profile field non-empty;
+  // partial state is a no-op so flipping the toggle without filling
+  // the profile doesn't sneak an empty section into the description.
+  if (
+    showThirdPartyAds &&
+    input.thirdPartyAdText &&
+    input.thirdPartyAdText.trim()
+  ) {
+    sections.push(
+      `${t("description.sections.thirdPartyAds")}\n${input.thirdPartyAdText.trim()}`,
     );
   }
 

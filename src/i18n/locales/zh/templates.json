@@ -107,9 +107,8 @@
       "rig": "💻 我的配置",
       "modList": "🧩 MOD 列表",
       "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
-      "spoilerWarning": "⚠️ 剧透警告：本视频可能包含剧透内容，请自行斟酌观看！",
-      "matureWarning": "🔞 成人内容 (18+)：包含暴力 / 强烈语言 / 血腥内容。",
       "sponsorCredit": "🎁 感谢 {{sponsor}} 提供本游戏的 {{platform}} 激活码。",
+      "thirdPartyAds": "🤝 赞助商 & 合作伙伴",
       "music": "🎵 音乐 / 音效",
       "donate": "☕ 支持频道",
       "social": "🔗 关注我",
@@ -120,8 +119,7 @@
       "usagePolicyHeader": "📋 视频使用规则",
       "usagePolicy": "• 请务必附上原视频链接和频道的 credit（至少在描述中）。\n• 请勿将完整视频或大部分内容作为自己的内容重新上传。\n• 未经明确同意，请勿对素材进行商业化。\n• 请勿以歪曲原内容或创作者的方式剪辑素材。\n• 合集、评测、解说、反应视频均可 — 只要标明出处。\n如有疑问，请通过描述中的社交账号或邮箱联系我。",
       "playthrough": "🎯 游玩方式: {{value}}",
-      "difficulty": "🎮 难度",
-      "contentWarnings": "⚠️ 内容警告"
+      "difficulty": "🎮 难度"
     },
     "playthrough": {
       "blind": "初见游玩 (blind)",
@@ -136,9 +134,56 @@
       "nightmare": "噩梦 / 极难"
     },
     "contentWarnings": {
-      "flashing_lights": "⚡ 闪光 / 频闪效果",
-      "loud_noises": "🔊 大音量 / 突发音量",
-      "jump_scares": "😱 惊吓镜头"
+      "header": "▸ ⚠️ 内容警告",
+      "intro": "本视频包含以下内容，请观众自行斟酌观看。",
+      "items": {
+        "spoiler_story": "剧情 / 结局剧透",
+        "spoiler_ending": "结局剧透",
+        "spoiler_true_ending": "True ending 剧透",
+        "spoiler_post_game": "通关后 / NG+ 剧透",
+        "spoiler_secret_ending": "隐藏结局剧透",
+        "spoiler_dlc": "DLC 剧情剧透",
+        "flashing_lights": "闪光效果 — 光敏感者请注意",
+        "motion_sickness": "3D晕眩 — 镜头 / FPS 快速移动",
+        "migraine_trigger": "可能引发偏头痛",
+        "loud_noises": "突发的大音量",
+        "jump_scares": "惊吓镜头",
+        "acrophobia": "恐高",
+        "trypophobia": "密集恐惧",
+        "thalassophobia": "深海恐惧",
+        "claustrophobia": "幽闭恐惧",
+        "arachnophobia": "蜘蛛恐惧",
+        "entomophobia": "昆虫恐惧",
+        "ophidiophobia": "蛇恐惧",
+        "anxiety_inducing": "可能引发焦虑的场景",
+        "depression_themes": "抑郁主题",
+        "eating_disorders": "饮食失调",
+        "substance_use": "药物使用",
+        "self_harm": "自残 / 自杀主题",
+        "ptsd_themes": "PTSD 相关内容",
+        "needles": "针头 / 注射镜头",
+        "body_fluids": "体液镜头",
+        "pregnancy_horror": "怀孕 / 分娩恐怖",
+        "illness_themes": "疾病 / 感染主题",
+        "blood_gore": "血腥场面",
+        "mature_18plus": "成人 18+",
+        "disturbing_imagery": "令人不适的画面",
+        "animal_abuse": "虐待动物",
+        "child_harm": "未成年人受暴",
+        "domestic_violence": "家庭暴力",
+        "sexual_assault": "性暴力相关内容",
+        "torture": "酷刑场面",
+        "religion_themes": "宗教主题",
+        "war_violence": "战争暴力",
+        "discrimination": "歧视主题",
+        "police_violence": "公权力 / 警察暴力",
+        "smoking_drinking": "吸烟 / 饮酒",
+        "detailed_killing": "详细杀人场面",
+        "cult_occult": "邪教 / 神秘学",
+        "psychological_manipulation": "心理操控",
+        "grief_loss": "失去 / 悲伤",
+        "kidnapping": "绑架"
+      }
     },
     "graphics": {
       "with": "+",
@@ -164,6 +209,50 @@
         "balanced": "Balanced",
         "performance": "Performance",
         "ultra_performance": "Ultra Performance"
+      },
+      "upscale": {
+        "nvidia": {
+          "none": "",
+          "dlaa": "NVIDIA DLAA",
+          "quality": "NVIDIA DLSS Quality",
+          "balanced": "NVIDIA DLSS Balanced",
+          "performance": "NVIDIA DLSS Performance",
+          "ultra_performance": "NVIDIA DLSS Ultra Performance"
+        },
+        "amd": {
+          "none": "",
+          "native_aa": "AMD FSR Native AA",
+          "quality": "AMD FSR Quality",
+          "balanced": "AMD FSR Balanced",
+          "performance": "AMD FSR Performance",
+          "ultra_performance": "AMD FSR Ultra Performance"
+        },
+        "intel": {
+          "none": "",
+          "native_aa": "Intel XeSS Native AA",
+          "ultra_quality": "Intel XeSS Ultra Quality",
+          "quality": "Intel XeSS Quality",
+          "balanced": "Intel XeSS Balanced",
+          "performance": "Intel XeSS Performance",
+          "ultra_performance": "Intel XeSS Ultra Performance"
+        }
+      },
+      "frameGen": {
+        "nvidia": {
+          "none": "",
+          "x2": "NVIDIA Frame Generation x2",
+          "x3": "NVIDIA Multi Frame Generation x3",
+          "x4": "NVIDIA Multi Frame Generation x4"
+        },
+        "amd": {
+          "none": "",
+          "x2": "AMD Fluid Motion Frames x2",
+          "x3": "AMD Fluid Motion Frames x3"
+        },
+        "intel": {
+          "none": "",
+          "x2": "Intel XeFG x2"
+        }
       },
       "artStyleOptions": {
         "realistic": "写实",

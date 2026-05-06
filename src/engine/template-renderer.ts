@@ -41,6 +41,19 @@ export interface RenderOptions extends TagOptions {
    * above the music / donate block.
    */
   showSponsorCredit?: boolean;
+  /**
+   * When true and the active profile's `thirdPartyAdText` is non-empty,
+   * the description emits a "🤝 SPONSORS & PARTNERS" block above the
+   * music section (v0.11).
+   */
+  showThirdPartyAds?: boolean;
+  /**
+   * Optional English-fixed translation function. Used by the v0.11
+   * unified content-warnings block to render bilingual lines
+   * `EN · output-language`. When omitted, the warnings block falls back
+   * to single-language output via `t`.
+   */
+  tEn?: TranslationFn;
 }
 
 export function renderAll(
@@ -59,6 +72,8 @@ export function renderAll(
     showCopyright: options?.showCopyright,
     showUsagePolicy: options?.showUsagePolicy,
     showSponsorCredit: options?.showSponsorCredit,
+    showThirdPartyAds: options?.showThirdPartyAds,
+    tEn: options?.tEn,
   });
   const tags = generateTags(input, options);
   const tagString = formatTagString(tags);

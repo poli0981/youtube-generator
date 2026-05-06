@@ -147,6 +147,21 @@
       "x4": "x4",
       "x6": "x6"
     },
+    "frameGenMultiplier.nvidia": {
+      "none": "None",
+      "x2": "x2 (Frame Gen)",
+      "x3": "x3 (Multi Frame Gen)",
+      "x4": "x4 (Multi Frame Gen)"
+    },
+    "frameGenMultiplier.amd": {
+      "none": "None",
+      "x2": "x2 (Fluid Motion Frames)",
+      "x3": "x3 (Fluid Motion Frames)"
+    },
+    "frameGenMultiplier.intel": {
+      "none": "None",
+      "x2": "x2 (XeFG)"
+    },
     "upscaleQuality": "Upscaling Quality",
     "upscaleQualityOptions": {
       "none": "None",
@@ -155,6 +170,31 @@
       "balanced": "Balanced",
       "performance": "Performance",
       "ultra_performance": "Ultra Performance"
+    },
+    "upscaleQuality.nvidia": {
+      "none": "None",
+      "dlaa": "DLAA",
+      "quality": "DLSS Quality",
+      "balanced": "DLSS Balanced",
+      "performance": "DLSS Performance",
+      "ultra_performance": "DLSS Ultra Performance"
+    },
+    "upscaleQuality.amd": {
+      "none": "None",
+      "native_aa": "FSR Native AA",
+      "quality": "FSR Quality",
+      "balanced": "FSR Balanced",
+      "performance": "FSR Performance",
+      "ultra_performance": "FSR Ultra Performance"
+    },
+    "upscaleQuality.intel": {
+      "none": "None",
+      "native_aa": "XeSS Native AA",
+      "ultra_quality": "XeSS Ultra Quality",
+      "quality": "XeSS Quality",
+      "balanced": "XeSS Balanced",
+      "performance": "XeSS Performance",
+      "ultra_performance": "XeSS Ultra Performance"
     },
     "artStyle": "Art Style",
     "artStyleOptions": {
@@ -184,9 +224,7 @@
     "storeLinkType": "Tipo",
     "rig": "Mi Equipo",
     "social": "Redes Sociales y Donaciones",
-    "warnings": "Advertencias",
-    "spoilerWarning": "Advertencia de Spoilers",
-    "matureWarning": "Contenido para Adultos (18+)",
+    "warnings": "Advertencias de contenido",
     "playlistLink": "Enlace de Lista de Reproducción",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "Correo de Contacto",
@@ -223,10 +261,62 @@
     "difficultyCustomLabel": "Etiqueta de dificultad personalizada",
     "difficultyCustomPlaceholder": "ej. Lethal, NG+7, Fromsoft default",
     "contentWarnings": "Advertencias de contenido",
+    "contentWarningSearchPlaceholder": "Buscar advertencias…",
+    "contentWarningEmpty": "No hay advertencias coincidentes",
+    "contentWarningGroups": {
+      "spoilers": "Spoilers",
+      "photosensitive": "Fotosensibilidad / Salud",
+      "phobias": "Fobias",
+      "mental_health": "Salud mental",
+      "sensitive": "Adulto / Sensible"
+    },
     "contentWarningOptions": {
-      "flashing_lights": "⚡ Luces parpadeantes",
-      "loud_noises": "🔊 Ruidos fuertes",
-      "jump_scares": "😱 Sustos repentinos"
+      "spoiler_story": "Spoilers — historia / final",
+      "spoiler_ending": "Spoilers del final",
+      "spoiler_true_ending": "Spoilers del true ending",
+      "spoiler_post_game": "Spoilers post-game / NG+",
+      "spoiler_secret_ending": "Spoilers final secreto",
+      "spoiler_dlc": "Spoilers historia DLC",
+      "flashing_lights": "Luces parpadeantes",
+      "motion_sickness": "Mareo por movimiento",
+      "migraine_trigger": "Posible migraña",
+      "loud_noises": "Sonidos repentinos",
+      "jump_scares": "Sustos repentinos",
+      "acrophobia": "Alturas",
+      "trypophobia": "Patrones agrupados",
+      "thalassophobia": "Aguas profundas",
+      "claustrophobia": "Espacios cerrados",
+      "arachnophobia": "Arañas",
+      "entomophobia": "Insectos",
+      "ophidiophobia": "Serpientes",
+      "anxiety_inducing": "Escenas de ansiedad",
+      "depression_themes": "Temática depresiva",
+      "eating_disorders": "Trastornos alimentarios",
+      "substance_use": "Uso de sustancias",
+      "self_harm": "Autolesión / suicidio",
+      "ptsd_themes": "Contenido TEPT",
+      "needles": "Agujas",
+      "body_fluids": "Fluidos corporales",
+      "pregnancy_horror": "Horror de embarazo",
+      "illness_themes": "Enfermedad",
+      "blood_gore": "Sangre y violencia gráfica",
+      "mature_18plus": "Adulto 18+",
+      "disturbing_imagery": "Imágenes perturbadoras",
+      "animal_abuse": "Crueldad animal",
+      "child_harm": "Violencia contra menores",
+      "domestic_violence": "Violencia doméstica",
+      "sexual_assault": "Agresión sexual",
+      "torture": "Tortura",
+      "religion_themes": "Temas religiosos",
+      "war_violence": "Violencia bélica",
+      "discrimination": "Discriminación",
+      "police_violence": "Violencia policial",
+      "smoking_drinking": "Fumar / beber",
+      "detailed_killing": "Asesinatos detallados",
+      "cult_occult": "Sectas / ocultismo",
+      "psychological_manipulation": "Manipulación psicológica",
+      "grief_loss": "Duelo / pérdida",
+      "kidnapping": "Secuestro"
     },
     "videoSettings": "Ajustes de Video",
     "quickPreview": "Vista Previa Rápida",
@@ -405,7 +495,10 @@
     "deleteConfirm": "¿Estás seguro de que quieres eliminar este perfil?",
     "emptyState": "Aún no hay perfiles. Crea uno para guardar la información de tu canal.",
     "exportProfiles": "Exportar Perfiles",
-    "importProfiles": "Importar Perfiles"
+    "importProfiles": "Importar Perfiles",
+    "thirdPartyAdText": "Texto publicitario de terceros",
+    "thirdPartyAdTextPlaceholder": "ej. Usa el código SAVE10 en GameStore.com — 10% de descuento\nPatrocinado por ChairCo — enlace en la descripción",
+    "thirdPartyAdTextHelp": "Texto opcional de patrocinador / socio / afiliado. Se muestra cuando 'Anuncios de terceros' está activado en Ajustes."
   },
   "templates": {
     "title": "Plantillas",
@@ -462,6 +555,8 @@
     "showCopyright": "Agregar línea de © copyright a la descripción",
     "showUsagePolicy": "Agregar bloque de política de uso a la descripción",
     "showSponsorCredit": "Mostrar línea de agradecimiento al patrocinador (clave) en la descripción",
+    "showThirdPartyAds": "Mostrar bloque de anuncios de terceros en la descripción",
+    "thirdPartyAdsHint": "Configura el texto publicitario en el perfil del canal (Perfiles → Editar).",
     "titleFormatTitle": "Formato del título",
     "descriptionSettingsTitle": "Descripción",
     "badgePosition": "Posición de la insignia de calidad",

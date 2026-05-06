@@ -147,6 +147,21 @@
       "x4": "x4",
       "x6": "x6"
     },
+    "frameGenMultiplier.nvidia": {
+      "none": "None",
+      "x2": "x2 (Frame Gen)",
+      "x3": "x3 (Multi Frame Gen)",
+      "x4": "x4 (Multi Frame Gen)"
+    },
+    "frameGenMultiplier.amd": {
+      "none": "None",
+      "x2": "x2 (Fluid Motion Frames)",
+      "x3": "x3 (Fluid Motion Frames)"
+    },
+    "frameGenMultiplier.intel": {
+      "none": "None",
+      "x2": "x2 (XeFG)"
+    },
     "upscaleQuality": "Upscaling Quality",
     "upscaleQualityOptions": {
       "none": "None",
@@ -155,6 +170,31 @@
       "balanced": "Balanced",
       "performance": "Performance",
       "ultra_performance": "Ultra Performance"
+    },
+    "upscaleQuality.nvidia": {
+      "none": "None",
+      "dlaa": "DLAA",
+      "quality": "DLSS Quality",
+      "balanced": "DLSS Balanced",
+      "performance": "DLSS Performance",
+      "ultra_performance": "DLSS Ultra Performance"
+    },
+    "upscaleQuality.amd": {
+      "none": "None",
+      "native_aa": "FSR Native AA",
+      "quality": "FSR Quality",
+      "balanced": "FSR Balanced",
+      "performance": "FSR Performance",
+      "ultra_performance": "FSR Ultra Performance"
+    },
+    "upscaleQuality.intel": {
+      "none": "None",
+      "native_aa": "XeSS Native AA",
+      "ultra_quality": "XeSS Ultra Quality",
+      "quality": "XeSS Quality",
+      "balanced": "XeSS Balanced",
+      "performance": "XeSS Performance",
+      "ultra_performance": "XeSS Ultra Performance"
     },
     "artStyle": "Art Style",
     "artStyleOptions": {
@@ -184,9 +224,7 @@
     "storeLinkType": "유형",
     "rig": "내 장비",
     "social": "소셜 및 후원 링크",
-    "warnings": "경고",
-    "spoilerWarning": "스포일러 경고",
-    "matureWarning": "성인 콘텐츠 (18+)",
+    "warnings": "콘텐츠 경고",
     "playlistLink": "재생목록 링크",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "문의 이메일",
@@ -223,10 +261,62 @@
     "difficultyCustomLabel": "사용자 지정 난이도 라벨",
     "difficultyCustomPlaceholder": "예: Lethal, NG+7, Fromsoft default",
     "contentWarnings": "콘텐츠 경고",
+    "contentWarningSearchPlaceholder": "경고 검색…",
+    "contentWarningEmpty": "일치하는 경고 없음",
+    "contentWarningGroups": {
+      "spoilers": "스포일러",
+      "photosensitive": "광과민 / 건강",
+      "phobias": "공포증",
+      "mental_health": "정신 건강",
+      "sensitive": "성인 / 민감"
+    },
     "contentWarningOptions": {
-      "flashing_lights": "⚡ 점멸 효과",
-      "loud_noises": "🔊 큰 소리",
-      "jump_scares": "😱 점프 스케어"
+      "spoiler_story": "스토리 / 엔딩 스포일러",
+      "spoiler_ending": "엔딩 스포일러",
+      "spoiler_true_ending": "True 엔딩 스포일러",
+      "spoiler_post_game": "포스트게임 / NG+ 스포일러",
+      "spoiler_secret_ending": "숨겨진 엔딩 스포일러",
+      "spoiler_dlc": "DLC 스토리 스포일러",
+      "flashing_lights": "점멸 효과",
+      "motion_sickness": "멀미",
+      "migraine_trigger": "편두통 유발",
+      "loud_noises": "갑작스러운 큰 소리",
+      "jump_scares": "점프 스케어",
+      "acrophobia": "고소 공포",
+      "trypophobia": "환공포",
+      "thalassophobia": "심해 공포",
+      "claustrophobia": "폐쇄 공포",
+      "arachnophobia": "거미 공포",
+      "entomophobia": "곤충 공포",
+      "ophidiophobia": "뱀 공포",
+      "anxiety_inducing": "불안 유발",
+      "depression_themes": "우울 주제",
+      "eating_disorders": "섭식 장애",
+      "substance_use": "약물 사용",
+      "self_harm": "자해 / 자살",
+      "ptsd_themes": "PTSD 관련",
+      "needles": "주사기",
+      "body_fluids": "체액",
+      "pregnancy_horror": "임신 호러",
+      "illness_themes": "질병 / 감염",
+      "blood_gore": "유혈 / 그로테스크",
+      "mature_18plus": "성인 18+",
+      "disturbing_imagery": "충격적 이미지",
+      "animal_abuse": "동물 학대",
+      "child_harm": "미성년자 폭력",
+      "domestic_violence": "가정 폭력",
+      "sexual_assault": "성폭력 언급",
+      "torture": "고문",
+      "religion_themes": "종교 주제",
+      "war_violence": "전쟁 폭력",
+      "discrimination": "차별",
+      "police_violence": "공권력 폭력",
+      "smoking_drinking": "흡연 / 음주",
+      "detailed_killing": "상세한 살해 장면",
+      "cult_occult": "사이비 / 오컬트",
+      "psychological_manipulation": "심리적 조종",
+      "grief_loss": "상실 / 슬픔",
+      "kidnapping": "납치"
     },
     "videoSettings": "영상 설정",
     "quickPreview": "빠른 미리보기",
@@ -405,7 +495,10 @@
     "deleteConfirm": "이 프로필을 삭제하시겠습니까?",
     "emptyState": "프로필이 없습니다. 채널 정보를 저장하려면 프로필을 만드세요.",
     "exportProfiles": "프로필 내보내기",
-    "importProfiles": "프로필 가져오기"
+    "importProfiles": "프로필 가져오기",
+    "thirdPartyAdText": "써드파티 광고 문구",
+    "thirdPartyAdTextPlaceholder": "예: 코드 SAVE10 입력 시 GameStore.com 전 타이틀 10% 할인\n스폰서: ChairCo — 링크는 설명란에",
+    "thirdPartyAdTextHelp": "선택적 스폰서 / 파트너 / 제휴 문구. 설정에서 '써드파티 광고'가 활성화되면 표시됩니다."
   },
   "templates": {
     "title": "템플릿",
@@ -462,6 +555,8 @@
     "showCopyright": "설명란에 © 저작권 줄 추가",
     "showUsagePolicy": "설명란에 영상 사용 정책 블록 추가",
     "showSponsorCredit": "설명란에 스폰서 감사 문구 추가 (키 제공)",
+    "showThirdPartyAds": "설명란에 써드파티 광고 블록 표시",
+    "thirdPartyAdsHint": "광고 문구는 채널 프로필에 입력하세요 (프로필 → 편집).",
     "titleFormatTitle": "제목 형식",
     "descriptionSettingsTitle": "설명",
     "badgePosition": "품질 배지 위치",

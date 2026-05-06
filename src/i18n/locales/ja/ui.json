@@ -147,6 +147,21 @@
       "x4": "x4",
       "x6": "x6"
     },
+    "frameGenMultiplier.nvidia": {
+      "none": "None",
+      "x2": "x2 (Frame Gen)",
+      "x3": "x3 (Multi Frame Gen)",
+      "x4": "x4 (Multi Frame Gen)"
+    },
+    "frameGenMultiplier.amd": {
+      "none": "None",
+      "x2": "x2 (Fluid Motion Frames)",
+      "x3": "x3 (Fluid Motion Frames)"
+    },
+    "frameGenMultiplier.intel": {
+      "none": "None",
+      "x2": "x2 (XeFG)"
+    },
     "upscaleQuality": "Upscaling Quality",
     "upscaleQualityOptions": {
       "none": "None",
@@ -155,6 +170,31 @@
       "balanced": "Balanced",
       "performance": "Performance",
       "ultra_performance": "Ultra Performance"
+    },
+    "upscaleQuality.nvidia": {
+      "none": "None",
+      "dlaa": "DLAA",
+      "quality": "DLSS Quality",
+      "balanced": "DLSS Balanced",
+      "performance": "DLSS Performance",
+      "ultra_performance": "DLSS Ultra Performance"
+    },
+    "upscaleQuality.amd": {
+      "none": "None",
+      "native_aa": "FSR Native AA",
+      "quality": "FSR Quality",
+      "balanced": "FSR Balanced",
+      "performance": "FSR Performance",
+      "ultra_performance": "FSR Ultra Performance"
+    },
+    "upscaleQuality.intel": {
+      "none": "None",
+      "native_aa": "XeSS Native AA",
+      "ultra_quality": "XeSS Ultra Quality",
+      "quality": "XeSS Quality",
+      "balanced": "XeSS Balanced",
+      "performance": "XeSS Performance",
+      "ultra_performance": "XeSS Ultra Performance"
     },
     "artStyle": "Art Style",
     "artStyleOptions": {
@@ -184,9 +224,7 @@
     "storeLinkType": "種別",
     "rig": "PC構成",
     "social": "SNS・寄付リンク",
-    "warnings": "警告",
-    "spoilerWarning": "ネタバレ警告",
-    "matureWarning": "成人向けコンテンツ (18+)",
+    "warnings": "コンテンツ警告",
     "playlistLink": "プレイリストリンク",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "連絡先メール",
@@ -223,10 +261,62 @@
     "difficultyCustomLabel": "カスタム難易度ラベル",
     "difficultyCustomPlaceholder": "例: Lethal, NG+7, Fromsoft default",
     "contentWarnings": "コンテンツ警告",
+    "contentWarningSearchPlaceholder": "警告を検索…",
+    "contentWarningEmpty": "該当する警告はありません",
+    "contentWarningGroups": {
+      "spoilers": "ネタバレ",
+      "photosensitive": "光感受性 / 健康",
+      "phobias": "恐怖症",
+      "mental_health": "メンタルヘルス",
+      "sensitive": "成人向け / センシティブ"
+    },
     "contentWarningOptions": {
-      "flashing_lights": "⚡ 光の点滅",
-      "loud_noises": "🔊 大音量",
-      "jump_scares": "😱 ジャンプスケア"
+      "spoiler_story": "ストーリー / エンディングのネタバレ",
+      "spoiler_ending": "エンディングのネタバレ",
+      "spoiler_true_ending": "True エンディングのネタバレ",
+      "spoiler_post_game": "ポストゲーム / NG+ ネタバレ",
+      "spoiler_secret_ending": "隠しエンディングのネタバレ",
+      "spoiler_dlc": "DLCストーリーのネタバレ",
+      "flashing_lights": "光の点滅",
+      "motion_sickness": "3D酔い",
+      "migraine_trigger": "片頭痛トリガー",
+      "loud_noises": "突発的な音",
+      "jump_scares": "ジャンプスケア",
+      "acrophobia": "高所",
+      "trypophobia": "集合体",
+      "thalassophobia": "深海",
+      "claustrophobia": "閉所",
+      "arachnophobia": "クモ",
+      "entomophobia": "昆虫",
+      "ophidiophobia": "ヘビ",
+      "anxiety_inducing": "不安を誘発",
+      "depression_themes": "うつ病テーマ",
+      "eating_disorders": "摂食障害",
+      "substance_use": "薬物使用",
+      "self_harm": "自傷 / 自殺",
+      "ptsd_themes": "PTSD関連",
+      "needles": "注射針",
+      "body_fluids": "体液",
+      "pregnancy_horror": "妊娠 / 出産ホラー",
+      "illness_themes": "病気 / 感染",
+      "blood_gore": "流血・グロ",
+      "mature_18plus": "成人向け 18+",
+      "disturbing_imagery": "不快な映像",
+      "animal_abuse": "動物虐待",
+      "child_harm": "未成年への暴力",
+      "domestic_violence": "家庭内暴力",
+      "sexual_assault": "性的暴行への言及",
+      "torture": "拷問",
+      "religion_themes": "宗教テーマ",
+      "war_violence": "戦争暴力",
+      "discrimination": "差別",
+      "police_violence": "公権力暴力",
+      "smoking_drinking": "喫煙 / 飲酒",
+      "detailed_killing": "殺人の詳細描写",
+      "cult_occult": "カルト / オカルト",
+      "psychological_manipulation": "心理的操作",
+      "grief_loss": "喪失 / 悲嘆",
+      "kidnapping": "誘拐"
     },
     "videoSettings": "動画設定",
     "quickPreview": "クイックプレビュー",
@@ -405,7 +495,10 @@
     "deleteConfirm": "このプロフィールを削除しますか？",
     "emptyState": "プロフィールがありません。チャンネル情報を保存するために作成してください。",
     "exportProfiles": "プロフィールをエクスポート",
-    "importProfiles": "プロフィールをインポート"
+    "importProfiles": "プロフィールをインポート",
+    "thirdPartyAdText": "サードパーティ広告コピー",
+    "thirdPartyAdTextPlaceholder": "例: コード SAVE10 で GameStore.com 全タイトル10%オフ\nスポンサー: ChairCo — リンクは説明欄に",
+    "thirdPartyAdTextHelp": "任意のスポンサー / パートナー / アフィリエイト文。設定で「サードパーティ広告」をオンにすると表示されます。"
   },
   "templates": {
     "title": "テンプレート",
@@ -462,6 +555,8 @@
     "showCopyright": "説明欄に © 著作権行を追加",
     "showUsagePolicy": "説明欄に動画利用ポリシーを追加",
     "showSponsorCredit": "説明欄にスポンサーへの感謝行を追加 (キー提供)",
+    "showThirdPartyAds": "説明欄にサードパーティ広告ブロックを表示",
+    "thirdPartyAdsHint": "広告コピーはチャンネルプロフィールに設定してください (プロフィール → 編集)。",
     "titleFormatTitle": "タイトル書式",
     "descriptionSettingsTitle": "説明欄",
     "badgePosition": "品質バッジの位置",

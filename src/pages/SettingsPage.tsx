@@ -220,6 +220,16 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showSponsorCredit", v)}
           />
           <Toggle
+            label={t("settings.showThirdPartyAds")}
+            checked={settings.showThirdPartyAds}
+            onChange={(v) => settings.setSetting("showThirdPartyAds", v)}
+          />
+          {settings.showThirdPartyAds && (
+            <p className="-mt-1 ml-14 text-xs text-text-muted">
+              {t("settings.thirdPartyAdsHint")}
+            </p>
+          )}
+          <Toggle
             label={t("settings.showPinnedCommentTemplate")}
             checked={settings.showPinnedCommentTemplate}
             onChange={(v) => settings.setSetting("showPinnedCommentTemplate", v)}
