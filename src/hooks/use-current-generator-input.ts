@@ -1,16 +1,91 @@
 import { useMemo } from "react";
-import { useEditorStore } from "@store/editor-store";
+import { useEditorStore, type EditorData } from "@store/editor-store";
 import type { GeneratorInput, SupportedLanguage } from "@engine/types";
 
 /**
- * Shapes the editor-store state into a {@link GeneratorInput} — the
+ * Shapes an editor-store snapshot into a {@link GeneratorInput} — the
  * exact blob that every engine function (title / description / tags /
- * pinned comment) consumes.
+ * pinned comment) consumes. Pure function so it's directly testable
+ * without React rendering; the hook below wraps it in `useMemo` for
+ * referential stability.
  *
- * Why a hook: four call sites (two hooks + BatchPage + OutputExtras)
- * used to hand-roll the same 25-field object. Adding a new editor
- * field meant editing every site; drift was likely. Centralising here
- * means one place to update when v0.8 adds more input fields.
+ * Why split: a v0.12.0 regression silently dropped the new Playthrough
+ * Notes / Tech Notes fields here when the input shape gained them but
+ * this mapping wasn't kept in sync — symptom was the editor's checkbox
+ * state being correct but the description preview never reflecting it.
+ * Pulling the mapping into a pure function lets tests assert parity
+ * between {@link EditorData} fields and the resulting `GeneratorInput`,
+ * so the next field add can't slip through unnoticed.
+ */
+export function buildGeneratorInputFromEditor(
+  state: EditorData,
+  languageOverride?: SupportedLanguage,
+): GeneratorInput {
+  return {
+    videoType: state.videoType,
+    language: languageOverride ?? state.language,
+    genres: state.genres,
+    gameName: state.gameName,
+    gameNameLocalized: state.gameNameLocalized,
+    channelName: state.channelName,
+    platform: state.platform,
+    partNumber: state.partNumber,
+    bossName: state.bossName,
+    dlcName: state.dlcName,
+    challengeName: state.challengeName,
+    modName: state.modName,
+    modList: state.modList,
+    liveUrl: state.liveUrl,
+    scheduledTime: state.scheduledTime,
+    gachaQuestType: state.gachaQuestType,
+    chapterName: state.chapterName,
+    questName: state.questName,
+    resolution: state.resolution,
+    fps: state.fps,
+    graphicsPreset: state.graphicsPreset,
+    graphicsPresetCustom: state.graphicsPresetCustom,
+    skipGraphicsSettings: state.skipGraphicsSettings,
+    rayTracingModes: state.rayTracingModes,
+    frameGenVendor: state.frameGenVendor,
+    frameGenMultiplier: state.frameGenMultiplier,
+    upscaleQuality: state.upscaleQuality,
+    artStyle: state.artStyle,
+    versionInfo: state.versionInfo,
+    timestamps: state.timestamps,
+    playlistLink: state.playlistLink,
+    contactEmail: state.contactEmail,
+    musicAttribution: state.musicAttribution,
+    sponsorName: state.sponsorName,
+    sponsorPlatform: state.sponsorPlatform,
+    pubDevName: state.pubDevName,
+    thirdPartyAdText: state.thirdPartyAdText,
+    spoilerWarning: state.spoilerWarning,
+    matureWarning: state.matureWarning,
+    playthroughStatus: state.playthroughStatus,
+    difficulty: state.difficulty,
+    difficultyCustomLabel: state.difficultyCustomLabel,
+    endingsShown: state.endingsShown,
+    languagePatch: state.languagePatch,
+    languagePatchCustom: state.languagePatchCustom,
+    gameVersion: state.gameVersion,
+    gameVersionCustom: state.gameVersionCustom,
+    contentWarnings: state.contentWarnings,
+    techNotes: state.techNotes,
+    storeLinks: state.storeLinks,
+    storeLinkTypes: state.storeLinkTypes,
+    social: state.social,
+    rig: state.rig,
+    vnBankName: state.vnBankName,
+    vnBankAccount: state.vnBankAccount,
+    vnBankHolder: state.vnBankHolder,
+    vnMomo: state.vnMomo,
+    vnZalopay: state.vnZalopay,
+  };
+}
+
+/**
+ * Memoised editor-state → GeneratorInput hook used by every engine
+ * caller (description / title / tags / pinned-comment / batch).
  *
  * Takes an optional `language` override — BatchPage builds the same
  * input for multiple languages, so the hook supports passing a target
@@ -20,114 +95,13 @@ export function useCurrentGeneratorInput(languageOverride?: SupportedLanguage): 
   const state = useEditorStore();
 
   return useMemo<GeneratorInput>(
-    () => ({
-      videoType: state.videoType,
-      language: languageOverride ?? state.language,
-      genres: state.genres,
-      gameName: state.gameName,
-      gameNameLocalized: state.gameNameLocalized,
-      channelName: state.channelName,
-      platform: state.platform,
-      partNumber: state.partNumber,
-      bossName: state.bossName,
-      dlcName: state.dlcName,
-      challengeName: state.challengeName,
-      modName: state.modName,
-      modList: state.modList,
-      liveUrl: state.liveUrl,
-      scheduledTime: state.scheduledTime,
-      gachaQuestType: state.gachaQuestType,
-      chapterName: state.chapterName,
-      questName: state.questName,
-      resolution: state.resolution,
-      fps: state.fps,
-      graphicsPreset: state.graphicsPreset,
-      graphicsPresetCustom: state.graphicsPresetCustom,
-      skipGraphicsSettings: state.skipGraphicsSettings,
-      rayTracingModes: state.rayTracingModes,
-      frameGenVendor: state.frameGenVendor,
-      frameGenMultiplier: state.frameGenMultiplier,
-      upscaleQuality: state.upscaleQuality,
-      artStyle: state.artStyle,
-      versionInfo: state.versionInfo,
-      timestamps: state.timestamps,
-      playlistLink: state.playlistLink,
-      contactEmail: state.contactEmail,
-      musicAttribution: state.musicAttribution,
-      sponsorName: state.sponsorName,
-      sponsorPlatform: state.sponsorPlatform,
-      pubDevName: state.pubDevName,
-      thirdPartyAdText: state.thirdPartyAdText,
-      spoilerWarning: state.spoilerWarning,
-      matureWarning: state.matureWarning,
-      playthroughStatus: state.playthroughStatus,
-      difficulty: state.difficulty,
-      difficultyCustomLabel: state.difficultyCustomLabel,
-      contentWarnings: state.contentWarnings,
-      storeLinks: state.storeLinks,
-      storeLinkTypes: state.storeLinkTypes,
-      social: state.social,
-      rig: state.rig,
-      vnBankName: state.vnBankName,
-      vnBankAccount: state.vnBankAccount,
-      vnBankHolder: state.vnBankHolder,
-      vnMomo: state.vnMomo,
-      vnZalopay: state.vnZalopay,
-    }),
-    [
-      languageOverride,
-      state.videoType,
-      state.language,
-      state.genres,
-      state.gameName,
-      state.gameNameLocalized,
-      state.channelName,
-      state.platform,
-      state.partNumber,
-      state.bossName,
-      state.dlcName,
-      state.challengeName,
-      state.modName,
-      state.modList,
-      state.liveUrl,
-      state.scheduledTime,
-      state.gachaQuestType,
-      state.chapterName,
-      state.questName,
-      state.resolution,
-      state.fps,
-      state.graphicsPreset,
-      state.graphicsPresetCustom,
-      state.skipGraphicsSettings,
-      state.rayTracingModes,
-      state.frameGenVendor,
-      state.frameGenMultiplier,
-      state.upscaleQuality,
-      state.artStyle,
-      state.versionInfo,
-      state.timestamps,
-      state.playlistLink,
-      state.contactEmail,
-      state.musicAttribution,
-      state.sponsorName,
-      state.sponsorPlatform,
-      state.pubDevName,
-      state.thirdPartyAdText,
-      state.spoilerWarning,
-      state.matureWarning,
-      state.playthroughStatus,
-      state.difficulty,
-      state.difficultyCustomLabel,
-      state.contentWarnings,
-      state.storeLinks,
-      state.storeLinkTypes,
-      state.social,
-      state.rig,
-      state.vnBankName,
-      state.vnBankAccount,
-      state.vnBankHolder,
-      state.vnMomo,
-      state.vnZalopay,
-    ],
+    // `useEditorStore()` (no selector) returns a fresh `state` reference
+    // on every store update, so depending on `state` alone captures every
+    // field change without enumerating each one — same memoisation
+    // behaviour as the old per-field deps list, minus the v0.12.0 footgun
+    // (any field added to EditorData but missing from the deps list would
+    // silently stop participating in the memo invalidation).
+    () => buildGeneratorInputFromEditor(state, languageOverride),
+    [state, languageOverride],
   );
 }
