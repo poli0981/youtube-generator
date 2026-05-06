@@ -125,6 +125,90 @@ export const DIFFICULTY_LEVELS = [
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
 
 /**
+ * Language-patch state (v0.12). Distinguishes between an officially
+ * shipped translation, a fan translation, machine translation, or no
+ * patch at all. `"official_other"` covers official non-English releases
+ * — pair with {@link languagePatchCustom} to surface the actual locale
+ * (e.g. "Official KR"). `"none"` skips the bullet in the description.
+ */
+export const LANGUAGE_PATCH_OPTIONS = [
+  "none",
+  "official_en",
+  "official_other",
+  "fan_translation",
+  "mtl",
+  "custom",
+] as const;
+export type LanguagePatch = (typeof LANGUAGE_PATCH_OPTIONS)[number];
+
+/**
+ * Game-version state (v0.12). Lets viewers know if they're watching the
+ * full release vs. a demo / EA / beta / prologue. `"custom"` is the
+ * escape hatch for niche cases ("Steam Next Fest demo", "Kickstarter
+ * backer build"); pair with {@link gameVersionCustom}. `"full_release"`
+ * is the implicit default and skips the bullet (no need to announce
+ * "this is the full game" — that's the assumed baseline).
+ */
+export const GAME_VERSION_OPTIONS = [
+  "full_release",
+  "demo",
+  "early_access",
+  "beta",
+  "prologue",
+  "pre_release",
+  "custom",
+] as const;
+export type GameVersion = (typeof GAME_VERSION_OPTIONS)[number];
+
+/**
+ * Tech / production / playstyle disclaimer items (v0.12). One unified
+ * checklist that consolidates "Technical issue", "Gameplay", and
+ * "Game State" disclaimer pools. Items that overlap with structured
+ * fields ({@link PlaythroughStatus}, {@link DifficultyLevel},
+ * {@link LanguagePatch}, {@link GameVersion}, `endingsShown`) are
+ * intentionally NOT in this list — the structured field renders that
+ * data instead, so duplicating it here would surface the same fact
+ * twice.
+ *
+ * Grouped semantically in the UI (see {@link TECH_NOTE_GROUPS} in
+ * `@config/tech-note-groups`) but flat in the array — render order in
+ * the description matches the user's selection order. Like content
+ * warnings, the rendered block is bilingual when `tEn` is provided.
+ */
+export const TECH_NOTES = [
+  // Audio
+  "copyright_muted_sections",
+  "volume_reduced_copyright",
+  "music_replaced_copyright",
+  "cutscene_audio_muted_only",
+  "original_audio_kept",
+  // Video quality
+  "low_resolution_hardware",
+  "low_graphics_performance",
+  "fps_drops_hardware",
+  // Recording issues
+  "bug_from_game",
+  "crash_kept_transparency",
+  "loading_cut",
+  "obs_artifacts_possible",
+  // Playstyle disclaimers
+  "not_no_hit_run",
+  "not_clean_walkthrough",
+  "casual_no_commentary",
+  "many_deaths_patience",
+  "slow_exploration",
+  "puzzle_stuck_possible",
+  "grinding_cut",
+  "not_speedrun_relaxed",
+  // Production / attribution
+  "exploration_focus_skip_combat",
+  "edited_for_pacing",
+  "support_developers",
+  "online_connectivity_issues",
+] as const;
+export type TechNote = (typeof TECH_NOTES)[number];
+
+/**
  * Content warnings (v0.11 unified bilingual checklist). Replaces the
  * v0.7 trio (flashing_lights / loud_noises / jump_scares) plus the
  * standalone `spoilerWarning` / `matureWarning` boolean toggles. The 3
@@ -322,23 +406,56 @@ export interface GeneratorInput {
    */
   matureWarning: boolean;
   /**
-   * Playthrough state — renders a "🎯 Playthrough: …" block above
-   * `noCommentaryLine`. Defaults to `"none"` (skipped).
+   * Playthrough state — feeds the "Run type" bullet of the unified
+   * `▸ 🎮 PLAYTHROUGH NOTES` block (v0.12). Defaults to `"none"` (bullet
+   * is skipped). Pre-v0.12 this rendered as a standalone "🎯 Playthrough:"
+   * line above `noCommentaryLine`.
    */
   playthroughStatus?: PlaythroughStatus;
   /**
-   * Preset / custom difficulty — renders a "🎮 DIFFICULTY" block after
-   * the Video Settings section. When `"custom"`, the value is taken
-   * from {@link difficultyCustomLabel} instead of the locale preset.
+   * Preset / custom difficulty — feeds the "Difficulty" bullet of the
+   * unified `▸ 🎮 PLAYTHROUGH NOTES` block (v0.12). When `"custom"`, the
+   * value comes from {@link difficultyCustomLabel}. Pre-v0.12 this had
+   * its own `🎮 DIFFICULTY` section after Video Settings.
    */
   difficulty?: DifficultyLevel;
   /** Free-form label used when `difficulty === "custom"`. */
   difficultyCustomLabel?: string;
   /**
+   * Free-text "endings shown" bullet for the `▸ 🎮 PLAYTHROUGH NOTES`
+   * block (v0.12). Examples: "1 of 3", "True ending only", "All routes
+   * 100%". Empty → bullet is skipped. Free-form on purpose: the natural
+   * value space is too varied for an enum.
+   */
+  endingsShown?: string;
+  /**
+   * Language-patch state for the `▸ 🎮 PLAYTHROUGH NOTES` block (v0.12).
+   * `"none"` → skip the bullet. `"official_other"` and `"custom"` pair
+   * with {@link languagePatchCustom} to surface a free-form value
+   * ("Official KR", "VNI fan translation v2.1").
+   */
+  languagePatch?: LanguagePatch;
+  /** Free-form label for `languagePatch === "official_other"` or `"custom"`. */
+  languagePatchCustom?: string;
+  /**
+   * Game-version state for the `▸ 🎮 PLAYTHROUGH NOTES` block (v0.12).
+   * `"full_release"` → skip the bullet (it's the assumed baseline; no
+   * need to announce). `"custom"` pairs with {@link gameVersionCustom}.
+   */
+  gameVersion?: GameVersion;
+  /** Free-form label for `gameVersion === "custom"`. */
+  gameVersionCustom?: string;
+  /**
    * Accessibility warnings — renders a "⚠️ CONTENT WARNINGS" bulleted
    * block after the spoiler section. Empty / missing → skipped.
    */
   contentWarnings?: ContentWarning[];
+  /**
+   * Tech / production / playstyle disclaimers (v0.12) — renders a
+   * "▸ 🛠 TECH NOTES" bulleted block after the content-warnings block.
+   * Bilingual when `tEn` is provided. Empty / missing → skipped.
+   */
+  techNotes?: TechNote[];
   storeLinks: Partial<Record<string, string>>;
   /**
    * Parallel map from the same platform id to a pricing category.

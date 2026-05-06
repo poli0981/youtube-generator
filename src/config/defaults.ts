@@ -15,6 +15,9 @@ import type {
   PlaythroughStatus,
   DifficultyLevel,
   ContentWarning,
+  LanguagePatch,
+  GameVersion,
+  TechNote,
 } from "@engine/types";
 
 export interface EditorDefaults {
@@ -84,7 +87,19 @@ export interface EditorDefaults {
   playthroughStatus: PlaythroughStatus;
   difficulty: DifficultyLevel;
   difficultyCustomLabel: string;
+  /** Free-text endings descriptor for Playthrough Notes section (v0.12). */
+  endingsShown: string;
+  /** Language-patch enum for Playthrough Notes section (v0.12). */
+  languagePatch: LanguagePatch;
+  /** Free-form label when `languagePatch` is `"official_other"` or `"custom"`. */
+  languagePatchCustom: string;
+  /** Game-version enum for Playthrough Notes section (v0.12). */
+  gameVersion: GameVersion;
+  /** Free-form label when `gameVersion === "custom"`. */
+  gameVersionCustom: string;
   contentWarnings: ContentWarning[];
+  /** Tech / production / playstyle disclaimer checklist items (v0.12). */
+  techNotes: TechNote[];
   storeLinks: Record<string, string>;
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
@@ -150,7 +165,13 @@ export const DEFAULTS = {
     playthroughStatus: "none",
     difficulty: "none",
     difficultyCustomLabel: "",
+    endingsShown: "",
+    languagePatch: "none",
+    languagePatchCustom: "",
+    gameVersion: "full_release",
+    gameVersionCustom: "",
     contentWarnings: [],
+    techNotes: [],
     storeLinks: {},
     storeLinkTypes: {},
     social: {},

@@ -117,9 +117,7 @@
       "cta": "👍 いいね | 🔔 チャンネル登録 | ↗️ シェア",
       "copyright": "© {{year}} {{channelName}}. All rights reserved.",
       "usagePolicyHeader": "📋 動画利用ポリシー",
-      "usagePolicy": "• 元動画のリンクとチャンネル名を必ずクレジットしてください（最低でも説明欄に）。\n• 動画全体または大部分の再アップロードは禁止です。\n• 明示的な許可なしに収益化しないでください。\n• 元の内容や制作者を歪曲するような編集は禁止です。\n• クレジットを明記すれば、コンピレーション、レビュー、解説、リアクション動画はOKです。\n不明な点があれば、説明欄のソーシャルアカウントまたはメールでご連絡ください。",
-      "playthrough": "🎯 プレイスタイル: {{value}}",
-      "difficulty": "🎮 難易度"
+      "usagePolicy": "• 元動画のリンクとチャンネル名を必ずクレジットしてください（最低でも説明欄に）。\n• 動画全体または大部分の再アップロードは禁止です。\n• 明示的な許可なしに収益化しないでください。\n• 元の内容や制作者を歪曲するような編集は禁止です。\n• クレジットを明記すれば、コンピレーション、レビュー、解説、リアクション動画はOKです。\n不明な点があれば、説明欄のソーシャルアカウントまたはメールでご連絡ください。"
     },
     "playthrough": {
       "blind": "初見プレイ",
@@ -132,6 +130,62 @@
       "normal": "ノーマル",
       "hard": "ハード",
       "nightmare": "ナイトメア / 最難関"
+    },
+    "playthroughNotes": {
+      "header": "▸ 🎮 プレイ情報",
+      "intro": "本プレイの設定、バージョン、進め方の情報。",
+      "labels": {
+        "runType": "プレイ種別",
+        "difficulty": "難易度",
+        "endings": "公開エンディング",
+        "languagePatch": "言語パッチ",
+        "gameVersion": "ゲームバージョン"
+      },
+      "languagePatchOptions": {
+        "official_en": "公式英語版",
+        "official_other": "公式版（他言語）",
+        "fan_translation": "ファン翻訳",
+        "mtl": "機械翻訳",
+        "custom": "カスタム"
+      },
+      "gameVersionOptions": {
+        "demo": "体験版",
+        "early_access": "アーリーアクセス",
+        "beta": "ベータ版",
+        "prologue": "プロローグ / ティザー",
+        "pre_release": "プレリリース",
+        "custom": "カスタム"
+      }
+    },
+    "techNotes": {
+      "header": "▸ 🛠 技術メモ",
+      "intro": "制作およびプレイスタイルに関する透明性メモ。",
+      "items": {
+        "copyright_muted_sections": "YouTube著作権により一部音声をミュート",
+        "volume_reduced_copyright": "著作権の都合で一部音量を下げています",
+        "music_replaced_copyright": "著作権回避のためBGMを差し替え",
+        "cutscene_audio_muted_only": "ムービーのみミュート — ゲーム音声はそのまま",
+        "original_audio_kept": "原音そのまま — クレーム発生のリスクを承知",
+        "low_resolution_hardware": "ハードウェア性能の都合で低解像度収録",
+        "low_graphics_performance": "パフォーマンスのためグラフィック設定を低下",
+        "fps_drops_hardware": "FPS低下 — ハード起因（左上にFPS表示）",
+        "bug_from_game": "バグ／グリッチはゲーム側のもの、収録環境ではありません",
+        "crash_kept_transparency": "透明性のためクラッシュ場面もそのまま掲載",
+        "loading_cut": "ロード画面はカット済み",
+        "obs_artifacts_possible": "OBS収録由来のアーティファクトの可能性あり",
+        "not_no_hit_run": "ノーヒットランではありません — クリーンプレイ目的の方は注意",
+        "not_clean_walkthrough": "丁寧な攻略ではなく、自然なプレイ重視",
+        "casual_no_commentary": "気楽なプレイ、解説なし",
+        "many_deaths_patience": "死亡シーン多め — 視聴に忍耐が必要かも",
+        "slow_exploration": "戻り道多め — じっくり探索ペース",
+        "puzzle_stuck_possible": "パズルで詰まる場面あり",
+        "grinding_cut": "周回／繰り返しパートはカット",
+        "not_speedrun_relaxed": "スピードランではなく、ゆったりプレイ",
+        "exploration_focus_skip_combat": "探索重視 — 戦闘はスキップする場合あり",
+        "edited_for_pacing": "テンポ調整の編集あり — 実時間ではありません",
+        "support_developers": "原曲使用 — 開発者への応援をよろしくお願いします",
+        "online_connectivity_issues": "オンラインゲーム — 接続不調の可能性"
+      }
     },
     "contentWarnings": {
       "header": "▸ ⚠️ コンテンツ警告",

@@ -46,6 +46,7 @@
       "playthrough", "difficulty", "difficultyCustomLabel", "difficultyCustomPlaceholder",
       "contentWarnings",
       "contentWarningSearchPlaceholder", "contentWarningEmpty",
+      "techNotes", "techNoteSearchPlaceholder", "techNoteEmpty",
       "videoSettings", "quickPreview", "version",
       "clearDraft", "draftSaved", "clearDraftConfirm",
       "genreSearchPlaceholder", "genreSearchNoResults"
@@ -67,6 +68,22 @@
     "editor.warning": ["linkNameMismatch"],
     "editor.playthroughOptions": ["none", "blind", "replay", "newgame_plus", "postgame"],
     "editor.difficultyOptions": ["none", "easy", "normal", "hard", "nightmare", "custom"],
+    "editor.playthroughNotes": [
+      "title",
+      "runTypeLabel", "difficultyLabel", "endingsLabel", "endingsPlaceholder",
+      "languagePatchLabel", "languagePatchCustomLabel", "languagePatchCustomPlaceholder",
+      "gameVersionLabel", "gameVersionCustomLabel", "gameVersionCustomPlaceholder"
+    ],
+    "editor.playthroughNotes.languagePatchOptions": ["none", "official_en", "official_other", "fan_translation", "mtl", "custom"],
+    "editor.playthroughNotes.gameVersionOptions": ["full_release", "demo", "early_access", "beta", "prologue", "pre_release", "custom"],
+    "editor.techNoteGroups": ["audio", "video_quality", "recording_issues", "playstyle", "production"],
+    "editor.techNoteOptions": [
+      "copyright_muted_sections", "volume_reduced_copyright", "music_replaced_copyright", "cutscene_audio_muted_only", "original_audio_kept",
+      "low_resolution_hardware", "low_graphics_performance", "fps_drops_hardware",
+      "bug_from_game", "crash_kept_transparency", "loading_cut", "obs_artifacts_possible",
+      "not_no_hit_run", "not_clean_walkthrough", "casual_no_commentary", "many_deaths_patience", "slow_exploration", "puzzle_stuck_possible", "grinding_cut", "not_speedrun_relaxed",
+      "exploration_focus_skip_combat", "edited_for_pacing", "support_developers", "online_connectivity_issues"
+    ],
     "editor.contentWarningGroups": ["spoilers", "photosensitive", "phobias", "mental_health", "sensitive"],
     "editor.contentWarningOptions": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",
@@ -138,11 +155,22 @@
       "modList", "vnDonate",
       "sponsorCredit", "thirdPartyAds", "music", "donate", "social",
       "playlist", "contact", "cta",
-      "copyright", "usagePolicyHeader", "usagePolicy",
-      "playthrough", "difficulty"
+      "copyright", "usagePolicyHeader", "usagePolicy"
     ],
     "description.playthrough": ["blind", "replay", "newgame_plus", "postgame"],
     "description.difficulty": ["easy", "normal", "hard", "nightmare"],
+    "description.playthroughNotes": ["header", "intro"],
+    "description.playthroughNotes.labels": ["runType", "difficulty", "endings", "languagePatch", "gameVersion"],
+    "description.playthroughNotes.languagePatchOptions": ["official_en", "official_other", "fan_translation", "mtl", "custom"],
+    "description.playthroughNotes.gameVersionOptions": ["demo", "early_access", "beta", "prologue", "pre_release", "custom"],
+    "description.techNotes": ["header", "intro"],
+    "description.techNotes.items": [
+      "copyright_muted_sections", "volume_reduced_copyright", "music_replaced_copyright", "cutscene_audio_muted_only", "original_audio_kept",
+      "low_resolution_hardware", "low_graphics_performance", "fps_drops_hardware",
+      "bug_from_game", "crash_kept_transparency", "loading_cut", "obs_artifacts_possible",
+      "not_no_hit_run", "not_clean_walkthrough", "casual_no_commentary", "many_deaths_patience", "slow_exploration", "puzzle_stuck_possible", "grinding_cut", "not_speedrun_relaxed",
+      "exploration_focus_skip_combat", "edited_for_pacing", "support_developers", "online_connectivity_issues"
+    ],
     "description.contentWarnings": ["header", "intro"],
     "description.contentWarnings.items": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",

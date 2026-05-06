@@ -117,9 +117,7 @@
       "cta": "👍 Me gusta | 🔔 Suscríbete | ↗️ Comparte",
       "copyright": "© {{year}} {{channelName}}. Todos los derechos reservados.",
       "usagePolicyHeader": "📋 POLÍTICA DE USO",
-      "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción.",
-      "playthrough": "🎯 Partida: {{value}}",
-      "difficulty": "🎮 DIFICULTAD"
+      "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción."
     },
     "playthrough": {
       "blind": "Partida a ciegas (primera vez)",
@@ -132,6 +130,62 @@
       "normal": "Normal",
       "hard": "Difícil",
       "nightmare": "Pesadilla / Extremo"
+    },
+    "playthroughNotes": {
+      "header": "▸ 🎮 NOTAS DE LA PARTIDA",
+      "intro": "Configuración, versión y enfoque de esta partida.",
+      "labels": {
+        "runType": "Tipo de partida",
+        "difficulty": "Dificultad",
+        "endings": "Finales mostrados",
+        "languagePatch": "Parche de idioma",
+        "gameVersion": "Versión del juego"
+      },
+      "languagePatchOptions": {
+        "official_en": "Lanzamiento oficial en inglés",
+        "official_other": "Lanzamiento oficial (otro idioma)",
+        "fan_translation": "Traducción de fans",
+        "mtl": "Traducción automática",
+        "custom": "Personalizada"
+      },
+      "gameVersionOptions": {
+        "demo": "Demo",
+        "early_access": "Acceso anticipado",
+        "beta": "Beta",
+        "prologue": "Prólogo / Teaser",
+        "pre_release": "Versión preliminar",
+        "custom": "Personalizada"
+      }
+    },
+    "techNotes": {
+      "header": "▸ 🛠 NOTAS TÉCNICAS",
+      "intro": "Notas de producción y estilo de juego para mayor transparencia.",
+      "items": {
+        "copyright_muted_sections": "Algunas secciones silenciadas por derechos de autor de YouTube",
+        "volume_reduced_copyright": "Volumen reducido en algunas secciones por derechos de autor",
+        "music_replaced_copyright": "Música del juego reemplazada para evitar reclamos de copyright",
+        "cutscene_audio_muted_only": "Solo se silenció el audio de las cinemáticas — el audio del gameplay se mantiene",
+        "original_audio_kept": "Audio original conservado — aceptando posible riesgo de reclamo",
+        "low_resolution_hardware": "Grabado a menor resolución por limitaciones de hardware",
+        "low_graphics_performance": "Configuración gráfica reducida por rendimiento",
+        "fps_drops_hardware": "Caídas de FPS — causadas por hardware (contador de FPS visible arriba a la izquierda)",
+        "bug_from_game": "Los bugs / glitches son del juego, no de la grabación",
+        "crash_kept_transparency": "Crash del juego conservado por transparencia",
+        "loading_cut": "Pantallas de carga eliminadas",
+        "obs_artifacts_possible": "Posibles artefactos de grabación de OBS",
+        "not_no_hit_run": "NO es una partida sin recibir daño — si buscas juego limpio, salta este vídeo",
+        "not_clean_walkthrough": "No es una guía pulida — exploración natural",
+        "casual_no_commentary": "Juego casual, sin comentario",
+        "many_deaths_patience": "Muchas muertes — se requiere paciencia",
+        "slow_exploration": "Mucho retroceso — ritmo de exploración lento",
+        "puzzle_stuck_possible": "Puede haber bloqueos en los puzles",
+        "grinding_cut": "Secciones de grindeo / repetición eliminadas",
+        "not_speedrun_relaxed": "No es un speedrun — partida relajada",
+        "exploration_focus_skip_combat": "Enfocado en exploración — se puede saltar combate",
+        "edited_for_pacing": "Editado para el ritmo — no es en tiempo real",
+        "support_developers": "Música original del juego — apoya a los desarrolladores",
+        "online_connectivity_issues": "Juego online — posibles problemas de conexión"
+      }
     },
     "contentWarnings": {
       "header": "▸ ⚠️ ADVERTENCIAS DE CONTENIDO",

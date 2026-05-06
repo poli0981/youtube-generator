@@ -10,7 +10,8 @@ import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { VietnameseDonateEditor } from "@components/editor/VietnameseDonateEditor";
 import { ContentWarningChecklist } from "@components/editor/ContentWarningChecklist";
-import { ContentDetailsForm } from "@components/editor/ContentDetailsForm";
+import { PlaythroughNotesForm } from "@components/editor/PlaythroughNotesForm";
+import { TechNotesChecklist } from "@components/editor/TechNotesChecklist";
 import { ThumbnailHelper } from "@components/editor/ThumbnailHelper";
 import { PinnedCommentEditor } from "@components/editor/PinnedCommentEditor";
 import { MusicAttributionEditor } from "@components/editor/MusicAttributionEditor";
@@ -94,8 +95,9 @@ export function EditorPage() {
           onToggle={() => toggleAccordion("contentDetails")}
         >
           <TimestampEditor />
-          <ContentDetailsForm />
+          <PlaythroughNotesForm />
           <ContentWarningChecklist />
+          <TechNotesChecklist />
           <ValidatedInput
             label={t("editor.playlistLink")}
             placeholder={t("editor.playlistLinkPlaceholder")}

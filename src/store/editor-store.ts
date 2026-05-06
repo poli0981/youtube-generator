@@ -8,6 +8,14 @@ import type {
   PlaythroughStatus,
   DifficultyLevel,
   ContentWarning,
+  LanguagePatch,
+  GameVersion,
+  TechNote,
+} from "@engine/types";
+import {
+  LANGUAGE_PATCH_OPTIONS,
+  GAME_VERSION_OPTIONS,
+  TECH_NOTES,
 } from "@engine/types";
 import {
   GRAPHICS_PRESETS,
@@ -79,7 +87,19 @@ interface EditorData {
   playthroughStatus: PlaythroughStatus;
   difficulty: DifficultyLevel;
   difficultyCustomLabel: string;
+  /** Free-text endings descriptor for Playthrough Notes (v0.12). */
+  endingsShown: string;
+  /** Language-patch enum for Playthrough Notes (v0.12). */
+  languagePatch: LanguagePatch;
+  /** Free-form label paired with `languagePatch === "official_other" | "custom"`. */
+  languagePatchCustom: string;
+  /** Game-version enum for Playthrough Notes (v0.12). */
+  gameVersion: GameVersion;
+  /** Free-form label paired with `gameVersion === "custom"`. */
+  gameVersionCustom: string;
   contentWarnings: ContentWarning[];
+  /** Tech / production / playstyle disclaimer checklist items (v0.12). */
+  techNotes: TechNote[];
   storeLinks: Record<string, string>;
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;
@@ -235,7 +255,13 @@ const initialState: EditorData = {
   playthroughStatus: DEFAULTS.editor.playthroughStatus as PlaythroughStatus,
   difficulty: DEFAULTS.editor.difficulty as DifficultyLevel,
   difficultyCustomLabel: DEFAULTS.editor.difficultyCustomLabel,
+  endingsShown: DEFAULTS.editor.endingsShown,
+  languagePatch: DEFAULTS.editor.languagePatch,
+  languagePatchCustom: DEFAULTS.editor.languagePatchCustom,
+  gameVersion: DEFAULTS.editor.gameVersion,
+  gameVersionCustom: DEFAULTS.editor.gameVersionCustom,
   contentWarnings: [...DEFAULTS.editor.contentWarnings] as ContentWarning[],
+  techNotes: [...DEFAULTS.editor.techNotes] as TechNote[],
   storeLinks: { ...DEFAULTS.editor.storeLinks },
   storeLinkTypes: { ...DEFAULTS.editor.storeLinkTypes },
   social: { ...DEFAULTS.editor.social },
@@ -320,119 +346,19 @@ export const useEditorStore = create<EditorState>()(
       //            "native_aa"` is no longer a valid combo (DLSS uses
       //            `dlaa`); coerce invalid pairs to `"none"` so the
       //            editor Select doesn't render with a stale value.
-      version: 9,
-      migrate: (persistedState: unknown, version: number): EditorData => {
-        if (!persistedState || typeof persistedState !== "object") {
-          return { ...initialState };
-        }
-        const state = persistedState as Record<string, unknown> & {
-          genre?: unknown;
-          sponsorName?: unknown;
-          sponsorPlatform?: unknown;
-        };
-        if (version < 2 && typeof state.genre === "string" && !Array.isArray(state.genres)) {
-          state.genres = [state.genre];
-          delete state.genre;
-        }
-        if (version < 3) {
-          if (typeof state.sponsorName !== "string") state.sponsorName = "";
-          if (typeof state.sponsorPlatform !== "string") state.sponsorPlatform = "";
-        }
-        if (version < 4) {
-          if (typeof state.playthroughStatus !== "string") state.playthroughStatus = "none";
-          if (typeof state.difficulty !== "string") state.difficulty = "none";
-          if (typeof state.difficultyCustomLabel !== "string") {
-            state.difficultyCustomLabel = "";
-          }
-          if (!Array.isArray(state.contentWarnings)) state.contentWarnings = [];
-        }
-        if (version < 5) {
-          // Map legacy free-form preset text to the new enum + Custom slot.
-          const legacy = typeof state.graphicsPreset === "string" ? state.graphicsPreset : "";
-          const isAlreadyEnum = (GRAPHICS_PRESETS as readonly string[]).includes(legacy);
-          if (!isAlreadyEnum) {
-            const { preset, custom } = legacyGraphicsPresetToEnum(legacy);
-            state.graphicsPreset = preset;
-            if (typeof state.graphicsPresetCustom !== "string") {
-              state.graphicsPresetCustom = custom;
-            }
-          } else if (typeof state.graphicsPresetCustom !== "string") {
-            state.graphicsPresetCustom = "";
-          }
-          if (typeof state.skipGraphicsSettings !== "boolean") {
-            state.skipGraphicsSettings = false;
-          }
-          if (!Array.isArray(state.rayTracingModes)) state.rayTracingModes = [];
-          if (typeof state.frameGenVendor !== "string") state.frameGenVendor = "none";
-          if (typeof state.frameGenMultiplier !== "string") state.frameGenMultiplier = "none";
-          if (typeof state.upscaleQuality !== "string") state.upscaleQuality = "none";
-          if (typeof state.artStyle !== "string") state.artStyle = "none";
-          if (typeof state.versionInfo !== "string") state.versionInfo = "";
-          if (typeof state.liveUrl !== "string") state.liveUrl = "";
-          if (typeof state.scheduledTime !== "string") state.scheduledTime = "";
-        }
-        if (version < 6) {
-          if (typeof state.modList !== "string") state.modList = "";
-          if (typeof state.vnBankName !== "string") state.vnBankName = "";
-          if (typeof state.vnBankAccount !== "string") state.vnBankAccount = "";
-          if (typeof state.vnBankHolder !== "string") state.vnBankHolder = "";
-          if (typeof state.vnMomo !== "string") state.vnMomo = "";
-          if (typeof state.vnZalopay !== "string") state.vnZalopay = "";
-        }
-        if (version < 7) {
-          const gqt = state.gachaQuestType;
-          if (
-            typeof gqt !== "string" ||
-            !(GACHA_QUEST_TYPES as readonly string[]).includes(gqt)
-          ) {
-            state.gachaQuestType = DEFAULT_GACHA_QUEST_TYPE;
-          }
-          if (typeof state.chapterName !== "string") state.chapterName = "";
-          if (typeof state.questName !== "string") state.questName = "";
-        }
-        if (version < 8) {
-          if (typeof state.pubDevName !== "string") state.pubDevName = "";
-        }
-        if (version < 9) {
-          // 1. New per-profile ads field — empty-string back-fill.
-          if (typeof state.thirdPartyAdText !== "string") state.thirdPartyAdText = "";
-
-          // 2. Merge legacy boolean toggles into the unified checklist.
-          //    `Array.isArray` defensive — pre-v0.4 drafts that never
-          //    saw the v3→v4 migration may still have a non-array here.
-          const cw: ContentWarning[] = Array.isArray(state.contentWarnings)
-            ? (state.contentWarnings as ContentWarning[])
-            : [];
-          if (state.spoilerWarning === true && !cw.includes("spoiler_story")) {
-            cw.push("spoiler_story");
-          }
-          if (state.matureWarning === true && !cw.includes("mature_18plus")) {
-            cw.push("mature_18plus");
-          }
-          state.contentWarnings = cw;
-          state.spoilerWarning = false;
-          state.matureWarning = false;
-
-          // 3. Coerce vendor-incompatible upscale / frame-gen combos.
-          const persistedVendor =
-            typeof state.frameGenVendor === "string"
-              ? (state.frameGenVendor as FrameGenVendor)
-              : "none";
-          state.upscaleQuality = coerceUpscaleQuality(
-            persistedVendor,
-            typeof state.upscaleQuality === "string"
-              ? (state.upscaleQuality as UpscaleQuality)
-              : "none",
-          );
-          state.frameGenMultiplier = coerceFrameGenMultiplier(
-            persistedVendor,
-            typeof state.frameGenMultiplier === "string"
-              ? (state.frameGenMultiplier as FrameGenMultiplier)
-              : "none",
-          );
-        }
-        return { ...initialState, ...state } as EditorData;
-      },
+      // v9 → v10: v0.12. Playthrough Notes section consolidated the v0.7
+      //         standalone "🎯 Playthrough" + "🎮 DIFFICULTY" blocks into
+      //         a single `▸ 🎮 PLAYTHROUGH NOTES` description block, and
+      //         added three new structured fields (`endingsShown`,
+      //         `languagePatch` + custom, `gameVersion` + custom). A new
+      //         `techNotes` checklist (`▸ 🛠 TECH NOTES`) sits after
+      //         content warnings. Migration is purely additive — the
+      //         existing `playthroughStatus` / `difficulty` /
+      //         `difficultyCustomLabel` values are preserved; only the
+      //         description-builder render path changed.
+      version: 10,
+      migrate: (persistedState, version) =>
+        migrateEditorState(persistedState, version),
       partialize: (state) => ({
         videoType: state.videoType,
         language: state.language,
@@ -478,7 +404,13 @@ export const useEditorStore = create<EditorState>()(
         playthroughStatus: state.playthroughStatus,
         difficulty: state.difficulty,
         difficultyCustomLabel: state.difficultyCustomLabel,
+        endingsShown: state.endingsShown,
+        languagePatch: state.languagePatch,
+        languagePatchCustom: state.languagePatchCustom,
+        gameVersion: state.gameVersion,
+        gameVersionCustom: state.gameVersionCustom,
         contentWarnings: state.contentWarnings,
+        techNotes: state.techNotes,
         storeLinks: state.storeLinks,
         storeLinkTypes: state.storeLinkTypes,
         social: state.social,
@@ -492,3 +424,160 @@ export const useEditorStore = create<EditorState>()(
     },
   ),
 );
+
+/**
+ * Editor-store persist migration (extracted from the inline `migrate`
+ * config so it's directly testable). Each `if (version < N)` block
+ * back-fills the schema delta introduced in version `N`. Exported so
+ * tests can feed in a known persisted blob and assert the migrated
+ * result without going through localStorage.
+ */
+export function migrateEditorState(
+  persistedState: unknown,
+  version: number,
+): EditorData {
+  if (!persistedState || typeof persistedState !== "object") {
+    return { ...initialState };
+  }
+  const state = persistedState as Record<string, unknown> & {
+    genre?: unknown;
+    sponsorName?: unknown;
+    sponsorPlatform?: unknown;
+  };
+  if (version < 2 && typeof state.genre === "string" && !Array.isArray(state.genres)) {
+    state.genres = [state.genre];
+    delete state.genre;
+  }
+  if (version < 3) {
+    if (typeof state.sponsorName !== "string") state.sponsorName = "";
+    if (typeof state.sponsorPlatform !== "string") state.sponsorPlatform = "";
+  }
+  if (version < 4) {
+    if (typeof state.playthroughStatus !== "string") state.playthroughStatus = "none";
+    if (typeof state.difficulty !== "string") state.difficulty = "none";
+    if (typeof state.difficultyCustomLabel !== "string") {
+      state.difficultyCustomLabel = "";
+    }
+    if (!Array.isArray(state.contentWarnings)) state.contentWarnings = [];
+  }
+  if (version < 5) {
+    // Map legacy free-form preset text to the new enum + Custom slot.
+    const legacy = typeof state.graphicsPreset === "string" ? state.graphicsPreset : "";
+    const isAlreadyEnum = (GRAPHICS_PRESETS as readonly string[]).includes(legacy);
+    if (!isAlreadyEnum) {
+      const { preset, custom } = legacyGraphicsPresetToEnum(legacy);
+      state.graphicsPreset = preset;
+      if (typeof state.graphicsPresetCustom !== "string") {
+        state.graphicsPresetCustom = custom;
+      }
+    } else if (typeof state.graphicsPresetCustom !== "string") {
+      state.graphicsPresetCustom = "";
+    }
+    if (typeof state.skipGraphicsSettings !== "boolean") {
+      state.skipGraphicsSettings = false;
+    }
+    if (!Array.isArray(state.rayTracingModes)) state.rayTracingModes = [];
+    if (typeof state.frameGenVendor !== "string") state.frameGenVendor = "none";
+    if (typeof state.frameGenMultiplier !== "string") state.frameGenMultiplier = "none";
+    if (typeof state.upscaleQuality !== "string") state.upscaleQuality = "none";
+    if (typeof state.artStyle !== "string") state.artStyle = "none";
+    if (typeof state.versionInfo !== "string") state.versionInfo = "";
+    if (typeof state.liveUrl !== "string") state.liveUrl = "";
+    if (typeof state.scheduledTime !== "string") state.scheduledTime = "";
+  }
+  if (version < 6) {
+    if (typeof state.modList !== "string") state.modList = "";
+    if (typeof state.vnBankName !== "string") state.vnBankName = "";
+    if (typeof state.vnBankAccount !== "string") state.vnBankAccount = "";
+    if (typeof state.vnBankHolder !== "string") state.vnBankHolder = "";
+    if (typeof state.vnMomo !== "string") state.vnMomo = "";
+    if (typeof state.vnZalopay !== "string") state.vnZalopay = "";
+  }
+  if (version < 7) {
+    const gqt = state.gachaQuestType;
+    if (
+      typeof gqt !== "string" ||
+      !(GACHA_QUEST_TYPES as readonly string[]).includes(gqt)
+    ) {
+      state.gachaQuestType = DEFAULT_GACHA_QUEST_TYPE;
+    }
+    if (typeof state.chapterName !== "string") state.chapterName = "";
+    if (typeof state.questName !== "string") state.questName = "";
+  }
+  if (version < 8) {
+    if (typeof state.pubDevName !== "string") state.pubDevName = "";
+  }
+  if (version < 9) {
+    // 1. New per-profile ads field — empty-string back-fill.
+    if (typeof state.thirdPartyAdText !== "string") state.thirdPartyAdText = "";
+
+    // 2. Merge legacy boolean toggles into the unified checklist.
+    //    `Array.isArray` defensive — pre-v0.4 drafts that never
+    //    saw the v3→v4 migration may still have a non-array here.
+    const cw: ContentWarning[] = Array.isArray(state.contentWarnings)
+      ? (state.contentWarnings as ContentWarning[])
+      : [];
+    if (state.spoilerWarning === true && !cw.includes("spoiler_story")) {
+      cw.push("spoiler_story");
+    }
+    if (state.matureWarning === true && !cw.includes("mature_18plus")) {
+      cw.push("mature_18plus");
+    }
+    state.contentWarnings = cw;
+    state.spoilerWarning = false;
+    state.matureWarning = false;
+
+    // 3. Coerce vendor-incompatible upscale / frame-gen combos.
+    const persistedVendor =
+      typeof state.frameGenVendor === "string"
+        ? (state.frameGenVendor as FrameGenVendor)
+        : "none";
+    state.upscaleQuality = coerceUpscaleQuality(
+      persistedVendor,
+      typeof state.upscaleQuality === "string"
+        ? (state.upscaleQuality as UpscaleQuality)
+        : "none",
+    );
+    state.frameGenMultiplier = coerceFrameGenMultiplier(
+      persistedVendor,
+      typeof state.frameGenMultiplier === "string"
+        ? (state.frameGenMultiplier as FrameGenMultiplier)
+        : "none",
+    );
+  }
+  if (version < 10) {
+    // Playthrough Notes new fields — empty / sentinel back-fill.
+    if (typeof state.endingsShown !== "string") state.endingsShown = "";
+    if (
+      typeof state.languagePatch !== "string" ||
+      !(LANGUAGE_PATCH_OPTIONS as readonly string[]).includes(state.languagePatch as string)
+    ) {
+      state.languagePatch = "none";
+    }
+    if (typeof state.languagePatchCustom !== "string") {
+      state.languagePatchCustom = "";
+    }
+    if (
+      typeof state.gameVersion !== "string" ||
+      !(GAME_VERSION_OPTIONS as readonly string[]).includes(state.gameVersion as string)
+    ) {
+      state.gameVersion = "full_release";
+    }
+    if (typeof state.gameVersionCustom !== "string") {
+      state.gameVersionCustom = "";
+    }
+    // Tech Notes checklist — empty array back-fill, with a defensive
+    // filter so a hand-edited persistent blob with stale ids doesn't
+    // crash the engine on first read.
+    if (!Array.isArray(state.techNotes)) {
+      state.techNotes = [];
+    } else {
+      state.techNotes = (state.techNotes as unknown[]).filter(
+        (id): id is TechNote =>
+          typeof id === "string" &&
+          (TECH_NOTES as readonly string[]).includes(id),
+      );
+    }
+  }
+  return { ...initialState, ...state } as EditorData;
+}

@@ -807,57 +807,245 @@ describe("buildDescription", () => {
   });
 });
 
-describe("buildDescription — v0.7 content fields", () => {
-  it("renders the playthrough block after the intro when set", () => {
+describe("buildDescription — v0.12 Playthrough Notes consolidation", () => {
+  it("renders run type as a bullet of the unified PLAYTHROUGH NOTES block", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({ playthroughStatus: "blind" }),
       t,
     );
-    expect(result).toContain("🎯 Playthrough:");
-    expect(result).toContain("Blind run (first time playing)");
-    // Lands between the intro line and the No-Commentary tagline:
+    expect(result).toContain("▸ 🎮 PLAYTHROUGH NOTES");
+    expect(result).toContain("• Run type: Blind run (first time playing)");
+    // The block sits between the intro and No Commentary, replacing the
+    // pre-v0.12 standalone "🎯 Playthrough:" line.
     const introIdx = result.indexOf("full gameplay of Elden Ring");
-    const playthroughIdx = result.indexOf("🎯 Playthrough");
+    const pnIdx = result.indexOf("▸ 🎮 PLAYTHROUGH NOTES");
     const noCommentaryIdx = result.indexOf("No Commentary");
-    expect(playthroughIdx).toBeGreaterThan(introIdx);
-    expect(noCommentaryIdx).toBeGreaterThan(playthroughIdx);
+    expect(pnIdx).toBeGreaterThan(introIdx);
+    expect(noCommentaryIdx).toBeGreaterThan(pnIdx);
+    // The legacy single-line block must NOT render anymore.
+    expect(result).not.toContain("🎯 Playthrough:");
   });
 
-  it("omits the playthrough block when value is 'none'", () => {
+  it("omits the entire PLAYTHROUGH NOTES block when every field is unset", () => {
     const t = createMockT("en");
     const result = buildDescription(
-      makeInput({ playthroughStatus: "none" }),
+      makeInput({
+        playthroughStatus: "none",
+        difficulty: "none",
+        endingsShown: "",
+        languagePatch: "none",
+        gameVersion: "full_release",
+      }),
       t,
     );
+    expect(result).not.toContain("▸ 🎮 PLAYTHROUGH NOTES");
     expect(result).not.toContain("🎯 Playthrough");
+    expect(result).not.toContain("🎮 DIFFICULTY");
   });
 
-  it("renders the difficulty block with a preset label", () => {
+  it("renders difficulty as a bullet using the preset label", () => {
     const t = createMockT("en");
     const result = buildDescription(makeInput({ difficulty: "hard" }), t);
-    expect(result).toContain("🎮 DIFFICULTY");
-    expect(result).toContain("Hard");
+    expect(result).toContain("▸ 🎮 PLAYTHROUGH NOTES");
+    expect(result).toContain("• Difficulty: Hard");
+    // Old standalone block must be gone.
+    expect(result).not.toContain("🎮 DIFFICULTY\n");
   });
 
-  it("renders a custom difficulty label when difficulty is 'custom'", () => {
+  it("uses the custom difficulty label verbatim when difficulty is 'custom'", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({ difficulty: "custom", difficultyCustomLabel: "Lethal" }),
       t,
     );
-    expect(result).toContain("🎮 DIFFICULTY\nLethal");
+    expect(result).toContain("• Difficulty: Lethal");
   });
 
-  it("skips the difficulty block when difficulty is 'custom' but label is blank", () => {
+  it("skips the Difficulty bullet when difficulty='custom' but label is blank", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({ difficulty: "custom", difficultyCustomLabel: "   " }),
       t,
     );
-    expect(result).not.toContain("🎮 DIFFICULTY");
+    // The whole PN block should be skipped (no other PN field set either).
+    expect(result).not.toContain("▸ 🎮 PLAYTHROUGH NOTES");
   });
 
+  it("renders all five PLAYTHROUGH NOTES bullets when fully filled", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        playthroughStatus: "blind",
+        difficulty: "hard",
+        endingsShown: "True ending only",
+        languagePatch: "fan_translation",
+        gameVersion: "early_access",
+      }),
+      t,
+    );
+    expect(result).toContain("▸ 🎮 PLAYTHROUGH NOTES");
+    expect(result).toContain("• Run type: Blind run (first time playing)");
+    expect(result).toContain("• Difficulty: Hard");
+    expect(result).toContain("• Endings shown: True ending only");
+    expect(result).toContain("• Language patch: Fan translation");
+    expect(result).toContain("• Game version: Early Access");
+  });
+
+  it("uses the custom slot for languagePatch='official_other'", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        languagePatch: "official_other",
+        languagePatchCustom: "Official KR",
+      }),
+      t,
+    );
+    expect(result).toContain("• Language patch: Official KR");
+  });
+
+  it("uses the custom slot for gameVersion='custom'", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        gameVersion: "custom",
+        gameVersionCustom: "Kickstarter backer build",
+      }),
+      t,
+    );
+    expect(result).toContain("• Game version: Kickstarter backer build");
+  });
+
+  it("renders bilingual EN · VI bullets when language=vi and tEn is provided", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        playthroughStatus: "blind",
+        difficulty: "hard",
+        languagePatch: "fan_translation",
+      }),
+      t,
+      { tEn },
+    );
+    expect(result).toContain(
+      "▸ 🎮 PLAYTHROUGH NOTES / ▸ 🎮 GHI CHÚ LƯỢT CHƠI",
+    );
+    expect(result).toContain(
+      "• Run type · Kiểu chơi: Blind run (first time playing) · Chơi lần đầu (blind run)",
+    );
+    expect(result).toContain("• Difficulty · Độ khó: Hard · Khó");
+    expect(result).toContain(
+      "• Language patch · Bản dịch: Fan translation · Bản dịch của fan",
+    );
+  });
+});
+
+describe("buildDescription — v0.12 Tech Notes", () => {
+  it("renders selected tech notes as a bulleted block (en single-language)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        techNotes: ["copyright_muted_sections", "fps_drops_hardware"],
+      }),
+      t,
+    );
+    expect(result).toContain("▸ 🛠 TECH NOTES");
+    expect(result).toContain(
+      "Production and playstyle notes for transparency.",
+    );
+    expect(result).toContain(
+      "• Some sections muted due to YouTube copyright",
+    );
+    expect(result).toContain(
+      "• FPS drops — caused by hardware (FPS counter visible top-left)",
+    );
+    expect(result).not.toContain("• Game music replaced");
+  });
+
+  it("omits the TECH NOTES block when the list is empty", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ techNotes: [] }), t);
+    expect(result).not.toContain("TECH NOTES");
+  });
+
+  it("preserves selection order in the rendered tech-note bullets", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        techNotes: [
+          "not_no_hit_run",
+          "support_developers",
+          "loading_cut",
+        ],
+      }),
+      t,
+    );
+    const noHitIdx = result.indexOf("• NOT a no-hit run");
+    const supportIdx = result.indexOf("• Original game music");
+    const loadingIdx = result.indexOf("• Loading screens");
+    expect(noHitIdx).toBeGreaterThan(-1);
+    expect(supportIdx).toBeGreaterThan(noHitIdx);
+    expect(loadingIdx).toBeGreaterThan(supportIdx);
+  });
+
+  it("renders bilingual EN · VI tech-note bullets when language=vi and tEn provided", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        techNotes: ["copyright_muted_sections", "casual_no_commentary"],
+      }),
+      t,
+      { tEn },
+    );
+    expect(result).toContain("▸ 🛠 TECH NOTES / ▸ 🛠 GHI CHÚ KỸ THUẬT");
+    expect(result).toContain(
+      "• Some sections muted due to YouTube copyright · Một số đoạn tắt tiếng do bản quyền YouTube",
+    );
+    expect(result).toContain(
+      "• Casual play, no commentary · Chơi giải trí, không bình luận",
+    );
+  });
+
+  it("renders bilingual EN · JA tech-note bullets in Japanese mode", () => {
+    const t = createMockT("ja");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "ja",
+        techNotes: ["fps_drops_hardware", "support_developers"],
+      }),
+      t,
+      { tEn },
+    );
+    expect(result).toContain("▸ 🛠 TECH NOTES / ▸ 🛠 技術メモ");
+    expect(result).toContain(
+      "• FPS drops — caused by hardware (FPS counter visible top-left) · FPS低下 — ハード起因（左上にFPS表示）",
+    );
+    expect(result).toContain(
+      "• Original game music — please support the developers · 原曲使用 — 開発者への応援をよろしくお願いします",
+    );
+  });
+
+  it("falls back to single-language tech-note bullets when tEn is omitted", () => {
+    const t = createMockT("vi");
+    const result = buildDescription(
+      makeInput({ language: "vi", techNotes: ["fps_drops_hardware"] }),
+      t,
+    );
+    // No `· ` separator since tEn isn't passed.
+    expect(result).not.toContain(" · ");
+    expect(result).toContain("▸ 🛠 GHI CHÚ KỸ THUẬT");
+    expect(result).toContain(
+      "• Có sụt FPS — do phần cứng (xem FPS góc trái video)",
+    );
+  });
+});
+
+describe("buildDescription — v0.7 content fields (legacy)", () => {
   it("renders content warnings as a bulleted block (v0.11 unified, en single-language)", () => {
     const t = createMockT("en");
     const result = buildDescription(

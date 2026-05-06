@@ -257,13 +257,16 @@ export function buildDescription(
     if (lines.length > 0) sections.push(lines.join("\n"));
   }
 
-  // 1.5 Playthrough status — surfaces "is this a blind run / NG+ / …"
-  // right after the intro because that context frames how viewers read
-  // everything below. Skipped when creator hasn't picked a value.
-  if (input.playthroughStatus && input.playthroughStatus !== "none") {
-    const label = t(`description.playthrough.${input.playthroughStatus}`);
-    sections.push(t("description.sections.playthrough", { value: label }));
-  }
+  // 1.5 Playthrough Notes — v0.12 unified block that consolidates the
+  // pre-v0.12 standalone "🎯 Playthrough" line and the standalone
+  // "🎮 DIFFICULTY" block, plus three new bullets (endings shown,
+  // language patch, game version). Sits right after the intro because
+  // these facts frame how viewers read everything below. Empty bullets
+  // are skipped; if every bullet is empty the whole block is skipped.
+  // Bilingual when `tEn` is provided AND output language ≠ English —
+  // pattern mirrors the v0.11 content-warnings block.
+  const pnBlock = buildPlaythroughNotesSection(input, t, tEn);
+  if (pnBlock) sections.push(pnBlock);
 
   // 2. No Commentary tagline
   sections.push(t("description.noCommentaryLine"));
@@ -359,20 +362,9 @@ export function buildDescription(
     }
   }
 
-  // 5.5 Difficulty — sits with Video Settings because a difficulty
-  // choice is another gameplay setting, not a content warning. For
-  // `"custom"`, the user's free-form label is used verbatim (not
-  // translated — intentional: lets creators use game-specific names
-  // like "Lethal" without per-locale fallback friction).
-  if (input.difficulty && input.difficulty !== "none") {
-    const value =
-      input.difficulty === "custom"
-        ? (input.difficultyCustomLabel ?? "").trim()
-        : t(`description.difficulty.${input.difficulty}`);
-    if (value) {
-      sections.push(`${t("description.sections.difficulty")}\n${value}`);
-    }
-  }
+  // 5.5 Difficulty — moved into the unified Playthrough Notes block
+  // above (slot 1.5) in v0.12. Kept here as a no-op placeholder so the
+  // numbering of subsequent comments stays stable.
 
   // 6. Rig
   if (hasEntries(input.rig)) {
@@ -439,6 +431,13 @@ export function buildDescription(
       sections.push(`${headerLine}\n${introLines}\n\n${bullets}`);
     }
   }
+
+  // 7.5 Tech Notes — v0.12 production / playstyle disclaimer checklist.
+  // Sits next to Content Warnings because both are transparency blocks;
+  // grouping them keeps disclaimers visually together. Same bilingual
+  // render pattern as the content-warnings block above.
+  const tnBlock = buildTechNotesSection(input, t, tEn);
+  if (tnBlock) sections.push(tnBlock);
 
   // 8.3. Sponsor credit — appears above the music / donate block so the
   // "thanks to X" line stands out. Only renders when both the toggle is
@@ -574,6 +573,239 @@ export function buildDescription(
   sections.push(allHashtags.slice(0, hashtagCount).join(" "));
 
   return sections.join("\n\n");
+}
+
+/**
+ * Builds the unified `▸ 🎮 PLAYTHROUGH NOTES` block (v0.12). Combines
+ * five bullets (run type, difficulty, endings, language patch, game
+ * version) into one section. Each bullet's value is resolved through
+ * `t` (localised) plus `tEn` (English fallback) so the rendered line
+ * can be bilingual `EN · LOCAL` when the output language ≠ English.
+ *
+ * Returns "" when every bullet is empty / skipped — caller drops the
+ * section entirely instead of emitting a header with no body.
+ *
+ * Custom string slots (`difficultyCustomLabel`, `languagePatchCustom`,
+ * `gameVersionCustom`) are intentionally NOT translated: a creator who
+ * types "Lethal" or "Steam Next Fest backer build" wants that label
+ * preserved verbatim across locale switches, not run through a
+ * non-existent translation key.
+ */
+function buildPlaythroughNotesSection(
+  input: GeneratorInput,
+  t: TranslationFn,
+  tEn?: TranslationFn,
+): string {
+  const isEn = input.language === "en";
+  const renderBilingual = !isEn && Boolean(tEn);
+  const tEnUse: TranslationFn = tEn ?? t;
+
+  /**
+   * Resolve a key against both `t` and `tEnUse`, returning a single bullet
+   * line. Bullets are formatted as `Label · NhãnLocal: ValueEn · ValueLocal`
+   * in bilingual mode and `Label: Value` otherwise. Returns null when the
+   * value is empty (caller filters these out).
+   */
+  function bullet(
+    labelKey: string,
+    valueEn: string,
+    valueLocal: string,
+  ): string | null {
+    const trimmedEn = valueEn.trim();
+    const trimmedLocal = valueLocal.trim();
+    if (!trimmedEn && !trimmedLocal) return null;
+    const labelEn = tEnUse(labelKey);
+    const labelLocal = t(labelKey);
+    const labelLine = renderBilingual
+      ? `${labelEn} · ${labelLocal}`
+      : labelEn;
+    const valueLine = renderBilingual
+      ? `${trimmedEn || trimmedLocal} · ${trimmedLocal || trimmedEn}`
+      : trimmedEn || trimmedLocal;
+    return `• ${labelLine}: ${valueLine}`;
+  }
+
+  /**
+   * Resolve an enum value through i18n. Returns ["", ""] for the
+   * skip-sentinel value (caller drops the bullet). Falls back to the raw
+   * id if a locale hasn't translated the key — degraded but never
+   * "[object Object]".
+   */
+  function resolveEnum(
+    namespace: string,
+    value: string,
+    skipSentinel: string,
+  ): { en: string; local: string } {
+    if (!value || value === skipSentinel) return { en: "", local: "" };
+    const key = `description.playthroughNotes.${namespace}.${value}`;
+    const en = tEnUse(key);
+    const local = t(key);
+    return {
+      en: en === key ? value : en,
+      local: local === key ? value : local,
+    };
+  }
+
+  const bullets: string[] = [];
+
+  // Run type — reads from `playthroughStatus`, looks up the existing
+  // v0.7 `description.playthrough.<status>` keys (kept in templates so
+  // the migration stays purely about render shape, not value labels).
+  if (input.playthroughStatus && input.playthroughStatus !== "none") {
+    const key = `description.playthrough.${input.playthroughStatus}`;
+    const valueEn = tEnUse(key);
+    const valueLocal = t(key);
+    const b = bullet(
+      "description.playthroughNotes.labels.runType",
+      valueEn === key ? input.playthroughStatus : valueEn,
+      valueLocal === key ? input.playthroughStatus : valueLocal,
+    );
+    if (b) bullets.push(b);
+  }
+
+  // Difficulty — reads from `difficulty`, with custom slot for
+  // free-form labels. Custom labels are passed through verbatim
+  // (no translation) on both sides of the bilingual separator.
+  if (input.difficulty && input.difficulty !== "none") {
+    let valueEn: string;
+    let valueLocal: string;
+    if (input.difficulty === "custom") {
+      const custom = (input.difficultyCustomLabel ?? "").trim();
+      valueEn = custom;
+      valueLocal = custom;
+    } else {
+      const key = `description.difficulty.${input.difficulty}`;
+      const en = tEnUse(key);
+      const local = t(key);
+      valueEn = en === key ? input.difficulty : en;
+      valueLocal = local === key ? input.difficulty : local;
+    }
+    const b = bullet(
+      "description.playthroughNotes.labels.difficulty",
+      valueEn,
+      valueLocal,
+    );
+    if (b) bullets.push(b);
+  }
+
+  // Endings shown — free text, identical on both sides of the bilingual
+  // separator (it's a creator-typed label, not localised content).
+  const endings = (input.endingsShown ?? "").trim();
+  if (endings) {
+    const b = bullet(
+      "description.playthroughNotes.labels.endings",
+      endings,
+      endings,
+    );
+    if (b) bullets.push(b);
+  }
+
+  // Language patch — enum + custom slot. `official_other` and `custom`
+  // both pull their value from `languagePatchCustom`; the enum-resolved
+  // label is used otherwise. `none` is the skip sentinel.
+  if (input.languagePatch && input.languagePatch !== "none") {
+    let valueEn: string;
+    let valueLocal: string;
+    if (input.languagePatch === "official_other" || input.languagePatch === "custom") {
+      const custom = (input.languagePatchCustom ?? "").trim();
+      valueEn = custom;
+      valueLocal = custom;
+    } else {
+      const resolved = resolveEnum("languagePatchOptions", input.languagePatch, "none");
+      valueEn = resolved.en;
+      valueLocal = resolved.local;
+    }
+    const b = bullet(
+      "description.playthroughNotes.labels.languagePatch",
+      valueEn,
+      valueLocal,
+    );
+    if (b) bullets.push(b);
+  }
+
+  // Game version — `full_release` is the implicit default and skips
+  // the bullet entirely (no need to announce "this is the full game").
+  if (input.gameVersion && input.gameVersion !== "full_release") {
+    let valueEn: string;
+    let valueLocal: string;
+    if (input.gameVersion === "custom") {
+      const custom = (input.gameVersionCustom ?? "").trim();
+      valueEn = custom;
+      valueLocal = custom;
+    } else {
+      const resolved = resolveEnum(
+        "gameVersionOptions",
+        input.gameVersion,
+        "full_release",
+      );
+      valueEn = resolved.en;
+      valueLocal = resolved.local;
+    }
+    const b = bullet(
+      "description.playthroughNotes.labels.gameVersion",
+      valueEn,
+      valueLocal,
+    );
+    if (b) bullets.push(b);
+  }
+
+  if (bullets.length === 0) return "";
+
+  const headerEn = tEnUse("description.playthroughNotes.header");
+  const headerLocal = t("description.playthroughNotes.header");
+  const introEn = tEnUse("description.playthroughNotes.intro");
+  const introLocal = t("description.playthroughNotes.intro");
+
+  const headerLine = renderBilingual ? `${headerEn} / ${headerLocal}` : headerEn;
+  const introLines = renderBilingual ? `${introEn}\n${introLocal}` : introEn;
+
+  return `${headerLine}\n${introLines}\n\n${bullets.join("\n")}`;
+}
+
+/**
+ * Builds the `▸ 🛠 TECH NOTES` block (v0.12). Renders selected items
+ * from {@link GeneratorInput.techNotes} as bulleted bilingual lines —
+ * the rendering logic mirrors the v0.11 content-warnings block exactly,
+ * just with a different header, intro, and items namespace.
+ *
+ * Returns "" when no items are selected. Items whose translation key
+ * doesn't resolve are filtered out so a stale id from a hand-edited
+ * persistent blob doesn't render as a bare key.
+ */
+function buildTechNotesSection(
+  input: GeneratorInput,
+  t: TranslationFn,
+  tEn?: TranslationFn,
+): string {
+  const tn = input.techNotes ?? [];
+  if (tn.length === 0) return "";
+
+  const isEn = input.language === "en";
+  const renderBilingual = !isEn && Boolean(tEn);
+  const tEnUse: TranslationFn = tEn ?? t;
+
+  const headerEn = tEnUse("description.techNotes.header");
+  const headerLocal = t("description.techNotes.header");
+  const introEn = tEnUse("description.techNotes.intro");
+  const introLocal = t("description.techNotes.intro");
+
+  const headerLine = renderBilingual ? `${headerEn} / ${headerLocal}` : headerEn;
+  const introLines = renderBilingual ? `${introEn}\n${introLocal}` : introEn;
+
+  const bullets = tn
+    .map((id) => {
+      const key = `description.techNotes.items.${id}`;
+      const enLabel = tEnUse(key);
+      const localLabel = t(key);
+      if (!enLabel || enLabel === key || !enLabel.trim()) return null;
+      return renderBilingual ? `• ${enLabel} · ${localLabel}` : `• ${enLabel}`;
+    })
+    .filter((line): line is string => Boolean(line))
+    .join("\n");
+
+  if (!bullets) return "";
+
+  return `${headerLine}\n${introLines}\n\n${bullets}`;
 }
 
 export function checkDescriptionWarning(description: string): CharLimitWarning | null {

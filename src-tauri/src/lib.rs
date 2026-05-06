@@ -31,6 +31,19 @@ pub fn run() {
     let quitting_run = quitting.clone();
 
     tauri::Builder::default()
+        // Single-instance MUST be the first plugin registered (v0.12). Without
+        // it, every launch spawns a fresh process — which then builds its own
+        // tray icon in `setup()`, stacking duplicates in the system tray and
+        // leaving orphan processes in Task Manager. The callback runs in the
+        // *first* (already-running) instance when a second launch is attempted:
+        // we surface its window instead of letting the second process boot.
+        .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.show();
+                let _ = window.unminimize();
+                let _ = window.set_focus();
+            }
+        }))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_opener::init())

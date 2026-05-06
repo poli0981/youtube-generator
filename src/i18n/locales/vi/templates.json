@@ -117,9 +117,7 @@
       "cta": "👍 Like | 🔔 Đăng ký | ↗️ Chia sẻ",
       "copyright": "© {{year}} {{channelName}}. Đã đăng ký bản quyền.",
       "usagePolicyHeader": "📋 ĐIỀU KIỆN DÙNG VIDEO",
-      "usagePolicy": "• Luôn luôn ghi credit kèm link video gốc VÀ kênh (tối thiểu trong phần mô tả).\n• Không re-upload toàn bộ video hoặc phần lớn nội dung dưới dạng content của bạn.\n• Không kiếm tiền từ footage mà chưa có sự đồng ý rõ ràng.\n• Không chỉnh sửa footage theo cách xuyên tạc nội dung gốc hoặc người tạo.\n• Compilation, review, commentary, reaction video đều OK miễn là có credit.\nNếu không chắc, liên hệ qua các kênh social hoặc email ở phần mô tả.",
-      "playthrough": "🎯 Playthrough: {{value}}",
-      "difficulty": "🎮 ĐỘ KHÓ"
+      "usagePolicy": "• Luôn luôn ghi credit kèm link video gốc VÀ kênh (tối thiểu trong phần mô tả).\n• Không re-upload toàn bộ video hoặc phần lớn nội dung dưới dạng content của bạn.\n• Không kiếm tiền từ footage mà chưa có sự đồng ý rõ ràng.\n• Không chỉnh sửa footage theo cách xuyên tạc nội dung gốc hoặc người tạo.\n• Compilation, review, commentary, reaction video đều OK miễn là có credit.\nNếu không chắc, liên hệ qua các kênh social hoặc email ở phần mô tả."
     },
     "playthrough": {
       "blind": "Chơi lần đầu (blind run)",
@@ -132,6 +130,62 @@
       "normal": "Thường",
       "hard": "Khó",
       "nightmare": "Ác mộng / Cực khó"
+    },
+    "playthroughNotes": {
+      "header": "▸ 🎮 GHI CHÚ LƯỢT CHƠI",
+      "intro": "Thông tin thiết lập, phiên bản và cách chơi của lượt chơi này.",
+      "labels": {
+        "runType": "Kiểu chơi",
+        "difficulty": "Độ khó",
+        "endings": "Endings xuất hiện",
+        "languagePatch": "Bản dịch",
+        "gameVersion": "Phiên bản game"
+      },
+      "languagePatchOptions": {
+        "official_en": "Bản tiếng Anh chính thức",
+        "official_other": "Bản chính thức (ngôn ngữ khác)",
+        "fan_translation": "Bản dịch của fan",
+        "mtl": "Dịch máy",
+        "custom": "Tùy chỉnh"
+      },
+      "gameVersionOptions": {
+        "demo": "Bản demo",
+        "early_access": "Early Access",
+        "beta": "Bản beta",
+        "prologue": "Prologue / Teaser",
+        "pre_release": "Bản pre-release",
+        "custom": "Tùy chỉnh"
+      }
+    },
+    "techNotes": {
+      "header": "▸ 🛠 GHI CHÚ KỸ THUẬT",
+      "intro": "Ghi chú minh bạch về sản xuất và cách chơi.",
+      "items": {
+        "copyright_muted_sections": "Một số đoạn tắt tiếng do bản quyền YouTube",
+        "volume_reduced_copyright": "Một số đoạn giảm volume vì bản quyền",
+        "music_replaced_copyright": "Nhạc game đã được thay để tránh bản quyền",
+        "cutscene_audio_muted_only": "Chỉ tắt tiếng cutscene — audio gameplay giữ nguyên",
+        "original_audio_kept": "Giữ nguyên audio gốc — chấp nhận rủi ro claim",
+        "low_resolution_hardware": "Quay ở độ phân giải thấp do phần cứng",
+        "low_graphics_performance": "Hạ setting đồ họa vì hiệu năng",
+        "fps_drops_hardware": "Có sụt FPS — do phần cứng (xem FPS góc trái video)",
+        "bug_from_game": "Bug / lag là từ game, không phải do quay",
+        "crash_kept_transparency": "Giữ lại đoạn crash để minh bạch",
+        "loading_cut": "Đã cắt loading screen",
+        "obs_artifacts_possible": "Có thể có lỗi do OBS recording",
+        "not_no_hit_run": "Không phải no-hit run — bạn tìm clean play thì bỏ qua",
+        "not_clean_walkthrough": "Không phải walkthrough mượt — chơi khám phá tự nhiên",
+        "casual_no_commentary": "Chơi giải trí, không bình luận",
+        "many_deaths_patience": "Có nhiều lần chết — cần kiên nhẫn xem",
+        "slow_exploration": "Đi lại nhiều — khám phá chậm",
+        "puzzle_stuck_possible": "Có thể bí ở puzzle",
+        "grinding_cut": "Đã cắt phần cày / lặp",
+        "not_speedrun_relaxed": "Không phải speedrun — chơi thư giãn",
+        "exploration_focus_skip_combat": "Tập trung khám phá — có thể skip combat",
+        "edited_for_pacing": "Đã edit cho hợp nhịp — không phải thời gian thực",
+        "support_developers": "Nhạc gốc của game — hãy ủng hộ nhà phát triển",
+        "online_connectivity_issues": "Game online — có thể có vấn đề kết nối"
+      }
     },
     "contentWarnings": {
       "header": "▸ ⚠️ CẢNH BÁO NỘI DUNG",
