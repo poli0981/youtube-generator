@@ -147,6 +147,21 @@
       "x4": "x4",
       "x6": "x6"
     },
+    "frameGenMultiplier.nvidia": {
+      "none": "None",
+      "x2": "x2 (Frame Gen)",
+      "x3": "x3 (Multi Frame Gen)",
+      "x4": "x4 (Multi Frame Gen)"
+    },
+    "frameGenMultiplier.amd": {
+      "none": "None",
+      "x2": "x2 (Fluid Motion Frames)",
+      "x3": "x3 (Fluid Motion Frames)"
+    },
+    "frameGenMultiplier.intel": {
+      "none": "None",
+      "x2": "x2 (XeFG)"
+    },
     "upscaleQuality": "Upscaling Quality",
     "upscaleQualityOptions": {
       "none": "None",
@@ -155,6 +170,31 @@
       "balanced": "Balanced",
       "performance": "Performance",
       "ultra_performance": "Ultra Performance"
+    },
+    "upscaleQuality.nvidia": {
+      "none": "None",
+      "dlaa": "DLAA",
+      "quality": "DLSS Quality",
+      "balanced": "DLSS Balanced",
+      "performance": "DLSS Performance",
+      "ultra_performance": "DLSS Ultra Performance"
+    },
+    "upscaleQuality.amd": {
+      "none": "None",
+      "native_aa": "FSR Native AA",
+      "quality": "FSR Quality",
+      "balanced": "FSR Balanced",
+      "performance": "FSR Performance",
+      "ultra_performance": "FSR Ultra Performance"
+    },
+    "upscaleQuality.intel": {
+      "none": "None",
+      "native_aa": "XeSS Native AA",
+      "ultra_quality": "XeSS Ultra Quality",
+      "quality": "XeSS Quality",
+      "balanced": "XeSS Balanced",
+      "performance": "XeSS Performance",
+      "ultra_performance": "XeSS Ultra Performance"
     },
     "artStyle": "Art Style",
     "artStyleOptions": {
@@ -184,9 +224,7 @@
     "storeLinkType": "Type",
     "rig": "My Rig",
     "social": "Social & Donate Links",
-    "warnings": "Warnings",
-    "spoilerWarning": "Spoiler Warning",
-    "matureWarning": "Mature Content (18+)",
+    "warnings": "Content warnings",
     "playlistLink": "Playlist Link",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "Contact Email",
@@ -223,10 +261,62 @@
     "difficultyCustomLabel": "Custom difficulty label",
     "difficultyCustomPlaceholder": "e.g. Lethal, NG+7, Fromsoft default",
     "contentWarnings": "Content warnings",
+    "contentWarningSearchPlaceholder": "Search warnings…",
+    "contentWarningEmpty": "No matching warnings",
+    "contentWarningGroups": {
+      "spoilers": "Spoilers",
+      "photosensitive": "Photosensitive / Health",
+      "phobias": "Phobias",
+      "mental_health": "Mental health",
+      "sensitive": "Mature / Sensitive content"
+    },
     "contentWarningOptions": {
-      "flashing_lights": "⚡ Flashing lights",
-      "loud_noises": "🔊 Loud noises",
-      "jump_scares": "😱 Jump scares"
+      "spoiler_story": "Story / ending spoilers",
+      "spoiler_ending": "Ending spoilers",
+      "spoiler_true_ending": "True-ending spoilers",
+      "spoiler_post_game": "Post-game / NG+ spoilers",
+      "spoiler_secret_ending": "Secret-ending spoilers",
+      "spoiler_dlc": "DLC story spoilers",
+      "flashing_lights": "Flashing lights",
+      "motion_sickness": "Motion sickness",
+      "migraine_trigger": "Migraine trigger",
+      "loud_noises": "Loud / sudden sounds",
+      "jump_scares": "Jumpscares",
+      "acrophobia": "Heights",
+      "trypophobia": "Holes / clusters",
+      "thalassophobia": "Deep water",
+      "claustrophobia": "Confined spaces",
+      "arachnophobia": "Spiders",
+      "entomophobia": "Insects",
+      "ophidiophobia": "Snakes",
+      "anxiety_inducing": "Anxiety-inducing scenes",
+      "depression_themes": "Depression themes",
+      "eating_disorders": "Eating disorders",
+      "substance_use": "Substance use",
+      "self_harm": "Self-harm / suicide",
+      "ptsd_themes": "PTSD content",
+      "needles": "Needles",
+      "body_fluids": "Body fluids",
+      "pregnancy_horror": "Pregnancy / birth horror",
+      "illness_themes": "Illness / infection",
+      "blood_gore": "Blood and gore",
+      "mature_18plus": "Mature 18+",
+      "disturbing_imagery": "Disturbing imagery",
+      "animal_abuse": "Animal cruelty",
+      "child_harm": "Violence against minors",
+      "domestic_violence": "Domestic violence",
+      "sexual_assault": "Sexual assault references",
+      "torture": "Torture",
+      "religion_themes": "Religious themes",
+      "war_violence": "War violence",
+      "discrimination": "Discrimination",
+      "police_violence": "State / police violence",
+      "smoking_drinking": "Smoking / drinking",
+      "detailed_killing": "Detailed killing",
+      "cult_occult": "Cult / occult",
+      "psychological_manipulation": "Psychological manipulation",
+      "grief_loss": "Loss / grief",
+      "kidnapping": "Kidnapping"
     },
     "videoSettings": "Video Settings",
     "quickPreview": "Quick Preview",
@@ -405,7 +495,10 @@
     "deleteConfirm": "Are you sure you want to delete this profile?",
     "emptyState": "No profiles yet. Create one to save your channel info.",
     "exportProfiles": "Export Profiles",
-    "importProfiles": "Import Profiles"
+    "importProfiles": "Import Profiles",
+    "thirdPartyAdText": "Third-party ad copy",
+    "thirdPartyAdTextPlaceholder": "e.g. Use code SAVE10 at GameStore.com — 10% off all titles\nSponsored by ChairCo — link in description",
+    "thirdPartyAdTextHelp": "Optional sponsor / partner / affiliate copy. Shown when 'Third-party ads' is enabled in Settings."
   },
   "presets": {
     "title": "Game Presets",
@@ -462,6 +555,8 @@
     "showCopyright": "Append © copyright line to description",
     "showUsagePolicy": "Append usage policy block to description",
     "showSponsorCredit": "Show sponsor credit line in description (thanks for the key)",
+    "showThirdPartyAds": "Show third-party advertising block in description",
+    "thirdPartyAdsHint": "Set ad copy in your channel profile (Profiles → Edit).",
     "titleFormatTitle": "Title Format",
     "descriptionSettingsTitle": "Description",
     "badgePosition": "Quality badge position",

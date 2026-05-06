@@ -107,9 +107,8 @@
       "rig": "💻 내 장비",
       "modList": "🧩 모드 목록",
       "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
-      "spoilerWarning": "⚠️ 스포일러 경고: 이 영상에는 스포일러가 포함될 수 있습니다. 주의하여 시청하세요!",
-      "matureWarning": "🔞 성인 콘텐츠 (18+): 폭력 / 강한 언어 / 선정적 콘텐츠를 포함합니다.",
       "sponsorCredit": "🎁 이 게임의 {{platform}} 키를 제공해 주신 {{sponsor}}님께 감사드립니다.",
+      "thirdPartyAds": "🤝 스폰서 & 파트너",
       "music": "🎵 음악 / 사운드",
       "donate": "☕ 채널 후원",
       "social": "🔗 팔로우",
@@ -120,8 +119,7 @@
       "usagePolicyHeader": "📋 영상 사용 정책",
       "usagePolicy": "• 원본 영상 링크와 채널을 반드시 크레딧해주세요 (최소한 설명란에).\n• 전체 영상 또는 상당 부분을 본인 콘텐츠로 재업로드하지 마세요.\n• 명시적 동의 없이 수익화하지 마세요.\n• 원본 내용이나 제작자를 왜곡하는 방식으로 편집하지 마세요.\n• 컴필레이션, 리뷰, 해설, 리액션 영상은 크레딧만 하면 OK입니다.\n불확실한 경우 설명란의 소셜 계정이나 이메일로 연락주세요.",
       "playthrough": "🎯 플레이 방식: {{value}}",
-      "difficulty": "🎮 난이도",
-      "contentWarnings": "⚠️ 콘텐츠 경고"
+      "difficulty": "🎮 난이도"
     },
     "playthrough": {
       "blind": "초회차 플레이 (블라인드)",
@@ -136,9 +134,56 @@
       "nightmare": "악몽 / 최고 난이도"
     },
     "contentWarnings": {
-      "flashing_lights": "⚡ 점멸 / 스트로보 효과",
-      "loud_noises": "🔊 큰 소리 / 갑작스러운 볼륨 변화",
-      "jump_scares": "😱 점프 스케어"
+      "header": "▸ ⚠️ 콘텐츠 경고",
+      "intro": "이 영상에는 다음 콘텐츠가 포함되어 있습니다. 시청에 주의해 주세요.",
+      "items": {
+        "spoiler_story": "스토리 / 엔딩 스포일러",
+        "spoiler_ending": "엔딩 스포일러",
+        "spoiler_true_ending": "True 엔딩 스포일러",
+        "spoiler_post_game": "포스트게임 / NG+ 스포일러",
+        "spoiler_secret_ending": "숨겨진 엔딩 스포일러",
+        "spoiler_dlc": "DLC 스토리 스포일러",
+        "flashing_lights": "점멸 효과 — 광과민성 시청자 주의",
+        "motion_sickness": "멀미 — 빠른 카메라 / FPS 움직임",
+        "migraine_trigger": "편두통 유발 가능",
+        "loud_noises": "큰 소리 / 갑작스러운 음량",
+        "jump_scares": "점프 스케어",
+        "acrophobia": "고소 공포",
+        "trypophobia": "환공포",
+        "thalassophobia": "심해 공포",
+        "claustrophobia": "폐쇄 공포",
+        "arachnophobia": "거미 공포",
+        "entomophobia": "곤충 공포",
+        "ophidiophobia": "뱀 공포",
+        "anxiety_inducing": "불안 유발 장면",
+        "depression_themes": "우울 주제",
+        "eating_disorders": "섭식 장애",
+        "substance_use": "약물 사용",
+        "self_harm": "자해 / 자살 주제",
+        "ptsd_themes": "PTSD 관련 콘텐츠",
+        "needles": "주사기 묘사",
+        "body_fluids": "체액 묘사",
+        "pregnancy_horror": "임신 / 출산 호러",
+        "illness_themes": "질병 / 감염 주제",
+        "blood_gore": "유혈 / 그로테스크",
+        "mature_18plus": "성인 18+",
+        "disturbing_imagery": "충격적 이미지",
+        "animal_abuse": "동물 학대",
+        "child_harm": "미성년자 폭력",
+        "domestic_violence": "가정 폭력",
+        "sexual_assault": "성폭력 언급",
+        "torture": "고문 장면",
+        "religion_themes": "종교 주제",
+        "war_violence": "전쟁 폭력",
+        "discrimination": "차별",
+        "police_violence": "공권력 / 경찰 폭력",
+        "smoking_drinking": "흡연 / 음주",
+        "detailed_killing": "상세한 살해 장면",
+        "cult_occult": "사이비 / 오컬트",
+        "psychological_manipulation": "심리적 조종",
+        "grief_loss": "상실 / 슬픔",
+        "kidnapping": "납치"
+      }
     },
     "graphics": {
       "with": "+",
@@ -164,6 +209,50 @@
         "balanced": "Balanced",
         "performance": "Performance",
         "ultra_performance": "Ultra Performance"
+      },
+      "upscale": {
+        "nvidia": {
+          "none": "",
+          "dlaa": "NVIDIA DLAA",
+          "quality": "NVIDIA DLSS Quality",
+          "balanced": "NVIDIA DLSS Balanced",
+          "performance": "NVIDIA DLSS Performance",
+          "ultra_performance": "NVIDIA DLSS Ultra Performance"
+        },
+        "amd": {
+          "none": "",
+          "native_aa": "AMD FSR Native AA",
+          "quality": "AMD FSR Quality",
+          "balanced": "AMD FSR Balanced",
+          "performance": "AMD FSR Performance",
+          "ultra_performance": "AMD FSR Ultra Performance"
+        },
+        "intel": {
+          "none": "",
+          "native_aa": "Intel XeSS Native AA",
+          "ultra_quality": "Intel XeSS Ultra Quality",
+          "quality": "Intel XeSS Quality",
+          "balanced": "Intel XeSS Balanced",
+          "performance": "Intel XeSS Performance",
+          "ultra_performance": "Intel XeSS Ultra Performance"
+        }
+      },
+      "frameGen": {
+        "nvidia": {
+          "none": "",
+          "x2": "NVIDIA Frame Generation x2",
+          "x3": "NVIDIA Multi Frame Generation x3",
+          "x4": "NVIDIA Multi Frame Generation x4"
+        },
+        "amd": {
+          "none": "",
+          "x2": "AMD Fluid Motion Frames x2",
+          "x3": "AMD Fluid Motion Frames x3"
+        },
+        "intel": {
+          "none": "",
+          "x2": "Intel XeFG x2"
+        }
       },
       "artStyleOptions": {
         "realistic": "사실적",

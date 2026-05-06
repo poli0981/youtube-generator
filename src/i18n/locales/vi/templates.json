@@ -107,9 +107,8 @@
       "rig": "💻 CẤU HÌNH MÁY",
       "modList": "🧩 DANH SÁCH MOD",
       "vnDonate": "🏦 CHUYỂN KHOẢN / VÍ ĐIỆN TỬ (Việt Nam)",
-      "spoilerWarning": "⚠️ CẢNH BÁO SPOILER: Video này có thể chứa nội dung spoiler. Xem theo ý muốn của bạn!",
-      "matureWarning": "🔞 NỘI DUNG NGƯỜI LỚN (18+): Chứa bạo lực / ngôn ngữ mạnh / nội dung nhạy cảm.",
       "sponsorCredit": "🎁 Cảm ơn {{sponsor}} đã tặng key {{platform}} của game này.",
+      "thirdPartyAds": "🤝 NHÀ TÀI TRỢ & ĐỐI TÁC",
       "music": "🎵 NHẠC / ÂM THANH",
       "donate": "☕ ỦNG HỘ KÊNH",
       "social": "🔗 THEO DÕI MÌNH",
@@ -120,8 +119,7 @@
       "usagePolicyHeader": "📋 ĐIỀU KIỆN DÙNG VIDEO",
       "usagePolicy": "• Luôn luôn ghi credit kèm link video gốc VÀ kênh (tối thiểu trong phần mô tả).\n• Không re-upload toàn bộ video hoặc phần lớn nội dung dưới dạng content của bạn.\n• Không kiếm tiền từ footage mà chưa có sự đồng ý rõ ràng.\n• Không chỉnh sửa footage theo cách xuyên tạc nội dung gốc hoặc người tạo.\n• Compilation, review, commentary, reaction video đều OK miễn là có credit.\nNếu không chắc, liên hệ qua các kênh social hoặc email ở phần mô tả.",
       "playthrough": "🎯 Playthrough: {{value}}",
-      "difficulty": "🎮 ĐỘ KHÓ",
-      "contentWarnings": "⚠️ CẢNH BÁO NỘI DUNG"
+      "difficulty": "🎮 ĐỘ KHÓ"
     },
     "playthrough": {
       "blind": "Chơi lần đầu (blind run)",
@@ -136,9 +134,56 @@
       "nightmare": "Ác mộng / Cực khó"
     },
     "contentWarnings": {
-      "flashing_lights": "⚡ Ánh sáng chớp / hiệu ứng strobe",
-      "loud_noises": "🔊 Âm thanh lớn / tiếng nổ bất ngờ",
-      "jump_scares": "😱 Jump scare"
+      "header": "▸ ⚠️ CẢNH BÁO NỘI DUNG",
+      "intro": "Video này chứa các nội dung sau. Cân nhắc trước khi xem.",
+      "items": {
+        "spoiler_story": "Spoiler cốt truyện / kết thúc / true ending",
+        "spoiler_ending": "Spoiler kết thúc",
+        "spoiler_true_ending": "Spoiler true ending",
+        "spoiler_post_game": "Spoiler post-game / New Game+",
+        "spoiler_secret_ending": "Spoiler ending bí mật",
+        "spoiler_dlc": "Spoiler cốt truyện DLC",
+        "flashing_lights": "Hiệu ứng chớp sáng — người nhạy sáng cẩn thận",
+        "motion_sickness": "Say game — camera / FPS chuyển động nhanh",
+        "migraine_trigger": "Có thể gây đau nửa đầu",
+        "loud_noises": "Âm thanh đột ngột / tiếng động lớn",
+        "jump_scares": "Có jumpscare",
+        "acrophobia": "Sợ độ cao",
+        "trypophobia": "Sợ lỗ / cụm lỗ",
+        "thalassophobia": "Sợ nước sâu",
+        "claustrophobia": "Sợ không gian hẹp",
+        "arachnophobia": "Sợ nhện",
+        "entomophobia": "Sợ côn trùng",
+        "ophidiophobia": "Sợ rắn",
+        "anxiety_inducing": "Cảnh có thể gây lo âu",
+        "depression_themes": "Chủ đề trầm cảm",
+        "eating_disorders": "Chủ đề rối loạn ăn uống",
+        "substance_use": "Sử dụng chất kích thích",
+        "self_harm": "Chủ đề t* tử / t* hại",
+        "ptsd_themes": "Nội dung liên quan PTSD",
+        "needles": "Có cảnh kim tiêm",
+        "body_fluids": "Có cảnh dịch cơ thể",
+        "pregnancy_horror": "Kinh dị sinh nở",
+        "illness_themes": "Chủ đề bệnh tật / lây nhiễm",
+        "blood_gore": "Cảnh máu me",
+        "mature_18plus": "Chủ đề người lớn — 18+",
+        "disturbing_imagery": "Hình ảnh gây ám ảnh",
+        "animal_abuse": "Có cảnh b*o h*nh động vật",
+        "child_harm": "Chủ đề trẻ em b* ng*y h*i",
+        "domestic_violence": "Chủ đề b*o h*nh gia đình",
+        "sexual_assault": "Có đề cập đến x*m h*i t*nh d*c",
+        "torture": "Có cảnh tra tấn",
+        "religion_themes": "Chủ đề tôn giáo — cân nhắc",
+        "war_violence": "Bạo lực liên quan chiến tranh",
+        "discrimination": "Có yếu tố phân biệt trong cốt truyện",
+        "police_violence": "Bạo lực từ cảnh sát / chính quyền",
+        "smoking_drinking": "Có cảnh hút thuốc / uống rượu",
+        "detailed_killing": "Cảnh g*ết người chi tiết",
+        "cult_occult": "Chủ đề giáo phái / huyền bí",
+        "psychological_manipulation": "Chủ đề thao túng tâm lý",
+        "grief_loss": "Chủ đề mất mát / đau buồn",
+        "kidnapping": "Có cảnh bắt cóc"
+      }
     },
     "graphics": {
       "with": "với",
@@ -164,6 +209,50 @@
         "balanced": "Balanced",
         "performance": "Performance",
         "ultra_performance": "Ultra Performance"
+      },
+      "upscale": {
+        "nvidia": {
+          "none": "",
+          "dlaa": "NVIDIA DLAA",
+          "quality": "NVIDIA DLSS Quality",
+          "balanced": "NVIDIA DLSS Balanced",
+          "performance": "NVIDIA DLSS Performance",
+          "ultra_performance": "NVIDIA DLSS Ultra Performance"
+        },
+        "amd": {
+          "none": "",
+          "native_aa": "AMD FSR Native AA",
+          "quality": "AMD FSR Quality",
+          "balanced": "AMD FSR Balanced",
+          "performance": "AMD FSR Performance",
+          "ultra_performance": "AMD FSR Ultra Performance"
+        },
+        "intel": {
+          "none": "",
+          "native_aa": "Intel XeSS Native AA",
+          "ultra_quality": "Intel XeSS Ultra Quality",
+          "quality": "Intel XeSS Quality",
+          "balanced": "Intel XeSS Balanced",
+          "performance": "Intel XeSS Performance",
+          "ultra_performance": "Intel XeSS Ultra Performance"
+        }
+      },
+      "frameGen": {
+        "nvidia": {
+          "none": "",
+          "x2": "NVIDIA Frame Generation x2",
+          "x3": "NVIDIA Multi Frame Generation x3",
+          "x4": "NVIDIA Multi Frame Generation x4"
+        },
+        "amd": {
+          "none": "",
+          "x2": "AMD Fluid Motion Frames x2",
+          "x3": "AMD Fluid Motion Frames x3"
+        },
+        "intel": {
+          "none": "",
+          "x2": "Intel XeFG x2"
+        }
       },
       "artStyleOptions": {
         "realistic": "Hiện thực",

@@ -27,6 +27,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
       resolution: profile.resolution,
       fps: profile.fps,
       graphicsPreset: profile.graphicsPreset,
+      thirdPartyAdText: profile.thirdPartyAdText ?? "",
     });
   };
 

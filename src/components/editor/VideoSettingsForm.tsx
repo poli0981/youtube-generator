@@ -8,8 +8,6 @@ import {
   GRAPHICS_PRESETS,
   RT_MODES,
   FRAMEGEN_VENDORS,
-  FRAMEGEN_MULTIPLIERS,
-  UPSCALE_QUALITIES,
   ART_STYLES,
   type GraphicsPreset,
   type RTMode,
@@ -18,6 +16,12 @@ import {
   type UpscaleQuality,
   type ArtStyle,
 } from "@config/graphics-settings";
+import {
+  getValidUpscaleQualities,
+  getValidFrameGenMultipliers,
+  coerceUpscaleQuality,
+  coerceFrameGenMultiplier,
+} from "@engine/graphics-vendor";
 
 const RESOLUTION_OPTIONS = [
   { value: "720p", label: "720p" },
@@ -52,15 +56,40 @@ export function VideoSettingsForm() {
     label: t(`editor.frameGenVendorOptions.${v}`),
   }));
 
-  const multiplierOptions = FRAMEGEN_MULTIPLIERS.map((m) => ({
+  // v0.11: vendor-filtered option lists. NVIDIA exposes DLAA + 4 quality
+  // tiers, AMD exposes FSR Native AA + 4, Intel exposes XeSS Native AA +
+  // Ultra Quality + 4. None falls back to the vendor-agnostic ladder so
+  // pre-v0.11 drafts keep their settings on rehydrate. Labels live in
+  // vendor-keyed `editor.upscaleQuality.{vendor}.{id}` /
+  // `editor.frameGenMultiplier.{vendor}.{id}` namespaces; vendor=none
+  // uses the legacy flat `Options` keys.
+  const multiplierOptions = getValidFrameGenMultipliers(store.frameGenVendor).map((m) => ({
     value: m,
-    label: t(`editor.frameGenMultiplierOptions.${m}`),
+    label:
+      store.frameGenVendor === "none"
+        ? t(`editor.frameGenMultiplierOptions.${m}`)
+        : t(`editor.frameGenMultiplier.${store.frameGenVendor}.${m}`),
   }));
 
-  const upscaleOptions = UPSCALE_QUALITIES.map((q) => ({
+  const upscaleOptions = getValidUpscaleQualities(store.frameGenVendor).map((q) => ({
     value: q,
-    label: t(`editor.upscaleQualityOptions.${q}`),
+    label:
+      store.frameGenVendor === "none"
+        ? t(`editor.upscaleQualityOptions.${q}`)
+        : t(`editor.upscaleQuality.${store.frameGenVendor}.${q}`),
   }));
+
+  // When the vendor changes, the previously-selected upscale quality /
+  // frame-gen multiplier may no longer be in the new dropdown's options
+  // (e.g. switching DLSS→FSR drops `dlaa`). Coerce to "none" so the
+  // Select doesn't render with a stale, no-longer-rendered value.
+  function handleVendorChange(next: FrameGenVendor) {
+    store.set("frameGenVendor", next);
+    const coercedQ = coerceUpscaleQuality(next, store.upscaleQuality);
+    if (coercedQ !== store.upscaleQuality) store.set("upscaleQuality", coercedQ);
+    const coercedM = coerceFrameGenMultiplier(next, store.frameGenMultiplier);
+    if (coercedM !== store.frameGenMultiplier) store.set("frameGenMultiplier", coercedM);
+  }
 
   const artStyleOptions = ART_STYLES.map((s) => ({
     value: s,
@@ -123,7 +152,7 @@ export function VideoSettingsForm() {
               label={t("editor.frameGenVendor")}
               options={vendorOptions}
               value={store.frameGenVendor}
-              onChange={(v) => store.set("frameGenVendor", v as FrameGenVendor)}
+              onChange={(v) => handleVendorChange(v as FrameGenVendor)}
             />
             <Select
               label={t("editor.frameGenMultiplier")}

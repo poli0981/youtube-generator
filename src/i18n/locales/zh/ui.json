@@ -147,6 +147,21 @@
       "x4": "x4",
       "x6": "x6"
     },
+    "frameGenMultiplier.nvidia": {
+      "none": "None",
+      "x2": "x2 (Frame Gen)",
+      "x3": "x3 (Multi Frame Gen)",
+      "x4": "x4 (Multi Frame Gen)"
+    },
+    "frameGenMultiplier.amd": {
+      "none": "None",
+      "x2": "x2 (Fluid Motion Frames)",
+      "x3": "x3 (Fluid Motion Frames)"
+    },
+    "frameGenMultiplier.intel": {
+      "none": "None",
+      "x2": "x2 (XeFG)"
+    },
     "upscaleQuality": "Upscaling Quality",
     "upscaleQualityOptions": {
       "none": "None",
@@ -155,6 +170,31 @@
       "balanced": "Balanced",
       "performance": "Performance",
       "ultra_performance": "Ultra Performance"
+    },
+    "upscaleQuality.nvidia": {
+      "none": "None",
+      "dlaa": "DLAA",
+      "quality": "DLSS Quality",
+      "balanced": "DLSS Balanced",
+      "performance": "DLSS Performance",
+      "ultra_performance": "DLSS Ultra Performance"
+    },
+    "upscaleQuality.amd": {
+      "none": "None",
+      "native_aa": "FSR Native AA",
+      "quality": "FSR Quality",
+      "balanced": "FSR Balanced",
+      "performance": "FSR Performance",
+      "ultra_performance": "FSR Ultra Performance"
+    },
+    "upscaleQuality.intel": {
+      "none": "None",
+      "native_aa": "XeSS Native AA",
+      "ultra_quality": "XeSS Ultra Quality",
+      "quality": "XeSS Quality",
+      "balanced": "XeSS Balanced",
+      "performance": "XeSS Performance",
+      "ultra_performance": "XeSS Ultra Performance"
     },
     "artStyle": "Art Style",
     "artStyleOptions": {
@@ -184,9 +224,7 @@
     "storeLinkType": "类型",
     "rig": "我的配置",
     "social": "社交与赞助链接",
-    "warnings": "警告",
-    "spoilerWarning": "剧透警告",
-    "matureWarning": "成人内容 (18+)",
+    "warnings": "内容警告",
     "playlistLink": "播放列表链接",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "联系邮箱",
@@ -223,10 +261,62 @@
     "difficultyCustomLabel": "自定义难度标签",
     "difficultyCustomPlaceholder": "如: Lethal, NG+7, Fromsoft default",
     "contentWarnings": "内容警告",
+    "contentWarningSearchPlaceholder": "搜索警告…",
+    "contentWarningEmpty": "无匹配警告",
+    "contentWarningGroups": {
+      "spoilers": "剧透",
+      "photosensitive": "光敏感 / 健康",
+      "phobias": "恐惧症",
+      "mental_health": "心理健康",
+      "sensitive": "成人 / 敏感"
+    },
     "contentWarningOptions": {
-      "flashing_lights": "⚡ 闪光",
-      "loud_noises": "🔊 大音量",
-      "jump_scares": "😱 惊吓镜头"
+      "spoiler_story": "剧情 / 结局剧透",
+      "spoiler_ending": "结局剧透",
+      "spoiler_true_ending": "True ending 剧透",
+      "spoiler_post_game": "通关后 / NG+ 剧透",
+      "spoiler_secret_ending": "隐藏结局剧透",
+      "spoiler_dlc": "DLC 剧情剧透",
+      "flashing_lights": "闪光效果",
+      "motion_sickness": "3D晕眩",
+      "migraine_trigger": "可能引发偏头痛",
+      "loud_noises": "突发音量",
+      "jump_scares": "惊吓镜头",
+      "acrophobia": "恐高",
+      "trypophobia": "密集恐惧",
+      "thalassophobia": "深海恐惧",
+      "claustrophobia": "幽闭恐惧",
+      "arachnophobia": "蜘蛛恐惧",
+      "entomophobia": "昆虫恐惧",
+      "ophidiophobia": "蛇恐惧",
+      "anxiety_inducing": "可能引发焦虑",
+      "depression_themes": "抑郁主题",
+      "eating_disorders": "饮食失调",
+      "substance_use": "药物使用",
+      "self_harm": "自残 / 自杀",
+      "ptsd_themes": "PTSD 相关",
+      "needles": "针头",
+      "body_fluids": "体液",
+      "pregnancy_horror": "怀孕恐怖",
+      "illness_themes": "疾病 / 感染",
+      "blood_gore": "血腥场面",
+      "mature_18plus": "成人 18+",
+      "disturbing_imagery": "令人不适画面",
+      "animal_abuse": "虐待动物",
+      "child_harm": "未成年人受暴",
+      "domestic_violence": "家庭暴力",
+      "sexual_assault": "性暴力",
+      "torture": "酷刑",
+      "religion_themes": "宗教主题",
+      "war_violence": "战争暴力",
+      "discrimination": "歧视",
+      "police_violence": "公权力暴力",
+      "smoking_drinking": "吸烟 / 饮酒",
+      "detailed_killing": "详细杀人场面",
+      "cult_occult": "邪教 / 神秘学",
+      "psychological_manipulation": "心理操控",
+      "grief_loss": "失去 / 悲伤",
+      "kidnapping": "绑架"
     },
     "videoSettings": "视频设置",
     "quickPreview": "快速预览",
@@ -405,7 +495,10 @@
     "deleteConfirm": "确定要删除此配置文件吗？",
     "emptyState": "暂无配置文件。创建一个以保存你的频道信息。",
     "exportProfiles": "导出配置",
-    "importProfiles": "导入配置"
+    "importProfiles": "导入配置",
+    "thirdPartyAdText": "第三方广告文案",
+    "thirdPartyAdTextPlaceholder": "例如：在 GameStore.com 使用代码 SAVE10 享受全部游戏 9 折优惠\n赞助商：ChairCo — 链接见描述",
+    "thirdPartyAdTextHelp": "可选的赞助商 / 合作伙伴 / 联盟营销文案。在设置中开启「第三方广告」时显示。"
   },
   "templates": {
     "title": "模板",
@@ -462,6 +555,8 @@
     "showCopyright": "在描述中添加 © 版权行",
     "showUsagePolicy": "在描述中添加视频使用规则块",
     "showSponsorCredit": "在描述中添加赞助商感谢行（提供激活码）",
+    "showThirdPartyAds": "在描述中显示第三方广告区块",
+    "thirdPartyAdsHint": "广告文案请在频道配置中设置（配置文件 → 编辑）。",
     "titleFormatTitle": "标题格式",
     "descriptionSettingsTitle": "描述",
     "badgePosition": "画质徽章位置",

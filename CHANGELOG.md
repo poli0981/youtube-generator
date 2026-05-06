@@ -2,6 +2,45 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.11.0 — 2026-05-06
+
+Three independent features: vendor-aware graphics dropdowns (DLAA + XeSS Ultra Quality joined the ladder, multipliers cap per vendor), a third-party advertising block driven by a per-profile copy field, and a major content-warning overhaul — the v0.7 trio (`spoilerWarning` / `matureWarning` toggles + 3-item checklist) becomes a unified bilingual checklist of 44 items across 5 categories with `EN · output-language` rendering and asterisk-masked Vietnamese terms for YouTube ToS safety.
+
+### Added
+
+- **Vendor-aware upscaling & frame-gen options** — when the creator picks an FG vendor, the upscale-quality and frame-gen-multiplier dropdowns filter to that vendor's actual ladder. NVIDIA exposes DLAA + Quality / Balanced / Performance / Ultra Performance and goes up to x4 multi-frame-gen; AMD keeps FSR Native AA + 4 quality bins and caps at x3 (FSR 3.1); Intel adds XeSS Ultra Quality (its own tier) and ships only x2 (XeFG). Description-builder uses vendor-keyed full labels — `NVIDIA DLAA`, `AMD FSR Quality`, `Intel XeSS Ultra Quality`, `AMD Fluid Motion Frames x3` — instead of the old "brand prefix in code" pattern, so `dlaa` reads `NVIDIA DLAA` not `NVIDIA DLSS DLAA`. Pre-v0.11 drafts / presets / templates with stale combos (e.g. NVIDIA + `native_aa`) coerce to `none` on rehydrate via `coerceUpscaleQuality` + `coerceFrameGenMultiplier` in `src/engine/graphics-vendor.ts`.
+- **Third-party advertising block** — new `showThirdPartyAds` toggle in Settings → Description renders a `🤝 SPONSORS & PARTNERS` block in the description, sourced from a new `thirdPartyAdText` Textarea on the channel Profile (multi-line preserved verbatim). Block is gated on toggle ON AND profile field non-empty; toggling on without text is a no-op and surfaces an inline hint pointing the user to Profiles → Edit. Per-profile (not per-video) — partner copy is channel-stable.
+- **Bilingual content-warning checklist** — replaces `WarningToggles` with `ContentWarningChecklist`: a searchable, collapsible-grouped checkbox grid covering 44 items across Spoilers / Photosensitive / Phobias / Mental health / Mature & Sensitive. Description format becomes `▸ ⚠️ CONTENT WARNINGS / CẢNH BÁO NỘI DUNG` header (bilingual when output language ≠ English), a two-line intro, then bullets `• {EN} · {local}` separated by U+00B7 MIDDLE DOT — matches the visual format in the v0.11 spec exactly. Selection order is preserved in the rendered output. Vietnamese translations apply asterisk masking on YouTube-ToS-prone terms (`t* tử`, `x*m h*i t*nh d*c`, `g*ết người`, `b*o h*nh`, `ng*y h*i`); other locales use clinical wording (`Sexual assault references`, `Self-harm / suicide themes`, `Violence against minors`).
+
+### Changed
+
+- **Editor store** v8 → v9 (three concerns rolled into one bump): `thirdPartyAdText: ""` default, legacy `spoilerWarning: true` → push `"spoiler_story"` into `contentWarnings` (same for `matureWarning` → `"mature_18plus"`), and vendor-incompatible upscale-quality / multiplier combos coerce to `"none"`. `normalizeEditorPatch` runs the same coercion + boolean-merge logic on every `loadProfile` / `loadPreset` / `loadTemplate` call so legacy snapshots round-trip cleanly.
+- **Settings store** v8 → v9 (additive — `showThirdPartyAds: false` default; healed via `initialSettings` spread).
+- **Profile store** unversioned → v1 (additive — `thirdPartyAdText: ""` back-fill for pre-v0.11 profiles).
+- **Template store** unversioned → v1 (vendor-quality coercion on persisted snapshots).
+- **`UPSCALE_QUALITIES`** enum gains `"dlaa"` and `"ultra_quality"`. The flat enum stays — vendor filtering happens at the UI / engine layer via `getValidUpscaleQualities(vendor)` so storage shape doesn't fork per vendor.
+- **`ContentDetailsForm`** drops its content-warning ChipGroup (the new `ContentWarningChecklist` mounted in the Editor's Content Details accordion is the new home). Playthrough + difficulty stay where they were.
+- **`description-builder`** drops the v0.7 "skip brand on second mention" optimization — both halves of `upscale + framegen` now carry the brand. Worth the mild verbosity for AMD / Intel: AMD's frame-gen brand is `Fluid Motion Frames` (not `Frame Generation`), Intel's is `XeFG`; the old code emitted `Frame Generation` regardless. The 3 separate warning blocks (`spoilerWarning` header, `contentWarnings` bullet list, `matureWarning` header) collapse into one unified bilingual block, placed at the same description position.
+
+### Removed
+
+- **`WarningToggles.tsx`** — superseded by `ContentWarningChecklist.tsx`. Editor-state fields `spoilerWarning` / `matureWarning` stay (marked `@deprecated`) so v8-shaped persisted drafts round-trip through the migration without data loss; they're no longer exposed in the UI and no longer drive description rendering.
+- **`description.sections.spoilerWarning` / `matureWarning` / `contentWarnings`** template keys — section heading lives at `description.contentWarnings.header` now. The old per-warning `description.contentWarnings.{flashing_lights,loud_noises,jump_scares}` keys moved under `description.contentWarnings.items.*` alongside 41 new entries.
+
+### Under the hood
+
+- New `src/engine/graphics-vendor.ts` exports `getValidUpscaleQualities` / `getValidFrameGenMultipliers` / `coerceUpscaleQuality` / `coerceFrameGenMultiplier` — pure functions reused by the editor-store migration, the template-store migration, `normalizeEditorPatch`, the `VideoSettingsForm` Select option lists, and the `handleVendorChange` reset path so changing vendors mid-edit doesn't leave the Selects stuck on a stale value.
+- New `src/config/content-warning-groups.ts` carries the 5-group UI structure (`spoilers` / `photosensitive` / `phobias` / `mental_health` / `sensitive`). Engine never reads the groups — output ordering follows user selection — but the editor uses them to render collapsible sections with per-group counts so 44 items stay scannable.
+- `BuildDescriptionOptions` extends with `tEn?: TranslationFn` — the engine stays framework-agnostic; the caller (`use-generated-output`) builds it via `i18next.getFixedT("en", "templates")` and passes it in alongside the locale-fixed `t`. Falls back to `t` when omitted, so existing callers / unit tests keep working.
+- All 6 locales (en / vi / ja / es / ko / zh) updated with vendor-keyed `description.graphics.upscale.{vendor}.{q}` + `description.graphics.frameGen.{vendor}.{m}` maps, vendor-keyed editor short labels (`editor.upscaleQuality.{vendor}.*` / `editor.frameGenMultiplier.{vendor}.*`), 5 group headings, 44 bilingual warning items, 44 short editor labels, plus `settings.showThirdPartyAds` / `settings.thirdPartyAdsHint` and `profiles.thirdPartyAdText{,Placeholder,Help}`. `validate:locales` clean at 529 ui + 274 templates per locale.
+- Engine tests grow by 9 cases: vendor-aware DLAA / XeSS Ultra Quality / AMD label rendering, content-warning bilingual EN · VI block, EN-only single-language output, single-language fallback when `tEn` is omitted, censoring snapshot for VI, third-party-ads gating (toggle on + text non-empty, toggle off + text non-empty, toggle on + text empty), multi-line preservation, and selection-order preservation. Two legacy-deprecation tests replace the old `spoilerWarning` / `matureWarning` standalone-block tests. Full suite: 310 / 310 green.
+- Bundle: main chunk 313 KB (under the 500 KB constraint).
+
+### Migration notes
+
+- No manual action required. First launch after upgrade migrates state in place: pre-v0.11 drafts with `spoilerWarning: true` / `matureWarning: true` get the equivalent items checked in `contentWarnings`; vendor-incompatible upscale combos coerce to `none`; profile / settings stores back-fill their new defaults.
+- Channel partners / affiliates: the toggle in Settings → Description does nothing until you fill `Third-party ad copy` in your profile (Profiles → Edit). The inline hint in Settings calls this out when the toggle is on but the text is empty.
+
 ## v0.10.0 — 2026-05-05
 
 Three independent features shipped in [#44](https://github.com/poli0981/youtube-generator/pull/44): a publisher-name tag for the Store Links editor, a hotfix for the live web build that had been serving a blank page since the v0.5 scaffold, and a vertical collapsible sidebar with a new About page.

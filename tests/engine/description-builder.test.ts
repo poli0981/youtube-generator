@@ -193,7 +193,7 @@ describe("buildDescription", () => {
     );
   });
 
-  it("combines upscaling quality and frame generation under one vendor", () => {
+  it("combines upscaling quality and frame generation under one vendor (v0.11 vendor-aware labels)", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({
@@ -207,8 +207,45 @@ describe("buildDescription", () => {
       }),
       t,
     );
+    // v0.11 dropped the "skip brand on second mention" optimization in
+    // favour of vendor-keyed full labels — both halves now carry brand.
     expect(result).toContain(
-      "In-game Setting: Ultra - AMD FSR Quality + Frame Generation x3 with Full Ray Tracing",
+      "In-game Setting: Ultra - AMD FSR Quality + AMD Fluid Motion Frames x3 with Full Ray Tracing",
+    );
+  });
+
+  it("renders DLAA as a quality tier under NVIDIA (v0.11)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "4K",
+        fps: "60",
+        graphicsPreset: "ultra",
+        frameGenVendor: "nvidia",
+        upscaleQuality: "dlaa",
+      }),
+      t,
+    );
+    // DLAA replaces DLSS upscaling — should NOT read "NVIDIA DLSS DLAA".
+    expect(result).toContain("In-game Setting: Ultra - NVIDIA DLAA");
+    expect(result).not.toContain("NVIDIA DLSS DLAA");
+  });
+
+  it("renders XeSS Ultra Quality under Intel (v0.11)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        resolution: "1440p",
+        fps: "60",
+        graphicsPreset: "high",
+        frameGenVendor: "intel",
+        upscaleQuality: "ultra_quality",
+        frameGenMultiplier: "x2",
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "In-game Setting: High - Intel XeSS Ultra Quality + Intel XeFG x2",
     );
   });
 
@@ -477,10 +514,18 @@ describe("buildDescription", () => {
     expect(result).not.toContain("VIDEO_EDITOR");
   });
 
-  it("includes spoiler warning when enabled", () => {
+  it("legacy spoilerWarning boolean no longer renders a standalone block (v0.11 deprecation)", () => {
+    // v0.11: the standalone SPOILER WARNING section was merged into the
+    // unified content-warning checklist as the `spoiler_story` item.
+    // Setting just the legacy boolean (without the equivalent checklist
+    // entry) renders nothing — by design; the editor-store v8→v9
+    // migration translates true→checklist for persisted drafts, and
+    // `normalizeEditorPatch` does the same for profile/preset/template
+    // loads, so live drafts surface the warning correctly.
     const t = createMockT("en");
     const result = buildDescription(makeInput({ spoilerWarning: true }), t);
-    expect(result).toContain("SPOILER WARNING");
+    expect(result).not.toContain("SPOILER WARNING");
+    expect(result).not.toContain("CONTENT WARNINGS");
   });
 
   it("includes music attribution section when provided", () => {
@@ -655,10 +700,57 @@ describe("buildDescription", () => {
     expect(hashtagsIdx).toBeGreaterThan(policyIdx);
   });
 
-  it("includes mature warning when enabled", () => {
+  it("renders third-party ads block when toggle is on AND text is non-empty (v0.11)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ thirdPartyAdText: "Use code SAVE10 at GameStore.com" }),
+      t,
+      { showThirdPartyAds: true },
+    );
+    expect(result).toContain("🤝 SPONSORS & PARTNERS");
+    expect(result).toContain("Use code SAVE10 at GameStore.com");
+  });
+
+  it("preserves multi-line third-party ad text verbatim (v0.11)", () => {
+    const t = createMockT("en");
+    const adText = "Sponsored by ChairCo — link below\nUse code SAVE10 for 10% off";
+    const result = buildDescription(
+      makeInput({ thirdPartyAdText: adText }),
+      t,
+      { showThirdPartyAds: true },
+    );
+    expect(result).toContain(adText);
+  });
+
+  it("skips ads block when toggle is off, even with non-empty text (v0.11)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ thirdPartyAdText: "Sponsor copy" }),
+      t,
+      { showThirdPartyAds: false },
+    );
+    expect(result).not.toContain("SPONSORS & PARTNERS");
+    expect(result).not.toContain("Sponsor copy");
+  });
+
+  it("skips ads block when toggle is on but text is empty (v0.11)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ thirdPartyAdText: "  " }),
+      t,
+      { showThirdPartyAds: true },
+    );
+    expect(result).not.toContain("SPONSORS & PARTNERS");
+  });
+
+  it("legacy matureWarning boolean no longer renders a standalone block (v0.11 deprecation)", () => {
+    // Counterpart to the spoilerWarning deprecation test: the standalone
+    // MATURE CONTENT section was merged into the unified checklist as
+    // the `mature_18plus` item. Migration handles persisted state.
     const t = createMockT("en");
     const result = buildDescription(makeInput({ matureWarning: true }), t);
-    expect(result).toContain("MATURE CONTENT");
+    expect(result).not.toContain("MATURE CONTENT");
+    expect(result).not.toContain("CONTENT WARNINGS");
   });
 
   it("includes social links when provided", () => {
@@ -766,40 +858,105 @@ describe("buildDescription — v0.7 content fields", () => {
     expect(result).not.toContain("🎮 DIFFICULTY");
   });
 
-  it("renders content warnings as a bulleted block", () => {
+  it("renders content warnings as a bulleted block (v0.11 unified, en single-language)", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({ contentWarnings: ["flashing_lights", "loud_noises"] }),
       t,
     );
-    expect(result).toContain("⚠️ CONTENT WARNINGS");
-    expect(result).toContain("• ⚡ Flashing lights");
-    expect(result).toContain("• 🔊 Loud noises");
-    expect(result).not.toContain("• 😱 Jump scares");
+    expect(result).toContain("▸ ⚠️ CONTENT WARNINGS");
+    expect(result).toContain(
+      "This video contains the following content. Viewer discretion advised.",
+    );
+    expect(result).toContain(
+      "• Flashing lights — photosensitive viewers take care",
+    );
+    expect(result).toContain("• Loud / sudden sounds");
+    expect(result).not.toContain("• Jumpscares");
   });
 
   it("omits the content-warnings block when the list is empty", () => {
     const t = createMockT("en");
     const result = buildDescription(makeInput({ contentWarnings: [] }), t);
-    expect(result).not.toContain("⚠️ CONTENT WARNINGS");
+    expect(result).not.toContain("CONTENT WARNINGS");
   });
 
-  it("places content warnings between the spoiler and mature warnings", () => {
+  it("preserves selection order in the rendered bullets (v0.11)", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({
-        spoilerWarning: true,
-        matureWarning: true,
-        contentWarnings: ["jump_scares"],
+        contentWarnings: ["mature_18plus", "flashing_lights", "spoiler_story"],
       }),
       t,
     );
-    const spoilerIdx = result.indexOf("SPOILER WARNING");
-    const contentIdx = result.indexOf("⚠️ CONTENT WARNINGS");
-    const matureIdx = result.indexOf("MATURE CONTENT");
-    expect(spoilerIdx).toBeGreaterThan(-1);
-    expect(contentIdx).toBeGreaterThan(spoilerIdx);
-    expect(matureIdx).toBeGreaterThan(contentIdx);
+    const matureIdx = result.indexOf("• Mature themes");
+    const flashIdx = result.indexOf("• Flashing lights");
+    const spoilerIdx = result.indexOf("• Spoilers");
+    expect(matureIdx).toBeGreaterThan(-1);
+    expect(flashIdx).toBeGreaterThan(matureIdx);
+    expect(spoilerIdx).toBeGreaterThan(flashIdx);
+  });
+
+  it("renders bilingual EN · VI when output language is vi and tEn is provided (v0.11)", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        contentWarnings: ["jump_scares", "flashing_lights"],
+      }),
+      t,
+      { tEn },
+    );
+    // Header is bilingual: EN / VI
+    expect(result).toContain("▸ ⚠️ CONTENT WARNINGS / ▸ ⚠️ CẢNH BÁO NỘI DUNG");
+    // Two-line intro
+    expect(result).toContain(
+      "This video contains the following content. Viewer discretion advised.",
+    );
+    expect(result).toContain("Video này chứa các nội dung sau");
+    // Bullets pair EN with VI using U+00B7 MIDDLE DOT
+    expect(result).toContain("• Jumpscares · Có jumpscare");
+    expect(result).toContain(
+      "• Flashing lights — photosensitive viewers take care · Hiệu ứng chớp sáng — người nhạy sáng cẩn thận",
+    );
+  });
+
+  it("falls back to single-language when tEn is omitted (v0.11 back-compat)", () => {
+    const t = createMockT("vi");
+    const result = buildDescription(
+      makeInput({ language: "vi", contentWarnings: ["jump_scares"] }),
+      t,
+    );
+    // No `· ` separator since tEn is not provided
+    expect(result).not.toContain(" · ");
+    expect(result).toContain("▸ ⚠️ CẢNH BÁO NỘI DUNG");
+    expect(result).toContain("• Có jumpscare");
+  });
+
+  it("censors YouTube-flag-prone Vietnamese terms with asterisks (v0.11)", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        contentWarnings: ["sexual_assault", "self_harm", "detailed_killing", "child_harm"],
+      }),
+      t,
+      { tEn },
+    );
+    // Asterisk-masked terms ARE present
+    expect(result).toContain("x*m h*i");
+    expect(result).toContain("t* tử");
+    expect(result).toContain("g*ết người");
+    expect(result).toContain("ng*y h*i");
+    // Uncensored terms are NOT present
+    expect(result).not.toContain("xâm hại");
+    expect(result).not.toContain("tự tử");
+    expect(result).not.toContain("giết người");
+    // EN side stays clinical (no censoring needed)
+    expect(result).toContain("Sexual assault references");
+    expect(result).toContain("Self-harm / suicide themes");
   });
 });
 

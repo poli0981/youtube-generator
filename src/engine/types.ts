@@ -125,14 +125,68 @@ export const DIFFICULTY_LEVELS = [
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
 
 /**
- * Accessibility-oriented content warnings (v0.7 phase 2). Multi-select:
- * a single video can have flashing lights AND loud noises AND jump
- * scares. Empty array → skip the section entirely.
+ * Content warnings (v0.11 unified bilingual checklist). Replaces the
+ * v0.7 trio (flashing_lights / loud_noises / jump_scares) plus the
+ * standalone `spoilerWarning` / `matureWarning` boolean toggles. The 3
+ * legacy ids are preserved unchanged so persisted drafts round-trip.
+ *
+ * Grouped semantically in the UI (see {@link CONTENT_WARNING_GROUPS} in
+ * `@config/content-warning-groups`) but flat in the array — the engine
+ * doesn't care about groups. Render order in the description matches
+ * the user's selection order.
  */
 export const CONTENT_WARNINGS = [
+  // Spoilers
+  "spoiler_story",
+  "spoiler_ending",
+  "spoiler_true_ending",
+  "spoiler_post_game",
+  "spoiler_secret_ending",
+  "spoiler_dlc",
+  // Photosensitive / health
   "flashing_lights",
+  "motion_sickness",
+  "migraine_trigger",
   "loud_noises",
+  // Phobias
   "jump_scares",
+  "acrophobia",
+  "trypophobia",
+  "thalassophobia",
+  "claustrophobia",
+  "arachnophobia",
+  "entomophobia",
+  "ophidiophobia",
+  // Mental health
+  "anxiety_inducing",
+  "depression_themes",
+  "eating_disorders",
+  "substance_use",
+  "self_harm",
+  "ptsd_themes",
+  "needles",
+  "body_fluids",
+  "pregnancy_horror",
+  "illness_themes",
+  // Mature / sensitive
+  "blood_gore",
+  "mature_18plus",
+  "disturbing_imagery",
+  "animal_abuse",
+  "child_harm",
+  "domestic_violence",
+  "sexual_assault",
+  "torture",
+  "religion_themes",
+  "war_violence",
+  "discrimination",
+  "police_violence",
+  "smoking_drinking",
+  "detailed_killing",
+  "cult_occult",
+  "psychological_manipulation",
+  "grief_loss",
+  "kidnapping",
 ] as const;
 export type ContentWarning = (typeof CONTENT_WARNINGS)[number];
 
@@ -245,7 +299,27 @@ export interface GeneratorInput {
    * drives the description's "🎁 Thanks to …" line and is not tagged.
    */
   pubDevName?: string;
+  /**
+   * Channel-level third-party advertising / sponsor / partner copy
+   * (v0.11). Free-form multi-line text persisted on the Profile (so it
+   * carries across all videos for a given channel). Rendered into a
+   * "🤝 SPONSORS & PARTNERS" description block when both the
+   * `showThirdPartyAds` settings toggle is on AND this field is non-empty.
+   */
+  thirdPartyAdText?: string;
+  /**
+   * @deprecated v0.11 — merged into the unified content-warning checklist
+   * as the `spoiler_story` item. Field retained on input for back-compat
+   * with persisted drafts; the engine no longer renders a standalone
+   * spoiler block.
+   */
   spoilerWarning: boolean;
+  /**
+   * @deprecated v0.11 — merged into the unified content-warning checklist
+   * as the `mature_18plus` item. Field retained on input for back-compat
+   * with persisted drafts; the engine no longer renders a standalone
+   * mature block.
+   */
   matureWarning: boolean;
   /**
    * Playthrough state — renders a "🎯 Playthrough: …" block above
@@ -317,6 +391,15 @@ export const YT_LIMITS = {
 export interface TranslationFn {
   (key: string, options?: Record<string, string>): string;
 }
+
+/**
+ * Optional second translation function, fixed to English. Used by the
+ * description-builder to render the bilingual content-warning block
+ * (v0.11): each line becomes `{EN} · {output-language}`. The engine
+ * stays framework-agnostic — the caller (use-generated-output) builds it
+ * via i18next's `getFixedT("en", "templates")` and passes it in.
+ */
+export type EnglishTranslationFn = TranslationFn;
 
 /**
  * Where the quality-badge ("[2K]") sits relative to the other title segments:

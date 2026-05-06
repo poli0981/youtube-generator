@@ -32,6 +32,16 @@ export interface SettingsData {
   showUsagePolicy: boolean;
   showSponsorCredit: boolean;
   /**
+   * When true, the description renders a "🤝 SPONSORS & PARTNERS" block
+   * containing the active profile's `thirdPartyAdText`. Off by default
+   * (v0.11) — opt-in so existing users don't see a new block after
+   * upgrade without asking for it. The block is also skipped when the
+   * profile field is empty, so flipping this toggle without filling the
+   * profile is a no-op (the SettingsPage shows an inline hint to that
+   * effect).
+   */
+  showThirdPartyAds: boolean;
+  /**
    * When true, Output + Batch render a generated pinned-comment
    * template alongside the user's freeform pinnedComment field. Default
    * off — the template is opt-in, so v0.6 users don't see a new block
@@ -97,6 +107,7 @@ export const initialSettings: SettingsData = {
   showCopyright: true,
   showUsagePolicy: false,
   showSponsorCredit: false,
+  showThirdPartyAds: false,
   showPinnedCommentTemplate: false,
   pinnedCommentIncludeAskNextGame: true,
   pinnedCommentIncludeGenrePlaylist: false,

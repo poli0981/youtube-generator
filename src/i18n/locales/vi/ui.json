@@ -147,6 +147,21 @@
       "x4": "x4",
       "x6": "x6"
     },
+    "frameGenMultiplier.nvidia": {
+      "none": "Không",
+      "x2": "x2 (Frame Gen)",
+      "x3": "x3 (Multi Frame Gen)",
+      "x4": "x4 (Multi Frame Gen)"
+    },
+    "frameGenMultiplier.amd": {
+      "none": "Không",
+      "x2": "x2 (Fluid Motion Frames)",
+      "x3": "x3 (Fluid Motion Frames)"
+    },
+    "frameGenMultiplier.intel": {
+      "none": "Không",
+      "x2": "x2 (XeFG)"
+    },
     "upscaleQuality": "Chất lượng Upscale",
     "upscaleQualityOptions": {
       "none": "Không",
@@ -155,6 +170,31 @@
       "balanced": "Balanced",
       "performance": "Performance",
       "ultra_performance": "Ultra Performance"
+    },
+    "upscaleQuality.nvidia": {
+      "none": "Không",
+      "dlaa": "DLAA",
+      "quality": "DLSS Quality",
+      "balanced": "DLSS Balanced",
+      "performance": "DLSS Performance",
+      "ultra_performance": "DLSS Ultra Performance"
+    },
+    "upscaleQuality.amd": {
+      "none": "Không",
+      "native_aa": "FSR Native AA",
+      "quality": "FSR Quality",
+      "balanced": "FSR Balanced",
+      "performance": "FSR Performance",
+      "ultra_performance": "FSR Ultra Performance"
+    },
+    "upscaleQuality.intel": {
+      "none": "Không",
+      "native_aa": "XeSS Native AA",
+      "ultra_quality": "XeSS Ultra Quality",
+      "quality": "XeSS Quality",
+      "balanced": "XeSS Balanced",
+      "performance": "XeSS Performance",
+      "ultra_performance": "XeSS Ultra Performance"
     },
     "artStyle": "Phong cách hình ảnh",
     "artStyleOptions": {
@@ -184,9 +224,7 @@
     "storeLinkType": "Loại",
     "rig": "Cấu hình máy",
     "social": "Mạng xã hội & Donate",
-    "warnings": "Cảnh báo",
-    "spoilerWarning": "Cảnh báo Spoiler",
-    "matureWarning": "Nội dung người lớn (18+)",
+    "warnings": "Cảnh báo nội dung",
     "playlistLink": "Link Playlist",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
     "contactEmail": "Email liên hệ",
@@ -223,10 +261,62 @@
     "difficultyCustomLabel": "Nhãn độ khó tuỳ chỉnh",
     "difficultyCustomPlaceholder": "vd: Lethal, NG+7, Fromsoft default",
     "contentWarnings": "Cảnh báo nội dung",
+    "contentWarningSearchPlaceholder": "Tìm cảnh báo…",
+    "contentWarningEmpty": "Không có cảnh báo phù hợp",
+    "contentWarningGroups": {
+      "spoilers": "Spoiler",
+      "photosensitive": "Sức khoẻ / nhạy sáng",
+      "phobias": "Hội chứng sợ",
+      "mental_health": "Sức khoẻ tinh thần",
+      "sensitive": "Nội dung nhạy cảm / 18+"
+    },
     "contentWarningOptions": {
-      "flashing_lights": "⚡ Ánh sáng chớp",
-      "loud_noises": "🔊 Âm thanh lớn",
-      "jump_scares": "😱 Jump scare"
+      "spoiler_story": "Spoiler cốt truyện / kết thúc",
+      "spoiler_ending": "Spoiler kết thúc",
+      "spoiler_true_ending": "Spoiler true ending",
+      "spoiler_post_game": "Spoiler post-game / NG+",
+      "spoiler_secret_ending": "Spoiler ending bí mật",
+      "spoiler_dlc": "Spoiler cốt truyện DLC",
+      "flashing_lights": "Hiệu ứng chớp sáng",
+      "motion_sickness": "Say game / camera nhanh",
+      "migraine_trigger": "Có thể đau nửa đầu",
+      "loud_noises": "Âm thanh đột ngột",
+      "jump_scares": "Có jumpscare",
+      "acrophobia": "Sợ độ cao",
+      "trypophobia": "Sợ lỗ / cụm lỗ",
+      "thalassophobia": "Sợ nước sâu",
+      "claustrophobia": "Sợ không gian hẹp",
+      "arachnophobia": "Sợ nhện",
+      "entomophobia": "Sợ côn trùng",
+      "ophidiophobia": "Sợ rắn",
+      "anxiety_inducing": "Cảnh gây lo âu",
+      "depression_themes": "Chủ đề trầm cảm",
+      "eating_disorders": "Rối loạn ăn uống",
+      "substance_use": "Chất kích thích",
+      "self_harm": "T* tử / t* hại",
+      "ptsd_themes": "Liên quan PTSD",
+      "needles": "Cảnh kim tiêm",
+      "body_fluids": "Dịch cơ thể",
+      "pregnancy_horror": "Kinh dị sinh nở",
+      "illness_themes": "Bệnh tật / lây nhiễm",
+      "blood_gore": "Máu me",
+      "mature_18plus": "Người lớn 18+",
+      "disturbing_imagery": "Hình ảnh ám ảnh",
+      "animal_abuse": "B*o h*nh động vật",
+      "child_harm": "Trẻ em b* ng*y h*i",
+      "domestic_violence": "B*o h*nh gia đình",
+      "sexual_assault": "X*m h*i t*nh d*c",
+      "torture": "Tra tấn",
+      "religion_themes": "Chủ đề tôn giáo",
+      "war_violence": "Bạo lực chiến tranh",
+      "discrimination": "Phân biệt đối xử",
+      "police_violence": "Bạo lực chính quyền",
+      "smoking_drinking": "Hút thuốc / uống rượu",
+      "detailed_killing": "G*ết người chi tiết",
+      "cult_occult": "Giáo phái / huyền bí",
+      "psychological_manipulation": "Thao túng tâm lý",
+      "grief_loss": "Mất mát / đau buồn",
+      "kidnapping": "Bắt cóc"
     },
     "videoSettings": "Cài đặt Video",
     "quickPreview": "Xem trước nhanh",
@@ -405,7 +495,10 @@
     "deleteConfirm": "Bạn có chắc muốn xóa hồ sơ này?",
     "emptyState": "Chưa có hồ sơ. Tạo một hồ sơ để lưu thông tin kênh.",
     "exportProfiles": "Xuất hồ sơ",
-    "importProfiles": "Nhập hồ sơ"
+    "importProfiles": "Nhập hồ sơ",
+    "thirdPartyAdText": "Nội dung quảng cáo bên thứ 3",
+    "thirdPartyAdTextPlaceholder": "vd: Dùng code SAVE10 tại GameStore.com — giảm 10% mọi tựa game\nTài trợ bởi ChairCo — link ở phần mô tả",
+    "thirdPartyAdTextHelp": "Nội dung sponsor / partner / affiliate (tuỳ chọn). Hiện khi bật 'Quảng cáo bên thứ 3' trong Cài đặt."
   },
   "templates": {
     "title": "Template",
@@ -462,6 +555,8 @@
     "showCopyright": "Gắn dòng © copyright vào description",
     "showUsagePolicy": "Gắn khối quy định sử dụng video vào description",
     "showSponsorCredit": "Hiện dòng cảm ơn sponsor (tặng key) trong description",
+    "showThirdPartyAds": "Hiện block quảng cáo bên thứ 3 trong description",
+    "thirdPartyAdsHint": "Nhập nội dung quảng cáo trong Hồ sơ kênh (Profiles → Sửa).",
     "titleFormatTitle": "Định dạng tiêu đề",
     "descriptionSettingsTitle": "Mô tả",
     "badgePosition": "Vị trí badge chất lượng",

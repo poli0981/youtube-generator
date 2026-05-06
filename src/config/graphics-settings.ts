@@ -55,11 +55,18 @@ export type FrameGenMultiplier = (typeof FRAMEGEN_MULTIPLIERS)[number];
 /**
  * Upscaling-quality preset across DLSS Super Resolution / FSR / XeSS.
  * The actual brand name is rendered from {@link FRAMEGEN_VENDORS}; this
- * enum carries only the quality dimension.
+ * enum carries the quality dimension only.
+ *
+ * v0.11 expansion: `dlaa` (NVIDIA's anti-aliasing-only mode, distinct from
+ * the brand-agnostic `native_aa`) and `ultra_quality` (XeSS's highest
+ * quality tier) joined the ladder. Vendor-aware filtering happens in the
+ * UI / engine via {@link getValidUpscaleQualities} — this enum stays flat.
  */
 export const UPSCALE_QUALITIES = [
   "none",
   "native_aa",
+  "dlaa",
+  "ultra_quality",
   "quality",
   "balanced",
   "performance",

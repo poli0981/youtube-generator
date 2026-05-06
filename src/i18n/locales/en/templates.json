@@ -107,9 +107,8 @@
       "rig": "💻 MY RIG",
       "modList": "🧩 MOD LIST",
       "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
-      "spoilerWarning": "⚠️ SPOILER WARNING: This video may contain spoilers. Watch at your own risk!",
-      "matureWarning": "🔞 MATURE CONTENT (18+): Contains violence / strong language / graphic content.",
       "sponsorCredit": "🎁 Thanks to {{sponsor}} for providing the {{platform}} key of this game.",
+      "thirdPartyAds": "🤝 SPONSORS & PARTNERS",
       "music": "🎵 MUSIC / SOUND",
       "donate": "☕ SUPPORT THE CHANNEL",
       "social": "🔗 FOLLOW ME",
@@ -120,8 +119,7 @@
       "usagePolicyHeader": "📋 USAGE POLICY",
       "usagePolicy": "• Always credit with a link to the original video AND channel (at minimum in the description).\n• Don't re-upload the full video or large portions as your own content.\n• Don't monetize footage without explicit consent.\n• Don't edit footage to misrepresent the original content or creator.\n• Compilation, review, commentary, and reaction videos are OK — as long as you credit.\nIf in doubt, reach out via the social links or email in the description.",
       "playthrough": "🎯 Playthrough: {{value}}",
-      "difficulty": "🎮 DIFFICULTY",
-      "contentWarnings": "⚠️ CONTENT WARNINGS"
+      "difficulty": "🎮 DIFFICULTY"
     },
     "playthrough": {
       "blind": "Blind run (first time playing)",
@@ -136,9 +134,56 @@
       "nightmare": "Nightmare / Extreme"
     },
     "contentWarnings": {
-      "flashing_lights": "⚡ Flashing lights / strobe effects",
-      "loud_noises": "🔊 Loud noises / sudden volume spikes",
-      "jump_scares": "😱 Jump scares"
+      "header": "▸ ⚠️ CONTENT WARNINGS",
+      "intro": "This video contains the following content. Viewer discretion advised.",
+      "items": {
+        "spoiler_story": "Spoilers — story / ending / true ending",
+        "spoiler_ending": "Spoilers — ending only",
+        "spoiler_true_ending": "Spoilers — true ending only",
+        "spoiler_post_game": "Spoilers — post-game / New Game+ content",
+        "spoiler_secret_ending": "Spoilers — secret ending",
+        "spoiler_dlc": "Spoilers — DLC story",
+        "flashing_lights": "Flashing lights — photosensitive viewers take care",
+        "motion_sickness": "Motion sickness — fast camera / FPS movement",
+        "migraine_trigger": "Possible migraine trigger",
+        "loud_noises": "Loud / sudden sounds",
+        "jump_scares": "Jumpscares",
+        "acrophobia": "Heights",
+        "trypophobia": "Holes / clusters",
+        "thalassophobia": "Deep water",
+        "claustrophobia": "Confined spaces",
+        "arachnophobia": "Spiders",
+        "entomophobia": "Insects",
+        "ophidiophobia": "Snakes",
+        "anxiety_inducing": "Scenes that may cause anxiety",
+        "depression_themes": "Depression themes",
+        "eating_disorders": "Eating disorder themes",
+        "substance_use": "Substance use",
+        "self_harm": "Self-harm / suicide themes",
+        "ptsd_themes": "PTSD-related content",
+        "needles": "Needle imagery",
+        "body_fluids": "Body fluids",
+        "pregnancy_horror": "Pregnancy / birth horror",
+        "illness_themes": "Illness / infection themes",
+        "blood_gore": "Blood and gore",
+        "mature_18plus": "Mature themes — 18+",
+        "disturbing_imagery": "Disturbing imagery",
+        "animal_abuse": "Animal cruelty",
+        "child_harm": "Violence against minors",
+        "domestic_violence": "Domestic violence",
+        "sexual_assault": "Sexual assault references",
+        "torture": "Torture scenes",
+        "religion_themes": "Religious themes",
+        "war_violence": "War violence",
+        "discrimination": "Discrimination themes",
+        "police_violence": "State / police violence",
+        "smoking_drinking": "Smoking / drinking",
+        "detailed_killing": "Detailed killing scenes",
+        "cult_occult": "Cult / occult themes",
+        "psychological_manipulation": "Psychological manipulation",
+        "grief_loss": "Loss / grief themes",
+        "kidnapping": "Kidnapping"
+      }
     },
     "graphics": {
       "with": "with",
@@ -164,6 +209,50 @@
         "balanced": "Balanced",
         "performance": "Performance",
         "ultra_performance": "Ultra Performance"
+      },
+      "upscale": {
+        "nvidia": {
+          "none": "",
+          "dlaa": "NVIDIA DLAA",
+          "quality": "NVIDIA DLSS Quality",
+          "balanced": "NVIDIA DLSS Balanced",
+          "performance": "NVIDIA DLSS Performance",
+          "ultra_performance": "NVIDIA DLSS Ultra Performance"
+        },
+        "amd": {
+          "none": "",
+          "native_aa": "AMD FSR Native AA",
+          "quality": "AMD FSR Quality",
+          "balanced": "AMD FSR Balanced",
+          "performance": "AMD FSR Performance",
+          "ultra_performance": "AMD FSR Ultra Performance"
+        },
+        "intel": {
+          "none": "",
+          "native_aa": "Intel XeSS Native AA",
+          "ultra_quality": "Intel XeSS Ultra Quality",
+          "quality": "Intel XeSS Quality",
+          "balanced": "Intel XeSS Balanced",
+          "performance": "Intel XeSS Performance",
+          "ultra_performance": "Intel XeSS Ultra Performance"
+        }
+      },
+      "frameGen": {
+        "nvidia": {
+          "none": "",
+          "x2": "NVIDIA Frame Generation x2",
+          "x3": "NVIDIA Multi Frame Generation x3",
+          "x4": "NVIDIA Multi Frame Generation x4"
+        },
+        "amd": {
+          "none": "",
+          "x2": "AMD Fluid Motion Frames x2",
+          "x3": "AMD Fluid Motion Frames x3"
+        },
+        "intel": {
+          "none": "",
+          "x2": "Intel XeFG x2"
+        }
       },
       "artStyleOptions": {
         "realistic": "Realistic",

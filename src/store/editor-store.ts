@@ -19,6 +19,10 @@ import {
   type ArtStyle,
 } from "@config/graphics-settings";
 import {
+  coerceUpscaleQuality,
+  coerceFrameGenMultiplier,
+} from "@engine/graphics-vendor";
+import {
   GACHA_QUEST_TYPES,
   DEFAULT_GACHA_QUEST_TYPE,
   type GachaQuestType,
@@ -62,9 +66,15 @@ interface EditorData {
   sponsorName: string;
   sponsorPlatform: string;
   pubDevName: string;
+  thirdPartyAdText: string;
   thumbnailText: string;
   pinnedComment: string;
+  /** @deprecated v0.11 — merged into `contentWarnings` (spoiler_story).
+   *  Field retained on state so persisted v8 drafts round-trip through
+   *  the v8→v9 migration without dropping data; the editor UI no longer
+   *  exposes a toggle for it. */
   spoilerWarning: boolean;
+  /** @deprecated v0.11 — merged into `contentWarnings` (mature_18plus). */
   matureWarning: boolean;
   playthroughStatus: PlaythroughStatus;
   difficulty: DifficultyLevel;
@@ -119,6 +129,48 @@ function normalizeEditorPatch(patch: Partial<EditorData>): Partial<EditorData> {
     if (typeof patch.graphicsPresetCustom !== "string") {
       out.graphicsPresetCustom = custom;
     }
+  }
+  // v0.11: when a profile / preset / template carries an upscale-quality
+  // or frame-gen multiplier that's no longer valid for the chosen vendor
+  // (DLSS lost `native_aa`, FSR lost `dlaa`, etc.), coerce to "none" so
+  // the editor doesn't end up with a Select stuck on a value missing
+  // from its options. The vendor itself is left as-is.
+  const vendor =
+    typeof patch.frameGenVendor === "string" ? patch.frameGenVendor : undefined;
+  if (vendor) {
+    if (typeof patch.upscaleQuality === "string") {
+      out.upscaleQuality = coerceUpscaleQuality(vendor, patch.upscaleQuality);
+    }
+    if (typeof patch.frameGenMultiplier === "string") {
+      out.frameGenMultiplier = coerceFrameGenMultiplier(vendor, patch.frameGenMultiplier);
+    }
+  }
+  // v0.11: legacy `spoilerWarning` / `matureWarning` booleans on profiles
+  // / presets / templates need to be expressed as checklist items in the
+  // unified `contentWarnings` array. Merge them in (preserving any
+  // existing entries) so loading a pre-v0.11 preset still surfaces the
+  // warning the creator originally selected.
+  const cwSrc: unknown = (patch as { contentWarnings?: unknown }).contentWarnings;
+  if (
+    (patch as { spoilerWarning?: boolean }).spoilerWarning === true ||
+    (patch as { matureWarning?: boolean }).matureWarning === true
+  ) {
+    const seed = Array.isArray(cwSrc) ? [...(cwSrc as ContentWarning[])] : [];
+    if (
+      (patch as { spoilerWarning?: boolean }).spoilerWarning === true &&
+      !seed.includes("spoiler_story")
+    ) {
+      seed.push("spoiler_story");
+    }
+    if (
+      (patch as { matureWarning?: boolean }).matureWarning === true &&
+      !seed.includes("mature_18plus")
+    ) {
+      seed.push("mature_18plus");
+    }
+    out.contentWarnings = seed;
+    out.spoilerWarning = false;
+    out.matureWarning = false;
   }
   return out;
 }
@@ -175,6 +227,7 @@ const initialState: EditorData = {
   sponsorName: DEFAULTS.editor.sponsorName,
   sponsorPlatform: DEFAULTS.editor.sponsorPlatform,
   pubDevName: DEFAULTS.editor.pubDevName,
+  thirdPartyAdText: DEFAULTS.editor.thirdPartyAdText,
   thumbnailText: DEFAULTS.editor.thumbnailText,
   pinnedComment: DEFAULTS.editor.pinnedComment,
   spoilerWarning: DEFAULTS.editor.spoilerWarning,
@@ -252,7 +305,22 @@ export const useEditorStore = create<EditorState>()(
       //         label paired with the Publisher / Developer site URL)
       //         joined the schema. Additive — empty-string default
       //         round-trips cleanly.
-      version: 8,
+      // v8 → v9: v0.11. Three concerns rolled into one bump:
+      //         1. `thirdPartyAdText` (per-profile partner / affiliate
+      //            copy) joined the schema with empty-string default.
+      //         2. The unified `contentWarnings` checklist replaced
+      //            standalone `spoilerWarning` / `matureWarning` boolean
+      //            toggles. Pre-v0.11 drafts with either boolean = true
+      //            are translated into checklist items
+      //            (`spoiler_story` / `mature_18plus`) so the equivalent
+      //            warning still renders after upgrade.
+      //         3. UPSCALE_QUALITIES / FRAMEGEN_MULTIPLIERS gained
+      //            vendor-specific filtering. A persisted draft with
+      //            e.g. `frameGenVendor: "nvidia"` + `upscaleQuality:
+      //            "native_aa"` is no longer a valid combo (DLSS uses
+      //            `dlaa`); coerce invalid pairs to `"none"` so the
+      //            editor Select doesn't render with a stale value.
+      version: 9,
       migrate: (persistedState: unknown, version: number): EditorData => {
         if (!persistedState || typeof persistedState !== "object") {
           return { ...initialState };
@@ -325,6 +393,44 @@ export const useEditorStore = create<EditorState>()(
         if (version < 8) {
           if (typeof state.pubDevName !== "string") state.pubDevName = "";
         }
+        if (version < 9) {
+          // 1. New per-profile ads field — empty-string back-fill.
+          if (typeof state.thirdPartyAdText !== "string") state.thirdPartyAdText = "";
+
+          // 2. Merge legacy boolean toggles into the unified checklist.
+          //    `Array.isArray` defensive — pre-v0.4 drafts that never
+          //    saw the v3→v4 migration may still have a non-array here.
+          const cw: ContentWarning[] = Array.isArray(state.contentWarnings)
+            ? (state.contentWarnings as ContentWarning[])
+            : [];
+          if (state.spoilerWarning === true && !cw.includes("spoiler_story")) {
+            cw.push("spoiler_story");
+          }
+          if (state.matureWarning === true && !cw.includes("mature_18plus")) {
+            cw.push("mature_18plus");
+          }
+          state.contentWarnings = cw;
+          state.spoilerWarning = false;
+          state.matureWarning = false;
+
+          // 3. Coerce vendor-incompatible upscale / frame-gen combos.
+          const persistedVendor =
+            typeof state.frameGenVendor === "string"
+              ? (state.frameGenVendor as FrameGenVendor)
+              : "none";
+          state.upscaleQuality = coerceUpscaleQuality(
+            persistedVendor,
+            typeof state.upscaleQuality === "string"
+              ? (state.upscaleQuality as UpscaleQuality)
+              : "none",
+          );
+          state.frameGenMultiplier = coerceFrameGenMultiplier(
+            persistedVendor,
+            typeof state.frameGenMultiplier === "string"
+              ? (state.frameGenMultiplier as FrameGenMultiplier)
+              : "none",
+          );
+        }
         return { ...initialState, ...state } as EditorData;
       },
       partialize: (state) => ({
@@ -364,6 +470,7 @@ export const useEditorStore = create<EditorState>()(
         sponsorName: state.sponsorName,
         sponsorPlatform: state.sponsorPlatform,
         pubDevName: state.pubDevName,
+        thirdPartyAdText: state.thirdPartyAdText,
         thumbnailText: state.thumbnailText,
         pinnedComment: state.pinnedComment,
         spoilerWarning: state.spoilerWarning,

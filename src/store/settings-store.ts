@@ -67,7 +67,9 @@ export const useSettingsStore = create<SettingsState>()(
       // v7 → v8: v0.10 added `sidebarCollapsed`. Additive — `healSettings`
       // back-fills the default via the spread of `initialSettings`, so no
       // explicit per-version migration step is required here.
-      version: 8,
+      // v8 → v9: v0.11 added `showThirdPartyAds`. Additive — same back-fill
+      // path as v8.
+      version: 9,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -102,6 +104,7 @@ function extractData(state: SettingsData): SettingsData {
     showCopyright: state.showCopyright,
     showUsagePolicy: state.showUsagePolicy,
     showSponsorCredit: state.showSponsorCredit,
+    showThirdPartyAds: state.showThirdPartyAds,
     showPinnedCommentTemplate: state.showPinnedCommentTemplate,
     pinnedCommentIncludeAskNextGame: state.pinnedCommentIncludeAskNextGame,
     pinnedCommentIncludeGenrePlaylist: state.pinnedCommentIncludeGenrePlaylist,

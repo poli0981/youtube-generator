@@ -9,7 +9,7 @@ import { StoreLinkEditor } from "@components/editor/StoreLinkEditor";
 import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { VietnameseDonateEditor } from "@components/editor/VietnameseDonateEditor";
-import { WarningToggles } from "@components/editor/WarningToggles";
+import { ContentWarningChecklist } from "@components/editor/ContentWarningChecklist";
 import { ContentDetailsForm } from "@components/editor/ContentDetailsForm";
 import { ThumbnailHelper } from "@components/editor/ThumbnailHelper";
 import { PinnedCommentEditor } from "@components/editor/PinnedCommentEditor";
@@ -95,7 +95,7 @@ export function EditorPage() {
         >
           <TimestampEditor />
           <ContentDetailsForm />
-          <WarningToggles />
+          <ContentWarningChecklist />
           <ValidatedInput
             label={t("editor.playlistLink")}
             placeholder={t("editor.playlistLinkPlaceholder")}

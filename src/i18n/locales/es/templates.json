@@ -107,9 +107,8 @@
       "rig": "💻 MI EQUIPO",
       "modList": "🧩 LISTA DE MODS",
       "vnDonate": "🏦 BANK TRANSFER / E-WALLET (Vietnam)",
-      "spoilerWarning": "⚠️ ADVERTENCIA DE SPOILERS: Este video puede contener spoilers. ¡Míralo bajo tu propio riesgo!",
-      "matureWarning": "🔞 CONTENIDO PARA ADULTOS (18+): Contiene violencia / lenguaje fuerte / contenido gráfico.",
       "sponsorCredit": "🎁 Gracias a {{sponsor}} por proporcionar la clave de {{platform}} de este juego.",
+      "thirdPartyAds": "🤝 PATROCINADORES Y SOCIOS",
       "music": "🎵 MÚSICA / SONIDO",
       "donate": "☕ APOYA EL CANAL",
       "social": "🔗 SÍGUEME",
@@ -120,8 +119,7 @@
       "usagePolicyHeader": "📋 POLÍTICA DE USO",
       "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción.",
       "playthrough": "🎯 Partida: {{value}}",
-      "difficulty": "🎮 DIFICULTAD",
-      "contentWarnings": "⚠️ ADVERTENCIAS DE CONTENIDO"
+      "difficulty": "🎮 DIFICULTAD"
     },
     "playthrough": {
       "blind": "Partida a ciegas (primera vez)",
@@ -136,9 +134,56 @@
       "nightmare": "Pesadilla / Extremo"
     },
     "contentWarnings": {
-      "flashing_lights": "⚡ Luces parpadeantes / efecto estroboscópico",
-      "loud_noises": "🔊 Ruidos fuertes / picos de volumen",
-      "jump_scares": "😱 Sustos repentinos"
+      "header": "▸ ⚠️ ADVERTENCIAS DE CONTENIDO",
+      "intro": "Este video contiene los siguientes contenidos. Se recomienda discreción al espectador.",
+      "items": {
+        "spoiler_story": "Spoilers — historia / final / true ending",
+        "spoiler_ending": "Spoilers — solo del final",
+        "spoiler_true_ending": "Spoilers — del true ending",
+        "spoiler_post_game": "Spoilers — post-game / New Game+",
+        "spoiler_secret_ending": "Spoilers — final secreto",
+        "spoiler_dlc": "Spoilers — historia del DLC",
+        "flashing_lights": "Luces parpadeantes — cuidado con la fotosensibilidad",
+        "motion_sickness": "Mareo por movimiento — cámara / FPS rápidos",
+        "migraine_trigger": "Posible desencadenante de migraña",
+        "loud_noises": "Sonidos fuertes / repentinos",
+        "jump_scares": "Sustos repentinos",
+        "acrophobia": "Alturas",
+        "trypophobia": "Agujeros / patrones agrupados",
+        "thalassophobia": "Aguas profundas",
+        "claustrophobia": "Espacios cerrados",
+        "arachnophobia": "Arañas",
+        "entomophobia": "Insectos",
+        "ophidiophobia": "Serpientes",
+        "anxiety_inducing": "Escenas que pueden causar ansiedad",
+        "depression_themes": "Temática de depresión",
+        "eating_disorders": "Trastornos alimentarios",
+        "substance_use": "Uso de sustancias",
+        "self_harm": "Autolesión / suicidio",
+        "ptsd_themes": "Contenido relacionado con TEPT",
+        "needles": "Agujas / inyecciones",
+        "body_fluids": "Fluidos corporales",
+        "pregnancy_horror": "Horror de embarazo / parto",
+        "illness_themes": "Enfermedad / infección",
+        "blood_gore": "Sangre y violencia gráfica",
+        "mature_18plus": "Contenido adulto 18+",
+        "disturbing_imagery": "Imágenes perturbadoras",
+        "animal_abuse": "Crueldad animal",
+        "child_harm": "Violencia contra menores",
+        "domestic_violence": "Violencia doméstica",
+        "sexual_assault": "Referencias a agresión sexual",
+        "torture": "Escenas de tortura",
+        "religion_themes": "Temas religiosos",
+        "war_violence": "Violencia bélica",
+        "discrimination": "Discriminación",
+        "police_violence": "Violencia policial / estatal",
+        "smoking_drinking": "Fumar / beber alcohol",
+        "detailed_killing": "Asesinatos detallados",
+        "cult_occult": "Sectas / ocultismo",
+        "psychological_manipulation": "Manipulación psicológica",
+        "grief_loss": "Pérdida / duelo",
+        "kidnapping": "Secuestro"
+      }
     },
     "graphics": {
       "with": "con",
@@ -164,6 +209,50 @@
         "balanced": "Balanced",
         "performance": "Performance",
         "ultra_performance": "Ultra Performance"
+      },
+      "upscale": {
+        "nvidia": {
+          "none": "",
+          "dlaa": "NVIDIA DLAA",
+          "quality": "NVIDIA DLSS Quality",
+          "balanced": "NVIDIA DLSS Balanced",
+          "performance": "NVIDIA DLSS Performance",
+          "ultra_performance": "NVIDIA DLSS Ultra Performance"
+        },
+        "amd": {
+          "none": "",
+          "native_aa": "AMD FSR Native AA",
+          "quality": "AMD FSR Quality",
+          "balanced": "AMD FSR Balanced",
+          "performance": "AMD FSR Performance",
+          "ultra_performance": "AMD FSR Ultra Performance"
+        },
+        "intel": {
+          "none": "",
+          "native_aa": "Intel XeSS Native AA",
+          "ultra_quality": "Intel XeSS Ultra Quality",
+          "quality": "Intel XeSS Quality",
+          "balanced": "Intel XeSS Balanced",
+          "performance": "Intel XeSS Performance",
+          "ultra_performance": "Intel XeSS Ultra Performance"
+        }
+      },
+      "frameGen": {
+        "nvidia": {
+          "none": "",
+          "x2": "NVIDIA Frame Generation x2",
+          "x3": "NVIDIA Multi Frame Generation x3",
+          "x4": "NVIDIA Multi Frame Generation x4"
+        },
+        "amd": {
+          "none": "",
+          "x2": "AMD Fluid Motion Frames x2",
+          "x3": "AMD Fluid Motion Frames x3"
+        },
+        "intel": {
+          "none": "",
+          "x2": "Intel XeFG x2"
+        }
       },
       "artStyleOptions": {
         "realistic": "Realista",

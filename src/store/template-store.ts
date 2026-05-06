@@ -19,6 +19,10 @@ import type {
   UpscaleQuality,
   ArtStyle,
 } from "@config/graphics-settings";
+import {
+  coerceUpscaleQuality,
+  coerceFrameGenMultiplier,
+} from "@engine/graphics-vendor";
 import type { GachaQuestType } from "@config/gacha-quest-types";
 
 /**
@@ -94,6 +98,9 @@ export interface TemplateSnapshot {
   vnBankHolder?: string;
   vnMomo?: string;
   vnZalopay?: string;
+  /** Channel-level third-party advertising copy (v0.11). Optional for
+   *  back-compat with pre-v0.11 templates. */
+  thirdPartyAdText?: string;
 }
 
 export interface EditorTemplate {
@@ -156,6 +163,37 @@ export const useTemplateStore = create<TemplateState>()(
     {
       name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
+      // v0 (unversioned) → v1: v0.11 added vendor-specific filtering on
+      // upscaleQuality / frameGenMultiplier. A snapshot saved before
+      // v0.11 may carry e.g. `frameGenVendor: "nvidia"` +
+      // `upscaleQuality: "native_aa"` (no longer a valid combo since
+      // DLSS uses `dlaa`). Coerce invalid pairs to "none" so loadPreset
+      // doesn't push a stale value into the editor's Select. The
+      // editor's own normalizeEditorPatch repeats this coercion as a
+      // belt-and-suspenders measure.
+      version: 1,
+      migrate: (persistedState: unknown, version: number) => {
+        if (!persistedState || typeof persistedState !== "object") return persistedState;
+        if (version < 1) {
+          const state = persistedState as { templates?: EditorTemplate[] };
+          if (Array.isArray(state.templates)) {
+            for (const tpl of state.templates) {
+              const snap = tpl.snapshot as TemplateSnapshot;
+              const vendor = (snap.frameGenVendor ?? "none") as FrameGenVendor;
+              if (snap.upscaleQuality) {
+                snap.upscaleQuality = coerceUpscaleQuality(vendor, snap.upscaleQuality);
+              }
+              if (snap.frameGenMultiplier) {
+                snap.frameGenMultiplier = coerceFrameGenMultiplier(
+                  vendor,
+                  snap.frameGenMultiplier,
+                );
+              }
+            }
+          }
+        }
+        return persistedState as { templates: EditorTemplate[] };
+      },
       partialize: (state) => ({ templates: state.templates }),
     },
   ),
