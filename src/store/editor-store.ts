@@ -37,7 +37,7 @@ import {
 } from "@config/gacha-quest-types";
 import { DEFAULTS } from "@config/defaults";
 
-interface EditorData {
+export interface EditorData {
   videoType: VideoType;
   language: SupportedLanguage;
   genres: Genre[];

@@ -5426,7 +5426,7 @@ dependencies = [
 
 [[package]]
 name = "yt-desc-gen"
-version = "0.12.0"
+version = "0.12.1"
 dependencies = [
  "serde",
  "serde_json",

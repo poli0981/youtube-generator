@@ -1,6 +1,6 @@
 [package]
 name = "yt-desc-gen"
-version = "0.12.0"
+version = "0.12.1"
 description = "YouTube Gameplay Description Generator"
 authors = ["poli0981"]
 edition = "2021"

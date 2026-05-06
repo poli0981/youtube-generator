@@ -10,6 +10,9 @@ import type {
   PlaythroughStatus,
   DifficultyLevel,
   ContentWarning,
+  LanguagePatch,
+  GameVersion,
+  TechNote,
 } from "@engine/types";
 import type {
   GraphicsPreset,
@@ -88,6 +91,16 @@ export interface TemplateSnapshot {
   difficulty?: DifficultyLevel;
   difficultyCustomLabel?: string;
   contentWarnings?: ContentWarning[];
+  /** v0.12 Playthrough Notes structured fields. Optional for back-compat
+   *  with pre-v0.12 templates — `loadProfile` spreads `...patch` so
+   *  missing keys keep the editor's existing values. */
+  endingsShown?: string;
+  languagePatch?: LanguagePatch;
+  languagePatchCustom?: string;
+  gameVersion?: GameVersion;
+  gameVersionCustom?: string;
+  /** v0.12 Tech Notes checklist. Optional for back-compat. */
+  techNotes?: TechNote[];
   storeLinks: Record<string, string>;
   storeLinkTypes: Record<string, StoreLinkType>;
   social: Record<string, string>;

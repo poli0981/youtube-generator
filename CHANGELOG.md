@@ -2,6 +2,32 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.12.1 — 2026-05-06
+
+Hotfix for v0.12.0. Ticking a Tech Notes checkbox (or filling any of the new Playthrough Notes structured fields — Endings shown, Language patch, Game version) updated the editor state but never reached the description preview, because the editor → engine mapping in `useCurrentGeneratorInput` wasn't kept in sync when the new fields were added. The unit-test suite caught nothing because every v0.12 description-builder test passed `GeneratorInput` directly to the engine, bypassing the hook.
+
+### Fixed
+
+- **Editor → engine pipeline carries every v0.12 field** ([src/hooks/use-current-generator-input.ts](src/hooks/use-current-generator-input.ts)) — `endingsShown`, `languagePatch`, `languagePatchCustom`, `gameVersion`, `gameVersionCustom`, and `techNotes` are now forwarded into `GeneratorInput`. Symptom of the bug was that the description preview (and Output / Batch tabs) didn't change when the user ticked tech-note items or filled language-patch / game-version, even though the editor checkboxes / selects reflected the change correctly.
+- **Save-as-template captures every v0.12 field** ([src/components/templates/TemplateSaveForm.tsx](src/components/templates/TemplateSaveForm.tsx)) — the snapshot builder explicitly enumerates each editor field and was missing the same six fields. A v0.12.0 user saving a template lost their Tech Notes / Playthrough Notes selections; loading the template later didn't restore them.
+
+### Changed
+
+- **Hook field-mapping extracted into a pure helper** — `buildGeneratorInputFromEditor(state, languageOverride?)` is now exported alongside the React hook. Pure function so it's directly unit-testable; the hook just wraps it in `useMemo`. Same change pattern used for `migrateEditorState` in v0.12.0 — pull the load-bearing logic out of React-coupled wrappers so tests can hit it without a render harness.
+- **Hook `useMemo` deps simplified** — the previous list enumerated every field individually (50+ entries); a missing field would silently freeze that field's value in the memoised output. Replaced with a single `[state, languageOverride]` since `useEditorStore()` returns a fresh state reference on every store update — equivalent invalidation, fewer footguns.
+- **`TemplateSnapshot` carries the v0.12 fields as optional** ([src/store/template-store.ts](src/store/template-store.ts)) — `endingsShown`, `languagePatch`, `languagePatchCustom`, `gameVersion`, `gameVersionCustom`, `techNotes` joined the snapshot type. Optional for back-compat with templates saved before this hotfix; the editor's `loadProfile` spread keeps existing values when the patch lacks them.
+- **`EditorData` is now `export interface`** in `src/store/editor-store.ts` so the shared snapshot helper can reference it.
+- **package-lock.json** synced to the v0.12 / v0.12.1 version line — was carrying a stale v0.11.0 root version since the v0.12.0 PR forgot it (the v0.9.0 lockfile-bump-miss memory note reminded us, but only after the v0.12.0 ship).
+
+### Under the hood
+
+- New `tests/hooks/generator-input-mapping.test.ts` (6 cases) — direct assertions that each v0.12 field reaches `GeneratorInput` (`endingsShown`, `languagePatch + custom`, `gameVersion + custom`, `techNotes` selection-order), plus a parity guard that walks every key of an `EditorData` instance and fails if any non-allowlisted field is dropped from the resulting `GeneratorInput`. The allowlist is exactly two keys (`thumbnailText`, `pinnedComment` — both feed the pinned-comment builder via a separate code path); anything else added in the future will trip the assertion immediately.
+- Test count: 335/335 (was 329/329). Bundle: 345.50 KB raw / 115.52 KB gzipped (essentially flat versus v0.12.0 — only swapped a deps array for a single ref).
+
+### Migration notes
+
+- No state migration needed. `loadProfile` / `loadPreset` continue to spread snapshots over current state, and the new fields are all optional on `TemplateSnapshot`. A v0.12.0 user with templates saved during the bug window will see those templates load with empty Tech Notes / Playthrough Notes — re-save the template after upgrading to capture the fields properly.
+
 ## v0.12.0 — 2026-05-06
 
 A bug fix and a description overhaul. The Tauri desktop build picks up `tauri-plugin-single-instance` so launching the app twice no longer stacks tray icons / orphan processes — second launches refocus the existing window. The description's Playthrough block consolidates the v0.7 standalone "🎯 Playthrough" line and the standalone "🎮 DIFFICULTY" block into a unified `▸ 🎮 PLAYTHROUGH NOTES` section with three new structured fields (`endingsShown`, `languagePatch`, `gameVersion`), and a new `▸ 🛠 TECH NOTES` bilingual checklist (24 items across 5 groups) sits alongside Content Warnings for production / playstyle disclaimers.
