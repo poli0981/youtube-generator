@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 import { ClipboardCopy } from "lucide-react";
 import { Button } from "@components/ui/Button";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
 import { useClipboard } from "@hooks/use-clipboard";
+import { YT_LIMITS } from "@engine/types";
 
 interface CopyAllBarProps {
   extraText?: string;
@@ -14,8 +16,34 @@ export function CopyAllBar({ extraText }: CopyAllBarProps) {
   const { copy } = useClipboard();
 
   const handleCopyAll = () => {
-    const text = extraText || `${output.title}\n\n${output.description}`;
-    copy(text);
+    if (extraText) {
+      copy(extraText);
+      return;
+    }
+    const overflows: string[] = [];
+    if (output.title.length > YT_LIMITS.TITLE_MAX) {
+      overflows.push(
+        t("output.copy.overLimit", {
+          field: t("output.title"),
+          count: output.title.length,
+          limit: YT_LIMITS.TITLE_MAX,
+        }),
+      );
+    }
+    if (output.description.length > YT_LIMITS.DESCRIPTION_MAX) {
+      overflows.push(
+        t("output.copy.overLimit", {
+          field: t("output.description"),
+          count: output.description.length,
+          limit: YT_LIMITS.DESCRIPTION_MAX,
+        }),
+      );
+    }
+    if (overflows.length > 0) {
+      toast.error(overflows.join("\n"));
+      return;
+    }
+    copy(`${output.title}\n\n${output.description}`);
   };
 
   return (

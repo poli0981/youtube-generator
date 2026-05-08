@@ -4,6 +4,7 @@ import { PLATFORMS } from "@config/platforms";
 import { SOCIAL_FIELDS } from "@config/social-fields";
 import { formatRigValue } from "@config/rig-fields";
 import { DEFAULT_GACHA_QUEST_TYPE } from "@config/gacha-quest-types";
+import { ordinalSuffix } from "./title-builder";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
 import { sanitizeHashtag } from "@utils/sanitize";
 
@@ -226,6 +227,9 @@ export function buildDescription(
     const questType = input.gachaQuestType ?? DEFAULT_GACHA_QUEST_TYPE;
     introKey = `description.intro.gacha_quest_${questType}`;
   }
+  const versionLabel = input.gachaVersion?.trim()
+    ? ` (${t("description.intro.versionInline", { v: input.gachaVersion.trim() })})`
+    : "";
   const intro = t(introKey, {
     gameName,
     channelName: input.channelName,
@@ -236,6 +240,12 @@ export function buildDescription(
     modName: input.modName ?? "",
     chapterName: input.chapterName ?? "",
     questName: input.questName ?? "",
+    characterName: input.characterName ?? "",
+    anniversaryYear: input.anniversaryYear != null ? String(input.anniversaryYear) : "",
+    ordinalSuffix:
+      input.anniversaryYear != null ? ordinalSuffix(input.anniversaryYear) : "",
+    gachaVersion: input.gachaVersion ?? "",
+    versionLabel,
   });
   sections.push(intro);
 

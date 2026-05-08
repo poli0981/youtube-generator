@@ -56,6 +56,12 @@ export interface EditorData {
   gachaQuestType: GachaQuestType;
   chapterName: string;
   questName: string;
+  /** Gacha-quest character name (v0.13) — used for `showcase` quest type. */
+  characterName: string;
+  /** Gacha-quest anniversary year (v0.13) — 1–20 or null. */
+  anniversaryYear: number | null;
+  /** Gacha-quest game version (v0.13) — e.g. "1.2", "2.4". Only used for gacha_quest videoType. */
+  gachaVersion: string;
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;
@@ -229,6 +235,9 @@ const initialState: EditorData = {
   gachaQuestType: DEFAULTS.editor.gachaQuestType,
   chapterName: DEFAULTS.editor.chapterName,
   questName: DEFAULTS.editor.questName,
+  characterName: DEFAULTS.editor.characterName,
+  anniversaryYear: DEFAULTS.editor.anniversaryYear,
+  gachaVersion: DEFAULTS.editor.gachaVersion,
   resolution: DEFAULTS.editor.resolution,
   fps: DEFAULTS.editor.fps,
   graphicsPreset: DEFAULTS.editor.graphicsPreset,
@@ -356,7 +365,13 @@ export const useEditorStore = create<EditorState>()(
       //         existing `playthroughStatus` / `difficulty` /
       //         `difficultyCustomLabel` values are preserved; only the
       //         description-builder render path changed.
-      version: 10,
+      // v10 → v11: v0.13. Gacha-quest gained three new structured fields:
+      //         `characterName` (used for the Showcase quest type, replacing
+      //         chapter/quest in templates), `anniversaryYear` (1–20 number
+      //         used by the Anniversary quest type), and `gachaVersion`
+      //         (free-form game version like "1.2"). All additive — empty
+      //         / null defaults round-trip cleanly.
+      version: 11,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -378,6 +393,9 @@ export const useEditorStore = create<EditorState>()(
         gachaQuestType: state.gachaQuestType,
         chapterName: state.chapterName,
         questName: state.questName,
+        characterName: state.characterName,
+        anniversaryYear: state.anniversaryYear,
+        gachaVersion: state.gachaVersion,
         resolution: state.resolution,
         fps: state.fps,
         graphicsPreset: state.graphicsPreset,
@@ -577,6 +595,17 @@ export function migrateEditorState(
           typeof id === "string" &&
           (TECH_NOTES as readonly string[]).includes(id),
       );
+    }
+  }
+  if (version < 11) {
+    // v0.13 Gacha additions — empty / null back-fill.
+    if (typeof state.characterName !== "string") state.characterName = "";
+    if (typeof state.gachaVersion !== "string") state.gachaVersion = "";
+    const ay = state.anniversaryYear;
+    if (typeof ay === "number" && Number.isInteger(ay) && ay >= 1 && ay <= 20) {
+      state.anniversaryYear = ay;
+    } else {
+      state.anniversaryYear = null;
     }
   }
   return { ...initialState, ...state } as EditorData;

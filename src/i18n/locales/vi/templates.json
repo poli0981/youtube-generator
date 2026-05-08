@@ -38,7 +38,7 @@
       "companion_quest": "{{gameName}} — Nhiệm vụ đồng hành: {{questName}}",
       "bond_quest": "{{gameName}} — Nhiệm vụ thân mật: {{questName}}",
       "event": "{{gameName}} — Sự kiện: {{questName}}",
-      "anniversary": "{{gameName}} — Kỷ niệm {{chapterName}}{{partSuffix}}",
+      "anniversary": "{{gameName}} — Kỷ niệm năm {{anniversaryYear}}{{partSuffix}}",
       "crossover": "{{gameName}} — Crossover: {{questName}}",
       "dating_event": "{{gameName}} — Hẹn hò: {{questName}}",
       "tutorial_quest": "{{gameName}} — Hướng dẫn: {{questName}}",
@@ -47,7 +47,7 @@
       "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
       "coop": "{{gameName}} — Co-op: {{questName}}",
       "daily_commission": "{{gameName}} — Nhiệm vụ hàng ngày{{partSuffix}}",
-      "showcase": "{{gameName}} — Showcase: {{questName}}"
+      "showcase": "{{gameName}} — Showcase nhân vật: {{characterName}}"
     },
     "gachaPartSuffix": {
       "part": " - Phần {{n}}",
@@ -83,7 +83,7 @@
       "gacha_quest_companion_quest": "Nhiệm vụ đồng hành \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
       "gacha_quest_bond_quest": "Nhiệm vụ thân mật \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
       "gacha_quest_event": "Sự kiện \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
-      "gacha_quest_anniversary": "Lễ kỷ niệm {{chapterName}} của {{gameName}} trên kênh {{channelName}}.",
+      "gacha_quest_anniversary": "Lễ kỷ niệm năm thứ {{anniversaryYear}} của {{gameName}}{{versionLabel}} trên kênh {{channelName}}.",
       "gacha_quest_crossover": "Sự kiện Crossover \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
       "gacha_quest_dating_event": "Sự kiện hẹn hò \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
       "gacha_quest_tutorial_quest": "Hướng dẫn \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}.",
@@ -92,7 +92,8 @@
       "gacha_quest_endgame": "Chế độ cuối game \"{{chapterName}}\" trong {{gameName}} trên kênh {{channelName}}.",
       "gacha_quest_coop": "Co-op \"{{questName}}\" trong {{gameName}} trên kênh {{channelName}}.",
       "gacha_quest_daily_commission": "Nhiệm vụ hàng ngày trong {{gameName}} trên kênh {{channelName}}.",
-      "gacha_quest_showcase": "Showcase \"{{questName}}\" của {{gameName}} trên kênh {{channelName}}."
+      "gacha_quest_showcase": "Video showcase kỹ năng, ngoại hình và chi tiết của {{characterName}} trong {{gameName}}{{versionLabel}} trên kênh {{channelName}}.",
+      "versionInline": "phiên bản {{v}}"
     },
     "noCommentaryLine": "Không bình luận — gameplay thuần túy để bạn thưởng thức.",
     "storeLinkSuffix": {
@@ -209,6 +210,11 @@
         "arachnophobia": "Sợ nhện",
         "entomophobia": "Sợ côn trùng",
         "ophidiophobia": "Sợ rắn",
+        "cynophobia": "Sợ chó",
+        "nyctophobia": "Sợ bóng tối / cảnh đen tuyền",
+        "pyrophobia": "Sợ lửa / cảnh cháy",
+        "pediophobia": "Sợ búp bê / hình nộm",
+        "hemophobia": "Sợ máu",
         "anxiety_inducing": "Cảnh có thể gây lo âu",
         "depression_themes": "Chủ đề trầm cảm",
         "eating_disorders": "Chủ đề rối loạn ăn uống",
@@ -219,6 +225,10 @@
         "body_fluids": "Có cảnh dịch cơ thể",
         "pregnancy_horror": "Kinh dị sinh nở",
         "illness_themes": "Chủ đề bệnh tật / lây nhiễm",
+        "bipolar_themes": "Chủ đề rối loạn lưỡng cực",
+        "ocd_themes": "Chủ đề rối loạn ám ảnh cưỡng chế",
+        "panic_attacks": "Có cảnh hoảng loạn / cơn panic",
+        "dissociation": "Chủ đề phân ly / mất kết nối thực tại",
         "blood_gore": "Cảnh máu me",
         "mature_18plus": "Chủ đề người lớn — 18+",
         "disturbing_imagery": "Hình ảnh gây ám ảnh",
@@ -236,7 +246,20 @@
         "cult_occult": "Chủ đề giáo phái / huyền bí",
         "psychological_manipulation": "Chủ đề thao túng tâm lý",
         "grief_loss": "Chủ đề mất mát / đau buồn",
-        "kidnapping": "Có cảnh bắt cóc"
+        "kidnapping": "Có cảnh bắt cóc",
+        "hate_speech": "Chủ đề phát ngôn thù ghét",
+        "historical_atrocity": "Tái hiện tội ác lịch sử",
+        "slavery_themes": "Chủ đề nô lệ / nô dịch",
+        "terrorism_themes": "Chủ đề khủng bố",
+        "bullying_themes": "Chủ đề bắt nạt / bạo lực học đường",
+        "blind_playthrough": "Chơi blind — lần đầu chạm tay",
+        "no_spoilers_chat": "Mong mọi người đừng spoil trong chat",
+        "casual_difficulty": "Chơi ở độ khó dễ / chế độ cốt truyện",
+        "hardcore_difficulty": "Chơi ở độ khó cao nhất / Hardcore",
+        "permadeath_run": "Lối chơi Permadeath / Iron Man",
+        "speedrun_attempt": "Thử speedrun",
+        "completionist_run": "Chơi 100% completionist",
+        "learning_mechanics": "Vẫn đang học cơ chế game"
       }
     },
     "graphics": {

@@ -96,6 +96,18 @@
     "chapterNamePlaceholder": "vd: Chương 5 Hồi 2 — Nơi Vì Sao Rơi",
     "questName": "Tên nhiệm vụ",
     "questNamePlaceholder": "vd: Chòm Sao Đơn Độc",
+    "characterName": "Tên nhân vật",
+    "characterNamePlaceholder": "vd: Furina, Topaz, Acheron",
+    "anniversaryYear": "Năm kỷ niệm",
+    "anniversaryYearOption": "Năm {{count}}",
+    "gachaVersion": "Phiên bản game",
+    "gachaVersionPlaceholder": "vd: 1.2, 2.4",
+    "gpu_brand": "Hãng",
+    "gpu_series": "Dòng",
+    "gpu_model": "Model",
+    "gpu_custom": "GPU tự nhập",
+    "ram_size": "Dung lượng RAM",
+    "ram_ddr": "Thế hệ DDR",
     "vnDonate": "Donate (Việt Nam)",
     "vnDonateHelp": "Chỉ hiển thị trong description khi ngôn ngữ đầu ra là Tiếng Việt.",
     "vnBankName": "Tên ngân hàng",
@@ -268,7 +280,8 @@
       "photosensitive": "Sức khoẻ / nhạy sáng",
       "phobias": "Hội chứng sợ",
       "mental_health": "Sức khoẻ tinh thần",
-      "sensitive": "Nội dung nhạy cảm / 18+"
+      "sensitive": "Nội dung nhạy cảm / 18+",
+      "playstyle": "Chú thích lối chơi"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoiler cốt truyện / kết thúc",
@@ -289,6 +302,11 @@
       "arachnophobia": "Sợ nhện",
       "entomophobia": "Sợ côn trùng",
       "ophidiophobia": "Sợ rắn",
+      "cynophobia": "Sợ chó",
+      "nyctophobia": "Sợ bóng tối",
+      "pyrophobia": "Sợ lửa",
+      "pediophobia": "Sợ búp bê",
+      "hemophobia": "Sợ máu",
       "anxiety_inducing": "Cảnh gây lo âu",
       "depression_themes": "Chủ đề trầm cảm",
       "eating_disorders": "Rối loạn ăn uống",
@@ -299,6 +317,10 @@
       "body_fluids": "Dịch cơ thể",
       "pregnancy_horror": "Kinh dị sinh nở",
       "illness_themes": "Bệnh tật / lây nhiễm",
+      "bipolar_themes": "Rối loạn lưỡng cực",
+      "ocd_themes": "Chủ đề OCD",
+      "panic_attacks": "Cơn hoảng loạn",
+      "dissociation": "Rối loạn phân ly",
       "blood_gore": "Máu me",
       "mature_18plus": "Người lớn 18+",
       "disturbing_imagery": "Hình ảnh ám ảnh",
@@ -316,7 +338,20 @@
       "cult_occult": "Giáo phái / huyền bí",
       "psychological_manipulation": "Thao túng tâm lý",
       "grief_loss": "Mất mát / đau buồn",
-      "kidnapping": "Bắt cóc"
+      "kidnapping": "Bắt cóc",
+      "hate_speech": "Phát ngôn thù ghét",
+      "historical_atrocity": "Tội ác lịch sử",
+      "slavery_themes": "Chủ đề nô lệ",
+      "terrorism_themes": "Chủ đề khủng bố",
+      "bullying_themes": "Chủ đề bắt nạt",
+      "blind_playthrough": "Chơi lần đầu (blind)",
+      "no_spoilers_chat": "Không spoil trong chat",
+      "casual_difficulty": "Độ khó dễ / cốt truyện",
+      "hardcore_difficulty": "Hardcore / độ khó tối đa",
+      "permadeath_run": "Permadeath / Iron Man",
+      "speedrun_attempt": "Thử speedrun",
+      "completionist_run": "100% completionist",
+      "learning_mechanics": "Đang học cơ chế"
     },
     "playthroughNotes": {
       "title": "Ghi chú lượt chơi",
@@ -392,6 +427,14 @@
     "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?",
     "genreSearchPlaceholder": "Tìm thể loại",
     "genreSearchNoResults": "Không có thể loại phù hợp",
+    "validation": {
+      "gpuMissingSeries": "Chọn dòng để hoàn tất GPU.",
+      "gpuMissingModel": "Chọn model để hoàn tất GPU.",
+      "gpuCustomEmpty": "Nhập tên GPU hoặc chọn từ danh sách.",
+      "ramMissingDdr": "Chọn thế hệ DDR.",
+      "ramMissingSize": "Chọn dung lượng RAM.",
+      "ramCustomEmpty": "Nhập dung lượng RAM (GB)."
+    },
     "genreGroups": {
       "rpg": "Tất cả RPG",
       "shooter": "Tất cả Shooter",
@@ -428,6 +471,11 @@
       "default": "Mặc định",
       "typeFirst": "Loại video trước",
       "qualityFirst": "Chất lượng trước"
+    },
+    "copy": {
+      "overLimit": "{{field}} quá dài: {{count}}/{{limit}} ký tự. Cắt bớt trước khi copy.",
+      "fieldGeneric": "Văn bản",
+      "failed": "Copy thất bại"
     }
   },
   "common": {

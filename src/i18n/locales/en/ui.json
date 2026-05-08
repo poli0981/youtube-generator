@@ -96,6 +96,18 @@
     "chapterNamePlaceholder": "e.g. Chapter 5 Act 2: Where the Stars Fall",
     "questName": "Quest Name",
     "questNamePlaceholder": "e.g. A Solitary Constellation",
+    "characterName": "Character Name",
+    "characterNamePlaceholder": "e.g. Furina, Topaz, Acheron",
+    "anniversaryYear": "Anniversary Year",
+    "anniversaryYearOption": "Year {{count}}",
+    "gachaVersion": "Game Version",
+    "gachaVersionPlaceholder": "e.g. 1.2, 2.4",
+    "gpu_brand": "Brand",
+    "gpu_series": "Series",
+    "gpu_model": "Model",
+    "gpu_custom": "Custom GPU",
+    "ram_size": "RAM Size",
+    "ram_ddr": "DDR Generation",
     "vnDonate": "Donate (Vietnam)",
     "vnDonateHelp": "Only rendered into the description when output language is Vietnamese.",
     "vnBankName": "Bank name",
@@ -268,7 +280,8 @@
       "photosensitive": "Photosensitive / Health",
       "phobias": "Phobias",
       "mental_health": "Mental health",
-      "sensitive": "Mature / Sensitive content"
+      "sensitive": "Mature / Sensitive content",
+      "playstyle": "Playstyle disclosures"
     },
     "contentWarningOptions": {
       "spoiler_story": "Story / ending spoilers",
@@ -289,6 +302,11 @@
       "arachnophobia": "Spiders",
       "entomophobia": "Insects",
       "ophidiophobia": "Snakes",
+      "cynophobia": "Dogs",
+      "nyctophobia": "Darkness",
+      "pyrophobia": "Fire",
+      "pediophobia": "Dolls",
+      "hemophobia": "Blood",
       "anxiety_inducing": "Anxiety-inducing scenes",
       "depression_themes": "Depression themes",
       "eating_disorders": "Eating disorders",
@@ -299,6 +317,10 @@
       "body_fluids": "Body fluids",
       "pregnancy_horror": "Pregnancy / birth horror",
       "illness_themes": "Illness / infection",
+      "bipolar_themes": "Bipolar themes",
+      "ocd_themes": "OCD themes",
+      "panic_attacks": "Panic attacks",
+      "dissociation": "Dissociation",
       "blood_gore": "Blood and gore",
       "mature_18plus": "Mature 18+",
       "disturbing_imagery": "Disturbing imagery",
@@ -316,7 +338,20 @@
       "cult_occult": "Cult / occult",
       "psychological_manipulation": "Psychological manipulation",
       "grief_loss": "Loss / grief",
-      "kidnapping": "Kidnapping"
+      "kidnapping": "Kidnapping",
+      "hate_speech": "Hate speech",
+      "historical_atrocity": "Historical atrocities",
+      "slavery_themes": "Slavery themes",
+      "terrorism_themes": "Terrorism themes",
+      "bullying_themes": "Bullying themes",
+      "blind_playthrough": "Blind playthrough",
+      "no_spoilers_chat": "No spoilers in chat",
+      "casual_difficulty": "Casual / story mode",
+      "hardcore_difficulty": "Hardcore / max difficulty",
+      "permadeath_run": "Permadeath / Iron Man",
+      "speedrun_attempt": "Speedrun attempt",
+      "completionist_run": "100% completionist",
+      "learning_mechanics": "Still learning mechanics"
     },
     "playthroughNotes": {
       "title": "Playthrough notes",
@@ -392,6 +427,14 @@
     "clearDraftConfirm": "Are you sure you want to clear all form data?",
     "genreSearchPlaceholder": "Search genres",
     "genreSearchNoResults": "No matching genres",
+    "validation": {
+      "gpuMissingSeries": "Pick a series to complete the GPU.",
+      "gpuMissingModel": "Pick a model to complete the GPU.",
+      "gpuCustomEmpty": "Enter a GPU name or pick from the catalog.",
+      "ramMissingDdr": "Pick a DDR generation.",
+      "ramMissingSize": "Pick a RAM size.",
+      "ramCustomEmpty": "Enter a RAM size in GB."
+    },
     "genreGroups": {
       "rpg": "All RPGs",
       "shooter": "All Shooters",
@@ -428,6 +471,11 @@
       "default": "Default",
       "typeFirst": "Type First",
       "qualityFirst": "Quality First"
+    },
+    "copy": {
+      "overLimit": "{{field}} is too long: {{count}}/{{limit}} chars. Trim before copying.",
+      "fieldGeneric": "Text",
+      "failed": "Failed to copy"
     }
   },
   "common": {

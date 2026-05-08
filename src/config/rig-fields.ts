@@ -1,3 +1,10 @@
+import {
+  GPU_CATALOG,
+  GPU_CUSTOM_BRAND_ID,
+  findGpuBrand,
+  type GpuCatalog,
+} from "./gpu-catalog";
+
 /**
  * Supported rig field input types.
  *
@@ -6,13 +13,51 @@
  *   free-form version text input. The stored value is
  *   `"<option_value>|<version>"` so we don't break the flat
  *   `Partial<Record<string, string>>` rig shape in the editor store.
+ * - `cascading_dropdown` (v0.13): three-level Brand → Series → Model
+ *   dropdown for GPU. Stored as `"<brand>|<series>|<model>"`. When
+ *   brand = `"custom"`, the UI swaps to a single free-text input and
+ *   stores `"custom||<freeText>"` (the model is the verbatim text the
+ *   user typed). Pre-v0.13 free-text values lack pipes — they pass
+ *   through `formatRigValue` unchanged so old profiles render the same
+ *   string they did before.
+ * - `composite_dropdown` (v0.13): two-or-more dropdowns combined into
+ *   one logical field. Used by RAM (size + DDR generation). Each part
+ *   may opt into a free-text "Custom" override; the stored format is
+ *   pipe-delimited in the order parts are declared.
  */
-export type RigFieldType = "text" | "dropdown_with_version";
+export type RigFieldType =
+  | "text"
+  | "dropdown_with_version"
+  | "cascading_dropdown"
+  | "composite_dropdown";
 
 export interface RigFieldOption {
   readonly value: string;
   /** Display label (not translated — software names are brand-preserved). */
   readonly label: string;
+}
+
+export interface CompositePart {
+  /** Stable id, used to assemble the storage tuple in declaration order. */
+  readonly id: string;
+  readonly labelKey: string;
+  readonly options: readonly RigFieldOption[];
+  /** When true, the part renders an extra free-text input when value === `"custom"`. */
+  readonly allowCustom?: boolean;
+  /** Suffix shown after the custom numeric input (e.g. " GB"). */
+  readonly customSuffix?: string;
+  /** Optional placeholder for the custom input. */
+  readonly customPlaceholder?: string;
+}
+
+export interface CompositeFieldSpec {
+  readonly parts: readonly CompositePart[];
+  /**
+   * Format the stored parts into the description-output string. Receives
+   * resolved labels (not raw ids) — for `custom` parts the resolved value
+   * is the free-text the user typed.
+   */
+  readonly format: (resolvedParts: readonly string[]) => string;
 }
 
 export interface RigField {
@@ -22,6 +67,10 @@ export interface RigField {
   readonly placeholder?: string;
   readonly options?: readonly RigFieldOption[];
   readonly versionPlaceholder?: string;
+  /** Set when {@link type} is `"cascading_dropdown"`. */
+  readonly catalog?: GpuCatalog;
+  /** Set when {@link type} is `"composite_dropdown"`. */
+  readonly composite?: CompositeFieldSpec;
 }
 
 /**
@@ -45,10 +94,73 @@ export const VIDEO_EDITOR_OPTIONS: readonly RigFieldOption[] = [
   { value: "other", label: "Other" },
 ];
 
+/** RAM size options in GB. `custom` opens a numeric free-text input. */
+export const RAM_SIZE_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "4", label: "4 GB" },
+  { value: "6", label: "6 GB" },
+  { value: "8", label: "8 GB" },
+  { value: "12", label: "12 GB" },
+  { value: "16", label: "16 GB" },
+  { value: "32", label: "32 GB" },
+  { value: "64", label: "64 GB" },
+  { value: "96", label: "96 GB" },
+  { value: "128", label: "128 GB" },
+  { value: "256", label: "256 GB" },
+  { value: "custom", label: "Custom…" },
+];
+
+/** DDR generation. DDR1 stays in the list for legacy gear; users with
+ *  unusual rigs (DDR6/DDR7) can pick early-spec options. */
+export const RAM_DDR_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "DDR1", label: "DDR1" },
+  { value: "DDR2", label: "DDR2" },
+  { value: "DDR3", label: "DDR3" },
+  { value: "DDR4", label: "DDR4" },
+  { value: "DDR5", label: "DDR5" },
+  { value: "DDR6", label: "DDR6" },
+  { value: "DDR7", label: "DDR7" },
+];
+
+const RAM_COMPOSITE: CompositeFieldSpec = {
+  parts: [
+    {
+      id: "size",
+      labelKey: "editor.ram_size",
+      options: RAM_SIZE_OPTIONS,
+      allowCustom: true,
+      customSuffix: " GB",
+      customPlaceholder: "48",
+    },
+    {
+      id: "ddr",
+      labelKey: "editor.ram_ddr",
+      options: RAM_DDR_OPTIONS,
+    },
+  ],
+  format: ([size = "", ddr = ""]) => {
+    if (!size && !ddr) return "";
+    if (!size) return ddr;
+    if (!ddr) return size;
+    return `${size} ${ddr}`;
+  },
+};
+
 export const RIG_FIELDS: readonly RigField[] = [
   { id: "cpu", labelKey: "rig.cpu", type: "text", placeholder: "Intel i9-14900K / AMD Ryzen 9 7950X" },
-  { id: "gpu", labelKey: "rig.gpu", type: "text", placeholder: "NVIDIA RTX 4090 / AMD RX 7900 XTX" },
-  { id: "ram", labelKey: "rig.ram", type: "text", placeholder: "32GB DDR5-6000" },
+  {
+    id: "gpu",
+    labelKey: "rig.gpu",
+    type: "cascading_dropdown",
+    catalog: GPU_CATALOG,
+  },
+  {
+    id: "ram",
+    labelKey: "rig.ram",
+    type: "composite_dropdown",
+    composite: RAM_COMPOSITE,
+  },
   { id: "storage", labelKey: "rig.storage", type: "text", placeholder: "2TB Samsung 990 PRO NVMe" },
   { id: "monitor", labelKey: "rig.monitor", type: "text", placeholder: "LG 27GP950 27\" 4K 144Hz" },
   { id: "capture", labelKey: "rig.capture", type: "text", placeholder: "OBS Studio 30.x" },
@@ -66,26 +178,104 @@ export const RIG_FIELDS: readonly RigField[] = [
 export type RigFieldId = (typeof RIG_FIELDS)[number]["id"];
 
 /**
+ * Parse a cascading-dropdown stored value into its three segments.
+ * Empty segments stay as empty strings. Pipeless legacy values are
+ * returned as `["", "", raw]` so the caller can render them under the
+ * Custom brand without losing the original text.
+ */
+export function parseCascadingValue(raw: string): {
+  brand: string;
+  series: string;
+  model: string;
+  isLegacy: boolean;
+} {
+  if (!raw) return { brand: "", series: "", model: "", isLegacy: false };
+  if (!raw.includes("|")) {
+    // Pre-v0.13 free-text. Treat as Custom + verbatim model.
+    return { brand: GPU_CUSTOM_BRAND_ID, series: "", model: raw, isLegacy: true };
+  }
+  const [brand = "", series = "", model = ""] = raw.split("|");
+  return { brand, series, model, isLegacy: false };
+}
+
+/**
+ * Parse a composite-dropdown stored value into its segments. The order
+ * matches the parts declared on the field's {@link CompositeFieldSpec}.
+ * Pipeless legacy values are returned as a single-element tuple so the
+ * caller can render them as a fallback string.
+ */
+export function parseCompositeValue(raw: string): {
+  parts: readonly string[];
+  isLegacy: boolean;
+} {
+  if (!raw) return { parts: [], isLegacy: false };
+  if (!raw.includes("|")) return { parts: [raw], isLegacy: true };
+  return { parts: raw.split("|"), isLegacy: false };
+}
+
+/**
  * Format a stored rig value for display in the description output.
- * For dropdown_with_version fields, this turns `"davinci_resolve_studio|19.1"`
- * into `"DaVinci Resolve Studio 19.1"`. Other values pass through.
+ *
+ * - `dropdown_with_version` ("davinci_resolve_studio|19.1") →
+ *   `"DaVinci Resolve Studio 19.1"`.
+ * - `cascading_dropdown` ("nvidia|rtx_40|RTX 4090") →
+ *   `"NVIDIA RTX 4090"` (series label dropped — the model string is
+ *   already verbose enough). Custom brand returns the verbatim model.
+ *   Legacy pipeless values pass through unchanged.
+ * - `composite_dropdown` ("16|DDR5", "custom:48|DDR5") →
+ *   `"16 GB DDR5"` / `"48 GB DDR5"` via the field's
+ *   {@link CompositeFieldSpec.format}.
+ * - All other field types pass the raw value through.
  */
 export function formatRigValue(fieldId: string, raw: string): string {
   const field = RIG_FIELDS.find((f) => f.id === fieldId);
-  if (!field || field.type !== "dropdown_with_version") return raw;
+  if (!field) return raw;
 
-  const [value = "", version = ""] = raw.split("|");
-  const trimmedVersion = version.trim();
-  if (!value && !trimmedVersion) return "";
+  if (field.type === "dropdown_with_version") {
+    const [value = "", version = ""] = raw.split("|");
+    const trimmedVersion = version.trim();
+    if (!value && !trimmedVersion) return "";
 
-  // The empty-value sentinel option renders as "—" in the dropdown but
-  // should act as "no selection" in the output.
-  let label = "";
-  if (value) {
-    const option = field.options?.find((o) => o.value === value);
-    label = option?.label ?? value;
+    let label = "";
+    if (value) {
+      const option = field.options?.find((o) => o.value === value);
+      label = option?.label ?? value;
+    }
+
+    if (!label) return trimmedVersion;
+    return trimmedVersion ? `${label} ${trimmedVersion}` : label;
   }
 
-  if (!label) return trimmedVersion;
-  return trimmedVersion ? `${label} ${trimmedVersion}` : label;
+  if (field.type === "cascading_dropdown") {
+    const { brand, model, isLegacy } = parseCascadingValue(raw);
+    if (isLegacy) return raw;
+    if (!brand && !model) return "";
+    if (brand === GPU_CUSTOM_BRAND_ID) return model.trim();
+    const brandLabel = findGpuBrand(brand)?.label ?? brand;
+    if (!model.trim()) return brandLabel;
+    return `${brandLabel} ${model.trim()}`;
+  }
+
+  if (field.type === "composite_dropdown" && field.composite) {
+    const { parts, isLegacy } = parseCompositeValue(raw);
+    if (isLegacy) return raw;
+    if (parts.length === 0) return "";
+
+    // Resolve each declared part. `custom:<value>` segments collapse to
+    // the free-text payload (without the `custom:` prefix).
+    const resolved = field.composite.parts.map((spec, i) => {
+      const stored = (parts[i] ?? "").trim();
+      if (!stored) return "";
+      if (spec.allowCustom && stored.startsWith("custom:")) {
+        const txt = stored.slice("custom:".length).trim();
+        return txt ? `${txt}${spec.customSuffix ?? ""}` : "";
+      }
+      const opt = spec.options.find((o) => o.value === stored);
+      return opt?.label ?? stored;
+    });
+
+    return field.composite.format(resolved);
+  }
+
+  return raw;
 }

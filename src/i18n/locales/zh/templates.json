@@ -38,7 +38,7 @@
       "companion_quest": "{{gameName}} — Companion Quest: {{questName}}",
       "bond_quest": "{{gameName}} — Bond Quest: {{questName}}",
       "event": "{{gameName}} — Event: {{questName}}",
-      "anniversary": "{{gameName}} — {{chapterName}} Anniversary{{partSuffix}}",
+      "anniversary": "{{gameName}} — {{anniversaryYear}}周年纪念{{partSuffix}}",
       "crossover": "{{gameName}} — Crossover: {{questName}}",
       "dating_event": "{{gameName}} — Dating Event: {{questName}}",
       "tutorial_quest": "{{gameName}} — Tutorial: {{questName}}",
@@ -47,7 +47,7 @@
       "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
       "coop": "{{gameName}} — Co-op: {{questName}}",
       "daily_commission": "{{gameName}} — Daily Commissions{{partSuffix}}",
-      "showcase": "{{gameName}} — Showcase: {{questName}}"
+      "showcase": "{{gameName}} — 角色展示：{{characterName}}"
     },
     "gachaPartSuffix": {
       "part": " - Part {{n}}",
@@ -83,7 +83,7 @@
       "gacha_quest_companion_quest": "Companion Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_bond_quest": "Bond Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_event": "Limited-time Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_anniversary": "{{chapterName}} Anniversary celebration in {{gameName}} on {{channelName}}.",
+      "gacha_quest_anniversary": "在 {{channelName}} 庆祝 {{gameName}}{{versionLabel}} 的{{anniversaryYear}}周年纪念。",
       "gacha_quest_crossover": "Crossover Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_dating_event": "Dating Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_tutorial_quest": "Tutorial \"{{questName}}\" from {{gameName}} on {{channelName}}.",
@@ -92,7 +92,8 @@
       "gacha_quest_endgame": "Endgame mode \"{{chapterName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_coop": "Co-op session \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_daily_commission": "Daily Commissions in {{gameName}} on {{channelName}}.",
-      "gacha_quest_showcase": "Showcase \"{{questName}}\" from {{gameName}} on {{channelName}}."
+      "gacha_quest_showcase": "本期视频在 {{channelName}} 展示 {{gameName}}{{versionLabel}} 中 {{characterName}} 的技能、外观与细节。",
+      "versionInline": "版本 {{v}}"
     },
     "noCommentaryLine": "无解说 — 纯粹的游戏体验，尽情享受。",
     "storeLinkSuffix": {
@@ -209,6 +210,11 @@
         "arachnophobia": "蜘蛛恐惧",
         "entomophobia": "昆虫恐惧",
         "ophidiophobia": "蛇恐惧",
+        "cynophobia": "犬恐惧",
+        "nyctophobia": "黑暗 / 漆黑场景恐惧",
+        "pyrophobia": "火焰 / 燃烧场景恐惧",
+        "pediophobia": "玩偶 / 假人恐惧",
+        "hemophobia": "血液恐惧",
         "anxiety_inducing": "可能引发焦虑的场景",
         "depression_themes": "抑郁主题",
         "eating_disorders": "饮食失调",
@@ -219,6 +225,10 @@
         "body_fluids": "体液镜头",
         "pregnancy_horror": "怀孕 / 分娩恐怖",
         "illness_themes": "疾病 / 感染主题",
+        "bipolar_themes": "双相障碍主题",
+        "ocd_themes": "强迫症主题",
+        "panic_attacks": "恐慌发作场景",
+        "dissociation": "分离 / 现实解体主题",
         "blood_gore": "血腥场面",
         "mature_18plus": "成人 18+",
         "disturbing_imagery": "令人不适的画面",
@@ -236,7 +246,20 @@
         "cult_occult": "邪教 / 神秘学",
         "psychological_manipulation": "心理操控",
         "grief_loss": "失去 / 悲伤",
-        "kidnapping": "绑架"
+        "kidnapping": "绑架",
+        "hate_speech": "仇恨言论主题",
+        "historical_atrocity": "历史暴行",
+        "slavery_themes": "奴隶制主题",
+        "terrorism_themes": "恐怖主义主题",
+        "bullying_themes": "霸凌主题",
+        "blind_playthrough": "首次盲打 — 初见游玩",
+        "no_spoilers_chat": "请勿在聊天剧透",
+        "casual_difficulty": "休闲 / 剧情难度游玩",
+        "hardcore_difficulty": "硬核 / 最高难度游玩",
+        "permadeath_run": "永久死亡 / Iron Man 玩法",
+        "speedrun_attempt": "速通挑战",
+        "completionist_run": "100% 全收集挑战",
+        "learning_mechanics": "仍在熟悉游戏机制"
       }
     },
     "graphics": {

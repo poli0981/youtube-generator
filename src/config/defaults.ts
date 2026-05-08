@@ -45,6 +45,12 @@ export interface EditorDefaults {
   chapterName: string;
   /** Gacha-quest individual quest / event name (free-form). */
   questName: string;
+  /** Gacha-quest character name (v0.13) — only rendered for `showcase` quest type. */
+  characterName: string;
+  /** Gacha-quest anniversary year (v0.13) — only rendered for `anniversary` quest type. 1–20 or null. */
+  anniversaryYear: number | null;
+  /** Gacha-quest game version label (v0.13) — e.g. "1.2", "2.4". Only used for `gacha_quest` videoType. */
+  gachaVersion: string;
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;
@@ -139,6 +145,9 @@ export const DEFAULTS = {
     gachaQuestType: DEFAULT_GACHA_QUEST_TYPE,
     chapterName: "",
     questName: "",
+    characterName: "",
+    anniversaryYear: null,
+    gachaVersion: "",
     resolution: "1080p",
     fps: "60",
     graphicsPreset: "medium",

@@ -19,11 +19,11 @@ export function AppShell() {
   useGlobalErrorHandler();
 
   return (
-    <div className="flex min-h-screen bg-surface-0">
+    <div className="flex h-screen overflow-hidden bg-surface-0">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <Header />
-        <main className="flex-1 overflow-y-auto">
+        <main className="min-h-0 flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

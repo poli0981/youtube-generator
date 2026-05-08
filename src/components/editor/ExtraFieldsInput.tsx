@@ -4,9 +4,14 @@ import { Textarea } from "@components/ui/Textarea";
 import { VIDEO_TYPES } from "@config/video-types";
 import {
   GACHA_QUEST_TYPE_GROUPS,
+  GACHA_QUEST_FIELD_VISIBILITY,
+  GACHA_QUEST_PLACEHOLDERS,
+  DEFAULT_GACHA_QUEST_TYPE,
   type GachaQuestType,
 } from "@config/gacha-quest-types";
 import { useEditorStore } from "@store/editor-store";
+
+const ANNIVERSARY_YEARS = Array.from({ length: 20 }, (_, i) => i + 1);
 
 /**
  * Renders inputs for the extra fields required by the currently selected
@@ -21,6 +26,32 @@ export function ExtraFieldsInput() {
   const currentVideoType = VIDEO_TYPES.find((vt) => vt.id === store.videoType);
   const extraFields: readonly string[] = currentVideoType?.extraFields ?? [];
   if (extraFields.length === 0) return null;
+
+  const isGacha = store.videoType === "gacha_quest";
+  const questType = (store.gachaQuestType ?? DEFAULT_GACHA_QUEST_TYPE) as GachaQuestType;
+  const visibility = GACHA_QUEST_FIELD_VISIBILITY[questType];
+  const placeholders = GACHA_QUEST_PLACEHOLDERS[questType];
+
+  const placeholderFor = (
+    field: "chapterName" | "questName" | "partNumber",
+  ): string => {
+    const key = `editor.placeholders.questType.${questType}.${field}`;
+    const localised = t(key);
+    if (localised && localised !== key) return localised;
+    const fromMap = placeholders[field];
+    if (fromMap) return fromMap;
+    return t(`editor.${field}Placeholder`);
+  };
+
+  // For non-gacha video types, the original visibility logic still applies
+  // — every extraField listed renders. Only gacha-quest gates the trio
+  // through `GACHA_QUEST_FIELD_VISIBILITY` plus the new char/year/version
+  // fields.
+  const showField = (id: "chapterName" | "questName" | "partNumber"): boolean => {
+    if (!extraFields.includes(id)) return false;
+    if (!isGacha) return true;
+    return visibility[id];
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -55,28 +86,72 @@ export function ExtraFieldsInput() {
           </select>
         </div>
       )}
-      {extraFields.includes("chapterName") && (
+      {isGacha && visibility.characterName && (
+        <Input
+          label={t("editor.characterName")}
+          placeholder={t("editor.characterNamePlaceholder")}
+          value={store.characterName ?? ""}
+          onChange={(e) => store.set("characterName", e.target.value)}
+        />
+      )}
+      {isGacha && visibility.anniversaryYear && (
+        <div className="flex flex-col gap-1">
+          <label
+            htmlFor="anniversary-year"
+            className="text-sm font-medium text-text-secondary"
+          >
+            {t("editor.anniversaryYear")}
+          </label>
+          <select
+            id="anniversary-year"
+            value={store.anniversaryYear ?? ""}
+            onChange={(e) =>
+              store.set(
+                "anniversaryYear",
+                e.target.value === "" ? null : Number(e.target.value),
+              )
+            }
+            className="rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+          >
+            <option value="">—</option>
+            {ANNIVERSARY_YEARS.map((y) => (
+              <option key={y} value={y}>
+                {t("editor.anniversaryYearOption", { count: y })}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+      {showField("chapterName") && (
         <Input
           label={t("editor.chapterName")}
-          placeholder={t("editor.chapterNamePlaceholder")}
+          placeholder={isGacha ? placeholderFor("chapterName") : t("editor.chapterNamePlaceholder")}
           value={store.chapterName ?? ""}
           onChange={(e) => store.set("chapterName", e.target.value)}
         />
       )}
-      {extraFields.includes("questName") && (
+      {showField("questName") && (
         <Input
           label={t("editor.questName")}
-          placeholder={t("editor.questNamePlaceholder")}
+          placeholder={isGacha ? placeholderFor("questName") : t("editor.questNamePlaceholder")}
           value={store.questName ?? ""}
           onChange={(e) => store.set("questName", e.target.value)}
         />
       )}
-      {extraFields.includes("partNumber") && (
+      {showField("partNumber") && (
         <Input
           label={t("editor.partNumber")}
-          placeholder={t("editor.partNumberPlaceholder")}
+          placeholder={isGacha ? placeholderFor("partNumber") : t("editor.partNumberPlaceholder")}
           value={store.partNumber ?? ""}
           onChange={(e) => store.set("partNumber", e.target.value)}
+        />
+      )}
+      {isGacha && (
+        <Input
+          label={t("editor.gachaVersion")}
+          placeholder={t("editor.gachaVersionPlaceholder")}
+          value={store.gachaVersion ?? ""}
+          onChange={(e) => store.set("gachaVersion", e.target.value)}
         />
       )}
       {extraFields.includes("bossName") && (

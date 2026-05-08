@@ -114,3 +114,102 @@ export const GACHA_PART_SUFFIX_STYLES: Record<GachaQuestType, GachaPartSuffixSty
   daily_commission: "day",
   showcase: "none",
 };
+
+/**
+ * Quest-type → which extra fields to render in the Gacha-quest editor
+ * (v0.13). Keeps the `extra-fields` UI surgical: Showcase replaces
+ * Chapter/Quest with Character Name, Anniversary swaps the part-number
+ * input for a 1–20 year dropdown, and the rest fall back to the default
+ * Chapter/Quest/Part triplet. `gachaVersion` is always shown for the
+ * `gacha_quest` video type, regardless of the selected quest type — it
+ * applies broadly (game patch labels like "1.2", "2.4").
+ */
+export interface GachaQuestFieldVisibility {
+  chapterName: boolean;
+  questName: boolean;
+  partNumber: boolean;
+  characterName: boolean;
+  anniversaryYear: boolean;
+}
+
+const DEFAULT_FIELD_VISIBILITY: GachaQuestFieldVisibility = {
+  chapterName: true,
+  questName: true,
+  partNumber: true,
+  characterName: false,
+  anniversaryYear: false,
+};
+
+export const GACHA_QUEST_FIELD_VISIBILITY: Record<
+  GachaQuestType,
+  GachaQuestFieldVisibility
+> = {
+  main_story: { ...DEFAULT_FIELD_VISIBILITY, questName: false },
+  world_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  side_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  spinoff_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  companion_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  bond_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  event: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  anniversary: {
+    chapterName: false,
+    questName: false,
+    partNumber: true,
+    characterName: false,
+    anniversaryYear: true,
+  },
+  crossover: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  dating_event: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  tutorial_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  guide_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  trial_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  endgame: { ...DEFAULT_FIELD_VISIBILITY, questName: false },
+  coop: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
+  daily_commission: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, questName: false },
+  showcase: {
+    chapterName: false,
+    questName: false,
+    partNumber: false,
+    characterName: true,
+    anniversaryYear: false,
+  },
+};
+
+/**
+ * Per-quest-type placeholder hints for Chapter Name / Quest Name / Part
+ * Number inputs (v0.13 QoL). Surfaces concrete examples so creators
+ * don't have to guess what each field expects under different quest
+ * patterns. Translated via `editor.placeholders.questType.<id>.<field>`
+ * — fall back to the static defaults when the locale lacks the override.
+ */
+export interface GachaQuestPlaceholders {
+  chapterName?: string;
+  questName?: string;
+  partNumber?: string;
+}
+
+export const GACHA_QUEST_PLACEHOLDERS: Record<GachaQuestType, GachaQuestPlaceholders> = {
+  main_story: {
+    chapterName: "e.g. Chapter 5 Act 2",
+    partNumber: "e.g. Part 1",
+  },
+  world_quest: { questName: "e.g. The Hidden Path" },
+  side_quest: { questName: "e.g. A Solitary Constellation" },
+  spinoff_quest: { questName: "e.g. The Tale of Wuthering Waves" },
+  companion_quest: { questName: "e.g. Yelan: Path of Stillness" },
+  bond_quest: { questName: "e.g. Trust Mission - Hina" },
+  event: { questName: "e.g. Summer Festival 2024" },
+  anniversary: { partNumber: "Day 1, Day 7, etc." },
+  crossover: { questName: "e.g. Honkai x Genshin Crossover" },
+  dating_event: { questName: "e.g. Date with Furina" },
+  tutorial_quest: { questName: "e.g. First Steps in Teyvat" },
+  guide_quest: { questName: "e.g. How to upgrade artifacts" },
+  trial_quest: { questName: "e.g. Adventure Trial - Diluc" },
+  endgame: {
+    chapterName: "e.g. Spiral Abyss / Memory of Chaos",
+    partNumber: "Floor 12, Floor 11",
+  },
+  coop: { questName: "e.g. Co-op Boss Run" },
+  daily_commission: { partNumber: "Day 1, Day 12, etc." },
+  showcase: {},
+};
