@@ -96,6 +96,18 @@
     "chapterNamePlaceholder": "e.g. Chapter 5 Act 2: Where the Stars Fall",
     "questName": "Quest Name",
     "questNamePlaceholder": "e.g. A Solitary Constellation",
+    "characterName": "캐릭터 이름",
+    "characterNamePlaceholder": "예: 푸리나, 토파즈, 아케론",
+    "anniversaryYear": "주년",
+    "anniversaryYearOption": "{{count}}주년",
+    "gachaVersion": "게임 버전",
+    "gachaVersionPlaceholder": "예: 1.2, 2.4",
+    "gpu_brand": "제조사",
+    "gpu_series": "시리즈",
+    "gpu_model": "모델",
+    "gpu_custom": "사용자 GPU",
+    "ram_size": "RAM 용량",
+    "ram_ddr": "DDR 세대",
     "vnDonate": "Donate (Vietnam)",
     "vnDonateHelp": "Only rendered into the description when output language is Vietnamese.",
     "vnBankName": "Bank name",
@@ -268,7 +280,8 @@
       "photosensitive": "광과민 / 건강",
       "phobias": "공포증",
       "mental_health": "정신 건강",
-      "sensitive": "성인 / 민감"
+      "sensitive": "성인 / 민감",
+      "playstyle": "플레이 안내"
     },
     "contentWarningOptions": {
       "spoiler_story": "스토리 / 엔딩 스포일러",
@@ -289,6 +302,11 @@
       "arachnophobia": "거미 공포",
       "entomophobia": "곤충 공포",
       "ophidiophobia": "뱀 공포",
+      "cynophobia": "개 공포",
+      "nyctophobia": "어둠 공포",
+      "pyrophobia": "불 공포",
+      "pediophobia": "인형 공포",
+      "hemophobia": "혈액 공포",
       "anxiety_inducing": "불안 유발",
       "depression_themes": "우울 주제",
       "eating_disorders": "섭식 장애",
@@ -299,6 +317,10 @@
       "body_fluids": "체액",
       "pregnancy_horror": "임신 호러",
       "illness_themes": "질병 / 감염",
+      "bipolar_themes": "양극성 장애",
+      "ocd_themes": "강박장애",
+      "panic_attacks": "공황 발작",
+      "dissociation": "해리 증상",
       "blood_gore": "유혈 / 그로테스크",
       "mature_18plus": "성인 18+",
       "disturbing_imagery": "충격적 이미지",
@@ -316,7 +338,20 @@
       "cult_occult": "사이비 / 오컬트",
       "psychological_manipulation": "심리적 조종",
       "grief_loss": "상실 / 슬픔",
-      "kidnapping": "납치"
+      "kidnapping": "납치",
+      "hate_speech": "혐오 발언",
+      "historical_atrocity": "역사적 잔혹 행위",
+      "slavery_themes": "노예제 주제",
+      "terrorism_themes": "테러리즘 주제",
+      "bullying_themes": "괴롭힘 주제",
+      "blind_playthrough": "블라인드 플레이",
+      "no_spoilers_chat": "채팅 스포 금지",
+      "casual_difficulty": "캐주얼 / 스토리 난이도",
+      "hardcore_difficulty": "하드코어 / 최고 난이도",
+      "permadeath_run": "영구 사망 / 아이언맨",
+      "speedrun_attempt": "스피드런 시도",
+      "completionist_run": "100% 컴플리션",
+      "learning_mechanics": "조작 학습 중"
     },
     "playthroughNotes": {
       "title": "플레이 노트",
@@ -392,6 +427,14 @@
     "clearDraftConfirm": "모든 양식 데이터를 지우시겠습니까?",
     "genreSearchPlaceholder": "장르 검색",
     "genreSearchNoResults": "일치하는 장르 없음",
+    "validation": {
+      "gpuMissingSeries": "GPU 시리즈를 선택하세요.",
+      "gpuMissingModel": "GPU 모델을 선택하세요.",
+      "gpuCustomEmpty": "GPU 이름을 입력하거나 목록에서 선택하세요.",
+      "ramMissingDdr": "DDR 세대를 선택하세요.",
+      "ramMissingSize": "RAM 용량을 선택하세요.",
+      "ramCustomEmpty": "RAM 용량(GB)을 입력하세요."
+    },
     "genreGroups": {
       "rpg": "모든 RPG",
       "shooter": "모든 슈터",
@@ -428,6 +471,11 @@
       "default": "기본",
       "typeFirst": "유형 우선",
       "qualityFirst": "화질 우선"
+    },
+    "copy": {
+      "overLimit": "{{field}}이(가) 너무 깁니다: {{count}}/{{limit}}자. 복사 전에 줄여주세요.",
+      "fieldGeneric": "텍스트",
+      "failed": "복사 실패"
     }
   },
   "common": {

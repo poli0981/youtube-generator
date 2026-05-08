@@ -96,6 +96,18 @@
     "chapterNamePlaceholder": "e.g. Chapter 5 Act 2: Where the Stars Fall",
     "questName": "Quest Name",
     "questNamePlaceholder": "e.g. A Solitary Constellation",
+    "characterName": "キャラクター名",
+    "characterNamePlaceholder": "例：フリーナ、トパーズ、アチェロン",
+    "anniversaryYear": "周年",
+    "anniversaryYearOption": "{{count}}周年",
+    "gachaVersion": "ゲームバージョン",
+    "gachaVersionPlaceholder": "例：1.2、2.4",
+    "gpu_brand": "メーカー",
+    "gpu_series": "シリーズ",
+    "gpu_model": "モデル",
+    "gpu_custom": "カスタムGPU",
+    "ram_size": "RAM容量",
+    "ram_ddr": "DDR世代",
     "vnDonate": "Donate (Vietnam)",
     "vnDonateHelp": "Only rendered into the description when output language is Vietnamese.",
     "vnBankName": "Bank name",
@@ -268,7 +280,8 @@
       "photosensitive": "光感受性 / 健康",
       "phobias": "恐怖症",
       "mental_health": "メンタルヘルス",
-      "sensitive": "成人向け / センシティブ"
+      "sensitive": "成人向け / センシティブ",
+      "playstyle": "プレイ情報"
     },
     "contentWarningOptions": {
       "spoiler_story": "ストーリー / エンディングのネタバレ",
@@ -289,6 +302,11 @@
       "arachnophobia": "クモ",
       "entomophobia": "昆虫",
       "ophidiophobia": "ヘビ",
+      "cynophobia": "犬",
+      "nyctophobia": "暗闇",
+      "pyrophobia": "炎",
+      "pediophobia": "人形",
+      "hemophobia": "血",
       "anxiety_inducing": "不安を誘発",
       "depression_themes": "うつ病テーマ",
       "eating_disorders": "摂食障害",
@@ -299,6 +317,10 @@
       "body_fluids": "体液",
       "pregnancy_horror": "妊娠 / 出産ホラー",
       "illness_themes": "病気 / 感染",
+      "bipolar_themes": "双極性障害",
+      "ocd_themes": "強迫性障害",
+      "panic_attacks": "パニック発作",
+      "dissociation": "解離",
       "blood_gore": "流血・グロ",
       "mature_18plus": "成人向け 18+",
       "disturbing_imagery": "不快な映像",
@@ -316,7 +338,20 @@
       "cult_occult": "カルト / オカルト",
       "psychological_manipulation": "心理的操作",
       "grief_loss": "喪失 / 悲嘆",
-      "kidnapping": "誘拐"
+      "kidnapping": "誘拐",
+      "hate_speech": "ヘイトスピーチ",
+      "historical_atrocity": "歴史的残虐行為",
+      "slavery_themes": "奴隷制",
+      "terrorism_themes": "テロリズム",
+      "bullying_themes": "いじめ",
+      "blind_playthrough": "ブラインドプレイ — 初見",
+      "no_spoilers_chat": "チャットでネタバレ禁止",
+      "casual_difficulty": "カジュアル / ストーリー難度",
+      "hardcore_difficulty": "ハードコア / 最高難度",
+      "permadeath_run": "パーマデス / アイアンマン",
+      "speedrun_attempt": "RTAチャレンジ",
+      "completionist_run": "100% コンプ",
+      "learning_mechanics": "操作を覚え中"
     },
     "playthroughNotes": {
       "title": "プレイ情報",
@@ -392,6 +427,14 @@
     "clearDraftConfirm": "フォームデータをすべてクリアしますか？",
     "genreSearchPlaceholder": "ジャンルを検索",
     "genreSearchNoResults": "該当するジャンルはありません",
+    "validation": {
+      "gpuMissingSeries": "シリーズを選択してください。",
+      "gpuMissingModel": "モデルを選択してください。",
+      "gpuCustomEmpty": "GPU名を入力するか、カタログから選択してください。",
+      "ramMissingDdr": "DDR世代を選択してください。",
+      "ramMissingSize": "RAM容量を選択してください。",
+      "ramCustomEmpty": "RAM容量（GB）を入力してください。"
+    },
     "genreGroups": {
       "rpg": "すべての RPG",
       "shooter": "すべてのシューター",
@@ -428,6 +471,11 @@
       "default": "デフォルト",
       "typeFirst": "タイプ優先",
       "qualityFirst": "画質優先"
+    },
+    "copy": {
+      "overLimit": "{{field}}が長すぎます：{{count}}/{{limit}}文字。コピー前に短縮してください。",
+      "fieldGeneric": "テキスト",
+      "failed": "コピーに失敗しました"
     }
   },
   "common": {

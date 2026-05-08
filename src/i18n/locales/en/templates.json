@@ -38,7 +38,7 @@
       "companion_quest": "{{gameName}} — Companion Quest: {{questName}}",
       "bond_quest": "{{gameName}} — Bond Quest: {{questName}}",
       "event": "{{gameName}} — Event: {{questName}}",
-      "anniversary": "{{gameName}} — {{chapterName}} Anniversary{{partSuffix}}",
+      "anniversary": "{{gameName}} — {{anniversaryYear}}{{ordinalSuffix}} Anniversary{{partSuffix}}",
       "crossover": "{{gameName}} — Crossover: {{questName}}",
       "dating_event": "{{gameName}} — Dating Event: {{questName}}",
       "tutorial_quest": "{{gameName}} — Tutorial: {{questName}}",
@@ -47,7 +47,7 @@
       "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
       "coop": "{{gameName}} — Co-op: {{questName}}",
       "daily_commission": "{{gameName}} — Daily Commissions{{partSuffix}}",
-      "showcase": "{{gameName}} — Showcase: {{questName}}"
+      "showcase": "{{gameName}} — Character Showcase: {{characterName}}"
     },
     "gachaPartSuffix": {
       "part": " - Part {{n}}",
@@ -83,7 +83,7 @@
       "gacha_quest_companion_quest": "Companion Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_bond_quest": "Bond Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_event": "Limited-time Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_anniversary": "{{chapterName}} Anniversary celebration in {{gameName}} on {{channelName}}.",
+      "gacha_quest_anniversary": "Celebrating the {{anniversaryYear}}{{ordinalSuffix}} anniversary of {{gameName}}{{versionLabel}} on {{channelName}}.",
       "gacha_quest_crossover": "Crossover Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_dating_event": "Dating Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_tutorial_quest": "Tutorial \"{{questName}}\" from {{gameName}} on {{channelName}}.",
@@ -92,7 +92,8 @@
       "gacha_quest_endgame": "Endgame mode \"{{chapterName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_coop": "Co-op session \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_daily_commission": "Daily Commissions in {{gameName}} on {{channelName}}.",
-      "gacha_quest_showcase": "Showcase \"{{questName}}\" from {{gameName}} on {{channelName}}."
+      "gacha_quest_showcase": "This video showcases the skills, appearance, and details of {{characterName}} in {{gameName}}{{versionLabel}} on {{channelName}}.",
+      "versionInline": "version {{v}}"
     },
     "noCommentaryLine": "No Commentary — pure gameplay for your enjoyment.",
     "storeLinkSuffix": {
@@ -209,6 +210,11 @@
         "arachnophobia": "Spiders",
         "entomophobia": "Insects",
         "ophidiophobia": "Snakes",
+        "cynophobia": "Dogs",
+        "nyctophobia": "Darkness / pitch-black scenes",
+        "pyrophobia": "Fire / burning scenes",
+        "pediophobia": "Dolls / mannequins",
+        "hemophobia": "Blood",
         "anxiety_inducing": "Scenes that may cause anxiety",
         "depression_themes": "Depression themes",
         "eating_disorders": "Eating disorder themes",
@@ -219,6 +225,10 @@
         "body_fluids": "Body fluids",
         "pregnancy_horror": "Pregnancy / birth horror",
         "illness_themes": "Illness / infection themes",
+        "bipolar_themes": "Bipolar disorder themes",
+        "ocd_themes": "Obsessive-compulsive themes",
+        "panic_attacks": "Panic attack scenes",
+        "dissociation": "Dissociation / derealization themes",
         "blood_gore": "Blood and gore",
         "mature_18plus": "Mature themes — 18+",
         "disturbing_imagery": "Disturbing imagery",
@@ -236,7 +246,20 @@
         "cult_occult": "Cult / occult themes",
         "psychological_manipulation": "Psychological manipulation",
         "grief_loss": "Loss / grief themes",
-        "kidnapping": "Kidnapping"
+        "kidnapping": "Kidnapping",
+        "hate_speech": "Hate speech themes",
+        "historical_atrocity": "Historical atrocities",
+        "slavery_themes": "Slavery themes",
+        "terrorism_themes": "Terrorism themes",
+        "bullying_themes": "Bullying themes",
+        "blind_playthrough": "Blind playthrough — first time playing",
+        "no_spoilers_chat": "No spoilers in chat please",
+        "casual_difficulty": "Casual / story difficulty",
+        "hardcore_difficulty": "Hardcore / max difficulty",
+        "permadeath_run": "Permadeath / Iron Man run",
+        "speedrun_attempt": "Speedrun attempt",
+        "completionist_run": "100% completionist run",
+        "learning_mechanics": "Still learning the mechanics"
       }
     },
     "graphics": {

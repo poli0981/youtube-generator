@@ -38,7 +38,7 @@
       "companion_quest": "{{gameName}} — Companion Quest: {{questName}}",
       "bond_quest": "{{gameName}} — Bond Quest: {{questName}}",
       "event": "{{gameName}} — Event: {{questName}}",
-      "anniversary": "{{gameName}} — {{chapterName}} Anniversary{{partSuffix}}",
+      "anniversary": "{{gameName}} — {{anniversaryYear}}周年記念{{partSuffix}}",
       "crossover": "{{gameName}} — Crossover: {{questName}}",
       "dating_event": "{{gameName}} — Dating Event: {{questName}}",
       "tutorial_quest": "{{gameName}} — Tutorial: {{questName}}",
@@ -47,7 +47,7 @@
       "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
       "coop": "{{gameName}} — Co-op: {{questName}}",
       "daily_commission": "{{gameName}} — Daily Commissions{{partSuffix}}",
-      "showcase": "{{gameName}} — Showcase: {{questName}}"
+      "showcase": "{{gameName}} — キャラクターショーケース：{{characterName}}"
     },
     "gachaPartSuffix": {
       "part": " - Part {{n}}",
@@ -83,7 +83,7 @@
       "gacha_quest_companion_quest": "Companion Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_bond_quest": "Bond Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_event": "Limited-time Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_anniversary": "{{chapterName}} Anniversary celebration in {{gameName}} on {{channelName}}.",
+      "gacha_quest_anniversary": "{{gameName}}{{versionLabel}}の{{anniversaryYear}}周年を{{channelName}}でお祝いします。",
       "gacha_quest_crossover": "Crossover Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_dating_event": "Dating Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_tutorial_quest": "Tutorial \"{{questName}}\" from {{gameName}} on {{channelName}}.",
@@ -92,7 +92,8 @@
       "gacha_quest_endgame": "Endgame mode \"{{chapterName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_coop": "Co-op session \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_daily_commission": "Daily Commissions in {{gameName}} on {{channelName}}.",
-      "gacha_quest_showcase": "Showcase \"{{questName}}\" from {{gameName}} on {{channelName}}."
+      "gacha_quest_showcase": "{{gameName}}{{versionLabel}}の{{characterName}}のスキル・外見・詳細を{{channelName}}で紹介します。",
+      "versionInline": "バージョン{{v}}"
     },
     "noCommentaryLine": "実況なし — 純粋なゲームプレイをお楽しみください。",
     "storeLinkSuffix": {
@@ -209,6 +210,11 @@
         "arachnophobia": "クモ",
         "entomophobia": "昆虫",
         "ophidiophobia": "ヘビ",
+        "cynophobia": "犬",
+        "nyctophobia": "暗闇 / 漆黒のシーン",
+        "pyrophobia": "炎 / 火災シーン",
+        "pediophobia": "人形 / マネキン",
+        "hemophobia": "血液",
         "anxiety_inducing": "不安を誘発するシーン",
         "depression_themes": "うつ病をテーマとする内容",
         "eating_disorders": "摂食障害",
@@ -219,6 +225,10 @@
         "body_fluids": "体液の描写",
         "pregnancy_horror": "妊娠 / 出産ホラー",
         "illness_themes": "病気 / 感染をテーマとする内容",
+        "bipolar_themes": "双極性障害をテーマとする内容",
+        "ocd_themes": "強迫性障害をテーマとする内容",
+        "panic_attacks": "パニック発作のシーン",
+        "dissociation": "解離 / 現実感喪失をテーマとする内容",
         "blood_gore": "流血・グロ表現",
         "mature_18plus": "成人向け 18+",
         "disturbing_imagery": "不快な映像",
@@ -236,7 +246,20 @@
         "cult_occult": "カルト / オカルト",
         "psychological_manipulation": "心理的操作",
         "grief_loss": "喪失 / 悲嘆",
-        "kidnapping": "誘拐"
+        "kidnapping": "誘拐",
+        "hate_speech": "ヘイトスピーチをテーマとする内容",
+        "historical_atrocity": "歴史的残虐行為",
+        "slavery_themes": "奴隷制をテーマとする内容",
+        "terrorism_themes": "テロをテーマとする内容",
+        "bullying_themes": "いじめをテーマとする内容",
+        "blind_playthrough": "ブラインドプレイ — 初見プレイ",
+        "no_spoilers_chat": "チャットでネタバレはお控えください",
+        "casual_difficulty": "カジュアル / ストーリー難度でプレイ",
+        "hardcore_difficulty": "ハードコア / 最高難度でプレイ",
+        "permadeath_run": "パーマデス / アイアンマン縛り",
+        "speedrun_attempt": "RTAチャレンジ",
+        "completionist_run": "100% コンプリート",
+        "learning_mechanics": "操作 / システム学習中"
       }
     },
     "graphics": {

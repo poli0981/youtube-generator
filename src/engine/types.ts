@@ -241,6 +241,11 @@ export const CONTENT_WARNINGS = [
   "arachnophobia",
   "entomophobia",
   "ophidiophobia",
+  "cynophobia",
+  "nyctophobia",
+  "pyrophobia",
+  "pediophobia",
+  "hemophobia",
   // Mental health
   "anxiety_inducing",
   "depression_themes",
@@ -252,6 +257,10 @@ export const CONTENT_WARNINGS = [
   "body_fluids",
   "pregnancy_horror",
   "illness_themes",
+  "bipolar_themes",
+  "ocd_themes",
+  "panic_attacks",
+  "dissociation",
   // Mature / sensitive
   "blood_gore",
   "mature_18plus",
@@ -271,6 +280,20 @@ export const CONTENT_WARNINGS = [
   "psychological_manipulation",
   "grief_loss",
   "kidnapping",
+  "hate_speech",
+  "historical_atrocity",
+  "slavery_themes",
+  "terrorism_themes",
+  "bullying_themes",
+  // Playstyle disclosures
+  "blind_playthrough",
+  "no_spoilers_chat",
+  "casual_difficulty",
+  "hardcore_difficulty",
+  "permadeath_run",
+  "speedrun_attempt",
+  "completionist_run",
+  "learning_mechanics",
 ] as const;
 export type ContentWarning = (typeof CONTENT_WARNINGS)[number];
 
@@ -322,6 +345,24 @@ export interface GeneratorInput {
    * usually rely on `chapterName` only.
    */
   questName?: string;
+  /**
+   * Gacha-quest-only (v0.13): character name. Used by the `showcase`
+   * quest type as the primary subject of the title and description.
+   */
+  characterName?: string;
+  /**
+   * Gacha-quest-only (v0.13): anniversary year (1–20). Used by the
+   * `anniversary` quest type to render "1st", "2nd", ..., "Nth"
+   * Anniversary in title and description templates.
+   */
+  anniversaryYear?: number | null;
+  /**
+   * Gacha-quest-only (v0.13): game version label like `"1.2"`, `"2.4"`.
+   * Distinct from {@link versionInfo} which is the driver / generic game
+   * version shown in 🖥 VIDEO SETTINGS for any video type. `gachaVersion`
+   * is rendered inside Gacha-specific intros (showcase / anniversary etc.).
+   */
+  gachaVersion?: string;
   resolution?: string;
   fps?: string;
   /**

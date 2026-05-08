@@ -161,3 +161,44 @@ describe("migrateEditorState — v9 → v10 (v0.12)", () => {
     expect(twice).toEqual(once);
   });
 });
+
+describe("migrateEditorState — v10 → v11 (v0.13)", () => {
+  function makeV10Persisted(
+    overrides: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    // v10 is v9 + the playthrough-notes / tech-notes fields. Easiest to
+    // build by routing v9 through the migration once and then apply
+    // overrides — keeps this test surface narrow even as the v9 base
+    // schema evolves.
+    const v10 = migrateEditorState(makeV9Persisted(), 9);
+    return { ...v10, ...overrides } as unknown as Record<string, unknown>;
+  }
+
+  it("back-fills the three v0.13 Gacha fields with safe defaults", () => {
+    const result = migrateEditorState(makeV10Persisted(), 10);
+    expect(result.characterName).toBe("");
+    expect(result.anniversaryYear).toBeNull();
+    expect(result.gachaVersion).toBe("");
+  });
+
+  it("preserves a valid persisted anniversaryYear in the 1–20 range", () => {
+    const result = migrateEditorState(makeV10Persisted({ anniversaryYear: 7 }), 10);
+    expect(result.anniversaryYear).toBe(7);
+  });
+
+  it("coerces out-of-range / non-integer anniversaryYear values to null", () => {
+    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: 0 }), 10).anniversaryYear).toBeNull();
+    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: 21 }), 10).anniversaryYear).toBeNull();
+    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: 2.5 }), 10).anniversaryYear).toBeNull();
+    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: "7" }), 10).anniversaryYear).toBeNull();
+  });
+
+  it("preserves existing characterName and gachaVersion values", () => {
+    const result = migrateEditorState(
+      makeV10Persisted({ characterName: "Furina", gachaVersion: "4.2" }),
+      10,
+    );
+    expect(result.characterName).toBe("Furina");
+    expect(result.gachaVersion).toBe("4.2");
+  });
+});

@@ -232,7 +232,7 @@ describe("buildTitle — gacha_quest video type (v0.9)", () => {
         videoType: "gacha_quest",
         gachaQuestType: "anniversary",
         gameName: "Honkai Impact 3rd",
-        chapterName: "7th",
+        anniversaryYear: 7,
         partNumber: "3",
       }),
       t,

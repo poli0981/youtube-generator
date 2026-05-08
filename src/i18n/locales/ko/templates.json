@@ -38,7 +38,7 @@
       "companion_quest": "{{gameName}} — Companion Quest: {{questName}}",
       "bond_quest": "{{gameName}} — Bond Quest: {{questName}}",
       "event": "{{gameName}} — Event: {{questName}}",
-      "anniversary": "{{gameName}} — {{chapterName}} Anniversary{{partSuffix}}",
+      "anniversary": "{{gameName}} — {{anniversaryYear}}주년 기념{{partSuffix}}",
       "crossover": "{{gameName}} — Crossover: {{questName}}",
       "dating_event": "{{gameName}} — Dating Event: {{questName}}",
       "tutorial_quest": "{{gameName}} — Tutorial: {{questName}}",
@@ -47,7 +47,7 @@
       "endgame": "{{gameName}} — {{chapterName}}{{partSuffix}}",
       "coop": "{{gameName}} — Co-op: {{questName}}",
       "daily_commission": "{{gameName}} — Daily Commissions{{partSuffix}}",
-      "showcase": "{{gameName}} — Showcase: {{questName}}"
+      "showcase": "{{gameName}} — 캐릭터 쇼케이스: {{characterName}}"
     },
     "gachaPartSuffix": {
       "part": " - Part {{n}}",
@@ -83,7 +83,7 @@
       "gacha_quest_companion_quest": "Companion Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_bond_quest": "Bond Quest \"{{questName}}\" from {{gameName}} on {{channelName}}.",
       "gacha_quest_event": "Limited-time Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
-      "gacha_quest_anniversary": "{{chapterName}} Anniversary celebration in {{gameName}} on {{channelName}}.",
+      "gacha_quest_anniversary": "{{channelName}}에서 {{gameName}}{{versionLabel}}의 {{anniversaryYear}}주년을 함께 기념합니다.",
       "gacha_quest_crossover": "Crossover Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_dating_event": "Dating Event \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_tutorial_quest": "Tutorial \"{{questName}}\" from {{gameName}} on {{channelName}}.",
@@ -92,7 +92,8 @@
       "gacha_quest_endgame": "Endgame mode \"{{chapterName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_coop": "Co-op session \"{{questName}}\" in {{gameName}} on {{channelName}}.",
       "gacha_quest_daily_commission": "Daily Commissions in {{gameName}} on {{channelName}}.",
-      "gacha_quest_showcase": "Showcase \"{{questName}}\" from {{gameName}} on {{channelName}}."
+      "gacha_quest_showcase": "{{channelName}}에서 {{gameName}}{{versionLabel}}의 {{characterName}} 스킬·외형·디테일을 소개합니다.",
+      "versionInline": "버전 {{v}}"
     },
     "noCommentaryLine": "무음 플레이 — 순수한 게임플레이를 즐겨보세요.",
     "storeLinkSuffix": {
@@ -209,6 +210,11 @@
         "arachnophobia": "거미 공포",
         "entomophobia": "곤충 공포",
         "ophidiophobia": "뱀 공포",
+        "cynophobia": "개 공포",
+        "nyctophobia": "어둠 / 칠흑 같은 장면",
+        "pyrophobia": "불 / 화재 장면",
+        "pediophobia": "인형 / 마네킹",
+        "hemophobia": "혈액 공포",
         "anxiety_inducing": "불안 유발 장면",
         "depression_themes": "우울 주제",
         "eating_disorders": "섭식 장애",
@@ -219,6 +225,10 @@
         "body_fluids": "체액 묘사",
         "pregnancy_horror": "임신 / 출산 호러",
         "illness_themes": "질병 / 감염 주제",
+        "bipolar_themes": "양극성 장애 주제",
+        "ocd_themes": "강박장애 주제",
+        "panic_attacks": "공황 발작 장면",
+        "dissociation": "해리 / 현실감 상실 주제",
         "blood_gore": "유혈 / 그로테스크",
         "mature_18plus": "성인 18+",
         "disturbing_imagery": "충격적 이미지",
@@ -236,7 +246,20 @@
         "cult_occult": "사이비 / 오컬트",
         "psychological_manipulation": "심리적 조종",
         "grief_loss": "상실 / 슬픔",
-        "kidnapping": "납치"
+        "kidnapping": "납치",
+        "hate_speech": "혐오 발언 주제",
+        "historical_atrocity": "역사적 잔혹 행위",
+        "slavery_themes": "노예제 주제",
+        "terrorism_themes": "테러리즘 주제",
+        "bullying_themes": "괴롭힘 주제",
+        "blind_playthrough": "블라인드 플레이 — 첫 플레이",
+        "no_spoilers_chat": "채팅 스포일러 금지 요청",
+        "casual_difficulty": "캐주얼 / 스토리 난이도 플레이",
+        "hardcore_difficulty": "하드코어 / 최고 난이도 플레이",
+        "permadeath_run": "영구 사망 / 아이언맨 모드",
+        "speedrun_attempt": "스피드런 시도",
+        "completionist_run": "100% 컴플리션 도전",
+        "learning_mechanics": "조작 / 시스템 학습 중"
       }
     },
     "graphics": {

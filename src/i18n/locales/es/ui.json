@@ -96,6 +96,18 @@
     "chapterNamePlaceholder": "e.g. Chapter 5 Act 2: Where the Stars Fall",
     "questName": "Quest Name",
     "questNamePlaceholder": "e.g. A Solitary Constellation",
+    "characterName": "Nombre del personaje",
+    "characterNamePlaceholder": "ej. Furina, Topaz, Acheron",
+    "anniversaryYear": "Año de aniversario",
+    "anniversaryYearOption": "Año {{count}}",
+    "gachaVersion": "Versión del juego",
+    "gachaVersionPlaceholder": "ej. 1.2, 2.4",
+    "gpu_brand": "Marca",
+    "gpu_series": "Serie",
+    "gpu_model": "Modelo",
+    "gpu_custom": "GPU personalizada",
+    "ram_size": "Tamaño RAM",
+    "ram_ddr": "Generación DDR",
     "vnDonate": "Donate (Vietnam)",
     "vnDonateHelp": "Only rendered into the description when output language is Vietnamese.",
     "vnBankName": "Bank name",
@@ -268,7 +280,8 @@
       "photosensitive": "Fotosensibilidad / Salud",
       "phobias": "Fobias",
       "mental_health": "Salud mental",
-      "sensitive": "Adulto / Sensible"
+      "sensitive": "Adulto / Sensible",
+      "playstyle": "Notas de juego"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoilers — historia / final",
@@ -289,6 +302,11 @@
       "arachnophobia": "Arañas",
       "entomophobia": "Insectos",
       "ophidiophobia": "Serpientes",
+      "cynophobia": "Perros",
+      "nyctophobia": "Oscuridad",
+      "pyrophobia": "Fuego",
+      "pediophobia": "Muñecas",
+      "hemophobia": "Sangre",
       "anxiety_inducing": "Escenas de ansiedad",
       "depression_themes": "Temática depresiva",
       "eating_disorders": "Trastornos alimentarios",
@@ -299,6 +317,10 @@
       "body_fluids": "Fluidos corporales",
       "pregnancy_horror": "Horror de embarazo",
       "illness_themes": "Enfermedad",
+      "bipolar_themes": "Trastorno bipolar",
+      "ocd_themes": "TOC",
+      "panic_attacks": "Ataques de pánico",
+      "dissociation": "Disociación",
       "blood_gore": "Sangre y violencia gráfica",
       "mature_18plus": "Adulto 18+",
       "disturbing_imagery": "Imágenes perturbadoras",
@@ -316,7 +338,20 @@
       "cult_occult": "Sectas / ocultismo",
       "psychological_manipulation": "Manipulación psicológica",
       "grief_loss": "Duelo / pérdida",
-      "kidnapping": "Secuestro"
+      "kidnapping": "Secuestro",
+      "hate_speech": "Discurso de odio",
+      "historical_atrocity": "Atrocidades históricas",
+      "slavery_themes": "Esclavitud",
+      "terrorism_themes": "Terrorismo",
+      "bullying_themes": "Acoso escolar",
+      "blind_playthrough": "Sin spoilers — primera vez",
+      "no_spoilers_chat": "Sin spoilers en el chat",
+      "casual_difficulty": "Casual / historia",
+      "hardcore_difficulty": "Hardcore / máxima dificultad",
+      "permadeath_run": "Permadeath / Iron Man",
+      "speedrun_attempt": "Intento de speedrun",
+      "completionist_run": "Completista 100%",
+      "learning_mechanics": "Aprendiendo mecánicas"
     },
     "playthroughNotes": {
       "title": "Notas de la partida",
@@ -392,6 +427,14 @@
     "clearDraftConfirm": "¿Estás seguro de que quieres borrar todos los datos del formulario?",
     "genreSearchPlaceholder": "Buscar géneros",
     "genreSearchNoResults": "No se encontraron géneros",
+    "validation": {
+      "gpuMissingSeries": "Selecciona la serie del GPU.",
+      "gpuMissingModel": "Selecciona el modelo del GPU.",
+      "gpuCustomEmpty": "Introduce el nombre del GPU o elige uno del catálogo.",
+      "ramMissingDdr": "Selecciona la generación DDR.",
+      "ramMissingSize": "Selecciona la cantidad de RAM.",
+      "ramCustomEmpty": "Introduce la cantidad de RAM (GB)."
+    },
     "genreGroups": {
       "rpg": "Todos los RPG",
       "shooter": "Todos los Shooter",
@@ -428,6 +471,11 @@
       "default": "Predeterminado",
       "typeFirst": "Tipo Primero",
       "qualityFirst": "Calidad Primero"
+    },
+    "copy": {
+      "overLimit": "{{field}} demasiado largo: {{count}}/{{limit}} caracteres. Recórtalo antes de copiar.",
+      "fieldGeneric": "Texto",
+      "failed": "Error al copiar"
     }
   },
   "common": {

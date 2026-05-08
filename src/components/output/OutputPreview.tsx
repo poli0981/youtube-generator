@@ -24,7 +24,12 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
           <h3 className="text-sm font-semibold text-text-primary">{t("output.title")}</h3>
           <div className="flex items-center gap-3">
             {showCharCount && <CharCounter text={output.title} limit={YT_LIMITS.TITLE_MAX} />}
-            <CopyButton text={output.title} label={t("output.copyTitle")} />
+            <CopyButton
+              text={output.title}
+              label={t("output.copyTitle")}
+              limit={YT_LIMITS.TITLE_MAX}
+              fieldLabel={t("output.title")}
+            />
           </div>
         </div>
         <div className="rounded-lg border border-border bg-surface-1 p-3">
@@ -38,7 +43,12 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
           <h3 className="text-sm font-semibold text-text-primary">{t("output.description")}</h3>
           <div className="flex items-center gap-3">
             {showCharCount && <CharCounter text={output.description} limit={YT_LIMITS.DESCRIPTION_MAX} />}
-            <CopyButton text={output.description} label={t("output.copyDescription")} />
+            <CopyButton
+              text={output.description}
+              label={t("output.copyDescription")}
+              limit={YT_LIMITS.DESCRIPTION_MAX}
+              fieldLabel={t("output.description")}
+            />
           </div>
         </div>
         <div className="max-h-[400px] overflow-y-auto rounded-lg border border-border bg-surface-1 p-3">
@@ -56,7 +66,12 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
           </h3>
           <div className="flex items-center gap-3">
             {showCharCount && <CharCounter text={output.tagString} limit={YT_LIMITS.TAGS_MAX} />}
-            <CopyButton text={output.tagString} label={t("output.copyTags")} />
+            <CopyButton
+              text={output.tagString}
+              label={t("output.copyTags")}
+              limit={YT_LIMITS.TAGS_MAX}
+              fieldLabel={t("output.tags")}
+            />
           </div>
         </div>
         <div className="rounded-lg border border-border bg-surface-1 p-3">

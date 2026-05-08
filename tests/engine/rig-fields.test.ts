@@ -38,4 +38,58 @@ describe("formatRigValue", () => {
     expect(field?.type).toBe("dropdown_with_version");
     expect(field?.options?.length).toBeGreaterThan(3);
   });
+
+  describe("cascading_dropdown (GPU, v0.13)", () => {
+    it("formats brand + model and drops the redundant series label", () => {
+      expect(formatRigValue("gpu", "nvidia|rtx_40|RTX 4090")).toBe("NVIDIA RTX 4090");
+    });
+
+    it("returns the verbatim model for the Custom brand", () => {
+      expect(formatRigValue("gpu", "custom||RX 7800 XT (OC)")).toBe("RX 7800 XT (OC)");
+    });
+
+    it("renders just the brand label when model is empty", () => {
+      expect(formatRigValue("gpu", "amd|rx_7000|")).toBe("AMD");
+    });
+
+    it("returns empty string when nothing is selected", () => {
+      expect(formatRigValue("gpu", "")).toBe("");
+      expect(formatRigValue("gpu", "||")).toBe("");
+    });
+
+    it("passes legacy free-text values through unchanged", () => {
+      // Pre-v0.13 rigs persisted GPU as plain text. Round-trip those.
+      expect(formatRigValue("gpu", "NVIDIA GeForce RTX 4090")).toBe(
+        "NVIDIA GeForce RTX 4090",
+      );
+    });
+  });
+
+  describe("composite_dropdown (RAM, v0.13)", () => {
+    it("formats preset size + DDR generation", () => {
+      expect(formatRigValue("ram", "16|DDR5")).toBe("16 GB DDR5");
+    });
+
+    it("supports a custom numeric size", () => {
+      expect(formatRigValue("ram", "custom:48|DDR5")).toBe("48 GB DDR5");
+    });
+
+    it("renders only the size when DDR is empty", () => {
+      expect(formatRigValue("ram", "32|")).toBe("32 GB");
+    });
+
+    it("renders only DDR when size is empty", () => {
+      expect(formatRigValue("ram", "|DDR4")).toBe("DDR4");
+    });
+
+    it("returns empty string when nothing is set", () => {
+      expect(formatRigValue("ram", "")).toBe("");
+      expect(formatRigValue("ram", "|")).toBe("");
+    });
+
+    it("passes legacy free-text values through unchanged", () => {
+      // Pre-v0.13 rigs persisted RAM as plain text like "32GB DDR5-6000".
+      expect(formatRigValue("ram", "32GB DDR5-6000")).toBe("32GB DDR5-6000");
+    });
+  });
 });

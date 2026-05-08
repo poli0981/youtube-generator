@@ -126,6 +126,29 @@ function composeTitle(args: ComposeArgs): string {
 }
 
 /**
+ * English ordinal suffix for an integer (1 → "st", 2 → "nd", 11 → "th",
+ * 21 → "st", etc.). Used by the Anniversary template to render
+ * `"{{anniversaryYear}}{{ordinalSuffix}} Anniversary"` as e.g.
+ * `"2nd Anniversary"`. Non-English locales pass an empty string so the
+ * native form ("第2周年", "주년") doesn't pick up an English suffix.
+ */
+export function ordinalSuffix(n: number): string {
+  const abs = Math.abs(Math.trunc(n));
+  const lastTwo = abs % 100;
+  if (lastTwo >= 11 && lastTwo <= 13) return "th";
+  switch (abs % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
+/**
  * Build the per-quest-type partNumber suffix for a gacha title — e.g.
  * `" - Part 5"`, `" - Day 3"`, `" - Floor 12"`. Driven by the
  * {@link GACHA_PART_SUFFIX_STYLES} mapping so each quest type renders
@@ -180,6 +203,10 @@ export function buildTitle(
       gameName,
       chapterName: input.chapterName ?? "",
       questName: input.questName ?? "",
+      characterName: input.characterName ?? "",
+      anniversaryYear: input.anniversaryYear != null ? String(input.anniversaryYear) : "",
+      ordinalSuffix: input.anniversaryYear != null ? ordinalSuffix(input.anniversaryYear) : "",
+      gachaVersion: input.gachaVersion ?? "",
       partSuffix,
     });
 
