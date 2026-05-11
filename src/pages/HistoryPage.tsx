@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import { Trash2 } from "lucide-react";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
@@ -9,6 +10,7 @@ import { useHistoryStore } from "@store/history-store";
 
 export function HistoryPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.history"));
   const { entries, clearAll } = useHistoryStore();
   const [search, setSearch] = useState("");
   const [showClearAll, setShowClearAll] = useState(false);

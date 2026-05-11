@@ -259,7 +259,14 @@
         "permadeath_run": "영구 사망 / 아이언맨 모드",
         "speedrun_attempt": "스피드런 시도",
         "completionist_run": "100% 컴플리션 도전",
-        "learning_mechanics": "조작 / 시스템 학습 중"
+        "learning_mechanics": "조작 / 시스템 학습 중",
+        "eye_horror": "안구 군집·왜곡된 시선 묘사",
+        "body_horror": "신체 호러 — 육체 변형·돌연변이",
+        "face_horror": "일그러지거나 훼손된 얼굴 묘사",
+        "cosmic_horror": "코즈믹 / 크툴루 / 러브크래프트적 호러",
+        "extreme_gore": "극도의 고어 — 사지 절단·내장 묘사",
+        "decay_rot": "부패·구더기·시체 묘사",
+        "mutilation": "절단·손상 묘사"
       }
     },
     "graphics": {

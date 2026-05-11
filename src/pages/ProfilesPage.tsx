@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import { Download, Upload } from "lucide-react";
 import { Button } from "@components/ui/Button";
 import { ProfileList } from "@components/profiles/ProfileList";
@@ -16,6 +17,7 @@ type Tab = "profiles" | "presets" | "templates";
 
 export function ProfilesPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.profiles"));
   const [tab, setTab] = useState<Tab>("profiles");
   const { profiles, importProfiles } = useProfileStore();
   const { presets, importPresets } = usePresetStore();

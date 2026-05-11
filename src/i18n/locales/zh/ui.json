@@ -12,28 +12,60 @@
     "batch": "批量",
     "playlist": "播放列表",
     "logs": "日志",
-    "about": "关于"
+    "about": "关于",
+    "reportBug": "报告 Bug"
   },
   "sidebar": {
     "expand": "展开侧边栏",
     "collapse": "折叠侧边栏"
+  },
+  "header": {
+    "donate": "赞助"
   },
   "about": {
     "tagline": "为游戏实况无解说频道生成 YouTube 标题、描述和标签的工具。",
     "repoHeading": "仓库与许可",
     "repoLabel": "GitHub 仓库",
     "issuesLabel": "报告问题",
+    "reportBugLabel": "报告 Bug",
+    "discussionsLabel": "讨论区",
     "authorLabel": "作者",
     "licenseLabel": "许可证",
+    "donateHeading": "赞助 / 支持",
+    "donateHelp": "如果 YTDescGen 帮你省下了时间，欢迎请我喝一杯咖啡。每份支持都让项目走得更远。",
+    "donate": {
+      "githubSponsors": "GitHub Sponsors",
+      "kofi": "Ko-fi",
+      "buyMeACoffee": "Buy Me a Coffee",
+      "patreon": "Patreon",
+      "paypal": "PayPal"
+    },
     "connectHeading": "联系方式",
+    "devEnvHeading": "开发环境",
+    "devEnvHelp": "用于构建公开 Web 版本和桌面二进制的硬件与工具链。",
+    "devEnv": {
+      "os": "系统",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "ide": "IDE",
+      "toolchains": "工具链",
+      "fullSpecLink": "查看完整 PC 配置 ↗",
+      "fullDevEnvLink": "开发环境指南 ↗"
+    },
     "thirdPartyHeading": "第三方致谢",
     "thirdPartyHelp": "YTDescGen 基于以下开源项目构建。版本号从 package.json 自动同步。",
     "socials": {
       "youtube": "YouTube 频道",
       "x": "X / Twitter",
-      "discord": "Discord 服务器",
-      "kofi": "Ko-fi",
-      "patreon": "Patreon"
+      "bluesky": "Bluesky",
+      "mastodon": "Mastodon",
+      "discord": "Discord — 仓库 / 综合",
+      "discordGame": "Discord — 游戏频道",
+      "steam": "Steam 个人主页",
+      "telegramBot": "Telegram 机器人",
+      "telegramUser": "Telegram",
+      "email": "邮箱"
     }
   },
   "editor": {
@@ -281,7 +313,8 @@
       "phobias": "恐惧症",
       "mental_health": "心理健康",
       "sensitive": "成人 / 敏感",
-      "playstyle": "游玩说明"
+      "playstyle": "游玩说明",
+      "horror_specific": "重度恐怖"
     },
     "contentWarningOptions": {
       "spoiler_story": "剧情 / 结局剧透",
@@ -351,7 +384,14 @@
       "permadeath_run": "永久死亡 / Iron Man",
       "speedrun_attempt": "速通挑战",
       "completionist_run": "100% 全收集",
-      "learning_mechanics": "仍在熟悉机制"
+      "learning_mechanics": "仍在熟悉机制",
+      "eye_horror": "眼球 / 眼球群",
+      "body_horror": "身体恐怖（肉体扭曲）",
+      "face_horror": "扭曲的面孔",
+      "cosmic_horror": "宇宙 / 邪神恐怖",
+      "extreme_gore": "极端血腥 / 肢解",
+      "decay_rot": "腐烂 / 蛆虫",
+      "mutilation": "残害 / 截肢"
     },
     "playthroughNotes": {
       "title": "本期游玩说明",

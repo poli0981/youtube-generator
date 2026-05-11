@@ -259,7 +259,14 @@
         "permadeath_run": "Lối chơi Permadeath / Iron Man",
         "speedrun_attempt": "Thử speedrun",
         "completionist_run": "Chơi 100% completionist",
-        "learning_mechanics": "Vẫn đang học cơ chế game"
+        "learning_mechanics": "Vẫn đang học cơ chế game",
+        "eye_horror": "Cụm nhãn cầu / hình ảnh ánh nhìn ám ảnh",
+        "body_horror": "Kinh dị cơ thể — biến dạng thịt, đột biến",
+        "face_horror": "Hình ảnh khuôn mặt biến dạng / huỷ hoại",
+        "cosmic_horror": "Kinh dị vũ trụ / Lovecraftian",
+        "extreme_gore": "Máu me cực đoan — phân thây, nội tạng",
+        "decay_rot": "Phân huỷ, thối rữa, dòi bọ, xác chết",
+        "mutilation": "Hình ảnh cắt xẻo / cụt chi"
       }
     },
     "graphics": {

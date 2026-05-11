@@ -12,28 +12,60 @@
     "batch": "Hàng loạt",
     "playlist": "Playlist",
     "logs": "Nhật ký",
-    "about": "Giới thiệu"
+    "about": "Giới thiệu",
+    "reportBug": "Báo lỗi"
   },
   "sidebar": {
     "expand": "Mở rộng sidebar",
     "collapse": "Thu gọn sidebar"
+  },
+  "header": {
+    "donate": "Ủng hộ"
   },
   "about": {
     "tagline": "Công cụ tạo title, description, tag cho kênh YouTube Gameplay No Commentary.",
     "repoHeading": "Repository & License",
     "repoLabel": "GitHub Repo",
     "issuesLabel": "Báo lỗi / Góp ý",
+    "reportBugLabel": "Báo lỗi",
+    "discussionsLabel": "Thảo luận",
     "authorLabel": "Tác giả",
     "licenseLabel": "Giấy phép",
+    "donateHeading": "Ủng hộ / Donate",
+    "donateHelp": "Nếu YTDescGen giúp bạn tiết kiệm thời gian, mời mình một ly cà phê nhé. Mọi ủng hộ đều giúp dự án tiếp tục.",
+    "donate": {
+      "githubSponsors": "GitHub Sponsors",
+      "kofi": "Ko-fi",
+      "buyMeACoffee": "Buy Me a Coffee",
+      "patreon": "Patreon",
+      "paypal": "PayPal"
+    },
     "connectHeading": "Kết nối",
+    "devEnvHeading": "Môi trường phát triển",
+    "devEnvHelp": "Phần cứng và toolchain dùng để build bản web public và binary desktop.",
+    "devEnv": {
+      "os": "Hệ điều hành",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "ide": "IDE",
+      "toolchains": "Toolchain",
+      "fullSpecLink": "Xem PC spec đầy đủ ↗",
+      "fullDevEnvLink": "Xem hướng dẫn dev environment ↗"
+    },
     "thirdPartyHeading": "Thư viện bên thứ ba",
     "thirdPartyHelp": "YTDescGen được xây dựng dựa trên các dự án mã nguồn mở dưới đây. Phiên bản lấy tự động từ package.json.",
     "socials": {
       "youtube": "Kênh YouTube",
       "x": "X / Twitter",
-      "discord": "Server Discord",
-      "kofi": "Ko-fi",
-      "patreon": "Patreon"
+      "bluesky": "Bluesky",
+      "mastodon": "Mastodon",
+      "discord": "Discord — Repo / Chung",
+      "discordGame": "Discord — Game lobby",
+      "steam": "Profile Steam",
+      "telegramBot": "Telegram bot",
+      "telegramUser": "Telegram",
+      "email": "Email"
     }
   },
   "editor": {
@@ -281,7 +313,8 @@
       "phobias": "Hội chứng sợ",
       "mental_health": "Sức khoẻ tinh thần",
       "sensitive": "Nội dung nhạy cảm / 18+",
-      "playstyle": "Chú thích lối chơi"
+      "playstyle": "Chú thích lối chơi",
+      "horror_specific": "Kinh dị nặng đô"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoiler cốt truyện / kết thúc",
@@ -351,7 +384,14 @@
       "permadeath_run": "Permadeath / Iron Man",
       "speedrun_attempt": "Thử speedrun",
       "completionist_run": "100% completionist",
-      "learning_mechanics": "Đang học cơ chế"
+      "learning_mechanics": "Đang học cơ chế",
+      "eye_horror": "Mắt / cụm nhãn cầu",
+      "body_horror": "Kinh dị cơ thể (biến dạng)",
+      "face_horror": "Khuôn mặt biến dạng",
+      "cosmic_horror": "Kinh dị vũ trụ / Lovecraft",
+      "extreme_gore": "Máu me cực đoan / phân thây",
+      "decay_rot": "Phân huỷ, thối rữa, dòi bọ",
+      "mutilation": "Cắt xẻo / cụt chi"
     },
     "playthroughNotes": {
       "title": "Ghi chú lượt chơi",

@@ -12,28 +12,60 @@
     "batch": "Batch",
     "playlist": "Playlist",
     "logs": "Logs",
-    "about": "About"
+    "about": "About",
+    "reportBug": "Report Bug"
   },
   "sidebar": {
     "expand": "Expand sidebar",
     "collapse": "Collapse sidebar"
+  },
+  "header": {
+    "donate": "Donate"
   },
   "about": {
     "tagline": "YouTube title, description, and tag generator for Gameplay No Commentary channels.",
     "repoHeading": "Repository & License",
     "repoLabel": "GitHub Repo",
     "issuesLabel": "Report an Issue",
+    "reportBugLabel": "Report a Bug",
+    "discussionsLabel": "Discussions",
     "authorLabel": "Author",
     "licenseLabel": "License",
+    "donateHeading": "Donate / Support",
+    "donateHelp": "If YTDescGen saves you time, consider buying me a coffee. Every bit helps keep the project going.",
+    "donate": {
+      "githubSponsors": "GitHub Sponsors",
+      "kofi": "Ko-fi",
+      "buyMeACoffee": "Buy Me a Coffee",
+      "patreon": "Patreon",
+      "paypal": "PayPal"
+    },
     "connectHeading": "Connect",
+    "devEnvHeading": "Dev Environment",
+    "devEnvHelp": "Hardware and toolchain the public web build and desktop binaries are produced on.",
+    "devEnv": {
+      "os": "OS",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "ide": "IDE",
+      "toolchains": "Toolchains",
+      "fullSpecLink": "Read full PC spec ↗",
+      "fullDevEnvLink": "Read dev environment guide ↗"
+    },
     "thirdPartyHeading": "Third-Party Credits",
     "thirdPartyHelp": "YTDescGen is built on top of these open-source projects. Versions are pulled live from package.json.",
     "socials": {
       "youtube": "YouTube Channel",
       "x": "X / Twitter",
-      "discord": "Discord Server",
-      "kofi": "Ko-fi",
-      "patreon": "Patreon"
+      "bluesky": "Bluesky",
+      "mastodon": "Mastodon",
+      "discord": "Discord — Repo / General",
+      "discordGame": "Discord — Game lobby",
+      "steam": "Steam profile",
+      "telegramBot": "Telegram bot",
+      "telegramUser": "Telegram",
+      "email": "Email"
     }
   },
   "editor": {
@@ -281,7 +313,8 @@
       "phobias": "Phobias",
       "mental_health": "Mental health",
       "sensitive": "Mature / Sensitive content",
-      "playstyle": "Playstyle disclosures"
+      "playstyle": "Playstyle disclosures",
+      "horror_specific": "Heavy horror"
     },
     "contentWarningOptions": {
       "spoiler_story": "Story / ending spoilers",
@@ -351,7 +384,14 @@
       "permadeath_run": "Permadeath / Iron Man",
       "speedrun_attempt": "Speedrun attempt",
       "completionist_run": "100% completionist",
-      "learning_mechanics": "Still learning mechanics"
+      "learning_mechanics": "Still learning mechanics",
+      "eye_horror": "Eyes / eyeball clusters",
+      "body_horror": "Body horror (flesh distortion)",
+      "face_horror": "Distorted / mutilated faces",
+      "cosmic_horror": "Cosmic / eldritch horror",
+      "extreme_gore": "Extreme gore / dismemberment",
+      "decay_rot": "Decay, rot, maggots",
+      "mutilation": "Mutilation / amputation"
     },
     "playthroughNotes": {
       "title": "Playthrough notes",

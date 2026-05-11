@@ -259,7 +259,14 @@
         "permadeath_run": "パーマデス / アイアンマン縛り",
         "speedrun_attempt": "RTAチャレンジ",
         "completionist_run": "100% コンプリート",
-        "learning_mechanics": "操作 / システム学習中"
+        "learning_mechanics": "操作 / システム学習中",
+        "eye_horror": "眼球の集合体・歪んだ視線の描写",
+        "body_horror": "ボディホラー — 肉体変形・突然変異",
+        "face_horror": "顔の歪み・損傷描写",
+        "cosmic_horror": "コズミック / クトゥルフ系ホラー",
+        "extreme_gore": "過激なゴア — 解体と内臓描写",
+        "decay_rot": "腐敗・腐肉・蛆・死体描写",
+        "mutilation": "切断・損傷の描写"
       }
     },
     "graphics": {

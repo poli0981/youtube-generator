@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import { Shuffle, Bookmark } from "lucide-react";
 import { Button } from "@components/ui/Button";
 import { OutputPreview } from "@components/output/OutputPreview";
@@ -18,6 +19,7 @@ import clsx from "clsx";
 
 export function OutputPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.output"));
   const defaultOutput = useGeneratedOutput();
   const { gameName, videoType, language, genres } = useEditorStore();
   const addEntry = useHistoryStore((s) => s.addEntry);

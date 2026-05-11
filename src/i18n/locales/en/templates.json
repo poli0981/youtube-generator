@@ -259,7 +259,14 @@
         "permadeath_run": "Permadeath / Iron Man run",
         "speedrun_attempt": "Speedrun attempt",
         "completionist_run": "100% completionist run",
-        "learning_mechanics": "Still learning the mechanics"
+        "learning_mechanics": "Still learning the mechanics",
+        "eye_horror": "Eyeball clusters / distorted gaze imagery",
+        "body_horror": "Body horror — flesh distortion and mutation",
+        "face_horror": "Distorted or mutilated face imagery",
+        "cosmic_horror": "Cosmic / eldritch / Lovecraftian horror",
+        "extreme_gore": "Extreme gore — dismemberment and viscera",
+        "decay_rot": "Decay, rot, maggots, corpse imagery",
+        "mutilation": "Mutilation / amputation imagery"
       }
     },
     "graphics": {

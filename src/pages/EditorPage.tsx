@@ -26,12 +26,14 @@ import { Accordion } from "@components/ui/Accordion";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import { validateEmails, validatePlaylistUrl } from "@utils/validation";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
 export function EditorPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.editor"));
   const store = useEditorStore();
   const accordion = useSettingsStore((s) => s.editorAccordionState);
   const toggleAccordion = useSettingsStore((s) => s.toggleEditorAccordion);

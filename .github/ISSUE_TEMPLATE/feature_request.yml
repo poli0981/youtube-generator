@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest a new feature or improvement.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What pain point or workflow gap are you running into today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should YTDescGen do? Be concrete — UI sketch, example output, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you thought about and why you ruled them out.
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: Which surfaces does this affect?
+      multiple: true
+      options:
+        - Editor
+        - Output / preview
+        - Profiles / presets
+        - Templates (description, title, tags)
+        - i18n / locales
+        - Settings
+        - Desktop (Tauri)
+        - Documentation
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true

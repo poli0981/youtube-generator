@@ -12,28 +12,60 @@
     "batch": "Lote",
     "playlist": "Playlist",
     "logs": "Registros",
-    "about": "Acerca de"
+    "about": "Acerca de",
+    "reportBug": "Reportar bug"
   },
   "sidebar": {
     "expand": "Expandir barra lateral",
     "collapse": "Colapsar barra lateral"
+  },
+  "header": {
+    "donate": "Donar"
   },
   "about": {
     "tagline": "Generador de título, descripción y etiquetas de YouTube para canales de Gameplay sin comentarios.",
     "repoHeading": "Repositorio y Licencia",
     "repoLabel": "Repositorio en GitHub",
     "issuesLabel": "Reportar un Problema",
+    "reportBugLabel": "Reportar un bug",
+    "discussionsLabel": "Discusiones",
     "authorLabel": "Autor",
     "licenseLabel": "Licencia",
+    "donateHeading": "Donar / Apoyar",
+    "donateHelp": "Si YTDescGen te ahorra tiempo, considera invitarme un café. Cada aporte ayuda al proyecto.",
+    "donate": {
+      "githubSponsors": "GitHub Sponsors",
+      "kofi": "Ko-fi",
+      "buyMeACoffee": "Buy Me a Coffee",
+      "patreon": "Patreon",
+      "paypal": "PayPal"
+    },
     "connectHeading": "Contacto",
+    "devEnvHeading": "Entorno de desarrollo",
+    "devEnvHelp": "Hardware y toolchain con los que se compilan la web pública y los binarios de escritorio.",
+    "devEnv": {
+      "os": "SO",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "ide": "IDE",
+      "toolchains": "Toolchain",
+      "fullSpecLink": "Ver spec completa ↗",
+      "fullDevEnvLink": "Guía de entorno dev ↗"
+    },
     "thirdPartyHeading": "Créditos de Terceros",
     "thirdPartyHelp": "YTDescGen se basa en estos proyectos de código abierto. Las versiones se toman automáticamente de package.json.",
     "socials": {
       "youtube": "Canal de YouTube",
       "x": "X / Twitter",
-      "discord": "Servidor de Discord",
-      "kofi": "Ko-fi",
-      "patreon": "Patreon"
+      "bluesky": "Bluesky",
+      "mastodon": "Mastodon",
+      "discord": "Discord — Repo / General",
+      "discordGame": "Discord — Sala de juego",
+      "steam": "Perfil de Steam",
+      "telegramBot": "Bot de Telegram",
+      "telegramUser": "Telegram",
+      "email": "Email"
     }
   },
   "editor": {
@@ -281,7 +313,8 @@
       "phobias": "Fobias",
       "mental_health": "Salud mental",
       "sensitive": "Adulto / Sensible",
-      "playstyle": "Notas de juego"
+      "playstyle": "Notas de juego",
+      "horror_specific": "Horror intenso"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoilers — historia / final",
@@ -351,7 +384,14 @@
       "permadeath_run": "Permadeath / Iron Man",
       "speedrun_attempt": "Intento de speedrun",
       "completionist_run": "Completista 100%",
-      "learning_mechanics": "Aprendiendo mecánicas"
+      "learning_mechanics": "Aprendiendo mecánicas",
+      "eye_horror": "Ojos / racimos oculares",
+      "body_horror": "Body horror (deformación)",
+      "face_horror": "Rostros deformados",
+      "cosmic_horror": "Horror cósmico / eldritch",
+      "extreme_gore": "Gore extremo / desmembramiento",
+      "decay_rot": "Putrefacción, larvas",
+      "mutilation": "Mutilación / amputación"
     },
     "playthroughNotes": {
       "title": "Notas de la partida",
