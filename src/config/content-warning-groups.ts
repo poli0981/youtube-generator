@@ -106,6 +106,19 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
     ],
   },
   {
+    id: "horror_specific",
+    labelKey: "editor.contentWarningGroups.horror_specific",
+    items: [
+      "eye_horror",
+      "body_horror",
+      "face_horror",
+      "cosmic_horror",
+      "extreme_gore",
+      "decay_rot",
+      "mutilation",
+    ],
+  },
+  {
     id: "playstyle",
     labelKey: "editor.contentWarningGroups.playstyle",
     items: [

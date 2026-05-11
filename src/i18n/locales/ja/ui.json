@@ -12,28 +12,60 @@
     "batch": "一括",
     "playlist": "プレイリスト",
     "logs": "ログ",
-    "about": "情報"
+    "about": "情報",
+    "reportBug": "バグ報告"
   },
   "sidebar": {
     "expand": "サイドバーを展開",
     "collapse": "サイドバーを折りたたむ"
+  },
+  "header": {
+    "donate": "寄付"
   },
   "about": {
     "tagline": "ゲームプレイ実況なしチャンネル向けのタイトル・説明文・タグ生成ツール。",
     "repoHeading": "リポジトリ & ライセンス",
     "repoLabel": "GitHub リポジトリ",
     "issuesLabel": "問題を報告",
+    "reportBugLabel": "バグを報告",
+    "discussionsLabel": "ディスカッション",
     "authorLabel": "作者",
     "licenseLabel": "ライセンス",
+    "donateHeading": "寄付 / サポート",
+    "donateHelp": "YTDescGenが時短に役立ったら、コーヒー一杯分でも支援していただけると嬉しいです。",
+    "donate": {
+      "githubSponsors": "GitHub Sponsors",
+      "kofi": "Ko-fi",
+      "buyMeACoffee": "Buy Me a Coffee",
+      "patreon": "Patreon",
+      "paypal": "PayPal"
+    },
     "connectHeading": "リンク",
+    "devEnvHeading": "開発環境",
+    "devEnvHelp": "パブリックなWebビルドとデスクトップバイナリを生成しているハードウェアとツールチェーン。",
+    "devEnv": {
+      "os": "OS",
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "ide": "IDE",
+      "toolchains": "ツールチェーン",
+      "fullSpecLink": "PCスペック詳細 ↗",
+      "fullDevEnvLink": "開発環境ガイド ↗"
+    },
     "thirdPartyHeading": "サードパーティ クレジット",
     "thirdPartyHelp": "YTDescGen は以下のオープンソースプロジェクトを利用しています。バージョンは package.json から自動取得しています。",
     "socials": {
       "youtube": "YouTube チャンネル",
       "x": "X / Twitter",
-      "discord": "Discord サーバー",
-      "kofi": "Ko-fi",
-      "patreon": "Patreon"
+      "bluesky": "Bluesky",
+      "mastodon": "Mastodon",
+      "discord": "Discord — リポジトリ / 一般",
+      "discordGame": "Discord — ゲームロビー",
+      "steam": "Steamプロフィール",
+      "telegramBot": "Telegram bot",
+      "telegramUser": "Telegram",
+      "email": "メール"
     }
   },
   "editor": {
@@ -281,7 +313,8 @@
       "phobias": "恐怖症",
       "mental_health": "メンタルヘルス",
       "sensitive": "成人向け / センシティブ",
-      "playstyle": "プレイ情報"
+      "playstyle": "プレイ情報",
+      "horror_specific": "ヘビーホラー"
     },
     "contentWarningOptions": {
       "spoiler_story": "ストーリー / エンディングのネタバレ",
@@ -351,7 +384,14 @@
       "permadeath_run": "パーマデス / アイアンマン",
       "speedrun_attempt": "RTAチャレンジ",
       "completionist_run": "100% コンプ",
-      "learning_mechanics": "操作を覚え中"
+      "learning_mechanics": "操作を覚え中",
+      "eye_horror": "眼球 / 集合した眼",
+      "body_horror": "ボディホラー（肉体変形）",
+      "face_horror": "顔の歪み / 損傷",
+      "cosmic_horror": "コズミックホラー",
+      "extreme_gore": "過激なゴア / 解体",
+      "decay_rot": "腐敗 / 蛆",
+      "mutilation": "切断 / 損傷"
     },
     "playthroughNotes": {
       "title": "プレイ情報",

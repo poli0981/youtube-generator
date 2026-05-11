@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Heart } from "lucide-react";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { useSettingsStore } from "@store/settings-store";
+import { PRIMARY_DONATE_URL } from "@config/donate";
 import type { SupportedLanguage } from "@engine/types";
 import clsx from "clsx";
 
@@ -37,7 +38,18 @@ export function Header() {
         <h1 className="text-lg font-bold text-text-primary">{t("app.title")}</h1>
         <p className="text-xs text-text-muted">{t("app.subtitle")}</p>
       </div>
-      <div className="relative" ref={dropdownRef}>
+      <div className="flex items-center gap-2">
+        <a
+          href={PRIMARY_DONATE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 rounded-lg border border-pink-500/30 bg-pink-500/10 px-3 py-1.5 text-sm text-pink-300 transition-colors hover:border-pink-400/60 hover:bg-pink-500/20 hover:text-pink-200"
+          title={t("header.donate")}
+        >
+          <Heart className="h-3.5 w-3.5" />
+          <span className="hidden md:inline">{t("header.donate")}</span>
+        </a>
+        <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setOpen(!open)}
           className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm transition-colors hover:bg-surface-2"
@@ -63,6 +75,7 @@ export function Header() {
             ))}
           </div>
         )}
+        </div>
       </div>
     </header>
   );

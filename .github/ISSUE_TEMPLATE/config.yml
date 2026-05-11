@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord — General chat
+    url: https://discord.gg/2aNR3aVt
+    about: For casual questions, gameplay chat, or quick help. Use a bug report or feature request for anything actionable.
+  - name: GitHub Discussions
+    url: https://github.com/poli0981/youtube-generator/discussions
+    about: Ideas, Q&A, and release announcements live here.

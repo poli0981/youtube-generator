@@ -2,7 +2,9 @@ name: Notify CI Failures
 
 on:
   workflow_run:
-    workflows: ["*"]
+    # Match the exact `name:` of the CI workflow (.github/workflows/ci.yml).
+    # Renaming CI silently breaks this filter — keep them in sync.
+    workflows: ["CI"]
     types: [completed]
 
 # REQUIRED: declare permissions matching the reusable workflow's needs.

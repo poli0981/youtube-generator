@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import { FolderOpen, Save } from "lucide-react";
 import { Toggle } from "@components/ui/Toggle";
 import { Select } from "@components/ui/Select";
@@ -54,6 +55,7 @@ async function exportSettingsToFile() {
 
 export function SettingsPage() {
   const { t, i18n } = useTranslation("ui");
+  useDocumentTitle(t("tabs.settings"));
   const settings = useSettingsStore();
 
   const langOptions = SUPPORTED_LANGUAGES.map((l) => ({

@@ -10,13 +10,31 @@ on:
         required: true
         type: string
 
-# Reusable announce-release.yml only needs `contents: read` to fetch
-# release metadata via the gh CLI.
+# `link-discussion` needs `contents: write` (to edit the release) and
+# `discussions: write` (so GitHub auto-creates the linked Discussion under
+# the configured category). The reusable announce job only needs read.
 permissions:
-  contents: read
+  contents: write
+  discussions: write
 
 jobs:
+  link-discussion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Link release to Announcements discussion
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Setting --discussion-category on a published release causes
+        # GitHub to auto-create the linked Discussion. Requires the
+        # repo to have Discussions enabled with an "Announcements"
+        # category (configured manually under repo Settings).
+        run: |
+          gh release edit "${{ github.event.release.tag_name || inputs.tag }}" \
+            --repo "${{ github.repository }}" \
+            --discussion-category "Announcements"
+
   announce:
+    needs: link-discussion
     uses: poli0981/.github/.github/workflows/announce-release.yml@main
     with:
       tag_override: ${{ inputs.tag || '' }}

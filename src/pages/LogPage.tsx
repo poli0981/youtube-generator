@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import { Trash2 } from "lucide-react";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
@@ -18,6 +19,7 @@ const LEVEL_FILTERS: Array<{ value: LogLevel | "all"; label: string; color: stri
 
 export function LogPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.logs"));
   const { entries, clearAll } = useLogStore();
   const [search, setSearch] = useState("");
   const [levelFilter, setLevelFilter] = useState<LogLevel | "all">("all");

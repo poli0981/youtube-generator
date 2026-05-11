@@ -1,0 +1,99 @@
+name: Bug report
+description: Something is broken or behaving unexpectedly.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please fill in as much detail as you can —
+        a clear reproduction is the difference between a fix today and a fix in 3 weeks.
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From the About page or the title bar. Example `v0.13.0`.
+      placeholder: v0.13.0
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where are you running YTDescGen?
+      options:
+        - Web (GitHub Pages)
+        - Desktop — Windows (Tauri)
+        - Desktop — macOS (Tauri)
+        - Desktop — Linux (Tauri)
+        - Local dev (npm run dev)
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      description: e.g. Windows 11 25H2, macOS 14.6, Ubuntu 24.04
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser (web only)
+      description: e.g. Chrome 131, Brave 1.70, Safari 17. Leave blank for desktop.
+  - type: dropdown
+    id: language
+    attributes:
+      label: App language at the time of the bug
+      options:
+        - English (en)
+        - Tiếng Việt (vi)
+        - 日本語 (ja)
+        - Español (es)
+        - 한국어 (ko)
+        - 中文 (zh)
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps. Include the exact inputs that triggered the bug.
+      placeholder: |
+        1. Open Editor
+        2. Pick genre "Survival Horror"
+        3. Toggle "eye_horror" warning
+        4. Click Generate
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: console
+    attributes:
+      label: Console / log output
+      description: Open DevTools (web) or the log panel (desktop) and paste any errors. Rendered as code.
+      render: shell
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / screen recording (optional)
+      description: Drag and drop images or videos here.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I'm on the latest released version (or noted my older version above).
+          required: true

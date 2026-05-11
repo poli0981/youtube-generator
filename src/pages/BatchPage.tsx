@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useDocumentTitle } from "@hooks/use-document-title";
 import i18n from "i18next";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
@@ -29,6 +30,7 @@ interface BatchResult {
 
 export function BatchPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.batch"));
   const state = useEditorStore();
   const baseInput = useCurrentGeneratorInput();
   const {

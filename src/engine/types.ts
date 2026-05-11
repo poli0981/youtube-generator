@@ -285,6 +285,14 @@ export const CONTENT_WARNINGS = [
   "slavery_themes",
   "terrorism_themes",
   "bullying_themes",
+  // Heavy-horror specific (v0.13.1)
+  "eye_horror",
+  "body_horror",
+  "face_horror",
+  "cosmic_horror",
+  "extreme_gore",
+  "decay_rot",
+  "mutilation",
   // Playstyle disclosures
   "blind_playthrough",
   "no_spoilers_chat",

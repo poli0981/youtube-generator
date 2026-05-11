@@ -2,7 +2,10 @@ name: Notify Release Pipeline
 
 on:
   workflow_run:
-    workflows: ["*"]
+    # Match the exact `name:` of the release-pipeline producers
+    # (release-desktop.yml + announce-release.yml). Renaming either silently
+    # breaks this filter — keep them in sync.
+    workflows: ["Release Desktop", "Announce Release to Discord"]
     types: [completed]
 
 permissions:

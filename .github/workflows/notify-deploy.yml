@@ -2,7 +2,10 @@ name: Notify Deploy Status
 
 on:
   workflow_run:
-    workflows: ["*"]
+    # Match the exact `name:` of the deploy workflow
+    # (.github/workflows/deploy-web.yml). Renaming it silently breaks this
+    # filter — keep them in sync.
+    workflows: ["Deploy to GitHub Pages"]
     types: [completed]
 
 permissions:

@@ -259,7 +259,14 @@
         "permadeath_run": "永久死亡 / Iron Man 玩法",
         "speedrun_attempt": "速通挑战",
         "completionist_run": "100% 全收集挑战",
-        "learning_mechanics": "仍在熟悉游戏机制"
+        "learning_mechanics": "仍在熟悉游戏机制",
+        "eye_horror": "眼球群 / 扭曲注视画面",
+        "body_horror": "身体恐怖 — 肉体扭曲与变异",
+        "face_horror": "扭曲或毁伤的面孔画面",
+        "cosmic_horror": "宇宙 / 邪神 / 克苏鲁式恐怖",
+        "extreme_gore": "极端血腥 — 肢解与内脏描绘",
+        "decay_rot": "腐烂、蛆虫、尸体画面",
+        "mutilation": "残害或截肢画面"
       }
     },
     "graphics": {

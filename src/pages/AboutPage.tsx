@@ -6,12 +6,23 @@ import {
   Youtube,
   Twitter,
   MessageCircle,
+  MessageSquare,
+  Cloud,
+  Gamepad2,
+  Send,
+  Mail,
   Coffee,
   Heart,
+  Sparkles,
+  DollarSign,
+  Cpu,
+  Monitor,
   type LucideIcon,
 } from "lucide-react";
 import { ABOUT, type AboutSocialId } from "@config/about";
+import { DONATE, type DonateId } from "@config/donate";
 import { THIRD_PARTY } from "@config/third-party";
+import { useDocumentTitle } from "@hooks/use-document-title";
 
 interface SocialLinkConfig {
   id: AboutSocialId;
@@ -20,19 +31,52 @@ interface SocialLinkConfig {
   labelKey: string;
 }
 
+interface DonateLinkConfig {
+  id: DonateId;
+  url: string;
+  icon: LucideIcon;
+  labelKey: string;
+}
+
 export function AboutPage() {
   const { t } = useTranslation("ui");
+  useDocumentTitle(t("tabs.about"));
 
   // Hidden when empty so a fresh clone with no socials filled in still
-  // looks tidy on the About page.
+  // looks tidy on the About page. Ko-fi / Patreon were moved to the
+  // Donate section in v0.13.1 — keep them out of this list.
   const allSocials: readonly SocialLinkConfig[] = [
     { id: "youtube", url: ABOUT.socials.youtube, icon: Youtube, labelKey: "about.socials.youtube" },
     { id: "x", url: ABOUT.socials.x, icon: Twitter, labelKey: "about.socials.x" },
+    { id: "bluesky", url: ABOUT.socials.bluesky, icon: Cloud, labelKey: "about.socials.bluesky" },
+    { id: "mastodon", url: ABOUT.socials.mastodon, icon: MessageSquare, labelKey: "about.socials.mastodon" },
     { id: "discord", url: ABOUT.socials.discord, icon: MessageCircle, labelKey: "about.socials.discord" },
-    { id: "kofi", url: ABOUT.socials.kofi, icon: Coffee, labelKey: "about.socials.kofi" },
-    { id: "patreon", url: ABOUT.socials.patreon, icon: Heart, labelKey: "about.socials.patreon" },
+    { id: "discordGame", url: ABOUT.socials.discordGame, icon: Gamepad2, labelKey: "about.socials.discordGame" },
+    { id: "steam", url: ABOUT.socials.steam, icon: Gamepad2, labelKey: "about.socials.steam" },
+    { id: "telegramBot", url: ABOUT.socials.telegramBot, icon: Send, labelKey: "about.socials.telegramBot" },
+    { id: "telegramUser", url: ABOUT.socials.telegramUser, icon: Send, labelKey: "about.socials.telegramUser" },
+    { id: "email", url: ABOUT.socials.email, icon: Mail, labelKey: "about.socials.email" },
   ];
   const socials = allSocials.filter((s) => s.url.trim().length > 0);
+
+  const donateLinks: readonly DonateLinkConfig[] = [
+    { id: "githubSponsors", url: DONATE.githubSponsors, icon: Sparkles, labelKey: "about.donate.githubSponsors" },
+    { id: "kofi", url: DONATE.kofi, icon: Coffee, labelKey: "about.donate.kofi" },
+    { id: "buyMeACoffee", url: DONATE.buyMeACoffee, icon: Coffee, labelKey: "about.donate.buyMeACoffee" },
+    { id: "patreon", url: DONATE.patreon, icon: Heart, labelKey: "about.donate.patreon" },
+    { id: "paypal", url: DONATE.paypal, icon: DollarSign, labelKey: "about.donate.paypal" },
+  ];
+
+  // Pulled from docs/pc_spec.md — keep them in sync when the box gets an
+  // upgrade. The page surfaces the summary; the full spec lives in docs.
+  const devEnvRows: ReadonlyArray<{ icon: LucideIcon; labelKey: string; value: string }> = [
+    { icon: Monitor, labelKey: "about.devEnv.os", value: "Windows 11 Pro 25H2 Insider (build 26300.8376)" },
+    { icon: Cpu, labelKey: "about.devEnv.cpu", value: "Intel Core i7-14700KF" },
+    { icon: Cpu, labelKey: "about.devEnv.gpu", value: "NVIDIA GeForce RTX 5080 (16 GB)" },
+    { icon: Cpu, labelKey: "about.devEnv.ram", value: "32 GB DDR5" },
+    { icon: Monitor, labelKey: "about.devEnv.ide", value: "JetBrains 2026.x · VS Code" },
+    { icon: Cpu, labelKey: "about.devEnv.toolchains", value: "Node ≥ 25.8.1 · Python 3.12 · Rust stable · Tauri 2" },
+  ];
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-8 p-6">
@@ -59,9 +103,14 @@ export function AboutPage() {
             label={t("about.repoLabel")}
           />
           <ExternalLinkRow
-            href={ABOUT.issuesUrl}
+            href={ABOUT.bugReportUrl}
             icon={Bug}
-            label={t("about.issuesLabel")}
+            label={t("about.reportBugLabel")}
+          />
+          <ExternalLinkRow
+            href={ABOUT.discussionsUrl}
+            icon={MessageSquare}
+            label={t("about.discussionsLabel")}
           />
           <ExternalLinkRow
             href={ABOUT.githubAuthor}
@@ -73,6 +122,24 @@ export function AboutPage() {
             icon={ExternalLink}
             label={`${t("about.licenseLabel")} · ${ABOUT.license}`}
           />
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+          {t("about.donateHeading")}
+        </h2>
+        <p className="text-xs text-text-muted">{t("about.donateHelp")}</p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {donateLinks.map((d) => (
+            <ExternalLinkRow
+              key={d.id}
+              href={d.url}
+              icon={d.icon}
+              label={t(d.labelKey)}
+              accent
+            />
+          ))}
         </div>
       </section>
 
@@ -93,6 +160,40 @@ export function AboutPage() {
           </div>
         </section>
       )}
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+          {t("about.devEnvHeading")}
+        </h2>
+        <p className="text-xs text-text-muted">{t("about.devEnvHelp")}</p>
+        <ul className="overflow-hidden rounded-lg border border-border bg-surface-1">
+          {devEnvRows.map((row) => {
+            const Icon = row.icon;
+            return (
+              <li
+                key={row.labelKey}
+                className="flex items-center gap-3 border-b border-border px-3 py-2 text-sm last:border-b-0"
+              >
+                <Icon className="h-4 w-4 shrink-0 text-text-muted" />
+                <span className="w-32 shrink-0 text-text-secondary">{t(row.labelKey)}</span>
+                <span className="flex-1 truncate font-mono text-xs text-text-primary">{row.value}</span>
+              </li>
+            );
+          })}
+        </ul>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <ExternalLinkRow
+            href={ABOUT.pcSpecDocUrl}
+            icon={ExternalLink}
+            label={t("about.devEnv.fullSpecLink")}
+          />
+          <ExternalLinkRow
+            href={ABOUT.devEnvDocUrl}
+            icon={ExternalLink}
+            label={t("about.devEnv.fullDevEnvLink")}
+          />
+        </div>
+      </section>
 
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
@@ -126,17 +227,22 @@ interface ExternalLinkRowProps {
   href: string;
   icon: LucideIcon;
   label: string;
+  accent?: boolean;
 }
 
-function ExternalLinkRow({ href, icon: Icon, label }: ExternalLinkRowProps) {
+function ExternalLinkRow({ href, icon: Icon, label, accent }: ExternalLinkRowProps) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-accent hover:bg-surface-2"
+      className={
+        accent
+          ? "flex items-center gap-3 rounded-lg border border-pink-500/30 bg-pink-500/5 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-pink-400/60 hover:bg-pink-500/10"
+          : "flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-accent hover:bg-surface-2"
+      }
     >
-      <Icon className="h-4 w-4 shrink-0 text-text-secondary" />
+      <Icon className={accent ? "h-4 w-4 shrink-0 text-pink-300" : "h-4 w-4 shrink-0 text-text-secondary"} />
       <span className="flex-1 truncate">{label}</span>
       <ExternalLink className="h-3.5 w-3.5 shrink-0 text-text-muted" />
     </a>

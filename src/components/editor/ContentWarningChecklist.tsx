@@ -32,6 +32,7 @@ export function ContentWarningChecklist() {
     phobias: false,
     mental_health: false,
     sensitive: false,
+    horror_specific: false,
   }));
 
   const trimmedQuery = query.trim().toLowerCase();

@@ -259,7 +259,14 @@
         "permadeath_run": "Permadeath / Iron Man",
         "speedrun_attempt": "Intento de speedrun",
         "completionist_run": "Completista 100%",
-        "learning_mechanics": "Aprendiendo las mecánicas"
+        "learning_mechanics": "Aprendiendo las mecánicas",
+        "eye_horror": "Racimos oculares / imágenes de miradas distorsionadas",
+        "body_horror": "Body horror — deformación corporal y mutación",
+        "face_horror": "Imágenes de rostros deformados o mutilados",
+        "cosmic_horror": "Horror cósmico / lovecraftiano",
+        "extreme_gore": "Gore extremo — desmembramiento y vísceras",
+        "decay_rot": "Putrefacción, larvas, imágenes de cadáveres",
+        "mutilation": "Imágenes de mutilación o amputación"
       }
     },
     "graphics": {

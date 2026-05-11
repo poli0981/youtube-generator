@@ -10,13 +10,23 @@ import {
   ListVideo,
   ScrollText,
   Info,
+  Bug,
   PanelLeftClose,
   PanelLeftOpen,
+  type LucideIcon,
 } from "lucide-react";
 import clsx from "clsx";
 import { useSettingsStore } from "@store/settings-store";
+import { ABOUT } from "@config/about";
 
-const tabs = [
+interface TabItem {
+  to: string;
+  labelKey: string;
+  icon: LucideIcon;
+  external?: boolean;
+}
+
+const tabs: readonly TabItem[] = [
   { to: "/", labelKey: "tabs.editor", icon: Pencil },
   { to: "/output", labelKey: "tabs.output", icon: FileText },
   { to: "/batch", labelKey: "tabs.batch", icon: Layers },
@@ -26,6 +36,7 @@ const tabs = [
   { to: "/logs", labelKey: "tabs.logs", icon: ScrollText },
   { to: "/settings", labelKey: "tabs.settings", icon: Settings },
   { to: "/about", labelKey: "tabs.about", icon: Info },
+  { to: ABOUT.bugReportUrl, labelKey: "tabs.reportBug", icon: Bug, external: true },
 ] as const;
 
 export function Sidebar() {
@@ -56,26 +67,49 @@ export function Sidebar() {
         )}
       </button>
       <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2">
-        {tabs.map((tab) => (
-          <NavLink
-            key={tab.to}
-            to={tab.to}
-            end={tab.to === "/"}
-            title={collapsed ? t(tab.labelKey) : undefined}
-            className={({ isActive }) =>
-              clsx(
-                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                collapsed && "justify-center px-0",
-                isActive
-                  ? "bg-accent-muted text-accent"
-                  : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
-              )
-            }
-          >
-            <tab.icon className="h-4 w-4 shrink-0" />
-            {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
-          </NavLink>
-        ))}
+        {tabs.map((tab) => {
+          const baseClass = clsx(
+            "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+            collapsed && "justify-center px-0",
+          );
+          if (tab.external) {
+            return (
+              <a
+                key={tab.to}
+                href={tab.to}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={collapsed ? t(tab.labelKey) : undefined}
+                className={clsx(
+                  baseClass,
+                  "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
+                )}
+              >
+                <tab.icon className="h-4 w-4 shrink-0" />
+                {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
+              </a>
+            );
+          }
+          return (
+            <NavLink
+              key={tab.to}
+              to={tab.to}
+              end={tab.to === "/"}
+              title={collapsed ? t(tab.labelKey) : undefined}
+              className={({ isActive }) =>
+                clsx(
+                  baseClass,
+                  isActive
+                    ? "bg-accent-muted text-accent"
+                    : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
+                )
+              }
+            >
+              <tab.icon className="h-4 w-4 shrink-0" />
+              {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
+            </NavLink>
+          );
+        })}
       </nav>
     </aside>
   );

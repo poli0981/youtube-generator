@@ -1,14 +1,20 @@
 {
   "ui": {
     "app": ["title", "subtitle"],
-    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist", "logs", "about"],
+    "tabs": ["editor", "output", "profiles", "history", "settings", "batch", "playlist", "logs", "about", "reportBug"],
     "sidebar": ["expand", "collapse"],
+    "header": ["donate"],
     "about": [
       "tagline",
-      "repoHeading", "repoLabel", "issuesLabel", "authorLabel", "licenseLabel",
-      "connectHeading", "thirdPartyHeading", "thirdPartyHelp"
+      "repoHeading", "repoLabel", "issuesLabel", "reportBugLabel", "discussionsLabel", "authorLabel", "licenseLabel",
+      "donateHeading", "donateHelp",
+      "connectHeading",
+      "devEnvHeading", "devEnvHelp",
+      "thirdPartyHeading", "thirdPartyHelp"
     ],
-    "about.socials": ["youtube", "x", "discord", "kofi", "patreon"],
+    "about.donate": ["githubSponsors", "kofi", "buyMeACoffee", "patreon", "paypal"],
+    "about.devEnv": ["os", "cpu", "gpu", "ram", "ide", "toolchains", "fullSpecLink", "fullDevEnvLink"],
+    "about.socials": ["youtube", "x", "bluesky", "mastodon", "discord", "discordGame", "steam", "telegramBot", "telegramUser", "email"],
     "editor.sections": ["gameInfo", "videoSettings", "contentDetails", "attribution", "rig", "storeAndSocial"],
     "editor": [
       "videoType", "language", "genre", "gameName", "gameNamePlaceholder",
@@ -93,7 +99,7 @@
       "not_no_hit_run", "not_clean_walkthrough", "casual_no_commentary", "many_deaths_patience", "slow_exploration", "puzzle_stuck_possible", "grinding_cut", "not_speedrun_relaxed",
       "exploration_focus_skip_combat", "edited_for_pacing", "support_developers", "online_connectivity_issues"
     ],
-    "editor.contentWarningGroups": ["spoilers", "photosensitive", "phobias", "mental_health", "sensitive", "playstyle"],
+    "editor.contentWarningGroups": ["spoilers", "photosensitive", "phobias", "mental_health", "sensitive", "playstyle", "horror_specific"],
     "editor.contentWarningOptions": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",
       "flashing_lights", "motion_sickness", "migraine_trigger", "loud_noises",
@@ -103,7 +109,8 @@
       "bipolar_themes", "ocd_themes", "panic_attacks", "dissociation",
       "blood_gore", "mature_18plus", "disturbing_imagery", "animal_abuse", "child_harm", "domestic_violence", "sexual_assault", "torture", "religion_themes", "war_violence", "discrimination", "police_violence", "smoking_drinking", "detailed_killing", "cult_occult", "psychological_manipulation", "grief_loss", "kidnapping",
       "hate_speech", "historical_atrocity", "slavery_themes", "terrorism_themes", "bullying_themes",
-      "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics"
+      "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics",
+      "eye_horror", "body_horror", "face_horror", "cosmic_horror", "extreme_gore", "decay_rot", "mutilation"
     ],
     "editor.gachaQuestTypeOptions": [
       "main_story", "world_quest", "side_quest", "spinoff_quest", "companion_quest", "bond_quest",
@@ -196,7 +203,8 @@
       "bipolar_themes", "ocd_themes", "panic_attacks", "dissociation",
       "blood_gore", "mature_18plus", "disturbing_imagery", "animal_abuse", "child_harm", "domestic_violence", "sexual_assault", "torture", "religion_themes", "war_violence", "discrimination", "police_violence", "smoking_drinking", "detailed_killing", "cult_occult", "psychological_manipulation", "grief_loss", "kidnapping",
       "hate_speech", "historical_atrocity", "slavery_themes", "terrorism_themes", "bullying_themes",
-      "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics"
+      "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics",
+      "eye_horror", "body_horror", "face_horror", "cosmic_horror", "extreme_gore", "decay_rot", "mutilation"
     ],
     "description.storeLinkSuffix": ["free", "demo"],
     "description.graphics": ["with", "artStyle", "videoLabel", "inGameSettingLabel", "versionLabel"],
