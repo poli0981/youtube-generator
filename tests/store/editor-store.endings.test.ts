@@ -145,3 +145,61 @@ describe("migrateEditorState v11 → v12 (endings)", () => {
     ]);
   });
 });
+
+describe("migrateEditorState v12 → v13 (endingVideoIndex)", () => {
+  it("defaults endingVideoIndex to 1 when absent", () => {
+    const result = migrateEditorState(
+      { endings: [{ number: 1, name: "A" }], endingVideoCount: 1 },
+      12,
+    );
+    expect(result.endingVideoIndex).toBe(1);
+  });
+
+  it("preserves a valid endingVideoIndex within bounds", () => {
+    const result = migrateEditorState(
+      {
+        endings: [
+          { number: 1, name: "A" },
+          { number: 2, name: "B" },
+        ],
+        endingVideoCount: 2,
+        endingVideoIndex: 2,
+        endingVideoRanges: [
+          { from: 1, to: 1 },
+          { from: 2, to: 2 },
+        ],
+      },
+      12,
+    );
+    expect(result.endingVideoIndex).toBe(2);
+  });
+
+  it("clamps endingVideoIndex above endingVideoCount", () => {
+    // Pretend the creator shrank videoCount before upgrade — stale
+    // index 5 should clamp to the new max 2.
+    const result = migrateEditorState(
+      {
+        endings: [
+          { number: 1, name: "A" },
+          { number: 2, name: "B" },
+        ],
+        endingVideoCount: 2,
+        endingVideoIndex: 5,
+        endingVideoRanges: [
+          { from: 1, to: 1 },
+          { from: 2, to: 2 },
+        ],
+      },
+      12,
+    );
+    expect(result.endingVideoIndex).toBe(2);
+  });
+
+  it("clamps below 1 to 1", () => {
+    const result = migrateEditorState(
+      { endingVideoCount: 3, endingVideoIndex: -2 },
+      12,
+    );
+    expect(result.endingVideoIndex).toBe(1);
+  });
+});

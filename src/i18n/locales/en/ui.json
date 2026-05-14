@@ -459,7 +459,9 @@
       "addOne": "Add ending",
       "removeLast": "Remove last ending",
       "videoRangeHint": "Each video covers a contiguous slice of endings. Default split is balanced; adjust per row to override.",
-      "multiVideoOutputNote": "Each video's description renders that video's ending slice. Generate from the editor as usual — the Output preview shows video 1 by default.",
+      "multiVideoOutputNote": "Each video's description renders that video's ending slice. Generate from the editor as usual — switch which video the Output previews using the selector below.",
+      "videoIndexLabel": "Preview video",
+      "videoIndexHint": "Output preview, title, and tags update to reflect the selected video's ending slice. Copy each one separately to publish per-video.",
       "warnings": {
         "singleEmpty": "Fill at least the number or the name — empty entries are dropped from the description.",
         "timelineShort": "Timeline needs {{needed}} ending markers; only {{found}} found. Add the missing rows before copying.",
@@ -553,6 +555,7 @@
     "copyPinnedCommentTemplate": "Copy pinned comment template",
     "generateAlternatives": "Generate Alternatives",
     "saveAsTemplate": "Save as Template",
+    "previewingVideo": "Previewing Video {{index}} of {{total}} — Endings {{from}}–{{to}}",
     "variants": {
       "default": "Default",
       "typeFirst": "Type First",

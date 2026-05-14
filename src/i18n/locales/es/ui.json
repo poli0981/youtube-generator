@@ -459,7 +459,9 @@
       "addOne": "Añadir final",
       "removeLast": "Eliminar último",
       "videoRangeHint": "Cada video cubre un tramo contiguo de finales. La división por defecto es equilibrada; ajusta por fila para sobrescribir.",
-      "multiVideoOutputNote": "La descripción de cada video renderiza su tramo. Genera desde el editor como siempre — la vista previa muestra el video 1 por defecto.",
+      "multiVideoOutputNote": "La descripción de cada video renderiza su tramo. Genera desde el editor como siempre — cambia el video previsualizado con el selector de abajo.",
+      "videoIndexLabel": "Video de previsualización",
+      "videoIndexHint": "La vista previa de Output, el título y las etiquetas se actualizan según el tramo del video seleccionado. Copia cada uno por separado para publicar por video.",
       "warnings": {
         "singleEmpty": "Completa al menos número o nombre — las entradas vacías se omiten de la descripción.",
         "timelineShort": "La línea de tiempo necesita {{needed}} marcadores de final; solo se encontraron {{found}}. Añade los faltantes antes de copiar.",
@@ -553,6 +555,7 @@
     "copyPinnedCommentTemplate": "Copiar plantilla de comentario fijado",
     "generateAlternatives": "Generar Alternativas",
     "saveAsTemplate": "Guardar como Plantilla",
+    "previewingVideo": "Vista previa: Video {{index}} de {{total}} — Finales {{from}}–{{to}}",
     "variants": {
       "default": "Predeterminado",
       "typeFirst": "Tipo Primero",

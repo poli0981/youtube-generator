@@ -459,7 +459,9 @@
       "addOne": "エンディング追加",
       "removeLast": "最後を削除",
       "videoRangeHint": "各動画はエンディングの連続したスライスを担当します。デフォルトでは均等に分割されますが、行ごとに上書きできます。",
-      "multiVideoOutputNote": "各動画の説明はそのスライスを描画します。通常どおりエディタから生成 — プレビューはデフォルトで動画 1 を表示します。",
+      "multiVideoOutputNote": "各動画の説明はそのスライスを描画します。通常どおりエディタから生成 — 下のセレクタでプレビューする動画を切り替えできます。",
+      "videoIndexLabel": "プレビュー動画",
+      "videoIndexHint": "選択した動画のエンディングスライスに合わせて Output プレビュー・タイトル・タグが更新されます。動画ごとに個別にコピーして公開してください。",
       "warnings": {
         "singleEmpty": "番号か名前のいずれかを入力してください — 空欄のエントリは説明から除外されます。",
         "timelineShort": "タイムラインに {{needed}} 件のエンディングマーカーが必要ですが、{{found}} 件のみ。コピー前に不足分を追加してください。",
@@ -553,6 +555,7 @@
     "copyPinnedCommentTemplate": "固定コメントのテンプレートをコピー",
     "generateAlternatives": "タイトル案を生成",
     "saveAsTemplate": "テンプレートとして保存",
+    "previewingVideo": "プレビュー中: 動画 {{index}}/{{total}} — エンディング {{from}}–{{to}}",
     "variants": {
       "default": "デフォルト",
       "typeFirst": "タイプ優先",
