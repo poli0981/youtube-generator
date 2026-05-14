@@ -91,6 +91,17 @@
     ],
     "editor.playthroughNotes.languagePatchOptions": ["none", "official_en", "official_other", "fan_translation", "mtl", "custom"],
     "editor.playthroughNotes.gameVersionOptions": ["full_release", "demo", "early_access", "beta", "prologue", "pre_release", "custom"],
+    "editor.endings": [
+      "countLabel", "videoCountLabel", "videoLabel",
+      "numberLabel", "nameLabel", "namePlaceholder",
+      "previewLabel", "previewEmpty",
+      "emptyHint", "addOne", "removeLast",
+      "videoRangeHint", "multiVideoOutputNote"
+    ],
+    "editor.endings.warnings": [
+      "singleEmpty", "timelineShort",
+      "rangeInvalid", "rangeGap", "rangeOverlap", "rangeShort"
+    ],
     "editor.techNoteGroups": ["audio", "video_quality", "recording_issues", "playstyle", "production"],
     "editor.techNoteOptions": [
       "copyright_muted_sections", "volume_reduced_copyright", "music_replaced_copyright", "cutscene_audio_muted_only", "original_audio_kept",

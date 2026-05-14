@@ -446,6 +446,29 @@
         "custom": "Personalizada…"
       }
     },
+    "endings": {
+      "countLabel": "Número de finales",
+      "videoCountLabel": "Número de videos",
+      "videoLabel": "Video",
+      "numberLabel": "Número",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "ej. Mejor Final",
+      "previewLabel": "Final mostrado",
+      "previewEmpty": "(vacío — completa número o nombre)",
+      "emptyHint": "Añade al menos una entrada — déjalo en 0 para omitir este punto.",
+      "addOne": "Añadir final",
+      "removeLast": "Eliminar último",
+      "videoRangeHint": "Cada video cubre un tramo contiguo de finales. La división por defecto es equilibrada; ajusta por fila para sobrescribir.",
+      "multiVideoOutputNote": "La descripción de cada video renderiza su tramo. Genera desde el editor como siempre — la vista previa muestra el video 1 por defecto.",
+      "warnings": {
+        "singleEmpty": "Completa al menos número o nombre — las entradas vacías se omiten de la descripción.",
+        "timelineShort": "La línea de tiempo necesita {{needed}} marcadores de final; solo se encontraron {{found}}. Añade los faltantes antes de copiar.",
+        "rangeInvalid": "Video {{video}}: rango {{from}}–{{to}} no válido (fuera de límites o invertido).",
+        "rangeGap": "Los finales {{at}}+ no están cubiertos — extiende un rango o añade un video.",
+        "rangeOverlap": "Varios videos cubren el final {{at}} — ajusta los rangos para evitar solapamiento.",
+        "rangeShort": "El último final cubierto es {{at}} pero hay {{total}} finales — el rango del video final es demasiado corto."
+      }
+    },
     "techNotes": "Notas técnicas",
     "techNoteSearchPlaceholder": "Buscar notas…",
     "techNoteEmpty": "No hay notas que coincidan",

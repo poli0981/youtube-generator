@@ -13,6 +13,8 @@ import type {
   LanguagePatch,
   GameVersion,
   TechNote,
+  EndingEntry,
+  EndingVideoRange,
 } from "@engine/types";
 import type {
   GraphicsPreset,
@@ -93,8 +95,15 @@ export interface TemplateSnapshot {
   contentWarnings?: ContentWarning[];
   /** v0.12 Playthrough Notes structured fields. Optional for back-compat
    *  with pre-v0.12 templates — `loadProfile` spreads `...patch` so
-   *  missing keys keep the editor's existing values. */
+   *  missing keys keep the editor's existing values.
+   *  @deprecated v0.16.0 — superseded by structured `endings` array. */
   endingsShown?: string;
+  /** v0.16.0 structured ending list — optional for back-compat with
+   *  pre-v0.16 templates. The editor's `normalizeEditorPatch` will run
+   *  `liftLegacyEndingString` on `endingsShown` if `endings` is absent. */
+  endings?: EndingEntry[];
+  endingVideoCount?: number;
+  endingVideoRanges?: EndingVideoRange[];
   languagePatch?: LanguagePatch;
   languagePatchCustom?: string;
   gameVersion?: GameVersion;

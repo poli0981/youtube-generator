@@ -892,6 +892,88 @@ describe("buildDescription — v0.12 Playthrough Notes consolidation", () => {
     expect(result).toContain("• Game version: Early Access");
   });
 
+  it("renders structured endings[] as a comma-joined bullet (v0.16.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        endings: [
+          { number: 1, name: "True End" },
+          { number: 3, name: "Bad End" },
+          { number: null, name: "Hidden" },
+        ],
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "• Endings shown: Ending 1: True End, Ending 3: Bad End, Hidden",
+    );
+  });
+
+  it("falls back to legacy endingsShown when endings[] is empty (v0.16.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        endings: [],
+        endingsShown: "Legacy freeform value",
+      }),
+      t,
+    );
+    expect(result).toContain("• Endings shown: Legacy freeform value");
+  });
+
+  it("prefers structured endings over legacy endingsShown when both are set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        endings: [{ number: 5, name: "Best End" }],
+        endingsShown: "Should be ignored",
+      }),
+      t,
+    );
+    expect(result).toContain("• Endings shown: Ending 5: Best End");
+    expect(result).not.toContain("Should be ignored");
+  });
+
+  it("slices endings[] to the requested video index when multi-video (v0.16.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        endings: [
+          { number: 1, name: "A" },
+          { number: 2, name: "B" },
+          { number: 3, name: "C" },
+          { number: 4, name: "D" },
+        ],
+        endingVideoCount: 2,
+        endingVideoIndex: 2,
+        endingVideoRanges: [
+          { from: 1, to: 2 },
+          { from: 3, to: 4 },
+        ],
+      }),
+      t,
+    );
+    // Video 2 covers endings 3 & 4 only.
+    expect(result).toContain("• Endings shown: Ending 3: C, Ending 4: D");
+    expect(result).not.toContain("Ending 1");
+    expect(result).not.toContain("Ending 2");
+  });
+
+  it("drops empty entries from the structured render", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        endings: [
+          { number: 1, name: "True End" },
+          { number: null, name: "" }, // empty — should be dropped
+          { number: 2, name: "Bad End" },
+        ],
+      }),
+      t,
+    );
+    expect(result).toContain("• Endings shown: Ending 1: True End, Ending 2: Bad End");
+  });
+
   it("uses the custom slot for languagePatch='official_other'", () => {
     const t = createMockT("en");
     const result = buildDescription(

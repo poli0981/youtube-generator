@@ -161,6 +161,40 @@ export const GAME_VERSION_OPTIONS = [
 export type GameVersion = (typeof GAME_VERSION_OPTIONS)[number];
 
 /**
+ * One ending in the structured `endings[]` array (v0.16.0). Both
+ * `number` and `name` are independently optional, but at least one
+ * must be filled for the entry to surface in the description bullet
+ * list — empty rows are dropped silently. The 1–100 bound on
+ * `number` mirrors the editor's max-endings cap and is purely
+ * advisory (no engine validation rejects out-of-range numbers, but
+ * the editor input clamps).
+ */
+export interface EndingEntry {
+  /** Ordinal in the game's ending list (e.g. 3 of 5). Null when the
+   *  creator only wants to name endings, not number them. */
+  number: number | null;
+  /** Free-form ending label ("Best Ending", "True End", …). */
+  name: string;
+}
+
+/**
+ * Per-video ending range (v0.16.0). Used when a multi-ending
+ * playthrough is split across multiple videos — each video covers a
+ * contiguous slice of {@link EndingEntry} indices, expressed as
+ * 1-indexed `from`/`to` (both inclusive).
+ *
+ * Default auto-split is contiguous and balanced via `ending-split.ts`,
+ * but the creator can override per-video, so the array is persisted
+ * rather than recomputed at every render.
+ */
+export interface EndingVideoRange {
+  /** First ending index covered by this video (1-indexed, inclusive). */
+  from: number;
+  /** Last ending index covered by this video (1-indexed, inclusive). */
+  to: number;
+}
+
+/**
  * Tech / production / playstyle disclaimer items (v0.12). One unified
  * checklist that consolidates "Technical issue", "Gameplay", and
  * "Game State" disclaimer pools. Items that overlap with structured
@@ -498,8 +532,56 @@ export interface GeneratorInput {
    * block (v0.12). Examples: "1 of 3", "True ending only", "All routes
    * 100%". Empty → bullet is skipped. Free-form on purpose: the natural
    * value space is too varied for an enum.
+   *
+   * @deprecated v0.16.0 — superseded by the structured {@link endings}
+   *   array. Reader path still falls back to this string when `endings`
+   *   is empty, so persisted v0.12–v0.15 drafts render identically. The
+   *   editor migration (`migrateEditorState` v11 → v12) lifts the
+   *   freeform string into a single-row `endings` entry on rehydrate.
    */
   endingsShown?: string;
+  /**
+   * Structured ending list (v0.16.0). Each entry pairs an optional
+   * ordinal `number` (1–100) with an optional free-form `name`
+   * ("Best Ending", "True Ending"…). At least one of the two must be
+   * filled for the entry to be rendered — entries with neither are
+   * dropped silently.
+   *
+   * Display format per entry:
+   *
+   *   - both filled  → "Ending {{number}}: {{name}}"
+   *   - number only  → "Ending {{number}}"
+   *   - name only    → "{{name}}"
+   *
+   * Length should match {@link endingVideoCount} × video coverage; the
+   * range split is held in {@link endingVideoRanges} when multi-video.
+   * Empty array → falls back to the legacy `endingsShown` freeform.
+   */
+  endings?: EndingEntry[];
+  /**
+   * How many separate videos this gameplay run will be split into
+   * (v0.16.0). Always `1` when `endings.length <= 1`. When >1, each
+   * video covers a contiguous range of `endings[]` declared in
+   * {@link endingVideoRanges}; the description builder renders the
+   * slice belonging to the requested video index (defaults to slice
+   * covering the whole array when no index is supplied).
+   */
+  endingVideoCount?: number;
+  /**
+   * Per-video ending range (1-indexed, inclusive). Length must equal
+   * {@link endingVideoCount}; auto-computed as a contiguous split by
+   * `ending-split.ts` whenever `endingVideoCount` or
+   * `endings.length` changes, but persisted so the creator can
+   * override.
+   */
+  endingVideoRanges?: EndingVideoRange[];
+  /**
+   * Which video's slice this generator pass should render, when
+   * `endingVideoCount > 1`. 1-indexed to match the user-facing
+   * "Video 1, Video 2…" labels in the editor. Out-of-range / missing
+   * → render the union of all endings (legacy / case A / case B).
+   */
+  endingVideoIndex?: number;
   /**
    * Language-patch state for the `▸ 🎮 PLAYTHROUGH NOTES` block (v0.12).
    * `"none"` → skip the bullet. `"official_other"` and `"custom"` pair

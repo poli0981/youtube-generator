@@ -11,6 +11,8 @@ import type {
   LanguagePatch,
   GameVersion,
   TechNote,
+  EndingEntry,
+  EndingVideoRange,
 } from "@engine/types";
 import {
   LANGUAGE_PATCH_OPTIONS,
@@ -93,8 +95,35 @@ export interface EditorData {
   playthroughStatus: PlaythroughStatus;
   difficulty: DifficultyLevel;
   difficultyCustomLabel: string;
-  /** Free-text endings descriptor for Playthrough Notes (v0.12). */
+  /**
+   * Free-text endings descriptor for Playthrough Notes (v0.12).
+   * @deprecated v0.16.0 — kept on the type for migration round-trip,
+   *   but the editor UI no longer reads or writes this field. Persisted
+   *   v0.12–v0.15 drafts get lifted into a single-row `endings` entry
+   *   by `migrateEditorState` v11 → v12.
+   */
   endingsShown: string;
+  /**
+   * Structured ending list (v0.16.0). Empty array = "no endings to
+   * declare"; the description renderer falls back to the legacy
+   * `endingsShown` freeform only when this array is empty AND the
+   * legacy string is non-empty (covers post-migration drafts that
+   * still carry both). Editor cap is 100 rows.
+   */
+  endings: EndingEntry[];
+  /**
+   * Number of separate videos the playthrough is split across
+   * (v0.16.0). Always 1 when `endings.length <= 1`. Editor input
+   * clamps to `[1, endings.length]`.
+   */
+  endingVideoCount: number;
+  /**
+   * Per-video ending range (v0.16.0). 1-indexed inclusive bounds into
+   * `endings[]`. Length always equals `endingVideoCount`; auto-derived
+   * as a contiguous balanced split on edit, persisted so the creator
+   * can override.
+   */
+  endingVideoRanges: EndingVideoRange[];
   /** Language-patch enum for Playthrough Notes (v0.12). */
   languagePatch: LanguagePatch;
   /** Free-form label paired with `languagePatch === "official_other" | "custom"`. */
@@ -275,6 +304,9 @@ const initialState: EditorData = {
   difficulty: DEFAULTS.editor.difficulty as DifficultyLevel,
   difficultyCustomLabel: DEFAULTS.editor.difficultyCustomLabel,
   endingsShown: DEFAULTS.editor.endingsShown,
+  endings: [...DEFAULTS.editor.endings] as EndingEntry[],
+  endingVideoCount: DEFAULTS.editor.endingVideoCount,
+  endingVideoRanges: [...DEFAULTS.editor.endingVideoRanges] as EndingVideoRange[],
   languagePatch: DEFAULTS.editor.languagePatch,
   languagePatchCustom: DEFAULTS.editor.languagePatchCustom,
   gameVersion: DEFAULTS.editor.gameVersion,
@@ -380,13 +412,22 @@ export const useEditorStore = create<EditorState>()(
       //         existing `playthroughStatus` / `difficulty` /
       //         `difficultyCustomLabel` values are preserved; only the
       //         description-builder render path changed.
+      // v11 → v12: v0.16.0. Free-form `endingsShown` string is being
+      //         superseded by a structured `endings` array of
+      //         {number, name} entries plus `endingVideoCount` +
+      //         `endingVideoRanges` for multi-video splits. Migration
+      //         lifts the legacy string into a single-row
+      //         `endings` entry so the renderer (which now reads
+      //         the array first, falls back to the freeform when the
+      //         array is empty) produces identical output for
+      //         existing drafts.
       // v10 → v11: v0.13. Gacha-quest gained three new structured fields:
       //         `characterName` (used for the Showcase quest type, replacing
       //         chapter/quest in templates), `anniversaryYear` (1–20 number
       //         used by the Anniversary quest type), and `gachaVersion`
       //         (free-form game version like "1.2"). All additive — empty
       //         / null defaults round-trip cleanly.
-      version: 11,
+      version: 12,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -438,6 +479,9 @@ export const useEditorStore = create<EditorState>()(
         difficulty: state.difficulty,
         difficultyCustomLabel: state.difficultyCustomLabel,
         endingsShown: state.endingsShown,
+        endings: state.endings,
+        endingVideoCount: state.endingVideoCount,
+        endingVideoRanges: state.endingVideoRanges,
         languagePatch: state.languagePatch,
         languagePatchCustom: state.languagePatchCustom,
         gameVersion: state.gameVersion,
@@ -623,5 +667,101 @@ export function migrateEditorState(
       state.anniversaryYear = null;
     }
   }
+  if (version < 12) {
+    // v0.16.0 ending redesign. Two concerns:
+    //
+    // 1. Lift the legacy `endingsShown` freeform into the structured
+    //    `endings` array if no array is already present. The string is
+    //    kept in place (the deprecated field still exists on
+    //    EditorData) so a render path that's mid-migration won't lose
+    //    data, but the structured renderer reads the array first.
+    //
+    // 2. Initialise the multi-video split fields. Default
+    //    endingVideoCount = 1, ranges = single span covering all
+    //    endings (or empty when endings.length === 0).
+    if (!Array.isArray(state.endings)) {
+      const legacy = typeof state.endingsShown === "string" ? state.endingsShown.trim() : "";
+      state.endings = liftLegacyEndingString(legacy);
+    }
+    if (typeof state.endingVideoCount !== "number" || state.endingVideoCount < 1) {
+      state.endingVideoCount = 1;
+    }
+    const endingsLen = (state.endings as EndingEntry[]).length;
+    // Clamp video count to [1, endings.length || 1].
+    state.endingVideoCount = Math.min(
+      Math.max(1, state.endingVideoCount as number),
+      endingsLen > 0 ? endingsLen : 1,
+    );
+    if (
+      !Array.isArray(state.endingVideoRanges) ||
+      (state.endingVideoRanges as EndingVideoRange[]).length !== state.endingVideoCount
+    ) {
+      state.endingVideoRanges =
+        endingsLen === 0
+          ? []
+          : computeContiguousRanges(endingsLen, state.endingVideoCount as number);
+    }
+  }
   return { ...initialState, ...state } as EditorData;
+}
+
+/**
+ * Parse a legacy `endingsShown` freeform string into one structured
+ * {@link EndingEntry} row. Recognises a handful of common shapes so
+ * persisted v0.12–v0.15 drafts surface the same value after migration:
+ *
+ *   - "Ending 3: Best End"  → { number: 3, name: "Best End" }
+ *   - "Ending 3"            → { number: 3, name: "" }
+ *   - "True Ending"         → { number: null, name: "True Ending" }
+ *   - ""                    → [] (no row)
+ *
+ * Anything that doesn't match the "Ending {N}: …" pattern falls
+ * through to a single name-only row. Pure — exported for unit tests.
+ */
+export function liftLegacyEndingString(raw: string): EndingEntry[] {
+  const trimmed = raw.trim();
+  if (!trimmed) return [];
+  // Match optional "Ending" prefix + number + optional ": rest" tail.
+  // Case-insensitive on the keyword; localised variants ("kết thúc",
+  // "エンディング", "结局") are accepted too. Anything else → name-only.
+  const m = trimmed.match(
+    /^(?:ending|kết\s+thúc|エンディング|final|엔딩|结局)\s*(\d+)\s*(?::\s*(.+))?\s*$/i,
+  );
+  if (m) {
+    const num = parseInt(m[1] ?? "", 10);
+    const name = (m[2] ?? "").trim();
+    if (Number.isFinite(num)) {
+      return [{ number: num, name }];
+    }
+  }
+  return [{ number: null, name: trimmed }];
+}
+
+/**
+ * Split an `endings.length` integer into `videoCount` contiguous
+ * balanced 1-indexed inclusive ranges. Extra endings spill into the
+ * tail videos: e.g. 7 endings / 3 videos → [[1,2],[3,4],[5,7]].
+ *
+ * Used by both the persist migration (initial range) and the
+ * `ending-split.ts` UI utility (on user-driven count changes). Pure.
+ */
+export function computeContiguousRanges(
+  endingsLength: number,
+  videoCount: number,
+): EndingVideoRange[] {
+  if (endingsLength <= 0 || videoCount <= 0) return [];
+  const safeCount = Math.min(videoCount, endingsLength);
+  const base = Math.floor(endingsLength / safeCount);
+  const rem = endingsLength % safeCount;
+  const ranges: EndingVideoRange[] = [];
+  let cursor = 1;
+  for (let i = 0; i < safeCount; i++) {
+    // Spill the remainder onto the *last* video, not the first — most
+    // creators expect the early-ending videos to feel "lighter" than
+    // the climactic final video, which justifies the convention.
+    const size = base + (i === safeCount - 1 ? rem : 0);
+    ranges.push({ from: cursor, to: cursor + size - 1 });
+    cursor += size;
+  }
+  return ranges;
 }

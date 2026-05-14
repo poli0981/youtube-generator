@@ -446,6 +446,29 @@
         "custom": "Tuỳ chỉnh…"
       }
     },
+    "endings": {
+      "countLabel": "Số lượng ending",
+      "videoCountLabel": "Số video",
+      "videoLabel": "Video",
+      "numberLabel": "Số",
+      "nameLabel": "Tên",
+      "namePlaceholder": "ví dụ: Best Ending",
+      "previewLabel": "Hiển thị",
+      "previewEmpty": "(trống — nhập số hoặc tên)",
+      "emptyHint": "Thêm ít nhất một ending — để 0 để bỏ qua mục này.",
+      "addOne": "Thêm ending",
+      "removeLast": "Xoá ending cuối",
+      "videoRangeHint": "Mỗi video chứa một dải ending liên tiếp. Chia mặc định cân đối; sửa theo hàng để tuỳ chỉnh.",
+      "multiVideoOutputNote": "Mỗi video xuất một dải ending riêng. Bấm Generate như bình thường — bản preview hiển thị video 1.",
+      "warnings": {
+        "singleEmpty": "Hãy điền ít nhất số hoặc tên — entry rỗng sẽ bị bỏ khỏi mô tả.",
+        "timelineShort": "Timeline cần {{needed}} mốc ending; hiện chỉ có {{found}}. Thêm các mốc còn thiếu trước khi copy.",
+        "rangeInvalid": "Video {{video}}: dải {{from}}–{{to}} không hợp lệ (vượt giới hạn hoặc đảo ngược).",
+        "rangeGap": "Ending {{at}}+ không thuộc video nào — mở rộng dải hoặc thêm video.",
+        "rangeOverlap": "Nhiều video phủ ending {{at}} — điều chỉnh dải để tránh chồng lấp.",
+        "rangeShort": "Ending cuối được phủ là {{at}} nhưng có {{total}} ending — dải video cuối quá ngắn."
+      }
+    },
     "techNotes": "Ghi chú kỹ thuật",
     "techNoteSearchPlaceholder": "Tìm ghi chú…",
     "techNoteEmpty": "Không có ghi chú phù hợp",

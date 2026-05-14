@@ -444,7 +444,7 @@
       "boss": "Jefe {{n}}",
       "final_boss": "Jefe Final",
       "intro": "Introducción",
-      "ending": "Final",
+      "ending": "Final {{n}}",
       "tutorial": "Tutorial",
       "credits": "Créditos"
     }

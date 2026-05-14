@@ -18,6 +18,8 @@ import type {
   LanguagePatch,
   GameVersion,
   TechNote,
+  EndingEntry,
+  EndingVideoRange,
 } from "@engine/types";
 
 export interface EditorDefaults {
@@ -93,8 +95,15 @@ export interface EditorDefaults {
   playthroughStatus: PlaythroughStatus;
   difficulty: DifficultyLevel;
   difficultyCustomLabel: string;
-  /** Free-text endings descriptor for Playthrough Notes section (v0.12). */
+  /** Free-text endings descriptor for Playthrough Notes section (v0.12).
+   *  @deprecated v0.16.0 — superseded by structured {@link endings}. */
   endingsShown: string;
+  /** Structured ending list (v0.16.0). */
+  endings: EndingEntry[];
+  /** Number of videos the playthrough is split across (v0.16.0). */
+  endingVideoCount: number;
+  /** Per-video ending range (v0.16.0). */
+  endingVideoRanges: EndingVideoRange[];
   /** Language-patch enum for Playthrough Notes section (v0.12). */
   languagePatch: LanguagePatch;
   /** Free-form label when `languagePatch` is `"official_other"` or `"custom"`. */
@@ -175,6 +184,9 @@ export const DEFAULTS = {
     difficulty: "none",
     difficultyCustomLabel: "",
     endingsShown: "",
+    endings: [],
+    endingVideoCount: 1,
+    endingVideoRanges: [],
     languagePatch: "none",
     languagePatchCustom: "",
     gameVersion: "full_release",
