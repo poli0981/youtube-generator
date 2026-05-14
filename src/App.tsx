@@ -1,8 +1,9 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import { AppShell } from "@components/layout/AppShell";
+import { ErrorBoundary } from "@components/ErrorBoundary";
 import { EditorPage } from "@pages/EditorPage";
 import { OutputPage } from "@pages/OutputPage";
 import { checkDataFileHealth } from "@utils/storage-adapter";
@@ -34,6 +35,23 @@ function PageLoader() {
   return <div className="flex items-center justify-center p-12 text-text-muted">Loading...</div>;
 }
 
+/**
+ * Wrap a lazy-loaded page in both a {@link Suspense} (for the dynamic
+ * import) and an {@link ErrorBoundary} (for render errors). The
+ * boundary sits *outside* Suspense so a thrown error during lazy
+ * resolution also gets caught, not just errors from rendered children.
+ * Each route gets its own boundary instance so a crash on one tab
+ * cannot black-screen the whole app — the user can navigate elsewhere
+ * and recover.
+ */
+function PageBoundary({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <ErrorBoundary label={label}>
+      <Suspense fallback={<PageLoader />}>{children}</Suspense>
+    </ErrorBoundary>
+  );
+}
+
 export default function App() {
   useEffect(() => {
     checkDataFileHealth().then((msg) => {
@@ -46,63 +64,49 @@ export default function App() {
       <HashRouter>
         <Routes>
           <Route element={<AppShell />}>
-            <Route index element={<EditorPage />} />
-            <Route path="output" element={<OutputPage />} />
+            <Route
+              index
+              element={
+                <ErrorBoundary label="Editor">
+                  <EditorPage />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="output"
+              element={
+                <ErrorBoundary label="Output">
+                  <OutputPage />
+                </ErrorBoundary>
+              }
+            />
             <Route
               path="profiles"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <ProfilesPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="Profiles"><ProfilesPage /></PageBoundary>}
             />
             <Route
               path="history"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <HistoryPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="History"><HistoryPage /></PageBoundary>}
             />
             <Route
               path="settings"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <SettingsPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="Settings"><SettingsPage /></PageBoundary>}
             />
             <Route
               path="batch"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <BatchPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="Batch"><BatchPage /></PageBoundary>}
             />
             <Route
               path="playlist"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <PlaylistPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="Playlist"><PlaylistPage /></PageBoundary>}
             />
             <Route
               path="logs"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <LogPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="Logs"><LogPage /></PageBoundary>}
             />
             <Route
               path="about"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <AboutPage />
-                </Suspense>
-              }
+              element={<PageBoundary label="About"><AboutPage /></PageBoundary>}
             />
           </Route>
         </Routes>

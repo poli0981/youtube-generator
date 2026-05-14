@@ -166,9 +166,25 @@ export const useTemplateStore = create<TemplateState>()(
       getTemplate: (id) => get().templates.find((tpl) => tpl.id === id),
 
       importTemplates: (templates) => {
+        // v0.15.0: shape-check rows + require `snapshot` to be a
+        // non-null object. Previously a template with `snapshot:
+        // null` made it into the store, and clicking "Apply" on the
+        // resulting card crashed the editor on the next render via
+        // `Object.values(null)`. The boundary now catches that, but
+        // it's a worse UX than rejecting the bad row up front.
+        if (!Array.isArray(templates)) return;
         set((state) => {
           const existing = new Set(state.templates.map((tpl) => tpl.id));
-          const incoming = templates.filter((tpl) => !existing.has(tpl.id));
+          const incoming = templates.filter(
+            (tpl): tpl is EditorTemplate =>
+              !!tpl &&
+              typeof tpl === "object" &&
+              typeof tpl.id === "string" &&
+              tpl.id.length > 0 &&
+              !!tpl.snapshot &&
+              typeof tpl.snapshot === "object" &&
+              !existing.has(tpl.id),
+          );
           return { templates: [...state.templates, ...incoming] };
         });
       },
