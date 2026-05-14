@@ -314,7 +314,8 @@
       "mental_health": "Mental health",
       "sensitive": "Mature / Sensitive content",
       "playstyle": "Playstyle disclosures",
-      "horror_specific": "Heavy horror"
+      "horror_specific": "Heavy horror",
+      "gameplay_disclosure": "Gameplay disclosure"
     },
     "contentWarningOptions": {
       "spoiler_story": "Story / ending spoilers",
@@ -391,7 +392,29 @@
       "cosmic_horror": "Cosmic / eldritch horror",
       "extreme_gore": "Extreme gore / dismemberment",
       "decay_rot": "Decay, rot, maggots",
-      "mutilation": "Mutilation / amputation"
+      "mutilation": "Mutilation / amputation",
+      "strobe_effects": "Strobe lighting",
+      "screen_shake_intense": "Heavy screen shake",
+      "coulrophobia": "Clowns (coulrophobia)",
+      "ablutophobia": "Drowning / water immersion",
+      "taphophobia": "Live burial",
+      "paranoia_themes": "Paranoia",
+      "intrusive_thoughts": "Intrusive thoughts",
+      "medical_horror": "Medical horror",
+      "human_experimentation": "Human experimentation",
+      "cannibalism": "Cannibalism",
+      "nuclear_themes": "Nuclear / radiation",
+      "liminal_spaces": "Liminal spaces",
+      "analog_horror": "Analog horror / VHS",
+      "unreality_themes": "Unreality / distortion",
+      "pursuit_chase": "Pursuit / chase",
+      "entity_horror": "Entity / SCP horror",
+      "first_time_playing": "First time playing",
+      "returning_player": "Returning / NG+",
+      "mods_used": "Mods used",
+      "cheats_enabled": "Cheats / debug",
+      "glitch_exploits": "Glitches used",
+      "assisted_run": "Guide-assisted"
     },
     "playthroughNotes": {
       "title": "Playthrough notes",

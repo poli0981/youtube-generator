@@ -47,8 +47,12 @@ export function CopyAllBar({ extraText }: CopyAllBarProps) {
   };
 
   return (
-    <div className="sticky bottom-0 flex items-center justify-end border-t border-border bg-surface-0 px-4 py-3">
-      <Button onClick={handleCopyAll} size="lg">
+    <div className="sticky bottom-0 flex items-center justify-end border-t border-border bg-surface-0 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-4">
+      <Button
+        onClick={handleCopyAll}
+        size="lg"
+        className="text-sm sm:text-base"
+      >
         <ClipboardCopy className="h-4 w-4" />
         {t("output.copyAll")}
       </Button>

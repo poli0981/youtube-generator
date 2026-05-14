@@ -67,8 +67,8 @@ export function AboutPage() {
     { id: "paypal", url: DONATE.paypal, icon: DollarSign, labelKey: "about.donate.paypal" },
   ];
 
-  // Pulled from docs/pc_spec.md — keep them in sync when the box gets an
-  // upgrade. The page surfaces the summary; the full spec lives in docs.
+  // Pulled from docs/DEVELOPMENT.md — keep them in sync when the box gets
+  // an upgrade. The page surfaces the summary; the full spec lives in docs.
   const devEnvRows: ReadonlyArray<{ icon: LucideIcon; labelKey: string; value: string }> = [
     { icon: Monitor, labelKey: "about.devEnv.os", value: "Windows 11 Pro 25H2 Insider (build 26300.8376)" },
     { icon: Cpu, labelKey: "about.devEnv.cpu", value: "Intel Core i7-14700KF" },

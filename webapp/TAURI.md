@@ -4,8 +4,9 @@ YTDescGen ships a Tauri 2 desktop shell alongside the web build. This file
 covers the per-platform native dependencies you need before
 `npm run tauri:dev` or `npm run tauri:build` will succeed.
 
-The corresponding hardware reference is in [`../docs/pc_spec.md`](../docs/pc_spec.md);
-toolchain versions are in [`../docs/dev_env.md`](../docs/dev_env.md).
+The hardware reference and toolchain versions are documented in
+[`../docs/DEVELOPMENT.md`](../docs/DEVELOPMENT.md)
+(Vietnamese mirror: [`../docs/i18n/vi/DEVELOPMENT.md`](../docs/i18n/vi/DEVELOPMENT.md)).
 
 ## All platforms
 

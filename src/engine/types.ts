@@ -232,6 +232,8 @@ export const CONTENT_WARNINGS = [
   "motion_sickness",
   "migraine_trigger",
   "loud_noises",
+  "strobe_effects",
+  "screen_shake_intense",
   // Phobias
   "jump_scares",
   "acrophobia",
@@ -246,6 +248,9 @@ export const CONTENT_WARNINGS = [
   "pyrophobia",
   "pediophobia",
   "hemophobia",
+  "coulrophobia",
+  "ablutophobia",
+  "taphophobia",
   // Mental health
   "anxiety_inducing",
   "depression_themes",
@@ -261,6 +266,9 @@ export const CONTENT_WARNINGS = [
   "ocd_themes",
   "panic_attacks",
   "dissociation",
+  "paranoia_themes",
+  "intrusive_thoughts",
+  "medical_horror",
   // Mature / sensitive
   "blood_gore",
   "mature_18plus",
@@ -285,6 +293,9 @@ export const CONTENT_WARNINGS = [
   "slavery_themes",
   "terrorism_themes",
   "bullying_themes",
+  "human_experimentation",
+  "cannibalism",
+  "nuclear_themes",
   // Heavy-horror specific (v0.13.1)
   "eye_horror",
   "body_horror",
@@ -293,6 +304,11 @@ export const CONTENT_WARNINGS = [
   "extreme_gore",
   "decay_rot",
   "mutilation",
+  "liminal_spaces",
+  "analog_horror",
+  "unreality_themes",
+  "pursuit_chase",
+  "entity_horror",
   // Playstyle disclosures
   "blind_playthrough",
   "no_spoilers_chat",
@@ -302,6 +318,13 @@ export const CONTENT_WARNINGS = [
   "speedrun_attempt",
   "completionist_run",
   "learning_mechanics",
+  "first_time_playing",
+  "returning_player",
+  // Gameplay disclosure (v0.14)
+  "mods_used",
+  "cheats_enabled",
+  "glitch_exploits",
+  "assisted_run",
 ] as const;
 export type ContentWarning = (typeof CONTENT_WARNINGS)[number];
 

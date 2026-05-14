@@ -314,7 +314,8 @@
       "mental_health": "Salud mental",
       "sensitive": "Adulto / Sensible",
       "playstyle": "Notas de juego",
-      "horror_specific": "Horror intenso"
+      "horror_specific": "Horror intenso",
+      "gameplay_disclosure": "Divulgaciones de jugabilidad"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoilers — historia / final",
@@ -391,7 +392,29 @@
       "cosmic_horror": "Horror cósmico / eldritch",
       "extreme_gore": "Gore extremo / desmembramiento",
       "decay_rot": "Putrefacción, larvas",
-      "mutilation": "Mutilación / amputación"
+      "mutilation": "Mutilación / amputación",
+      "strobe_effects": "Luz estroboscópica",
+      "screen_shake_intense": "Sacudida fuerte",
+      "coulrophobia": "Payasos",
+      "ablutophobia": "Ahogamiento",
+      "taphophobia": "Enterrado vivo",
+      "paranoia_themes": "Paranoia",
+      "intrusive_thoughts": "Pensamientos intrusivos",
+      "medical_horror": "Terror médico",
+      "human_experimentation": "Experimentación humana",
+      "cannibalism": "Canibalismo",
+      "nuclear_themes": "Nuclear / radiación",
+      "liminal_spaces": "Espacios liminales",
+      "analog_horror": "Analógico / VHS",
+      "unreality_themes": "Distorsión realidad",
+      "pursuit_chase": "Persecución",
+      "entity_horror": "Entidad / SCP",
+      "first_time_playing": "Primera partida",
+      "returning_player": "Regreso / NG+",
+      "mods_used": "Mods usados",
+      "cheats_enabled": "Trucos / debug",
+      "glitch_exploits": "Glitches usados",
+      "assisted_run": "Con guía"
     },
     "playthroughNotes": {
       "title": "Notas de la partida",

@@ -314,7 +314,8 @@
       "mental_health": "心理健康",
       "sensitive": "成人 / 敏感",
       "playstyle": "游玩说明",
-      "horror_specific": "重度恐怖"
+      "horror_specific": "重度恐怖",
+      "gameplay_disclosure": "玩法披露"
     },
     "contentWarningOptions": {
       "spoiler_story": "剧情 / 结局剧透",
@@ -391,7 +392,29 @@
       "cosmic_horror": "宇宙 / 邪神恐怖",
       "extreme_gore": "极端血腥 / 肢解",
       "decay_rot": "腐烂 / 蛆虫",
-      "mutilation": "残害 / 截肢"
+      "mutilation": "残害 / 截肢",
+      "strobe_effects": "频闪灯光",
+      "screen_shake_intense": "画面震动剧烈",
+      "coulrophobia": "小丑",
+      "ablutophobia": "溺水",
+      "taphophobia": "活埋",
+      "paranoia_themes": "妄想",
+      "intrusive_thoughts": "侵入性思维",
+      "medical_horror": "医疗恐怖",
+      "human_experimentation": "人体实验",
+      "cannibalism": "食人",
+      "nuclear_themes": "核 / 辐射",
+      "liminal_spaces": "阈限空间",
+      "analog_horror": "模拟 / VHS",
+      "unreality_themes": "现实扭曲",
+      "pursuit_chase": "追逐",
+      "entity_horror": "未知实体 / SCP",
+      "first_time_playing": "首次游玩",
+      "returning_player": "回归 / NG+",
+      "mods_used": "使用 mod",
+      "cheats_enabled": "使用作弊",
+      "glitch_exploits": "利用 bug",
+      "assisted_run": "参考攻略"
     },
     "playthroughNotes": {
       "title": "本期游玩说明",

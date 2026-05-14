@@ -13,9 +13,9 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: "px-2.5 py-1 text-xs",
-  md: "px-4 py-2 text-sm",
-  lg: "px-6 py-2.5 text-base",
+  sm: "px-2.5 py-1 text-xs min-h-[36px]",
+  md: "px-4 py-2 text-sm min-h-touch",
+  lg: "px-6 py-2.5 text-base min-h-touch",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

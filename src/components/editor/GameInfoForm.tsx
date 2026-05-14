@@ -22,12 +22,16 @@ export function GameInfoForm() {
         placeholder={t("editor.gameNamePlaceholder")}
         value={store.gameName}
         onChange={(e) => store.set("gameName", e.target.value)}
+        autoComplete="off"
+        enterKeyHint="next"
       />
       <Input
         label={t("editor.channelName")}
         placeholder={t("editor.channelNamePlaceholder")}
         value={store.channelName}
         onChange={(e) => store.set("channelName", e.target.value)}
+        autoComplete="off"
+        enterKeyHint="next"
       />
       <Select
         label={t("editor.platform")}

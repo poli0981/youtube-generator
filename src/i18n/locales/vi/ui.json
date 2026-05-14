@@ -314,7 +314,8 @@
       "mental_health": "Sức khoẻ tinh thần",
       "sensitive": "Nội dung nhạy cảm / 18+",
       "playstyle": "Chú thích lối chơi",
-      "horror_specific": "Kinh dị nặng đô"
+      "horror_specific": "Kinh dị nặng đô",
+      "gameplay_disclosure": "Tiết lộ về lối chơi"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoiler cốt truyện / kết thúc",
@@ -391,7 +392,29 @@
       "cosmic_horror": "Kinh dị vũ trụ / Lovecraft",
       "extreme_gore": "Máu me cực đoan / phân thây",
       "decay_rot": "Phân huỷ, thối rữa, dòi bọ",
-      "mutilation": "Cắt xẻo / cụt chi"
+      "mutilation": "Cắt xẻo / cụt chi",
+      "strobe_effects": "Đèn nhấp nháy",
+      "screen_shake_intense": "Rung màn hình mạnh",
+      "coulrophobia": "Hề",
+      "ablutophobia": "Đuối nước",
+      "taphophobia": "Bị chôn sống",
+      "paranoia_themes": "Hoang tưởng",
+      "intrusive_thoughts": "Suy nghĩ xâm nhập",
+      "medical_horror": "Kinh dị y khoa",
+      "human_experimentation": "Thí nghiệm trên người",
+      "cannibalism": "Ăn thịt người",
+      "nuclear_themes": "Hạt nhân / phóng xạ",
+      "liminal_spaces": "Không gian liminal",
+      "analog_horror": "Analog / VHS",
+      "unreality_themes": "Méo mó hiện thực",
+      "pursuit_chase": "Bị truy đuổi",
+      "entity_horror": "Sinh thể bí ẩn",
+      "first_time_playing": "Chơi lần đầu",
+      "returning_player": "Chơi lại / NG+",
+      "mods_used": "Có dùng mod",
+      "cheats_enabled": "Có cheat / debug",
+      "glitch_exploits": "Lợi dụng lỗi game",
+      "assisted_run": "Tham khảo guide"
     },
     "playthroughNotes": {
       "title": "Ghi chú lượt chơi",

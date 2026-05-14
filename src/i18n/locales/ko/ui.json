@@ -314,7 +314,8 @@
       "mental_health": "정신 건강",
       "sensitive": "성인 / 민감",
       "playstyle": "플레이 안내",
-      "horror_specific": "중증 호러"
+      "horror_specific": "중증 호러",
+      "gameplay_disclosure": "플레이 공개"
     },
     "contentWarningOptions": {
       "spoiler_story": "스토리 / 엔딩 스포일러",
@@ -391,7 +392,29 @@
       "cosmic_horror": "코즈믹 / 크툴루 호러",
       "extreme_gore": "극도의 고어 / 사지 절단",
       "decay_rot": "부패 / 구더기",
-      "mutilation": "절단 / 손상"
+      "mutilation": "절단 / 손상",
+      "strobe_effects": "스트로보",
+      "screen_shake_intense": "심한 화면 흔들림",
+      "coulrophobia": "광대",
+      "ablutophobia": "익사",
+      "taphophobia": "생매장",
+      "paranoia_themes": "편집증",
+      "intrusive_thoughts": "침투적 사고",
+      "medical_horror": "의료 호러",
+      "human_experimentation": "인체 실험",
+      "cannibalism": "식인",
+      "nuclear_themes": "핵 / 방사능",
+      "liminal_spaces": "리미널 공간",
+      "analog_horror": "아날로그 / VHS",
+      "unreality_themes": "현실 왜곡",
+      "pursuit_chase": "추격",
+      "entity_horror": "미지 존재 / SCP",
+      "first_time_playing": "첫 플레이",
+      "returning_player": "재플레이 / NG+",
+      "mods_used": "모드 사용",
+      "cheats_enabled": "치트 / 디버그",
+      "glitch_exploits": "글리치 사용",
+      "assisted_run": "공략 참조"
     },
     "playthroughNotes": {
       "title": "플레이 노트",

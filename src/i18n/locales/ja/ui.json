@@ -314,7 +314,8 @@
       "mental_health": "メンタルヘルス",
       "sensitive": "成人向け / センシティブ",
       "playstyle": "プレイ情報",
-      "horror_specific": "ヘビーホラー"
+      "horror_specific": "ヘビーホラー",
+      "gameplay_disclosure": "プレイ情報開示"
     },
     "contentWarningOptions": {
       "spoiler_story": "ストーリー / エンディングのネタバレ",
@@ -391,7 +392,29 @@
       "cosmic_horror": "コズミックホラー",
       "extreme_gore": "過激なゴア / 解体",
       "decay_rot": "腐敗 / 蛆",
-      "mutilation": "切断 / 損傷"
+      "mutilation": "切断 / 損傷",
+      "strobe_effects": "ストロボ",
+      "screen_shake_intense": "画面振動・強",
+      "coulrophobia": "ピエロ",
+      "ablutophobia": "溺水",
+      "taphophobia": "生き埋め",
+      "paranoia_themes": "パラノイア",
+      "intrusive_thoughts": "侵入思考",
+      "medical_horror": "医療ホラー",
+      "human_experimentation": "人体実験",
+      "cannibalism": "カニバリズム",
+      "nuclear_themes": "核 / 放射能",
+      "liminal_spaces": "リミナル",
+      "analog_horror": "アナログ / VHS",
+      "unreality_themes": "現実歪み",
+      "pursuit_chase": "追跡",
+      "entity_horror": "未知の存在",
+      "first_time_playing": "初プレイ",
+      "returning_player": "再プレイ / NG+",
+      "mods_used": "Mod使用",
+      "cheats_enabled": "チート使用",
+      "glitch_exploits": "バグ利用",
+      "assisted_run": "攻略参照"
     },
     "playthroughNotes": {
       "title": "プレイ情報",

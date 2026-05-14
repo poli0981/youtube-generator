@@ -4,11 +4,11 @@
 
 **YTDescGen** is a desktop-capable web application that generates YouTube video titles, descriptions, and tags for Gameplay No Commentary channels. It supports multiple languages, game genres, and video types with a profile/preset system to eliminate repetitive data entry.
 
-- **Repository**: `github.com/poli0981/yt-desc-gen` (private)
-- **License**: MIT
+- **Repository**: `github.com/poli0981/youtube-generator`
+- **License**: Apache-2.0 (see `LICENSE` + `NOTICE`)
 - **Primary Language**: TypeScript
-- **Stack**: React 18 + Vite + Tailwind CSS + Zustand + Tauri (desktop)
-- **Target Platforms**: Web (GitHub Pages), Desktop (Windows/macOS via Tauri)
+- **Stack**: React 18 + Vite 7 + Tailwind CSS 3 + Zustand + Tauri 2 (desktop)
+- **Target Platforms**: Web (GitHub Pages), Desktop (Windows/macOS/Linux via Tauri)
 
 ## Tech Stack
 
@@ -40,13 +40,14 @@ yt-desc-gen/
 ├── index.html
 │
 ├── docs/                        # Project documentation
-│   ├── PRD.md                   # Product Requirements Document
+│   ├── DEVELOPMENT.md           # Toolchain / IDE / build commands (EN)
 │   ├── ARCHITECTURE.md          # Technical architecture
 │   ├── FEATURES.md              # Complete feature list
 │   ├── ROADMAP.md               # Development phases
 │   ├── TECH-SPEC.md             # Technical specifications
 │   ├── I18N.md                  # Internationalization guide
-│   └── PACKAGING.md             # Desktop packaging guide
+│   ├── PACKAGING.md             # Desktop packaging guide
+│   └── i18n/vi/                 # Vietnamese mirrors (DEVELOPMENT, DISCLAIMER)
 │
 ├── src/
 │   ├── main.tsx                 # Entry point

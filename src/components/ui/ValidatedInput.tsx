@@ -10,6 +10,9 @@ interface ValidatedInputProps {
   validate: (value: string) => ValidationResult;
   placeholder?: string;
   helpText?: string;
+  inputMode?: "text" | "email" | "url" | "numeric" | "tel" | "search" | "decimal";
+  autoComplete?: string;
+  enterKeyHint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
   /**
    * Forwarded to the inner `<input>`. Used by StoreLinkEditor to sniff a
    * pasted URL and auto-fill the Game Name field — see
@@ -26,6 +29,9 @@ export function ValidatedInput({
   validate,
   placeholder,
   helpText,
+  inputMode,
+  autoComplete,
+  enterKeyHint,
   onPaste,
 }: ValidatedInputProps) {
   const { t } = useTranslation("ui");
@@ -68,8 +74,11 @@ export function ValidatedInput({
         onBlur={() => setTouched(true)}
         onPaste={onPaste}
         placeholder={placeholder}
+        inputMode={inputMode}
+        autoComplete={autoComplete}
+        enterKeyHint={enterKeyHint}
         className={clsx(
-          "rounded-lg border bg-surface-1 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50",
+          "min-h-touch rounded-lg border bg-surface-1 px-3 py-2.5 text-base text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 sm:text-sm",
           touched && error ? "border-danger" : "border-border focus:border-accent",
         )}
       />
