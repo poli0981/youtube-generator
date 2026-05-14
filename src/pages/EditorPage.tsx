@@ -42,7 +42,7 @@ export function EditorPage() {
   const isOpen = (id: string): boolean => accordion[id] ?? false;
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6 p-6 lg:flex-row">
+    <div className="mx-auto flex max-w-6xl flex-col gap-4 p-3 sm:p-4 md:gap-6 md:p-6 lg:flex-row">
       {/* Form */}
       <div className="flex flex-1 flex-col gap-4">
         <div className="flex items-center justify-between">
@@ -106,6 +106,8 @@ export function EditorPage() {
             value={store.playlistLink ?? ""}
             onChange={(v) => store.set("playlistLink", v)}
             validate={validatePlaylistUrl}
+            inputMode="url"
+            autoComplete="off"
           />
           <ValidatedInput
             label={t("editor.contactEmail")}
@@ -114,6 +116,8 @@ export function EditorPage() {
             onChange={(v) => store.set("contactEmail", v)}
             validate={validateEmails}
             helpText={t("editor.contactEmailHelp")}
+            inputMode="email"
+            autoComplete="email"
           />
         </Accordion>
 
@@ -155,7 +159,7 @@ export function EditorPage() {
 
       {/* Sidebar: Quick Preview */}
       <div className="w-full shrink-0 lg:w-80">
-        <div className="sticky top-6">
+        <div className="lg:sticky lg:top-6">
           <QuickPreview />
         </div>
       </div>

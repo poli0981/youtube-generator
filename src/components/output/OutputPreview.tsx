@@ -51,7 +51,7 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
             />
           </div>
         </div>
-        <div className="max-h-[400px] overflow-y-auto rounded-lg border border-border bg-surface-1 p-3">
+        <div className="max-h-[60vh] overflow-y-auto rounded-lg border border-border bg-surface-1 p-3 sm:max-h-[400px]">
           <pre className="whitespace-pre-wrap font-sans text-sm text-text-secondary">
             {output.description}
           </pre>

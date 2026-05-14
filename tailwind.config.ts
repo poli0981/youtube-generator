@@ -34,6 +34,12 @@ export default {
         sans: ["var(--font-sans)"],
         mono: ["var(--font-mono)"],
       },
+      spacing: {
+        touch: "44px",
+      },
+      minHeight: {
+        touch: "44px",
+      },
     },
   },
   plugins: [],

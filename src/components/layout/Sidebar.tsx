@@ -39,6 +39,65 @@ const tabs: readonly TabItem[] = [
   { to: ABOUT.bugReportUrl, labelKey: "tabs.reportBug", icon: Bug, external: true },
 ] as const;
 
+interface SidebarNavListProps {
+  collapsed: boolean;
+  onItemClick?: () => void;
+}
+
+export function SidebarNavList({ collapsed, onItemClick }: SidebarNavListProps) {
+  const { t } = useTranslation("ui");
+
+  return (
+    <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2">
+      {tabs.map((tab) => {
+        const baseClass = clsx(
+          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+          collapsed && "justify-center px-0",
+        );
+        if (tab.external) {
+          return (
+            <a
+              key={tab.to}
+              href={tab.to}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={collapsed ? t(tab.labelKey) : undefined}
+              onClick={onItemClick}
+              className={clsx(
+                baseClass,
+                "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
+              )}
+            >
+              <tab.icon className="h-4 w-4 shrink-0" />
+              {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
+            </a>
+          );
+        }
+        return (
+          <NavLink
+            key={tab.to}
+            to={tab.to}
+            end={tab.to === "/"}
+            title={collapsed ? t(tab.labelKey) : undefined}
+            onClick={onItemClick}
+            className={({ isActive }) =>
+              clsx(
+                baseClass,
+                isActive
+                  ? "bg-accent-muted text-accent"
+                  : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
+              )
+            }
+          >
+            <tab.icon className="h-4 w-4 shrink-0" />
+            {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
+          </NavLink>
+        );
+      })}
+    </nav>
+  );
+}
+
 export function Sidebar() {
   const { t } = useTranslation("ui");
   const collapsed = useSettingsStore((s) => s.sidebarCollapsed);
@@ -49,7 +108,7 @@ export function Sidebar() {
   return (
     <aside
       className={clsx(
-        "flex shrink-0 flex-col border-r border-border bg-surface-1 transition-[width] duration-200",
+        "hidden shrink-0 flex-col border-r border-border bg-surface-1 transition-[width] duration-200 md:flex",
         collapsed ? "w-14" : "w-56",
       )}
     >
@@ -66,51 +125,7 @@ export function Sidebar() {
           <PanelLeftClose className="h-5 w-5" />
         )}
       </button>
-      <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-2">
-        {tabs.map((tab) => {
-          const baseClass = clsx(
-            "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-            collapsed && "justify-center px-0",
-          );
-          if (tab.external) {
-            return (
-              <a
-                key={tab.to}
-                href={tab.to}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={collapsed ? t(tab.labelKey) : undefined}
-                className={clsx(
-                  baseClass,
-                  "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
-                )}
-              >
-                <tab.icon className="h-4 w-4 shrink-0" />
-                {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
-              </a>
-            );
-          }
-          return (
-            <NavLink
-              key={tab.to}
-              to={tab.to}
-              end={tab.to === "/"}
-              title={collapsed ? t(tab.labelKey) : undefined}
-              className={({ isActive }) =>
-                clsx(
-                  baseClass,
-                  isActive
-                    ? "bg-accent-muted text-accent"
-                    : "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
-                )
-              }
-            >
-              <tab.icon className="h-4 w-4 shrink-0" />
-              {!collapsed && <span className="truncate">{t(tab.labelKey)}</span>}
-            </NavLink>
-          );
-        })}
-      </nav>
+      <SidebarNavList collapsed={collapsed} />
     </aside>
   );
 }

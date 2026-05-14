@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Header } from "./Header";
-import { Sidebar } from "./Sidebar";
+import { Sidebar, SidebarNavList } from "./Sidebar";
+import { Drawer } from "@components/ui/Drawer";
 import { ShortcutHelpModal } from "@components/ui/ShortcutHelpModal";
 import { useKeyboardShortcuts } from "@hooks/use-keyboard-shortcuts";
 import { useGlobalErrorHandler } from "@hooks/use-global-error-handler";
@@ -9,6 +10,7 @@ import { useSettingsStore } from "@store/settings-store";
 
 export function AppShell() {
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const setSetting = useSettingsStore((s) => s.setSetting);
   const collapsed = useSettingsStore((s) => s.sidebarCollapsed);
 
@@ -22,11 +24,19 @@ export function AppShell() {
     <div className="flex h-screen overflow-hidden bg-surface-0">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Header />
+        <Header onOpenMobileNav={() => setMobileNavOpen(true)} />
         <main className="min-h-0 flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>
+      <Drawer
+        open={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
+        side="left"
+        ariaLabel="Navigation"
+      >
+        <SidebarNavList collapsed={false} onItemClick={() => setMobileNavOpen(false)} />
+      </Drawer>
       <ShortcutHelpModal open={showShortcuts} onClose={() => setShowShortcuts(false)} />
     </div>
   );
