@@ -13,15 +13,19 @@ import pkg from "../../package.json";
 export const ABOUT = {
   appName: "YTDescGen",
   version: pkg.version,
-  license: "MIT",
+  license: "Apache-2.0",
   repo: "https://github.com/poli0981/youtube-generator",
   issuesUrl: "https://github.com/poli0981/youtube-generator/issues",
   bugReportUrl: "https://github.com/poli0981/youtube-generator/issues/new?template=bug_report.yml",
   discussionsUrl: "https://github.com/poli0981/youtube-generator/discussions",
   licenseUrl: "https://github.com/poli0981/youtube-generator/blob/main/LICENSE",
   githubAuthor: "https://github.com/poli0981",
-  pcSpecDocUrl: "https://github.com/poli0981/youtube-generator/blob/main/docs/pc_spec.md",
-  devEnvDocUrl: "https://github.com/poli0981/youtube-generator/blob/main/docs/dev_env.md",
+  // v0.14: pc_spec.md + dev_env.md merged into DEVELOPMENT.md.
+  // The two URL fields are kept for backwards compatibility with the About
+  // page layout — `pcSpecDocUrl` now points to the EN guide, `devEnvDocUrl`
+  // to the VI mirror.
+  pcSpecDocUrl: "https://github.com/poli0981/youtube-generator/blob/main/docs/DEVELOPMENT.md",
+  devEnvDocUrl: "https://github.com/poli0981/youtube-generator/blob/main/docs/i18n/vi/DEVELOPMENT.md",
   socials: {
     youtube: "https://www.youtube.com/@SkullMute",
     x: "https://x.com/SkullMute0011",
