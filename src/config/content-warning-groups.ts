@@ -35,7 +35,14 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
   {
     id: "photosensitive",
     labelKey: "editor.contentWarningGroups.photosensitive",
-    items: ["flashing_lights", "motion_sickness", "migraine_trigger", "loud_noises"],
+    items: [
+      "flashing_lights",
+      "motion_sickness",
+      "migraine_trigger",
+      "loud_noises",
+      "strobe_effects",
+      "screen_shake_intense",
+    ],
   },
   {
     id: "phobias",
@@ -54,6 +61,9 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "pyrophobia",
       "pediophobia",
       "hemophobia",
+      "coulrophobia",
+      "ablutophobia",
+      "taphophobia",
     ],
   },
   {
@@ -74,6 +84,9 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "ocd_themes",
       "panic_attacks",
       "dissociation",
+      "paranoia_themes",
+      "intrusive_thoughts",
+      "medical_horror",
     ],
   },
   {
@@ -103,6 +116,9 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "slavery_themes",
       "terrorism_themes",
       "bullying_themes",
+      "human_experimentation",
+      "cannibalism",
+      "nuclear_themes",
     ],
   },
   {
@@ -116,6 +132,11 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "extreme_gore",
       "decay_rot",
       "mutilation",
+      "liminal_spaces",
+      "analog_horror",
+      "unreality_themes",
+      "pursuit_chase",
+      "entity_horror",
     ],
   },
   {
@@ -130,6 +151,13 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "speedrun_attempt",
       "completionist_run",
       "learning_mechanics",
+      "first_time_playing",
+      "returning_player",
     ],
+  },
+  {
+    id: "gameplay_disclosure",
+    labelKey: "editor.contentWarningGroups.gameplay_disclosure",
+    items: ["mods_used", "cheats_enabled", "glitch_exploits", "assisted_run"],
   },
 ] as const;
