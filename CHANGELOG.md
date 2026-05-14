@@ -2,6 +2,32 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.14.1 — 2026-05-14
+
+Same-day patch on v0.14.0. Two desktop-only items closing user-reported
+issues on Windows + a small Settings convenience.
+
+### Fixed
+
+- **Windows "cannot find ... `AppData\Roaming\com.skullmute.ytdescgen`"** when clicking *Settings → Open Folder* on a fresh install ([`src/pages/SettingsPage.tsx:25-35`](src/pages/SettingsPage.tsx)). Root cause: `appDataDir()` only resolves the path string — the directory itself is created lazily on the first `save_to_file` write, so first-run users hit the OS shell before any setting had been persisted. New Rust command `ensure_dir(path)` ([`src-tauri/src/lib.rs:18-27`](src-tauri/src/lib.rs)) wraps `std::fs::create_dir_all` and is invoked before both `openPath(dir)` and `read_from_file` in `exportSettingsToFile`, so the shell + read paths can never encounter a non-existent folder.
+
+### Added
+
+- **Settings → Import button** (Tauri-only, next to *Export*). Reads a `.json` settings file via the existing `loadFile()` Tauri dialog, accepts either the full multi-store dump produced by *Export* (object keyed by `ytdescgen-settings`) or a bare `SettingsData` payload, runs it through `healSettings()` to back-fill any missing keys, then dispatches via `useSettingsStore.setState`. Theme class on `<html>` is re-applied directly because `setState` bypasses the `setTheme` action. Five distinct failure modes get their own toast: dialog-cancel (silent), `read_from_file` error, empty file, JSON parse error, non-object root. Each failure logs to the in-app logger with the source `"settings"` so it surfaces in the Logs tab without leaving the UI.
+
+### Under the hood
+
+- New Tauri command `ensure_dir` registered in `invoke_handler!` macro alongside `save_to_file` and `read_from_file`. Pure stdlib — no new crates.
+- `exportSettingsToFile` also pre-creates the data folder so *Export* works on a fresh install without first triggering any other write.
+- Settings store gained no schema fields; the import path reuses the existing `healSettings` (v9) for back-fill so no `version` bump on the persist store.
+- 350/350 tests still pass; lint + typecheck clean.
+- Bundle: SettingsPage chunk grew ~0.18 KB raw for the new icon import + import handler; main bundle and overall gzip totals unchanged.
+
+### Migration notes
+
+- No store schema bump. Existing v0.14.0 installs upgrade in place.
+- Web (GitHub Pages) build is unchanged — both fixes are Tauri-only by virtue of the `IS_TAURI` gate on the Settings toolbar.
+
 ## v0.14.0 — 2026-05-14
 
 Three independent strands land together:
