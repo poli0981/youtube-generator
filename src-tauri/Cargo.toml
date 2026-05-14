@@ -4,6 +4,7 @@ version = "0.13.1"
 description = "YouTube Gameplay Description Generator"
 authors = ["poli0981"]
 edition = "2021"
+license = "Apache-2.0"
 
 [lib]
 name = "yt_desc_gen_lib"
