@@ -6,6 +6,7 @@ import { formatRigValue } from "@config/rig-fields";
 import { DEFAULT_GACHA_QUEST_TYPE } from "@config/gacha-quest-types";
 import { ordinalSuffix } from "./title-builder";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
+import { formatEndingEntry, sliceEndingsForVideo } from "./endings-format";
 import { sanitizeHashtag } from "@utils/sanitize";
 
 const SOCIAL_ICONS: Record<string, string> = {
@@ -698,16 +699,45 @@ function buildPlaythroughNotesSection(
     if (b) bullets.push(b);
   }
 
-  // Endings shown — free text, identical on both sides of the bilingual
-  // separator (it's a creator-typed label, not localised content).
-  const endings = (input.endingsShown ?? "").trim();
-  if (endings) {
-    const b = bullet(
-      "description.playthroughNotes.labels.endings",
-      endings,
-      endings,
-    );
-    if (b) bullets.push(b);
+  // Endings shown — v0.16.0 reads from the structured `endings[]` array
+  // first; falls back to the legacy `endingsShown` freeform when the
+  // array is empty (covers migrated drafts that still carry the legacy
+  // string). The structured renderer collapses 1-row "name only"
+  // entries to the bare name so the v0.12-era output ("True Ending")
+  // is preserved byte-for-byte for single-ending creators.
+  //
+  // Multi-video slicing: when `endingVideoIndex` is set AND the
+  // matching range covers a sub-slice of `endings[]`, only that slice
+  // is rendered. Used by the per-video generator pass in Output (one
+  // pass per video, each producing its own slice's bullet). When the
+  // index is missing / out-of-range, the union of all endings renders
+  // — covers case A (single ending) and case B (multi-ending single
+  // video) without a special branch.
+  const structured = Array.isArray(input.endings) ? input.endings : [];
+  const sliced = sliceEndingsForVideo(structured, input);
+  if (sliced.length > 0) {
+    const formatted = sliced
+      .map(formatEndingEntry)
+      .filter((s): s is string => !!s);
+    if (formatted.length > 0) {
+      const joined = formatted.join(", ");
+      const b = bullet(
+        "description.playthroughNotes.labels.endings",
+        joined,
+        joined,
+      );
+      if (b) bullets.push(b);
+    }
+  } else {
+    const legacy = (input.endingsShown ?? "").trim();
+    if (legacy) {
+      const b = bullet(
+        "description.playthroughNotes.labels.endings",
+        legacy,
+        legacy,
+      );
+      if (b) bullets.push(b);
+    }
   }
 
   // Language patch — enum + custom slot. `official_other` and `custom`

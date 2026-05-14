@@ -444,7 +444,7 @@
       "boss": "Boss {{n}}",
       "final_boss": "最终Boss",
       "intro": "开场",
-      "ending": "结局",
+      "ending": "结局 {{n}}",
       "tutorial": "教程",
       "credits": "片尾"
     }

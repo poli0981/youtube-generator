@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
+import { EndingsEditor } from "./EndingsEditor";
 import {
   PLAYTHROUGH_STATUSES,
   DIFFICULTY_LEVELS,
@@ -88,12 +89,12 @@ export function PlaythroughNotesForm() {
         />
       )}
 
-      <Input
-        label={t("editor.playthroughNotes.endingsLabel")}
-        placeholder={t("editor.playthroughNotes.endingsPlaceholder")}
-        value={store.endingsShown}
-        onChange={(e) => store.set("endingsShown", e.target.value)}
-      />
+      {/* v0.16.0: free-form `endingsShown` Input replaced by the
+       *  structured EndingsEditor — number + name pairs, optional
+       *  multi-video split with auto-contiguous range, timeline
+       *  cross-validation. Legacy persisted string is migrated to a
+       *  single-row entry by editor-store v11→12 migrate. */}
+      <EndingsEditor />
 
       <Select
         label={t("editor.playthroughNotes.languagePatchLabel")}

@@ -444,7 +444,7 @@
       "boss": "Boss {{n}}",
       "final_boss": "Boss cuối",
       "intro": "Mở đầu",
-      "ending": "Kết thúc",
+      "ending": "Kết thúc {{n}}",
       "tutorial": "Hướng dẫn",
       "credits": "Credits"
     }

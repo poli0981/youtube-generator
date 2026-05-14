@@ -446,6 +446,29 @@
         "custom": "사용자 지정…"
       }
     },
+    "endings": {
+      "countLabel": "엔딩 개수",
+      "videoCountLabel": "영상 개수",
+      "videoLabel": "영상",
+      "numberLabel": "번호",
+      "nameLabel": "이름",
+      "namePlaceholder": "예: 베스트 엔딩",
+      "previewLabel": "표시",
+      "previewEmpty": "(비어 있음 — 번호 또는 이름 입력)",
+      "emptyHint": "엔딩 항목을 하나 이상 추가하세요 — 0이면 이 항목은 건너뜁니다.",
+      "addOne": "엔딩 추가",
+      "removeLast": "마지막 항목 삭제",
+      "videoRangeHint": "각 영상은 연속된 엔딩 구간을 담당합니다. 기본은 균등 분할이며 행 단위로 수정 가능합니다.",
+      "multiVideoOutputNote": "각 영상의 설명은 해당 구간을 렌더링합니다. 평소대로 생성 — 미리보기는 기본적으로 영상 1을 표시합니다.",
+      "warnings": {
+        "singleEmpty": "번호 또는 이름 중 하나는 입력해야 합니다 — 빈 항목은 설명에서 제외됩니다.",
+        "timelineShort": "타임라인에 엔딩 마커가 {{needed}}개 필요하지만 {{found}}개만 있습니다. 복사 전에 누락분을 추가하세요.",
+        "rangeInvalid": "영상 {{video}}: 범위 {{from}}–{{to}}가 잘못되었습니다 (범위 초과 또는 역순).",
+        "rangeGap": "엔딩 {{at}}+ 가 어떤 영상에도 포함되지 않음 — 범위를 확장하거나 영상을 추가하세요.",
+        "rangeOverlap": "여러 영상이 엔딩 {{at}}을 포함합니다 — 중복을 피하도록 조정하세요.",
+        "rangeShort": "마지막으로 포함된 엔딩은 {{at}}이지만 총 {{total}}개 — 마지막 영상 범위가 너무 짧습니다."
+      }
+    },
     "techNotes": "기술 노트",
     "techNoteSearchPlaceholder": "노트 검색…",
     "techNoteEmpty": "일치하는 노트 없음",

@@ -2,6 +2,48 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.16.0 — 2026-05-14
+
+Structured ending editor + multi-video split. The Playthrough Notes
+section's free-form "Endings shown" Input is replaced with a
+structured row table that knows about ending numbers, names,
+multi-video splits, and timeline cross-validation.
+
+### Added
+
+- **`EndingsEditor` component ([src/components/editor/EndingsEditor.tsx](src/components/editor/EndingsEditor.tsx))** — three logical cases driven by ending count + video count:
+  - **Case A** (1 ending) — `Number` + `Name` pair with live preview. At least one of the two must be filled; otherwise an inline warning explains the bullet will be dropped.
+  - **Case B** (≥2 endings, 1 video) — full table row per ending. A gate inspects the Timestamps textarea — if it doesn't contain at least `endings.length` lines tagged with the `ending` keyword, a warning banner surfaces ("Timeline needs N markers; only M found").
+  - **Case C** (≥2 endings, ≥2 videos) — endings table + per-video range table. Default ranges are contiguous and balanced via the new `computeContiguousRanges` helper (extras spill into the *last* video for the climactic-final convention); the creator can override per-row. Overlap / gap / out-of-bounds errors surface inline.
+- **Structured `endings: EndingEntry[]` schema** in `EditorData` (v0.16.0). Each entry pairs an optional `number` (1–100) with an optional `name`. Empty entries are dropped silently. Companions: `endingVideoCount`, `endingVideoRanges: EndingVideoRange[]`, `endingVideoIndex?` (engine-only — picks which video's slice to render).
+- **Engine `endings-format.ts`** — pure helpers `formatEndingEntry`, `sliceEndingsForVideo`, `clampRange`. Used by both the description builder and the editor's live preview so creators see exactly what will render.
+- **Ending ordinal capture in `timeline-parser.ts`** — the `ending` keyword pattern now captures an optional trailing number, so timeline lines like `1:23:45 Ending 3: Best End` parse into `{ keyword: "ending", number: 3, rest: ": Best End" }`. Unblocks the case-B timeline gate.
+- **Locale keys (19 new × 6 locales)** under `editor.endings.*` covering count / video-count labels, per-row labels, the preview line, warnings (`singleEmpty`, `timelineShort`, `rangeInvalid`, `rangeGap`, `rangeOverlap`, `rangeShort`), and helper hints. Schema bumped from 686 to 705 ui keys.
+- **Tests** — 42 new tests (367 → 409): `endings-format.test.ts` (15), `editor-store.endings.test.ts` (16), `description-builder.test.ts` (5 added inline), `timeline-parser.test.ts` (6 added inline).
+
+### Changed
+
+- **`PlaythroughNotesForm`** — the old single `<Input label="Endings shown">` is replaced by `<EndingsEditor />`. The legacy `endingsShown` freeform is kept on the editor type for migration round-trip but no longer surfaces in the UI.
+- **`description-builder` endings bullet** — reads from structured `endings[]` first, falls back to legacy `endingsShown` only when the array is empty (covers migrated drafts that still carry both). Multi-row entries render as comma-joined: `Ending 1: True End, Ending 3: Bad End, Hidden`. When `endingVideoIndex` is supplied, only that video's slice renders.
+- **`timeline-parser` keyword templates** — every locale's `timeline.keywords.ending` is now `"Ending {{n}}"` instead of `"Ending"`. The renderer collapses trailing whitespace so a bare `Boss` (no ordinal) still renders cleanly as `Boss` instead of `Boss `.
+- **`TemplateSnapshot`** in `template-store.ts` — gained `endings?`, `endingVideoCount?`, `endingVideoRanges?` (all optional for back-compat with pre-v0.16 templates).
+
+### Migration
+
+- **`migrateEditorState` v11 → v12** — `liftLegacyEndingString` parses the freeform `endingsShown` into a single-row structured entry:
+  - `"Ending 3: Best End"` → `{ number: 3, name: "Best End" }`
+  - `"Ending 3"` → `{ number: 3, name: "" }`
+  - `"True ending only"` → `{ number: null, name: "True ending only" }`
+  - `""` → `[]` (no entry)
+  Localised "Kết thúc N", "エンディングN", etc. are also recognised. After lifting, `endingVideoCount` defaults to 1, `endingVideoRanges` to a single span; the existing `endingsShown` string is left in place but unused.
+
+### Under the hood
+
+- `EndingEntry` and `EndingVideoRange` types live in `src/engine/types.ts`. The 1-indexed inclusive `from/to` convention matches the user-facing "Video 1, Video 2…" labels.
+- The Output preview for case C currently renders the *union* of all endings (same as case B) — per-video output rendering is wired into the engine via `endingVideoIndex` but the UI selector for it lands in a follow-up patch. Documented inline in `EndingsEditor` as `multiVideoOutputNote`.
+- Bundle: index 463.08 KB (+62 KB for EndingsEditor + endings-format + table-row UI). Still under the 500 KB cap.
+- 409/409 tests pass. Lint + typecheck + locale-validate all clean.
+
 ## v0.15.0 — 2026-05-14
 
 Import / export overhaul + stability hardening. Closes the "black

@@ -11,7 +11,9 @@ const DICT: Record<string, Record<string, string>> = {
     boss: "Boss {{n}}",
     final_boss: "Final Boss",
     intro: "Intro",
-    ending: "Ending",
+    // v0.16.0: ending keyword now interpolates {{n}} like chapter/part/boss
+    // so "Ending 1" / "Ending 2" survive the parse → render round-trip.
+    ending: "Ending {{n}}",
     tutorial: "Tutorial",
     credits: "Credits",
   },
@@ -21,7 +23,7 @@ const DICT: Record<string, Record<string, string>> = {
     boss: "Boss {{n}}",
     final_boss: "Boss cuối",
     intro: "Mở đầu",
-    ending: "Kết thúc",
+    ending: "Kết thúc {{n}}",
     tutorial: "Hướng dẫn",
     credits: "Credits",
   },
@@ -31,7 +33,7 @@ const DICT: Record<string, Record<string, string>> = {
     boss: "ボス{{n}}",
     final_boss: "ラスボス",
     intro: "オープニング",
-    ending: "エンディング",
+    ending: "エンディング{{n}}",
     tutorial: "チュートリアル",
     credits: "クレジット",
   },
@@ -103,6 +105,35 @@ describe("parseTimeline", () => {
     const entries = parseTimeline("\n0:00 Intro\n\n5:00 Chapter 1\n");
     expect(entries).toHaveLength(2);
   });
+
+  // v0.16.0: ending keyword now captures an optional ordinal so
+  // structured `endings[]` rows can be matched to timeline markers.
+  it("captures the ending ordinal when present", () => {
+    const entries = parseTimeline("1:00:00 Ending 1\n2:00:00 Ending 3");
+    expect(entries[0].keyword).toBe("ending");
+    expect(entries[0].number).toBe(1);
+    expect(entries[1].keyword).toBe("ending");
+    expect(entries[1].number).toBe(3);
+  });
+
+  it("recognises a bare 'Ending' line as ending without a number", () => {
+    const entries = parseTimeline("1:00:00 Ending");
+    expect(entries[0].keyword).toBe("ending");
+    expect(entries[0].number).toBeUndefined();
+  });
+
+  it("captures the trailing label after 'Ending N: ...' as `rest`", () => {
+    const entries = parseTimeline("1:00:00 Ending 3: Best End");
+    expect(entries[0].keyword).toBe("ending");
+    expect(entries[0].number).toBe(3);
+    expect(entries[0].rest).toBe(": Best End");
+  });
+
+  it("recognises Vietnamese 'Kết thúc 2'", () => {
+    const entries = parseTimeline("1:30:00 Kết thúc 2");
+    expect(entries[0].keyword).toBe("ending");
+    expect(entries[0].number).toBe(2);
+  });
 });
 
 describe("renderTimeline", () => {
@@ -128,5 +159,23 @@ describe("renderTimeline", () => {
     const entries = parseTimeline("0:00 Intro\n5:30 Chapter 1\n10:00 Boss 2");
     const out = renderTimeline(entries, "en", makeT("en"));
     expect(out).toBe("0:00 Intro\n5:30 Chapter 1\n10:00 Boss 2");
+  });
+
+  // v0.16.0: when a numbered keyword has no captured ordinal (rare —
+  // e.g. a "boss" line without an N), the renderer used to emit a
+  // trailing space ("Boss "). Now it collapses internal/trailing
+  // whitespace so output stays clean.
+  it("collapses trailing space when a numbered keyword has no ordinal", () => {
+    const entries = parseTimeline("0:00 Boss");
+    const out = renderTimeline(entries, "en", makeT("en"));
+    expect(out).toBe("0:00 Boss");
+  });
+
+  it("renders 'Ending N' bilingually when the ordinal is present", () => {
+    const entries = parseTimeline("1:00:00 Ending 2");
+    const enOut = renderTimeline(entries, "en", makeT("en"));
+    expect(enOut).toBe("1:00:00 Ending 2");
+    const viOut = renderTimeline(entries, "vi", makeT("vi"));
+    expect(viOut).toBe("1:00:00 Kết thúc 2");
   });
 });

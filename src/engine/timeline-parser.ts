@@ -69,11 +69,15 @@ const KEYWORD_PATTERNS: KeywordPattern[] = [
     keyword: "intro",
     hasNumber: false,
   },
-  // Ending
+  // Ending — v0.16.0 now captures an optional ordinal so timeline
+  // entries like "Ending 1" / "Ending 3: Best End" can be matched
+  // back to the structured `endings[]` array in the editor. The "rest"
+  // tail keeps any trailing label so the renderer still emits the
+  // creator's exact text on round-trip.
   {
-    re: /^(ending|kết\s+thúc|ket\s+thuc|エンディング|final|엔딩|结局|结尾)(.*)$/i,
+    re: /^(?:ending|kết\s+thúc|ket\s+thuc|エンディング|final|엔딩|结局|结尾)\s*(\d+)?(.*)$/i,
     keyword: "ending",
-    hasNumber: false,
+    hasNumber: true,
   },
   // Tutorial
   {
@@ -172,7 +176,13 @@ export function renderTimeline(
     }
 
     const numberVar = entry.number != null ? String(entry.number) : "";
-    const translated = t(`timeline.keywords.${entry.keyword}`, { n: numberVar });
+    // v0.16.0: collapse the trailing whitespace that creeps in when a
+    // numbered keyword pattern (`"Boss {{n}}"`) interpolates with an
+    // empty `n` (e.g. a bare "boss" line with no ordinal). Without
+    // this, the renderer emits "0:42 Boss  rest" with a double space.
+    const translated = t(`timeline.keywords.${entry.keyword}`, { n: numberVar })
+      .replace(/\s+$/u, "")
+      .replace(/\s{2,}/gu, " ");
     const withRest = entry.rest ? `${translated} ${entry.rest}` : translated;
     rendered.push(`${entry.time} ${withRest}`);
   }

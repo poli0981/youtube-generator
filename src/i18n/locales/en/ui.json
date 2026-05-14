@@ -446,6 +446,29 @@
         "custom": "Custom…"
       }
     },
+    "endings": {
+      "countLabel": "Number of endings",
+      "videoCountLabel": "Number of videos",
+      "videoLabel": "Video",
+      "numberLabel": "Number",
+      "nameLabel": "Name",
+      "namePlaceholder": "e.g. Best Ending",
+      "previewLabel": "Ending shown",
+      "previewEmpty": "(empty — fill number or name)",
+      "emptyHint": "Add at least one ending entry — leave at 0 to skip this bullet entirely.",
+      "addOne": "Add ending",
+      "removeLast": "Remove last ending",
+      "videoRangeHint": "Each video covers a contiguous slice of endings. Default split is balanced; adjust per row to override.",
+      "multiVideoOutputNote": "Each video's description renders that video's ending slice. Generate from the editor as usual — the Output preview shows video 1 by default.",
+      "warnings": {
+        "singleEmpty": "Fill at least the number or the name — empty entries are dropped from the description.",
+        "timelineShort": "Timeline needs {{needed}} ending markers; only {{found}} found. Add the missing rows before copying.",
+        "rangeInvalid": "Video {{video}}: range {{from}}–{{to}} is invalid (out of bounds or reversed).",
+        "rangeGap": "Endings {{at}}+ are not covered by any video — extend a range or add a video.",
+        "rangeOverlap": "Multiple videos cover ending {{at}} — adjust ranges to avoid overlap.",
+        "rangeShort": "Last covered ending is {{at}} but there are {{total}} endings — final video range is too short."
+      }
+    },
     "techNotes": "Tech notes",
     "techNoteSearchPlaceholder": "Search tech notes…",
     "techNoteEmpty": "No matching notes",

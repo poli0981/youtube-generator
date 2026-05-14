@@ -446,6 +446,29 @@
         "custom": "自定义…"
       }
     },
+    "endings": {
+      "countLabel": "结局数量",
+      "videoCountLabel": "视频数量",
+      "videoLabel": "视频",
+      "numberLabel": "编号",
+      "nameLabel": "名称",
+      "namePlaceholder": "如：最佳结局",
+      "previewLabel": "显示",
+      "previewEmpty": "（为空 — 请填写编号或名称）",
+      "emptyHint": "至少添加一个结局 — 留空为 0 将跳过此项。",
+      "addOne": "添加结局",
+      "removeLast": "删除最后一个",
+      "videoRangeHint": "每个视频覆盖一段连续的结局。默认均匀分配，可按行覆盖。",
+      "multiVideoOutputNote": "每个视频的描述渲染对应结局段。从编辑器照常生成 — 预览默认显示视频 1。",
+      "warnings": {
+        "singleEmpty": "至少填写编号或名称 — 空白条目将从描述中排除。",
+        "timelineShort": "时间线需要 {{needed}} 个结局标记，但只有 {{found}} 个。复制前请补齐。",
+        "rangeInvalid": "视频 {{video}}：范围 {{from}}–{{to}} 无效（超出范围或反向）。",
+        "rangeGap": "结局 {{at}}+ 未被任何视频覆盖 — 扩展某个范围或添加视频。",
+        "rangeOverlap": "多个视频覆盖结局 {{at}} — 请调整范围以避免重叠。",
+        "rangeShort": "最后覆盖的结局是 {{at}}，但共有 {{total}} 个 — 最后一个视频范围过短。"
+      }
+    },
     "techNotes": "技术说明",
     "techNoteSearchPlaceholder": "搜索说明…",
     "techNoteEmpty": "无匹配的说明",

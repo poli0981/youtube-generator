@@ -444,7 +444,7 @@
       "boss": "ボス{{n}}",
       "final_boss": "ラスボス",
       "intro": "オープニング",
-      "ending": "エンディング",
+      "ending": "エンディング{{n}}",
       "tutorial": "チュートリアル",
       "credits": "クレジット"
     }

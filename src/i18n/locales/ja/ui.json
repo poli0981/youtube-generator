@@ -446,6 +446,29 @@
         "custom": "カスタム…"
       }
     },
+    "endings": {
+      "countLabel": "エンディング数",
+      "videoCountLabel": "動画数",
+      "videoLabel": "動画",
+      "numberLabel": "番号",
+      "nameLabel": "名前",
+      "namePlaceholder": "例: ベストエンド",
+      "previewLabel": "表示",
+      "previewEmpty": "(空 — 番号か名前を入力)",
+      "emptyHint": "エンディングを 1 件以上追加してください — 0 のままだとこの項目はスキップされます。",
+      "addOne": "エンディング追加",
+      "removeLast": "最後を削除",
+      "videoRangeHint": "各動画はエンディングの連続したスライスを担当します。デフォルトでは均等に分割されますが、行ごとに上書きできます。",
+      "multiVideoOutputNote": "各動画の説明はそのスライスを描画します。通常どおりエディタから生成 — プレビューはデフォルトで動画 1 を表示します。",
+      "warnings": {
+        "singleEmpty": "番号か名前のいずれかを入力してください — 空欄のエントリは説明から除外されます。",
+        "timelineShort": "タイムラインに {{needed}} 件のエンディングマーカーが必要ですが、{{found}} 件のみ。コピー前に不足分を追加してください。",
+        "rangeInvalid": "動画 {{video}}: 範囲 {{from}}–{{to}} は無効です（境界外または反転）。",
+        "rangeGap": "エンディング {{at}}+ はどの動画にも含まれません — 範囲を拡張するか動画を追加してください。",
+        "rangeOverlap": "複数の動画がエンディング {{at}} を含みます — 重複を避けるよう調整してください。",
+        "rangeShort": "最後にカバーされたエンディングは {{at}} ですが、全部で {{total}} 件 — 最終動画の範囲が短すぎます。"
+      }
+    },
     "techNotes": "技術メモ",
     "techNoteSearchPlaceholder": "メモを検索…",
     "techNoteEmpty": "該当するメモはありません",
