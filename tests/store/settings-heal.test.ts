@@ -97,9 +97,22 @@ describe("healSettings", () => {
       genrePlaylists: { horror: "https://www.youtube.com/playlist?list=abc" },
       editorAccordionState: { gameInfo: false, videoSettings: true },
       sidebarCollapsed: true,
+      logRetentionDays: 14,
     };
     const healed = healSettings(complete);
     expect(healed).toEqual(complete);
+  });
+
+  it("back-fills logRetentionDays to 7 when absent (pre-v0.17 payload)", () => {
+    const healed = healSettings({ theme: "dark" as const });
+    expect(healed.logRetentionDays).toBe(7);
+  });
+
+  it("clamps logRetentionDays to [1, 90]", () => {
+    expect(healSettings({ logRetentionDays: 0 } as unknown).logRetentionDays).toBe(1);
+    expect(healSettings({ logRetentionDays: -5 } as unknown).logRetentionDays).toBe(1);
+    expect(healSettings({ logRetentionDays: 1000 } as unknown).logRetentionDays).toBe(90);
+    expect(healSettings({ logRetentionDays: 30.7 } as unknown).logRetentionDays).toBe(30);
   });
 
   it("back-fills showSponsorCredit default when the key is absent (v3 → v4 payload)", () => {

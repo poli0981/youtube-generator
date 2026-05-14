@@ -2,6 +2,58 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.17.0 — 2026-05-14
+
+Combined release: logging overhaul + the deferred ending title piece
+from v0.16.0. The Output title now reflects the structured endings
+the creator filled in (case-A/B/C aware), and the Logs tab persists
+entries across app restarts with session-grouped navigation and
+JSON/TXT export.
+
+### Added
+
+- **Structured ending titles** ([src/engine/title-builder.ts](src/engine/title-builder.ts)). When `videoType === "ending"` AND `endings[]` is filled, the title's video-type segment swaps from the static `"Ending"` to a context-aware label, picked by a four-tier resolver:
+  1. Single entry → `formatEndingEntry()` (e.g. `"Ending 3: Best End"`, `"Ending 3"`, or `"Best End"` depending on which fields are filled).
+  2. Multi-entry, every entry named → comma-joined names (`"True End, Bad End, Hidden"`).
+  3. Multi-entry, every entry numbered + contiguous run → `title.endingLabel.range` (`"Endings 1–3"` / `"Kết thúc 1–3"`).
+  4. Mixed / non-contiguous → `title.endingLabel.count` (`"3 Endings"`).
+  Falls back to the legacy locale label when no usable entries — pre-v0.16 single-ending creators see byte-identical output. Slicing respects `endingVideoIndex` + `endingVideoRanges` so a per-video title renders only that video's slice (foundation for the v0.17.1 per-video Output selector).
+- **Persistent log storage** ([src/utils/log-storage.ts](src/utils/log-storage.ts)). Logs now survive app restarts:
+  - Tauri: append-only JSONL file `{appData}/logs/ytdescgen-YYYYMMDD.jsonl`. Daily rotation; cleanup deletes whole files older than `logRetentionDays` so retention sweeps are O(files) not O(entries). Three new Tauri commands feed this: `append_to_file`, `list_dir`, `delete_file`.
+  - Web: localStorage key `ytdescgen-logs`, FIFO-capped at 5000 entries.
+  - Best-effort: persistence failures never throw, so a disk hiccup can't recurse into a log loop.
+- **Session-grouped LogPage** ([src/pages/LogPage.tsx](src/pages/LogPage.tsx)). Each entry now carries a `sessionId` (one per app boot). The page renders one collapsible block per session — current session expanded, prior sessions collapsed — with a per-session "Clear this session" affordance. Header shows entry count + error/warning counts + time range per session.
+- **Log export buttons**:
+  - **JSON** — envelope-wrapped via the v0.15 `exportTypedToJsonFile` (currently keyed `_type: "history"`; promote to a dedicated `log` type later when re-import becomes a use case).
+  - **TXT** — `[ISO time] [LEVEL] [source] message — details` one line per entry, chronological. Pastes cleanly into bug reports.
+- **`logRetentionDays` setting** ([src/store/settings-store.ts](src/store/settings-store.ts), [src/store/settings-heal.ts](src/store/settings-heal.ts)). Default 7 days; clamped to `[1, 90]` by `healSettings`. New section in Settings → Logs with inline hint. Persist-store version bumped 9 → 10.
+- **Boot-time log hydration** ([src/App.tsx](src/App.tsx)). `hydrateLogStore(retentionDays)` runs in the root `useEffect`, loads recent persisted entries before the UI mounts, then schedules `pruneOldLogs` so the AppData folder stays trim.
+- **Locale keys (10 new × 6 locales)**: `title.endingLabel.{range,count}` (2 templates keys), `settings.{logSettings,logRetentionDays,logRetentionHint}` + `logs.{clearPersistedConfirm,clearSession,exportJson,exportTxt,sessionCurrent,sessionLabel,entriesShort}` (10 ui keys). All 715 ui + 370 templates keys per locale.
+
+### Changed
+
+- **`log-store` schema** — `LogEntry` gained a `sessionId` field; in-memory cap raised from 500 → 2000 with persistence in play so a current session can fully populate the accordion without pagination. New actions: `clearAllPersisted` (in-memory + disk), `clearSession(id)`.
+- **LogPage "Clear All"** now clears in-memory state AND deletes persisted JSONL files / localStorage. Two-step confirm via `clearPersistedConfirm` toast.
+- **File envelope** — `SCHEMA_VERSIONS.settings` bumped 9 → 10 to match the persist version. v0.15+ settings exports still import unchanged via the `healSettings` defensive merge.
+
+### Tests
+
+- 11 new title-builder tests covering all four ending-label tiers + Vietnamese localisation + slice + fallback. 422/422 pass overall.
+- 3 new settings-heal tests for the `logRetentionDays` default and `[1, 90]` clamp.
+
+### Under the hood
+
+- Tauri command surface gained 3 entries (`append_to_file`, `list_dir`, `delete_file`). All stdlib — no new crates.
+- `pruneOldLogs` runs *after* `loadRecentLogs` at boot, so an entry on the retention edge is read into memory before being deleted from disk (last-chance access).
+- Bundle: index 470.51 KB (+7 KB for title-builder ending logic), LogPage chunk 8.37 KB (+3 KB for session accordion + export buttons). Still under the 500 KB cap.
+
+### Migration notes
+
+- **Settings persist version 9 → 10**. Additive — `logRetentionDays` back-fills to 7 on first rehydrate, no user action required.
+- **First-run on Tauri**: app creates `%APPDATA%\com.skullmute.ytdescgen\logs\` on the first log entry. The new `append_to_file` command auto-creates the parent dir via `std::fs::create_dir_all`.
+- **Web users**: persisted entries live in `localStorage["ytdescgen-logs"]`; nothing to migrate.
+- **Pre-v0.16 ending creators**: title behaviour unchanged unless they fill the new structured fields. Filling triggers the new resolver immediately.
+
 ## v0.16.0 — 2026-05-14
 
 Structured ending editor + multi-video split. The Playthrough Notes

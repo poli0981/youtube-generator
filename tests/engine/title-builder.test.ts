@@ -68,6 +68,178 @@ describe("buildTitle", () => {
     expect(result).toBe("Elden Ring — Ending — Gameplay No Commentary");
   });
 
+  // v0.17.0: when the creator fills structured endings, the title's
+  // video-type segment swaps from the static "Ending" to a label
+  // built off the entries themselves.
+  it("renders a single structured ending with both number + name (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [{ number: 3, name: "Best End" }],
+      }),
+      t,
+    );
+    expect(result).toBe(
+      "Elden Ring — Ending 3: Best End — Gameplay No Commentary",
+    );
+  });
+
+  it("renders a single structured ending with number only (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [{ number: 7, name: "" }],
+      }),
+      t,
+    );
+    expect(result).toBe("Elden Ring — Ending 7 — Gameplay No Commentary");
+  });
+
+  it("renders a single structured ending with name only (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [{ number: null, name: "True End" }],
+      }),
+      t,
+    );
+    expect(result).toBe("Elden Ring — True End — Gameplay No Commentary");
+  });
+
+  it("collapses multi-ending to comma-joined names when all named (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [
+          { number: 1, name: "True End" },
+          { number: 2, name: "Bad End" },
+          { number: 3, name: "Hidden" },
+        ],
+      }),
+      t,
+    );
+    expect(result).toBe(
+      "Elden Ring — True End, Bad End, Hidden — Gameplay No Commentary",
+    );
+  });
+
+  it("renders contiguous numbered endings as a range (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        // Numbers only, contiguous.
+        endings: [
+          { number: 1, name: "" },
+          { number: 2, name: "" },
+          { number: 3, name: "" },
+        ],
+      }),
+      t,
+    );
+    expect(result).toBe(
+      "Elden Ring — Endings 1–3 — Gameplay No Commentary",
+    );
+  });
+
+  it("handles out-of-order numbered endings by sorting for the range (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [
+          { number: 3, name: "" },
+          { number: 1, name: "" },
+          { number: 2, name: "" },
+        ],
+      }),
+      t,
+    );
+    expect(result).toBe("Elden Ring — Endings 1–3 — Gameplay No Commentary");
+  });
+
+  it("falls back to count form when non-contiguous numbers (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [
+          { number: 1, name: "" },
+          { number: 4, name: "" }, // gap → non-contiguous
+        ],
+      }),
+      t,
+    );
+    expect(result).toBe("Elden Ring — 2 Endings — Gameplay No Commentary");
+  });
+
+  it("respects endingVideoIndex when slicing for per-video title (v0.17.0)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [
+          { number: 1, name: "True" },
+          { number: 2, name: "Bad" },
+          { number: 3, name: "Best" },
+          { number: 4, name: "Hidden" },
+        ],
+        endingVideoCount: 2,
+        endingVideoIndex: 2,
+        endingVideoRanges: [
+          { from: 1, to: 2 },
+          { from: 3, to: 4 },
+        ],
+      }),
+      t,
+    );
+    // Video 2 covers endings 3 & 4 — joined names.
+    expect(result).toBe("Elden Ring — Best, Hidden — Gameplay No Commentary");
+  });
+
+  it("falls back to the legacy 'Ending' label when no usable entries (v0.17.0)", () => {
+    const t = createMockT("en");
+    // All entries empty → drop signal → fall back.
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        endings: [{ number: null, name: "" }],
+      }),
+      t,
+    );
+    expect(result).toBe("Elden Ring — Ending — Gameplay No Commentary");
+  });
+
+  it("falls back when endings array is undefined (legacy creator)", () => {
+    const t = createMockT("en");
+    const result = buildTitle(
+      makeInput({ videoType: "ending", endings: undefined }),
+      t,
+    );
+    expect(result).toBe("Elden Ring — Ending — Gameplay No Commentary");
+  });
+
+  it("renders Vietnamese ending range with localised label (v0.17.0)", () => {
+    const t = createMockT("vi");
+    const result = buildTitle(
+      makeInput({
+        videoType: "ending",
+        language: "vi",
+        gameName: "Elden Ring",
+        endings: [
+          { number: 1, name: "" },
+          { number: 2, name: "" },
+        ],
+      }),
+      t,
+    );
+    expect(result).toContain("Kết thúc 1–2");
+  });
+
   it("generates speedrun title", () => {
     const t = createMockT("en");
     const result = buildTitle(makeInput({ videoType: "speedrun" }), t);

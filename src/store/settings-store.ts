@@ -69,7 +69,9 @@ export const useSettingsStore = create<SettingsState>()(
       // explicit per-version migration step is required here.
       // v8 → v9: v0.11 added `showThirdPartyAds`. Additive — same back-fill
       // path as v8.
-      version: 9,
+      // v9 → v10: v0.17.0 added `logRetentionDays`. Additive — defaults to
+      // 7 days; `healSettings` clamps incoming values to [1, 90].
+      version: 10,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -112,6 +114,7 @@ function extractData(state: SettingsData): SettingsData {
     titleFormat: { ...state.titleFormat },
     editorAccordionState: state.editorAccordionState,
     sidebarCollapsed: state.sidebarCollapsed,
+    logRetentionDays: state.logRetentionDays,
   };
 }
 

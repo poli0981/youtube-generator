@@ -425,6 +425,25 @@ export function SettingsPage() {
             }}
           />
         </section>
+
+        {/* 8. Logs — v0.17.0 retention. */}
+        <section className="flex flex-col gap-3">
+          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.logSettings")}</h2>
+          <Input
+            label={t("settings.logRetentionDays")}
+            type="number"
+            min={1}
+            max={90}
+            value={String(settings.logRetentionDays)}
+            onChange={(e) => {
+              // Same clamp as `healSettings` so the in-memory value
+              // never goes out of bounds before persistence runs.
+              const val = Math.max(1, Math.min(90, Number(e.target.value) || 7));
+              settings.setSetting("logRetentionDays", val);
+            }}
+          />
+          <p className="text-xs text-text-muted">{t("settings.logRetentionHint")}</p>
+        </section>
       </div>
     </div>
   );

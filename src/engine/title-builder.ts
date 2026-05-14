@@ -12,6 +12,8 @@ import {
   GACHA_PART_SUFFIX_STYLES,
   type GachaQuestType,
 } from "@config/gacha-quest-types";
+import { formatEndingEntry, sliceEndingsForVideo } from "./endings-format";
+import type { EndingEntry } from "./types";
 
 /**
  * Compact "[2K 60FPS]" badge appended to the video-type segment when the
@@ -169,6 +171,91 @@ export function buildGachaPartSuffix(
   return resolved && resolved !== key ? resolved : "";
 }
 
+/**
+ * Build the video-type segment of the title when `videoType === "ending"`
+ * AND the creator has filled at least one structured {@link EndingEntry}
+ * (v0.17.0). Three tiers, picked by what's available:
+ *
+ *   1. Single entry → `formatEndingEntry()` (e.g. `"Ending 3: Best End"`,
+ *      `"Ending 3"`, or `"Best End"`).
+ *   2. Multiple entries, every entry has a non-empty `name` → comma-join
+ *      the names. Plays well with multi-route VN-style endings where
+ *      the creator cares more about the named routes than the ordinals.
+ *   3. Multiple entries, every entry has a `number` AND they form a
+ *      contiguous run → `"Endings {from}–{to}"` via locale key
+ *      `title.endingLabel.range`. Tightest visible label for batched
+ *      ending playthroughs ("Endings 1–3" / "Kết thúc 1–3").
+ *   4. Mixed / non-contiguous fallback → `"{count} Endings"` via
+ *      `title.endingLabel.count`.
+ *
+ * Returns `null` when no structured data is usable, signalling the
+ * caller to fall back to the legacy locale-string label
+ * (`title.videoType.ending` = "Ending"). This keeps existing single-
+ * ending creators byte-identical post-migration.
+ *
+ * Slicing: respects `endingVideoIndex` + `endingVideoRanges` so a
+ * per-video title for case C renders only that video's slice of
+ * endings. The Output page passes the index when looping over
+ * `endingVideoCount`; bare generation (no index) sees the union.
+ */
+export function buildStructuredEndingLabel(
+  input: GeneratorInput,
+  t: TranslationFn,
+): string | null {
+  const endings: EndingEntry[] = input.endings ?? [];
+  if (endings.length === 0) return null;
+
+  const sliced = sliceEndingsForVideo(endings, input);
+  // Drop entries that have neither number nor a non-empty name — they
+  // produce no visible label and would dilute the comma-join / count.
+  const usable = sliced.filter((e) => {
+    const hasNumber =
+      typeof e.number === "number" && Number.isFinite(e.number);
+    const hasName = (e.name ?? "").trim().length > 0;
+    return hasNumber || hasName;
+  });
+  if (usable.length === 0) return null;
+
+  if (usable.length === 1) {
+    const only = usable[0];
+    return only ? formatEndingEntry(only) : null;
+  }
+
+  // Multi-entry: prefer named comma-join when every entry has a name.
+  const allHaveNames = usable.every((e) => (e.name ?? "").trim().length > 0);
+  if (allHaveNames) {
+    return usable.map((e) => e.name.trim()).join(", ");
+  }
+
+  // Numbered + contiguous → range form. Sort + scan adjacent diffs to
+  // detect contiguity so an out-of-order entry list ([3, 1, 2]) still
+  // collapses to "Endings 1–3".
+  const numbers = usable
+    .map((e) => e.number)
+    .filter((n): n is number => typeof n === "number" && Number.isFinite(n));
+  if (numbers.length === usable.length) {
+    const sorted = [...numbers].sort((a, b) => a - b);
+    const isContiguous = sorted.every(
+      (n, i) => i === 0 || n === (sorted[i - 1] as number) + 1,
+    );
+    if (isContiguous) {
+      const from = sorted[0] as number;
+      const to = sorted[sorted.length - 1] as number;
+      const key = "title.endingLabel.range";
+      const resolved = t(key, { from: String(from), to: String(to) });
+      if (resolved && resolved !== key) return resolved;
+      // Fallback if the locale hasn't migrated yet — keep behaviour sane.
+      return `Endings ${from}–${to}`;
+    }
+  }
+
+  // Mixed / non-contiguous: report count.
+  const key = "title.endingLabel.count";
+  const resolved = t(key, { count: String(usable.length) });
+  if (resolved && resolved !== key) return resolved;
+  return `${usable.length} Endings`;
+}
+
 export function buildTitle(
   input: GeneratorInput,
   t: TranslationFn,
@@ -220,13 +307,25 @@ export function buildTitle(
     });
   }
 
-  const videoTypeLabel = t(`title.videoType.${input.videoType}`, {
-    partNumber: input.partNumber ?? "",
-    bossName: input.bossName ?? "",
-    dlcName: input.dlcName ?? "",
-    challengeName: input.challengeName ?? "",
-    modName: input.modName ?? "",
-  });
+  // v0.17.0: when the creator has filled structured endings, replace
+  // the static "Ending" label with a context-aware one (single entry
+  // surfaces the ending's name, multi-entry collapses to a name list /
+  // contiguous range / count). Falls back to the locale string when no
+  // structured data is usable, so the legacy single-ending creators
+  // who haven't migrated see byte-identical output.
+  let videoTypeLabel: string;
+  if (input.videoType === "ending") {
+    const structured = buildStructuredEndingLabel(input, t);
+    videoTypeLabel = structured ?? t("title.videoType.ending");
+  } else {
+    videoTypeLabel = t(`title.videoType.${input.videoType}`, {
+      partNumber: input.partNumber ?? "",
+      bossName: input.bossName ?? "",
+      dlcName: input.dlcName ?? "",
+      challengeName: input.challengeName ?? "",
+      modName: input.modName ?? "",
+    });
+  }
 
   return composeTitle({
     gameName,

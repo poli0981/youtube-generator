@@ -776,7 +776,10 @@
     "pinnedCommentIncludeGenrePlaylist": "Kèm gợi ý playlist theo thể loại trong pinned comment",
     "genrePlaylistsTitle": "Playlist theo thể loại",
     "genrePlaylistsHelp": "Cấu hình URL YouTube playlist cho từng thể loại. Pinned comment sẽ tự động gợi ý playlist phù hợp với thể loại chính của video.",
-    "genrePlaylistsEmptyHint": "Bỏ trống nếu chưa có playlist cho thể loại đó."
+    "genrePlaylistsEmptyHint": "Bỏ trống nếu chưa có playlist cho thể loại đó.",
+    "logSettings": "Nhật ký",
+    "logRetentionDays": "Giữ log (ngày)",
+    "logRetentionHint": "Log cũ hơn số ngày này sẽ tự xoá khi mở app. Phạm vi: 1–90 ngày."
   },
   "batch": {
     "title": "Chế độ hàng loạt",
@@ -822,6 +825,13 @@
     "emptyState": "Chưa có nhật ký.",
     "clearAll": "Xóa tất cả",
     "clearConfirm": "Bạn có chắc muốn xóa toàn bộ nhật ký?",
-    "searchPlaceholder": "Tìm kiếm nhật ký..."
+    "clearPersistedConfirm": "Xóa nhật ký trong bộ nhớ VÀ xoá file log đã lưu? Hành động này không thể hoàn tác.",
+    "clearSession": "Xoá phiên này",
+    "searchPlaceholder": "Tìm kiếm nhật ký...",
+    "exportJson": "Xuất JSON",
+    "exportTxt": "Xuất TXT",
+    "sessionCurrent": "Phiên hiện tại",
+    "sessionLabel": "Phiên {{n}}",
+    "entriesShort": "bản ghi"
   }
 }

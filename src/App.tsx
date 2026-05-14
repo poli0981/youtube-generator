@@ -7,6 +7,8 @@ import { ErrorBoundary } from "@components/ErrorBoundary";
 import { EditorPage } from "@pages/EditorPage";
 import { OutputPage } from "@pages/OutputPage";
 import { checkDataFileHealth } from "@utils/storage-adapter";
+import { hydrateLogStore } from "@store/log-store";
+import { useSettingsStore } from "@store/settings-store";
 import "@i18n/index";
 
 const ProfilesPage = lazy(() =>
@@ -57,6 +59,13 @@ export default function App() {
     checkDataFileHealth().then((msg) => {
       if (msg) toast(msg, { icon: "⚠️", duration: 5000 });
     });
+    // v0.17.0: hydrate the log store from persisted JSONL files /
+    // localStorage so prior-session entries surface in the Logs tab
+    // accordion. Uses the current `logRetentionDays` setting — read
+    // directly off the store at mount time so we don't rerun on
+    // every settings tweak.
+    const retentionDays = useSettingsStore.getState().logRetentionDays;
+    void hydrateLogStore(retentionDays);
   }, []);
 
   return (
