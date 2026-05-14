@@ -2,6 +2,95 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.14.0 — 2026-05-14
+
+Three independent strands land together:
+
+1. **License flip MIT → Apache-2.0.** The repo previously claimed MIT in README/CLAUDE.md but had no `LICENSE` file. Adds canonical Apache License 2.0 text, a `NOTICE` asserting copyright + AI-assisted-development disclosure, and the `license` field in `package.json` + `src-tauri/Cargo.toml`. Per the production-docs spec.
+2. **Content warnings 69 → 91** across a new 8th group `gameplay_disclosure`. Adds horror-channel staples plus transparency disclosures for non-vanilla play. See "Added" below for the full ID list.
+3. **Mobile-responsive web** without PWA or Tauri-mobile. The GitHub Pages build is now usable on phones (drawer nav below `md`, touch-sized form controls, iOS-safe focus behavior, safe-area-inset padding for notch/home indicator).
+
+Plus a documentation sweep: full `README.md` rewrite, new root policy files for public release (`SECURITY`, `CONTRIBUTING`, `CODE_OF_CONDUCT`, `PRIVACY`, `DISCLAIMER`, `TERMS`, `THIRD_PARTY_NOTICES`, `MAINTAINERS`), `docs/DEVELOPMENT.md` merging the deleted `pc_spec.md` + `dev_env.md`, Vietnamese mirrors for DEVELOPMENT and DISCLAIMER, and a `.github/PULL_REQUEST_TEMPLATE.md`.
+
+### Added
+
+- **`LICENSE`** (root) — canonical Apache License 2.0 text. **`NOTICE`** asserting `Copyright 2026 poli0981` + Claude Code 4.7 Opus (1M context) co-authorship disclosure. `license` field added to `package.json` and `src-tauri/Cargo.toml`.
+- **22 new content-warning IDs** across 8 groups ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)):
+  - Phobias (+3): `coulrophobia` (clowns), `ablutophobia` (drowning), `taphophobia` (live burial).
+  - Photosensitive (+2): `strobe_effects`, `screen_shake_intense`.
+  - Mental Health (+3): `paranoia_themes`, `intrusive_thoughts`, `medical_horror`.
+  - Sensitive (+3): `human_experimentation`, `cannibalism`, `nuclear_themes`.
+  - Horror-Specific (+5): `liminal_spaces`, `analog_horror`, `unreality_themes`, `pursuit_chase`, `entity_horror`.
+  - Playstyle (+2): `first_time_playing`, `returning_player`.
+  - **NEW group Gameplay Disclosure (+4)**: `mods_used`, `cheats_enabled`, `glitch_exploits`, `assisted_run`.
+- **`src/components/ui/Drawer.tsx`** — slide-in mobile-nav drawer. Reuses overlay + Esc patterns from `Modal.tsx`; body-scroll lock + safe-area-inset padding; tap-outside-to-close.
+- **`tailwind.config.ts`** — `theme.extend.spacing.touch = "44px"` (iOS HIG minimum), exposed via `min-h-touch` / `h-touch` utilities.
+- **Mobile keyboard hints** — `inputMode` / `autoComplete` / `enterKeyHint` on game-name, channel-name, contact-email, and playlist-URL fields so iOS shows the right keyboard.
+- **Root policy file set** for public release: `SECURITY.md` (private-disclosure flow), `CONTRIBUTING.md` (PR process, validate:locales gate, auto-ignore rules), `CODE_OF_CONDUCT.md` (Contributor Covenant v2.1 link), `PRIVACY.md` (offline-first, localStorage keys listed, GDPR/CCPA), `DISCLAIMER.md` (AI-assistance + translation-quality disclosure), `TERMS.md` (Apache-2.0 + GitHub ToS + GDPR/CCPA/PIPL/LGPD/VN Cybersecurity), `THIRD_PARTY_NOTICES.md` (full dep table + AI disclosure paragraph), `MAINTAINERS.md`. Plus `.github/PULL_REQUEST_TEMPLATE.md`.
+- **`docs/DEVELOPMENT.md`** (EN) + **`docs/i18n/vi/DEVELOPMENT.md`** (VI) — merge of the deleted `pc_spec.md` + `dev_env.md`. Covers toolchain (Node ≥ 22, Rust stable, Tauri 2), JetBrains 2026.x + VS Code setup, build commands, per-OS Tauri prerequisites, troubleshooting.
+- **`docs/i18n/vi/DISCLAIMER.md`** — VI mirror of `DISCLAIMER.md`.
+
+### Changed
+
+- **`Sidebar.tsx`** — extracts `<SidebarNavList collapsed onItemClick?>` so the same nav can render inside the desktop sidebar **and** the new mobile Drawer. Outer `<aside>` now `hidden md:flex`.
+- **`AppShell.tsx`** — wires `mobileNavOpen` state + renders `<Drawer side="left">` containing `<SidebarNavList />` for mobile. Header gets `onOpenMobileNav` prop.
+- **`Header.tsx`** — adds `Menu` hamburger (md:hidden), `pt-[max(0.75rem,env(safe-area-inset-top))]` for iOS notch, donate icon-only below md, language dropdown width `min-w-[200px] max-w-[calc(100vw-2rem)]` so it never overflows at 360px width.
+- **`Button.tsx` / `Input.tsx` / `Textarea.tsx` / `ValidatedInput.tsx`** — bump heights to `min-h-touch` (44 px) for `md` / `lg`; `sm` to `min-h-[36px]` (iOS minimum). Inputs / textareas use `text-base sm:text-sm` to prevent iOS Safari focus zoom (Safari zooms when font-size < 16 px).
+- **`EditorPage.tsx`** — responsive padding `gap-6 p-6 lg:flex-row` → `gap-4 p-3 sm:p-4 md:gap-6 md:p-6 lg:flex-row`. Sticky preview wrapper changed to `lg:sticky lg:top-6` so mobile portrait doesn't lock the preview.
+- **`OutputPreview.tsx`** — description scroll-box `max-h-[400px]` → `max-h-[60vh] sm:max-h-[400px]`.
+- **`CopyAllBar.tsx`** — `pb-[max(0.75rem,env(safe-area-inset-bottom))]` for iOS home indicator; button class compaction below `sm`.
+- **`README.md`** — full rewrite (~200 lines). Badges (Apache-2.0 / Node ≥ 22 / latest release / last commit), Use Cases (esp. horror gameplay), Privacy section, full doc table, AI disclosure, channel/socials block.
+- **`CLAUDE.md`** — license MIT → Apache-2.0; project-structure tree updated (`PRD.md` removed, `DEVELOPMENT.md` added with VI mirror sibling).
+- **`src/config/about.ts`** — `license` MIT → Apache-2.0. `pcSpecDocUrl` / `devEnvDocUrl` field names preserved for About-page layout compat but now point to `docs/DEVELOPMENT.md` (EN) and `docs/i18n/vi/DEVELOPMENT.md` (VI) respectively.
+- **`webapp/TAURI.md`** — cross-links updated to `docs/DEVELOPMENT.md`.
+
+### Removed
+
+- **`docs/PRD.md`** — Product Requirements Document V1.0 (2026-04-07). Shipped through v0.13.1; no longer load-bearing for public readers.
+- **`docs/pc_spec.md`** + **`docs/dev_env.md`** — merged into `docs/DEVELOPMENT.md`.
+- **`docs/i18n/vi/pc_spec.md`** + **`docs/i18n/vi/dev_env.md`** — merged into `docs/i18n/vi/DEVELOPMENT.md`.
+
+### Under the hood
+
+- **`_schema.json`** updated with the 23 new keys (1 new group label + 22 new option keys + 22 new long-description keys). All 6 locales × 2 files now at 686/686 ui + 368/368 templates.
+- **No engine logic changes.** `description-builder.ts:415-431` already loops content warnings by user selection order — the new IDs are pure-data additions.
+- 350/350 tests still pass — no engine math changed.
+- Bundle: 443.55 KB raw / 136.55 KB gzip (under the 500 KB cap; ~+30 KB vs v0.13.1 from the docs imports being inlined).
+- Repository URL canonicalized — all README / CLAUDE / DEVELOPMENT references that pointed to `github.com/poli0981/yt-desc-gen` now correctly resolve `github.com/poli0981/youtube-generator`. `src/config/about.ts` still uses the canonical name; no behavior change.
+- Tauri app-data identifier (`com.skullmute.ytdescgen`) documented correctly in `PRIVACY.md`.
+
+### Migration notes
+
+- **License change is not a code migration** — your build environment doesn't need any action. If you redistribute the source, the new `LICENSE` + `NOTICE` apply per Apache 2.0 §§ 4(a)–4(d). Pre-v0.14 forks may continue under their snapshot's license; this is a forward change.
+- **No store schema bump.** Editor / settings / profile / preset / template store versions unchanged. Persisted drafts containing the legacy `contentWarnings` array round-trip unchanged — the array just renders against the expanded ID set.
+- **Mobile users** get the new layout automatically on next visit; nothing to opt in to.
+
+## v0.13.1 — 2026-05-11
+
+Same-day hotfix for v0.13.0. Three small but load-bearing pieces:
+
+### Added
+
+- **GitHub-side housekeeping** — `.github/FUNDING.yml` (mirrors `Donate.txt`), `.github/ISSUE_TEMPLATE/{config,bug_report,feature_request}.yml`, `docs/pc_spec.md` + `docs/dev_env.md` (+ VI mirrors), `webapp/TAURI.md`. Auto-link-discussion job added to `announce-release.yml` (`gh release edit --discussion-category "Announcements"`) so every future release auto-creates a linked Discussion thread.
+- **AboutPage restructure** — split into Repository / Donate / Connect / Dev Environment / Third-Party sections. Ko-fi / Patreon moved out of `ABOUT.socials` into a new `@config/donate` (`PRIMARY_DONATE_URL` constant feeds the Header donate button). Socials expanded with Bluesky, Mastodon, Steam, Telegram (bot + user), email, game-server Discord.
+- **Header donate button** — persistent pink Ko-fi link to the left of the language switcher.
+- **Sidebar external link** — Report Bug item added to the tabs array via a new `external?: boolean` field on `TabItem`; branches render between `<NavLink>` and plain `<a target="_blank">`.
+- **Basic SEO** — expanded `<head>` (description, OG, Twitter card, JSON-LD `WebApplication`, 6 locale alternates) + new `useDocumentTitle(title)` hook applied to all 9 page components + `public/{robots.txt,sitemap.xml,manifest.webmanifest,favicon.svg}` (favicon is a placeholder SVG).
+- **Heavy-horror content-warning group** (7 IDs: `eye_horror`, `body_horror`, `face_horror`, `cosmic_horror`, `extreme_gore`, `decay_rot`, `mutilation`) translated to all 6 locales in both short-label and long-description forms.
+
+### Changed
+
+- **Workflow `workflow_run` filters narrowed** — `notify-ci-failure.yml` / `notify-deploy.yml` / `notify-release-pipeline.yml` switched from `workflows: ["*"]` to specific producer names. Eliminates Skipped-row spam in the Actions tab.
+- **`@tauri-apps/api` 2.10.1 → 2.11.0** to match Rust `tauri` 2.11.1 (Dependabot bumped Rust side; tauri-action requires the npm and Rust minors to match).
+
+### Fixed
+
+- **Tauri-action `releaseDraft: true` is search-by-version, not search-by-tag.** The initial v0.13.1 tag push silently uploaded `0.13.0`-labelled binaries to the existing v0.13.0 release object because `src-tauri/{tauri.conf.json, Cargo.toml, Cargo.lock}` stayed at `0.13.0`. Recovered with PR #58 (Tauri-side manifests to 0.13.1), then PR #59 (`@tauri-apps/api` bump), then force-moving the signed `v0.13.1` tag twice via `git tag -fs` + `git push origin v0.13.1 --force`, finally `gh workflow run release-desktop.yml -f tag=v0.13.0` to rebuild and restore v0.13.0's binaries.
+
+### Migration notes
+
+- **Version-bump ritual is now SIX files**, not five: `package.json`, `package-lock.json`, `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock` (the `yt-desc-gen` entry only), `src-tauri/tauri.conf.json`, and — when Rust `tauri` minor moves — `@tauri-apps/api` in `package.json` (its minor must equal Rust `tauri` crate minor).
+
 ## v0.13.0 — 2026-05-08
 
 A scope-broadening release: two UI/Gacha bugs squashed, Gacha-quest editor extended with three structured fields (Anniversary year dropdown, Showcase character name, free-form `gachaVersion`), copy buttons hard-stop when text exceeds YouTube's title/description/tags limits, the Tauri desktop window is now locked at 1100×750 (no resize, no maximize), 27 new content warnings — including a brand-new "Playstyle disclosures" group — fill the phobia / mental-health / sensitive / playstyle gaps, and the My Rig editor's free-text GPU and RAM inputs are replaced with structured cascading dropdowns (Brand → Series → Model for GPU, Size + DDR generation for RAM) covering ~200+ GPU models across 14 series and 4 brands. Two QoL touches round it out: per-quest-type smart placeholders ("Day 12" for Daily Commission, "Floor 12" for Endgame, "Part 1" for Main Story) and inline validation badges that nudge the creator when a rig field is half-filled.
