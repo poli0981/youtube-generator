@@ -776,7 +776,10 @@
     "pinnedCommentIncludeGenrePlaylist": "Include genre-playlist suggestion in pinned comment",
     "genrePlaylistsTitle": "Genre Playlists",
     "genrePlaylistsHelp": "Configure a YouTube playlist URL per genre. The pinned-comment template will auto-suggest the matching playlist when the video's primary genre is selected.",
-    "genrePlaylistsEmptyHint": "Leave empty to skip a genre."
+    "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
+    "logSettings": "日志",
+    "logRetentionDays": "日志保留 (天)",
+    "logRetentionHint": "早于此天数的日志会在启动时删除。范围：1–90 天。"
   },
   "batch": {
     "title": "批量生成",
@@ -822,6 +825,13 @@
     "emptyState": "暂无日志。",
     "clearAll": "清除全部",
     "clearConfirm": "确定要清除所有日志吗？",
-    "searchPlaceholder": "搜索日志..."
+    "clearPersistedConfirm": "清除内存中的日志并删除已保存的日志文件？此操作无法撤销。",
+    "clearSession": "清除此会话",
+    "searchPlaceholder": "搜索日志...",
+    "exportJson": "导出 JSON",
+    "exportTxt": "导出 TXT",
+    "sessionCurrent": "当前会话",
+    "sessionLabel": "会话 {{n}}",
+    "entriesShort": "条"
   }
 }

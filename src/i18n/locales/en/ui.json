@@ -776,7 +776,10 @@
     "pinnedCommentIncludeGenrePlaylist": "Include genre-playlist suggestion in pinned comment",
     "genrePlaylistsTitle": "Genre Playlists",
     "genrePlaylistsHelp": "Configure a YouTube playlist URL per genre. The pinned-comment template will auto-suggest the matching playlist when the video's primary genre is selected.",
-    "genrePlaylistsEmptyHint": "Leave empty to skip a genre."
+    "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
+    "logSettings": "Logs",
+    "logRetentionDays": "Log retention (days)",
+    "logRetentionHint": "Logs older than this are deleted at app start. Range: 1–90 days."
   },
   "batch": {
     "title": "Batch Mode",
@@ -822,6 +825,13 @@
     "emptyState": "No log entries yet.",
     "clearAll": "Clear All",
     "clearConfirm": "Are you sure you want to clear all logs?",
-    "searchPlaceholder": "Search logs..."
+    "clearPersistedConfirm": "Clear all logs from memory AND delete persisted log files? This cannot be undone.",
+    "clearSession": "Clear this session",
+    "searchPlaceholder": "Search logs...",
+    "exportJson": "Export JSON",
+    "exportTxt": "Export TXT",
+    "sessionCurrent": "Current session",
+    "sessionLabel": "Session {{n}}",
+    "entriesShort": "entries"
   }
 }

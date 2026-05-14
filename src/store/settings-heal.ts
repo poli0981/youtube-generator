@@ -79,6 +79,14 @@ export interface SettingsData {
    * narrow-screen users don't keep collapsing on every visit.
    */
   sidebarCollapsed: boolean;
+  /**
+   * How many days of log history to keep on disk / in localStorage
+   * (v0.17.0). Files older than this are deleted at app boot.
+   * Default 7 — long enough to investigate week-ago issues, short
+   * enough to keep the AppData folder small. Clamped to `[1, 90]`
+   * by `healSettings`.
+   */
+  logRetentionDays: number;
 }
 
 export function detectBrowserLanguage(): SupportedLanguage {
@@ -128,6 +136,7 @@ export const initialSettings: SettingsData = {
     storeAndSocial: false,
   },
   sidebarCollapsed: false,
+  logRetentionDays: 7,
 };
 
 /**
@@ -171,6 +180,16 @@ export function healSettings(raw: unknown): SettingsData {
       ? (incoming.genrePlaylists as Partial<Record<GenreId, string>>)
       : {};
   incoming.genrePlaylists = { ...initialSettings.genrePlaylists, ...incomingGp };
+
+  // v9 → v10: v0.17.0. `logRetentionDays` added (default 7). Clamp
+  // to [1, 90] so an extreme value can't either spam the disk or
+  // wipe everything on boot.
+  if (typeof incoming.logRetentionDays === "number") {
+    incoming.logRetentionDays = Math.max(
+      1,
+      Math.min(90, Math.floor(incoming.logRetentionDays)),
+    );
+  }
 
   return { ...initialSettings, ...incoming } as SettingsData;
 }

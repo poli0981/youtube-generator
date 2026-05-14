@@ -776,7 +776,10 @@
     "pinnedCommentIncludeGenrePlaylist": "Include genre-playlist suggestion in pinned comment",
     "genrePlaylistsTitle": "Genre Playlists",
     "genrePlaylistsHelp": "Configure a YouTube playlist URL per genre. The pinned-comment template will auto-suggest the matching playlist when the video's primary genre is selected.",
-    "genrePlaylistsEmptyHint": "Leave empty to skip a genre."
+    "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
+    "logSettings": "로그",
+    "logRetentionDays": "로그 보관 기간 (일)",
+    "logRetentionHint": "이 일수보다 오래된 로그는 앱 시작 시 삭제됩니다. 범위: 1–90일."
   },
   "batch": {
     "title": "일괄 생성",
@@ -822,6 +825,13 @@
     "emptyState": "로그가 없습니다.",
     "clearAll": "모두 삭제",
     "clearConfirm": "모든 로그를 삭제하시겠습니까?",
-    "searchPlaceholder": "로그 검색..."
+    "clearPersistedConfirm": "메모리 내 로그와 저장된 로그 파일을 모두 삭제하시겠습니까? 되돌릴 수 없습니다.",
+    "clearSession": "이 세션 삭제",
+    "searchPlaceholder": "로그 검색...",
+    "exportJson": "JSON 내보내기",
+    "exportTxt": "TXT 내보내기",
+    "sessionCurrent": "현재 세션",
+    "sessionLabel": "세션 {{n}}",
+    "entriesShort": "건"
   }
 }

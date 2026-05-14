@@ -33,6 +33,62 @@ fn ensure_dir(path: String) -> Result<(), String> {
     std::fs::create_dir_all(&path).map_err(|e| e.to_string())
 }
 
+/// Append `content` to the file at `path`, creating the file (and any
+/// missing parent directories) if necessary. Used by the v0.17.0 log
+/// persistence pipeline to write JSONL entries one line at a time,
+/// rather than rewriting the whole file on every log call. Cheap
+/// enough that we can call it on every `addEntry` without batching.
+/// The caller is responsible for newline termination — this is a raw
+/// byte append, not a line writer.
+#[tauri::command]
+fn append_to_file(path: String, content: String) -> Result<(), String> {
+    use std::fs::OpenOptions;
+    use std::io::Write;
+    if let Some(parent) = std::path::Path::new(&path).parent() {
+        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+    }
+    let mut file = OpenOptions::new()
+        .append(true)
+        .create(true)
+        .open(&path)
+        .map_err(|e| e.to_string())?;
+    file.write_all(content.as_bytes()).map_err(|e| e.to_string())
+}
+
+/// List entries in a directory, returning their file names (not full
+/// paths). Used by the v0.17.0 log retention sweep to find
+/// `ytdescgen-*.jsonl` files older than the configured retention
+/// window. Returns an empty vec if the directory doesn't exist
+/// (i.e. no logs have been written yet) — first-run safe.
+#[tauri::command]
+fn list_dir(path: String) -> Result<Vec<String>, String> {
+    let dir = std::path::Path::new(&path);
+    if !dir.exists() {
+        return Ok(Vec::new());
+    }
+    let entries = std::fs::read_dir(dir).map_err(|e| e.to_string())?;
+    let mut names = Vec::new();
+    for entry in entries.flatten() {
+        if let Some(name) = entry.file_name().to_str() {
+            names.push(name.to_string());
+        }
+    }
+    Ok(names)
+}
+
+/// Delete a file at `path` if it exists. No-op when the file is
+/// missing (used by log retention sweep — racing with another sweep
+/// or a manual cleanup shouldn't error). Returns the OS error string
+/// on permission failures.
+#[tauri::command]
+fn delete_file(path: String) -> Result<(), String> {
+    let p = std::path::Path::new(&path);
+    if !p.exists() {
+        return Ok(());
+    }
+    std::fs::remove_file(p).map_err(|e| e.to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     // Flag that signals the user has requested a full quit (via tray menu).
@@ -112,7 +168,14 @@ pub fn run() {
                 }
             }
         })
-        .invoke_handler(tauri::generate_handler![save_to_file, read_from_file, ensure_dir])
+        .invoke_handler(tauri::generate_handler![
+            save_to_file,
+            read_from_file,
+            ensure_dir,
+            append_to_file,
+            list_dir,
+            delete_file
+        ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application")
         .run(move |_app_handle, event| {

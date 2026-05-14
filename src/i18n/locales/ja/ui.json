@@ -776,7 +776,10 @@
     "pinnedCommentIncludeGenrePlaylist": "Include genre-playlist suggestion in pinned comment",
     "genrePlaylistsTitle": "Genre Playlists",
     "genrePlaylistsHelp": "Configure a YouTube playlist URL per genre. The pinned-comment template will auto-suggest the matching playlist when the video's primary genre is selected.",
-    "genrePlaylistsEmptyHint": "Leave empty to skip a genre."
+    "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
+    "logSettings": "ログ",
+    "logRetentionDays": "ログ保持期間 (日)",
+    "logRetentionHint": "この日数より古いログは起動時に削除されます。範囲: 1–90 日。"
   },
   "batch": {
     "title": "一括モード",
@@ -822,6 +825,13 @@
     "emptyState": "ログはありません。",
     "clearAll": "すべて削除",
     "clearConfirm": "すべてのログを削除しますか？",
-    "searchPlaceholder": "ログを検索..."
+    "clearPersistedConfirm": "メモリ上のログ AND 保存済みログファイルを削除しますか？取り消せません。",
+    "clearSession": "このセッションを削除",
+    "searchPlaceholder": "ログを検索...",
+    "exportJson": "JSON でエクスポート",
+    "exportTxt": "TXT でエクスポート",
+    "sessionCurrent": "現在のセッション",
+    "sessionLabel": "セッション {{n}}",
+    "entriesShort": "件"
   }
 }

@@ -30,6 +30,10 @@
       "livestream": "🔴 LIVE",
       "gacha_quest": ""
     },
+    "endingLabel": {
+      "range": "엔딩 {{from}}–{{to}}",
+      "count": "엔딩 {{count}}개"
+    },
     "gachaQuestType": {
       "main_story": "{{gameName}} — {{chapterName}}{{partSuffix}}",
       "world_quest": "{{gameName}} — World Quest: {{questName}}",

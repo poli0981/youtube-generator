@@ -155,17 +155,18 @@
     "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
     "templates": ["title", "createNew", "saveAsTemplate", "templateName", "templateNamePlaceholder", "loadTemplate", "deleteConfirm", "emptyState", "saveHint", "savedAs", "appliedToast", "exportTemplates", "importTemplates"],
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
-    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy", "showSponsorCredit", "showThirdPartyAds", "thirdPartyAdsHint", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy", "showSponsorCredit", "showThirdPartyAds", "thirdPartyAdsHint", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint", "logSettings", "logRetentionDays", "logRetentionHint"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "toggleSidebar", "help", "close", "searchPlaceholder", "noResults"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid"],
-    "logs": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
+    "logs": ["title", "emptyState", "clearAll", "clearConfirm", "clearPersistedConfirm", "clearSession", "searchPlaceholder", "exportJson", "exportTxt", "sessionCurrent", "sessionLabel", "entriesShort"],
     "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
   },
   "templates": {
     "title": ["separator", "suffix"],
     "title.separators": ["emDash", "hyphen", "colon", "pipe"],
     "title.videoType": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream", "gacha_quest"],
+    "title.endingLabel": ["range", "count"],
     "title.gachaQuestType": [
       "main_story", "world_quest", "side_quest", "spinoff_quest", "companion_quest", "bond_quest",
       "event", "anniversary", "crossover", "dating_event",

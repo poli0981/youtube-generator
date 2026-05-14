@@ -60,7 +60,7 @@ export const SCHEMA_VERSIONS: Record<ExportType, number> = {
   profile: 1, // v0.11 added `thirdPartyAdText`
   preset: 2, // v0.5 added `genres[]` (was `genre`)
   template: 1, // v0.11 vendor-coercion
-  settings: 9, // matches settings-store persist version
+  settings: 10, // matches settings-store persist version
   history: 2, // v0.5 added `genres[]` to HistoryEntry
 };
 
