@@ -96,7 +96,8 @@
       "numberLabel", "nameLabel", "namePlaceholder",
       "previewLabel", "previewEmpty",
       "emptyHint", "addOne", "removeLast",
-      "videoRangeHint", "multiVideoOutputNote"
+      "videoRangeHint", "multiVideoOutputNote",
+      "videoIndexLabel", "videoIndexHint"
     ],
     "editor.endings.warnings": [
       "singleEmpty", "timelineShort",
@@ -140,7 +141,8 @@
       "thumbnailText", "copyThumbnailText",
       "pinnedComment", "copyPinnedComment",
       "pinnedCommentTemplate", "copyPinnedCommentTemplate",
-      "generateAlternatives", "saveAsTemplate"
+      "generateAlternatives", "saveAsTemplate",
+      "previewingVideo"
     ],
     "output.variants": ["default", "typeFirst", "qualityFirst"],
     "output.copy": ["overLimit", "fieldGeneric", "failed"],

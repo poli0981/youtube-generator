@@ -124,6 +124,17 @@ export interface EditorData {
    * can override.
    */
   endingVideoRanges: EndingVideoRange[];
+  /**
+   * Which per-video slice the Output page should preview (v0.17.1).
+   * 1-indexed to match the user-facing "Video 1, Video 2…" labels.
+   * Only meaningful when `endingVideoCount > 1`; in single-video
+   * mode the index is ignored and the engine renders the union.
+   *
+   * Stored on the editor (vs. derived per-render) so the creator's
+   * choice survives page navigation — flipping to Profiles and back
+   * shouldn't reset the preview to video 1.
+   */
+  endingVideoIndex: number;
   /** Language-patch enum for Playthrough Notes (v0.12). */
   languagePatch: LanguagePatch;
   /** Free-form label paired with `languagePatch === "official_other" | "custom"`. */
@@ -307,6 +318,7 @@ const initialState: EditorData = {
   endings: [...DEFAULTS.editor.endings] as EndingEntry[],
   endingVideoCount: DEFAULTS.editor.endingVideoCount,
   endingVideoRanges: [...DEFAULTS.editor.endingVideoRanges] as EndingVideoRange[],
+  endingVideoIndex: DEFAULTS.editor.endingVideoIndex,
   languagePatch: DEFAULTS.editor.languagePatch,
   languagePatchCustom: DEFAULTS.editor.languagePatchCustom,
   gameVersion: DEFAULTS.editor.gameVersion,
@@ -421,13 +433,18 @@ export const useEditorStore = create<EditorState>()(
       //         the array first, falls back to the freeform when the
       //         array is empty) produces identical output for
       //         existing drafts.
+      // v12 → v13: v0.17.1. `endingVideoIndex` joined the schema —
+      //         which per-video slice the Output preview renders
+      //         when `endingVideoCount > 1`. Additive — defaults to
+      //         1; the rehydrate spread of `initialState` covers the
+      //         back-fill for pre-v0.17.1 drafts.
       // v10 → v11: v0.13. Gacha-quest gained three new structured fields:
       //         `characterName` (used for the Showcase quest type, replacing
       //         chapter/quest in templates), `anniversaryYear` (1–20 number
       //         used by the Anniversary quest type), and `gachaVersion`
       //         (free-form game version like "1.2"). All additive — empty
       //         / null defaults round-trip cleanly.
-      version: 12,
+      version: 13,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -482,6 +499,7 @@ export const useEditorStore = create<EditorState>()(
         endings: state.endings,
         endingVideoCount: state.endingVideoCount,
         endingVideoRanges: state.endingVideoRanges,
+        endingVideoIndex: state.endingVideoIndex,
         languagePatch: state.languagePatch,
         languagePatchCustom: state.languagePatchCustom,
         gameVersion: state.gameVersion,
@@ -701,6 +719,15 @@ export function migrateEditorState(
           ? []
           : computeContiguousRanges(endingsLen, state.endingVideoCount as number);
     }
+  }
+  if (version < 13) {
+    // v0.17.1 per-video Output selector. Clamp to [1, videoCount]
+    // so a stale higher index (e.g. user shrank videoCount before
+    // upgrade) doesn't slice off-the-end and surface a confusing
+    // "empty video" preview.
+    const vc = typeof state.endingVideoCount === "number" ? state.endingVideoCount : 1;
+    const idx = typeof state.endingVideoIndex === "number" ? state.endingVideoIndex : 1;
+    state.endingVideoIndex = Math.max(1, Math.min(vc, Math.floor(idx)));
   }
   return { ...initialState, ...state } as EditorData;
 }

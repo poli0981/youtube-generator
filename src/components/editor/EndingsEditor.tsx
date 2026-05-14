@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Plus, Minus, AlertTriangle } from "lucide-react";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
+import { Select } from "@components/ui/Select";
 import {
   useEditorStore,
   computeContiguousRanges,
@@ -50,6 +51,7 @@ export function EndingsEditor() {
   const endings = useEditorStore((s) => s.endings);
   const endingVideoCount = useEditorStore((s) => s.endingVideoCount);
   const endingVideoRanges = useEditorStore((s) => s.endingVideoRanges);
+  const endingVideoIndex = useEditorStore((s) => s.endingVideoIndex);
   const timestamps = useEditorStore((s) => s.timestamps);
   const set = useEditorStore((s) => s.set);
 
@@ -99,12 +101,17 @@ export function EndingsEditor() {
   /** Update the multi-video count (case C). Recomputes default ranges
    *  on change unless the creator has already customised them — we
    *  always reset on count change because a manual override at the old
-   *  count is unlikely to make sense at the new one. */
+   *  count is unlikely to make sense at the new one. Also clamps
+   *  `endingVideoIndex` so a shrink doesn't leave us previewing a
+   *  video that no longer exists. */
   const setVideoCount = (next: number) => {
     if (count === 0) return;
     const clamped = Math.max(1, Math.min(count, Math.floor(next)));
     set("endingVideoCount", clamped);
     set("endingVideoRanges", computeContiguousRanges(count, clamped));
+    if (endingVideoIndex > clamped) {
+      set("endingVideoIndex", clamped);
+    }
   };
 
   /** Update one video's `from` / `to` bound (case C). Doesn't enforce
@@ -369,8 +376,26 @@ export function EndingsEditor() {
                   ))}
                 </ul>
               )}
+
+              {/* v0.17.1: preview-video selector. Lets the creator
+               *  pick which video's slice the Output renders. Engine
+               *  already respects `endingVideoIndex` for both title +
+               *  description; this just exposes the knob. */}
+              <Select
+                label={t("editor.endings.videoIndexLabel")}
+                options={Array.from({ length: endingVideoCount }, (_, i) => {
+                  const r = endingVideoRanges[i];
+                  const rangeLabel = r ? ` (${r.from}–${r.to})` : "";
+                  return {
+                    value: String(i + 1),
+                    label: `${t("editor.endings.videoLabel")} ${i + 1}${rangeLabel}`,
+                  };
+                })}
+                value={String(Math.min(endingVideoIndex, endingVideoCount))}
+                onChange={(v) => set("endingVideoIndex", Number(v) || 1)}
+              />
               <p className="text-xs text-text-muted">
-                {t("editor.endings.multiVideoOutputNote")}
+                {t("editor.endings.videoIndexHint")}
               </p>
             </>
           )}

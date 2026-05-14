@@ -459,7 +459,9 @@
       "addOne": "添加结局",
       "removeLast": "删除最后一个",
       "videoRangeHint": "每个视频覆盖一段连续的结局。默认均匀分配，可按行覆盖。",
-      "multiVideoOutputNote": "每个视频的描述渲染对应结局段。从编辑器照常生成 — 预览默认显示视频 1。",
+      "multiVideoOutputNote": "每个视频的描述渲染对应结局段。从编辑器照常生成 — 使用下方选择器切换预览视频。",
+      "videoIndexLabel": "预览视频",
+      "videoIndexHint": "Output 预览、标题、标签会按所选视频的结局段更新。请按视频分别复制后发布。",
       "warnings": {
         "singleEmpty": "至少填写编号或名称 — 空白条目将从描述中排除。",
         "timelineShort": "时间线需要 {{needed}} 个结局标记，但只有 {{found}} 个。复制前请补齐。",
@@ -553,6 +555,7 @@
     "copyPinnedCommentTemplate": "复制置顶评论模板",
     "generateAlternatives": "生成标题备选",
     "saveAsTemplate": "保存为模板",
+    "previewingVideo": "预览中：视频 {{index}}/{{total}} — 结局 {{from}}–{{to}}",
     "variants": {
       "default": "默认",
       "typeFirst": "类型优先",

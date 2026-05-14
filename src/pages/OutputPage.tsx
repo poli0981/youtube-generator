@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
-import { Shuffle, Bookmark } from "lucide-react";
+import { Shuffle, Bookmark, Film } from "lucide-react";
 import { Button } from "@components/ui/Button";
 import { OutputPreview } from "@components/output/OutputPreview";
 import { OutputExtras } from "@components/output/OutputExtras";
@@ -22,6 +22,17 @@ export function OutputPage() {
   useDocumentTitle(t("tabs.output"));
   const defaultOutput = useGeneratedOutput();
   const { gameName, videoType, language, genres } = useEditorStore();
+  // v0.17.1: surface the per-video preview state so the page can
+  // render a "Showing: Video N of M" banner — without it, a creator
+  // who flipped the EndingsEditor selector wouldn't see which video
+  // they're currently looking at without scrolling back.
+  const endingVideoCount = useEditorStore((s) => s.endingVideoCount);
+  const endingVideoIndex = useEditorStore((s) => s.endingVideoIndex);
+  const endingVideoRanges = useEditorStore((s) => s.endingVideoRanges);
+  const isMultiVideoEnding = videoType === "ending" && endingVideoCount > 1;
+  const currentRange = isMultiVideoEnding
+    ? endingVideoRanges[Math.max(0, Math.min(endingVideoCount, endingVideoIndex) - 1)]
+    : undefined;
   const addEntry = useHistoryStore((s) => s.addEntry);
   const historyLimit = useSettingsStore((s) => s.historyLimit);
   const savedRef = useRef<string>("");
@@ -134,6 +145,19 @@ export function OutputPage() {
           </div>
         )}
 
+        {isMultiVideoEnding && (
+          <div className="mb-4 flex items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs text-text-secondary">
+            <Film className="h-3.5 w-3.5 shrink-0 text-accent" />
+            <span>
+              {t("output.previewingVideo", {
+                index: Math.min(endingVideoIndex, endingVideoCount),
+                total: endingVideoCount,
+                from: currentRange?.from ?? 1,
+                to: currentRange?.to ?? 1,
+              })}
+            </span>
+          </div>
+        )}
         {currentOutput && <OutputPreview output={isMultiLang ? currentOutput : undefined} />}
         <div className="mt-6">
           <OutputExtras />

@@ -104,6 +104,8 @@ export interface EditorDefaults {
   endingVideoCount: number;
   /** Per-video ending range (v0.16.0). */
   endingVideoRanges: EndingVideoRange[];
+  /** Which per-video slice the Output previews (v0.17.1). */
+  endingVideoIndex: number;
   /** Language-patch enum for Playthrough Notes section (v0.12). */
   languagePatch: LanguagePatch;
   /** Free-form label when `languagePatch` is `"official_other"` or `"custom"`. */
@@ -187,6 +189,7 @@ export const DEFAULTS = {
     endings: [],
     endingVideoCount: 1,
     endingVideoRanges: [],
+    endingVideoIndex: 1,
     languagePatch: "none",
     languagePatchCustom: "",
     gameVersion: "full_release",

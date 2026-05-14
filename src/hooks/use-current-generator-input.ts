@@ -71,6 +71,13 @@ export function buildGeneratorInputFromEditor(
     endings: state.endings,
     endingVideoCount: state.endingVideoCount,
     endingVideoRanges: state.endingVideoRanges,
+    // v0.17.1: only forward the index when the playthrough is
+    // actually split across multiple videos. Single-video mode
+    // means the engine should see the union (the slice helpers
+    // already short-circuit on `videoCount <= 1`, but skipping the
+    // pass-through here keeps the input cleaner for tests).
+    endingVideoIndex:
+      state.endingVideoCount > 1 ? state.endingVideoIndex : undefined,
     languagePatch: state.languagePatch,
     languagePatchCustom: state.languagePatchCustom,
     gameVersion: state.gameVersion,

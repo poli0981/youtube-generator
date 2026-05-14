@@ -459,7 +459,9 @@
       "addOne": "Thêm ending",
       "removeLast": "Xoá ending cuối",
       "videoRangeHint": "Mỗi video chứa một dải ending liên tiếp. Chia mặc định cân đối; sửa theo hàng để tuỳ chỉnh.",
-      "multiVideoOutputNote": "Mỗi video xuất một dải ending riêng. Bấm Generate như bình thường — bản preview hiển thị video 1.",
+      "multiVideoOutputNote": "Mỗi video xuất một dải ending riêng. Bấm Generate như bình thường — chọn video preview bằng dropdown bên dưới.",
+      "videoIndexLabel": "Video xem trước",
+      "videoIndexHint": "Output preview, tiêu đề và tag sẽ cập nhật theo dải ending của video đang chọn. Copy từng cái để xuất bản theo từng video.",
       "warnings": {
         "singleEmpty": "Hãy điền ít nhất số hoặc tên — entry rỗng sẽ bị bỏ khỏi mô tả.",
         "timelineShort": "Timeline cần {{needed}} mốc ending; hiện chỉ có {{found}}. Thêm các mốc còn thiếu trước khi copy.",
@@ -553,6 +555,7 @@
     "copyPinnedCommentTemplate": "Sao chép mẫu bình luận ghim",
     "generateAlternatives": "Tạo biến thể tiêu đề",
     "saveAsTemplate": "Lưu thành template",
+    "previewingVideo": "Đang xem Video {{index}}/{{total}} — Ending {{from}}–{{to}}",
     "variants": {
       "default": "Mặc định",
       "typeFirst": "Loại video trước",

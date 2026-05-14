@@ -2,6 +2,36 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.17.1 — 2026-05-15
+
+Per-video Output selector — closes the last deferred piece from the
+v0.16 ending redesign. Multi-video ending playthroughs (case C) can
+now flip between per-video previews of title / description / tags
+without leaving the editor.
+
+### Added
+
+- **`endingVideoIndex` field on `EditorData`** (1-indexed, default 1). Stored on the editor (vs. recomputed per render) so the creator's pick survives navigating away and back. Engine already respected the corresponding `GeneratorInput.endingVideoIndex` since v0.17.0 — this just persists it.
+- **"Preview video" Select dropdown** in `EndingsEditor` case C ([src/components/editor/EndingsEditor.tsx](src/components/editor/EndingsEditor.tsx)). Renders `endingVideoCount` options labelled `"Video N (X–Y)"` where X–Y are the matching ending-range bounds. Changing it pipes `endingVideoIndex` into the engine, which slices `endings[]` for both title (via `buildStructuredEndingLabel`) and description (via `sliceEndingsForVideo`).
+- **"Previewing Video X of Y — Endings A–B" banner** at the top of the Output page when in case C ([src/pages/OutputPage.tsx](src/pages/OutputPage.tsx)). Persistent reminder so a creator flipping through videos doesn't forget which slice they're looking at.
+- **3 new locale keys × 6 locales**: `editor.endings.videoIndexLabel`, `editor.endings.videoIndexHint`, `output.previewingVideo`. All 718/718 ui keys per locale (up from 715).
+
+### Changed
+
+- **`use-current-generator-input`** forwards `endingVideoIndex` only when `endingVideoCount > 1` — single-video mode passes `undefined` so the slice helpers short-circuit to "render the union", keeping the input cleaner for tests.
+- **`EndingsEditor.setVideoCount`** now clamps `endingVideoIndex` down when the creator shrinks `endingVideoCount` (e.g. 6 → 2 with index = 4 → snaps to 2), so the preview never targets a non-existent video.
+- **Persist version 12 → 13**. Additive — `endingVideoIndex` back-fills to 1 on first rehydrate; pre-v0.17.1 drafts with a stale higher index get clamped to `endingVideoCount` by `migrateEditorState`.
+
+### Tests
+
+- 4 new tests in `editor-store.endings.test.ts` for the v12 → v13 migration (default back-fill, valid value preserved, clamp above max, clamp below 1). Total 426/426 pass.
+
+### Under the hood
+
+- The banner copy is locale-aware and pluralised inline via i18next interpolation (`{{index}} / {{total}} / {{from}} / {{to}}`).
+- `OutputPage` selects `endingVideoCount`, `endingVideoIndex`, `endingVideoRanges` as individual store slices so the page only re-renders when those specific fields change — no broader subscription drag.
+- Bundle: index 473.91 KB (+3 KB for Select + banner + migration). Under the 500 KB cap.
+
 ## v0.17.0 — 2026-05-14
 
 Combined release: logging overhaul + the deferred ending title piece
