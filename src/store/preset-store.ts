@@ -63,9 +63,18 @@ export const usePresetStore = create<PresetState>()(
       },
 
       importPresets: (presets) => {
+        // v0.15.0: shape-check incoming rows before they hit the
+        // store. See profile-store.importProfiles for the rationale —
+        // a hand-edited / malformed file used to slip in rows with
+        // missing fields that then crashed downstream consumers.
+        if (!Array.isArray(presets)) return;
+        const valid = presets.filter(
+          (p): p is GamePreset =>
+            !!p && typeof p === "object" && typeof (p as GamePreset).id === "string",
+        );
         set((state) => {
           const existingIds = new Set(state.presets.map((p) => p.id));
-          const normalised = presets.map((p) => normalisePreset(p as LegacyPreset));
+          const normalised = valid.map((p) => normalisePreset(p as LegacyPreset));
           const newPresets = normalised.filter((p) => !existingIds.has(p.id));
           return { presets: [...state.presets, ...newPresets] };
         });

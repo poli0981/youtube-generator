@@ -70,9 +70,24 @@ export const useProfileStore = create<ProfileState>()(
       },
 
       importProfiles: (profiles) => {
+        // v0.15.0: defensive shape check on each incoming row. A
+        // malformed import previously silently injected entries with
+        // `id: null` / `social: null` etc.; the next render then
+        // exploded on `Object.values(null)` and black-screened the
+        // app. Filter to objects with a non-empty string `id` before
+        // merging — anything that fails the check is dropped and
+        // logged via the caller's toast (ProfilesPage).
+        if (!Array.isArray(profiles)) return;
         set((state) => {
           const existingIds = new Set(state.profiles.map((p) => p.id));
-          const newProfiles = profiles.filter((p) => !existingIds.has(p.id));
+          const newProfiles = profiles.filter(
+            (p): p is Profile =>
+              !!p &&
+              typeof p === "object" &&
+              typeof p.id === "string" &&
+              p.id.length > 0 &&
+              !existingIds.has(p.id),
+          );
           return { profiles: [...state.profiles, ...newProfiles] };
         });
       },

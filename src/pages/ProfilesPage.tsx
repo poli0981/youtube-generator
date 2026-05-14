@@ -9,11 +9,34 @@ import { TemplateList } from "@components/templates/TemplateList";
 import { useProfileStore, type Profile } from "@store/profile-store";
 import { usePresetStore, type GamePreset } from "@store/preset-store";
 import { useTemplateStore, type EditorTemplate } from "@store/template-store";
-import { exportToJsonFile, importFromJsonFile } from "@utils/import-export";
+import {
+  exportTypedToJsonFile,
+  importTypedFromJsonFile,
+  type ImportFailure,
+} from "@utils/import-export";
+import type { ExportType } from "@utils/file-schema";
+import { logger } from "@utils/logger";
 import toast from "react-hot-toast";
 import clsx from "clsx";
 
 type Tab = "profiles" | "presets" | "templates";
+
+/** Map a tab id to the envelope `_type` discriminator. The tab labels
+ *  are plural for UI; the envelope type is singular ("profile" not
+ *  "profiles") so it reads as the *kind* of each row, not the file. */
+const TAB_TO_TYPE: Record<Tab, ExportType> = {
+  profiles: "profile",
+  presets: "preset",
+  templates: "template",
+};
+
+/** Reverse map for the tab-switch suggestion when an import lands in
+ *  the wrong tab — see `renderFailureToast`. */
+const TYPE_TO_TAB: Partial<Record<ExportType, Tab>> = {
+  profile: "profiles",
+  preset: "presets",
+  template: "templates",
+};
 
 export function ProfilesPage() {
   const { t } = useTranslation("ui");
@@ -23,52 +46,133 @@ export function ProfilesPage() {
   const { presets, importPresets } = usePresetStore();
   const { templates, importTemplates } = useTemplateStore();
 
+  /**
+   * Render a tab-specific toast for an import failure. Each failure
+   * kind gets its own copy so the user can actually fix the problem
+   * (the old "Import failed" toast was almost useless for debugging).
+   * "wrong-shape" with a known actual type also offers a one-click
+   * fix via the toast action (`onClick` on the toast itself wouldn't
+   * work — react-hot-toast doesn't surface actions on the default
+   * `toast.error`, so we surface a follow-up `toast(`…`)` with the
+   * switch hint instead).
+   */
+  function renderFailureToast(failure: ImportFailure, expected: ExportType): void {
+    switch (failure.kind) {
+      case "cancelled":
+        return; // silent
+      case "read-failed":
+        toast.error(`Could not read file: ${failure.message}`);
+        logger.error("import", `read-failed for ${expected}`, failure.message);
+        return;
+      case "empty":
+        toast.error("File is empty");
+        logger.warn("import", `empty file for ${expected}`);
+        return;
+      case "parse-error":
+        toast.error(`Invalid JSON: ${failure.message}`);
+        logger.error("import", `parse-error for ${expected}`, failure.message);
+        return;
+      case "wrong-shape": {
+        if (failure.actual) {
+          const suggestedTab = TYPE_TO_TAB[failure.actual];
+          const label = failure.actual.charAt(0).toUpperCase() + failure.actual.slice(1);
+          if (suggestedTab) {
+            toast.error(
+              `This file looks like a ${label} export. Switching tabs…`,
+              { duration: 4000 },
+            );
+            setTab(suggestedTab);
+            logger.info(
+              "import",
+              `auto-switched tab from ${expected} to ${failure.actual}`,
+            );
+            return;
+          }
+          toast.error(`This file is a ${label} export, not ${expected}.`);
+          return;
+        }
+        toast.error("File shape is not recognised — choose a YTDescGen export.");
+        logger.warn("import", `unknown-shape for ${expected}`);
+        return;
+      }
+      case "newer-schema":
+        toast.error(
+          `File was exported by a newer version (schema v${failure.actual}; this build supports up to v${failure.supported}). Update YTDescGen.`,
+        );
+        logger.warn(
+          "import",
+          `newer-schema for ${expected}: file=v${failure.actual} supported=v${failure.supported}`,
+        );
+        return;
+    }
+  }
+
   const handleExportProfiles = () => {
-    exportToJsonFile(profiles, "ytdescgen-profiles.json");
+    exportTypedToJsonFile("profile", profiles, "ytdescgen-profiles.json");
     toast.success("Exported!");
   };
 
   const handleImportProfiles = async () => {
-    try {
-      const data = await importFromJsonFile<Profile[]>();
-      if (!Array.isArray(data)) throw new Error("Invalid format");
-      importProfiles(data);
-      toast.success("Imported!");
-    } catch {
-      toast.error("Import failed");
+    const result = await importTypedFromJsonFile("profile");
+    if (!result.ok) {
+      renderFailureToast(result.failure, "profile");
+      return;
     }
+    // The detector only confirms the *shape* matches profile-ness; the
+    // store-level `importProfiles` filters individual rows that fail
+    // per-field validation (missing id, etc.). Two layers of validation
+    // is intentional — keeps callers' contracts clean and prevents a
+    // future tab-specific quirk from corrupting unrelated stores.
+    const incoming = Array.isArray(result.data) ? (result.data as Profile[]) : [];
+    importProfiles(incoming);
+    const accepted = useProfileStore.getState().profiles.length - profiles.length;
+    toast.success(
+      accepted === incoming.length
+        ? `Imported ${accepted} profile${accepted === 1 ? "" : "s"}.`
+        : `Imported ${accepted} of ${incoming.length} profiles (some skipped).`,
+    );
   };
 
   const handleExportPresets = () => {
-    exportToJsonFile(presets, "ytdescgen-presets.json");
+    exportTypedToJsonFile("preset", presets, "ytdescgen-presets.json");
     toast.success("Exported!");
   };
 
   const handleImportPresets = async () => {
-    try {
-      const data = await importFromJsonFile<GamePreset[]>();
-      if (!Array.isArray(data)) throw new Error("Invalid format");
-      importPresets(data);
-      toast.success("Imported!");
-    } catch {
-      toast.error("Import failed");
+    const result = await importTypedFromJsonFile("preset");
+    if (!result.ok) {
+      renderFailureToast(result.failure, "preset");
+      return;
     }
+    const incoming = Array.isArray(result.data) ? (result.data as GamePreset[]) : [];
+    importPresets(incoming);
+    const accepted = usePresetStore.getState().presets.length - presets.length;
+    toast.success(
+      accepted === incoming.length
+        ? `Imported ${accepted} preset${accepted === 1 ? "" : "s"}.`
+        : `Imported ${accepted} of ${incoming.length} presets (some skipped).`,
+    );
   };
 
   const handleExportTemplates = () => {
-    exportToJsonFile(templates, "ytdescgen-templates.json");
+    exportTypedToJsonFile("template", templates, "ytdescgen-templates.json");
     toast.success("Exported!");
   };
 
   const handleImportTemplates = async () => {
-    try {
-      const data = await importFromJsonFile<EditorTemplate[]>();
-      if (!Array.isArray(data)) throw new Error("Invalid format");
-      importTemplates(data);
-      toast.success("Imported!");
-    } catch {
-      toast.error("Import failed");
+    const result = await importTypedFromJsonFile("template");
+    if (!result.ok) {
+      renderFailureToast(result.failure, "template");
+      return;
     }
+    const incoming = Array.isArray(result.data) ? (result.data as EditorTemplate[]) : [];
+    importTemplates(incoming);
+    const accepted = useTemplateStore.getState().templates.length - templates.length;
+    toast.success(
+      accepted === incoming.length
+        ? `Imported ${accepted} template${accepted === 1 ? "" : "s"}.`
+        : `Imported ${accepted} of ${incoming.length} templates (some skipped).`,
+    );
   };
 
   return (
@@ -136,3 +240,8 @@ export function ProfilesPage() {
     </div>
   );
 }
+
+// `TAB_TO_TYPE` kept exported-shaped (not exported) for now — currently
+// only this file maps tabs to types. Promote to an export if a future
+// page (e.g. a "Backup all" button on Settings) reuses the mapping.
+void TAB_TO_TYPE;

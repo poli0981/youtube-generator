@@ -18,6 +18,15 @@ export function TemplateCard({ template }: TemplateCardProps) {
   const [showDelete, setShowDelete] = useState(false);
 
   const handleApply = () => {
+    // v0.15.0: defend against a template whose `snapshot` field is
+    // null/undefined — most commonly when the template was imported
+    // from a malformed JSON. `loadProfile` itself now ignores a null
+    // patch via `normalizeEditorPatch`, but checking here lets us
+    // surface a clearer toast and skip the no-op success message.
+    if (!template.snapshot || typeof template.snapshot !== "object") {
+      toast.error(t("templates.applyFailed", { defaultValue: "Template is corrupt — cannot apply" }));
+      return;
+    }
     loadProfile(template.snapshot);
     toast.success(t("templates.appliedToast", { name: template.name }));
   };

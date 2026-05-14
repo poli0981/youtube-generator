@@ -2,6 +2,51 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.15.0 — 2026-05-14
+
+Import / export overhaul + stability hardening. Closes the "black
+screen on bad file" class of bugs and gives every JSON export an
+auto-detect header so users can no longer confuse profile / preset /
+template files with each other.
+
+### Added
+
+- **`ErrorBoundary` ([src/components/ErrorBoundary.tsx](src/components/ErrorBoundary.tsx))** wrapping every `<Route>` plus a top-level boundary in `main.tsx`. Catches render-time errors that previously black-screened the app, surfaces a fallback UI with `Try again` (remount the subtree) + `Reload page` actions, and copies the error into the Logs tab via the in-app `logger`. Per-route boundaries mean a crash on the Profiles tab doesn't take down the Editor — the user can navigate elsewhere and recover.
+- **File envelope format ([src/utils/file-schema.ts](src/utils/file-schema.ts))** — every `.json` export written from this version onwards is wrapped in `{ _app: "ytdescgen", _type, _schemaVersion, _exportedAt, data }`. The `_type` discriminator (`"profile" | "preset" | "template" | "settings" | "history"`) lets imports detect "you opened a Template file in the Profiles importer" and offer to switch tabs instead of silently failing.
+- **`detectShape` / `resolveForType`** — shape inspector handles envelope files (authoritative `_type`), legacy bare arrays (best-effort guess from `snapshot` / `channelName` + `social` + `rig` / `gameName` + `storeLinks` / `createdAt` + title), and the multi-store settings dump (recognised by the `ytdescgen-settings` key). 17 new unit tests in `tests/utils/file-schema.test.ts` cover the round-trip + every detection branch.
+- **`importTypedFromJsonFile(expectedType)`** — high-level reader that resolves to a tagged-union `ImportResult`: either `{ ok: true; data; sourceVersion? }` or `{ ok: false; failure }` with one of five kinds (`cancelled`, `read-failed`, `empty`, `parse-error`, `wrong-shape`, `newer-schema`). Replaces the throw/catch-and-show-generic-toast pattern.
+- **Auto tab-switch on wrong-type import** — when the user clicks Import on the Profiles tab but the file is detected as a Templates export, the toast says "This file looks like a Templates export. Switching tabs…" and `setTab("templates")` runs immediately. One click instead of three.
+- **Import-result summary** in toasts — `Imported 5 of 7 profiles (some skipped).` when the store-level validator drops malformed rows. Previously a partial success surfaced as a plain "Imported!" even when half the file got rejected.
+
+### Fixed
+
+- **Black-screen crash** on loading a corrupt profile or template ("Cannot convert undefined or null to object"). Root cause was three unguarded spreads/`Object.values` chained together:
+  - [src/components/profiles/TemplateCard.tsx:21](src/components/profiles/TemplateCard.tsx) `loadProfile(template.snapshot)` with `snapshot: null` →
+  - [src/store/editor-store.ts:149](src/store/editor-store.ts) `normalizeEditorPatch` spread of `null` patch →
+  - [src/components/profiles/ProfileCard.tsx:34](src/components/profiles/ProfileCard.tsx) `Object.values(profile.social)` with `social: null`.
+  All three now null-guard. `normalizeEditorPatch` returns `{}` for a falsy patch; `loadProfile`-chain spreads degrade to a no-op; `Object.values(profile.social ?? {})` returns 0 instead of throwing. The new ErrorBoundary catches anything that still slips through.
+- **Store-level import validators** in [profile-store.ts](src/store/profile-store.ts), [preset-store.ts](src/store/preset-store.ts), [template-store.ts](src/store/template-store.ts) now filter incoming arrays for rows with a string `id` of non-zero length; templates additionally require a non-null `snapshot` object. Bad rows are silently dropped (count surfaces in the import toast).
+
+### Changed
+
+- **`exportToJsonFile` → `exportTypedToJsonFile`** at every ProfilesPage call site. The legacy bare-value exporter is retained for back-compat but unused.
+- **`importFromJsonFile<T>` → `importTypedFromJsonFile`** at every ProfilesPage handler. Legacy bare reader retained for the same reason — callers outside Profiles can migrate later.
+- **`detectShape` is forward-compatible**: an envelope from a future version (whose `_schemaVersion` exceeds `SCHEMA_VERSIONS[expected]`) returns `newer-schema` instead of importing silently. Tells the user to upgrade the app.
+
+### Under the hood
+
+- Two layers of validation by design: `detectShape` confirms the file *kind*; per-store `importX` rejects malformed *rows*. A future tab-specific quirk in one validator can't corrupt other stores' data.
+- `normalizeEditorPatch` signature widened to `Partial<EditorData> | null | undefined` so TS forces null-handling at call sites. Existing callers still work — `Partial<T>` is assignable to the new union.
+- Vite reports one dynamic-import-also-statically-imported warning for `logger.ts`. Intentional: the boundary uses a dynamic import so logger init failures during the *primary* render error don't escalate into a secondary boundary crash. Bundle is not split.
+- Bundle: index 401.06 KB (+2.49 KB), ProfilesPage chunk 18.44 KB (+4.38 KB for envelope + failure-toast rendering). Total still well under the 500 KB cap.
+- 367/367 tests pass (350 + 17 new for file-schema).
+
+### Migration notes
+
+- **No store schema bump**. v0.14.x persisted state loads unchanged in v0.15.0; new envelope only affects on-disk JSON export files.
+- **Legacy export files still import** via the shape-detector path. Re-export to get the envelope header + tab-switch hints.
+- **Envelope schema versions**: profile=1, preset=2, template=1, settings=9, history=2. Bump per-type when introducing a non-additive change to that store's shape.
+
 ## v0.14.1 — 2026-05-14
 
 Same-day patch on v0.14.0. Two desktop-only items closing user-reported

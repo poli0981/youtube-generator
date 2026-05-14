@@ -146,7 +146,17 @@ export function legacyGraphicsPresetToEnum(legacy: string): {
  * accepts via structural compatibility — we sniff the runtime value here
  * via an `unknown` cast.
  */
-function normalizeEditorPatch(patch: Partial<EditorData>): Partial<EditorData> {
+function normalizeEditorPatch(
+  patch: Partial<EditorData> | null | undefined,
+): Partial<EditorData> {
+  // v0.15.0: guard against malformed input. Previously a `null` patch
+  // — typically from an imported template whose `snapshot` field was
+  // null/undefined — reached the spread on the next line and threw
+  // "Cannot convert undefined or null to object", which bubbled out of
+  // `set()` as an unhandled render error and black-screened the app.
+  // Returning an empty patch lets the caller's `{ ...state, ...patch }`
+  // become a no-op instead of crashing.
+  if (!patch || typeof patch !== "object") return {};
   const out: Partial<EditorData> = { ...patch };
   const raw: unknown = (patch as { graphicsPreset?: unknown }).graphicsPreset;
   if (typeof raw === "string" && !(GRAPHICS_PRESETS as readonly string[]).includes(raw)) {
@@ -299,6 +309,11 @@ export const useEditorStore = create<EditorState>()(
           storeLinkTypes: { ...state.storeLinkTypes, [platformId]: type },
         })),
 
+      // `normalizeEditorPatch` now null-guards internally (v0.15.0) so
+      // a malformed profile / template snapshot is treated as a no-op
+      // rather than crashing the render. The action signature still
+      // requires a non-null patch in TypeScript — runtime safety covers
+      // the persisted-blob case where types lie.
       loadProfile: (profile) =>
         set((state) => ({ ...state, ...normalizeEditorPatch(profile) })),
 

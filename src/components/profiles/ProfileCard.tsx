@@ -19,11 +19,16 @@ export function ProfileCard({ profile }: ProfileCardProps) {
   const [showEdit, setShowEdit] = useState(false);
 
   const handleLoad = () => {
+    // v0.15.0: defensive nullish-coalesce on the two nested record
+    // fields. A malformed imported profile may carry `social: null` /
+    // `rig: null` — spreading null throws "Cannot convert undefined or
+    // null to object", which used to black-screen the app. `?? {}`
+    // turns the bad import into a partial load instead of a crash.
     loadProfile({
       channelName: profile.channelName,
       contactEmail: profile.contactEmail,
-      social: { ...profile.social },
-      rig: { ...profile.rig },
+      social: { ...(profile.social ?? {}) },
+      rig: { ...(profile.rig ?? {}) },
       resolution: profile.resolution,
       fps: profile.fps,
       graphicsPreset: profile.graphicsPreset,
@@ -31,8 +36,10 @@ export function ProfileCard({ profile }: ProfileCardProps) {
     });
   };
 
-  const socialCount = Object.values(profile.social).filter((v) => v).length;
-  const rigCount = Object.values(profile.rig).filter((v) => v).length;
+  // Same defence on render: `Object.values(null)` throws. With the
+  // coalesce the count falls back to 0 and the chip just hides.
+  const socialCount = Object.values(profile.social ?? {}).filter((v) => v).length;
+  const rigCount = Object.values(profile.rig ?? {}).filter((v) => v).length;
 
   return (
     <>
