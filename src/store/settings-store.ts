@@ -90,7 +90,17 @@ export const useSettingsStore = create<SettingsState>()(
   ),
 );
 
-function extractData(state: SettingsData): SettingsData {
+/**
+ * Strip the {@link SettingsState} action functions from a live store
+ * snapshot, returning only the persisted {@link SettingsData} fields.
+ * Used by the persist middleware's `partialize` hook and by
+ * {@link SettingsPage}'s typed export so a JSON file written from the
+ * Settings tab carries only data — not the actions that would otherwise
+ * leak into the file as `null` values.
+ *
+ * Pure — safe to call from anywhere, no side effects.
+ */
+export function extractData(state: SettingsData): SettingsData {
   return {
     appLanguage: state.appLanguage,
     defaultOutputLanguage: state.defaultOutputLanguage,

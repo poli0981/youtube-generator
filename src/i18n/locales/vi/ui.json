@@ -144,6 +144,8 @@
     "vnDonateHelp": "Chỉ hiển thị trong description khi ngôn ngữ đầu ra là Tiếng Việt.",
     "vnBankName": "Tên ngân hàng",
     "vnBankNamePlaceholder": "vd: Vietcombank, MB Bank, Techcombank",
+    "vnBankNameSelectPlaceholder": "— Chọn ngân hàng —",
+    "vnBankNameOther": "Khác (nhập tay)",
     "vnBankAccount": "Số tài khoản",
     "vnBankAccountPlaceholder": "vd: 0123456789",
     "vnBankHolder": "Chủ tài khoản",

@@ -9,7 +9,7 @@ import { OutputPage } from "@pages/OutputPage";
 import { checkDataFileHealth } from "@utils/storage-adapter";
 import { hydrateLogStore } from "@store/log-store";
 import { useSettingsStore } from "@store/settings-store";
-import "@i18n/index";
+import i18n from "@i18n/index";
 
 const ProfilesPage = lazy(() =>
   import("@pages/ProfilesPage").then((m) => ({ default: m.ProfilesPage })),
@@ -66,6 +66,36 @@ export default function App() {
     // every settings tweak.
     const retentionDays = useSettingsStore.getState().logRetentionDays;
     void hydrateLogStore(retentionDays);
+  }, []);
+
+  // v0.18.0: bridge the persisted `appLanguage` setting back to i18next.
+  //
+  // i18n is initialised synchronously at module load with `fallbackLng:
+  // "en"` and no `lng` field — so on a fresh app boot the UI renders in
+  // English even when localStorage / settings.json contain a non-English
+  // preference. Zustand's persist middleware rehydrates the store
+  // synchronously from localStorage *before* React mounts, and the
+  // storage-adapter then *asynchronously* reads the Tauri `settings.json`
+  // and may overwrite the value again. We cover both paths:
+  //
+  //   1. Read the current `appLanguage` at mount time and push it into
+  //      i18n — handles the synchronous localStorage hydrate.
+  //   2. Subscribe to subsequent changes so the async Tauri rehydrate
+  //      (and any future user-driven switch via Header / SettingsPage)
+  //      also propagates. The Header/SettingsPage callsites still call
+  //      `i18n.changeLanguage` directly, which is now redundant but
+  //      harmless — the subscribe is the single source of truth.
+  useEffect(() => {
+    const initialLang = useSettingsStore.getState().appLanguage;
+    if (initialLang && i18n.language !== initialLang) {
+      void i18n.changeLanguage(initialLang);
+    }
+    const unsub = useSettingsStore.subscribe((state, prev) => {
+      if (state.appLanguage !== prev.appLanguage) {
+        void i18n.changeLanguage(state.appLanguage);
+      }
+    });
+    return () => unsub();
   }, []);
 
   return (

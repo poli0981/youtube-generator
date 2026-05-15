@@ -2,6 +2,40 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.18.0 — 2026-05-15
+
+Vietnamese-bank dropdown for the donate form + two persistence-layer
+bug fixes (UI language reverting to English after relaunch, Settings
+export bundling unrelated stores) + one cleanup (Open Folder button
+removed) + a new content-inventory documentation page (EN + VI).
+
+### Added
+
+- **Vietnamese bank dropdown** in `VietnameseDonateEditor` ([src/components/editor/VietnameseDonateEditor.tsx](src/components/editor/VietnameseDonateEditor.tsx), [src/config/vietnamese-banks.ts](src/config/vietnamese-banks.ts)). When the output language is Vietnamese, the "Bank name" field upgrades from a plain text input to a `<Select>` listing 30 of Vietnam's most-used banks (Big 4 state-owned + top 22 joint-stock commercial banks by retail presence + 4 foreign banks with the strongest Vietnam footprint). Sourced from the State Bank of Vietnam's 2026 register via [bankervn.com](https://bankervn.com/danh-sach-ngan-hang/). Picking "Khác (nhập tay)" reveals an inline text input so unlisted / digital-only / regional banks still work. Persisted shape is unchanged — `vnBankName` stays a plain string — so saved profiles and exports round-trip cleanly. When the output language is not Vietnamese, the field falls back to the legacy text input.
+- **`docs/CONTENT-INVENTORY.md`** + **Vietnamese mirror** ([docs/i18n/vi/CONTENT-INVENTORY.md](docs/i18n/vi/CONTENT-INVENTORY.md)). Static, hand-maintained manifest of every video type (20), game genre (41), and content warning (96 across 8 groups) the editor surfaces. Linked from the main `README.md` Documentation table. Transparency aid for anyone evaluating the editor's coverage without reading source.
+- **2 new locale keys × 6 locales**: `editor.vnBankNameSelectPlaceholder`, `editor.vnBankNameOther`. Localised for VI; left in English for JA/KO/ZH/ES to match the existing convention for VN-donate fields. Schema (`src/i18n/locales/_schema.json`) updated accordingly.
+
+### Fixed
+
+- **UI language reverts to English after app relaunch** ([src/App.tsx](src/App.tsx)). i18next initialises synchronously with `fallbackLng: "en"` while Zustand's persist middleware rehydrates `appLanguage` either synchronously (localStorage) or asynchronously (Tauri `settings.json`). Neither path bridged the persisted value back to i18n, so the UI rendered English even when the saved setting was Vietnamese / Japanese / etc. App.tsx now reads `appLanguage` at mount and calls `i18n.changeLanguage` once, then subscribes to subsequent store changes so the async Tauri rehydrate (and any future external mutation) propagate to i18n automatically.
+- **Settings JSON export was a multi-store dump** ([src/pages/SettingsPage.tsx](src/pages/SettingsPage.tsx)). The pre-v0.18.0 "Export Settings" button copied the whole on-disk `settings.json` — which the storage adapter writes as a gross dump of every Zustand store (settings + profiles + presets + templates + history). The new exporter writes only the Settings data through `exportTypedToJsonFile("settings", …)` — the same envelope-typed flow the Profiles tab already uses. Importer is the matching `importParsedFromJsonFile` + `resolveForType("settings")` chain, with an explicit reject for the legacy multi-store dump (friendly toast instead of silent profile-store pollution). `extractData` was promoted from a private helper in `settings-store` to a named export for this. The IS_TAURI gate stays — surfacing the buttons on the web build is out of scope for this release.
+
+### Removed
+
+- **"Open Folder" button** in Settings → top bar ([src/pages/SettingsPage.tsx](src/pages/SettingsPage.tsx)). Niche utility — most users never opened the app-data folder, and Tauri-only meant web builds never saw it. The `ensure_dir` Tauri command stays in the Rust side for the export/import paths that still rely on it. ~25 LOC removed including the unused `FolderOpen` icon import.
+
+### Under the hood
+
+- `App.tsx` mount effect now subscribes to `useSettingsStore` for `appLanguage` changes — Header and SettingsPage still call `i18n.changeLanguage` directly when the user switches, which is now redundant but harmless. Cleanup deferred to a future PR.
+- Persist version unchanged — this release adds no new persisted fields.
+- Bundle: under the 500 KB cap. The bank list is a 33-entry static array, negligible weight; the new envelope flow is a net-negative on SettingsPage size (Tauri dialog + ensure_dir + read_from_file paths replaced with one browser-API call).
+
+### Migration notes
+
+- **Pre-v0.18.0 settings export files (multi-store dump)** are rejected with a friendly "Legacy export format from v0.17.x or earlier is no longer supported" toast on import. Re-export from v0.18.0+ to get a clean settings-only envelope file.
+- **Profiles, presets, templates, history** export/import flows on the Profiles tab are unchanged. v0.17.x exports of those types still import unmodified.
+- **Saved `vnBankName` values** that don't match any of the 30 preset banks auto-detect as "custom" on first render — the dropdown shows "Khác" and the inline text input is pre-filled with the saved value. No persisted data is lost.
+
 ## v0.17.1 — 2026-05-15
 
 Per-video Output selector — closes the last deferred piece from the

@@ -32,7 +32,7 @@
       "gpu_brand", "gpu_series", "gpu_model", "gpu_custom",
       "ram_size", "ram_ddr",
       "vnDonate", "vnDonateHelp",
-      "vnBankName", "vnBankNamePlaceholder",
+      "vnBankName", "vnBankNamePlaceholder", "vnBankNameSelectPlaceholder", "vnBankNameOther",
       "vnBankAccount", "vnBankAccountPlaceholder",
       "vnBankHolder", "vnBankHolderPlaceholder",
       "vnMomo", "vnMomoPlaceholder",
