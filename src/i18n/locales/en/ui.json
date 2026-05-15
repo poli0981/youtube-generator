@@ -144,6 +144,8 @@
     "vnDonateHelp": "Only rendered into the description when output language is Vietnamese.",
     "vnBankName": "Bank name",
     "vnBankNamePlaceholder": "e.g. Vietcombank, MB Bank, Techcombank",
+    "vnBankNameSelectPlaceholder": "— Select bank —",
+    "vnBankNameOther": "Other (type manually)",
     "vnBankAccount": "Account number",
     "vnBankAccountPlaceholder": "e.g. 0123456789",
     "vnBankHolder": "Account holder",

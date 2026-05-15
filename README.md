@@ -78,6 +78,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 | [Development Guide](./docs/DEVELOPMENT.md) | Toolchain, IDE setup, build commands, troubleshooting. *(Also: [Vietnamese](./docs/i18n/vi/DEVELOPMENT.md).)* |
 | [Architecture](./docs/ARCHITECTURE.md) | Layer model, data flow, engine design. |
 | [Features](./docs/FEATURES.md) | Full feature matrix. |
+| [Content Inventory](./docs/CONTENT-INVENTORY.md) | Every video type, genre, and content warning the editor surfaces. *(Also: [Vietnamese](./docs/i18n/vi/CONTENT-INVENTORY.md).)* |
 | [Roadmap](./docs/ROADMAP.md) | Development phases. |
 | [Tech Spec](./docs/TECH-SPEC.md) | Implementation details and configs. |
 | [i18n Guide](./docs/I18N.md) | Adding new locales. |
