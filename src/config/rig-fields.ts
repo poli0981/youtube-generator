@@ -25,13 +25,13 @@ import {
  *   may opt into a free-text "Custom" override; the stored format is
  *   pipe-delimited in the order parts are declared.
  */
-export type RigFieldType =
+type RigFieldType =
   | "text"
   | "dropdown_with_version"
   | "cascading_dropdown"
   | "composite_dropdown";
 
-export interface RigFieldOption {
+interface RigFieldOption {
   readonly value: string;
   /** Display label (not translated — software names are brand-preserved). */
   readonly label: string;
@@ -50,7 +50,7 @@ export interface CompositePart {
   readonly customPlaceholder?: string;
 }
 
-export interface CompositeFieldSpec {
+interface CompositeFieldSpec {
   readonly parts: readonly CompositePart[];
   /**
    * Format the stored parts into the description-output string. Receives
@@ -79,7 +79,7 @@ export interface RigField {
  * Order loosely reflects popularity among no-commentary gameplay
  * creators. Add new entries here — the UI picks them up automatically.
  */
-export const VIDEO_EDITOR_OPTIONS: readonly RigFieldOption[] = [
+const VIDEO_EDITOR_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
   { value: "davinci_resolve", label: "DaVinci Resolve" },
   { value: "davinci_resolve_studio", label: "DaVinci Resolve Studio" },
@@ -95,7 +95,7 @@ export const VIDEO_EDITOR_OPTIONS: readonly RigFieldOption[] = [
 ];
 
 /** RAM size options in GB. `custom` opens a numeric free-text input. */
-export const RAM_SIZE_OPTIONS: readonly RigFieldOption[] = [
+const RAM_SIZE_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
   { value: "4", label: "4 GB" },
   { value: "6", label: "6 GB" },
@@ -112,7 +112,7 @@ export const RAM_SIZE_OPTIONS: readonly RigFieldOption[] = [
 
 /** DDR generation. DDR1 stays in the list for legacy gear; users with
  *  unusual rigs (DDR6/DDR7) can pick early-spec options. */
-export const RAM_DDR_OPTIONS: readonly RigFieldOption[] = [
+const RAM_DDR_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
   { value: "DDR1", label: "DDR1" },
   { value: "DDR2", label: "DDR2" },
@@ -174,8 +174,6 @@ export const RIG_FIELDS: readonly RigField[] = [
     versionPlaceholder: "19.1 / 2024 / v5.0",
   },
 ];
-
-export type RigFieldId = (typeof RIG_FIELDS)[number]["id"];
 
 /**
  * Parse a cascading-dropdown stored value into its three segments.

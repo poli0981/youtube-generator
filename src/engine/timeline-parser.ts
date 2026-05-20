@@ -4,7 +4,7 @@ import type { SupportedLanguage, TranslationFn } from "./types";
  * Canonical keyword IDs recognized by the parser. Each corresponds to a
  * translation key under `timeline.keywords.*` in templates.json.
  */
-export type TimelineKeyword =
+type TimelineKeyword =
   | "chapter"
   | "part"
   | "boss"

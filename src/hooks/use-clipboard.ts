@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { logger } from "@utils/logger";
 
-export interface CopyOptions {
+interface CopyOptions {
   limit?: number;
   fieldLabel?: string;
 }

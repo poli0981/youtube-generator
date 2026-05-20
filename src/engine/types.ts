@@ -285,6 +285,32 @@ export const CONTENT_WARNINGS = [
   "coulrophobia",
   "ablutophobia",
   "taphophobia",
+  // Phobias — extended (v0.19.0)
+  "automatonophobia",
+  "megalophobia",
+  "submechanophobia",
+  "necrophobia",
+  "spectrophobia",
+  "demonophobia",
+  "selachophobia",
+  "mysophobia",
+  "emetophobia",
+  "scopophobia",
+  "monophobia",
+  "musophobia",
+  "chiroptophobia",
+  "ornithophobia",
+  "ichthyophobia",
+  "herpetophobia",
+  "katsaridaphobia",
+  "apiphobia",
+  "astraphobia",
+  "agoraphobia",
+  "enochlophobia",
+  "chionophobia",
+  "nosocomephobia",
+  "aichmophobia",
+  "pnigophobia",
   // Mental health
   "anxiety_inducing",
   "depression_themes",
@@ -330,6 +356,10 @@ export const CONTENT_WARNINGS = [
   "human_experimentation",
   "cannibalism",
   "nuclear_themes",
+  // Discrimination / bigotry (v0.19.0)
+  "homophobia",
+  "transphobia",
+  "xenophobia",
   // Heavy-horror specific (v0.13.1)
   "eye_horror",
   "body_horror",
@@ -662,15 +692,6 @@ export const YT_LIMITS = {
 export interface TranslationFn {
   (key: string, options?: Record<string, string>): string;
 }
-
-/**
- * Optional second translation function, fixed to English. Used by the
- * description-builder to render the bilingual content-warning block
- * (v0.11): each line becomes `{EN} · {output-language}`. The engine
- * stays framework-agnostic — the caller (use-generated-output) builds it
- * via i18next's `getFixedT("en", "templates")` and passes it in.
- */
-export type EnglishTranslationFn = TranslationFn;
 
 /**
  * Where the quality-badge ("[2K]") sits relative to the other title segments:

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["scripts/*.ts", "tests/**/*.test.ts"],
+  "project": ["src/**/*.{ts,tsx}", "scripts/**/*.ts", "tests/**/*.ts"],
+  "ignoreExportsUsedInFile": true,
+  "ignoreDependencies": [
+    "@tauri-apps/plugin-fs",
+    "@tauri-apps/plugin-opener",
+    "@tauri-apps/plugin-shell",
+    "@testing-library/jest-dom",
+    "@testing-library/react"
+  ],
+  "ignoreBinaries": ["tauri"]
+}

@@ -1,13 +1,8 @@
 import type { GenreId } from "@config/genres";
 import type { SupportedLanguage, TitleFormatConfig } from "@engine/types";
 
-// Re-exported so UI + persist layers can import everything from one module.
-export type {
-  TitleBadgeCase,
-  TitleBadgePosition,
-  TitleFormatConfig,
-  TitleSeparatorId,
-} from "@engine/types";
+// Re-exported so the persist layer can import it alongside the heal helpers.
+export type { TitleFormatConfig } from "@engine/types";
 
 /**
  * Shape of the settings payload that is persisted to disk + localStorage.
@@ -89,7 +84,7 @@ export interface SettingsData {
   logRetentionDays: number;
 }
 
-export function detectBrowserLanguage(): SupportedLanguage {
+function detectBrowserLanguage(): SupportedLanguage {
   if (typeof navigator === "undefined") return "en";
   const lang = navigator.language.split("-")[0];
   const supported: SupportedLanguage[] = ["en", "vi", "ja", "es", "ko", "zh"];

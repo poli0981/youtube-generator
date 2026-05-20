@@ -2,6 +2,33 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.19.0 — 2026-05-20
+
+Twenty-eight new content-warning IDs (twenty-five clinical phobias plus
+three discrimination themes) + a scroll-to-top button + a moderate-severity
+security patch + a dead-code sweep backed by new `knip` tooling + a
+documentation accuracy pass.
+
+### Added
+
+- **28 new content warnings** ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)). The **Phobias** group gains 25 clinically-recognised fears relevant to gameplay / horror content — automatonophobia (animatronics), megalophobia (giant objects), submechanophobia (submerged man-made objects), necrophobia, spectrophobia, demonophobia, selachophobia (sharks), mysophobia, emetophobia, scopophobia, monophobia, musophobia, chiroptophobia, ornithophobia, ichthyophobia, herpetophobia, katsaridaphobia, apiphobia, astraphobia, agoraphobia, enochlophobia, chionophobia, nosocomephobia, aichmophobia, pnigophobia — 16 → 41. The **Sensitive** group gains 3 bigotry-content warnings — `homophobia`, `transphobia`, `xenophobia` — placed next to `discrimination` / `hate_speech`. These are prejudices, not involuntary fear responses, so they are deliberately kept out of the Phobias group. Total content warnings 97 → 125. Purely additive — the engine auto-renders each warning, no persist migration. Fully translated across all 6 locales (`ui.json` short labels + `templates.json` description phrases) with `_schema.json` updated.
+- **Scroll-to-top button** ([src/components/layout/ScrollToTopButton.tsx](src/components/layout/ScrollToTopButton.tsx)). A floating up-arrow fixed to the bottom-right of the viewport that fades in once the page is scrolled past 300 px and smooth-scrolls back on click. The scroll target is the `<main>` element — the app's real scroll container, not `window` — which `AppShell` now passes down as a ref. Honors `prefers-reduced-motion`, uses a 44 px touch target with a focus ring, sits at `z-40` so toasts render above it, and re-checks visibility on route change. New `common.scrollToTop` locale key across all 6 locales.
+- **`knip` dead-code tooling** ([knip.json](knip.json) + `npm run knip`). Authoritative cross-file detection of unused files, exports, and dependencies — coverage TypeScript strict mode (in-file only) cannot provide. Configured so `scripts/` and `tests/` are recognised entry points.
+
+### Fixed
+
+- **`brace-expansion` moderate-severity DoS** ([advisory GHSA-jxxr-4gwj-5jf2](https://github.com/advisories/GHSA-jxxr-4gwj-5jf2)). `npm audit fix` bumped the transitive dependency (reached through `@typescript-eslint`) 5.0.5 → 5.0.6. A dev/lint-time dependency only — no effect on shipped web or desktop binaries. `npm audit` now reports zero vulnerabilities.
+
+### Removed
+
+- **Dead-code sweep** (knip-driven). Deleted the unused `use-debounce.ts` hook plus ~13 unreferenced exports across config / engine / store / utils (`findGpuSeries`, `formatSingleEndingForTitle`, `PlaylistOutput`, `loadFile`, `exportToJsonFile`, `importFromJsonFile`, `EnglishTranslationFn`, `PlatformId`, `SocialFieldId`, `SocialCategory`, `VietnameseBank`, `RigFieldId`, `SupportedLanguageId`). A further ~12 symbols were tightened from `export` to module-private and the settings layer's redundant type re-exports were trimmed. No behaviour change — all 426 tests still pass.
+
+### Under the hood
+
+- **Documentation accuracy pass.** `TECH-SPEC.md` package version (`0.1.0` → `0.19.0`) and CI Node version (`20` → `22`); `ROADMAP.md` corrected a never-built `TabBar` component reference to `Sidebar`; `FEATURES.md` video-type / genre / language counts refreshed, with the stale duplicate tables replaced by links to `CONTENT-INVENTORY.md` (the maintained source of truth); `CONTENT-INVENTORY.md` and its Vietnamese mirror updated for the new warning counts; `README.md` content-warning count corrected (91 → 125).
+- Persist version unchanged — this release adds no new persisted fields.
+- Five dependencies knip flagged as unused are intentionally kept and listed under `knip.json` `ignoreDependencies`: the three Tauri plugin packages cannot be safely verified without a desktop build, and `@testing-library/*` is documented test infrastructure.
+
 ## v0.18.0 — 2026-05-15
 
 Vietnamese-bank dropdown for the donate form + two persistence-layer

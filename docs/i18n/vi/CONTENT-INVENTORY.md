@@ -95,7 +95,7 @@ Các nhóm bulk-select trong editor: **All RPGs** (rpg + jrpg + action_rpg + crp
 
 ---
 
-## 3. Cảnh báo nội dung (96, chia nhóm)
+## 3. Cảnh báo nội dung (125, chia nhóm)
 
 Cảnh báo được chọn sẽ thêm vào khối `⚠ CONTENT WARNINGS` trong description, trước phần timestamp. Mỗi nhóm có thể thu gọn trong editor; cảnh báo hiển thị theo thứ tự người dùng chọn.
 
@@ -107,17 +107,17 @@ Spoiler cốt truyện / ending · Spoiler ending · Spoiler ending thật · Sp
 
 Đèn nháy · Say tàu xe · Kích thích migraine · Âm thanh lớn / đột ngột · Hiệu ứng strobe · Rung hình mạnh
 
-### Ám ảnh / Phobia (16)
+### Ám ảnh / Phobia (41)
 
-Jumpscare · Sợ độ cao (acrophobia) · Sợ lỗ / cụm (trypophobia) · Sợ nước sâu (thalassophobia) · Sợ không gian kín (claustrophobia) · Sợ nhện (arachnophobia) · Sợ côn trùng (entomophobia) · Sợ rắn (ophidiophobia) · Sợ chó (cynophobia) · Sợ bóng tối (nyctophobia) · Sợ lửa (pyrophobia) · Sợ búp bê (pediophobia) · Sợ máu (hemophobia) · Sợ chú hề (coulrophobia) · Sợ chết đuối (ablutophobia) · Sợ bị chôn sống (taphophobia)
+Jumpscare · Sợ độ cao (acrophobia) · Sợ lỗ / cụm (trypophobia) · Sợ nước sâu (thalassophobia) · Sợ không gian kín (claustrophobia) · Sợ nhện (arachnophobia) · Sợ côn trùng (entomophobia) · Sợ rắn (ophidiophobia) · Sợ chó (cynophobia) · Sợ bóng tối (nyctophobia) · Sợ lửa (pyrophobia) · Sợ búp bê (pediophobia) · Sợ máu (hemophobia) · Sợ chú hề (coulrophobia) · Sợ chết đuối (ablutophobia) · Sợ bị chôn sống (taphophobia) · Hình nhân máy (automatonophobia) · Vật thể khổng lồ (megalophobia) · Vật nhân tạo dưới nước (submechanophobia) · Xác chết (necrophobia) · Ma quỷ (spectrophobia) · Quỷ dữ (demonophobia) · Cá mập (selachophobia) · Vi trùng / ô nhiễm (mysophobia) · Nôn mửa (emetophobia) · Bị nhìn chằm chằm (scopophobia) · Cô lập (monophobia) · Chuột (musophobia) · Dơi (chiroptophobia) · Chim (ornithophobia) · Cá (ichthyophobia) · Bò sát (herpetophobia) · Gián (katsaridaphobia) · Ong (apiphobia) · Sấm sét (astraphobia) · Không gian rộng (agoraphobia) · Đám đông (enochlophobia) · Tuyết / giá lạnh (chionophobia) · Bệnh viện (nosocomephobia) · Vật sắc nhọn (aichmophobia) · Nghẹt thở (pnigophobia)
 
 ### Sức khỏe tâm thần (17)
 
 Cảnh gây lo âu · Trầm cảm · Rối loạn ăn uống · Sử dụng chất kích thích · Tự hại / tự tử · PTSD · Kim tiêm · Dịch cơ thể · Mang thai / sinh nở kinh dị · Bệnh tật / nhiễm trùng · Lưỡng cực · OCD · Hoảng loạn · Phân ly · Hoang tưởng · Suy nghĩ xâm nhập · Y khoa kinh dị
 
-### Nội dung nhạy cảm / 18+ (26)
+### Nội dung nhạy cảm / 18+ (29)
 
-Máu me · 18+ · Hình ảnh gây khó chịu · Bạo hành động vật · Bạo lực với trẻ em · Bạo lực gia đình · Tham chiếu xâm hại tình dục · Tra tấn · Tôn giáo · Bạo lực chiến tranh · Phân biệt đối xử · Bạo lực nhà nước / cảnh sát · Hút thuốc / uống rượu · Giết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ
+Máu me · 18+ · Hình ảnh gây khó chịu · Bạo hành động vật · Bạo lực với trẻ em · Bạo lực gia đình · Tham chiếu xâm hại tình dục · Tra tấn · Tôn giáo · Bạo lực chiến tranh · Phân biệt đối xử · Bạo lực nhà nước / cảnh sát · Hút thuốc / uống rượu · Giết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia)
 
 ### Kinh dị nặng (12)
 

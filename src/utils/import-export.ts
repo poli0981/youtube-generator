@@ -42,9 +42,7 @@ export type ImportResult<T> =
 /**
  * Write `data` to a download as a typed envelope JSON file. The
  * envelope marker lets a later import auto-detect the file's type
- * (see {@link importTypedFromJsonFile}). Existing pre-v0.15 export
- * call sites still work via {@link exportToJsonFile} below, which
- * forwards here with no `type`.
+ * (see {@link importTypedFromJsonFile}).
  */
 export function exportTypedToJsonFile<T>(
   type: ExportType,
@@ -53,16 +51,6 @@ export function exportTypedToJsonFile<T>(
 ): void {
   const envelope = wrapEnvelope(type, data);
   const json = JSON.stringify(envelope, null, 2);
-  triggerDownload(json, filename);
-}
-
-/**
- * Legacy: untyped export (bare value, no envelope). Kept for the few
- * call sites that aren't ready to migrate — anything new should use
- * {@link exportTypedToJsonFile} so the import side gets auto-detect.
- */
-export function exportToJsonFile(data: unknown, filename: string): void {
-  const json = JSON.stringify(data, null, 2);
   triggerDownload(json, filename);
 }
 
@@ -201,37 +189,4 @@ export async function importTypedFromJsonFile(
     }
   }
   return { ok: true, data: resolved.data, sourceVersion: resolved.sourceVersion };
-}
-
-/**
- * Legacy: bare-value JSON import. Some call sites still need this
- * (LogPage's eventual log-import, ad-hoc tooling). Throws on parse /
- * empty errors — the new contract is {@link importTypedFromJsonFile}
- * for everything user-facing.
- */
-export function importFromJsonFile<T>(): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".json";
-    input.onchange = () => {
-      const file = input.files?.[0];
-      if (!file) {
-        reject(new Error("No file selected"));
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const data = JSON.parse(reader.result as string) as T;
-          resolve(data);
-        } catch {
-          reject(new Error("Invalid JSON file"));
-        }
-      };
-      reader.onerror = () => reject(new Error("Failed to read file"));
-      reader.readAsText(file);
-    };
-    input.click();
-  });
 }

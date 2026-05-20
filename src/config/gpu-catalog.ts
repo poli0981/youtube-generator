@@ -24,7 +24,7 @@
  * "gaming GPUs" in the discrete-card sense.
  */
 
-export interface GpuSeries {
+interface GpuSeries {
   /** Stable id used in the storage tuple (`<brandId>|<seriesId>|<model>`). */
   readonly id: string;
   readonly label: string;
@@ -253,13 +253,4 @@ export const GPU_CUSTOM_BRAND_ID = "custom";
  */
 export function findGpuBrand(brandId: string): GpuBrand | undefined {
   return GPU_CATALOG.find((b) => b.id === brandId);
-}
-
-/**
- * Lookup a series within a known brand. Returns `undefined` for both
- * unknown brand and unknown series; the caller decides whether to clear
- * the downstream model selection or preserve it.
- */
-export function findGpuSeries(brandId: string, seriesId: string): GpuSeries | undefined {
-  return findGpuBrand(brandId)?.series.find((s) => s.id === seriesId);
 }

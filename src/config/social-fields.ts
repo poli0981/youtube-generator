@@ -19,6 +19,3 @@ export const SOCIAL_FIELDS = [
   { id: "fb_group", label: "Facebook Group", labelKey: "social.fb_group", urlPrefix: "https://facebook.com/groups/", category: "social" },
   { id: "website", label: "Website", labelKey: "social.website", urlPrefix: "", category: "social" },
 ] as const;
-
-export type SocialFieldId = (typeof SOCIAL_FIELDS)[number]["id"];
-export type SocialCategory = "donate" | "social";

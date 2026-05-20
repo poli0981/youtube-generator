@@ -60,8 +60,6 @@ export const VIETNAMESE_BANKS = [
   "UOB Vietnam",
 ] as const;
 
-export type VietnameseBank = (typeof VIETNAMESE_BANKS)[number];
-
 /** Sentinel select-option value the editor uses to surface a fall-through
  *  text input. Kept as a non-bank-name string so a real bank could
  *  never collide with it. */

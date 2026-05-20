@@ -1,6 +1,6 @@
 {
   "name": "yt-desc-gen",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -13,6 +13,7 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
+    "knip": "knip",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"src/**/*.{ts,tsx,json,css}\"",
     "validate:locales": "tsx scripts/validate-locales.ts",
@@ -47,6 +48,7 @@
     "autoprefixer": "^10.4.0",
     "eslint": "^9.0.0",
     "eslint-plugin-react-hooks": "^5.0.0",
+    "knip": "^6.14.1",
     "postcss": "^8.5.14",
     "prettier": "^3.3.0",
     "prettier-plugin-tailwindcss": "^0.6.0",
