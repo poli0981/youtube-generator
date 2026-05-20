@@ -23,11 +23,6 @@ export interface PlaylistInput {
   playlistNote?: string;
 }
 
-export interface PlaylistOutput {
-  title: string;
-  description: string;
-}
-
 export function buildPlaylistTitle(input: PlaylistInput, t: TranslationFn): string {
   const statusText = t(`playlist.status.${input.status}`);
   return t("playlist.titleFormat", {

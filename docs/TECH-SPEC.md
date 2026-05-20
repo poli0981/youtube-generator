@@ -11,7 +11,7 @@
 ```jsonc
 {
   "name": "yt-desc-gen",
-  "version": "0.1.0",
+  "version": "0.19.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -320,7 +320,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run typecheck
@@ -353,7 +353,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run build

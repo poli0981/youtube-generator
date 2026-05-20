@@ -1,7 +1,7 @@
 import type { GeneratorInput, TranslationFn } from "./types";
 import { buildQualityBadge } from "./title-builder";
 
-export type TitleVariantId = "default" | "typeFirst" | "qualityFirst";
+type TitleVariantId = "default" | "typeFirst" | "qualityFirst";
 
 export interface TitleVariant {
   id: TitleVariantId;

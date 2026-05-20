@@ -10,14 +10,8 @@ import {
   type TitleFormatConfig,
 } from "./settings-heal";
 
-export type {
-  SettingsData,
-  TitleFormatConfig,
-  TitleBadgePosition,
-  TitleSeparatorId,
-  TitleBadgeCase,
-} from "./settings-heal";
-export { healSettings, initialSettings } from "./settings-heal";
+export type { SettingsData } from "./settings-heal";
+export { healSettings } from "./settings-heal";
 
 interface SettingsState extends SettingsData {
   setTheme: (theme: "dark" | "light") => void;

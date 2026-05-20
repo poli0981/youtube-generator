@@ -14,9 +14,7 @@ import type { EndingEntry, EndingVideoRange, GeneratorInput } from "./types";
  * require routing through i18next from a pure module. Templates can
  * still override the surrounding bullet label via
  * `description.playthroughNotes.labels.endings` — only the per-entry
- * "Ending N" prefix stays in English. (Title interpolation runs in
- * the same module via {@link formatSingleEndingForTitle} for the same
- * reason.)
+ * "Ending N" prefix stays in English.
  *
  * Pure — exported for unit tests + direct use from React components.
  */
@@ -75,18 +73,4 @@ export function clampRange(
   const from = Math.max(1, Math.min(range.from, length));
   const to = Math.max(from, Math.min(range.to, length));
   return { from, to };
-}
-
-/**
- * Return a single string suitable for interpolation into a video
- * title's `{{endingLabel}}` slot. Currently identical to
- * {@link formatEndingEntry} for a single entry; defined separately so
- * future per-locale title-formatting tweaks (e.g. Vietnamese "Kết thúc
- * 3" instead of "Ending 3") have a single chokepoint.
- *
- * Returns `null` when no usable label can be produced — callers
- * should fall back to the unbranded ending title in that case.
- */
-export function formatSingleEndingForTitle(entry: EndingEntry): string | null {
-  return formatEndingEntry(entry);
 }

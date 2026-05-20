@@ -4,84 +4,40 @@
 
 ---
 
-## 🎬 Video Types (14 types)
+## 🎬 Video Types (20 types)
 
-| ID | Label (EN) | Label (VI) | Label (JA) | Extra Fields |
-|----|-----------|------------|------------|--------------|
-| `full` | Full Gameplay | Full Gameplay | フルゲームプレイ | — |
-| `part` | Gameplay Part | Gameplay Phần | ゲームプレイ パート | `partNumber` |
-| `boss` | Boss Fight | Boss Fight | ボス戦 | `bossName` |
-| `boss_nohit` | Boss No Hit | Boss No Hit | ボス ノーヒット | `bossName` |
-| `ending` | Ending / All Endings | Kết thúc | エンディング | — |
-| `speedrun` | Speedrun | Speedrun | スピードラン | — |
-| `100percent` | 100% Completion | 100% Completion | 100%クリア | — |
-| `dlc` | DLC Content | Nội dung DLC | DLCコンテンツ | `dlcName` |
-| `newgame_plus` | New Game+ | New Game+ | 強くてニューゲーム | — |
-| `challenge` | Challenge Run | Challenge Run | チャレンジラン | `challengeName` |
-| `side_quest` | Side Quests | Nhiệm vụ phụ | サブクエスト | — |
-| `secret` | Secrets / Hidden | Bí mật | 隠し要素 | — |
-| `comparison` | Graphics Comparison | So sánh đồ họa | グラフィック比較 | — |
-| `guide` | Silent Guide | Hướng dẫn | 攻略ガイド | — |
+Twenty video types, each driving a dedicated description template, title
+structure, and tag bias. The complete table — every type with its icon and
+the extra fields the editor reveals — is in
+[Content Inventory](./CONTENT-INVENTORY.md).
 
-## 🌐 Languages (12 languages)
+## 🌐 Languages (6 shipped)
 
-### Launch (Phase 1)
+All six locales ship today — UI strings and description templates fully
+translated and parity-validated by `npm run validate:locales`.
+
 | Code | Language | Native Name | Status |
 |------|----------|-------------|--------|
-| `en` | English | English | ✅ Ready |
-| `vi` | Vietnamese | Tiếng Việt | ✅ Ready |
-| `ja` | Japanese | 日本語 | ✅ Ready |
+| `en` | English | English | ✅ Shipped |
+| `vi` | Vietnamese | Tiếng Việt | ✅ Shipped |
+| `ja` | Japanese | 日本語 | ✅ Shipped |
+| `es` | Spanish | Español | ✅ Shipped |
+| `ko` | Korean | 한국어 | ✅ Shipped |
+| `zh` | Chinese (Simplified) | 简体中文 | ✅ Shipped |
 
-### Phase 2
-| Code | Language | Native Name |
-|------|----------|-------------|
-| `es` | Spanish | Español |
-| `ko` | Korean | 한국어 |
-| `zh` | Chinese (Simplified) | 简体中文 |
-
-### Phase 3+
-| Code | Language | Native Name |
-|------|----------|-------------|
-| `fr` | French | Français |
-| `de` | German | Deutsch |
-| `pt` | Portuguese | Português |
-| `ru` | Russian | Русский |
-| `th` | Thai | ภาษาไทย |
-| `ar` | Arabic | العربية |
+Further locales (French, German, Portuguese, Russian, Thai, Arabic) are
+tracked in [Roadmap § 5.3](./ROADMAP.md).
 
 Each language requires:
 - `ui.json` — UI labels, buttons, placeholders, error messages
 - `templates.json` — Title patterns, description sections, CTA text
 
-## 🎮 Game Genres (25 genres)
+## 🎮 Game Genres (41 genres)
 
-| ID | Label | Icon | Tag Keywords (sample) |
-|----|-------|------|-----------------------|
-| `action` | Action / Adventure | ⚔️ | action game, hack and slash, action adventure |
-| `horror` | Horror / Survival | 👻 | horror game, survival horror, scary game, psychological horror |
-| `rpg` | RPG / JRPG | 🛡 | RPG, JRPG, action RPG, turn based RPG |
-| `fps` | FPS / Shooter | 🔫 | FPS, shooter, tactical shooter, third person shooter |
-| `openworld` | Open World / Sandbox | 🌍 | open world, sandbox, free roam, exploration |
-| `indie` | Indie / Platformer | 🕹 | indie game, platformer, pixel art |
-| `soulslike` | Souls-like | 💀 | souls like, soulsborne, boss fight, no death run |
-| `racing` | Racing / Sports | 🏎 | racing game, driving sim, sports game |
-| `story` | Story / Visual Novel | 📖 | story game, visual novel, narrative game, interactive drama |
-| `simulation` | Simulation / Strategy | 🏗 | simulation, city builder, management, tycoon |
-| `fighting` | Fighting | 🥊 | fighting game, combo, versus, arcade |
-| `stealth` | Stealth / Espionage | 🥷 | stealth game, stealth gameplay, infiltration |
-| `survival_craft` | Survival / Crafting | 🏕 | survival game, crafting, base building |
-| `mmo` | MMO / Online | 🌐 | MMO, MMORPG, online game, multiplayer |
-| `rhythm` | Rhythm / Music | 🎵 | rhythm game, music game, beat game |
-| `puzzle` | Puzzle | 🧩 | puzzle game, brain teaser, logic game |
-| `roguelike` | Roguelike / Roguelite | 🎲 | roguelike, roguelite, procedural, permadeath |
-| `metroidvania` | Metroidvania | 🗺 | metroidvania, exploration, ability unlock |
-| `tower_defense` | Tower Defense | 🏰 | tower defense, TD game, strategy |
-| `card_game` | Card / Deck Builder | 🃏 | card game, deck builder, TCG |
-| `battle_royale` | Battle Royale | 🏆 | battle royale, last man standing, BR |
-| `crpg` | CRPG / Isometric | 📜 | CRPG, isometric RPG, classic RPG |
-| `tactical` | Tactical / Turn-based | ♟ | tactical, turn based strategy, XCOM-like |
-| `space` | Space / Sci-Fi | 🚀 | space game, sci-fi, space exploration |
-| `farming` | Farming / Life Sim | 🌾 | farming sim, life sim, cozy game |
+Forty-one genres feed the title format, the tag pool, and (when configured
+in Settings → Genre Playlists) the pinned-comment playlist recommendation.
+The complete list — with icons and bulk-select groups — is in
+[Content Inventory](./CONTENT-INVENTORY.md).
 
 ## 🛒 Store Platforms (9 platforms)
 

@@ -51,7 +51,7 @@
      - [x] editor/ components: StoreLinkEditor, RigEditor, SocialEditor, WarningToggles
      - [x] editor/ components: QuickPreview
      - [x] output/ components: OutputPreview, CopyButton, CharCounter, CopyAllBar
-     - [x] layout/ components: AppShell, Header, TabBar
+     - [x] layout/ components: AppShell, Header, Sidebar
 
 1.7  Pages
      - [x] EditorPage (form + quick preview)

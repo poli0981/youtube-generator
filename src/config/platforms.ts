@@ -99,5 +99,3 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     urlPattern: /^https:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/[^\s]*)?$/i,
   },
 ] as const;
-
-export type PlatformId = (typeof PLATFORMS)[number]["id"];

@@ -198,7 +198,7 @@ export function buildGachaPartSuffix(
  * endings. The Output page passes the index when looping over
  * `endingVideoCount`; bare generation (no index) sees the union.
  */
-export function buildStructuredEndingLabel(
+function buildStructuredEndingLabel(
   input: GeneratorInput,
   t: TranslationFn,
 ): string | null {

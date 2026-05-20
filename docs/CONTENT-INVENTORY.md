@@ -95,7 +95,7 @@ Bulk-select groups available in the editor: **All RPGs** (rpg + jrpg + action_rp
 
 ---
 
-## 3. Content warnings (96, grouped)
+## 3. Content warnings (125, grouped)
 
 Selected warnings are appended to a `⚠ CONTENT WARNINGS` block in the description, ahead of timestamps. Each group is collapsible in the editor; warnings render in description order = user's selection order.
 
@@ -107,17 +107,17 @@ Story / ending spoilers · Ending spoilers · True-ending spoilers · Post-game 
 
 Flashing lights · Motion sickness · Migraine trigger · Loud / sudden sounds · Strobe lighting · Heavy screen shake
 
-### Phobias (16)
+### Phobias (41)
 
-Jumpscares · Heights (acrophobia) · Holes / clusters (trypophobia) · Deep water (thalassophobia) · Confined spaces (claustrophobia) · Spiders (arachnophobia) · Insects (entomophobia) · Snakes (ophidiophobia) · Dogs (cynophobia) · Darkness (nyctophobia) · Fire (pyrophobia) · Dolls (pediophobia) · Blood (hemophobia) · Clowns (coulrophobia) · Drowning / water immersion (ablutophobia) · Live burial (taphophobia)
+Jumpscares · Heights (acrophobia) · Holes / clusters (trypophobia) · Deep water (thalassophobia) · Confined spaces (claustrophobia) · Spiders (arachnophobia) · Insects (entomophobia) · Snakes (ophidiophobia) · Dogs (cynophobia) · Darkness (nyctophobia) · Fire (pyrophobia) · Dolls (pediophobia) · Blood (hemophobia) · Clowns (coulrophobia) · Drowning / water immersion (ablutophobia) · Live burial (taphophobia) · Animatronics / mannequins (automatonophobia) · Large objects (megalophobia) · Submerged man-made objects (submechanophobia) · Corpses (necrophobia) · Ghosts (spectrophobia) · Demons (demonophobia) · Sharks (selachophobia) · Germs / contamination (mysophobia) · Vomiting (emetophobia) · Being watched (scopophobia) · Isolation (monophobia) · Mice / rats (musophobia) · Bats (chiroptophobia) · Birds (ornithophobia) · Fish (ichthyophobia) · Reptiles (herpetophobia) · Cockroaches (katsaridaphobia) · Bees / wasps (apiphobia) · Thunder / lightning (astraphobia) · Open spaces (agoraphobia) · Crowds (enochlophobia) · Snow / extreme cold (chionophobia) · Hospitals (nosocomephobia) · Sharp objects (aichmophobia) · Choking / suffocation (pnigophobia)
 
 ### Mental health (17)
 
 Anxiety-inducing scenes · Depression themes · Eating disorders · Substance use · Self-harm / suicide · PTSD content · Needles · Body fluids · Pregnancy / birth horror · Illness / infection · Bipolar themes · OCD themes · Panic attacks · Dissociation · Paranoia · Intrusive thoughts · Medical horror
 
-### Mature / Sensitive content (26)
+### Mature / Sensitive content (29)
 
-Blood and gore · Mature 18+ · Disturbing imagery · Animal cruelty · Violence against minors · Domestic violence · Sexual assault references · Torture · Religious themes · War violence · Discrimination · State / police violence · Smoking / drinking · Detailed killing · Cult / occult · Psychological manipulation · Loss / grief · Kidnapping · Hate speech · Historical atrocities · Slavery themes · Terrorism themes · Bullying themes · Human experimentation · Cannibalism · Nuclear / radiation
+Blood and gore · Mature 18+ · Disturbing imagery · Animal cruelty · Violence against minors · Domestic violence · Sexual assault references · Torture · Religious themes · War violence · Discrimination · State / police violence · Smoking / drinking · Detailed killing · Cult / occult · Psychological manipulation · Loss / grief · Kidnapping · Hate speech · Historical atrocities · Slavery themes · Terrorism themes · Bullying themes · Human experimentation · Cannibalism · Nuclear / radiation · Homophobia / anti-LGBTQ+ · Transphobia / anti-trans · Xenophobia / anti-foreigner
 
 ### Heavy horror (12)
 

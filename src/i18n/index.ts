@@ -23,8 +23,6 @@ export const SUPPORTED_LANGUAGES = [
   { id: "zh", label: "Chinese", flag: "🇨🇳", nativeName: "简体中文" },
 ] as const;
 
-export type SupportedLanguageId = (typeof SUPPORTED_LANGUAGES)[number]["id"];
-
 i18n.use(initReactI18next).init({
   resources: {
     en: { ui: enUI, templates: enTemplates },
