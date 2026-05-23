@@ -31,6 +31,7 @@ export function ContentWarningChecklist() {
     photosensitive: false,
     phobias: false,
     mental_health: false,
+    social_phenomena: false,
     sensitive: false,
     horror_specific: false,
   }));

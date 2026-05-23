@@ -2,6 +2,29 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.20.0 — 2026-05-23
+
+Fifty new content-warning IDs across three thematic axes — political /
+religion / war, social-psychological phenomena (autism, hikikomori,
+parasocial, etc.), and weather-related phobias — plus a tag-engine fix
+for game names containing comma / semicolon / pipe characters.
+
+### Added
+
+- **50 new content warnings** ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)). The **Phobias** group gains 10 weather-related fears — `homichlophobia` (fog), `lilapsophobia` (tornadoes / hurricanes), `ombrophobia` (heavy rain), `nephophobia` (clouds), `ancraophobia` (strong wind), `cryophobia` (extreme cold, distinct from `chionophobia`/snow), `heliophobia` (sunlight), `cymophobia` (large waves), `limnophobia` (lakes), `potamophobia` (rivers); 41 → 51. The **Sensitive** group gains 20 political / religious / war themes — `political_extremism`, `religious_extremism`, `genocide`, `holy_war`, `holocaust_themes`, `civil_war`, `mass_shooting`, `colonialism`, `propaganda`, `dystopian_state`, `conspiracy_theories`, `censorship_themes`, `ethnic_conflict`, `refugee_crisis`, `revolution_themes`, `assassination`, `coup_themes`, `inquisition`, `forced_labor`, `ultranationalism`; 29 → 49. A new **Social phenomena** group (inserted between *Mental health* and *Sensitive*) carries 20 psychological-social IDs that don't fit clinical mental-health framing — `autism_themes`, `adhd_themes`, `hikikomori`, `neet_themes`, `social_anxiety_themes`, `social_isolation`, `schizophrenia_themes`, `burnout_themes`, `survivor_guilt`, `abandonment_themes`, `parasocial_themes`, `gaslighting_themes`, `stockholm_syndrome`, `behavioral_addiction`, `existential_crisis`, `impostor_syndrome`, `midlife_crisis`, `quarter_life_crisis`, `workplace_harassment`, `masculinity_pressure`. Total content warnings 125 → 175 across 9 groups (was 8). Purely additive — engine renders each warning automatically; existing profiles / templates round-trip unchanged. Fully translated across all 6 locales (`ui.json` short labels + `templates.json` description phrases) with `_schema.json` updated.
+- **1 new locale key × 6 locales**: `editor.contentWarningGroups.social_phenomena` (the new group's heading). Initial-collapse default set in [ContentWarningChecklist.tsx](src/components/editor/ContentWarningChecklist.tsx) so the 20-item group stays scannable until expanded.
+
+### Fixed
+
+- **Tag generator splitting at commas / semicolons / pipes in game names** ([src/engine/tag-generator.ts](src/engine/tag-generator.ts)). YouTube treats `,` as a tag delimiter, so a game title like `Hello, World` previously produced composite tags such as `Hello, World gameplay` that YouTube split into two broken tags (`Hello` + `World gameplay`). New `sanitizeForTag` helper strips `,` `;` `|` from the game name before it enters bare / composite tags and is also called inside `tagFriendlyGameName` (idempotent). Title / description / hashtag paths still read `input.gameName` verbatim — the original punctuation is preserved for human-facing copy, only the tag list is cleaned. Nine new test cases in [tests/engine/tag-generator.test.ts](tests/engine/tag-generator.test.ts) cover the comma / semicolon / pipe paths plus idempotence.
+
+### Under the hood
+
+- **Documentation count sweep.** `README.md` content-warning total bumped 125 → 175 and group count 8 → 9; `docs/CONTENT-INVENTORY.md` heading updated, three group sections regenerated (Phobias 41 → 51, Sensitive 29 → 49, new Social phenomena 20), Vietnamese mirror at `docs/i18n/vi/CONTENT-INVENTORY.md` kept in lock-step.
+- Persist version unchanged — this release adds no new persisted fields. Existing `contentWarnings: ContentWarning[]` profiles widen the allowed enum but reject nothing.
+- Five manifests bumped 0.19.0 → 0.20.0 (`package.json`, `package-lock.json` root + self-reference, `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock` `yt-desc-gen` entry, `src-tauri/tauri.conf.json`).
+- Pre-release gates run green: lint, typecheck, validate:locales (12/12 files complete), 435 tests, knip, build, `npm audit` (zero vulnerabilities).
+
 ## v0.19.0 — 2026-05-20
 
 Twenty-eight new content-warning IDs (twenty-five clinical phobias plus

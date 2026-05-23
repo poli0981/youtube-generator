@@ -15,17 +15,34 @@ const QUALIFIER_SUFFIX_RE =
   /[:\s]+(?:Definitive|Complete|Collector'?s?|Deluxe|Game\s+of\s+the\s+Year|GOTY|Ultimate|Special|Anniversary|Remastered|Remake|Enhanced|HD)(?:\s+(?:Edition|Cut|Version))?\s*$/i;
 
 /**
+ * Strips characters that YouTube treats as tag delimiters (`,` `;` `|`) plus
+ * trademark marks, then collapses whitespace. Game names containing these
+ * delimiters (e.g. "Hello, World") would otherwise produce composite tags
+ * like "Hello, World gameplay" that YouTube splits at the comma.
+ *
+ * Pure — exported for testing.
+ */
+export function sanitizeForTag(name: string): string {
+  return name
+    .replace(/[™®©]/g, "")
+    .replace(/[,;|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
  * Returns a shortened, tag-friendly form of `name` whose length is ≤ `budget`.
  *
- * Strips trademark marks, then iteratively peels off common edition
- * qualifiers ("Definitive Edition", "Remastered", "GOTY", …). If the result
- * is still over budget, drops everything after the first colon. Falls back
- * to picking leading whole words that fit.
+ * Sanitizes via {@link sanitizeForTag} (trademark + tag-delimiter strip),
+ * then iteratively peels off common edition qualifiers ("Definitive Edition",
+ * "Remastered", "GOTY", …). If the result is still over budget, drops
+ * everything after the first colon. Falls back to picking leading whole
+ * words that fit.
  *
  * Pure — exported for testing.
  */
 export function tagFriendlyGameName(name: string, budget: number): string {
-  let n = name.replace(/[™®©]/g, "").trim();
+  let n = sanitizeForTag(name);
   let prev: string;
   do {
     prev = n;
@@ -355,7 +372,9 @@ export interface TagOptions {
 
 export function generateTags(input: GeneratorInput, options?: TagOptions): string[] {
   const { includeMultilingualTags = true, includeTrendingTags = true } = options ?? {};
-  const rawName = input.gameNameLocalized?.[input.language] ?? input.gameName;
+  const rawName = sanitizeForTag(
+    input.gameNameLocalized?.[input.language] ?? input.gameName,
+  );
 
   // Two friendly forms of the game name:
   //   • bareNameTag — fits the per-tag 30-char limit; always added so the

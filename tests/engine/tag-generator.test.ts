@@ -3,6 +3,7 @@ import {
   generateTags,
   formatTagString,
   tagFriendlyGameName,
+  sanitizeForTag,
 } from "@engine/tag-generator";
 import type { GeneratorInput } from "@engine/types";
 
@@ -260,5 +261,62 @@ describe("generateTags — long game names (regression for v0.7 silent drop)", (
     // The trimmed form must start with the original first word so the
     // tag remains a recognisable publisher anchor.
     expect(tags.some((t) => t.startsWith("Platinum"))).toBe(true);
+  });
+});
+
+describe("sanitizeForTag — comma/semicolon/pipe stripping (v0.20.0)", () => {
+  it("strips a comma between words and collapses the resulting whitespace", () => {
+    expect(sanitizeForTag("Hello, World")).toBe("Hello World");
+  });
+
+  it("strips semicolons", () => {
+    expect(sanitizeForTag("Game; Title")).toBe("Game Title");
+  });
+
+  it("strips pipes", () => {
+    expect(sanitizeForTag("Game | DLC")).toBe("Game DLC");
+  });
+
+  it("is idempotent", () => {
+    const once = sanitizeForTag("Hello, World");
+    expect(sanitizeForTag(once)).toBe(once);
+  });
+});
+
+describe("generateTags — game names with tag-delimiter punctuation (v0.20.0)", () => {
+  it("emits the bare name with comma stripped and no comma-bearing tags", () => {
+    const tags = generateTags(makeInput({ gameName: "Hello, World" }));
+    expect(tags).toContain("Hello World");
+    expect(tags).not.toContain("Hello, World");
+    expect(tags.every((t) => !t.includes(","))).toBe(true);
+  });
+
+  it("emits clean composite tags for comma-bearing names", () => {
+    const tags = generateTags(
+      makeInput({ gameName: "Hello, World", genres: ["action"] }),
+    );
+    expect(tags).toContain("Hello World gameplay");
+    expect(tags.some((t) => t === "Hello World action")).toBe(true);
+  });
+
+  it("strips semicolons inside the game name path", () => {
+    const tags = generateTags(
+      makeInput({ gameName: "Crypt of the NecroDancer; Reaper Edition" }),
+    );
+    // Semicolon stripped, edition qualifier still peeled off, no semicolon in any tag.
+    expect(tags.every((t) => !t.includes(";"))).toBe(true);
+    expect(tags.some((t) => t.toLowerCase().includes("necrodancer"))).toBe(true);
+  });
+
+  it("strips pipes inside the game name path", () => {
+    const tags = generateTags(makeInput({ gameName: "Game | DLC" }));
+    expect(tags.every((t) => !t.includes("|"))).toBe(true);
+    expect(tags).toContain("Game DLC");
+  });
+});
+
+describe("tagFriendlyGameName — punctuation sanitization (v0.20.0)", () => {
+  it("strips a comma in addition to truncating", () => {
+    expect(tagFriendlyGameName("Hello, World", 30)).toBe("Hello World");
   });
 });
