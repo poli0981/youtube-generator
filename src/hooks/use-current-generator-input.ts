@@ -53,6 +53,7 @@ export function buildGeneratorInputFromEditor(
     frameGenMultiplier: state.frameGenMultiplier,
     upscaleQuality: state.upscaleQuality,
     artStyle: state.artStyle,
+    videoStyleEra: state.videoStyleEra,
     versionInfo: state.versionInfo,
     timestamps: state.timestamps,
     playlistLink: state.playlistLink,

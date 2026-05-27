@@ -15,8 +15,6 @@ import {
   Heart,
   Sparkles,
   DollarSign,
-  Cpu,
-  Monitor,
   type LucideIcon,
 } from "lucide-react";
 import { ABOUT, type AboutSocialId } from "@config/about";
@@ -65,17 +63,6 @@ export function AboutPage() {
     { id: "buyMeACoffee", url: DONATE.buyMeACoffee, icon: Coffee, labelKey: "about.donate.buyMeACoffee" },
     { id: "patreon", url: DONATE.patreon, icon: Heart, labelKey: "about.donate.patreon" },
     { id: "paypal", url: DONATE.paypal, icon: DollarSign, labelKey: "about.donate.paypal" },
-  ];
-
-  // Pulled from docs/DEVELOPMENT.md — keep them in sync when the box gets
-  // an upgrade. The page surfaces the summary; the full spec lives in docs.
-  const devEnvRows: ReadonlyArray<{ icon: LucideIcon; labelKey: string; value: string }> = [
-    { icon: Monitor, labelKey: "about.devEnv.os", value: "Windows 11 Pro 25H2 Insider (build 26300.8376)" },
-    { icon: Cpu, labelKey: "about.devEnv.cpu", value: "Intel Core i7-14700KF" },
-    { icon: Cpu, labelKey: "about.devEnv.gpu", value: "NVIDIA GeForce RTX 5080 (16 GB)" },
-    { icon: Cpu, labelKey: "about.devEnv.ram", value: "32 GB DDR5" },
-    { icon: Monitor, labelKey: "about.devEnv.ide", value: "JetBrains 2026.x · VS Code" },
-    { icon: Cpu, labelKey: "about.devEnv.toolchains", value: "Node ≥ 25.8.1 · Python 3.12 · Rust stable · Tauri 2" },
   ];
 
   return (
@@ -160,40 +147,6 @@ export function AboutPage() {
           </div>
         </section>
       )}
-
-      <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
-          {t("about.devEnvHeading")}
-        </h2>
-        <p className="text-xs text-text-muted">{t("about.devEnvHelp")}</p>
-        <ul className="overflow-hidden rounded-lg border border-border bg-surface-1">
-          {devEnvRows.map((row) => {
-            const Icon = row.icon;
-            return (
-              <li
-                key={row.labelKey}
-                className="flex items-center gap-3 border-b border-border px-3 py-2 text-sm last:border-b-0"
-              >
-                <Icon className="h-4 w-4 shrink-0 text-text-muted" />
-                <span className="w-32 shrink-0 text-text-secondary">{t(row.labelKey)}</span>
-                <span className="flex-1 truncate font-mono text-xs text-text-primary">{row.value}</span>
-              </li>
-            );
-          })}
-        </ul>
-        <div className="grid gap-2 sm:grid-cols-2">
-          <ExternalLinkRow
-            href={ABOUT.pcSpecDocUrl}
-            icon={ExternalLink}
-            label={t("about.devEnv.fullSpecLink")}
-          />
-          <ExternalLinkRow
-            href={ABOUT.devEnvDocUrl}
-            icon={ExternalLink}
-            label={t("about.devEnv.fullDevEnvLink")}
-          />
-        </div>
-      </section>
 
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">

@@ -207,6 +207,18 @@
         "motion_sickness": "Say game — camera / FPS chuyển động nhanh",
         "migraine_trigger": "Có thể gây đau nửa đầu",
         "loud_noises": "Âm thanh đột ngột / tiếng động lớn",
+        "ear_piercing": "Âm chói tai / tần số cao gây khó chịu",
+        "jumpscare_audio": "Jumpscare âm thanh — âm to đột ngột không cảnh báo",
+        "sudden_volume_changes": "Thay đổi âm lượng đột ngột — to / nhỏ bất ngờ",
+        "distorted_audio": "Âm thanh méo / vỡ tiếng / clipping",
+        "screeching_metallic": "Tiếng ken két, kim loại va chạm, cào bảng",
+        "persistent_high_pitch": "Tiếng cao kéo dài — có thể kích hoạt ù tai",
+        "audio_glitches": "Glitch âm thanh — crackle hoặc lặp âm do lỗi engine",
+        "heavy_bass_rumble": "Bass nặng / sub-bass rung — bản mix nặng LFE",
+        "screaming_audio": "Tiếng nhân vật la hét kéo dài",
+        "glass_breaking_audio": "Tiếng kính vỡ / vỡ vụn / va đập lặp",
+        "microphone_pops": "Tạp âm mic, tiếng thở, tiếng cầm mic (phía creator)",
+        "white_noise_static": "Tiếng nhiễu trắng / tĩnh điện kéo dài",
         "jump_scares": "Có jumpscare",
         "acrophobia": "Sợ độ cao",
         "trypophobia": "Sợ lỗ / cụm lỗ",
@@ -470,6 +482,24 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version"
+    },
+    "videoSettings": {
+      "styleLine": "Dựng theo phong cách {{era}} bằng {{editor}}",
+      "styleLineNoEditor": "Dựng theo phong cách {{era}}",
+      "eraOptions": {
+        "1980s": "thập niên 80",
+        "1990s": "thập niên 90 VHS",
+        "2000s": "đầu thập niên 2000",
+        "2010s": "thập niên 2010",
+        "2020s": "hiện đại 2020s",
+        "modern": "hiện đại",
+        "cinematic": "điện ảnh",
+        "retro": "retro",
+        "vhs": "VHS",
+        "film_noir": "film noir",
+        "anime_mv": "anime AMV",
+        "documentary": "phim tài liệu"
+      }
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE vào {{time}}",

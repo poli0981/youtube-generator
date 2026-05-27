@@ -265,9 +265,25 @@ export const CONTENT_WARNINGS = [
   "flashing_lights",
   "motion_sickness",
   "migraine_trigger",
-  "loud_noises",
   "strobe_effects",
   "screen_shake_intense",
+  // Audio / sensory (v0.22.0). `loud_noises` migrated here from the
+  // photosensitive block where it never quite fit — sudden volume changes
+  // and high-pitched tones affect a different (audio-sensitive) audience
+  // than strobe / motion triggers, so they group cleaner on their own.
+  "loud_noises",
+  "ear_piercing",
+  "jumpscare_audio",
+  "sudden_volume_changes",
+  "distorted_audio",
+  "screeching_metallic",
+  "persistent_high_pitch",
+  "audio_glitches",
+  "heavy_bass_rumble",
+  "screaming_audio",
+  "glass_breaking_audio",
+  "microphone_pops",
+  "white_noise_static",
   // Phobias
   "jump_scares",
   "acrophobia",
@@ -554,6 +570,14 @@ export interface GeneratorInput {
   upscaleQuality?: UpscaleQuality;
   /** High-level art-style descriptor — surfaces a separate line. */
   artStyle?: ArtStyle;
+  /**
+   * Video-style era opt-in (v0.22.0). When set to a non-empty era id,
+   * the renderer emits a single "Edited in {era} style using {editor}"
+   * credit at the end of the Video Settings section. Combines with
+   * {@link rig.video_editor}. Renders even when
+   * {@link skipGraphicsSettings} is true.
+   */
+  videoStyleEra?: string;
   /**
    * Free-form short string for driver / game version, e.g.
    * "GeForce 565.90 | Game v1.4". Surfaces as the trailing token of the

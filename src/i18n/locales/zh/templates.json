@@ -207,6 +207,18 @@
         "motion_sickness": "3D晕眩 — 镜头 / FPS 快速移动",
         "migraine_trigger": "可能引发偏头痛",
         "loud_noises": "突发的大音量",
+        "ear_piercing": "刺耳音 / 高频音段",
+        "jumpscare_audio": "音效突袭 — 突如其来的大音量",
+        "sudden_volume_changes": "音量骤变 — 突然大小切换",
+        "distorted_audio": "音频失真 / 削波片段",
+        "screeching_metallic": "刺耳金属摩擦 / 指甲刮黑板声",
+        "persistent_high_pitch": "持续高音 — 可能加重耳鸣",
+        "audio_glitches": "音频故障 — 引擎导致的爆裂或循环噪声",
+        "heavy_bass_rumble": "重低音 / 次低音震动 — 低频极重的混音",
+        "screaming_audio": "持续的角色尖叫声",
+        "glass_breaking_audio": "玻璃破碎 / 碎裂 / 撞击声",
+        "microphone_pops": "麦克风爆破声、呼吸声、操作噪声（创作者端）",
+        "white_noise_static": "持续的白噪音 / 电台静电杂音",
         "jump_scares": "惊吓镜头",
         "acrophobia": "恐高",
         "trypophobia": "密集恐惧",
@@ -470,6 +482,24 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version"
+    },
+    "videoSettings": {
+      "styleLine": "使用 {{editor}} 以 {{era}} 风格剪辑",
+      "styleLineNoEditor": "以 {{era}} 风格剪辑",
+      "eraOptions": {
+        "1980s": "1980年代",
+        "1990s": "1990年代 VHS",
+        "2000s": "2000年代初",
+        "2010s": "2010年代",
+        "2020s": "现代 2020s",
+        "modern": "现代",
+        "cinematic": "电影感",
+        "retro": "复古",
+        "vhs": "VHS",
+        "film_noir": "黑色电影",
+        "anime_mv": "动漫 AMV",
+        "documentary": "纪录片"
+      }
     },
     "livestream": {
       "scheduledLine": "🔴 直播时间: {{time}}",

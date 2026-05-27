@@ -9,11 +9,9 @@
       "repoHeading", "repoLabel", "issuesLabel", "reportBugLabel", "discussionsLabel", "authorLabel", "licenseLabel",
       "donateHeading", "donateHelp",
       "connectHeading",
-      "devEnvHeading", "devEnvHelp",
       "thirdPartyHeading", "thirdPartyHelp"
     ],
     "about.donate": ["githubSponsors", "kofi", "buyMeACoffee", "patreon", "paypal"],
-    "about.devEnv": ["os", "cpu", "gpu", "ram", "ide", "toolchains", "fullSpecLink", "fullDevEnvLink"],
     "about.socials": ["youtube", "x", "bluesky", "mastodon", "discord", "discordGame", "steam", "telegramBot", "telegramUser", "email"],
     "editor.sections": ["gameInfo", "videoSettings", "contentDetails", "attribution", "rig", "storeAndSocial"],
     "editor": [
@@ -31,6 +29,7 @@
       "gachaVersion", "gachaVersionPlaceholder",
       "gpu_brand", "gpu_series", "gpu_model", "gpu_custom",
       "ram_size", "ram_ddr",
+      "os_name", "os_version", "os_edition",
       "vnDonate", "vnDonateHelp",
       "vnBankName", "vnBankNamePlaceholder", "vnBankNameSelectPlaceholder", "vnBankNameOther",
       "vnBankAccount", "vnBankAccountPlaceholder",
@@ -41,7 +40,7 @@
       "graphicsPresetCustom", "graphicsPresetCustomPlaceholder",
       "skipGraphicsSettings", "skipGraphicsSettingsHelp",
       "rayTracing", "frameGenVendor", "frameGenMultiplier", "upscaleQuality",
-      "artStyle", "versionInfo", "versionInfoPlaceholder",
+      "artStyle", "videoStyle", "videoStyleHelp", "videoStyleOff", "versionInfo", "versionInfoPlaceholder",
       "liveUrl", "liveUrlPlaceholder", "scheduledTime",
       "skipGraphicsHintLabel", "skipGraphicsHintHide", "skipGraphicsHintKeep",
       "timestamps", "timestampsPlaceholder",
@@ -111,10 +110,11 @@
       "not_no_hit_run", "not_clean_walkthrough", "casual_no_commentary", "many_deaths_patience", "slow_exploration", "puzzle_stuck_possible", "grinding_cut", "not_speedrun_relaxed",
       "exploration_focus_skip_combat", "edited_for_pacing", "support_developers", "online_connectivity_issues"
     ],
-    "editor.contentWarningGroups": ["spoilers", "photosensitive", "phobias", "mental_health", "social_phenomena", "sensitive", "playstyle", "horror_specific", "gameplay_disclosure"],
+    "editor.contentWarningGroups": ["spoilers", "photosensitive", "audio", "phobias", "mental_health", "social_phenomena", "sensitive", "playstyle", "horror_specific", "gameplay_disclosure"],
     "editor.contentWarningOptions": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",
-      "flashing_lights", "motion_sickness", "migraine_trigger", "loud_noises", "strobe_effects", "screen_shake_intense",
+      "flashing_lights", "motion_sickness", "migraine_trigger", "strobe_effects", "screen_shake_intense",
+      "loud_noises", "ear_piercing", "jumpscare_audio", "sudden_volume_changes", "distorted_audio", "screeching_metallic", "persistent_high_pitch", "audio_glitches", "heavy_bass_rumble", "screaming_audio", "glass_breaking_audio", "microphone_pops", "white_noise_static",
       "jump_scares", "acrophobia", "trypophobia", "thalassophobia", "claustrophobia", "arachnophobia", "entomophobia", "ophidiophobia",
       "cynophobia", "nyctophobia", "pyrophobia", "pediophobia", "hemophobia", "coulrophobia", "ablutophobia", "taphophobia",
       "automatonophobia", "megalophobia", "submechanophobia", "necrophobia", "spectrophobia", "demonophobia", "selachophobia", "mysophobia", "emetophobia", "scopophobia", "monophobia", "musophobia", "chiroptophobia", "ornithophobia", "ichthyophobia", "herpetophobia", "katsaridaphobia", "apiphobia", "astraphobia", "agoraphobia", "enochlophobia", "chionophobia", "nosocomephobia", "aichmophobia", "pnigophobia",
@@ -130,6 +130,10 @@
       "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics", "first_time_playing", "returning_player",
       "eye_horror", "body_horror", "face_horror", "cosmic_horror", "extreme_gore", "decay_rot", "mutilation", "liminal_spaces", "analog_horror", "unreality_themes", "pursuit_chase", "entity_horror",
       "mods_used", "cheats_enabled", "glitch_exploits", "assisted_run"
+    ],
+    "editor.videoStyleOptions": [
+      "1980s", "1990s", "2000s", "2010s", "2020s",
+      "modern", "cinematic", "retro", "vhs", "film_noir", "anime_mv", "documentary"
     ],
     "editor.gachaQuestTypeOptions": [
       "main_story", "world_quest", "side_quest", "spinoff_quest", "companion_quest", "bond_quest",
@@ -155,7 +159,7 @@
     "common": ["save", "cancel", "delete", "confirm", "export", "import", "reset", "search", "generate", "undo", "dismiss", "scrollToTop"],
     "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream", "gacha_quest"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
-    "rig": ["cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],
+    "rig": ["os", "cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],
     "social": ["kofi", "patreon", "buymeacoffee", "paypal", "github", "twitter", "discord", "website", "twitch", "tiktok", "instagram", "streamlabs", "bluesky", "mastodon", "facebook", "fb_page", "fb_group"],
     "resolutions": ["720p", "1080p", "1440p", "4K"],
     "fpsOptions": ["30", "60", "120", "144"],
@@ -163,7 +167,7 @@
     "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
     "templates": ["title", "createNew", "saveAsTemplate", "templateName", "templateNamePlaceholder", "loadTemplate", "deleteConfirm", "emptyState", "saveHint", "savedAs", "appliedToast", "exportTemplates", "importTemplates"],
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
-    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showGameCopyright", "showGameCopyrightHint", "showUsagePolicy", "showSponsorCredit", "showThirdPartyAds", "thirdPartyAdsHint", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint", "logSettings", "logRetentionDays", "logRetentionHint"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showGameCopyright", "showGameCopyrightHint", "showUsagePolicy", "showSponsorCredit", "showThirdPartyAds", "thirdPartyAdsHint", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint", "logSettings", "logRetentionDays", "logRetentionHint"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "toggleSidebar", "help", "close", "searchPlaceholder", "noResults"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid"],
@@ -200,6 +204,11 @@
       "playlist", "contact", "cta",
       "copyright", "usagePolicyHeader", "usagePolicy"
     ],
+    "description.videoSettings": ["styleLine", "styleLineNoEditor"],
+    "description.videoSettings.eraOptions": [
+      "1980s", "1990s", "2000s", "2010s", "2020s",
+      "modern", "cinematic", "retro", "vhs", "film_noir", "anime_mv", "documentary"
+    ],
     "description.playthrough": ["blind", "replay", "newgame_plus", "postgame"],
     "description.difficulty": ["easy", "normal", "hard", "nightmare"],
     "description.playthroughNotes": ["header", "intro"],
@@ -217,7 +226,8 @@
     "description.contentWarnings": ["header", "intro"],
     "description.contentWarnings.items": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",
-      "flashing_lights", "motion_sickness", "migraine_trigger", "loud_noises", "strobe_effects", "screen_shake_intense",
+      "flashing_lights", "motion_sickness", "migraine_trigger", "strobe_effects", "screen_shake_intense",
+      "loud_noises", "ear_piercing", "jumpscare_audio", "sudden_volume_changes", "distorted_audio", "screeching_metallic", "persistent_high_pitch", "audio_glitches", "heavy_bass_rumble", "screaming_audio", "glass_breaking_audio", "microphone_pops", "white_noise_static",
       "jump_scares", "acrophobia", "trypophobia", "thalassophobia", "claustrophobia", "arachnophobia", "entomophobia", "ophidiophobia",
       "cynophobia", "nyctophobia", "pyrophobia", "pediophobia", "hemophobia", "coulrophobia", "ablutophobia", "taphophobia",
       "automatonophobia", "megalophobia", "submechanophobia", "necrophobia", "spectrophobia", "demonophobia", "selachophobia", "mysophobia", "emetophobia", "scopophobia", "monophobia", "musophobia", "chiroptophobia", "ornithophobia", "ichthyophobia", "herpetophobia", "katsaridaphobia", "apiphobia", "astraphobia", "agoraphobia", "enochlophobia", "chionophobia", "nosocomephobia", "aichmophobia", "pnigophobia",

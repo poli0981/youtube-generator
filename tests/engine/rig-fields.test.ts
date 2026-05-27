@@ -92,4 +92,35 @@ describe("formatRigValue", () => {
       expect(formatRigValue("ram", "32GB DDR5-6000")).toBe("32GB DDR5-6000");
     });
   });
+
+  describe("composite_dropdown (OS, v0.22.0)", () => {
+    it("formats name + version + edition", () => {
+      expect(formatRigValue("os", "windows|11|pro")).toBe("Windows 11 Pro");
+    });
+
+    it("formats name + version when edition is empty", () => {
+      expect(formatRigValue("os", "windows|11|")).toBe("Windows 11");
+    });
+
+    it("formats name + edition when version is empty", () => {
+      expect(formatRigValue("os", "windows||home")).toBe("Windows Home");
+    });
+
+    it("formats version + edition when name is empty", () => {
+      // Defensive — name will always be Windows in v0.22.0, but the
+      // format function should still degrade cleanly if a future version
+      // omits the name.
+      expect(formatRigValue("os", "|10|enterprise")).toBe("10 Enterprise");
+    });
+
+    it("returns empty string when nothing is set", () => {
+      expect(formatRigValue("os", "")).toBe("");
+      expect(formatRigValue("os", "||")).toBe("");
+    });
+
+    it("includes an OS entry in RIG_FIELDS as the first field", () => {
+      expect(RIG_FIELDS[0]?.id).toBe("os");
+      expect(RIG_FIELDS[0]?.type).toBe("composite_dropdown");
+    });
+  });
 });
