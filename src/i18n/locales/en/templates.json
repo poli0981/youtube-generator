@@ -108,6 +108,7 @@
       "timestamps": "⏱ TIMESTAMPS",
       "storeLinksBuy": "🎮 GET THE GAME (if you want to buy)",
       "storeLinksDownload": "⬇️ DOWNLOAD THE GAME (if you want to play)",
+      "gameCopyright": "© {{publisher}}. All rights reserved. Game and all related intellectual property belong to {{publisher}}.",
       "videoSettings": "🖥 VIDEO SETTINGS",
       "rig": "💻 MY RIG",
       "modList": "🧩 MOD LIST",
@@ -120,7 +121,7 @@
       "playlist": "▶️ Watch the full series: {{link}}",
       "contact": "📧 Business inquiries: {{email}}",
       "cta": "👍 Like | 🔔 Subscribe | ↗️ Share",
-      "copyright": "© {{year}} {{channelName}}. All rights reserved.",
+      "copyright": "© {{year}} {{channelName}} — Video content only. Game, characters, music, and all related intellectual property belong to their respective owners. All rights reserved on this recording.",
       "usagePolicyHeader": "📋 USAGE POLICY",
       "usagePolicy": "• Always credit with a link to the original video AND channel (at minimum in the description).\n• Don't re-upload the full video or large portions as your own content.\n• Don't monetize footage without explicit consent.\n• Don't edit footage to misrepresent the original content or creator.\n• Compilation, review, commentary, and reaction videos are OK — as long as you credit.\nIf in doubt, reach out via the social links or email in the description."
     },
@@ -370,7 +371,19 @@
         "coup_themes": "Coup d'état / military takeover",
         "inquisition": "Inquisition / religious persecution / witch hunts",
         "forced_labor": "Forced labor / labor camps",
-        "ultranationalism": "Ultranationalism / chauvinist themes"
+        "ultranationalism": "Ultranationalism / chauvinist themes",
+        "hanging_depiction": "Hanging / strangulation scene",
+        "drowning_depiction": "Drowning scene",
+        "burning_alive": "Burning alive / immolation",
+        "asphyxiation_depiction": "Asphyxiation / suffocation scene",
+        "restraint_torture": "Bound or restrained victim during torture",
+        "public_execution": "Public execution scene",
+        "decapitation": "Decapitation",
+        "impalement": "Impalement",
+        "mass_casualty_event": "Mass-casualty event (attack, disaster)",
+        "vehicular_violence": "Vehicular violence / intentional ramming",
+        "overdose_depiction": "Overdose scene",
+        "defenestration": "Falling from height (intentional)"
       }
     },
     "graphics": {

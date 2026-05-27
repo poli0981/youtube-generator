@@ -108,6 +108,7 @@
       "timestamps": "⏱ タイムスタンプ",
       "storeLinksBuy": "🎮 ゲームを購入 (応援したい方へ)",
       "storeLinksDownload": "⬇️ ゲームをダウンロード (遊びたい方へ)",
+      "gameCopyright": "© {{publisher}}. 全権利を保有。ゲームおよび関連する知的財産はすべて {{publisher}} に帰属します。",
       "videoSettings": "🖥 動画設定",
       "rig": "💻 PC構成",
       "modList": "🧩 MODリスト",
@@ -120,7 +121,7 @@
       "playlist": "▶️ シリーズ全体を見る：{{link}}",
       "contact": "📧 お仕事の依頼：{{email}}",
       "cta": "👍 いいね | 🔔 チャンネル登録 | ↗️ シェア",
-      "copyright": "© {{year}} {{channelName}}. All rights reserved.",
+      "copyright": "© {{year}} {{channelName}} — 動画コンテンツのみ。ゲーム、キャラクター、音楽、関連する知的財産はすべて各権利者に帰属します。本録画物の全権利は留保されます。",
       "usagePolicyHeader": "📋 動画利用ポリシー",
       "usagePolicy": "• 元動画のリンクとチャンネル名を必ずクレジットしてください（最低でも説明欄に）。\n• 動画全体または大部分の再アップロードは禁止です。\n• 明示的な許可なしに収益化しないでください。\n• 元の内容や制作者を歪曲するような編集は禁止です。\n• クレジットを明記すれば、コンピレーション、レビュー、解説、リアクション動画はOKです。\n不明な点があれば、説明欄のソーシャルアカウントまたはメールでご連絡ください。"
     },
@@ -370,7 +371,19 @@
         "coup_themes": "クーデター / 軍事政変",
         "inquisition": "異端審問 / 宗教迫害 / 魔女狩り",
         "forced_labor": "強制労働 / 強制収容所",
-        "ultranationalism": "極端な国家主義 / ショーヴィニズム"
+        "ultranationalism": "極端な国家主義 / ショーヴィニズム",
+        "hanging_depiction": "首吊り / 絞殺シーン",
+        "drowning_depiction": "溺死シーン",
+        "burning_alive": "焼殺 / 焼身",
+        "asphyxiation_depiction": "窒息 / 息ができないシーン",
+        "restraint_torture": "拘束された被害者への拷問",
+        "public_execution": "公開処刑シーン",
+        "decapitation": "斬首シーン",
+        "impalement": "串刺しシーン",
+        "mass_casualty_event": "大量死傷事件（襲撃・災害）",
+        "vehicular_violence": "車両による暴力 / 故意の衝突",
+        "overdose_depiction": "薬物過剰摂取シーン",
+        "defenestration": "高所からの転落（意図的）"
       }
     },
     "graphics": {

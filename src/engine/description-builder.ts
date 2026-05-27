@@ -188,6 +188,13 @@ export interface BuildDescriptionOptions {
   /** When true, appends a localised usage-policy block after the
    *  copyright line. */
   showUsagePolicy?: boolean;
+  /** When true and `input.pubDevName` is non-empty, emits a single-line
+   *  `© {publisher}. All rights reserved.` block right after the Store
+   *  Links section. Used when the game's dev/publisher contractually
+   *  requires a copyright credit in the description (v0.21.0). Decoupled
+   *  from `storeLinks.publisher` — renders even if the publisher URL is
+   *  blank, since the obligation is to credit the IP holder by name. */
+  showGameCopyright?: boolean;
   /** When true and both `sponsorName` and `sponsorPlatform` are set,
    *  emits a "🎁 Thanks to …" credit line above the music section. */
   showSponsorCredit?: boolean;
@@ -212,6 +219,7 @@ export function buildDescription(
     showUsagePolicy = false,
     showSponsorCredit = false,
     showThirdPartyAds = false,
+    showGameCopyright = false,
     tEn,
   } = options;
   const sections: string[] = [];
@@ -325,6 +333,19 @@ export function buildDescription(
 
       sections.push(`${t(headingKey)}\n${lines}`);
     }
+  }
+
+  // 4.5 Game copyright — opt-in line crediting the dev/publisher right
+  //     under the store links (v0.21.0). Decoupled from any specific
+  //     store-link URL: as long as `pubDevName` is set AND the toggle is
+  //     on, the credit renders. Used by creators who cover games whose
+  //     publishers contractually require attribution in the description.
+  if (showGameCopyright && input.pubDevName && input.pubDevName.trim()) {
+    sections.push(
+      t("description.sections.gameCopyright", {
+        publisher: input.pubDevName.trim(),
+      }),
+    );
   }
 
   // 5. Video Settings — skipped entirely for 2D / pixel-art / no-in-game-

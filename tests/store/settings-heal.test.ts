@@ -83,6 +83,7 @@ describe("healSettings", () => {
       hashtagCount: 2,
       showQualityBadge: false,
       showCopyright: false,
+      showGameCopyright: false,
       showUsagePolicy: true,
       showSponsorCredit: true,
       showThirdPartyAds: false,

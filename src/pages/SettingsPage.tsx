@@ -322,6 +322,14 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showCopyright", v)}
           />
           <Toggle
+            label={t("settings.showGameCopyright")}
+            checked={settings.showGameCopyright}
+            onChange={(v) => settings.setSetting("showGameCopyright", v)}
+          />
+          <p className="-mt-1 ml-14 text-xs text-text-muted">
+            {t("settings.showGameCopyrightHint")}
+          </p>
+          <Toggle
             label={t("settings.showUsagePolicy")}
             checked={settings.showUsagePolicy}
             onChange={(v) => settings.setSetting("showUsagePolicy", v)}

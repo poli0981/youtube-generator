@@ -4,6 +4,7 @@ import { Modal } from "@components/ui/Modal";
 import { Button } from "@components/ui/Button";
 import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
+import { useSettingsStore } from "@store/settings-store";
 import { usePresetStore, type GamePreset } from "@store/preset-store";
 
 interface PresetSaveFormProps {
@@ -15,6 +16,7 @@ interface PresetSaveFormProps {
 export function PresetSaveForm({ open, onClose, editPreset }: PresetSaveFormProps) {
   const { t } = useTranslation("ui");
   const editor = useEditorStore();
+  const showGameCopyrightSetting = useSettingsStore((s) => s.showGameCopyright);
   const { addPreset, updatePreset } = usePresetStore();
 
   const [gameName, setGameName] = useState(editPreset?.gameName ?? editor.gameName);
@@ -28,6 +30,8 @@ export function PresetSaveForm({ open, onClose, editPreset }: PresetSaveFormProp
       storeLinks: editPreset?.storeLinks ?? { ...editor.storeLinks },
       spoilerWarning: editPreset?.spoilerWarning ?? editor.spoilerWarning,
       matureWarning: editPreset?.matureWarning ?? editor.matureWarning,
+      pubDevName: editPreset?.pubDevName ?? editor.pubDevName,
+      showGameCopyright: editPreset?.showGameCopyright ?? showGameCopyrightSetting,
     };
 
     if (editPreset) {

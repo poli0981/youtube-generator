@@ -110,6 +110,7 @@ export function extractData(state: SettingsData): SettingsData {
     showCopyright: state.showCopyright,
     showUsagePolicy: state.showUsagePolicy,
     showSponsorCredit: state.showSponsorCredit,
+    showGameCopyright: state.showGameCopyright,
     showThirdPartyAds: state.showThirdPartyAds,
     showPinnedCommentTemplate: state.showPinnedCommentTemplate,
     pinnedCommentIncludeAskNextGame: state.pinnedCommentIncludeAskNextGame,

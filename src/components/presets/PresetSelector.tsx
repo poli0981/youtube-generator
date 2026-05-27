@@ -2,11 +2,13 @@ import { useTranslation } from "react-i18next";
 import { Select } from "@components/ui/Select";
 import { usePresetStore } from "@store/preset-store";
 import { useEditorStore } from "@store/editor-store";
+import { useSettingsStore } from "@store/settings-store";
 
 export function PresetSelector() {
   const { t } = useTranslation("ui");
   const presets = usePresetStore((s) => s.presets);
   const loadPreset = useEditorStore((s) => s.loadPreset);
+  const setSetting = useSettingsStore((s) => s.setSetting);
 
   if (presets.length === 0) return null;
 
@@ -27,7 +29,15 @@ export function PresetSelector() {
       storeLinks: { ...preset.storeLinks },
       spoilerWarning: preset.spoilerWarning,
       matureWarning: preset.matureWarning,
+      pubDevName: preset.pubDevName ?? "",
     });
+    // v0.21.0: pull the per-preset toggle into the global setting so the
+    // description re-renders with the right credit obligation. Missing
+    // means "leave the user's setting alone" — older presets don't carry
+    // this field.
+    if (preset.showGameCopyright !== undefined) {
+      setSetting("showGameCopyright", preset.showGameCopyright);
+    }
   };
 
   return <Select label={t("presets.selectPreset")} options={options} value="" onChange={handleSelect} />;

@@ -13,6 +13,22 @@ export interface GamePreset {
   storeLinks: Record<string, string>;
   spoilerWarning: boolean;
   matureWarning: boolean;
+  /**
+   * Game's dev/publisher name. v0.21.0 lifted this from a side-label on
+   * the publisher store link to a first-class field so it survives across
+   * preset reloads — useful when a creator covers a series spanning many
+   * episodes and doesn't want to re-type the studio name each session.
+   * Optional so older presets (pre-v0.21) hydrate without breaking.
+   */
+  pubDevName?: string;
+  /**
+   * Per-preset toggle that mirrors `settings.showGameCopyright`. v0.21.0
+   * added this so a preset can carry the credit obligation alongside the
+   * publisher name — applying the preset hydrates both fields together,
+   * which is the common case for games whose dev requires attribution in
+   * the description. Optional; missing means "don't touch the setting".
+   */
+  showGameCopyright?: boolean;
   createdAt: string;
 }
 

@@ -413,6 +413,22 @@ export const CONTENT_WARNINGS = [
   "inquisition",
   "forced_labor",
   "ultranationalism",
+  // Sensitive — method-specific death/violence depictions (v0.21.0).
+  // YouTube auto-moderation is harsher on these specific scenes than on
+  // generic "blood / gore" or "violence" labels, so they get their own
+  // toggles for accurate creator-side disclosure.
+  "hanging_depiction",
+  "drowning_depiction",
+  "burning_alive",
+  "asphyxiation_depiction",
+  "restraint_torture",
+  "public_execution",
+  "decapitation",
+  "impalement",
+  "mass_casualty_event",
+  "vehicular_violence",
+  "overdose_depiction",
+  "defenestration",
   // Heavy-horror specific (v0.13.1)
   "eye_horror",
   "body_horror",

@@ -2,6 +2,32 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.21.0 — 2026-05-27
+
+Reduces YouTube auto-flag risk on Vietnamese descriptions, adds twelve
+method-specific death/violence warnings, rewords the channel copyright
+line to disambiguate video content from game IP, and adds an opt-in
+toggle for crediting the game's studio/publisher in the description.
+
+### Added
+
+- **12 new content warnings** ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)). Extends the **Sensitive** group with method-specific death/violence depictions that YouTube's auto-moderation flags harder than the umbrella `blood_gore` / `war_violence` labels: `hanging_depiction`, `drowning_depiction`, `burning_alive`, `asphyxiation_depiction`, `restraint_torture`, `public_execution`, `decapitation`, `impalement`, `mass_casualty_event`, `vehicular_violence`, `overdose_depiction`, `defenestration`. Total content warnings 175 → 187 across the existing 9 groups. Purely additive — engine renders each warning automatically; existing profiles round-trip unchanged. Fully translated across all 6 locales (`ui.json` short labels + `templates.json` description phrases) with `_schema.json` updated. VI labels follow the v0.21.0 censoring policy (see below).
+- **Game-copyright toggle** ([src/store/settings-heal.ts](src/store/settings-heal.ts) `showGameCopyright`, [src/engine/description-builder.ts](src/engine/description-builder.ts) section 4.5, [src/pages/SettingsPage.tsx](src/pages/SettingsPage.tsx)). New Settings → Description toggle (default **off**) that, when enabled with a non-empty `pubDevName`, emits a `© {publisher}. All rights reserved.` line right after the Store Links block. Decoupled from the publisher store-URL — the credit renders based on the studio name alone. Used by creators covering games whose dev/publisher contractually requires attribution in the description. New i18n key `description.sections.gameCopyright` across all 6 locales; new UI keys `settings.showGameCopyright` + `settings.showGameCopyrightHint`. Persists in `GamePreset` so a series spanning many episodes hydrates the studio name + toggle together on preset apply.
+- **`pubDevName` promoted to first-class field** ([src/components/editor/GameInfoForm.tsx](src/components/editor/GameInfoForm.tsx), [src/store/preset-store.ts](src/store/preset-store.ts) `GamePreset.pubDevName?`). Previously a side-label that only appeared under a non-empty Publisher store URL; now an always-visible "Studio / Publisher" input in Game Info that also drives the game-copyright section. Removed from [StoreLinkEditor.tsx](src/components/editor/StoreLinkEditor.tsx) lines 140–172. Optional in `GamePreset` so older presets hydrate without breaking.
+
+### Changed
+
+- **Channel copyright line reworded across 6 locales** ([src/i18n/locales/*/templates.json](src/i18n/locales/) `description.sections.copyright`). Old: `© {year} {channelName}. All rights reserved.` (one short line, ambiguous about whether the channel claims the game's IP). New: a 2–3 sentence disclaimer making explicit that the copyright applies only to the video recording, and that the game, characters, music, and related IP belong to their respective owners. Same `{{year}}` / `{{channelName}}` placeholders — no engine change. JA/KO/ZH now ship a proper localised translation instead of falling back to English.
+- **VI censoring sweep — consistency + euphemism policy** ([src/i18n/locales/vi/ui.json](src/i18n/locales/vi/ui.json), [src/i18n/locales/vi/templates.json](src/i18n/locales/vi/templates.json)). The Vietnamese warning labels previously used asterisk censoring on some terms (`t* tử`, `b*o h*nh`, `g*ết người`) but left others uncensored (`Bạo lực liên quan chiến tranh`, `Bạo lực từ cảnh sát`) and had a malformed `b* ng*y h*i` for `child_harm`. Sweep unifies them under a 2-tier policy: asterisk for graphic verbs with no natural euphemism (`tự` → `t*`, `giết` → `g*ết`, `treo cổ` → `treo c*`, `bạo hành` → `b*o h*nh`), euphemism for words with a natural softer register (`bạo lực` → `tác động vật lý`, `nổ súng` → `khai hỏa`, `xử bắn` → `hành quyết`). Fixes `child_harm` to use the unambiguous euphemism `chịu tác động`. Proper nouns (game titles, character names) untouched. Goal is to reduce YouTube auto-flag risk on Vietnamese descriptions — purely a static i18n edit, no runtime utility.
+
+### Under the hood
+
+- Persist version unchanged — `showGameCopyright` is additive (`healSettings` back-fills via `{ ...initialSettings, ...incoming }`) and `pubDevName` / `showGameCopyright` on `GamePreset` are optional. No migration step needed.
+- Description-builder section ordering: Store Links → **Game Copyright (new)** → Video Settings → … → Channel Copyright. The two `©` lines (channel + game) are intentional when both toggles are on; the Settings help text is explicit so creators don't mistake it for a bug.
+- Three test fixtures updated for the new wording / censoring / settings shape ([tests/engine/description-builder.test.ts](tests/engine/description-builder.test.ts), [tests/store/settings-heal.test.ts](tests/store/settings-heal.test.ts)). 435 tests still green.
+- Five manifests bumped 0.20.0 → 0.21.0 (`package.json`, `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock` `yt-desc-gen` entry, `src-tauri/tauri.conf.json`).
+- Pre-release gates run green: lint, typecheck, validate:locales (12/12 files complete, 814 ui + 461 template keys), 435 tests, build.
+
 ## v0.20.0 — 2026-05-23
 
 Fifty new content-warning IDs across three thematic axes — political /

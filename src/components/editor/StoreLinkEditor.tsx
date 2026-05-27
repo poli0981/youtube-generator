@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import type { ClipboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
-import { Input } from "@components/ui/Input";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Select } from "@components/ui/Select";
 import { PLATFORMS } from "@config/platforms";
@@ -27,7 +26,6 @@ export function StoreLinkEditor() {
   const storeLinks = useEditorStore((s) => s.storeLinks);
   const storeLinkTypes = useEditorStore((s) => s.storeLinkTypes);
   const gameName = useEditorStore((s) => s.gameName);
-  const pubDevName = useEditorStore((s) => s.pubDevName);
   const setField = useEditorStore((s) => s.set);
   const setNested = useEditorStore((s) => s.setNested);
   const setStoreLinkType = useEditorStore((s) => s.setStoreLinkType);
@@ -131,14 +129,11 @@ export function StoreLinkEditor() {
         {PLATFORMS.map((platform) => {
           const currentType = storeLinkTypes[platform.id] ?? "paid";
           const url = storeLinks[platform.id] ?? "";
-          // Publisher / Developer site is the only platform that pairs
-          // with a free-text name field (rendered below the URL once the
-          // URL is non-empty). The name becomes a YouTube tag — see
-          // tag-generator.ts. Keeping the input in this same grid (via
-          // `col-span-2`) preserves vertical rhythm with the rest of
-          // the platform rows.
-          const showPubDevName =
-            platform.id === "publisher" && url.trim().length > 0;
+          // v0.21.0: the inline `pubDevName` input that previously
+          // appeared under the Publisher store link has been promoted
+          // to a first-class field in `GameInfoForm`, so it can drive
+          // the optional game-copyright description line independently
+          // of whether the publisher URL is filled.
           return (
             <div
               key={platform.id}
@@ -161,16 +156,6 @@ export function StoreLinkEditor() {
                 options={typeOptions}
                 onChange={(v) => setStoreLinkType(platform.id, v as StoreLinkType)}
               />
-              {showPubDevName && (
-                <div className="col-span-2">
-                  <Input
-                    label={t("editor.pubDevName")}
-                    placeholder={t("editor.pubDevNamePlaceholder")}
-                    value={pubDevName ?? ""}
-                    onChange={(e) => setField("pubDevName", e.target.value)}
-                  />
-                </div>
-              )}
             </div>
           );
         })}
