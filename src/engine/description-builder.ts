@@ -180,6 +180,38 @@ function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
   return `${presetLabel}${middle}${rtClause}`;
 }
 
+/**
+ * Compose the v0.22.0 "Video Style" line — combines the chosen era from
+ * `input.videoStyleEra` with the rig's `video_editor` field to produce a
+ * single line like `"Edited in 1990s VHS style using DaVinci Resolve 19.1"`.
+ *
+ * Returns an empty string when:
+ *   - `videoStyleEra` is empty / unrecognised
+ *   - The era's i18n label can't be resolved (defensive — locale missing
+ *     the key shouldn't leak the snake_case id into the description)
+ *
+ * Picks one of two templates depending on whether the rig's video editor
+ * is filled in. The two-template approach keeps localisations natural —
+ * each locale can phrase the with/without-editor variants differently.
+ */
+function composeVideoStyleLine(input: GeneratorInput, t: TranslationFn): string {
+  const era = (input.videoStyleEra ?? "").trim();
+  if (!era) return "";
+  const eraKey = `description.videoSettings.eraOptions.${era}`;
+  const eraLabel = t(eraKey);
+  if (!eraLabel || eraLabel === eraKey) return "";
+
+  const editor = formatRigValue(
+    "video_editor",
+    input.rig?.video_editor ?? "",
+  ).trim();
+
+  if (editor) {
+    return t("description.videoSettings.styleLine", { era: eraLabel, editor });
+  }
+  return t("description.videoSettings.styleLineNoEditor", { era: eraLabel });
+}
+
 export interface BuildDescriptionOptions {
   hashtagCount?: number;
   /** When true and channelName is non-empty, appends an auto-generated
@@ -358,6 +390,14 @@ export function buildDescription(
   //    the key-value-per-line shape of the rig and timestamps blocks.
   //    Lines with no value are dropped; if every line is dropped, the
   //    whole section is dropped.
+  //
+  //    v0.22.0 polish: the optional Video Style line (era + video_editor)
+  //    renders inside this section when `skipGraphicsSettings` is off, AND
+  //    as a tiny standalone section when it's on — 2D / pixel-art creators
+  //    still edit their footage, so the style credit shouldn't disappear
+  //    with the graphics block.
+  const styleLine = composeVideoStyleLine(input, t);
+
   if (!input.skipGraphicsSettings) {
     const lines: string[] = [];
 
@@ -389,9 +429,18 @@ export function buildDescription(
       lines.push(`${t("description.graphics.versionLabel")}: ${input.versionInfo.trim()}`);
     }
 
+    // v0.22.0 video-style era line — appended last so it reads like a
+    // production credit after the technical fields.
+    if (styleLine) lines.push(styleLine);
+
     if (lines.length > 0) {
       sections.push(`${t("description.sections.videoSettings")}\n${lines.join("\n")}`);
     }
+  } else if (styleLine) {
+    // 2D / pixel-art path: the graphics block is suppressed but the
+    // creator still set a style era, so emit a single-line standalone
+    // section under the same header.
+    sections.push(`${t("description.sections.videoSettings")}\n${styleLine}`);
   }
 
   // 5.5 Difficulty — moved into the unified Playthrough Notes block

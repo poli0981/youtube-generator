@@ -1316,6 +1316,67 @@ describe("buildDescription — gacha_quest video type (v0.9)", () => {
   });
 });
 
+describe("video style era line (v0.22.0)", () => {
+  it("renders nothing when videoStyleEra is empty", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput(), t);
+    expect(result).not.toMatch(/Edited in /);
+  });
+
+  it("combines era + rig.video_editor into a single style line", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        videoStyleEra: "1990s",
+        rig: { video_editor: "davinci_resolve_studio|19.1" },
+      }),
+      t,
+    );
+    expect(result).toContain(
+      "Edited in 1990s VHS style using DaVinci Resolve Studio 19.1",
+    );
+  });
+
+  it("falls back to the editor-less template when rig.video_editor is missing", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ videoStyleEra: "cinematic" }),
+      t,
+    );
+    expect(result).toContain("Edited in cinematic style");
+    expect(result).not.toContain(" using ");
+  });
+
+  it("still renders the style line when skipGraphicsSettings is true", () => {
+    // 2D / pixel-art creators path. The whole graphics block is
+    // suppressed but the style credit survives as a standalone section.
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        skipGraphicsSettings: true,
+        videoStyleEra: "retro",
+        rig: { video_editor: "capcut|" },
+      }),
+      t,
+    );
+    expect(result).toContain("VIDEO SETTINGS");
+    expect(result).toContain("Edited in retro style using CapCut");
+    // Graphics-specific lines should not appear in skip mode.
+    expect(result).not.toContain("Video: ");
+    expect(result).not.toContain("In-game Setting: ");
+  });
+
+  it("silently drops an unrecognised era id (defensive)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      // Force a value that's not in VIDEO_STYLE_ERAS via type-cast.
+      makeInput({ videoStyleEra: "bogus_era" as never }),
+      t,
+    );
+    expect(result).not.toMatch(/Edited in /);
+  });
+});
+
 describe("checkDescriptionWarning", () => {
   it("returns null for description under limit", () => {
     expect(checkDescriptionWarning("Short description")).toBeNull();

@@ -207,6 +207,18 @@
         "motion_sickness": "Motion sickness — fast camera / FPS movement",
         "migraine_trigger": "Possible migraine trigger",
         "loud_noises": "Loud / sudden sounds",
+        "ear_piercing": "Ear-piercing / high-pitched frequencies",
+        "jumpscare_audio": "Audio jumpscares — sudden loud stings",
+        "sudden_volume_changes": "Sudden volume changes — abrupt loud/quiet transitions",
+        "distorted_audio": "Distorted or clipping audio passages",
+        "screeching_metallic": "Screeching / metallic / nails-on-chalkboard sounds",
+        "persistent_high_pitch": "Persistent high-pitched tones — may aggravate tinnitus",
+        "audio_glitches": "Audio glitches — crackle or looping engine artifacts",
+        "heavy_bass_rumble": "Heavy bass / sub-bass rumble — LFE-heavy mix",
+        "screaming_audio": "Sustained character screaming",
+        "glass_breaking_audio": "Glass breaking / shattering / impact sounds",
+        "microphone_pops": "Mic pops, breath, and handling noise (creator-side)",
+        "white_noise_static": "Sustained white noise / radio static",
         "jump_scares": "Jumpscares",
         "acrophobia": "Heights",
         "trypophobia": "Holes / clusters",
@@ -470,6 +482,24 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version"
+    },
+    "videoSettings": {
+      "styleLine": "Edited in {{era}} style using {{editor}}",
+      "styleLineNoEditor": "Edited in {{era}} style",
+      "eraOptions": {
+        "1980s": "1980s",
+        "1990s": "1990s VHS",
+        "2000s": "early-2000s",
+        "2010s": "2010s",
+        "2020s": "modern 2020s",
+        "modern": "modern",
+        "cinematic": "cinematic",
+        "retro": "retro",
+        "vhs": "VHS",
+        "film_noir": "film noir",
+        "anime_mv": "anime AMV",
+        "documentary": "documentary"
+      }
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE on {{time}}",

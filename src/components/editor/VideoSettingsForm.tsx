@@ -22,6 +22,7 @@ import {
   coerceUpscaleQuality,
   coerceFrameGenMultiplier,
 } from "@engine/graphics-vendor";
+import { VIDEO_STYLE_ERA_IDS, type VideoStyleEra } from "@config/video-styles";
 
 const RESOLUTION_OPTIONS = [
   { value: "720p", label: "720p" },
@@ -55,6 +56,18 @@ export function VideoSettingsForm() {
     value: v,
     label: t(`editor.frameGenVendorOptions.${v}`),
   }));
+
+  // v0.22.0 — video-style era opt-in. Renders independently of
+  // `skipGraphicsSettings`, so we wire it above the toggle: 2D / pixel-art
+  // creators still edit their footage and may want the style credit even
+  // when the in-game graphics block is suppressed.
+  const videoStyleOptions = [
+    { value: "", label: t("editor.videoStyleOff") },
+    ...VIDEO_STYLE_ERA_IDS.map((id) => ({
+      value: id,
+      label: t(`editor.videoStyleOptions.${id}`),
+    })),
+  ];
 
   // v0.11: vendor-filtered option lists. NVIDIA exposes DLAA + 4 quality
   // tiers, AMD exposes FSR Native AA + 4, Intel exposes XeSS Native AA +
@@ -129,6 +142,14 @@ export function VideoSettingsForm() {
           onChange={(e) => store.set("graphicsPresetCustom", e.target.value)}
         />
       )}
+
+      <Select
+        label={t("editor.videoStyle")}
+        options={videoStyleOptions}
+        value={store.videoStyleEra}
+        onChange={(v) => store.set("videoStyleEra", v as VideoStyleEra)}
+      />
+      <p className="-mt-1 text-xs text-text-muted">{t("editor.videoStyleHelp")}</p>
 
       <Toggle
         label={t("editor.skipGraphicsSettings")}

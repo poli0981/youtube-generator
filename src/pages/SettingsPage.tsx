@@ -5,10 +5,9 @@ import { Toggle } from "@components/ui/Toggle";
 import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
-import { ChipGroup } from "@components/ui/ChipGroup";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
-import { GENRES, type GenreId } from "@config/genres";
+import { GENRES } from "@config/genres";
 import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
 import { validatePlaylistUrl } from "@utils/validation";
 import { IS_TAURI } from "@utils/platform";
@@ -18,7 +17,6 @@ import {
 } from "@utils/import-export";
 import { resolveForType } from "@utils/file-schema";
 import {
-  MAX_GENRES,
   type SupportedLanguage,
   type TitleBadgePosition,
   type TitleSeparatorId,
@@ -173,12 +171,6 @@ export function SettingsPage() {
     label: `${l.flag} ${l.nativeName}`,
   }));
 
-  const genreOptions = GENRES.map((g) => ({
-    id: g.id,
-    label: t(g.labelKey),
-    icon: g.icon,
-  }));
-
   const hashtagOptions = [
     { value: "1", label: "1" },
     { value: "2", label: "2" },
@@ -232,7 +224,7 @@ export function SettingsPage() {
           />
         </section>
 
-        {/* 2. Language & Defaults — app + output language, default genres. */}
+        {/* 2. Language & Defaults — app + output language. */}
         <section className="flex flex-col gap-3">
           <h2 className="text-sm font-semibold text-text-secondary">{t("settings.defaults")}</h2>
           <Select
@@ -249,14 +241,6 @@ export function SettingsPage() {
             options={langOptions}
             value={settings.defaultOutputLanguage}
             onChange={(v) => settings.setDefaultOutputLanguage(v as SupportedLanguage)}
-          />
-          <ChipGroup
-            label={t("settings.defaultGenre")}
-            multiple
-            max={MAX_GENRES}
-            options={genreOptions}
-            value={settings.defaultGenres}
-            onChange={(next) => settings.setDefaultGenres(next as GenreId[])}
           />
         </section>
 

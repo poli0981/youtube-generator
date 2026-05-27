@@ -14,7 +14,6 @@ export type { TitleFormatConfig } from "@engine/types";
 export interface SettingsData {
   appLanguage: SupportedLanguage;
   defaultOutputLanguage: SupportedLanguage;
-  defaultGenres: GenreId[];
   theme: "dark" | "light";
   showCharCount: boolean;
   compactTagDisplay: boolean;
@@ -107,7 +106,6 @@ function detectBrowserLanguage(): SupportedLanguage {
 export const initialSettings: SettingsData = {
   appLanguage: detectBrowserLanguage(),
   defaultOutputLanguage: detectBrowserLanguage(),
-  defaultGenres: ["action"],
   theme: "dark",
   showCharCount: true,
   compactTagDisplay: false,
@@ -157,12 +155,12 @@ export function healSettings(raw: unknown): SettingsData {
 
   const incoming = { ...(raw as Record<string, unknown>) };
 
-  // v1 → v2 shape upgrade: `defaultGenre: GenreId` became
-  // `defaultGenres: GenreId[]`.
-  if (typeof incoming.defaultGenre === "string" && !Array.isArray(incoming.defaultGenres)) {
-    incoming.defaultGenres = [incoming.defaultGenre];
-  }
+  // v0.22.0: `defaultGenre` and `defaultGenres` were both removed from
+  // Settings — the editor never had a way to read them. Strip both
+  // legacy keys so the spread on the way out doesn't leak them back
+  // into the store as untyped dead state.
   delete incoming.defaultGenre;
+  delete incoming.defaultGenres;
 
   // v2 → v3: `autoSaveDraft` removed (the draft autosaves unconditionally
   // via the editor store's persist middleware, so the toggle was dead).

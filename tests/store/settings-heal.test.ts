@@ -16,7 +16,6 @@ describe("healSettings", () => {
       expect(healed.showQualityBadge).toBe(true);
       expect(healed.showCopyright).toBe(true);
       expect(healed.showUsagePolicy).toBe(false);
-      expect(healed.defaultGenres).toEqual(["action"]);
       expect(healed.titleFormat).toEqual({
         badgePosition: "middle",
         separator: "emDash",
@@ -54,26 +53,19 @@ describe("healSettings", () => {
     expect(healed.autoSaveDraft).toBeUndefined();
   });
 
-  it("upgrades the legacy `defaultGenre: string` shape to `defaultGenres: string[]`", () => {
-    const healed = healSettings({ defaultGenre: "rpg" }) as Record<string, unknown>;
-    expect(healed.defaultGenre).toBeUndefined();
-    expect(healed.defaultGenres).toEqual(["rpg"]);
-  });
-
-  it("keeps explicit `defaultGenres` when both legacy and new keys are present", () => {
+  it("strips both legacy `defaultGenre` (v1) and `defaultGenres` (v2-v0.21) — both removed in v0.22.0", () => {
     const healed = healSettings({
       defaultGenre: "rpg",
       defaultGenres: ["horror", "action"],
     }) as Record<string, unknown>;
     expect(healed.defaultGenre).toBeUndefined();
-    expect(healed.defaultGenres).toEqual(["horror", "action"]);
+    expect(healed.defaultGenres).toBeUndefined();
   });
 
   it("preserves all keys when given a complete payload", () => {
     const complete = {
       appLanguage: "vi" as const,
       defaultOutputLanguage: "en" as const,
-      defaultGenres: ["rpg" as const],
       theme: "light" as const,
       showCharCount: false,
       compactTagDisplay: true,

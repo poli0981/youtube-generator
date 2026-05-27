@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { GenreId } from "@config/genres";
 import type { SupportedLanguage } from "@engine/types";
 import { saveSettings, loadSettings } from "@utils/storage-adapter";
 import {
@@ -17,7 +16,6 @@ interface SettingsState extends SettingsData {
   setTheme: (theme: "dark" | "light") => void;
   setAppLanguage: (lang: SupportedLanguage) => void;
   setDefaultOutputLanguage: (lang: SupportedLanguage) => void;
-  setDefaultGenres: (genres: GenreId[]) => void;
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
   setTitleFormat: (patch: Partial<TitleFormatConfig>) => void;
   toggleEditorAccordion: (id: string) => void;
@@ -39,8 +37,6 @@ export const useSettingsStore = create<SettingsState>()(
       setAppLanguage: (lang) => set({ appLanguage: lang }),
 
       setDefaultOutputLanguage: (lang) => set({ defaultOutputLanguage: lang }),
-
-      setDefaultGenres: (genres) => set({ defaultGenres: genres }),
 
       setSetting: (key, value) => set({ [key]: value }),
 
@@ -98,7 +94,6 @@ export function extractData(state: SettingsData): SettingsData {
   return {
     appLanguage: state.appLanguage,
     defaultOutputLanguage: state.defaultOutputLanguage,
-    defaultGenres: state.defaultGenres,
     theme: state.theme,
     showCharCount: state.showCharCount,
     compactTagDisplay: state.compactTagDisplay,

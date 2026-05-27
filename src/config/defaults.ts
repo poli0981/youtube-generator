@@ -8,6 +8,7 @@ import type {
   UpscaleQuality,
   ArtStyle,
 } from "./graphics-settings";
+import type { VideoStyleEra } from "./video-styles";
 import { DEFAULT_GACHA_QUEST_TYPE, type GachaQuestType } from "./gacha-quest-types";
 import type {
   SupportedLanguage,
@@ -63,6 +64,8 @@ export interface EditorDefaults {
   frameGenMultiplier: FrameGenMultiplier;
   upscaleQuality: UpscaleQuality;
   artStyle: ArtStyle;
+  /** v0.22.0 opt-in. Empty string = no style line in the description. */
+  videoStyleEra: VideoStyleEra;
   versionInfo: string;
   timestamps: string;
   playlistLink: string;
@@ -133,7 +136,6 @@ export interface EditorDefaults {
 export interface SettingsDefaults {
   theme: "dark" | "light";
   defaultLanguage: string;
-  defaultGenres: GenreId[];
 }
 
 export const DEFAULTS = {
@@ -169,6 +171,7 @@ export const DEFAULTS = {
     frameGenMultiplier: "none",
     upscaleQuality: "none",
     artStyle: "none",
+    videoStyleEra: "" satisfies VideoStyleEra,
     versionInfo: "",
     timestamps: "",
     playlistLink: "",
@@ -210,6 +213,5 @@ export const DEFAULTS = {
   settings: {
     theme: "dark",
     defaultLanguage: "en",
-    defaultGenres: ["action"],
   } satisfies SettingsDefaults,
 } as const;

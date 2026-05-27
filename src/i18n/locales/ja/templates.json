@@ -207,6 +207,18 @@
         "motion_sickness": "3D酔い — カメラ / FPSの激しい動き",
         "migraine_trigger": "片頭痛を誘発する可能性",
         "loud_noises": "大音量 / 突発的な音",
+        "ear_piercing": "耳に刺さる音 / 高周波音",
+        "jumpscare_audio": "音声ジャンプスケア — 突然の大音量",
+        "sudden_volume_changes": "急激な音量変化 — 大小の急な切り替え",
+        "distorted_audio": "音声の歪み / クリッピング箇所",
+        "screeching_metallic": "金切り音 / 金属の擦過音",
+        "persistent_high_pitch": "持続的な高音 — 耳鳴りを悪化させる可能性",
+        "audio_glitches": "音声グリッチ — エンジン由来のクラックル / ループ",
+        "heavy_bass_rumble": "重低音 / サブベース振動 — LFE中心のミックス",
+        "screaming_audio": "長時間の悲鳴音声",
+        "glass_breaking_audio": "ガラス割れ / 飛散 / 衝撃音",
+        "microphone_pops": "マイクのポップ、息、取り扱い音（配信者側）",
+        "white_noise_static": "持続的なホワイトノイズ / ラジオ静電気音",
         "jump_scares": "ジャンプスケア",
         "acrophobia": "高所",
         "trypophobia": "集合体",
@@ -470,6 +482,24 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version"
+    },
+    "videoSettings": {
+      "styleLine": "{{editor}}で{{era}}スタイルに編集",
+      "styleLineNoEditor": "{{era}}スタイルに編集",
+      "eraOptions": {
+        "1980s": "1980年代",
+        "1990s": "1990年代 VHS",
+        "2000s": "2000年代初頭",
+        "2010s": "2010年代",
+        "2020s": "現代2020年代",
+        "modern": "モダン",
+        "cinematic": "シネマティック",
+        "retro": "レトロ",
+        "vhs": "VHS",
+        "film_noir": "フィルム・ノワール",
+        "anime_mv": "アニメAMV",
+        "documentary": "ドキュメンタリー"
+      }
     },
     "livestream": {
       "scheduledLine": "🔴 LIVE 配信日時: {{time}}",

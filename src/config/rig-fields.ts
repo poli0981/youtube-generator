@@ -147,7 +147,45 @@ const RAM_COMPOSITE: CompositeFieldSpec = {
   },
 };
 
+/**
+ * OS composite (v0.22.0). Three dropdowns combined into one logical
+ * field — OS name → version → edition. Stored pipe-delimited as
+ * `"windows|11|pro"` → renders as `"Windows 11 Pro"`. Edition is
+ * optional, so `"windows|11|"` → `"Windows 11"`. Only Windows 10/11 is
+ * surfaced for now; macOS / Linux can be added later by extending the
+ * option arrays without changing storage or format logic.
+ */
+const OS_NAME_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "windows", label: "Windows" },
+];
+
+const OS_VERSION_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "10", label: "10" },
+  { value: "11", label: "11" },
+];
+
+const OS_EDITION_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "home", label: "Home" },
+  { value: "pro", label: "Pro" },
+  { value: "enterprise", label: "Enterprise" },
+  { value: "education", label: "Education" },
+  { value: "iot", label: "IoT Enterprise" },
+];
+
+const OS_COMPOSITE: CompositeFieldSpec = {
+  parts: [
+    { id: "name", labelKey: "editor.os_name", options: OS_NAME_OPTIONS },
+    { id: "version", labelKey: "editor.os_version", options: OS_VERSION_OPTIONS },
+    { id: "edition", labelKey: "editor.os_edition", options: OS_EDITION_OPTIONS },
+  ],
+  format: (parts) => parts.filter((p) => p.trim() !== "").join(" "),
+};
+
 export const RIG_FIELDS: readonly RigField[] = [
+  { id: "os", labelKey: "rig.os", type: "composite_dropdown", composite: OS_COMPOSITE },
   { id: "cpu", labelKey: "rig.cpu", type: "text", placeholder: "Intel i9-14900K / AMD Ryzen 9 7950X" },
   {
     id: "gpu",

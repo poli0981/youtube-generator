@@ -207,6 +207,18 @@
         "motion_sickness": "Mareo por movimiento — cámara / FPS rápidos",
         "migraine_trigger": "Posible desencadenante de migraña",
         "loud_noises": "Sonidos fuertes / repentinos",
+        "ear_piercing": "Sonidos agudos / penetrantes — frecuencias altas",
+        "jumpscare_audio": "Sustos sonoros — golpes de audio repentinos",
+        "sudden_volume_changes": "Cambios bruscos de volumen — transiciones fuerte/suave",
+        "distorted_audio": "Audio distorsionado / con clipping",
+        "screeching_metallic": "Chirridos / sonidos metálicos / uñas en pizarra",
+        "persistent_high_pitch": "Tonos agudos persistentes — pueden agravar el tinnitus",
+        "audio_glitches": "Fallos de audio — crujidos o bucles del motor",
+        "heavy_bass_rumble": "Graves intensos / sub-bajos — mezcla cargada de LFE",
+        "screaming_audio": "Gritos sostenidos de personajes",
+        "glass_breaking_audio": "Rotura de cristal / impactos repetidos",
+        "microphone_pops": "Plosivos, respiración y ruido de micro (lado creador)",
+        "white_noise_static": "Ruido blanco / estática sostenida",
         "jump_scares": "Sustos repentinos",
         "acrophobia": "Alturas",
         "trypophobia": "Agujeros / patrones agrupados",
@@ -470,6 +482,24 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version"
+    },
+    "videoSettings": {
+      "styleLine": "Editado con estilo {{era}} usando {{editor}}",
+      "styleLineNoEditor": "Editado con estilo {{era}}",
+      "eraOptions": {
+        "1980s": "años 80",
+        "1990s": "años 90 VHS",
+        "2000s": "principios de los 2000",
+        "2010s": "años 2010",
+        "2020s": "moderno 2020s",
+        "modern": "moderno",
+        "cinematic": "cinematográfico",
+        "retro": "retro",
+        "vhs": "VHS",
+        "film_noir": "film noir",
+        "anime_mv": "anime AMV",
+        "documentary": "documental"
+      }
     },
     "livestream": {
       "scheduledLine": "🔴 EN VIVO el {{time}}",

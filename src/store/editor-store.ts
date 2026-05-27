@@ -28,6 +28,7 @@ import {
   type UpscaleQuality,
   type ArtStyle,
 } from "@config/graphics-settings";
+import { isVideoStyleEra, type VideoStyleEra } from "@config/video-styles";
 import {
   coerceUpscaleQuality,
   coerceFrameGenMultiplier,
@@ -74,6 +75,18 @@ export interface EditorData {
   frameGenMultiplier: FrameGenMultiplier;
   upscaleQuality: UpscaleQuality;
   artStyle: ArtStyle;
+  /**
+   * Video-style era opt-in (v0.22.0). When non-empty, the description
+   * renderer emits a one-line "Edited in {era} style using {video_editor}"
+   * credit. Empty string = off. See `@config/video-styles` for the list
+   * of valid eras and the {@link isVideoStyleEra} coercion helper used
+   * by the v13 → v14 migration.
+   *
+   * Renders independently of `skipGraphicsSettings` — creators of 2D /
+   * pixel-art games still edit their footage, so the style line should
+   * survive when the graphics block is suppressed.
+   */
+  videoStyleEra: VideoStyleEra;
   versionInfo: string;
   timestamps: string;
   playlistLink: string;
@@ -298,6 +311,7 @@ const initialState: EditorData = {
   frameGenMultiplier: DEFAULTS.editor.frameGenMultiplier,
   upscaleQuality: DEFAULTS.editor.upscaleQuality,
   artStyle: DEFAULTS.editor.artStyle,
+  videoStyleEra: DEFAULTS.editor.videoStyleEra,
   versionInfo: DEFAULTS.editor.versionInfo,
   timestamps: DEFAULTS.editor.timestamps,
   playlistLink: DEFAULTS.editor.playlistLink,
@@ -444,7 +458,14 @@ export const useEditorStore = create<EditorState>()(
       //         used by the Anniversary quest type), and `gachaVersion`
       //         (free-form game version like "1.2"). All additive — empty
       //         / null defaults round-trip cleanly.
-      version: 13,
+      // v13 → v14: v0.22.0. `videoStyleEra` joined the schema — an opt-in
+      //         era / aesthetic descriptor that combines with
+      //         `rig.video_editor` to emit a one-line style credit in the
+      //         description. Additive — defaults to `""` (off); the
+      //         migration defensively coerces unrecognised values to `""`
+      //         so a hand-edited blob or downgrade from a future version
+      //         can't leave the Select stuck on a missing option.
+      version: 14,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -479,6 +500,7 @@ export const useEditorStore = create<EditorState>()(
         frameGenMultiplier: state.frameGenMultiplier,
         upscaleQuality: state.upscaleQuality,
         artStyle: state.artStyle,
+        videoStyleEra: state.videoStyleEra,
         versionInfo: state.versionInfo,
         timestamps: state.timestamps,
         playlistLink: state.playlistLink,
@@ -728,6 +750,14 @@ export function migrateEditorState(
     const vc = typeof state.endingVideoCount === "number" ? state.endingVideoCount : 1;
     const idx = typeof state.endingVideoIndex === "number" ? state.endingVideoIndex : 1;
     state.endingVideoIndex = Math.max(1, Math.min(vc, Math.floor(idx)));
+  }
+  if (version < 14) {
+    // v0.22.0 video-style era. Coerce any unrecognised value back to ""
+    // so the form Select never lands on an option that doesn't exist —
+    // covers both pre-v0.22 drafts (no key) and hand-edited blobs.
+    state.videoStyleEra = isVideoStyleEra(state.videoStyleEra)
+      ? state.videoStyleEra
+      : "";
   }
   return { ...initialState, ...state } as EditorData;
 }
