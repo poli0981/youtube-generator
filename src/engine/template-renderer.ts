@@ -48,6 +48,13 @@ export interface RenderOptions extends TagOptions {
    */
   showThirdPartyAds?: boolean;
   /**
+   * When true and the editor's `pubDevName` is non-empty, the description
+   * emits a `© {publisher}. All rights reserved.` line right after the
+   * Store Links block (v0.21.0). Opt-in — meant for games whose
+   * dev/publisher contractually requires attribution in the description.
+   */
+  showGameCopyright?: boolean;
+  /**
    * Optional English-fixed translation function. Used by the v0.11
    * unified content-warnings block to render bilingual lines
    * `EN · output-language`. When omitted, the warnings block falls back
@@ -73,6 +80,7 @@ export function renderAll(
     showUsagePolicy: options?.showUsagePolicy,
     showSponsorCredit: options?.showSponsorCredit,
     showThirdPartyAds: options?.showThirdPartyAds,
+    showGameCopyright: options?.showGameCopyright,
     tEn: options?.tEn,
   });
   const tags = generateTags(input, options);

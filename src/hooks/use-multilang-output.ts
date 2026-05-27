@@ -17,6 +17,7 @@ export function useMultilangOutput(
     showCopyright,
     showUsagePolicy,
     showSponsorCredit,
+    showGameCopyright,
     titleFormat,
   } = useSettingsStore();
 
@@ -33,6 +34,7 @@ export function useMultilangOutput(
         showCopyright,
         showUsagePolicy,
         showSponsorCredit,
+        showGameCopyright,
         titleFormat,
       });
     }
@@ -47,6 +49,7 @@ export function useMultilangOutput(
     showCopyright,
     showUsagePolicy,
     showSponsorCredit,
+    showGameCopyright,
     titleFormat,
   ]);
 }

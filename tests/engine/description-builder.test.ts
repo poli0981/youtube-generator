@@ -653,7 +653,13 @@ describe("buildDescription", () => {
     const t = createMockT("en");
     const result = buildDescription(makeInput(), t, { showCopyright: true });
     const year = new Date().getFullYear();
-    expect(result).toContain(`© ${year} TestChannel. All rights reserved.`);
+    // v0.21.0 reworded the line to disambiguate the channel's video
+    // copyright from the game's IP. The header still leads with the
+    // same `© YYYY ChannelName` and the line still contains "All rights
+    // reserved on this recording" so the downstream checks (lines
+    // 664/670/694) keep working.
+    expect(result).toContain(`© ${year} TestChannel — Video content only.`);
+    expect(result).toContain("All rights reserved on this recording.");
   });
 
   it("skips copyright when channelName is blank even if toggle is on", () => {
@@ -1204,26 +1210,41 @@ describe("buildDescription — v0.7 content fields (legacy)", () => {
     expect(result).toContain("• Có jumpscare");
   });
 
-  it("censors YouTube-flag-prone Vietnamese terms with asterisks (v0.11)", () => {
+  it("censors YouTube-flag-prone Vietnamese terms with asterisks + euphemisms (v0.11 / v0.21.0)", () => {
     const t = createMockT("vi");
     const tEn = createMockT("en");
     const result = buildDescription(
       makeInput({
         language: "vi",
-        contentWarnings: ["sexual_assault", "self_harm", "detailed_killing", "child_harm"],
+        contentWarnings: [
+          "sexual_assault",
+          "self_harm",
+          "detailed_killing",
+          "child_harm",
+          "war_violence",
+          "police_violence",
+        ],
       }),
       t,
       { tEn },
     );
-    // Asterisk-masked terms ARE present
+    // Asterisk-masked terms ARE present (kept from v0.11 baseline)
     expect(result).toContain("x*m h*i");
     expect(result).toContain("t* tử");
     expect(result).toContain("g*ết người");
-    expect(result).toContain("ng*y h*i");
+    // v0.21.0: `child_harm` switched from the malformed asterisk pattern
+    // (`b* ng*y h*i`) to an unambiguous euphemism (`chịu tác động`).
+    expect(result).toContain("chịu tác động");
+    // v0.21.0: `bạo lực` → `tác động vật lý` (euphemism) across
+    // `war_violence`, `police_violence`, `bullying_themes`.
+    expect(result).toContain("Tác động vật lý liên quan chiến tranh");
+    expect(result).toContain("Tác động vật lý từ cảnh sát / chính quyền");
     // Uncensored terms are NOT present
     expect(result).not.toContain("xâm hại");
     expect(result).not.toContain("tự tử");
     expect(result).not.toContain("giết người");
+    expect(result).not.toContain("Bạo lực liên quan chiến tranh");
+    expect(result).not.toContain("Bạo lực từ cảnh sát");
     // EN side stays clinical (no censoring needed)
     expect(result).toContain("Sexual assault references");
     expect(result).toContain("Self-harm / suicide themes");

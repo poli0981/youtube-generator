@@ -95,7 +95,7 @@ Các nhóm bulk-select trong editor: **All RPGs** (rpg + jrpg + action_rpg + crp
 
 ---
 
-## 3. Cảnh báo nội dung (175, chia nhóm)
+## 3. Cảnh báo nội dung (187, chia nhóm)
 
 Cảnh báo được chọn sẽ thêm vào khối `⚠ CONTENT WARNINGS` trong description, trước phần timestamp. Mỗi nhóm có thể thu gọn trong editor; cảnh báo hiển thị theo thứ tự người dùng chọn.
 
@@ -119,9 +119,9 @@ Cảnh gây lo âu · Trầm cảm · Rối loạn ăn uống · Sử dụng ch�
 
 Tự kỷ / thần kinh đa dạng · ADHD / rối loạn tập trung · Hikikomori / ẩn dật xã hội · NEET (không học không làm) · Lo âu xã hội · Cô lập xã hội / cô đơn · Tâm thần phân liệt / loạn thần · Burnout / kiệt sức · Mặc cảm sống sót · Bị bỏ rơi / sang chấn · Quan hệ parasocial · Gaslighting / thao túng · Hội chứng Stockholm · Nghiện game / cờ bạc · Khủng hoảng hiện sinh · Hội chứng kẻ mạo danh · Khủng hoảng tuổi trung niên · Khủng hoảng tuổi 1/4 · Quấy rối nơi làm việc · Áp lực vai trò giới
 
-### Nội dung nhạy cảm / 18+ (49)
+### Nội dung nhạy cảm / 18+ (61)
 
-Máu me · 18+ · Hình ảnh gây khó chịu · Bạo hành động vật · Bạo lực với trẻ em · Bạo lực gia đình · Tham chiếu xâm hại tình dục · Tra tấn · Tôn giáo · Bạo lực chiến tranh · Phân biệt đối xử · Bạo lực nhà nước / cảnh sát · Hút thuốc / uống rượu · Giết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia) · Cực đoan chính trị · Cực đoan tôn giáo / cuồng tín · Diệt chủng / thanh trừng sắc tộc · Thánh chiến / xung đột tôn giáo · Đại nạn Holocaust · Nội chiến · Xả súng hàng loạt / xả súng trường học · Chủ nghĩa thực dân / đế quốc · Tuyên truyền nhà nước · Nhà nước giám sát / dystopia · Thuyết âm mưu · Kiểm duyệt / cấm phát ngôn · Xung đột sắc tộc / chủng tộc · Khủng hoảng tị nạn · Cách mạng / nổi dậy · Ám sát chính trị · Đảo chính · Toà án dị giáo / săn phù thủy · Lao động cưỡng bức · Chủ nghĩa dân tộc cực đoan
+Máu me · 18+ · Hình ảnh gây khó chịu · B*o h*nh động vật · Trẻ em chịu tác động · B*o h*nh gia đình · Tham chiếu x*m h*i t*nh d*c · Tra tấn · Tôn giáo · Tác động vật lý chiến tranh · Phân biệt đối xử · Tác động vật lý từ chính quyền · Hút thuốc / uống rượu · G*ết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia) · Cực đoan chính trị · Cực đoan tôn giáo / cuồng tín · Diệt chủng / thanh trừng sắc tộc · Thánh chiến / xung đột tôn giáo · Đại nạn Holocaust · Nội chiến · Xả súng hàng loạt / xả súng trường học · Chủ nghĩa thực dân / đế quốc · Tuyên truyền nhà nước · Nhà nước giám sát / dystopia · Thuyết âm mưu · Kiểm duyệt / cấm phát ngôn · Xung đột sắc tộc / chủng tộc · Khủng hoảng tị nạn · Cách mạng / nổi dậy · Ám sát chính trị · Đảo chính · Toà án dị giáo / săn phù thủy · Lao động cưỡng bức · Chủ nghĩa dân tộc cực đoan · Treo c* / siết c* · Cảnh ch*t đuối · Cảnh thiêu s*ng · Cảnh ngạt th* · Bị trói / cầm tù tra tấn · Cảnh hành quyết công khai · Cảnh chặt đầu · Cảnh đâm xuyên cơ thể · Thương vong hàng loạt · Tác động vật lý bằng phương tiện · Cảnh sử dụng quá liều · Ngã / nhảy từ trên cao
 
 ### Kinh dị nặng (12)
 

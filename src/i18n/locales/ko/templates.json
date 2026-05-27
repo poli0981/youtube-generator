@@ -108,6 +108,7 @@
       "timestamps": "⏱ 타임스탬프",
       "storeLinksBuy": "🎮 게임 구매 (구매하고 싶다면)",
       "storeLinksDownload": "⬇️ 게임 다운로드 (플레이하고 싶다면)",
+      "gameCopyright": "© {{publisher}}. 모든 권리 보유. 게임 및 관련 지식재산권은 {{publisher}}에 귀속됩니다.",
       "videoSettings": "🖥 영상 설정",
       "rig": "💻 내 장비",
       "modList": "🧩 모드 목록",
@@ -120,7 +121,7 @@
       "playlist": "▶️ 전체 시리즈 보기: {{link}}",
       "contact": "📧 비즈니스 문의: {{email}}",
       "cta": "👍 좋아요 | 🔔 구독 | ↗️ 공유",
-      "copyright": "© {{year}} {{channelName}}. All rights reserved.",
+      "copyright": "© {{year}} {{channelName}} — 영상 콘텐츠에 한함. 게임, 캐릭터, 음악 및 관련 지식재산권은 각 권리자에게 귀속됩니다. 본 녹화물의 모든 권리를 보유합니다.",
       "usagePolicyHeader": "📋 영상 사용 정책",
       "usagePolicy": "• 원본 영상 링크와 채널을 반드시 크레딧해주세요 (최소한 설명란에).\n• 전체 영상 또는 상당 부분을 본인 콘텐츠로 재업로드하지 마세요.\n• 명시적 동의 없이 수익화하지 마세요.\n• 원본 내용이나 제작자를 왜곡하는 방식으로 편집하지 마세요.\n• 컴필레이션, 리뷰, 해설, 리액션 영상은 크레딧만 하면 OK입니다.\n불확실한 경우 설명란의 소셜 계정이나 이메일로 연락주세요."
     },
@@ -370,7 +371,19 @@
         "coup_themes": "쿠데타 / 군사 정변",
         "inquisition": "종교 재판 / 종교 박해 / 마녀사냥",
         "forced_labor": "강제 노동 / 노동 수용소",
-        "ultranationalism": "극단적 민족주의 / 쇼비니즘"
+        "ultranationalism": "극단적 민족주의 / 쇼비니즘",
+        "hanging_depiction": "교수형 / 교살 장면",
+        "drowning_depiction": "익사 장면",
+        "burning_alive": "분신 / 화형 장면",
+        "asphyxiation_depiction": "질식 / 호흡 곤란 장면",
+        "restraint_torture": "결박된 피해자가 고문당하는 장면",
+        "public_execution": "공개 처형 장면",
+        "decapitation": "참수 장면",
+        "impalement": "관통 장면",
+        "mass_casualty_event": "대규모 인명피해 사건 (공격·재난)",
+        "vehicular_violence": "차량을 이용한 폭력 / 고의적 충돌",
+        "overdose_depiction": "약물 과다 복용 장면",
+        "defenestration": "고의적 추락 / 투신"
       }
     },
     "graphics": {

@@ -108,6 +108,7 @@
       "timestamps": "⏱ 时间戳",
       "storeLinksBuy": "🎮 获取游戏 (如果你想购买)",
       "storeLinksDownload": "⬇️ 下载游戏 (如果你想游玩)",
+      "gameCopyright": "© {{publisher}}. 保留所有权利。游戏及相关知识产权归 {{publisher}} 所有。",
       "videoSettings": "🖥 视频设置",
       "rig": "💻 我的配置",
       "modList": "🧩 MOD 列表",
@@ -120,7 +121,7 @@
       "playlist": "▶️ 观看完整系列：{{link}}",
       "contact": "📧 商务合作：{{email}}",
       "cta": "👍 点赞 | 🔔 订阅 | ↗️ 分享",
-      "copyright": "© {{year}} {{channelName}}. 版权所有。",
+      "copyright": "© {{year}} {{channelName}} — 仅限视频内容。游戏、角色、音乐及相关知识产权归各自所有者所有。保留本录像的所有权利。",
       "usagePolicyHeader": "📋 视频使用规则",
       "usagePolicy": "• 请务必附上原视频链接和频道的 credit（至少在描述中）。\n• 请勿将完整视频或大部分内容作为自己的内容重新上传。\n• 未经明确同意，请勿对素材进行商业化。\n• 请勿以歪曲原内容或创作者的方式剪辑素材。\n• 合集、评测、解说、反应视频均可 — 只要标明出处。\n如有疑问，请通过描述中的社交账号或邮箱联系我。"
     },
@@ -370,7 +371,19 @@
         "coup_themes": "政变 / 军事夺权",
         "inquisition": "宗教审判 / 宗教迫害 / 猎巫",
         "forced_labor": "强迫劳动 / 劳改营",
-        "ultranationalism": "极端民族主义 / 沙文主义"
+        "ultranationalism": "极端民族主义 / 沙文主义",
+        "hanging_depiction": "上吊 / 勒颈场景",
+        "drowning_depiction": "溺水场景",
+        "burning_alive": "活活烧死 / 自焚",
+        "asphyxiation_depiction": "窒息 / 闷死场景",
+        "restraint_torture": "被捆绑或控制的受害者遭受酷刑",
+        "public_execution": "公开处决场景",
+        "decapitation": "斩首场景",
+        "impalement": "穿刺场景",
+        "mass_casualty_event": "大规模伤亡事件（袭击、灾难）",
+        "vehicular_violence": "车辆暴力 / 蓄意撞击",
+        "overdose_depiction": "药物过量场景",
+        "defenestration": "高处坠落（蓄意）"
       }
     },
     "graphics": {

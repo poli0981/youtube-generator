@@ -126,6 +126,7 @@
       "hate_speech", "historical_atrocity", "slavery_themes", "terrorism_themes", "bullying_themes", "human_experimentation", "cannibalism", "nuclear_themes",
       "homophobia", "transphobia", "xenophobia",
       "political_extremism", "religious_extremism", "genocide", "holy_war", "holocaust_themes", "civil_war", "mass_shooting", "colonialism", "propaganda", "dystopian_state", "conspiracy_theories", "censorship_themes", "ethnic_conflict", "refugee_crisis", "revolution_themes", "assassination", "coup_themes", "inquisition", "forced_labor", "ultranationalism",
+      "hanging_depiction", "drowning_depiction", "burning_alive", "asphyxiation_depiction", "restraint_torture", "public_execution", "decapitation", "impalement", "mass_casualty_event", "vehicular_violence", "overdose_depiction", "defenestration",
       "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics", "first_time_playing", "returning_player",
       "eye_horror", "body_horror", "face_horror", "cosmic_horror", "extreme_gore", "decay_rot", "mutilation", "liminal_spaces", "analog_horror", "unreality_themes", "pursuit_chase", "entity_horror",
       "mods_used", "cheats_enabled", "glitch_exploits", "assisted_run"
@@ -162,7 +163,7 @@
     "presets": ["title", "createNew", "editPreset", "loadPreset", "deleteConfirm", "emptyState", "selectPreset", "noPresets", "exportPresets", "importPresets"],
     "templates": ["title", "createNew", "saveAsTemplate", "templateName", "templateNamePlaceholder", "loadTemplate", "deleteConfirm", "emptyState", "saveHint", "savedAs", "appliedToast", "exportTemplates", "importTemplates"],
     "history": ["title", "emptyState", "clearAll", "clearConfirm", "searchPlaceholder"],
-    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showUsagePolicy", "showSponsorCredit", "showThirdPartyAds", "thirdPartyAdsHint", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint", "logSettings", "logRetentionDays", "logRetentionHint"],
+    "settings": ["title", "appearance", "defaults", "editorSettings", "tagSettings", "historySettings", "theme", "appLanguage", "defaultOutputLanguage", "defaultGenre", "showCharCount", "compactTagDisplay", "historyLimit", "multilingualTags", "trendingTags", "hashtagCount", "showQualityBadge", "showCopyright", "showGameCopyright", "showGameCopyrightHint", "showUsagePolicy", "showSponsorCredit", "showThirdPartyAds", "thirdPartyAdsHint", "titleFormatTitle", "descriptionSettingsTitle", "badgePosition", "badgePositionPrefix", "badgePositionMiddle", "badgePositionSuffix", "titleSeparator", "titleSeparatorEmDash", "titleSeparatorHyphen", "titleSeparatorColon", "titleSeparatorPipe", "badgeCase", "badgeCaseUpper", "badgeCaseLower", "showPinnedCommentTemplate", "pinnedCommentIncludeAskNextGame", "pinnedCommentIncludeGenrePlaylist", "genrePlaylistsTitle", "genrePlaylistsHelp", "genrePlaylistsEmptyHint", "logSettings", "logRetentionDays", "logRetentionHint"],
     "batch": ["title", "startPart", "endPart", "generateBatch", "copyAllBatch", "emptyState"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "toggleSidebar", "help", "close", "searchPlaceholder", "noResults"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid"],
@@ -193,7 +194,7 @@
     ],
     "description": ["noCommentaryLine"],
     "description.sections": [
-      "timestamps", "storeLinksBuy", "storeLinksDownload", "videoSettings", "rig",
+      "timestamps", "storeLinksBuy", "storeLinksDownload", "gameCopyright", "videoSettings", "rig",
       "modList", "vnDonate",
       "sponsorCredit", "thirdPartyAds", "music", "donate", "social",
       "playlist", "contact", "cta",
@@ -228,6 +229,7 @@
       "hate_speech", "historical_atrocity", "slavery_themes", "terrorism_themes", "bullying_themes", "human_experimentation", "cannibalism", "nuclear_themes",
       "homophobia", "transphobia", "xenophobia",
       "political_extremism", "religious_extremism", "genocide", "holy_war", "holocaust_themes", "civil_war", "mass_shooting", "colonialism", "propaganda", "dystopian_state", "conspiracy_theories", "censorship_themes", "ethnic_conflict", "refugee_crisis", "revolution_themes", "assassination", "coup_themes", "inquisition", "forced_labor", "ultranationalism",
+      "hanging_depiction", "drowning_depiction", "burning_alive", "asphyxiation_depiction", "restraint_torture", "public_execution", "decapitation", "impalement", "mass_casualty_event", "vehicular_violence", "overdose_depiction", "defenestration",
       "blind_playthrough", "no_spoilers_chat", "casual_difficulty", "hardcore_difficulty", "permadeath_run", "speedrun_attempt", "completionist_run", "learning_mechanics", "first_time_playing", "returning_player",
       "eye_horror", "body_horror", "face_horror", "cosmic_horror", "extreme_gore", "decay_rot", "mutilation", "liminal_spaces", "analog_horror", "unreality_themes", "pursuit_chase", "entity_horror",
       "mods_used", "cheats_enabled", "glitch_exploits", "assisted_run"

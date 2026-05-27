@@ -39,6 +39,21 @@ export function GameInfoForm() {
         value={store.platform}
         onChange={(v) => store.set("platform", v)}
       />
+      {/*
+       * Dev/publisher name. v0.21.0 promoted this from a side-label
+       * under the Publisher store link to a first-class field — it now
+       * drives the optional `© {publisher}` description line (Settings →
+       * "Show game studio copyright") and persists in GamePresets,
+       * which is the common case for series where the publisher
+       * requires credit across many episodes.
+       */}
+      <Input
+        label={t("editor.pubDevName")}
+        placeholder={t("editor.pubDevNamePlaceholder")}
+        value={store.pubDevName ?? ""}
+        onChange={(e) => store.set("pubDevName", e.target.value)}
+        autoComplete="off"
+      />
     </div>
   );
 }

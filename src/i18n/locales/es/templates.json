@@ -108,6 +108,7 @@
       "timestamps": "⏱ MARCAS DE TIEMPO",
       "storeLinksBuy": "🎮 CONSIGUE EL JUEGO (si quieres comprarlo)",
       "storeLinksDownload": "⬇️ DESCARGA EL JUEGO (si quieres jugar)",
+      "gameCopyright": "© {{publisher}}. Todos los derechos reservados. El juego y toda la propiedad intelectual relacionada pertenecen a {{publisher}}.",
       "videoSettings": "🖥 AJUSTES DE VIDEO",
       "rig": "💻 MI EQUIPO",
       "modList": "🧩 LISTA DE MODS",
@@ -120,7 +121,7 @@
       "playlist": "▶️ Ver la serie completa: {{link}}",
       "contact": "📧 Consultas comerciales: {{email}}",
       "cta": "👍 Me gusta | 🔔 Suscríbete | ↗️ Comparte",
-      "copyright": "© {{year}} {{channelName}}. Todos los derechos reservados.",
+      "copyright": "© {{year}} {{channelName}} — Solo el contenido del vídeo. El juego, los personajes, la música y toda la propiedad intelectual relacionada pertenecen a sus respectivos propietarios. Todos los derechos reservados sobre esta grabación.",
       "usagePolicyHeader": "📋 POLÍTICA DE USO",
       "usagePolicy": "• Siempre acredita con un enlace al vídeo original Y al canal (al menos en la descripción).\n• No reuploadees el vídeo completo ni porciones grandes como contenido propio.\n• No monetices el material sin consentimiento explícito.\n• No edites el material de forma que tergiverse el contenido original o al creador.\n• Compilaciones, reseñas, comentarios y reacciones están OK — siempre que acredites.\nSi tienes dudas, contáctame por las redes sociales o el email de la descripción."
     },
@@ -370,7 +371,19 @@
         "coup_themes": "Golpe de estado / asalto militar",
         "inquisition": "Inquisición / persecución religiosa / caza de brujas",
         "forced_labor": "Trabajo forzado / campos de trabajo",
-        "ultranationalism": "Ultranacionalismo / chovinismo"
+        "ultranationalism": "Ultranacionalismo / chovinismo",
+        "hanging_depiction": "Escena de ahorcamiento / estrangulación",
+        "drowning_depiction": "Escena de ahogamiento",
+        "burning_alive": "Quemado vivo / inmolación",
+        "asphyxiation_depiction": "Escena de asfixia / sofocación",
+        "restraint_torture": "Víctima atada o sujeta durante tortura",
+        "public_execution": "Escena de ejecución pública",
+        "decapitation": "Decapitación",
+        "impalement": "Empalamiento",
+        "mass_casualty_event": "Evento de víctimas masivas (ataque, desastre)",
+        "vehicular_violence": "Violencia vehicular / embestida intencional",
+        "overdose_depiction": "Escena de sobredosis",
+        "defenestration": "Caída desde altura (intencional)"
       }
     },
     "graphics": {

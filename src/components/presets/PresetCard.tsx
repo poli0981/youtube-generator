@@ -4,6 +4,7 @@ import { Upload, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@components/ui/Button";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
 import { useEditorStore } from "@store/editor-store";
+import { useSettingsStore } from "@store/settings-store";
 import { usePresetStore, type GamePreset } from "@store/preset-store";
 import { GENRES } from "@config/genres";
 import { PresetSaveForm } from "./PresetSaveForm";
@@ -15,6 +16,7 @@ interface PresetCardProps {
 export function PresetCard({ preset }: PresetCardProps) {
   const { t } = useTranslation("ui");
   const loadPreset = useEditorStore((s) => s.loadPreset);
+  const setSetting = useSettingsStore((s) => s.setSetting);
   const deletePreset = usePresetStore((s) => s.deletePreset);
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -28,7 +30,14 @@ export function PresetCard({ preset }: PresetCardProps) {
       storeLinks: { ...preset.storeLinks },
       spoilerWarning: preset.spoilerWarning,
       matureWarning: preset.matureWarning,
+      pubDevName: preset.pubDevName ?? "",
     });
+    // v0.21.0: same pattern as PresetSelector — only flip the setting
+    // when the preset explicitly carries it, so older presets don't
+    // silently reset a user's preference on first load.
+    if (preset.showGameCopyright !== undefined) {
+      setSetting("showGameCopyright", preset.showGameCopyright);
+    }
   };
 
   const genreDefs = preset.genres

@@ -27,6 +27,15 @@ export interface SettingsData {
   showUsagePolicy: boolean;
   showSponsorCredit: boolean;
   /**
+   * v0.21.0 opt-in toggle. When true and the current editor has a
+   * non-empty `pubDevName`, the description emits a single
+   * `© {publisher}. All rights reserved.` line right after the Store
+   * Links block. Used by creators covering games whose dev/publisher
+   * contractually requires a copyright credit in the description.
+   * Default off — see the help text in `settings.showGameCopyright.help`.
+   */
+  showGameCopyright: boolean;
+  /**
    * When true, the description renders a "🤝 SPONSORS & PARTNERS" block
    * containing the active profile's `thirdPartyAdText`. Off by default
    * (v0.11) — opt-in so existing users don't see a new block after
@@ -110,6 +119,7 @@ export const initialSettings: SettingsData = {
   showCopyright: true,
   showUsagePolicy: false,
   showSponsorCredit: false,
+  showGameCopyright: false,
   showThirdPartyAds: false,
   showPinnedCommentTemplate: false,
   pinnedCommentIncludeAskNextGame: true,
