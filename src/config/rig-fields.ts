@@ -37,17 +37,65 @@ interface RigFieldOption {
   readonly label: string;
 }
 
+/**
+ * v0.23.0: a composite part's options can now either be a static array
+ * (the original RAM-style shape) OR a function that resolves the option
+ * list based on previously-selected parts (the OS cascading shape, where
+ * version-or-distro depends on OS name and the third slot depends on
+ * both). Existing static-array call sites continue to work unchanged.
+ */
+type RigFieldOptionResolver =
+  | readonly RigFieldOption[]
+  | ((previousParts: readonly string[]) => readonly RigFieldOption[]);
+
 export interface CompositePart {
   /** Stable id, used to assemble the storage tuple in declaration order. */
   readonly id: string;
   readonly labelKey: string;
-  readonly options: readonly RigFieldOption[];
+  readonly options: RigFieldOptionResolver;
   /** When true, the part renders an extra free-text input when value === `"custom"`. */
   readonly allowCustom?: boolean;
   /** Suffix shown after the custom numeric input (e.g. " GB"). */
   readonly customSuffix?: string;
   /** Optional placeholder for the custom input. */
   readonly customPlaceholder?: string;
+  /**
+   * v0.23.0: dynamic label key override. Lets a single part show
+   * "Distro" when OS = Linux but "Version" when OS = Windows / macOS.
+   * Receives previously-selected parts; returns an i18n key.
+   */
+  readonly labelKeyResolver?: (previousParts: readonly string[]) => string;
+  /**
+   * v0.23.0: hide this part entirely when the resolver returns `true`
+   * (e.g. macOS has no Edition slot). `formatRigValue` also skips the
+   * hidden part so it doesn't leak an empty token into the joined
+   * output, and the editor doesn't render the dropdown.
+   */
+  readonly hiddenWhen?: (previousParts: readonly string[]) => boolean;
+}
+
+/**
+ * Helper for {@link CompositePart.options} — call sites get a plain
+ * `RigFieldOption[]` whether the part declares a static array or a
+ * function-of-previous-parts resolver. Pure; exported for {@link RigEditor}.
+ */
+export function resolveCompositeOptions(
+  opts: RigFieldOptionResolver,
+  previousParts: readonly string[],
+): readonly RigFieldOption[] {
+  return typeof opts === "function" ? opts(previousParts) : opts;
+}
+
+/**
+ * Helper for {@link CompositePart.labelKey} / {@link CompositePart.labelKeyResolver}.
+ * Returns the dynamic label when present, falling back to the static
+ * key on the part. Pure; exported for {@link RigEditor}.
+ */
+export function resolveCompositeLabelKey(
+  part: CompositePart,
+  previousParts: readonly string[],
+): string {
+  return part.labelKeyResolver?.(previousParts) ?? part.labelKey;
 }
 
 interface CompositeFieldSpec {
@@ -148,23 +196,104 @@ const RAM_COMPOSITE: CompositeFieldSpec = {
 };
 
 /**
- * OS composite (v0.22.0). Three dropdowns combined into one logical
- * field — OS name → version → edition. Stored pipe-delimited as
- * `"windows|11|pro"` → renders as `"Windows 11 Pro"`. Edition is
- * optional, so `"windows|11|"` → `"Windows 11"`. Only Windows 10/11 is
- * surfaced for now; macOS / Linux can be added later by extending the
- * option arrays without changing storage or format logic.
+ * OS composite (v0.22.0, extended v0.23.0). Three dropdowns combined
+ * into one logical field. The slot semantics now adapt to the chosen
+ * OS family:
+ *
+ * - Windows: name → version (10/11) → edition (Home/Pro/…)
+ * - macOS: name → version (10/11/12/13/14/15/26) → (hidden — Apple has no editions)
+ * - Linux: name → distro (Ubuntu/Fedora/…) → version (per-distro)
+ *
+ * Stored pipe-delimited; format function joins all non-empty parts
+ * with single spaces. v0.22.0 stored values like `"windows|11|pro"`
+ * round-trip unchanged through the new resolver because the static
+ * Windows path remains the default for `name === "windows"`.
  */
 const OS_NAME_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
   { value: "windows", label: "Windows" },
+  { value: "macos", label: "macOS" },
+  { value: "linux", label: "Linux" },
 ];
 
-const OS_VERSION_OPTIONS: readonly RigFieldOption[] = [
+const WINDOWS_VERSION_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
   { value: "10", label: "10" },
   { value: "11", label: "11" },
 ];
+
+/**
+ * macOS major versions. Apple jumped from 15 (Sequoia, 2024) to 26
+ * (Tahoe, 2025) to year-align the marketing number, so the list is
+ * intentionally non-contiguous.
+ */
+const MACOS_VERSION_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "10", label: "10 (Mojave era)" },
+  { value: "11 Big Sur", label: "11 Big Sur" },
+  { value: "12 Monterey", label: "12 Monterey" },
+  { value: "13 Ventura", label: "13 Ventura" },
+  { value: "14 Sonoma", label: "14 Sonoma" },
+  { value: "15 Sequoia", label: "15 Sequoia" },
+  { value: "26 Tahoe", label: "26 Tahoe" },
+];
+
+/** Linux distros gameplay creators actually use via Proton. */
+const LINUX_DISTRO_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  { value: "ubuntu", label: "Ubuntu" },
+  { value: "fedora", label: "Fedora" },
+  { value: "debian", label: "Debian" },
+  { value: "arch", label: "Arch" },
+  { value: "manjaro", label: "Manjaro" },
+  { value: "popos", label: "Pop!_OS" },
+  { value: "mint", label: "Linux Mint" },
+];
+
+/**
+ * Per-distro version lists. The map key matches the distro id from
+ * {@link LINUX_DISTRO_OPTIONS}; values are stored verbatim (e.g. the
+ * stored Ubuntu version is "22.04 LTS"). Rolling distros surface a
+ * single "rolling" / "latest" placeholder so the dropdown isn't empty.
+ */
+const LINUX_VERSION_BY_DISTRO: Record<string, readonly RigFieldOption[]> = {
+  ubuntu: [
+    { value: "", label: "—" },
+    { value: "20.04 LTS", label: "20.04 LTS" },
+    { value: "22.04 LTS", label: "22.04 LTS" },
+    { value: "24.04 LTS", label: "24.04 LTS" },
+    { value: "26.04 LTS", label: "26.04 LTS" },
+  ],
+  fedora: [
+    { value: "", label: "—" },
+    { value: "40", label: "40" },
+    { value: "41", label: "41" },
+    { value: "42", label: "42" },
+  ],
+  debian: [
+    { value: "", label: "—" },
+    { value: "12 Bookworm", label: "12 Bookworm" },
+    { value: "13 Trixie", label: "13 Trixie" },
+  ],
+  arch: [
+    { value: "", label: "—" },
+    { value: "rolling", label: "rolling" },
+  ],
+  manjaro: [
+    { value: "", label: "—" },
+    { value: "latest", label: "latest stable" },
+  ],
+  popos: [
+    { value: "", label: "—" },
+    { value: "22.04 LTS", label: "22.04 LTS" },
+    { value: "24.04 LTS", label: "24.04 LTS" },
+  ],
+  mint: [
+    { value: "", label: "—" },
+    { value: "21", label: "21" },
+    { value: "22", label: "22" },
+  ],
+};
 
 const OS_EDITION_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
@@ -175,11 +304,40 @@ const OS_EDITION_OPTIONS: readonly RigFieldOption[] = [
   { value: "iot", label: "IoT Enterprise" },
 ];
 
+const EMPTY_OPTIONS: readonly RigFieldOption[] = [{ value: "", label: "—" }];
+
 const OS_COMPOSITE: CompositeFieldSpec = {
   parts: [
     { id: "name", labelKey: "editor.os_name", options: OS_NAME_OPTIONS },
-    { id: "version", labelKey: "editor.os_version", options: OS_VERSION_OPTIONS },
-    { id: "edition", labelKey: "editor.os_edition", options: OS_EDITION_OPTIONS },
+    {
+      // Slot 2: Windows/macOS use this as "Version", Linux re-purposes it
+      // as "Distro". The labelKeyResolver swaps the label so the editor
+      // form reads naturally for each OS family.
+      id: "version_or_distro",
+      labelKey: "editor.os_version",
+      labelKeyResolver: ([name = ""]) =>
+        name === "linux" ? "editor.os_distro" : "editor.os_version",
+      options: ([name = ""]) => {
+        if (name === "windows") return WINDOWS_VERSION_OPTIONS;
+        if (name === "macos") return MACOS_VERSION_OPTIONS;
+        if (name === "linux") return LINUX_DISTRO_OPTIONS;
+        return EMPTY_OPTIONS;
+      },
+    },
+    {
+      // Slot 3: Windows uses "Edition"; Linux re-purposes it as "Version"
+      // (per-distro). macOS doesn't have a third slot at all — hidden.
+      id: "edition_or_linux_version",
+      labelKey: "editor.os_edition",
+      labelKeyResolver: ([name = ""]) =>
+        name === "linux" ? "editor.os_version" : "editor.os_edition",
+      hiddenWhen: ([name = ""]) => name === "macos",
+      options: ([name = "", distro = ""]) => {
+        if (name === "windows") return OS_EDITION_OPTIONS;
+        if (name === "linux") return LINUX_VERSION_BY_DISTRO[distro] ?? EMPTY_OPTIONS;
+        return EMPTY_OPTIONS;
+      },
+    },
   ],
   format: (parts) => parts.filter((p) => p.trim() !== "").join(" "),
 };
@@ -297,16 +455,32 @@ export function formatRigValue(fieldId: string, raw: string): string {
     if (isLegacy) return raw;
     if (parts.length === 0) return "";
 
-    // Resolve each declared part. `custom:<value>` segments collapse to
-    // the free-text payload (without the `custom:` prefix).
+    // Resolve each declared part. v0.23.0: parts may declare a dynamic
+    // option resolver and/or a `hiddenWhen` predicate (used by the OS
+    // composite where macOS has no third slot). We walk parts in order
+    // so each resolver sees the previously-stored values, and we skip
+    // hidden parts entirely so they don't leak an empty token into the
+    // `composite.format` join. `custom:<value>` segments still collapse
+    // to the free-text payload (without the `custom:` prefix).
+    const previousStored: string[] = [];
     const resolved = field.composite.parts.map((spec, i) => {
       const stored = (parts[i] ?? "").trim();
-      if (!stored) return "";
+      if (spec.hiddenWhen?.(previousStored)) {
+        previousStored.push("");
+        return "";
+      }
+      if (!stored) {
+        previousStored.push("");
+        return "";
+      }
       if (spec.allowCustom && stored.startsWith("custom:")) {
         const txt = stored.slice("custom:".length).trim();
+        previousStored.push(stored);
         return txt ? `${txt}${spec.customSuffix ?? ""}` : "";
       }
-      const opt = spec.options.find((o) => o.value === stored);
+      const opts = resolveCompositeOptions(spec.options, previousStored);
+      const opt = opts.find((o) => o.value === stored);
+      previousStored.push(stored);
       return opt?.label ?? stored;
     });
 

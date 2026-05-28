@@ -2,6 +2,62 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.23.0 — 2026-05-27
+
+Extends audience-protection coverage with eight VFX-intensity warnings
+and unlocks the new OS Rig field (introduced in v0.22.0) for macOS and
+Linux creators via a cascading dropdown that adapts its slot semantics
+to the chosen OS family.
+
+### Added
+
+- **8 new VFX content warnings in the `photosensitive` group** ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)). New IDs: `lens_flare_intense`, `bloom_excessive`, `particle_effects_dense`, `screen_overlay_flashing`, `color_saturation_extreme`, `motion_blur_heavy`, `depth_of_field_aggressive`, `post_processing_intense`. Closes the gap between blanket `flashing_lights` / `strobe_effects` and the AAA / horror games that ship intense visual-effects passes (bloom, particles, lens flares, post-processing) without ever triggering a strobe-style flash. Total content warnings 187 → 195 across 10 groups (no new group; `photosensitive` 5 → 13). Purely additive — engine renders each warning automatically; existing profiles round-trip unchanged. Fully translated across all 6 locales (`ui.json` short labels + `templates.json` description phrases) with `_schema.json` updated.
+- **macOS support in the OS Rig field** ([src/config/rig-fields.ts](src/config/rig-fields.ts) `MACOS_VERSION_OPTIONS`). 7 macOS major versions: `10` (Mojave era), `11 Big Sur`, `12 Monterey`, `13 Ventura`, `14 Sonoma`, `15 Sequoia`, `26 Tahoe`. The intentional 15 → 26 jump matches Apple's 2025 year-aligned marketing-number reset. Stored values carry the human label (e.g. `"macos|15 Sequoia|"`) so the description output reads as a single recognisable string. macOS has no Edition tier, so the third dropdown is hidden when macOS is selected.
+- **Linux support in the OS Rig field** ([src/config/rig-fields.ts](src/config/rig-fields.ts) `LINUX_DISTRO_OPTIONS`, `LINUX_VERSION_BY_DISTRO`). 7 distros gameplay creators actually use via Proton: Ubuntu (`20.04 / 22.04 / 24.04 / 26.04 LTS`), Fedora (`40 / 41 / 42`), Debian (`12 Bookworm / 13 Trixie`), Arch (`rolling`), Manjaro (`latest`), Pop!_OS (`22.04 / 24.04 LTS`), Linux Mint (`21 / 22`). When Linux is selected the second slot re-labels to "Distro" and the third slot re-labels to "Version" with a per-distro option list — so Ubuntu's versions don't bleed into Fedora's dropdown.
+- **Cascading composite dropdown** ([src/config/rig-fields.ts](src/config/rig-fields.ts) `CompositePart`, `resolveCompositeOptions`, `resolveCompositeLabelKey`). `CompositePart.options` widened from `RigFieldOption[]` to a union with `(previousParts) => RigFieldOption[]` so a part can resolve its option list from previously-selected siblings. New optional `labelKeyResolver` lets a single part swap its i18n key (Version / Distro), and `hiddenWhen` removes a part from both the editor form and the description output. RAM (the existing 2-part static composite) is unaffected — the union accepts arrays unchanged.
+- **`editor.os_distro` locale key** across all 6 locales (`Distro` / `Distro` / `ディストリ` / `Distro` / `배포판` / `发行版`) — the new Linux-only second-slot label.
+
+### Changed
+
+- **Editor form resets downstream parts on parent change** ([src/components/editor/RigEditor.tsx](src/components/editor/RigEditor.tsx) `renderComposite`). When a user switches OS name from Windows to macOS, any previously-selected version / edition values are cleared so the form can't end up in an invalid state (e.g. `macOS 11 Pro`). The new `setPart` clears all indices `>` the changed one, so the cascading dropdown is always self-consistent.
+
+### Under the hood
+
+- Composite dropdown `formatRigValue` walks parts with a `previousValues` accumulator now, calls `hiddenWhen` first to skip hidden parts entirely (so they don't leak empty tokens into the joined output), then resolves the option list with the accumulator. Stored shapes are unchanged — v0.22.0's `"windows|11|pro"` round-trips byte-for-byte.
+- 9 new tests in [tests/engine/rig-fields.test.ts](tests/engine/rig-fields.test.ts) (24 → 33): 7 OS cascading cases (macOS Sequoia / Tahoe, Linux Ubuntu / Arch / Fedora / Debian, hidden macOS edition fallback, Windows backward-compat guard), 1 empty-name fallback (degenerate input), 1 RAM regression check that confirms the static-array path still works after the union widening.
+- Five manifests bumped 0.22.0 → 0.23.0 (`package.json`, `package-lock.json` root + self-reference, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json`).
+- Pre-release gates run green: lint, typecheck, validate:locales (12/12 files complete; 844 ui + 495 template keys per locale), 454 tests, build.
+
+## v0.22.0 — 2026-05-27
+
+Adds a dedicated **Audio / Sensory** content-warning group, introduces an
+opt-in video-style era credit that combines with the rig's Video Editor
+field, surfaces a structured **Operating System** dropdown in My Rig, and
+drops two stale Settings/About items (Default Genre, Dev Environment).
+
+### Added
+
+- **12 new audio content warnings in a new `audio` group** ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)). Splits audio-sensitive triggers out of the `photosensitive` group where they never quite fit. New IDs: `ear_piercing`, `jumpscare_audio`, `sudden_volume_changes`, `distorted_audio`, `screeching_metallic`, `persistent_high_pitch`, `audio_glitches`, `heavy_bass_rumble`, `screaming_audio`, `glass_breaking_audio`, `microphone_pops`, `white_noise_static`. `loud_noises` migrated out of `photosensitive` into this group. Total content warnings 175 → 187 across 9 → 10 groups. Purely additive; engine renders each warning automatically. Fully translated across all 6 locales (`ui.json` short labels + `templates.json` description phrases) with `_schema.json` updated.
+- **Video-style era toggle** ([src/config/video-styles.ts](src/config/video-styles.ts), [src/components/editor/VideoSettingsForm.tsx](src/components/editor/VideoSettingsForm.tsx), [src/engine/description-builder.ts](src/engine/description-builder.ts)). New per-video opt-in field `videoStyleEra` on `EditorData` — empty string sentinel for "off", 12 valid eras: `1980s`/`1990s`/`2000s`/`2010s`/`2020s` + `modern`/`cinematic`/`retro`/`vhs`/`film_noir`/`anime_mv`/`documentary`. When set, the description renderer emits a single line at the end of the Video Settings section combining the era with the rig's video editor: `"Edited in 1990s VHS style using DaVinci Resolve 19.1"`. Falls back to an editor-less template (`"Edited in 1990s VHS style"`) when `rig.video_editor` is empty. **Renders even when `skipGraphicsSettings` is on** — 2D / pixel-art creators still edit their footage, so the style credit survives as a standalone one-line section under the same header. New file exports `VIDEO_STYLE_ERAS` literal union + `isVideoStyleEra` type guard. Field shape mirrors the existing `artStyle` / `playthroughStatus` / `difficulty` per-video sentinels — no parallel boolean toggle.
+- **Operating System field in My Rig** ([src/config/rig-fields.ts](src/config/rig-fields.ts) `OS_COMPOSITE`). New `composite_dropdown` entry at the top of `RIG_FIELDS` modelled on the existing RAM pattern. Three parts: name → version → edition. Stored as `"windows|11|pro"` → renders `"Windows 11 Pro"` via `formatRigValue`. Windows 10 / 11 + Home / Pro / Enterprise / Education / IoT Enterprise. Pre-v0.22 profiles with no `rig.os` key pass through the existing empty-value filter chain in `description-builder.ts` — no migration needed. New schema keys `editor.os_name`, `editor.os_version`, `editor.os_edition` + `rig.os` across 6 locales.
+
+### Removed
+
+- **Default Genre setting** ([src/pages/SettingsPage.tsx](src/pages/SettingsPage.tsx), [src/store/settings-heal.ts](src/store/settings-heal.ts), [src/store/settings-store.ts](src/store/settings-store.ts), [src/config/defaults.ts](src/config/defaults.ts)). The `ChipGroup` never wired through to the editor — orphan field. Removed UI, `SettingsData.defaultGenres`, `setDefaultGenres` action, `initialSettings.defaultGenres`, `SettingsDefaults.defaultGenres`, `DEFAULTS.settings.defaultGenres`, `extractData` entry, and the v1→v2 migration block in `healSettings` (replaced by a single `delete incoming.defaultGenres` + `delete incoming.defaultGenre` so persisted blobs don't leak the dead field). Two migration tests removed from `settings-heal.test.ts`. `settings.defaultGenre` key removed from 6 `ui.json` + `_schema.json`.
+- **Dev Environment section from About** ([src/pages/AboutPage.tsx](src/pages/AboutPage.tsx), [src/config/about.ts](src/config/about.ts)). Hardcoded specs drift on every box upgrade. Removed the entire `<section>` block (~33 lines of JSX + `devEnvRows` constant), `Cpu`/`Monitor` icon imports, `ABOUT.pcSpecDocUrl` and `ABOUT.devEnvDocUrl`, and all `about.devEnvHeading` / `devEnvHelp` / `devEnv.{os,cpu,gpu,ram,ide,toolchains,fullSpecLink,fullDevEnvLink}` keys from 6 `ui.json` + `_schema.json` (10 keys per locale).
+
+### Changed
+
+- **`loud_noises` migrated from `photosensitive` to `audio`.** Sudden-volume / high-frequency triggers affect a different audience than strobe / motion-sickness triggers, so the group split is cleaner. Stored ID unchanged — existing profiles using `loud_noises` round-trip without any per-warning migration.
+
+### Under the hood
+
+- **Editor-store persist version 13 → 14.** Adds `videoStyleEra` field with defensive coercion: unknown / hand-edited / future-downgrade values are coerced back to `""` via the `isVideoStyleEra` type guard so the form `Select` never lands on a missing option. Additive — pre-v0.22 drafts round-trip through the migration with `videoStyleEra` defaulting to off.
+- **`healSettings` strips both legacy keys.** Whether the persisted blob carries the v1 shape (`defaultGenre: string`) or the v2 shape (`defaultGenres: GenreId[]`), the heal step now deletes both before the final `{ ...initialSettings, ...incoming }` spread — guarantees the field never resurfaces.
+- **B3 "Localize My Rig labels" was a phantom task.** Initial planning assumed the `rig.{cpu,gpu,ram,storage,monitor,capture,motherboard,controller,video_editor}` locale keys didn't exist anywhere; verification showed all 6 locales already had them with proper translations. Only the new `rig.os` key was actually missing — folded into the OS-field work.
+- Five manifests bumped 0.21.0 → 0.22.0 (`package.json`, `package-lock.json` root + self-reference, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json`).
+- Pre-release gates run green: lint, typecheck, validate:locales (12/12 files complete; 835 ui + 487 template keys per locale), 445 tests (was 416 — +5 video-style line render cases in `description-builder.test.ts`, +6 OS composite cases in `rig-fields.test.ts`, –2 deleted default-genre migration tests, plus pre-existing growth), build.
+
 ## v0.21.0 — 2026-05-27
 
 Reduces YouTube auto-flag risk on Vietnamese descriptions, adds twelve

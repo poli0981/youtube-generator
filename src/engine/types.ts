@@ -267,6 +267,18 @@ export const CONTENT_WARNINGS = [
   "migraine_trigger",
   "strobe_effects",
   "screen_shake_intense",
+  // Photosensitive — VFX intensity (v0.23.0). Modern AAA / horror games
+  // ship visual-effects passes (bloom, particles, post-processing) that
+  // strain the same audience as flashing-lights / strobe but no existing
+  // warning surfaced them. Same group placement, no new group needed.
+  "lens_flare_intense",
+  "bloom_excessive",
+  "particle_effects_dense",
+  "screen_overlay_flashing",
+  "color_saturation_extreme",
+  "motion_blur_heavy",
+  "depth_of_field_aggressive",
+  "post_processing_intense",
   // Audio / sensory (v0.22.0). `loud_noises` migrated here from the
   // photosensitive block where it never quite fit — sudden volume changes
   // and high-pitched tones affect a different (audio-sensitive) audience
