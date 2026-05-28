@@ -106,11 +106,14 @@ describe("formatRigValue", () => {
       expect(formatRigValue("os", "windows||home")).toBe("Windows Home");
     });
 
-    it("formats version + edition when name is empty", () => {
-      // Defensive — name will always be Windows in v0.22.0, but the
-      // format function should still degrade cleanly if a future version
-      // omits the name.
-      expect(formatRigValue("os", "|10|enterprise")).toBe("10 Enterprise");
+    it("falls back to raw values when name is empty (v0.23.0 cascading change)", () => {
+      // Defensive — pre-v0.23 static OS_EDITION_OPTIONS resolved
+      // "enterprise" → "Enterprise" regardless of name. Post-v0.23 the
+      // option list cascades from name; an empty name means no option
+      // list applies, so the raw stored values pass through verbatim.
+      // A real editor session always sets name first, so this is purely
+      // a hand-edited / malformed-blob guard.
+      expect(formatRigValue("os", "|10|enterprise")).toBe("10 enterprise");
     });
 
     it("returns empty string when nothing is set", () => {
@@ -121,6 +124,58 @@ describe("formatRigValue", () => {
     it("includes an OS entry in RIG_FIELDS as the first field", () => {
       expect(RIG_FIELDS[0]?.id).toBe("os");
       expect(RIG_FIELDS[0]?.type).toBe("composite_dropdown");
+    });
+  });
+
+  describe("composite_dropdown (OS cascading, v0.23.0)", () => {
+    it("renders macOS version-only — third slot hidden", () => {
+      expect(formatRigValue("os", "macos|15 Sequoia|")).toBe("macOS 15 Sequoia");
+    });
+
+    it("renders macOS Tahoe (the 2025 year-aligned jump)", () => {
+      expect(formatRigValue("os", "macos|26 Tahoe|")).toBe("macOS 26 Tahoe");
+    });
+
+    it("renders Linux distro + version with three visible parts", () => {
+      expect(formatRigValue("os", "linux|ubuntu|22.04 LTS")).toBe("Linux Ubuntu 22.04 LTS");
+    });
+
+    it("renders Linux rolling distros (Arch) with the placeholder version", () => {
+      expect(formatRigValue("os", "linux|arch|rolling")).toBe("Linux Arch rolling");
+    });
+
+    it("renders Linux Fedora with a numeric version", () => {
+      expect(formatRigValue("os", "linux|fedora|40")).toBe("Linux Fedora 40");
+    });
+
+    it("renders just distro name when version slot is empty", () => {
+      expect(formatRigValue("os", "linux|debian|")).toBe("Linux Debian");
+    });
+
+    it("falls back gracefully when macOS edition slot carries stale data", () => {
+      // Hand-edited / future-downgrade case: macOS with a third
+      // segment. Engine should skip it (hiddenWhen) rather than
+      // surfacing "macOS 15 Sequoia pro".
+      expect(formatRigValue("os", "macos|15 Sequoia|pro")).toBe("macOS 15 Sequoia");
+    });
+
+    it("preserves v0.22.0 Windows storage shape (backward-compat guard)", () => {
+      // Pre-v0.23 stored values must round-trip identically — this
+      // case validates the editor-store v13/v14 doesn't need a
+      // dedicated OS migration step.
+      expect(formatRigValue("os", "windows|11|pro")).toBe("Windows 11 Pro");
+      expect(formatRigValue("os", "windows|10|enterprise")).toBe("Windows 10 Enterprise");
+    });
+  });
+
+  describe("RAM composite — regression guard for v0.23.0 type widening", () => {
+    it("still resolves static option arrays after CompositePart.options widened to a union", () => {
+      // The v0.23.0 change made CompositePart.options accept either a
+      // static array (RAM-style) or a function (OS cascading). RAM uses
+      // the static form — re-running its formatter ensures the union
+      // didn't break the simpler path.
+      expect(formatRigValue("ram", "16|DDR5")).toBe("16 GB DDR5");
+      expect(formatRigValue("ram", "custom:48|DDR5")).toBe("48 GB DDR5");
     });
   });
 });

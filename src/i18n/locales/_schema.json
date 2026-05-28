@@ -29,7 +29,7 @@
       "gachaVersion", "gachaVersionPlaceholder",
       "gpu_brand", "gpu_series", "gpu_model", "gpu_custom",
       "ram_size", "ram_ddr",
-      "os_name", "os_version", "os_edition",
+      "os_name", "os_version", "os_edition", "os_distro",
       "vnDonate", "vnDonateHelp",
       "vnBankName", "vnBankNamePlaceholder", "vnBankNameSelectPlaceholder", "vnBankNameOther",
       "vnBankAccount", "vnBankAccountPlaceholder",
@@ -114,6 +114,7 @@
     "editor.contentWarningOptions": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",
       "flashing_lights", "motion_sickness", "migraine_trigger", "strobe_effects", "screen_shake_intense",
+      "lens_flare_intense", "bloom_excessive", "particle_effects_dense", "screen_overlay_flashing", "color_saturation_extreme", "motion_blur_heavy", "depth_of_field_aggressive", "post_processing_intense",
       "loud_noises", "ear_piercing", "jumpscare_audio", "sudden_volume_changes", "distorted_audio", "screeching_metallic", "persistent_high_pitch", "audio_glitches", "heavy_bass_rumble", "screaming_audio", "glass_breaking_audio", "microphone_pops", "white_noise_static",
       "jump_scares", "acrophobia", "trypophobia", "thalassophobia", "claustrophobia", "arachnophobia", "entomophobia", "ophidiophobia",
       "cynophobia", "nyctophobia", "pyrophobia", "pediophobia", "hemophobia", "coulrophobia", "ablutophobia", "taphophobia",
@@ -227,6 +228,7 @@
     "description.contentWarnings.items": [
       "spoiler_story", "spoiler_ending", "spoiler_true_ending", "spoiler_post_game", "spoiler_secret_ending", "spoiler_dlc",
       "flashing_lights", "motion_sickness", "migraine_trigger", "strobe_effects", "screen_shake_intense",
+      "lens_flare_intense", "bloom_excessive", "particle_effects_dense", "screen_overlay_flashing", "color_saturation_extreme", "motion_blur_heavy", "depth_of_field_aggressive", "post_processing_intense",
       "loud_noises", "ear_piercing", "jumpscare_audio", "sudden_volume_changes", "distorted_audio", "screeching_metallic", "persistent_high_pitch", "audio_glitches", "heavy_bass_rumble", "screaming_audio", "glass_breaking_audio", "microphone_pops", "white_noise_static",
       "jump_scares", "acrophobia", "trypophobia", "thalassophobia", "claustrophobia", "arachnophobia", "entomophobia", "ophidiophobia",
       "cynophobia", "nyctophobia", "pyrophobia", "pediophobia", "hemophobia", "coulrophobia", "ablutophobia", "taphophobia",

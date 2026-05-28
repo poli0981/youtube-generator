@@ -41,6 +41,15 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "migraine_trigger",
       "strobe_effects",
       "screen_shake_intense",
+      // v0.23.0: VFX intensity — share the photosensitive audience.
+      "lens_flare_intense",
+      "bloom_excessive",
+      "particle_effects_dense",
+      "screen_overlay_flashing",
+      "color_saturation_extreme",
+      "motion_blur_heavy",
+      "depth_of_field_aggressive",
+      "post_processing_intense",
     ],
   },
   {

@@ -6,6 +6,8 @@ import {
   RIG_FIELDS,
   parseCascadingValue,
   parseCompositeValue,
+  resolveCompositeOptions,
+  resolveCompositeLabelKey,
   type RigField,
   type CompositePart,
 } from "@config/rig-fields";
@@ -141,17 +143,64 @@ export function RigEditor() {
       (_p, i) => storedParts[i] ?? "",
     );
 
+    // v0.23.0: setting a part also resets all downstream parts to "" so
+    // a cascading parent change can't leave the form with a stale child
+    // value that no longer exists in the new option list (e.g. switching
+    // OS name from Windows to macOS clears any leftover "11" / "Pro").
     const setPart = (index: number, next: string) => {
       const updated = [...partValues];
       updated[index] = next;
+      for (let j = index + 1; j < updated.length; j++) {
+        updated[j] = "";
+      }
       setNested("rig", field.id, joinComposite(updated));
     };
 
-    const renderPart = (part: CompositePart, index: number) => {
+    // Walk parts in declaration order; each part's resolvers see the
+    // previously-rendered values so cascading option lists / dynamic
+    // labels / hidden-when predicates work cleanly.
+    const previousValues: string[] = [];
+    const renderedParts: React.ReactNode[] = [];
+
+    field.composite.parts.forEach((part, index) => {
+      const stored = partValues[index] ?? "";
+      // hiddenWhen short-circuits BEFORE we render — and we still push
+      // the stored value into previousValues so a later visible part
+      // sees the full history (though in practice, parts after a
+      // hidden one are rare).
+      if (part.hiddenWhen?.(previousValues)) {
+        previousValues.push(stored);
+        return;
+      }
+      renderedParts.push(renderPart(part, index, previousValues, setPart));
+      previousValues.push(stored);
+    });
+
+    return (
+      <div key={field.id} className="col-span-2 flex flex-col gap-2">
+        <span className="text-sm font-medium text-text-secondary">{t(field.labelKey)}</span>
+        <div className="grid grid-cols-2 gap-2">
+          {renderedParts}
+        </div>
+        {renderValidationBadge(issue)}
+      </div>
+    );
+
+    // Inner closure — needs access to `t`, `partValues`, and the part-
+    // local mutators. Defined as a function so the forEach above stays
+    // readable; not hoisted out because it captures lexical state.
+    function renderPart(
+      part: CompositePart,
+      index: number,
+      previousValues: readonly string[],
+      setPart: (index: number, next: string) => void,
+    ) {
       const stored = partValues[index] ?? "";
       const isCustom = part.allowCustom && stored.startsWith(CUSTOM_PREFIX);
       const customText = isCustom ? stored.slice(CUSTOM_PREFIX.length) : "";
       const selectValue = isCustom ? "custom" : stored;
+      const options = resolveCompositeOptions(part.options, previousValues);
+      const labelKey = resolveCompositeLabelKey(part, previousValues);
 
       const onSelectChange = (next: string) => {
         if (next === "custom" && part.allowCustom) {
@@ -167,9 +216,9 @@ export function RigEditor() {
       return (
         <div key={part.id} className="flex flex-col gap-1">
           <Select
-            label={t(part.labelKey)}
+            label={t(labelKey)}
             value={selectValue}
-            options={part.options}
+            options={options}
             onChange={onSelectChange}
           />
           {isCustom && part.allowCustom && (
@@ -187,17 +236,7 @@ export function RigEditor() {
           )}
         </div>
       );
-    };
-
-    return (
-      <div key={field.id} className="col-span-2 flex flex-col gap-2">
-        <span className="text-sm font-medium text-text-secondary">{t(field.labelKey)}</span>
-        <div className="grid grid-cols-2 gap-2">
-          {field.composite.parts.map((p, i) => renderPart(p, i))}
-        </div>
-        {renderValidationBadge(issue)}
-      </div>
-    );
+    }
   };
 
   const renderDropdownWithVersion = (field: RigField) => {
