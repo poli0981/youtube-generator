@@ -334,6 +334,14 @@ export function SettingsPage() {
             </p>
           )}
           <Toggle
+            label={t("settings.showTranslationQuality")}
+            checked={settings.showTranslationQuality}
+            onChange={(v) => settings.setSetting("showTranslationQuality", v)}
+          />
+          <p className="-mt-1 ml-14 text-xs text-text-muted">
+            {t("settings.showTranslationQualityHint")}
+          </p>
+          <Toggle
             label={t("settings.showPinnedCommentTemplate")}
             checked={settings.showPinnedCommentTemplate}
             onChange={(v) => settings.setSetting("showPinnedCommentTemplate", v)}

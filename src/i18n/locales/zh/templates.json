@@ -163,6 +163,16 @@
         "custom": "自定义"
       }
     },
+    "translationQuality": {
+      "header": "▸ 🌐 关于翻译",
+      "intro": "除英语和越南语外，本频道的简介均由 AI 辅助翻译。",
+      "items": {
+        "accuracy": "无法保证 100% 准确，部分词语或术语可能有误。",
+        "phrasing": "措辞有时可能比较生硬或偏直译。",
+        "localStyle": "可能不完全符合当地的自然表达习惯。",
+        "corrections": "发现错误？欢迎在评论区指正。🙏"
+      }
+    },
     "techNotes": {
       "header": "▸ 🛠 技术说明",
       "intro": "为保持透明度的制作和游玩说明。",

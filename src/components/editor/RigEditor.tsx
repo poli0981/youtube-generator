@@ -15,7 +15,7 @@ import { GPU_CUSTOM_BRAND_ID, findGpuBrand } from "@config/gpu-catalog";
 import { useEditorStore } from "@store/editor-store";
 import {
   validateGpuValue,
-  validateRamValue,
+  validateCompositeField,
   type RigValidationIssue,
 } from "@utils/rig-validation";
 
@@ -138,7 +138,9 @@ export function RigEditor() {
     if (!field.composite) return null;
     const raw = rig[field.id] ?? "";
     const { parts: storedParts } = parseCompositeValue(raw);
-    const issue = validateRamValue(raw);
+    // Validate per field — only RAM has size/DDR semantics. Running the
+    // RAM validator on the OS composite mis-fired "Pick a DDR generation."
+    const issue = validateCompositeField(field.id, raw);
     const partValues = field.composite.parts.map(
       (_p, i) => storedParts[i] ?? "",
     );

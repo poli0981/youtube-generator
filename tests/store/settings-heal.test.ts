@@ -79,6 +79,7 @@ describe("healSettings", () => {
       showUsagePolicy: true,
       showSponsorCredit: true,
       showThirdPartyAds: false,
+      showTranslationQuality: true,
       titleFormat: {
         badgePosition: "prefix" as const,
         separator: "hyphen" as const,

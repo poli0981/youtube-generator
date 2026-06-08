@@ -55,6 +55,12 @@ export interface RenderOptions extends TagOptions {
    */
   showGameCopyright?: boolean;
   /**
+   * When true, the description appends an AI-translation disclaimer block
+   * for output languages outside the trusted set (English / Vietnamese).
+   * v0.24.0.
+   */
+  showTranslationQuality?: boolean;
+  /**
    * Optional English-fixed translation function. Used by the v0.11
    * unified content-warnings block to render bilingual lines
    * `EN · output-language`. When omitted, the warnings block falls back
@@ -81,6 +87,7 @@ export function renderAll(
     showSponsorCredit: options?.showSponsorCredit,
     showThirdPartyAds: options?.showThirdPartyAds,
     showGameCopyright: options?.showGameCopyright,
+    showTranslationQuality: options?.showTranslationQuality,
     tEn: options?.tEn,
   });
   const tags = generateTags(input, options);

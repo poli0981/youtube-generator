@@ -163,6 +163,16 @@
         "custom": "Personalizada"
       }
     },
+    "translationQuality": {
+      "header": "▸ 🌐 SOBRE LA TRADUCCIÓN",
+      "intro": "Aparte del inglés y el vietnamita, las descripciones de este canal se traducen con ayuda de IA.",
+      "items": {
+        "accuracy": "La precisión no está garantizada al 100 %: algunas palabras o términos pueden ser incorrectos.",
+        "phrasing": "La redacción puede sonar algo literal o rígida en ciertas partes.",
+        "localStyle": "Es posible que no se ajuste del todo al estilo de escritura local o nativo.",
+        "corrections": "¿Has visto un error? Se agradece cualquier corrección en los comentarios. 🙏"
+      }
+    },
     "techNotes": {
       "header": "▸ 🛠 NOTAS TÉCNICAS",
       "intro": "Notas de producción y estilo de juego para mayor transparencia.",

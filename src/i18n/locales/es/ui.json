@@ -10,6 +10,7 @@
     "history": "Historial",
     "settings": "Ajustes",
     "batch": "Lote",
+    "social": "Redes",
     "playlist": "Playlist",
     "logs": "Registros",
     "about": "Acerca de",
@@ -20,7 +21,8 @@
     "collapse": "Colapsar barra lateral"
   },
   "header": {
-    "donate": "Donar"
+    "donate": "Donar",
+    "toggleTheme": "Cambiar tema"
   },
   "about": {
     "tagline": "Generador de título, descripción y etiquetas de YouTube para canales de Gameplay sin comentarios.",
@@ -799,7 +801,8 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Página de Facebook",
-    "fb_group": "Grupo de Facebook"
+    "fb_group": "Grupo de Facebook",
+    "telegram": "Telegram"
   },
   "resolutions": {
     "720p": "720p",
@@ -886,6 +889,8 @@
     "showSponsorCredit": "Mostrar línea de agradecimiento al patrocinador (clave) en la descripción",
     "showThirdPartyAds": "Mostrar bloque de anuncios de terceros en la descripción",
     "thirdPartyAdsHint": "Configura el texto publicitario en el perfil del canal (Perfiles → Editar).",
+    "showTranslationQuality": "Mostrar aviso de calidad de traducción",
+    "showTranslationQualityHint": "Añade un aviso de traducción por IA a las descripciones generadas en idiomas distintos del inglés y el vietnamita.",
     "titleFormatTitle": "Formato del título",
     "descriptionSettingsTitle": "Descripción",
     "badgePosition": "Posición de la insignia de calidad",
@@ -909,6 +914,25 @@
     "logSettings": "Registros",
     "logRetentionDays": "Retención de logs (días)",
     "logRetentionHint": "Los logs más antiguos se eliminan al iniciar. Rango: 1–90 días."
+  },
+  "socialPost": {
+    "title": "Publicaciones multiplataforma",
+    "single": "Individual",
+    "bulk": "Por lote",
+    "copyCaption": "Copiar texto",
+    "emptyState": "Escribe el nombre de un juego en el Editor para generar los textos.",
+    "trimmedHint": "Se recortaron {{count}} sección(es) opcional(es) para ajustarse al límite.",
+    "overLimitHint": "Supera el límite de caracteres de {{platform}}: recórtalo antes de publicar.",
+    "exported": "¡Textos exportados!",
+    "exportFailed": "Error al exportar",
+    "imported": "Textos importados",
+    "importFailed": "Error al importar: elige una exportación Social de YTDescGen.",
+    "importedHeading": "Textos importados",
+    "platforms": {
+      "tiktok": "TikTok",
+      "instagram_reels": "Instagram Reels",
+      "facebook_reels": "Facebook Reels"
+    }
   },
   "batch": {
     "title": "Generación por Lote",

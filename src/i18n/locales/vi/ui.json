@@ -10,6 +10,7 @@
     "history": "Lịch sử",
     "settings": "Cài đặt",
     "batch": "Hàng loạt",
+    "social": "Mạng xã hội",
     "playlist": "Playlist",
     "logs": "Nhật ký",
     "about": "Giới thiệu",
@@ -20,7 +21,8 @@
     "collapse": "Thu gọn sidebar"
   },
   "header": {
-    "donate": "Ủng hộ"
+    "donate": "Ủng hộ",
+    "toggleTheme": "Đổi giao diện sáng/tối"
   },
   "about": {
     "tagline": "Công cụ tạo title, description, tag cho kênh YouTube Gameplay No Commentary.",
@@ -799,7 +801,8 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "fb_group": "Facebook Group"
+    "fb_group": "Facebook Group",
+    "telegram": "Telegram"
   },
   "resolutions": {
     "720p": "720p",
@@ -886,6 +889,8 @@
     "showSponsorCredit": "Hiện dòng cảm ơn sponsor (tặng key) trong description",
     "showThirdPartyAds": "Hiện block quảng cáo bên thứ 3 trong description",
     "thirdPartyAdsHint": "Nhập nội dung quảng cáo trong Hồ sơ kênh (Profiles → Sửa).",
+    "showTranslationQuality": "Hiện ghi chú chất lượng bản dịch",
+    "showTranslationQualityHint": "Thêm ghi chú về dịch thuật bằng AI vào mô tả ở các ngôn ngữ khác ngoài tiếng Anh và tiếng Việt.",
     "titleFormatTitle": "Định dạng tiêu đề",
     "descriptionSettingsTitle": "Mô tả",
     "badgePosition": "Vị trí badge chất lượng",
@@ -909,6 +914,25 @@
     "logSettings": "Nhật ký",
     "logRetentionDays": "Giữ log (ngày)",
     "logRetentionHint": "Log cũ hơn số ngày này sẽ tự xoá khi mở app. Phạm vi: 1–90 ngày."
+  },
+  "socialPost": {
+    "title": "Bài đăng đa nền tảng",
+    "single": "Đơn lẻ",
+    "bulk": "Hàng loạt",
+    "copyCaption": "Sao chép nội dung",
+    "emptyState": "Nhập tên game ở trang Editor để tạo nội dung.",
+    "trimmedHint": "Đã lược bớt {{count}} mục tùy chọn để vừa giới hạn nền tảng.",
+    "overLimitHint": "Vượt giới hạn ký tự của {{platform}} — hãy rút gọn trước khi đăng.",
+    "exported": "Đã xuất nội dung!",
+    "exportFailed": "Xuất thất bại",
+    "imported": "Đã nhập nội dung",
+    "importFailed": "Nhập thất bại — hãy chọn tệp xuất Social của YTDescGen.",
+    "importedHeading": "Nội dung đã nhập",
+    "platforms": {
+      "tiktok": "TikTok",
+      "instagram_reels": "Instagram Reels",
+      "facebook_reels": "Facebook Reels"
+    }
   },
   "batch": {
     "title": "Chế độ hàng loạt",

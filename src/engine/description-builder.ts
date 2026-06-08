@@ -26,8 +26,26 @@ const SOCIAL_ICONS: Record<string, string> = {
   facebook: "👤",
   fb_page: "📄",
   fb_group: "👥",
+  telegram: "✈️",
   website: "🌐",
 };
+
+/**
+ * Output languages whose descriptions are human-reviewed — the
+ * AI-translation notice is skipped for them (v0.24.0). Typed as
+ * `readonly string[]` so `.includes(input.language)` accepts any
+ * SupportedLanguage without a cast.
+ */
+const TRANSLATION_TRUSTED: readonly string[] = ["vi", "en"];
+
+/** Caveat bullet ids for the Translation Quality section, resolved against
+ *  `description.translationQuality.items.<id>` (v0.24.0). */
+const TRANSLATION_QUALITY_ITEMS = [
+  "accuracy",
+  "phrasing",
+  "localStyle",
+  "corrections",
+] as const;
 
 function hasEntries(obj: Partial<Record<string, string>>): boolean {
   return Object.values(obj).some((v) => v && v.trim() !== "");
@@ -233,6 +251,10 @@ export interface BuildDescriptionOptions {
   /** When true and the active profile's `thirdPartyAdText` is non-empty,
    *  emits a "🤝 SPONSORS & PARTNERS" block (v0.11). */
   showThirdPartyAds?: boolean;
+  /** When true, appends an AI-translation disclaimer block for output
+   *  languages outside the trusted set ({@link TRANSLATION_TRUSTED} —
+   *  English / Vietnamese, which are human-reviewed). v0.24.0. */
+  showTranslationQuality?: boolean;
   /** Optional English-fixed translation function used by the unified
    *  content-warnings block (v0.11) to render bilingual lines
    *  `EN · output-language`. When omitted, the warnings block falls
@@ -252,6 +274,7 @@ export function buildDescription(
     showSponsorCredit = false,
     showThirdPartyAds = false,
     showGameCopyright = false,
+    showTranslationQuality = false,
     tEn,
   } = options;
   const sections: string[] = [];
@@ -474,51 +497,49 @@ export function buildDescription(
     );
   }
 
-  // 7. Content warnings — unified bilingual checklist (v0.11). Replaces
-  // the v0.7 trio of separate spoiler / generic-content-warnings /
-  // mature blocks. Renders header + intro + bulleted list. When the
-  // output language is not English, each piece is paired with its
-  // English equivalent: header `EN / LOCAL`, intro on two lines,
-  // bullets `• EN · LOCAL` (separator is U+00B7 MIDDLE DOT). When
-  // `tEn` is omitted (e.g. legacy callers / unit tests that haven't
-  // migrated), falls back to single-language output via `t` — degraded
-  // but never broken.
-  const cw = input.contentWarnings ?? [];
-  if (cw.length > 0) {
-    const isEn = input.language === "en";
-    const renderBilingual = !isEn && Boolean(tEn);
-    const tEnUse: TranslationFn = tEn ?? t;
-
-    const headerEn = tEnUse("description.contentWarnings.header");
-    const headerLocal = t("description.contentWarnings.header");
-    const introEn = tEnUse("description.contentWarnings.intro");
-    const introLocal = t("description.contentWarnings.intro");
-
-    const headerLine = renderBilingual ? `${headerEn} / ${headerLocal}` : headerEn;
-    const introLines = renderBilingual ? `${introEn}\n${introLocal}` : introEn;
-
-    const bullets = cw
-      .map((id) => {
-        const key = `description.contentWarnings.items.${id}`;
-        const enLabel = tEnUse(key);
-        const localLabel = t(key);
-        if (!enLabel || enLabel === key || !enLabel.trim()) return null;
-        return renderBilingual ? `• ${enLabel} · ${localLabel}` : `• ${enLabel}`;
-      })
-      .filter((line): line is string => Boolean(line))
-      .join("\n");
-
-    if (bullets) {
-      sections.push(`${headerLine}\n${introLines}\n\n${bullets}`);
-    }
-  }
+  // 7. Content warnings — unified bilingual checklist (v0.11). Header +
+  // intro + `• EN · LOCAL` bullets (separator U+00B7 MIDDLE DOT);
+  // degrades to single-language when the output is English or `tEn` is
+  // omitted. The shared shape was extracted to buildBilingualBulletSection
+  // (v0.24.0) and is reused by Tech Notes, the Translation Quality notice,
+  // and the social-post builder.
+  const cwSection = buildBilingualBulletSection(
+    input.contentWarnings ?? [],
+    "description.contentWarnings",
+    input.language,
+    t,
+    tEn,
+  );
+  if (cwSection) sections.push(cwSection);
 
   // 7.5 Tech Notes — v0.12 production / playstyle disclaimer checklist.
   // Sits next to Content Warnings because both are transparency blocks;
   // grouping them keeps disclaimers visually together. Same bilingual
-  // render pattern as the content-warnings block above.
-  const tnBlock = buildTechNotesSection(input, t, tEn);
-  if (tnBlock) sections.push(tnBlock);
+  // checklist shape.
+  const tnSection = buildBilingualBulletSection(
+    input.techNotes ?? [],
+    "description.techNotes",
+    input.language,
+    t,
+    tEn,
+  );
+  if (tnSection) sections.push(tnSection);
+
+  // 7.6 Translation Quality — opt-in AI-translation disclaimer (v0.24.0).
+  // Shown only for output languages outside the trusted set (EN / VI are
+  // human-reviewed, so they don't need the caveat). Self-contained:
+  // header + intro naming the trusted languages + caveat bullets, in the
+  // same bilingual checklist shape as the blocks above.
+  if (showTranslationQuality && !TRANSLATION_TRUSTED.includes(input.language)) {
+    const tqSection = buildBilingualBulletSection(
+      TRANSLATION_QUALITY_ITEMS,
+      "description.translationQuality",
+      input.language,
+      t,
+      tEn,
+    );
+    if (tqSection) sections.push(tqSection);
+  }
 
   // 8.3. Sponsor credit — appears above the music / donate block so the
   // "thanks to X" line stands out. Only renders when both the toggle is
@@ -873,38 +894,45 @@ function buildPlaythroughNotesSection(
 }
 
 /**
- * Builds the `▸ 🛠 TECH NOTES` block (v0.12). Renders selected items
- * from {@link GeneratorInput.techNotes} as bulleted bilingual lines —
- * the rendering logic mirrors the v0.11 content-warnings block exactly,
- * just with a different header, intro, and items namespace.
+ * Render a bilingual checklist section — header + intro + `• EN · LOCAL`
+ * bullets — from a list of item ids resolved against
+ * `${namespace}.items.<id>` (plus `${namespace}.header` / `.intro`).
  *
- * Returns "" when no items are selected. Items whose translation key
- * doesn't resolve are filtered out so a stale id from a hand-edited
- * persistent blob doesn't render as a bare key.
+ * This is the shared shape behind Content Warnings (v0.11), Tech Notes
+ * (v0.12), and the Translation Quality notice (v0.24.0). When the output
+ * language is English (or `tEn` is omitted) it degrades to single-language
+ * output; otherwise each piece is paired with its English equivalent
+ * (header `EN / LOCAL`, intro on two lines, bullets `• EN · LOCAL` with a
+ * U+00B7 MIDDLE DOT separator). Items whose key doesn't resolve are
+ * dropped; returns `null` when nothing renders so the caller skips the
+ * section instead of emitting a header with no body.
+ *
+ * Pure — exported for reuse by the social-post builder.
  */
-function buildTechNotesSection(
-  input: GeneratorInput,
+export function buildBilingualBulletSection(
+  itemIds: readonly string[],
+  namespace: string,
+  language: string,
   t: TranslationFn,
   tEn?: TranslationFn,
-): string {
-  const tn = input.techNotes ?? [];
-  if (tn.length === 0) return "";
+): string | null {
+  if (itemIds.length === 0) return null;
 
-  const isEn = input.language === "en";
+  const isEn = language === "en";
   const renderBilingual = !isEn && Boolean(tEn);
   const tEnUse: TranslationFn = tEn ?? t;
 
-  const headerEn = tEnUse("description.techNotes.header");
-  const headerLocal = t("description.techNotes.header");
-  const introEn = tEnUse("description.techNotes.intro");
-  const introLocal = t("description.techNotes.intro");
+  const headerEn = tEnUse(`${namespace}.header`);
+  const headerLocal = t(`${namespace}.header`);
+  const introEn = tEnUse(`${namespace}.intro`);
+  const introLocal = t(`${namespace}.intro`);
 
   const headerLine = renderBilingual ? `${headerEn} / ${headerLocal}` : headerEn;
   const introLines = renderBilingual ? `${introEn}\n${introLocal}` : introEn;
 
-  const bullets = tn
+  const bullets = itemIds
     .map((id) => {
-      const key = `description.techNotes.items.${id}`;
+      const key = `${namespace}.items.${id}`;
       const enLabel = tEnUse(key);
       const localLabel = t(key);
       if (!enLabel || enLabel === key || !enLabel.trim()) return null;
@@ -913,7 +941,7 @@ function buildTechNotesSection(
     .filter((line): line is string => Boolean(line))
     .join("\n");
 
-  if (!bullets) return "";
+  if (!bullets) return null;
 
   return `${headerLine}\n${introLines}\n\n${bullets}`;
 }

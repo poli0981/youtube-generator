@@ -79,3 +79,20 @@ export function validateRamValue(raw: string): RigValidationIssue | null {
   }
   return null;
 }
+
+/**
+ * Pick the right validator for a `composite_dropdown` rig field by id.
+ *
+ * v0.24.0 bug fix: the editor previously ran {@link validateRamValue}
+ * for EVERY composite field, so selecting an OS (also a composite) ran
+ * the RAM validator — `"windows||"` parses as size=`"windows"`, ddr=`""`,
+ * tripping `ramMissingDdr` ("Pick a DDR generation.") on the OS field.
+ * Only RAM has DDR/size semantics; the OS composite has no validator, so
+ * it (and any future composite) returns `null` until one is added here.
+ */
+export function validateCompositeField(
+  fieldId: string,
+  raw: string,
+): RigValidationIssue | null {
+  return fieldId === "ram" ? validateRamValue(raw) : null;
+}
