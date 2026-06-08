@@ -23,6 +23,9 @@ const SettingsPage = lazy(() =>
 const BatchPage = lazy(() =>
   import("@pages/BatchPage").then((m) => ({ default: m.BatchPage })),
 );
+const SocialPage = lazy(() =>
+  import("@pages/SocialPage").then((m) => ({ default: m.SocialPage })),
+);
 const PlaylistPage = lazy(() =>
   import("@pages/PlaylistPage").then((m) => ({ default: m.PlaylistPage })),
 );
@@ -134,6 +137,10 @@ export default function App() {
             <Route
               path="batch"
               element={<PageBoundary label="Batch"><BatchPage /></PageBoundary>}
+            />
+            <Route
+              path="social"
+              element={<PageBoundary label="Social"><SocialPage /></PageBoundary>}
             />
             <Route
               path="playlist"

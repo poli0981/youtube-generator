@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { ChevronDown, Heart, Menu } from "lucide-react";
+import { ChevronDown, Heart, Menu, Moon, Sun } from "lucide-react";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { useSettingsStore } from "@store/settings-store";
 import { PRIMARY_DONATE_URL } from "@config/donate";
@@ -13,7 +13,7 @@ interface HeaderProps {
 
 export function Header({ onOpenMobileNav }: HeaderProps) {
   const { t, i18n } = useTranslation("ui");
-  const { appLanguage, setAppLanguage } = useSettingsStore();
+  const { appLanguage, setAppLanguage, theme, setTheme } = useSettingsStore();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -72,6 +72,19 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
           <Heart className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
           <span className="hidden md:inline">{t("header.donate")}</span>
         </a>
+        <button
+          type="button"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="rounded-lg p-2 text-text-secondary transition-colors hover:bg-surface-2 hover:text-text-primary"
+          title={t("header.toggleTheme")}
+          aria-label={t("header.toggleTheme")}
+        >
+          {theme === "dark" ? (
+            <Moon className="h-4 w-4" />
+          ) : (
+            <Sun className="h-4 w-4" />
+          )}
+        </button>
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen(!open)}

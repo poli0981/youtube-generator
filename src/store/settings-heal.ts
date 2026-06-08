@@ -45,6 +45,13 @@ export interface SettingsData {
    */
   showThirdPartyAds: boolean;
   /**
+   * v0.24.0 opt-in toggle. When true, descriptions generated in a
+   * language outside the trusted set (English / Vietnamese, which are
+   * human-reviewed) get an AI-translation disclaimer block. Off by
+   * default so existing users don't see a new block after upgrade.
+   */
+  showTranslationQuality: boolean;
+  /**
    * When true, Output + Batch render a generated pinned-comment
    * template alongside the user's freeform pinnedComment field. Default
    * off — the template is opt-in, so v0.6 users don't see a new block
@@ -119,6 +126,7 @@ export const initialSettings: SettingsData = {
   showSponsorCredit: false,
   showGameCopyright: false,
   showThirdPartyAds: false,
+  showTranslationQuality: false,
   showPinnedCommentTemplate: false,
   pinnedCommentIncludeAskNextGame: true,
   pinnedCommentIncludeGenrePlaylist: false,

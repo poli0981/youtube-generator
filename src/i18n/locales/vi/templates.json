@@ -163,6 +163,16 @@
         "custom": "Tùy chỉnh"
       }
     },
+    "translationQuality": {
+      "header": "▸ 🌐 VỀ BẢN DỊCH",
+      "intro": "Ngoài tiếng Việt và tiếng Anh, phần mô tả ở các ngôn ngữ khác trên kênh được dịch với sự hỗ trợ của AI.",
+      "items": {
+        "accuracy": "Độ chính xác không đảm bảo 100% — một số từ ngữ hoặc thuật ngữ có thể bị sai.",
+        "phrasing": "Cách diễn đạt đôi khi hơi cứng hoặc bị dịch sát nghĩa.",
+        "localStyle": "Có thể chưa hợp với văn phong bản địa.",
+        "corrections": "Phát hiện lỗi? Rất mong bạn góp ý ở phần bình luận. 🙏"
+      }
+    },
     "techNotes": {
       "header": "▸ 🛠 GHI CHÚ KỸ THUẬT",
       "intro": "Ghi chú minh bạch về sản xuất và cách chơi.",

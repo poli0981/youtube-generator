@@ -10,6 +10,7 @@
     "history": "기록",
     "settings": "설정",
     "batch": "일괄",
+    "social": "소셜",
     "playlist": "플레이리스트",
     "logs": "로그",
     "about": "정보",
@@ -20,7 +21,8 @@
     "collapse": "사이드바 접기"
   },
   "header": {
-    "donate": "후원"
+    "donate": "후원",
+    "toggleTheme": "테마 전환"
   },
   "about": {
     "tagline": "게임플레이 무편집 채널을 위한 YouTube 제목, 설명, 태그 생성기.",
@@ -799,7 +801,8 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook 페이지",
-    "fb_group": "Facebook 그룹"
+    "fb_group": "Facebook 그룹",
+    "telegram": "Telegram"
   },
   "resolutions": {
     "720p": "720p",
@@ -886,6 +889,8 @@
     "showSponsorCredit": "설명란에 스폰서 감사 문구 추가 (키 제공)",
     "showThirdPartyAds": "설명란에 써드파티 광고 블록 표시",
     "thirdPartyAdsHint": "광고 문구는 채널 프로필에 입력하세요 (프로필 → 편집).",
+    "showTranslationQuality": "번역 품질 안내 표시",
+    "showTranslationQualityHint": "영어와 베트남어 외의 언어로 생성된 설명에 AI 번역 안내를 추가합니다.",
     "titleFormatTitle": "제목 형식",
     "descriptionSettingsTitle": "설명",
     "badgePosition": "품질 배지 위치",
@@ -909,6 +914,25 @@
     "logSettings": "로그",
     "logRetentionDays": "로그 보관 기간 (일)",
     "logRetentionHint": "이 일수보다 오래된 로그는 앱 시작 시 삭제됩니다. 범위: 1–90일."
+  },
+  "socialPost": {
+    "title": "크로스포스트 캡션",
+    "single": "단일",
+    "bulk": "일괄",
+    "copyCaption": "캡션 복사",
+    "emptyState": "에디터에서 게임 이름을 입력하면 캡션이 생성됩니다.",
+    "trimmedHint": "플랫폼 제한에 맞추기 위해 선택 항목 {{count}}개를 줄였습니다.",
+    "overLimitHint": "{{platform}} 글자 수 제한을 초과했습니다. 게시 전에 줄이세요.",
+    "exported": "캡션을 내보냈습니다!",
+    "exportFailed": "내보내기 실패",
+    "imported": "캡션을 가져왔습니다",
+    "importFailed": "가져오기 실패 — YTDescGen Social 내보내기 파일을 선택하세요.",
+    "importedHeading": "가져온 캡션",
+    "platforms": {
+      "tiktok": "TikTok",
+      "instagram_reels": "Instagram Reels",
+      "facebook_reels": "Facebook Reels"
+    }
   },
   "batch": {
     "title": "일괄 생성",

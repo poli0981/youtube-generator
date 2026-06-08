@@ -2,6 +2,32 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.24.0 — 2026-06-08
+
+Adds a **cross-post caption generator** that re-packages the YouTube
+source into TikTok / Instagram Reels / Facebook Reels captions, a
+navigation **theme toggle**, an opt-in **translation-quality notice**, and
+a **Telegram** social link — plus a fix for a stray validation warning on
+the OS Rig field.
+
+### Added
+
+- **Cross-Post Captions** — a new **Social** tab ([src/pages/SocialPage.tsx](src/pages/SocialPage.tsx), [src/engine/social-post-builder.ts](src/engine/social-post-builder.ts), [src/config/social-platforms.ts](src/config/social-platforms.ts), [src/hooks/use-social-posts.ts](src/hooks/use-social-posts.ts)). Re-packages the same editor source that drives the YouTube description into short-form captions for **TikTok (4000)**, **Instagram Reels (2200)**, and **Facebook Reels (2200)**. Each caption pulls Title (badge suppressed), 💻 MY RIG, ⚠️ Content Warnings, 🎁 Thanks, © Copyright, and hashtags (game + primary genre + a curated per-platform popular-hashtag set, deduped case-insensitively). Per-platform char counter + over-limit warning; when a caption overflows, optional blocks are dropped in priority order (warnings → copyright → thanks → rig) — Title + hashtags are never dropped, and there's no mid-string truncation. **Single** mode (platform tabs) and **Bulk** mode (part range × selected languages, reusing the Batch loop) with Copy-All. **JSON import/export** of the generated captions via a new `social` envelope type ([src/utils/file-schema.ts](src/utils/file-schema.ts) `ExportType` / `SCHEMA_VERSIONS` / `isExportType`); import is display-only since captions are derived artifacts. New `tabs.social` + `socialPost.*` locale block across all 6 locales (no new `templates.json` keys — captions reuse existing description/title strings).
+- **Dark/Light theme toggle in the header** ([src/components/layout/Header.tsx](src/components/layout/Header.tsx)). A Sun/Moon icon button next to the language picker, reusing the existing `settings.setTheme` action so it stays in sync with the Settings toggle both ways. New `header.toggleTheme` key across 6 locales. No store/persist change — the theme field + setter already existed.
+- **Translation-quality notice** ([src/engine/description-builder.ts](src/engine/description-builder.ts), [src/pages/SettingsPage.tsx](src/pages/SettingsPage.tsx)). New opt-in `showTranslationQuality` setting. When on, descriptions generated in a language **outside the trusted set (English / Vietnamese, which are human-reviewed)** get a bilingual `▸ 🌐 ABOUT THIS TRANSLATION` block: an intro naming the trusted languages + caveat bullets (accuracy not 100%, phrasing may be literal/stiff, may not match local style, corrections welcome). English/Vietnamese descriptions skip it. New `description.translationQuality.{header,intro,items.*}` template keys + `settings.showTranslationQuality{,Hint}` UI keys across 6 locales. Additive setting — `healSettings` back-fills the default, so no persist bump.
+- **Telegram social link** ([src/config/social-fields.ts](src/config/social-fields.ts)). New `telegram` field (`https://t.me/` prefix, ✈️ icon) in the Social category. `social` is a generic record, so no profile migration. New `social.telegram` label across 6 locales.
+
+### Fixed
+
+- **"Pick a DDR generation" no longer appears on the OS Rig field** ([src/components/editor/RigEditor.tsx](src/components/editor/RigEditor.tsx), [src/utils/rig-validation.ts](src/utils/rig-validation.ts)). `renderComposite` hard-coded the RAM validator for **every** composite dropdown, so selecting an OS — also a composite — ran the RAM check (`"windows||"` parses as size=`"windows"`, ddr=`""`, tripping `ramMissingDdr`). Validator selection moved into a pure `validateCompositeField(fieldId, raw)` helper that only validates RAM; the OS composite (and any future one) shows no spurious badge.
+
+### Under the hood
+
+- **Shared `buildBilingualBulletSection` helper** ([src/engine/description-builder.ts](src/engine/description-builder.ts)). The inline Content-Warnings render block and the standalone Tech-Notes function were collapsed into one exported pure helper (header + intro + `• EN · LOCAL` bullets, U+00B7 separator) — reused by Content Warnings, Tech Notes, the new Translation-Quality notice, and the social-post builder. Description output is byte-for-byte unchanged, guarded by the existing description tests.
+- **28 new tests** (454 → 482): 12 in [tests/utils/rig-validation.test.ts](tests/utils/rig-validation.test.ts) (new — RAM/GPU validators + `validateCompositeField` OS-vs-RAM guard), 13 in [tests/engine/social-post-builder.test.ts](tests/engine/social-post-builder.test.ts) (new — hashtag derivation/dedupe/sanitization, rig, bilingual warnings, copyright/sponsor gating, overflow drop-order), 3 translation-quality cases in [tests/engine/description-builder.test.ts](tests/engine/description-builder.test.ts), plus the `settings-heal` complete-payload guard updated for the new field.
+- Five manifests bumped 0.23.0 → 0.24.0 (`package.json`, `package-lock.json` root + self-reference, `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock` self-entry, `src-tauri/tauri.conf.json`).
+- Pre-release gates run green: lint, typecheck, validate:locales (12/12 files complete; 864 ui + 501 template keys per locale), 482 tests, knip, build.
+
 ## v0.23.0 — 2026-05-27
 
 Extends audience-protection coverage with eight VFX-intensity warnings

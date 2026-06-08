@@ -42,6 +42,7 @@ export function BatchPage() {
     showUsagePolicy,
     showSponsorCredit,
     showGameCopyright,
+    showTranslationQuality,
     showPinnedCommentTemplate,
     pinnedCommentIncludeAskNextGame,
     titleFormat,
@@ -89,6 +90,7 @@ export function BatchPage() {
           showUsagePolicy,
           showSponsorCredit,
           showGameCopyright,
+          showTranslationQuality,
           titleFormat,
         });
         const pinnedComment = showPinnedCommentTemplate

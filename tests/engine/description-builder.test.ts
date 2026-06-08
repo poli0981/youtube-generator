@@ -1377,6 +1377,48 @@ describe("video style era line (v0.22.0)", () => {
   });
 });
 
+describe("buildDescription — translation quality notice (v0.24.0)", () => {
+  it("renders the bilingual notice for a non-trusted output language when enabled", () => {
+    const t = createMockT("ja");
+    const tEn = createMockT("en");
+    const result = buildDescription(makeInput({ language: "ja" }), t, {
+      showTranslationQuality: true,
+      tEn,
+    });
+    expect(result).toContain("ABOUT THIS TRANSLATION"); // English header via tEn
+    expect(result).toContain("翻訳について"); // Japanese header
+    expect(result).toContain("• Accuracy isn't guaranteed 100%"); // English caveat
+    expect(result).toContain("正確性は100%保証されません"); // Japanese caveat
+  });
+
+  it("is hidden for trusted output languages (en / vi) even when enabled", () => {
+    const tEn = createMockT("en");
+    const en = buildDescription(makeInput({ language: "en" }), createMockT("en"), {
+      showTranslationQuality: true,
+      tEn,
+    });
+    expect(en).not.toContain("ABOUT THIS TRANSLATION");
+
+    const vi = buildDescription(makeInput({ language: "vi" }), createMockT("vi"), {
+      showTranslationQuality: true,
+      tEn,
+    });
+    expect(vi).not.toContain("VỀ BẢN DỊCH");
+    expect(vi).not.toContain("ABOUT THIS TRANSLATION");
+  });
+
+  it("is hidden when the toggle is off", () => {
+    const t = createMockT("ja");
+    const tEn = createMockT("en");
+    const result = buildDescription(makeInput({ language: "ja" }), t, {
+      showTranslationQuality: false,
+      tEn,
+    });
+    expect(result).not.toContain("ABOUT THIS TRANSLATION");
+    expect(result).not.toContain("翻訳について");
+  });
+});
+
 describe("checkDescriptionWarning", () => {
   it("returns null for description under limit", () => {
     expect(checkDescriptionWarning("Short description")).toBeNull();

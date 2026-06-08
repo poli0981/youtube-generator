@@ -17,6 +17,7 @@ export function useGeneratedOutput(): GeneratorOutput {
     showSponsorCredit,
     showGameCopyright,
     showThirdPartyAds,
+    showTranslationQuality,
     titleFormat,
   } = useSettingsStore();
 
@@ -38,6 +39,7 @@ export function useGeneratedOutput(): GeneratorOutput {
         showSponsorCredit,
         showGameCopyright,
         showThirdPartyAds,
+        showTranslationQuality,
         titleFormat,
         tEn,
       }),
@@ -54,6 +56,7 @@ export function useGeneratedOutput(): GeneratorOutput {
       showSponsorCredit,
       showGameCopyright,
       showThirdPartyAds,
+      showTranslationQuality,
       titleFormat,
     ],
   );

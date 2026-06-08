@@ -10,6 +10,7 @@
     "history": "History",
     "settings": "Settings",
     "batch": "Batch",
+    "social": "Social",
     "playlist": "Playlist",
     "logs": "Logs",
     "about": "About",
@@ -20,7 +21,8 @@
     "collapse": "Collapse sidebar"
   },
   "header": {
-    "donate": "Donate"
+    "donate": "Donate",
+    "toggleTheme": "Toggle theme"
   },
   "about": {
     "tagline": "YouTube title, description, and tag generator for Gameplay No Commentary channels.",
@@ -799,7 +801,8 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "fb_group": "Facebook Group"
+    "fb_group": "Facebook Group",
+    "telegram": "Telegram"
   },
   "resolutions": {
     "720p": "720p",
@@ -886,6 +889,8 @@
     "showSponsorCredit": "Show sponsor credit line in description (thanks for the key)",
     "showThirdPartyAds": "Show third-party advertising block in description",
     "thirdPartyAdsHint": "Set ad copy in your channel profile (Profiles → Edit).",
+    "showTranslationQuality": "Show translation-quality notice",
+    "showTranslationQualityHint": "Adds an AI-translation disclaimer to descriptions generated in languages other than English and Vietnamese.",
     "titleFormatTitle": "Title Format",
     "descriptionSettingsTitle": "Description",
     "badgePosition": "Quality badge position",
@@ -909,6 +914,25 @@
     "logSettings": "Logs",
     "logRetentionDays": "Log retention (days)",
     "logRetentionHint": "Logs older than this are deleted at app start. Range: 1–90 days."
+  },
+  "socialPost": {
+    "title": "Cross-Post Captions",
+    "single": "Single",
+    "bulk": "Bulk",
+    "copyCaption": "Copy Caption",
+    "emptyState": "Enter a game name in the Editor to generate captions.",
+    "trimmedHint": "Trimmed {{count}} optional section(s) to fit the platform limit.",
+    "overLimitHint": "Over the {{platform}} character limit — trim before posting.",
+    "exported": "Captions exported!",
+    "exportFailed": "Export failed",
+    "imported": "Captions imported",
+    "importFailed": "Import failed — choose a YTDescGen social export.",
+    "importedHeading": "Imported captions",
+    "platforms": {
+      "tiktok": "TikTok",
+      "instagram_reels": "Instagram Reels",
+      "facebook_reels": "Facebook Reels"
+    }
   },
   "batch": {
     "title": "Batch Mode",

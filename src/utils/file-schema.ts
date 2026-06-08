@@ -33,7 +33,8 @@ export type ExportType =
   | "preset"
   | "template"
   | "settings"
-  | "history";
+  | "history"
+  | "social";
 
 /** Versioned wrapper written by every v0.15+ export. */
 export interface ExportEnvelope<T = unknown> {
@@ -62,6 +63,7 @@ export const SCHEMA_VERSIONS: Record<ExportType, number> = {
   template: 1, // v0.11 vendor-coercion
   settings: 10, // matches settings-store persist version
   history: 2, // v0.5 added `genres[]` to HistoryEntry
+  social: 1, // v0.24.0 cross-post caption bundle (generated captions)
 };
 
 /**
@@ -145,7 +147,8 @@ function isExportType(value: string): value is ExportType {
     value === "preset" ||
     value === "template" ||
     value === "settings" ||
-    value === "history"
+    value === "history" ||
+    value === "social"
   );
 }
 

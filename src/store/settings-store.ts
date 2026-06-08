@@ -107,6 +107,7 @@ export function extractData(state: SettingsData): SettingsData {
     showSponsorCredit: state.showSponsorCredit,
     showGameCopyright: state.showGameCopyright,
     showThirdPartyAds: state.showThirdPartyAds,
+    showTranslationQuality: state.showTranslationQuality,
     showPinnedCommentTemplate: state.showPinnedCommentTemplate,
     pinnedCommentIncludeAskNextGame: state.pinnedCommentIncludeAskNextGame,
     pinnedCommentIncludeGenrePlaylist: state.pinnedCommentIncludeGenrePlaylist,

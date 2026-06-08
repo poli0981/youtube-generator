@@ -17,5 +17,6 @@ export const SOCIAL_FIELDS = [
   { id: "facebook", label: "Facebook", labelKey: "social.facebook", urlPrefix: "https://facebook.com/", category: "social" },
   { id: "fb_page", label: "Facebook Page", labelKey: "social.fb_page", urlPrefix: "https://facebook.com/", category: "social" },
   { id: "fb_group", label: "Facebook Group", labelKey: "social.fb_group", urlPrefix: "https://facebook.com/groups/", category: "social" },
+  { id: "telegram", label: "Telegram", labelKey: "social.telegram", urlPrefix: "https://t.me/", category: "social" },
   { id: "website", label: "Website", labelKey: "social.website", urlPrefix: "", category: "social" },
 ] as const;

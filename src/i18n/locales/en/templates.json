@@ -163,6 +163,16 @@
         "custom": "Custom"
       }
     },
+    "translationQuality": {
+      "header": "▸ 🌐 ABOUT THIS TRANSLATION",
+      "intro": "Apart from English and Vietnamese, the descriptions on this channel are translated with the help of AI.",
+      "items": {
+        "accuracy": "Accuracy isn't guaranteed 100% — some words or terms may be off.",
+        "phrasing": "Wording can be a bit literal or stiff in places.",
+        "localStyle": "It may not fully match the local / native writing style.",
+        "corrections": "Spotted a mistake? A correction in the comments is always appreciated. 🙏"
+      }
+    },
     "techNotes": {
       "header": "▸ 🛠 TECH NOTES",
       "intro": "Production and playstyle notes for transparency.",

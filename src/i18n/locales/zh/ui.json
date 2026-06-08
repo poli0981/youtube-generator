@@ -10,6 +10,7 @@
     "history": "历史",
     "settings": "设置",
     "batch": "批量",
+    "social": "社交",
     "playlist": "播放列表",
     "logs": "日志",
     "about": "关于",
@@ -20,7 +21,8 @@
     "collapse": "折叠侧边栏"
   },
   "header": {
-    "donate": "赞助"
+    "donate": "赞助",
+    "toggleTheme": "切换主题"
   },
   "about": {
     "tagline": "为游戏实况无解说频道生成 YouTube 标题、描述和标签的工具。",
@@ -799,7 +801,8 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook主页",
-    "fb_group": "Facebook群组"
+    "fb_group": "Facebook群组",
+    "telegram": "Telegram"
   },
   "resolutions": {
     "720p": "720p",
@@ -886,6 +889,8 @@
     "showSponsorCredit": "在描述中添加赞助商感谢行（提供激活码）",
     "showThirdPartyAds": "在描述中显示第三方广告区块",
     "thirdPartyAdsHint": "广告文案请在频道配置中设置（配置文件 → 编辑）。",
+    "showTranslationQuality": "显示翻译质量提示",
+    "showTranslationQualityHint": "为以英语和越南语以外语言生成的简介添加 AI 翻译说明。",
     "titleFormatTitle": "标题格式",
     "descriptionSettingsTitle": "描述",
     "badgePosition": "画质徽章位置",
@@ -909,6 +914,25 @@
     "logSettings": "日志",
     "logRetentionDays": "日志保留 (天)",
     "logRetentionHint": "早于此天数的日志会在启动时删除。范围：1–90 天。"
+  },
+  "socialPost": {
+    "title": "跨平台文案",
+    "single": "单条",
+    "bulk": "批量",
+    "copyCaption": "复制文案",
+    "emptyState": "在编辑器中输入游戏名称即可生成文案。",
+    "trimmedHint": "已删减 {{count}} 个可选部分以符合平台限制。",
+    "overLimitHint": "超出 {{platform}} 字数限制——发布前请删减。",
+    "exported": "文案已导出！",
+    "exportFailed": "导出失败",
+    "imported": "文案已导入",
+    "importFailed": "导入失败——请选择 YTDescGen 的 Social 导出文件。",
+    "importedHeading": "已导入的文案",
+    "platforms": {
+      "tiktok": "TikTok",
+      "instagram_reels": "Instagram Reels",
+      "facebook_reels": "Facebook Reels"
+    }
   },
   "batch": {
     "title": "批量生成",

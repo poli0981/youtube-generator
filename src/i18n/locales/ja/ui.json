@@ -10,6 +10,7 @@
     "history": "履歴",
     "settings": "設定",
     "batch": "一括",
+    "social": "ソーシャル",
     "playlist": "プレイリスト",
     "logs": "ログ",
     "about": "情報",
@@ -20,7 +21,8 @@
     "collapse": "サイドバーを折りたたむ"
   },
   "header": {
-    "donate": "寄付"
+    "donate": "寄付",
+    "toggleTheme": "テーマ切り替え"
   },
   "about": {
     "tagline": "ゲームプレイ実況なしチャンネル向けのタイトル・説明文・タグ生成ツール。",
@@ -799,7 +801,8 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebookページ",
-    "fb_group": "Facebookグループ"
+    "fb_group": "Facebookグループ",
+    "telegram": "Telegram"
   },
   "resolutions": {
     "720p": "720p",
@@ -886,6 +889,8 @@
     "showSponsorCredit": "説明欄にスポンサーへの感謝行を追加 (キー提供)",
     "showThirdPartyAds": "説明欄にサードパーティ広告ブロックを表示",
     "thirdPartyAdsHint": "広告コピーはチャンネルプロフィールに設定してください (プロフィール → 編集)。",
+    "showTranslationQuality": "翻訳品質の注記を表示",
+    "showTranslationQualityHint": "英語とベトナム語以外の言語で生成した説明にAI翻訳の注記を追加します。",
     "titleFormatTitle": "タイトル書式",
     "descriptionSettingsTitle": "説明欄",
     "badgePosition": "品質バッジの位置",
@@ -909,6 +914,25 @@
     "logSettings": "ログ",
     "logRetentionDays": "ログ保持期間 (日)",
     "logRetentionHint": "この日数より古いログは起動時に削除されます。範囲: 1–90 日。"
+  },
+  "socialPost": {
+    "title": "クロス投稿キャプション",
+    "single": "単一",
+    "bulk": "一括",
+    "copyCaption": "キャプションをコピー",
+    "emptyState": "エディターでゲーム名を入力するとキャプションを生成します。",
+    "trimmedHint": "プラットフォームの上限に合わせて任意セクションを{{count}}個削除しました。",
+    "overLimitHint": "{{platform}}の文字数上限を超えています。投稿前に短くしてください。",
+    "exported": "キャプションをエクスポートしました！",
+    "exportFailed": "エクスポートに失敗しました",
+    "imported": "キャプションをインポートしました",
+    "importFailed": "インポートに失敗しました。YTDescGenのSocialエクスポートを選択してください。",
+    "importedHeading": "インポートしたキャプション",
+    "platforms": {
+      "tiktok": "TikTok",
+      "instagram_reels": "Instagram Reels",
+      "facebook_reels": "Facebook Reels"
+    }
   },
   "batch": {
     "title": "一括モード",
