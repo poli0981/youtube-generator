@@ -74,6 +74,14 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # AppImage bundling on hosted runners flakes: linuxdeploy (itself
+          # an AppImage) needs FUSE to mount, which GitHub runners don't
+          # reliably provide → "failed to run linuxdeploy". Extract-and-run
+          # avoids FUSE; NO_STRIP skips a strip pass that also intermittently
+          # fails. (No-op on Windows / macOS.) Transient CDN 504s while
+          # *fetching* linuxdeploy are handled by re-running the job.
+          APPIMAGE_EXTRACT_AND_RUN: 1
+          NO_STRIP: true
         with:
           tagName: ${{ github.event.inputs.tag || 'v__VERSION__' }}
           releaseName: "YTDescGen ${{ github.event.inputs.tag || 'v__VERSION__' }}"

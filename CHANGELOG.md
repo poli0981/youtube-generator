@@ -2,6 +2,16 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.24.2 — 2026-06-08
+
+CI-only patch to recover the Linux desktop binaries. **No application code
+changes** — identical app to v0.24.1.
+
+### CI
+
+- **Hardened the Linux AppImage build** ([.github/workflows/release-desktop.yml](.github/workflows/release-desktop.yml)) — set `APPIMAGE_EXTRACT_AND_RUN=1` and `NO_STRIP=true` on the `tauri-action` step. `linuxdeploy` (itself an AppImage) needs FUSE to mount, which GitHub-hosted runners don't reliably provide → intermittent `failed to run linuxdeploy`. Extract-and-run sidesteps FUSE; `NO_STRIP` skips a strip pass that also flakes. No-op on Windows / macOS.
+- **Rebuilt to ship the Linux binaries** (`.deb` / `.AppImage` / `.rpm`) that v0.24.1 missed when the AppImage tooling download hit a sustained upstream GitHub-CDN `http status: 504` during bundling. v0.24.1 published with Windows + macOS binaries; this tag re-runs the full matrix once the transient outage cleared.
+
 ## v0.24.1 — 2026-06-08
 
 Maintenance patch: clears all `npm audit` advisories, drops unused Rust
