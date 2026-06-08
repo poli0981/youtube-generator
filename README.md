@@ -31,7 +31,8 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Smart tag generation** — combines genre pool, platform, quality tier, multilingual hooks, and trending terms; auto-dedup and 500-char-limit aware.
 - **Character counters** — real-time limits for title (100), description (5000), tags (500).
 - **Batch mode** — generate metadata for all parts of a series in one pass.
-- **Desktop app** — Windows & macOS native binaries via Tauri (~8 MB).
+- **Cross-post captions** — a dedicated **Social** tab re-packages the same YouTube source into short-form captions for **TikTok** (4,000-char), **Instagram Reels**, and **Facebook Reels** — title, rig, content warnings, copyright, thanks, and hashtags (game + genre + curated per-platform popular tags). Single + bulk modes, per-platform character limits with smart overflow trimming, and JSON import/export.
+- **Desktop app** — Windows, macOS & Linux native binaries via Tauri (~8 MB).
 - **Mobile-responsive web** — drawer navigation, touch-sized controls, iOS-safe text-input behavior. Tested down to 360 × 640.
 - **100% offline** — no server, no telemetry, no account. See [PRIVACY.md](./PRIVACY.md).
 

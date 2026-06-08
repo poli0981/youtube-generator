@@ -109,6 +109,35 @@ Mỗi ngôn ngữ có description structure như sau (tất cả sections option
 14. Hashtags (3 max, auto-generated)
 ```
 
+## 🔁 Cross-Post Captions (Social tab)
+
+A dedicated **Social** tab re-packages the same editor source that drives the
+YouTube description into short-form captions for other platforms — no
+re-typing. Each caption is derived live from the current form.
+
+| Platform | Caption limit | Popular hashtags appended |
+|----------|--------------|----------------------------|
+| TikTok | 4,000 | `#fyp #foryou #foryoupage #gaming #gamingtiktok #gameplay #gamer` |
+| Instagram Reels | 2,200 | `#reels #reelsinstagram #gaming #gamingreels #gamer #instagaming #videogames` |
+| Facebook Reels | 2,200 | `#reels #facebookreels #fbreels #gaming #gameplay #gamingcommunity #videogames` |
+
+Each caption pulls, in order: **Title** (quality badge suppressed for
+short-form), **My Rig**, **Content Warnings**, **Thanks / sponsor credit**,
+**Copyright**, and **hashtags** (game + primary genre + the curated
+per-platform popular set, deduplicated case-insensitively).
+
+- **Overflow handling** — when a caption exceeds the platform limit, optional
+  blocks are dropped in priority order (warnings → copyright → thanks → rig).
+  The title and the hashtag line are never dropped, and there is no
+  mid-string truncation.
+- **Single mode** — platform tabs with a live character counter and
+  over-limit warning.
+- **Bulk mode** — generate a part range (e.g. Parts 1–10) across selected
+  languages in one pass, reusing the Batch loop.
+- **Import / Export** — round-trip the generated captions as a typed JSON
+  bundle (`_type: "social"`); import is display-only since captions are
+  derived artifacts (the source round-trips via Profiles / Presets).
+
 ## 🏷 Tag Generation
 
 ### Tag Pools by Category
