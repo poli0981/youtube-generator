@@ -2,6 +2,28 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.24.1 — 2026-06-08
+
+Maintenance patch: clears all `npm audit` advisories, drops unused Rust
+dependencies, and documents the v0.24.0 cross-post caption generator.
+
+### Security / dependencies
+
+- **react-router / react-router-dom 6.30.3 → 6.30.4** — patches the moderate open-redirect advisory ([GHSA-2j2x-hqr9-3h42](https://github.com/advisories/GHSA-2j2x-hqr9-3h42)). Non-breaking; a HashRouter SPA on static hosting was low-exposure, but patched for hygiene.
+- **vitest 3.2.4 → 4.1.8** — clears the critical Vitest-UI-server advisory ([GHSA-5xrq-8626-4rwp](https://github.com/advisories/GHSA-5xrq-8626-4rwp), dev-only — never in a shipped artifact). All 482 tests pass unchanged on the new major; no test or config code needed adjusting. `npm audit` now reports **0 vulnerabilities**.
+
+### Removed
+
+- **Unused `serde` / `serde_json` from `src-tauri/Cargo.toml`** — neither was referenced anywhere in `src-tauri/src/` (Tauri scaffolding leftovers; the `#[tauri::command]` functions only use `String` / `Result`). `cargo check` confirms the crate still compiles without them; `Cargo.lock`'s `yt-desc-gen` entry no longer lists them.
+
+### Docs
+
+- Documented the **cross-post caption generator** (Social tab — TikTok / Instagram Reels / Facebook Reels) in [README.md](README.md) and [docs/FEATURES.md](docs/FEATURES.md).
+
+### Under the hood
+
+- Five manifests bumped 0.24.0 → 0.24.1 (`package.json`, `package-lock.json` root + self-reference, `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock` self-entry, `src-tauri/tauri.conf.json`). Gates green: typecheck, lint, validate:locales, knip, build, 482 tests, `npm audit` clean.
+
 ## v0.24.0 — 2026-06-08
 
 Adds a **cross-post caption generator** that re-packages the YouTube
