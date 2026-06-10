@@ -296,6 +296,20 @@ export const CONTENT_WARNINGS = [
   "glass_breaking_audio",
   "microphone_pops",
   "white_noise_static",
+  // Dialogue / language (v0.25.0). What characters *say* — profanity,
+  // innuendo, slurs, humor tone, substance references — is judged by
+  // YouTube and viewers separately from what's *shown*, so spoken/written
+  // content gets its own disclosure block (ESRB-style descriptors).
+  "profanity_frequent",
+  "sexual_innuendo",
+  "inflammatory_speech",
+  "verbal_abuse",
+  "threatening_language",
+  "slurs_derogatory",
+  "crude_humor",
+  "mature_humor",
+  "dark_humor",
+  "drug_references",
   // Phobias
   "jump_scares",
   "acrophobia",
@@ -350,6 +364,14 @@ export const CONTENT_WARNINGS = [
   "cymophobia",
   "limnophobia",
   "potamophobia",
+  // Phobias — colors (v0.25.0). Chromophobia and per-color variants:
+  // monochrome set pieces (all-red rooms, stark-white liminal halls)
+  // are a recurring horror device that triggers this audience.
+  "chromophobia",
+  "erythrophobia",
+  "xanthophobia",
+  "leukophobia",
+  "melanophobia",
   // Mental health
   "anxiety_inducing",
   "depression_themes",
@@ -389,9 +411,41 @@ export const CONTENT_WARNINGS = [
   "quarter_life_crisis",
   "workplace_harassment",
   "masculinity_pressure",
+  // Social phenomena — body image (v0.25.0)
+  "body_shaming",
+  "beauty_standards",
+  // Internet / digital life (v0.25.0). 21st-century online phenomena —
+  // cyberbullying, viral misinformation, scams, parasocial economies —
+  // increasingly drive game narratives but had no disclosure ids.
+  "cyberbullying",
+  "doxxing",
+  "trolling_griefing",
+  "cancel_culture",
+  "social_media_addiction",
+  "doomscrolling",
+  "fomo",
+  "fake_news",
+  "online_scams",
+  "catfishing",
+  "deepfake_themes",
+  "cyberstalking",
+  "internet_challenges",
+  "influencer_culture",
+  "online_radicalization",
+  "loot_boxes",
+  "ai_themes",
+  "data_privacy",
   // Mature / sensitive
   "blood_gore",
   "mature_18plus",
+  // Sensitive — suggestive imagery (v0.25.0). Visuals unsuitable for
+  // minors that fall short of explicit content: skimpy outfits,
+  // partial nudity, sexualized designs, fan-service shots.
+  "revealing_outfits",
+  "partial_nudity",
+  "sexualized_characters",
+  "fanservice",
+  "suggestive_poses",
   "disturbing_imagery",
   "animal_abuse",
   "child_harm",
@@ -486,6 +540,9 @@ export const CONTENT_WARNINGS = [
   "cheats_enabled",
   "glitch_exploits",
   "assisted_run",
+  // v0.25.0: the game itself is educational / PSA / propaganda material —
+  // a nature-of-content disclosure, not a playthrough disclosure.
+  "educational_purpose_only",
 ] as const;
 export type ContentWarning = (typeof CONTENT_WARNINGS)[number];
 

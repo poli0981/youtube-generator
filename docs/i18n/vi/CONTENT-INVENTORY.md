@@ -95,7 +95,7 @@ Các nhóm bulk-select trong editor: **All RPGs** (rpg + jrpg + action_rpg + crp
 
 ---
 
-## 3. Cảnh báo nội dung (187, chia nhóm)
+## 3. Cảnh báo nội dung (248, chia nhóm)
 
 Cảnh báo được chọn sẽ thêm vào khối `⚠ CONTENT WARNINGS` trong description, trước phần timestamp. Mỗi nhóm có thể thu gọn trong editor; cảnh báo hiển thị theo thứ tự người dùng chọn.
 
@@ -103,25 +103,37 @@ Cảnh báo được chọn sẽ thêm vào khối `⚠ CONTENT WARNINGS` trong 
 
 Spoiler cốt truyện / ending · Spoiler ending · Spoiler ending thật · Spoiler hậu game / NG+ · Spoiler ending bí mật · Spoiler cốt truyện DLC
 
-### Sức khỏe / Quang nhạy (6)
+### Sức khỏe / Quang nhạy (13)
 
-Đèn nháy · Say tàu xe · Kích thích migraine · Âm thanh lớn / đột ngột · Hiệu ứng strobe · Rung hình mạnh
+Hiệu ứng chớp sáng · Say game / camera nhanh · Có thể đau nửa đầu · Đèn nhấp nháy · Rung màn hình mạnh · Loé sáng / lens flare · Bloom quá đà / sáng cháy · Hiệu ứng hạt dày đặc · HUD / overlay nhấp nháy · Màu sắc quá rực / loè loẹt · Motion blur nặng · Depth of field gắt · Post-processing đậm đặc
 
-### Ám ảnh / Phobia (51)
+### Âm thanh / Cảm âm (13)
 
-Jumpscare · Sợ độ cao (acrophobia) · Sợ lỗ / cụm (trypophobia) · Sợ nước sâu (thalassophobia) · Sợ không gian kín (claustrophobia) · Sợ nhện (arachnophobia) · Sợ côn trùng (entomophobia) · Sợ rắn (ophidiophobia) · Sợ chó (cynophobia) · Sợ bóng tối (nyctophobia) · Sợ lửa (pyrophobia) · Sợ búp bê (pediophobia) · Sợ máu (hemophobia) · Sợ chú hề (coulrophobia) · Sợ chết đuối (ablutophobia) · Sợ bị chôn sống (taphophobia) · Hình nhân máy (automatonophobia) · Vật thể khổng lồ (megalophobia) · Vật nhân tạo dưới nước (submechanophobia) · Xác chết (necrophobia) · Ma quỷ (spectrophobia) · Quỷ dữ (demonophobia) · Cá mập (selachophobia) · Vi trùng / ô nhiễm (mysophobia) · Nôn mửa (emetophobia) · Bị nhìn chằm chằm (scopophobia) · Cô lập (monophobia) · Chuột (musophobia) · Dơi (chiroptophobia) · Chim (ornithophobia) · Cá (ichthyophobia) · Bò sát (herpetophobia) · Gián (katsaridaphobia) · Ong (apiphobia) · Sấm sét (astraphobia) · Không gian rộng (agoraphobia) · Đám đông (enochlophobia) · Tuyết / giá lạnh (chionophobia) · Bệnh viện (nosocomephobia) · Vật sắc nhọn (aichmophobia) · Nghẹt thở (pnigophobia) · Sương mù (homichlophobia) · Lốc xoáy / bão (lilapsophobia) · Mưa lớn (ombrophobia) · Mây / trời u ám (nephophobia) · Gió mạnh (ancraophobia) · Cực lạnh (cryophobia) · Ánh nắng gay gắt (heliophobia) · Sóng lớn (cymophobia) · Hồ / nước tĩnh (limnophobia) · Sông / dòng chảy (potamophobia)
+Âm thanh đột ngột · Âm chói tai / tần số cao · Jumpscare bằng âm thanh · Thay đổi âm lượng đột ngột · Âm thanh méo / vỡ · Tiếng ken két / kim loại · Tiếng cao kéo dài · Lỗi âm thanh / glitch · Bass nặng / sub-bass rung · Tiếng la hét kéo dài · Tiếng kính vỡ / va đập · Tạp âm mic / tiếng thở · Tiếng nhiễu / tĩnh điện
+
+### Lời thoại / Ngôn từ (10)
+
+Văng tục dày đặc · Lời thoại ẩn ý t*nh d*c · Lời thoại kích động · Lăng mạ / sỉ nhục bằng lời · Lời đe dọa / uy hiếp · Từ ngữ miệt thị / xúc phạm · Hài thô tục · Hài người lớn · Hài đen / u tối · Nhắc đến chất kích thích / đồ có cồn
+
+### Ám ảnh / Phobia (56)
+
+Jumpscare · Sợ độ cao (acrophobia) · Sợ lỗ / cụm (trypophobia) · Sợ nước sâu (thalassophobia) · Sợ không gian kín (claustrophobia) · Sợ nhện (arachnophobia) · Sợ côn trùng (entomophobia) · Sợ rắn (ophidiophobia) · Sợ chó (cynophobia) · Sợ bóng tối (nyctophobia) · Sợ lửa (pyrophobia) · Sợ búp bê (pediophobia) · Sợ máu (hemophobia) · Sợ chú hề (coulrophobia) · Sợ chết đuối (ablutophobia) · Sợ bị chôn sống (taphophobia) · Hình nhân máy (automatonophobia) · Vật thể khổng lồ (megalophobia) · Vật nhân tạo dưới nước (submechanophobia) · Xác chết (necrophobia) · Ma quỷ (spectrophobia) · Quỷ dữ (demonophobia) · Cá mập (selachophobia) · Vi trùng / ô nhiễm (mysophobia) · Nôn mửa (emetophobia) · Bị nhìn chằm chằm (scopophobia) · Cô lập (monophobia) · Chuột (musophobia) · Dơi (chiroptophobia) · Chim (ornithophobia) · Cá (ichthyophobia) · Bò sát (herpetophobia) · Gián (katsaridaphobia) · Ong (apiphobia) · Sấm sét (astraphobia) · Không gian rộng (agoraphobia) · Đám đông (enochlophobia) · Tuyết / giá lạnh (chionophobia) · Bệnh viện (nosocomephobia) · Vật sắc nhọn (aichmophobia) · Nghẹt thở (pnigophobia) · Sương mù (homichlophobia) · Lốc xoáy / bão (lilapsophobia) · Mưa lớn (ombrophobia) · Mây / trời u ám (nephophobia) · Gió mạnh (ancraophobia) · Cực lạnh (cryophobia) · Ánh nắng gay gắt (heliophobia) · Sóng lớn (cymophobia) · Hồ / nước tĩnh (limnophobia) · Sông / dòng chảy (potamophobia) · Sợ màu sắc / cảnh màu chói (chromophobia) · Sợ màu đỏ / cảnh toàn đỏ (erythrophobia) · Sợ màu vàng (xanthophobia) · Sợ màu trắng / không gian toàn trắng (leukophobia) · Sợ màu đen (melanophobia)
 
 ### Sức khỏe tâm thần (17)
 
 Cảnh gây lo âu · Trầm cảm · Rối loạn ăn uống · Sử dụng chất kích thích · Tự hại / tự tử · PTSD · Kim tiêm · Dịch cơ thể · Mang thai / sinh nở kinh dị · Bệnh tật / nhiễm trùng · Lưỡng cực · OCD · Hoảng loạn · Phân ly · Hoang tưởng · Suy nghĩ xâm nhập · Y khoa kinh dị
 
-### Hiện tượng tâm lý — xã hội (20)
+### Hiện tượng tâm lý — xã hội (22)
 
-Tự kỷ / thần kinh đa dạng · ADHD / rối loạn tập trung · Hikikomori / ẩn dật xã hội · NEET (không học không làm) · Lo âu xã hội · Cô lập xã hội / cô đơn · Tâm thần phân liệt / loạn thần · Burnout / kiệt sức · Mặc cảm sống sót · Bị bỏ rơi / sang chấn · Quan hệ parasocial · Gaslighting / thao túng · Hội chứng Stockholm · Nghiện game / cờ bạc · Khủng hoảng hiện sinh · Hội chứng kẻ mạo danh · Khủng hoảng tuổi trung niên · Khủng hoảng tuổi 1/4 · Quấy rối nơi làm việc · Áp lực vai trò giới
+Tự kỷ / thần kinh đa dạng · ADHD / rối loạn tập trung · Hikikomori / ẩn dật xã hội · NEET (không học không làm) · Lo âu xã hội · Cô lập xã hội / cô đơn · Tâm thần phân liệt / loạn thần · Burnout / kiệt sức · Mặc cảm sống sót · Bị bỏ rơi / sang chấn · Quan hệ parasocial · Gaslighting / thao túng · Hội chứng Stockholm · Nghiện game / cờ bạc · Khủng hoảng hiện sinh · Hội chứng kẻ mạo danh · Khủng hoảng tuổi trung niên · Khủng hoảng tuổi 1/4 · Quấy rối nơi làm việc · Áp lực vai trò giới · Miệt thị ngoại hình (body shaming) · Chuẩn mực ngoại hình phi thực tế
 
-### Nội dung nhạy cảm / 18+ (61)
+### Internet / Đời sống số (18)
 
-Máu me · 18+ · Hình ảnh gây khó chịu · B*o h*nh động vật · Trẻ em chịu tác động · B*o h*nh gia đình · Tham chiếu x*m h*i t*nh d*c · Tra tấn · Tôn giáo · Tác động vật lý chiến tranh · Phân biệt đối xử · Tác động vật lý từ chính quyền · Hút thuốc / uống rượu · G*ết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia) · Cực đoan chính trị · Cực đoan tôn giáo / cuồng tín · Diệt chủng / thanh trừng sắc tộc · Thánh chiến / xung đột tôn giáo · Đại nạn Holocaust · Nội chiến · Xả súng hàng loạt / xả súng trường học · Chủ nghĩa thực dân / đế quốc · Tuyên truyền nhà nước · Nhà nước giám sát / dystopia · Thuyết âm mưu · Kiểm duyệt / cấm phát ngôn · Xung đột sắc tộc / chủng tộc · Khủng hoảng tị nạn · Cách mạng / nổi dậy · Ám sát chính trị · Đảo chính · Toà án dị giáo / săn phù thủy · Lao động cưỡng bức · Chủ nghĩa dân tộc cực đoan · Treo c* / siết c* · Cảnh ch*t đuối · Cảnh thiêu s*ng · Cảnh ngạt th* · Bị trói / cầm tù tra tấn · Cảnh hành quyết công khai · Cảnh chặt đầu · Cảnh đâm xuyên cơ thể · Thương vong hàng loạt · Tác động vật lý bằng phương tiện · Cảnh sử dụng quá liều · Ngã / nhảy từ trên cao
+Bắt nạt / quấy rối qua mạng · Doxxing / phơi bày thông tin cá nhân · Trolling / phá game · Văn hóa tẩy chay / bêu rếu công khai · Nghiện mạng xã hội · Lướt tin tiêu cực vô độ (doomscrolling) · Hội chứng sợ bỏ lỡ (FOMO) · Tin giả / thông tin sai lệch · Lừa đảo trực tuyến / phishing · Giả mạo danh tính trên mạng (catfishing) · Deepfake / nội dung giả mạo bằng AI · Theo dõi / rình rập qua mạng · Trào lưu / thử thách nguy hiểm trên mạng · Văn hóa influencer / câu tương tác · Cực đoan hóa qua mạng / buồng vang thông tin · Loot box / cơ chế gacha · Chủ đề AI / trí tuệ nhân tạo · Riêng tư dữ liệu / giám sát diện rộng
+
+### Nội dung nhạy cảm / 18+ (66)
+
+Máu me · 18+ · Trang phục hở hang · Kh*a th*n một phần · Tạo hình nhân vật bị t*nh d*c hóa · Yếu tố fan service · Tư thế / góc quay gợi cảm · Hình ảnh gây khó chịu · B*o h*nh động vật · Trẻ em chịu tác động · B*o h*nh gia đình · Tham chiếu x*m h*i t*nh d*c · Tra tấn · Tôn giáo · Tác động vật lý chiến tranh · Phân biệt đối xử · Tác động vật lý từ chính quyền · Hút thuốc / uống rượu · G*ết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia) · Cực đoan chính trị · Cực đoan tôn giáo / cuồng tín · Diệt chủng / thanh trừng sắc tộc · Thánh chiến / xung đột tôn giáo · Đại nạn Holocaust · Nội chiến · Xả súng hàng loạt / xả súng trường học · Chủ nghĩa thực dân / đế quốc · Tuyên truyền nhà nước · Nhà nước giám sát / dystopia · Thuyết âm mưu · Kiểm duyệt / cấm phát ngôn · Xung đột sắc tộc / chủng tộc · Khủng hoảng tị nạn · Cách mạng / nổi dậy · Ám sát chính trị · Đảo chính · Toà án dị giáo / săn phù thủy · Lao động cưỡng bức · Chủ nghĩa dân tộc cực đoan · Treo c* / siết c* · Cảnh ch*t đuối · Cảnh thiêu s*ng · Cảnh ngạt th* · Bị trói / cầm tù tra tấn · Cảnh hành quyết công khai · Cảnh chặt đầu · Cảnh đâm xuyên cơ thể · Thương vong hàng loạt · Tác động vật lý bằng phương tiện · Cảnh sử dụng quá liều · Ngã / nhảy từ trên cao
 
 ### Kinh dị nặng (12)
 
@@ -131,9 +143,9 @@ Mắt / cụm mắt · Body horror (biến dạng cơ thể) · Mặt biến d�
 
 Lần đầu chơi (blind) · Không spoiler trong chat · Chế độ easy / story · Chế độ khó cao · Permadeath / Iron Man · Thử speedrun · 100% completionist · Đang học cơ chế · Chơi lần đầu · Chơi lại / NG+
 
-### Thông tin về gameplay (4)
+### Thông tin về gameplay (5)
 
-Dùng mod · Bật cheat / debug · Dùng glitch · Có guide hỗ trợ
+Dùng mod · Bật cheat / debug · Dùng glitch · Có guide hỗ trợ · Game mục đích giáo dục / tuyên truyền
 
 ---
 

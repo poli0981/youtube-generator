@@ -95,7 +95,7 @@ Bulk-select groups available in the editor: **All RPGs** (rpg + jrpg + action_rp
 
 ---
 
-## 3. Content warnings (187, grouped)
+## 3. Content warnings (248, grouped)
 
 Selected warnings are appended to a `⚠ CONTENT WARNINGS` block in the description, ahead of timestamps. Each group is collapsible in the editor; warnings render in description order = user's selection order.
 
@@ -103,25 +103,37 @@ Selected warnings are appended to a `⚠ CONTENT WARNINGS` block in the descript
 
 Story / ending spoilers · Ending spoilers · True-ending spoilers · Post-game / NG+ spoilers · Secret-ending spoilers · DLC story spoilers
 
-### Photosensitive / Health (6)
+### Photosensitive / Health (13)
 
-Flashing lights · Motion sickness · Migraine trigger · Loud / sudden sounds · Strobe lighting · Heavy screen shake
+Flashing lights · Motion sickness · Migraine trigger · Strobe lighting · Heavy screen shake · Lens flare / sun glare · Excessive bloom / overblown highlights · Dense particle effects · Flashing HUD / UI overlays · Extreme color saturation · Heavy motion blur · Aggressive depth of field · Intense post-processing
 
-### Phobias (51)
+### Audio / Sensory (13)
 
-Jumpscares · Heights (acrophobia) · Holes / clusters (trypophobia) · Deep water (thalassophobia) · Confined spaces (claustrophobia) · Spiders (arachnophobia) · Insects (entomophobia) · Snakes (ophidiophobia) · Dogs (cynophobia) · Darkness (nyctophobia) · Fire (pyrophobia) · Dolls (pediophobia) · Blood (hemophobia) · Clowns (coulrophobia) · Drowning / water immersion (ablutophobia) · Live burial (taphophobia) · Animatronics / mannequins (automatonophobia) · Large objects (megalophobia) · Submerged man-made objects (submechanophobia) · Corpses (necrophobia) · Ghosts (spectrophobia) · Demons (demonophobia) · Sharks (selachophobia) · Germs / contamination (mysophobia) · Vomiting (emetophobia) · Being watched (scopophobia) · Isolation (monophobia) · Mice / rats (musophobia) · Bats (chiroptophobia) · Birds (ornithophobia) · Fish (ichthyophobia) · Reptiles (herpetophobia) · Cockroaches (katsaridaphobia) · Bees / wasps (apiphobia) · Thunder / lightning (astraphobia) · Open spaces (agoraphobia) · Crowds (enochlophobia) · Snow / extreme cold (chionophobia) · Hospitals (nosocomephobia) · Sharp objects (aichmophobia) · Choking / suffocation (pnigophobia) · Fog / mist (homichlophobia) · Tornadoes / hurricanes (lilapsophobia) · Heavy rain (ombrophobia) · Clouds (nephophobia) · Strong wind (ancraophobia) · Extreme cold (cryophobia) · Sunlight (heliophobia) · Large waves (cymophobia) · Lakes / still water (limnophobia) · Rivers / currents (potamophobia)
+Loud / sudden sounds · Ear-piercing / high-pitched · Audio jumpscares · Sudden volume changes · Distorted / clipping audio · Screeching / metallic sounds · Persistent high-pitched tones · Audio glitches / artifacts · Heavy bass / sub-bass rumble · Sustained screaming · Glass breaking / shattering · Mic pops / breath noise · White noise / static
+
+### Dialogue / Language (10)
+
+Frequent profanity · Sexual innuendo / suggestive dialogue · Inflammatory / inciting dialogue · Verbal abuse · Threats / intimidation · Slurs / derogatory terms · Crude / toilet humor · Mature / adult humor · Dark / morbid humor · Drug / alcohol references
+
+### Phobias (56)
+
+Jumpscares · Heights (acrophobia) · Holes / clusters (trypophobia) · Deep water (thalassophobia) · Confined spaces (claustrophobia) · Spiders (arachnophobia) · Insects (entomophobia) · Snakes (ophidiophobia) · Dogs (cynophobia) · Darkness (nyctophobia) · Fire (pyrophobia) · Dolls (pediophobia) · Blood (hemophobia) · Clowns (coulrophobia) · Drowning / water immersion (ablutophobia) · Live burial (taphophobia) · Animatronics / mannequins (automatonophobia) · Large objects (megalophobia) · Submerged man-made objects (submechanophobia) · Corpses (necrophobia) · Ghosts (spectrophobia) · Demons (demonophobia) · Sharks (selachophobia) · Germs / contamination (mysophobia) · Vomiting (emetophobia) · Being watched (scopophobia) · Isolation (monophobia) · Mice / rats (musophobia) · Bats (chiroptophobia) · Birds (ornithophobia) · Fish (ichthyophobia) · Reptiles (herpetophobia) · Cockroaches (katsaridaphobia) · Bees / wasps (apiphobia) · Thunder / lightning (astraphobia) · Open spaces (agoraphobia) · Crowds (enochlophobia) · Snow / extreme cold (chionophobia) · Hospitals (nosocomephobia) · Sharp objects (aichmophobia) · Choking / suffocation (pnigophobia) · Fog / mist (homichlophobia) · Tornadoes / hurricanes (lilapsophobia) · Heavy rain (ombrophobia) · Clouds (nephophobia) · Strong wind (ancraophobia) · Extreme cold (cryophobia) · Sunlight (heliophobia) · Large waves (cymophobia) · Lakes / still water (limnophobia) · Rivers / currents (potamophobia) · Colors / vivid color scenes (chromophobia) · Red / all-red scenes (erythrophobia) · Yellow color (xanthophobia) · White / all-white spaces (leukophobia) · Black color (melanophobia)
 
 ### Mental health (17)
 
 Anxiety-inducing scenes · Depression themes · Eating disorders · Substance use · Self-harm / suicide · PTSD content · Needles · Body fluids · Pregnancy / birth horror · Illness / infection · Bipolar themes · OCD themes · Panic attacks · Dissociation · Paranoia · Intrusive thoughts · Medical horror
 
-### Social phenomena (20)
+### Social phenomena (22)
 
-Autism / neurodivergence themes · ADHD / executive dysfunction · Hikikomori / social withdrawal · NEET themes · Social anxiety themes · Social isolation / loneliness · Schizophrenia / psychosis · Burnout / overwork · Survivor guilt · Abandonment themes · Parasocial relationships · Gaslighting · Stockholm syndrome · Gaming / gambling addiction · Existential / nihilistic themes · Impostor syndrome · Midlife crisis · Quarter-life crisis · Workplace harassment · Gender-role pressure
+Autism / neurodivergence themes · ADHD / executive dysfunction · Hikikomori / social withdrawal · NEET themes · Social anxiety themes · Social isolation / loneliness · Schizophrenia / psychosis · Burnout / overwork · Survivor guilt · Abandonment themes · Parasocial relationships · Gaslighting · Stockholm syndrome · Gaming / gambling addiction · Existential / nihilistic themes · Impostor syndrome · Midlife crisis · Quarter-life crisis · Workplace harassment · Gender-role pressure · Body shaming / appearance mockery · Unrealistic beauty standards
 
-### Mature / Sensitive content (61)
+### Internet / Digital life (18)
 
-Blood and gore · Mature 18+ · Disturbing imagery · Animal cruelty · Violence against minors · Domestic violence · Sexual assault references · Torture · Religious themes · War violence · Discrimination · State / police violence · Smoking / drinking · Detailed killing · Cult / occult · Psychological manipulation · Loss / grief · Kidnapping · Hate speech · Historical atrocities · Slavery themes · Terrorism themes · Bullying themes · Human experimentation · Cannibalism · Nuclear / radiation · Homophobia / anti-LGBTQ+ · Transphobia / anti-trans · Xenophobia / anti-foreigner · Political extremism · Religious extremism / fundamentalism · Genocide / ethnic cleansing · Holy war / sectarian conflict · Holocaust themes · Civil war · Mass / school shootings · Colonialism / imperialism · State propaganda · Surveillance / dystopian state · Conspiracy theories · Censorship themes · Ethnic / racial conflict · Refugee crisis · Revolution / uprising · Political assassination · Coup d'état · Inquisition / religious persecution · Forced labor · Ultranationalism · Hanging / strangulation · Drowning scene · Burning alive / immolation · Asphyxiation / suffocation · Bound / restrained victim · Public execution · Decapitation · Impalement · Mass-casualty event · Vehicular violence · Overdose scene · Falling from height (intentional)
+Cyberbullying / online harassment · Doxxing / privacy exposure · Trolling / griefing · Cancel culture / public shaming · Social media addiction · Doomscrolling · FOMO (fear of missing out) · Fake news / misinformation · Online scams / phishing · Catfishing / fake identity · Deepfakes / synthetic media · Cyberstalking · Dangerous viral challenges · Influencer culture / clout chasing · Online radicalization / echo chambers · Loot boxes / gacha mechanics · AI / artificial intelligence themes · Data privacy / mass surveillance
+
+### Mature / Sensitive content (66)
+
+Blood and gore · Mature 18+ · Revealing / skimpy outfits · Partial nudity · Sexualized character designs · Fan service / ecchi · Suggestive poses / camera angles · Disturbing imagery · Animal cruelty · Violence against minors · Domestic violence · Sexual assault references · Torture · Religious themes · War violence · Discrimination · State / police violence · Smoking / drinking · Detailed killing · Cult / occult · Psychological manipulation · Loss / grief · Kidnapping · Hate speech · Historical atrocities · Slavery themes · Terrorism themes · Bullying themes · Human experimentation · Cannibalism · Nuclear / radiation · Homophobia / anti-LGBTQ+ · Transphobia / anti-trans · Xenophobia / anti-foreigner · Political extremism · Religious extremism / fundamentalism · Genocide / ethnic cleansing · Holy war / sectarian conflict · Holocaust themes · Civil war · Mass / school shootings · Colonialism / imperialism · State propaganda · Surveillance / dystopian state · Conspiracy theories · Censorship themes · Ethnic / racial conflict · Refugee crisis · Revolution / uprising · Political assassination · Coup d'état · Inquisition / religious persecution · Forced labor · Ultranationalism · Hanging / strangulation · Drowning scene · Burning alive / immolation · Asphyxiation / suffocation · Bound / restrained victim · Public execution · Decapitation · Impalement · Mass-casualty event · Vehicular violence · Overdose scene · Falling from height (intentional)
 
 ### Heavy horror (12)
 
@@ -131,9 +143,9 @@ Eyes / eyeball clusters · Body horror (flesh distortion) · Distorted / mutilat
 
 Blind playthrough · No spoilers in chat · Casual / story mode · Hardcore / max difficulty · Permadeath / Iron Man · Speedrun attempt · 100% completionist · Still learning mechanics · First time playing · Returning / NG+
 
-### Gameplay disclosure (4)
+### Gameplay disclosure (5)
 
-Mods used · Cheats / debug · Glitches used · Guide-assisted
+Mods used · Cheats / debug · Glitches used · Guide-assisted · Educational / PSA purpose
 
 ---
 
