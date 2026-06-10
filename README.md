@@ -24,7 +24,7 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **20 video types** — Full Gameplay, Part, Boss Fight, Boss No-Hit, Ending, Speedrun, 100%, DLC, NG+, Challenge, Side Quest, Secret, Comparison, Guide, Mods, Collectibles, Livestream, Gacha Quest, Demo, Demo Part.
 - **6 UI languages** — English, Vietnamese, Japanese, Spanish, Korean, Chinese. *(VI authored by a native speaker; JA / ES / KO / ZH AI-translated — see [DISCLAIMER.md](./DISCLAIMER.md).)*
 - **40+ game genres** — across action, RPG, FPS, horror, soulslike, indie, simulation, fighting, and more.
-- **187 content-warning IDs** across 9 groups — spoilers, photosensitive, phobias, mental health, social phenomena, sensitive themes (incl. method-specific death/violence), horror-specific, playstyle, and gameplay disclosure (mods / cheats / glitches / guide-assisted). Sets viewer expectations before they hit play.
+- **248 content-warning IDs** across 12 groups — spoilers, photosensitive/VFX, audio, dialogue/language, phobias (incl. color phobias), mental health, social phenomena, internet/digital life, sensitive themes (incl. method-specific death/violence and suggestive imagery), horror-specific, playstyle, and gameplay disclosure (mods / cheats / glitches / guide-assisted / educational purpose). Sets viewer expectations before they hit play.
 - **Profile system** — save channel / social / rig info once, reuse across every video.
 - **Game presets** — save game name + store links once, reuse across the entire part series.
 - **Snapshot templates** — save full-form configurations and recall in one click.

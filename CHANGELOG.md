@@ -2,6 +2,35 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.25.0 — 2026-06-10
+
+Adds 41 content warnings, including two new groups — **Dialogue / Language**
+and **Internet / Digital life** — plus color phobias, suggestive-imagery
+disclosures, body-image phenomena, and an educational-purpose disclosure.
+Also backfills the content-inventory docs to the real warning baseline.
+
+### Added
+
+- **2 new content-warning groups + 41 new warnings (207 → 248 across 12 groups)** ([src/engine/types.ts](src/engine/types.ts), [src/config/content-warning-groups.ts](src/config/content-warning-groups.ts)):
+  - **Dialogue / Language (10)** — what characters *say*, ESRB-descriptor style: `profanity_frequent`, `sexual_innuendo`, `inflammatory_speech`, `verbal_abuse`, `threatening_language`, `slurs_derogatory`, `crude_humor`, `mature_humor`, `dark_humor`, `drug_references`.
+  - **Internet / Digital life (18)** — 21st-century online phenomena: `cyberbullying`, `doxxing`, `trolling_griefing`, `cancel_culture`, `social_media_addiction`, `doomscrolling`, `fomo`, `fake_news`, `online_scams`, `catfishing`, `deepfake_themes`, `cyberstalking`, `internet_challenges`, `influencer_culture`, `online_radicalization`, `loot_boxes`, `ai_themes`, `data_privacy`.
+  - **Phobias +5 color phobias (51 → 56)** — `chromophobia` plus per-color `erythrophobia` (all-red rooms), `xanthophobia`, `leukophobia` (stark-white spaces), `melanophobia`.
+  - **Social phenomena +2 (20 → 22)** — `body_shaming`, `beauty_standards`.
+  - **Mature / Sensitive +5 suggestive-imagery (61 → 66)** — visuals unsuitable for minors short of explicit content, placed beside `mature_18plus`: `revealing_outfits`, `partial_nudity`, `sexualized_characters`, `fanservice`, `suggestive_poses`.
+  - **Gameplay disclosure +1 (4 → 5)** — `educational_purpose_only` for games made for education / PSA / propaganda purposes.
+  - The engine renders all of these automatically (selection-order bullets, bilingual `EN · LOCAL`); cross-post captions inherit them via the shared bullet helper. Vietnamese flag-prone labels follow the v0.21.0 asterisk/euphemism precedent (`t*nh d*c`, `Kh*a th*n`). 504 new locale strings (84 keys × 6 locales) + [`_schema.json`](src/i18n/locales/_schema.json) — validator now expects 907 ui / 542 template keys per locale.
+
+### Docs
+
+- **Content-inventory backfill** ([docs/CONTENT-INVENTORY.md](docs/CONTENT-INVENTORY.md), [docs/i18n/vi/CONTENT-INVENTORY.md](docs/i18n/vi/CONTENT-INVENTORY.md), [README.md](README.md)) — the docs still claimed "187 across 9 groups": the v0.22.0 Audio / Sensory group and the v0.23.0 VFX items were never added (the v0.23.0 entry's "187 → 195" total repeated that stale baseline; the actual progression was 199 → 207). Backfilled to the true 207 baseline, then updated to the new 248 / 12-group totals.
+- [docs/FEATURES.md](docs/FEATURES.md) — replaced the stale v0.7-era "Spoiler Warning / 18+ Warning" description-structure lines with the unified Content Warnings block (v0.11+).
+
+### Under the hood
+
+- **+8 tests (482 → 490)** — render/bilingual/VI-masking cases for the new warnings ([tests/engine/description-builder.test.ts](tests/engine/description-builder.test.ts)) and a new `CONTENT_WARNINGS` ↔ groups parity guard ([tests/config/content-warning-groups.test.ts](tests/config/content-warning-groups.test.ts)) that fails if an id is added to the engine list but forgotten from every UI group.
+- Five manifests bumped 0.24.2 → 0.25.0. First *published* tag carrying the v0.24.2 Linux AppImage hardening (`APPIMAGE_EXTRACT_AND_RUN=1`, `NO_STRIP=true`) — the v0.24.2 tag itself was never released due to the upstream CDN incident.
+- Web bundle: main chunk 568.5 → 594.0 kB minified (191.5 → 204.3 kB gzip) — the 504 statically-imported locale strings account for the whole delta; Rollup's >500 kB chunk warning predates this release.
+
 ## v0.24.2 — 2026-06-08
 
 CI-only patch to recover the Linux desktop binaries. **No application code

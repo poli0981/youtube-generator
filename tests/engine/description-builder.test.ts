@@ -1251,6 +1251,85 @@ describe("buildDescription — v0.7 content fields (legacy)", () => {
   });
 });
 
+describe("buildDescription — v0.25.0 dialogue / internet / suggestive warnings", () => {
+  it("renders dialogue/language warnings (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["profanity_frequent", "drug_references"] }),
+      t,
+    );
+    expect(result).toContain("▸ ⚠️ CONTENT WARNINGS");
+    expect(result).toContain("• Frequent profanity / strong language");
+    expect(result).toContain("• Drug / alcohol references in dialogue");
+  });
+
+  it("renders internet/digital-life warnings (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["cyberbullying", "loot_boxes"] }),
+      t,
+    );
+    expect(result).toContain("• Cyberbullying / online harassment");
+    expect(result).toContain("• Loot boxes / gacha mechanics");
+  });
+
+  it("renders color phobias without dragging in siblings (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["erythrophobia"] }),
+      t,
+    );
+    expect(result).toContain("• Red / all-red scenes (erythrophobia)");
+    expect(result).not.toContain("(leukophobia)");
+  });
+
+  it("renders bilingual EN · VI for a new suggestive-imagery warning", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({ language: "vi", contentWarnings: ["sexualized_characters"] }),
+      t,
+      { tEn },
+    );
+    expect(result).toContain(
+      "• Sexualized character designs · Tạo hình nhân vật bị t*nh d*c hóa",
+    );
+  });
+
+  it("masks YouTube-flag-prone Vietnamese terms on the new suggestive warnings", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        contentWarnings: [
+          "sexual_innuendo",
+          "partial_nudity",
+          "sexualized_characters",
+        ],
+      }),
+      t,
+      { tEn },
+    );
+    // Masked forms present (v0.21.0 asterisk precedent)
+    expect(result).toContain("Lời thoại ẩn ý t*nh d*c");
+    expect(result).toContain("Kh*a th*n một phần");
+    expect(result).toContain("t*nh d*c hóa");
+    // Unmasked flag-prone terms absent
+    expect(result).not.toContain("tình dục");
+    expect(result).not.toContain("Khỏa thân");
+  });
+
+  it("renders the educational/PSA-purpose disclosure (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["educational_purpose_only"] }),
+      t,
+    );
+    expect(result).toContain("• Educational / PSA-purpose game");
+  });
+});
+
 describe("buildDescription — gacha_quest video type (v0.9)", () => {
   it("dispatches to the per-quest-type intro for main_story", () => {
     const t = createMockT("en");
