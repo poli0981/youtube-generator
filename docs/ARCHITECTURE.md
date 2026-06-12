@@ -278,6 +278,8 @@ i18n/locales/
 
 **Adding a new language** = 2 JSON files + 1 line registration. See docs/I18N.md.
 
+**Lazy loading (v0.26+)**: only English is bundled into the main chunk — it is the `fallbackLng` and the engine's bilingual `tEn` translator, both of which must resolve synchronously. Every other language is fetched on first use as a Vite async chunk via `i18next-resources-to-backend` + dynamic `import()`. Generation paths gate on bundle readiness (`useLanguagesReady` hook / `ensureLanguagesLoaded`): an unloaded language would otherwise silently render English fallback output. A chunk that fails to fetch degrades to English and logs to the in-app Log page — it never hangs the UI.
+
 **UI language vs Output language**: These are independent. User can browse the app in English but generate descriptions in Japanese. UI language follows `SettingsStore.defaultLanguage`, output language follows `EditorStore.language`.
 
 ## 5. Desktop Packaging (Tauri)
@@ -313,7 +315,7 @@ Tauri advantages over Electron:
 
 | What | How to Extend | Files to Touch |
 |------|--------------|----------------|
-| New language | Add `locales/{code}/ui.json` + `templates.json`, register in `i18n/index.ts` | 3 files |
+| New language | Add `locales/{code}/ui.json` + `templates.json`, register in `SUPPORTED_LANGUAGES` (lazy-loaded automatically) | 3 files |
 | New genre | Add entry to `config/genres.ts`, add tag pool to `engine/tag-generator.ts` | 2 files |
 | New video type | Add to `config/video-types.ts`, add patterns to all `templates.json` | 1 + N locale files |
 | New platform/store | Add entry to `config/platforms.ts` | 1 file |

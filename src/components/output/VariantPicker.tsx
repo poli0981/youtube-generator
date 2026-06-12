@@ -5,6 +5,7 @@ import { Modal } from "@components/ui/Modal";
 import { CopyButton } from "./CopyButton";
 import { CharCounter } from "./CharCounter";
 import { buildTitleVariants } from "@engine/title-variants";
+import { useLanguagesReady } from "@hooks/use-languages-ready";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { YT_LIMITS, type GeneratorInput } from "@engine/types";
@@ -24,8 +25,12 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
   const state = useEditorStore();
   const showQualityBadge = useSettingsStore((s) => s.showQualityBadge);
 
+  // Lazy-loaded locales (v0.26): only request the bundle while the modal
+  // is actually open; the list fills in on the ready flip.
+  const ready = useLanguagesReady(open ? [state.language] : []);
+
   const variants = useMemo(() => {
-    if (!open) return [];
+    if (!open || !ready) return [];
     const input: GeneratorInput = {
       videoType: state.videoType,
       language: state.language,
@@ -52,6 +57,7 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
     return buildTitleVariants(input, tFn, showQualityBadge);
   }, [
     open,
+    ready,
     showQualityBadge,
     state.videoType,
     state.language,

@@ -132,6 +132,10 @@ Tắt VPN/proxy doanh nghiệp chặn npm registry. Lock file đã commit; insta
 
 Locale JSON bundle vào lúc build, không được watch. Restart dev server sau khi sửa `src/i18n/locales/*`.
 
+Từ v0.26, chỉ tiếng Anh nằm trong main chunk; các ngôn ngữ khác là async
+chunk lazy-load, tải khi dùng lần đầu (xem `src/i18n/index.ts` và
+docs/I18N.md). Lời khuyên restart ở trên vẫn áp dụng cho tất cả.
+
 ### Pre-commit hook fail ở `validate:locales` mà mình không động đến locale
 
 Có thể bạn vô tình thêm key mới vào `_schema.json` thông qua `src/engine/types.ts` → `CONTENT_WARNINGS`. ID mới cần dịch ở cả 6 locale.

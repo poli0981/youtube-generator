@@ -9,7 +9,7 @@ import { CopyButton } from "@components/output/CopyButton";
 import { CharCounter } from "@components/output/CharCounter";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
-import { SUPPORTED_LANGUAGES } from "@i18n/index";
+import { SUPPORTED_LANGUAGES, ensureLanguagesLoaded } from "@i18n/index";
 import { SOCIAL_PLATFORMS } from "@config/social-platforms";
 import { useSocialPosts } from "@hooks/use-social-posts";
 import {
@@ -73,6 +73,7 @@ export function SocialPage() {
     language,
   ]);
   const [bulkResults, setBulkResults] = useState<BulkRow[]>([]);
+  const [generating, setGenerating] = useState(false);
 
   // Import display (read-only)
   const [imported, setImported] = useState<SocialExportBundle | null>(null);
@@ -140,14 +141,16 @@ export function SocialPage() {
     });
   };
 
-  const handleBulkGenerate = () => {
+  const bulkGenerate = () => {
     const start = parseInt(startPart) || 1;
     const end = parseInt(endPart) || start;
     const rows: BulkRow[] = [];
+    // Loop-invariant English translator for the bilingual content-warnings
+    // block — `en` is eagerly bundled, so it needs no readiness gate.
+    const tEn = i18n.getFixedT("en", "templates");
     for (let i = start; i <= Math.min(end, start + 99); i++) {
       for (const lang of selectedLangs) {
         const tFn = i18n.getFixedT(lang, "templates");
-        const tEn = i18n.getFixedT("en", "templates");
         const input = {
           ...baseInput,
           videoType: "part" as const,
@@ -167,6 +170,19 @@ export function SocialPage() {
       }
     }
     setBulkResults(rows);
+  };
+
+  const handleBulkGenerate = async () => {
+    setGenerating(true);
+    try {
+      // Lazy-loaded locales (v0.26): bulk generates across multiple
+      // languages in one pass — every selected bundle must be in memory
+      // before the loop, or getFixedT silently renders English.
+      await ensureLanguagesLoaded(selectedLangs);
+      bulkGenerate();
+    } finally {
+      setGenerating(false);
+    }
   };
 
   const bulkCombined = useMemo(
@@ -373,7 +389,10 @@ export function SocialPage() {
               value={endPart}
               onChange={(e) => setEndPart(e.target.value)}
             />
-            <Button onClick={handleBulkGenerate} disabled={!gameName}>
+            <Button
+              onClick={() => void handleBulkGenerate()}
+              disabled={!gameName || generating}
+            >
               {t("common.generate")}
             </Button>
           </div>

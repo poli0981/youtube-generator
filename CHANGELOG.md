@@ -2,6 +2,28 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.26.0 — 2026-06-11
+
+Performance release: locale bundles are now lazy-loaded per language, so
+visitors only download the languages they actually use. **Main chunk drops
+594.0 → 264.0 kB minified (204.3 → 82.0 kB gzip)** — back under Rollup's
+500 kB warning threshold (outstanding since ~v0.23) and the project's
+bundle budget. No feature changes.
+
+### Changed
+
+- **Lazy-loaded locale bundles** ([src/i18n/index.ts](src/i18n/index.ts)) — the 10 non-English locale JSONs (5 languages × `ui`/`templates`) left the main chunk and are fetched on first use as Vite async chunks (~27–40 kB min / ~12–17 kB gzip each) via [`i18next-resources-to-backend`](https://github.com/i18next/i18next-resources-to-backend) + a statically-analysable dynamic `import()`. English stays eagerly bundled (`partialBundledLanguages`): it is the `fallbackLng` and the engine's bilingual `tEn` translator, both of which must work synchronously.
+- **Generation is gated on bundle readiness** — `getFixedT` for an unloaded language silently serves English fallback strings, which would have let the Output page auto-save a *wrong-language history entry*. A new [`useLanguagesReady`](src/hooks/use-languages-ready.ts) hook holds every reactive generator (output preview, multi-language tabs, social captions, playlist, pinned-comment template, title variants) on a placeholder until the bundle is in memory, and the Batch / Social bulk handlers `await ensureLanguagesLoaded(selectedLangs)` before their multi-language loops.
+- **Cold-start preload** ([src/main.tsx](src/main.tsx)) — the persisted UI + output languages are fetched before first paint (capped at 2 s), so a non-English user never sees an English flash; `react: { useSuspense: false }` keeps lazily-ready namespaces from suspending the app shell, which has no Suspense boundary.
+- **Failure degrades, never hangs** — a locale chunk that cannot be fetched (offline, stale deploy HTML) is retried once by importing the chunk directly into the resource store (i18next marks a failed language permanently and both `loadLanguages` and `reloadResources` skip it forever after), then logged to the in-app Log page, and the UI falls back to English.
+
+### Under the hood
+
+- **+4 tests (490 → 494)** — [tests/i18n/lazy-locales.test.ts](tests/i18n/lazy-locales.test.ts) pins the contract: `en` available synchronously at import, non-English absent until `ensureLanguagesLoaded`, real strings served after, idempotent reloads.
+- [src/utils/platform.ts](src/utils/platform.ts) — `IS_TAURI` now guards `typeof window`, keeping the i18n module importable in vitest's node environment.
+- Adding a language no longer touches `src/i18n/index.ts` imports — drop `ui.json`/`templates.json` into `locales/<code>/` and register the code in `SUPPORTED_LANGUAGES` ([docs/I18N.md](docs/I18N.md) checklist simplified).
+- Five manifests bumped 0.25.0 → 0.26.0.
+
 ## v0.25.0 — 2026-06-10
 
 Adds 41 content warnings, including two new groups — **Dialogue / Language**

@@ -10,6 +10,7 @@ import { Select } from "@components/ui/Select";
 import { CopyButton } from "@components/output/CopyButton";
 import { useEditorStore } from "@store/editor-store";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
+import { useLanguagesReady } from "@hooks/use-languages-ready";
 import {
   buildPlaylistTitle,
   buildPlaylistDescription,
@@ -66,13 +67,18 @@ export function PlaylistPage() {
     [editor.gameName, editor.channelName, status, contentType, totalVideos, editor.storeLinks, customNote],
   );
 
+  // Lazy-loaded locales (v0.26): the dropdown can pick a language whose
+  // bundle isn't fetched yet — hold the placeholder until it is.
+  const ready = useLanguagesReady([language]);
+
   const output = useMemo(() => {
+    if (!ready) return { title: "", description: "" };
     const tFn = i18n.getFixedT(language, "templates");
     return {
       title: buildPlaylistTitle(playlistInput, tFn),
       description: buildPlaylistDescription(playlistInput, tFn),
     };
-  }, [playlistInput, language]);
+  }, [ready, playlistInput, language]);
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-6 p-6 lg:flex-row">
