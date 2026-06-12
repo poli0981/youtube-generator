@@ -23,6 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # windows-latest serves the windows-2025-vs2026 image (VS 2026
+          # toolchain) from June 15, 2026.
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             # Default Windows bundles: MSI + NSIS (.exe). Both ship.
@@ -48,12 +50,12 @@ jobs:
             bundleArgs: ""
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           # On `workflow_dispatch` checkout the requested tag; on a
           # tag push we already get the tag commit by default.
           ref: ${{ github.event.inputs.tag || github.ref }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
