@@ -1,0 +1,28 @@
+name: Test VS2026 Windows Build
+
+# TEMPORARY — delete before merge. Verifies the Tauri Windows build on
+# windows-2025-vs2026, the image windows-latest redirects to from
+# June 15, 2026. No tagName is passed to tauri-action, so this is
+# build-only and never creates or touches a release.
+
+on:
+  push:
+    branches: [claude/admiring-snyder-a5292f]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - run: npm ci
+      - uses: tauri-apps/tauri-action@v0
+        with:
+          args: --target x86_64-pc-windows-msvc
