@@ -1,0 +1,31 @@
+# Dependabot configuration.
+#
+# This file exists only to configure SECURITY updates for cargo in /src-tauri.
+# Version updates stay disabled (open-pull-requests-limit: 0); npm and
+# GitHub Actions keep GitHub's default security-update behavior.
+#
+# Why the ignores: `rand` and `glib` are transitive dependencies of tauri,
+# and their security fixes require semver-major bumps that the dependency
+# tree does not allow, so every Dependabot security-update job for them
+# fails with `security_update_not_possible` (runs 27387346373, 27387346324):
+#
+#   rand 0.7.3 (fix: 0.8.6) pinned by
+#     tauri -> tauri-utils -> kuchikiki -> selectors -> phf_codegen 0.8
+#     -> phf_generator 0.8 (requires rand ^0.7)
+#   glib 0.18.5 (fix: 0.20.0) pinned by
+#     tauri's gtk-rs 0.18 Linux stack (gtk/gdk/gio 0.18 require glib 0.18)
+#
+# Remove these ignores once tauri updates kuchikiki / the gtk-rs bindings
+# (re-check with: cargo update -p rand@0.7.3 --precise 0.8.6 --dry-run).
+
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/src-tauri"
+    schedule:
+      interval: "weekly"
+    # No version-update PRs; this entry only feeds ignore rules to security updates.
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: "rand"
+      - dependency-name: "glib"
