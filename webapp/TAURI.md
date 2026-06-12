@@ -11,7 +11,7 @@ The hardware reference and toolchain versions are documented in
 ## All platforms
 
 - **Rust stable** via `rustup`. Tauri 2 currently tracks the latest stable.
-- **Node.js ≥ 25.8.1**. Tauri-action in CI uses Node 20; locally we use ≥ 25
+- **Node.js ≥ 25.8.1**. Tauri-action in CI uses Node 22; locally we use ≥ 25
   so the JetBrains and VS Code dev tools have a single shared LTS.
 
 ```bash
