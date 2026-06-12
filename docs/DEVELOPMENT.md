@@ -130,6 +130,10 @@ Disable corporate VPNs / proxies that block the npm registry. The lock file is c
 
 Locale JSON is bundled at build time, not watched. Restart the dev server after editing `src/i18n/locales/*`.
 
+Since v0.26, only English ships in the main chunk; the other languages are
+lazy-loaded async chunks fetched on first use (see `src/i18n/index.ts` and
+docs/I18N.md). The restart advice above still applies to all of them.
+
 ### Pre-commit hook fails on `validate:locales` but I didn't touch locales
 
 You probably added a new key to `_schema.json` indirectly via the engine types (`src/engine/types.ts` → `CONTENT_WARNINGS`). New IDs require translations in all 6 locales.
