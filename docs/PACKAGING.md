@@ -27,7 +27,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # Tauri CLI
 cargo install tauri-cli
 
-# Node.js 20+
+# Node.js 22+
 # npm already installed from web development
 
 # Platform-specific
