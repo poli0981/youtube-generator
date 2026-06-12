@@ -24,7 +24,9 @@ jobs:
       matrix:
         include:
           # windows-latest serves the windows-2025-vs2026 image (VS 2026
-          # toolchain) from June 15, 2026.
+          # toolchain) from June 15, 2026. Tauri build (MSI + NSIS)
+          # verified on that exact image 2026-06-12, actions run
+          # 27388695090 — no runner pin needed.
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             # Default Windows bundles: MSI + NSIS (.exe). Both ship.
