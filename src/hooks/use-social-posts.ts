@@ -8,6 +8,7 @@ import {
 import { SOCIAL_PLATFORMS } from "@config/social-platforms";
 import type { SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "./use-current-generator-input";
+import { useLanguagesReady } from "./use-languages-ready";
 
 /**
  * Memoised editor-state → cross-post captions hook (v0.24.0). Mirrors
@@ -22,6 +23,10 @@ export function useSocialPosts(
   const input = useCurrentGeneratorInput(languageOverride);
   const { showCopyright, showSponsorCredit } = useSettingsStore();
 
+  // Lazy-loaded locales (v0.26): no caption until the output language's
+  // bundle is in memory — SocialPage renders nothing for an empty record.
+  const ready = useLanguagesReady([input.language]);
+
   const t = useMemo(
     () => i18n.getFixedT(input.language, "templates"),
     [input.language],
@@ -32,11 +37,13 @@ export function useSocialPosts(
 
   return useMemo(
     () =>
-      buildAllSocialPosts(input, t, SOCIAL_PLATFORMS, {
-        showCopyright,
-        showSponsorCredit,
-        tEn,
-      }),
-    [input, t, tEn, showCopyright, showSponsorCredit],
+      !ready
+        ? {}
+        : buildAllSocialPosts(input, t, SOCIAL_PLATFORMS, {
+            showCopyright,
+            showSponsorCredit,
+            tEn,
+          }),
+    [ready, input, t, tEn, showCopyright, showSponsorCredit],
   );
 }

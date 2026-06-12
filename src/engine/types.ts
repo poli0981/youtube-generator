@@ -836,6 +836,21 @@ export interface GeneratorOutput {
   warnings: CharLimitWarning[];
 }
 
+/**
+ * Pending/placeholder output rendered while a locale bundle is still being
+ * fetched (v0.26 lazy-loaded locales). `title === ""` doubles as the gate
+ * for OutputPage's history-save effect, so no wrong-language entry can be
+ * recorded from a not-yet-loaded translator.
+ */
+export const EMPTY_GENERATOR_OUTPUT: GeneratorOutput = {
+  title: "",
+  description: "",
+  tags: [],
+  tagString: "",
+  charCounts: { title: 0, description: 0, tags: 0 },
+  warnings: [],
+};
+
 export interface CharLimitWarning {
   field: "title" | "description" | "tags";
   current: number;

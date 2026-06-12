@@ -4,11 +4,16 @@ import { useSettingsStore } from "@store/settings-store";
 import { renderAll } from "@engine/template-renderer";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "./use-current-generator-input";
+import { useLanguagesReady } from "./use-languages-ready";
 
 export function useMultilangOutput(
   languages: SupportedLanguage[],
 ): Record<string, GeneratorOutput> {
   const baseInput = useCurrentGeneratorInput();
+  // Lazy-loaded locales (v0.26): all-or-nothing gate — OutputPage already
+  // renders nothing for an absent tab entry, and the per-language chunks
+  // load in parallel, so partial results aren't worth the complexity.
+  const ready = useLanguagesReady(languages);
   const {
     includeMultilingualTags,
     includeTrendingTags,
@@ -23,6 +28,7 @@ export function useMultilangOutput(
 
   return useMemo(() => {
     const results: Record<string, GeneratorOutput> = {};
+    if (!ready) return results;
     for (const lang of languages) {
       const tFn = i18n.getFixedT(lang, "templates");
       const input = { ...baseInput, language: lang };
@@ -40,6 +46,7 @@ export function useMultilangOutput(
     }
     return results;
   }, [
+    ready,
     languages,
     baseInput,
     includeMultilingualTags,

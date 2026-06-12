@@ -4,6 +4,7 @@ import i18n from "i18next";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
+import { useLanguagesReady } from "@hooks/use-languages-ready";
 import { buildPinnedComment } from "@engine/pinned-comment-builder";
 import { GENRES } from "@config/genres";
 import type { Genre } from "@engine/types";
@@ -40,8 +41,13 @@ export function OutputExtras() {
     return map;
   }, [t]);
 
+  // Lazy-loaded locales (v0.26): the OutputPage flow normally has this
+  // language loaded already, but the component is standalone by design —
+  // gate it rather than rely on the page.
+  const ready = useLanguagesReady([input.language]);
+
   const templateText = useMemo(() => {
-    if (!showPinnedCommentTemplate) return "";
+    if (!ready || !showPinnedCommentTemplate) return "";
     const tFn = i18n.getFixedT(input.language, "templates");
     return buildPinnedComment(input, tFn, {
       includeAskNextGame,
@@ -50,6 +56,7 @@ export function OutputExtras() {
       genreLabels,
     });
   }, [
+    ready,
     showPinnedCommentTemplate,
     input,
     includeAskNextGame,

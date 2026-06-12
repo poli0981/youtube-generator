@@ -8,7 +8,7 @@ import { CopyButton } from "@components/output/CopyButton";
 import { CharCounter } from "@components/output/CharCounter";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
-import { SUPPORTED_LANGUAGES } from "@i18n/index";
+import { SUPPORTED_LANGUAGES, ensureLanguagesLoaded } from "@i18n/index";
 import { renderAll } from "@engine/template-renderer";
 import { buildPinnedComment } from "@engine/pinned-comment-builder";
 import { YT_LIMITS } from "@engine/types";
@@ -51,6 +51,7 @@ export function BatchPage() {
   const [endPart, setEndPart] = useState("5");
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([state.language]);
   const [results, setResults] = useState<BatchResult[]>([]);
+  const [generating, setGenerating] = useState(false);
 
   const toggleLang = (lang: SupportedLanguage) => {
     setSelectedLangs((prev) => {
@@ -61,7 +62,7 @@ export function BatchPage() {
     });
   };
 
-  const handleGenerate = () => {
+  const generate = () => {
     const start = parseInt(startPart) || 1;
     const end = parseInt(endPart) || start;
     const outputs: BatchResult[] = [];
@@ -103,6 +104,19 @@ export function BatchPage() {
       outputs.push({ partNumber: String(i), languages });
     }
     setResults(outputs);
+  };
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    try {
+      // Lazy-loaded locales (v0.26): batch generates across multiple
+      // languages in one pass — every selected bundle must be in memory
+      // before the loop, or getFixedT silently renders English.
+      await ensureLanguagesLoaded(selectedLangs);
+      generate();
+    } finally {
+      setGenerating(false);
+    }
   };
 
   const allCombined = useMemo(
@@ -162,7 +176,10 @@ export function BatchPage() {
           value={endPart}
           onChange={(e) => setEndPart(e.target.value)}
         />
-        <Button onClick={handleGenerate} disabled={!state.gameName}>
+        <Button
+          onClick={() => void handleGenerate()}
+          disabled={!state.gameName || generating}
+        >
           {t("batch.generateBatch")}
         </Button>
       </div>
