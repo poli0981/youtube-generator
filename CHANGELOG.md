@@ -2,6 +2,35 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.28.0 — 2026-06-13
+
+Adds a first-run **legal consent gate**. Before the app is usable, the user
+reviews the Terms of Use, Privacy Policy, Disclaimer, and License (all already
+published at the repo root) and ticks a single "I agree" box. Acceptance is
+recorded and only re-prompts when the terms version changes — so it is a
+one-time step in normal use, and naturally re-appears in a fresh / incognito
+browser. On Windows desktop, the installer additionally shows a license page.
+
+### Added
+
+- **Legal consent gate** ([src/components/ConsentGate.tsx](src/components/ConsentGate.tsx), [src/config/legal.ts](src/config/legal.ts)) — a full-screen, non-dismissible screen rendered in place of the router until consent is recorded. Lists the four legal docs as links (open in the browser) + one combined agree checkbox; Continue is disabled until checked. Version-based re-prompt via `CURRENT_TERMS_VERSION` + `needsConsent()`; acceptance persists in the existing settings record (`legalConsentVersion` + timestamp) — **no cookie, no new storage key**.
+- **About → Legal section** ([src/pages/AboutPage.tsx](src/pages/AboutPage.tsx)) — the License/Terms/Privacy/Disclaimer docs are now linked in-app (previously only the License was), reusing the shared `LEGAL_DOCS` list.
+- **Windows installer license page** ([src-tauri/tauri.conf.json](src-tauri/tauri.conf.json), [src-tauri/installer-license.txt](src-tauri/installer-license.txt)) — `bundle.licenseFile` shows an "accept the terms" page in the MSI/NSIS installers. (macOS `.app`/Linux packages have no interactive license step — they rely on the in-app gate.)
+- **Accessible `Checkbox` primitive** ([src/components/ui/Checkbox.tsx](src/components/ui/Checkbox.tsx)) — a real `<input type="checkbox">` styled with theme tokens, distinct from the existing on/off `Toggle`.
+- **60 new locale strings** (10 keys × 6 languages: `consentGate.*` + `about.legalHeading`) + [`_schema.json`](src/i18n/locales/_schema.json); validator now expects 937 ui keys per locale (927 → 937).
+
+### Fixed
+
+- **Persisted theme is now applied on boot** ([src/main.tsx](src/main.tsx)) — `index.html` hardcodes `class="dark"`, and previously only the Header toggle wrote the theme class, so a light-theme user saw a brief dark flash on every cold start (and the new gate, which renders before the app shell, would have shown in the wrong theme). The persisted theme is now applied synchronously before first paint.
+
+### Under the hood
+
+- **+9 tests (500 → 509)** — [tests/config/legal.test.ts](tests/config/legal.test.ts) (the `needsConsent` version logic + `LEGAL_DOCS` shape; a `NaN`/Infinity version re-shows the gate) and two `legalConsentVersion` back-fill / coercion cases in [tests/store/settings-heal.test.ts](tests/store/settings-heal.test.ts).
+- Consent state is **additive** — `legalConsentVersion` / `legalConsentAt` join `SettingsData`, `initialSettings`, `extractData`, and `healSettings` (which coerces a malformed value to `0` so a corrupt file re-shows the gate, never skips it). **No persist version bump** (stays at 10).
+- The gate is a boot-time blocker but stays inside the root `ErrorBoundary`, behind a single boolean — a render error degrades to the designed error page, not a black screen.
+- Web bundle: the gate + Checkbox + legal config + English strings add ~4 kB min to the main chunk (local Rollup measure); the shipped size comes from CI's vite 8 / Rolldown build.
+- Five manifests bumped 0.27.1 → 0.28.0.
+
 ## v0.27.1 — 2026-06-13
 
 Security/dependency release. Resolves the 4 high-severity `esbuild` advisories

@@ -270,6 +270,21 @@ in every locale (en/vi/ja/es/ko/zh).
 - **Non-blocking offline banner** — a dismissible bottom strip; the app stays
   fully usable offline, and a toast confirms when the connection returns.
 
+## ⚖️ Legal & Consent (v0.28)
+
+A first-run **consent gate** (`src/components/ConsentGate.tsx`, backed by the
+pure `src/config/legal.ts`) blocks the app until the user reviews the legal
+documents and ticks one "I agree" checkbox.
+
+| Aspect | Behaviour |
+|--------|-----------|
+| Documents | Terms of Use, Privacy Policy, Disclaimer, License — linked to the GitHub-hosted copies (open in the browser); also surfaced in About → Legal |
+| Acceptance | One combined checkbox; Continue disabled until checked |
+| Persistence | Stored in the existing settings record (`legalConsentVersion` + timestamp) — **no cookie, no new storage key** |
+| Re-prompt | Version-based — only when `CURRENT_TERMS_VERSION` is raised (terms changed); also re-shows in fresh / incognito storage |
+| Desktop | Same in-app gate on Windows/macOS/Linux, **plus** a license-acceptance page in the Windows MSI/NSIS installer (`bundle.licenseFile`) |
+| Layout | Full-screen, non-dismissible, theme- and locale-aware (all 6 languages) |
+
 ## 🔌 Future Extension Points
 
 | Extension | Description | Effort |

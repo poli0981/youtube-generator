@@ -108,6 +108,15 @@ This creates `src-tauri/` directory.
 }
 ```
 
+> **Installer license page (v0.28).** The real `src-tauri/tauri.conf.json`
+> sets `bundle.licenseFile: "installer-license.txt"` (path relative to
+> `src-tauri/`). Tauri shows that file as an "accept the terms" page in the
+> **Windows MSI/NSIS** installers. macOS `.app`/`.dmg` and the Linux packages
+> have no interactive license step, so they rely on the app's first-run
+> consent gate instead. If a WiX/MSI build ever rejects the `.txt`, switch to
+> the per-bundler keys (`bundle.windows.wix.licenseFile` wants `.rtf`,
+> `bundle.windows.nsis.licenseFile` accepts `.txt`).
+
 ### 3. Rust Backend (src-tauri/src/main.rs)
 
 ```rust
