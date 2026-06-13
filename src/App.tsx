@@ -6,6 +6,8 @@ import { AppShell } from "@components/layout/AppShell";
 import { ErrorBoundary } from "@components/ErrorBoundary";
 import { ErrorPage } from "@components/errors/ErrorPage";
 import { OfflineBanner } from "@components/errors/OfflineBanner";
+import { ConsentGate } from "@components/ConsentGate";
+import { needsConsent } from "@config/legal";
 import { EditorPage } from "@pages/EditorPage";
 import { OutputPage } from "@pages/OutputPage";
 import { checkDataFileHealth } from "@utils/storage-adapter";
@@ -102,6 +104,30 @@ export default function App() {
     });
     return () => unsub();
   }, []);
+
+  // v0.28.0: first-run legal consent gate. Until the user accepts the current
+  // terms version, render the gate INSTEAD of the router so nothing in the app
+  // is reachable. The whole tree stays inside the root ErrorBoundary
+  // (main.tsx), so a gate render error still degrades to the error page.
+  const legalConsentVersion = useSettingsStore((s) => s.legalConsentVersion);
+
+  if (needsConsent(legalConsentVersion)) {
+    return (
+      <>
+        <ConsentGate />
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: "var(--surface-2)",
+              color: "var(--text-primary)",
+              border: "1px solid var(--border)",
+            },
+          }}
+        />
+      </>
+    );
+  }
 
   return (
     <>

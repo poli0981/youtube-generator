@@ -35,6 +35,7 @@
     "licenseLabel": "License",
     "donateHeading": "Donate / Support",
     "donateHelp": "If YTDescGen saves you time, consider buying me a coffee. Every bit helps keep the project going.",
+    "legalHeading": "Legal",
     "donate": {
       "githubSponsors": "GitHub Sponsors",
       "kofi": "Ko-fi",
@@ -786,6 +787,17 @@
       "title": "Something went wrong",
       "description": "The app caught a render error before it could crash the page. Your data is safe — the error was logged to the Logs tab."
     }
+  },
+  "consentGate": {
+    "title": "Before you start",
+    "intro": "YTDescGen is a free, offline-first tool. Please review the documents below. By continuing, you confirm you have read and agree to them.",
+    "agreeLabel": "I have read and agree to the Terms of Use, Privacy Policy, Disclaimer, and License.",
+    "continue": "Continue",
+    "mustAgree": "Please check the box to continue.",
+    "docTerms": "Terms of Use",
+    "docPrivacy": "Privacy Policy",
+    "docDisclaimer": "Disclaimer",
+    "docLicense": "License (Apache-2.0)"
   },
   "videoTypes": {
     "full": "Full Gameplay",

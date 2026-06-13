@@ -34,12 +34,28 @@ async function preloadLocales(): Promise<void> {
   ]).catch(() => undefined);
 }
 
+/**
+ * Apply the persisted theme class to <html> at boot. `index.html` hardcodes
+ * `class="dark"`, and `setTheme` (the Header toggle) is the only other place
+ * that touches the class — so before v0.28.0 a light-theme user saw a dark
+ * flash until they interacted. zustand persist has already hydrated from
+ * localStorage at module load, so `getState().theme` is the user's value.
+ * Runs before first paint so the consent gate (and AppShell) render in the
+ * right theme.
+ */
+function applyPersistedTheme(): void {
+  const { theme } = useSettingsStore.getState();
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  document.documentElement.classList.toggle("light", theme === "light");
+}
+
 // Top-level safety net. Per-route boundaries in App.tsx catch most
 // errors with route-specific labels; this outer one only fires if
 // something explodes *before* the router mounts (e.g. i18n init, store
 // rehydrate). Without it, a top-level crash still produces a black
 // page — defeating the point of per-route boundaries.
 void preloadLocales().finally(() => {
+  applyPersistedTheme();
   createRoot(root).render(
     <StrictMode>
       <ErrorBoundary label="app">

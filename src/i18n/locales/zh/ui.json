@@ -35,6 +35,7 @@
     "licenseLabel": "许可证",
     "donateHeading": "赞助 / 支持",
     "donateHelp": "如果 YTDescGen 帮你省下了时间，欢迎请我喝一杯咖啡。每份支持都让项目走得更远。",
+    "legalHeading": "法律",
     "donate": {
       "githubSponsors": "GitHub Sponsors",
       "kofi": "Ko-fi",
@@ -786,6 +787,17 @@
       "title": "出现问题",
       "description": "应用在页面崩溃前捕获了一个渲染错误。您的数据是安全的 — 错误已记录到日志标签页。"
     }
+  },
+  "consentGate": {
+    "title": "开始之前",
+    "intro": "YTDescGen 是一款免费、离线优先的工具。请查看以下文档。继续即表示您已阅读并同意这些文档。",
+    "agreeLabel": "我已阅读并同意《使用条款》《隐私政策》《免责声明》和《许可证》。",
+    "continue": "继续",
+    "mustAgree": "请勾选复选框以继续。",
+    "docTerms": "使用条款",
+    "docPrivacy": "隐私政策",
+    "docDisclaimer": "免责声明",
+    "docLicense": "许可证 (Apache-2.0)"
   },
   "videoTypes": {
     "full": "完整游戏实况",

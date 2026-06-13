@@ -92,6 +92,8 @@ describe("healSettings", () => {
       editorAccordionState: { gameInfo: false, videoSettings: true },
       sidebarCollapsed: true,
       logRetentionDays: 14,
+      legalConsentVersion: 1,
+      legalConsentAt: "2026-06-13T00:00:00.000Z",
     };
     const healed = healSettings(complete);
     expect(healed).toEqual(complete);
@@ -213,5 +215,22 @@ describe("healSettings", () => {
     for (const healed of [healedFromNull, healedFromString]) {
       expect(healed.genrePlaylists).toEqual({});
     }
+  });
+
+  it("back-fills legalConsentVersion 0 + legalConsentAt null for a legacy payload (pre-v0.28)", () => {
+    // A settings file written before the consent gate existed has neither
+    // key — it must heal to "never accepted" so the gate shows on first run.
+    const healed = healSettings({ theme: "dark" as const, hashtagCount: 3 });
+    expect(healed.legalConsentVersion).toBe(0);
+    expect(healed.legalConsentAt).toBeNull();
+  });
+
+  it("preserves a stored legalConsentVersion and coerces malformed/negative values to 0", () => {
+    expect(healSettings({ legalConsentVersion: 1 }).legalConsentVersion).toBe(1);
+    expect(
+      healSettings({ legalConsentVersion: "nope" as unknown as number }).legalConsentVersion,
+    ).toBe(0);
+    expect(healSettings({ legalConsentVersion: -3 }).legalConsentVersion).toBe(0);
+    expect(healSettings({ legalConsentVersion: 2.9 }).legalConsentVersion).toBe(2);
   });
 });
