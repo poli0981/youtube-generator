@@ -2,6 +2,54 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.27.1 — 2026-06-13
+
+Security/dependency release. Resolves the 4 high-severity `esbuild` advisories
+deferred from v0.27.0 by upgrading `vite` 7 → 8. The advisories
+([GHSA-gv7w-rqvm-qjhr](https://github.com/advisories/GHSA-gv7w-rqvm-qjhr),
+[GHSA-g7r4-m6w7-qqqr](https://github.com/advisories/GHSA-g7r4-m6w7-qqqr)) affect
+`esbuild` `0.17.0 – 0.28.0`; the fix lives in `esbuild` 0.28.1, which only
+`vite` 8 pulls (`vite` 7.3.3 pins `esbuild ^0.27.0` and cannot reach it). They
+only ever affected the local dev server, never the shipped static bundle. No
+feature or behaviour changes — `npm audit` now reports **0 vulnerabilities**.
+
+### Security / dependencies
+
+- **`vite` `^7.3.3` → `^8.0.16`** — the only release line whose `esbuild`
+  constraint reaches the patched 0.28.1.
+- **`@vitejs/plugin-react` `^4.3.0` → `^5.2.0`** — the vite-8-compatible major.
+  Stays on the 5.x line (peer `vite: ^4 || ^5 || ^6 || ^7 || ^8`); 6.x is the
+  Rolldown/react-compiler variant and would pull extra peers, so it was avoided.
+- **`tsx` `^4.16.0` → `^4.22.4`** — 4.22+ is the first `tsx` on patched
+  `esbuild ~0.28.0` (resolves to 0.28.1). Used only by `validate:locales` /
+  `generate:locale`.
+- `vitest` 4.1.8 already supports `vite` 8 (peer `^6 || ^7 || ^8`) — unchanged.
+- The tree now hoists a single `esbuild@0.28.1`; `npm audit` → 0 high.
+
+### Changed
+
+- **`manualChunks` object form → function form** ([vite.config.ts](vite.config.ts))
+  — **vite 8 bundles with Rolldown** (replacing Rollup), which only accepts the
+  function form of `manualChunks` (the object form was a Rollup-only API). The
+  same three vendor chunks (`react`, `router`, `i18n`) are reproduced via
+  anchored `[\\/]node_modules[\\/]…` regexes so `react-router*` and
+  `react-i18next` don't get swept into the `react` chunk. This is the only
+  source change the upgrade required.
+
+### Under the hood
+
+- Full gate chain green on vite 8: `typecheck`, `lint`, `knip`,
+  `validate:locales` (927/542), `test:run` (**500/500**), `build`. `npm run dev`
+  (port 5173, matching the Tauri `devUrl`) and `npm run preview` (4173) both
+  serve. The Tauri-context frontend build (`TAURI_ENV_PLATFORM` set) still
+  switches `base` to `/` correctly; `tauri.conf.json` `devUrl`/`frontendDist`
+  are unchanged and compatible.
+- Web bundle (Rolldown): entry chunk 165.3 kB / 46.3 kB gzip, `react` 133.4 kB,
+  `i18n` 57.9 kB, `router` 23.4 kB — all well under the 500 kB budget. Chunk
+  sizes are not directly comparable to the v0.27.0 Rollup numbers (different
+  bundler, different chunking heuristics).
+- Five manifests bumped 0.27.0 → 0.27.1.
+
 ## v0.27.0 — 2026-06-13
 
 Adds a designed, internationalized **error-page system**. A mistyped hash

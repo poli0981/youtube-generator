@@ -23,7 +23,7 @@ Install in this order:
 
 | Tool | Version | Why |
 | --- | --- | --- |
-| **Node.js** | `>= 22.0.0` | Vite 7 dropped support for older Node. Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm). |
+| **Node.js** | `>= 22.12.0` | Vite 8 requires Node `^20.19` or `>= 22.12`. Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm). |
 | **npm** | bundled with Node 22 | The project uses npm; `pnpm` and `yarn` are not tested. |
 | **Rust** | stable, `>= 1.78` | Required for the Tauri desktop build. Install via [rustup](https://rustup.rs/). |
 | **Python** | `3.12` | Optional — only needed for some Tauri platform tooling on Windows. |

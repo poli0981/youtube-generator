@@ -7,7 +7,7 @@
 - **Repository**: `github.com/poli0981/youtube-generator`
 - **License**: Apache-2.0 (see `LICENSE` + `NOTICE`)
 - **Primary Language**: TypeScript
-- **Stack**: React 18 + Vite 7 + Tailwind CSS 3 + Zustand + Tauri 2 (desktop)
+- **Stack**: React 18 + Vite 8 + Tailwind CSS 3 + Zustand + Tauri 2 (desktop)
 - **Target Platforms**: Web (GitHub Pages), Desktop (Windows/macOS/Linux via Tauri)
 
 ## Tech Stack
@@ -15,7 +15,7 @@
 | Layer | Technology | Why |
 |-------|-----------|-----|
 | Framework | React 18 | Familiar from F2P tracker dashboard |
-| Build | Vite 5 | Fast HMR, clean config |
+| Build | Vite 8 | Fast HMR, Rolldown bundler |
 | Language | TypeScript (strict) | Type safety for template engine |
 | Styling | Tailwind CSS 3 | Utility-first, fast iteration |
 | State | Zustand + persist middleware | Simple, localStorage/file persistence |

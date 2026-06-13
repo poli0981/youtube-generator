@@ -25,7 +25,7 @@ Cài theo thứ tự:
 
 | Công cụ | Phiên bản | Lý do |
 | --- | --- | --- |
-| **Node.js** | `>= 22.0.0` | Vite 7 đã bỏ hỗ trợ Node cũ. Dùng [nvm](https://github.com/nvm-sh/nvm) hoặc [fnm](https://github.com/Schniz/fnm). |
+| **Node.js** | `>= 22.12.0` | Vite 8 yêu cầu Node `^20.19` hoặc `>= 22.12`. Dùng [nvm](https://github.com/nvm-sh/nvm) hoặc [fnm](https://github.com/Schniz/fnm). |
 | **npm** | đi kèm Node 22 | Dự án dùng npm; `pnpm` và `yarn` chưa test. |
 | **Rust** | stable, `>= 1.78` | Bắt buộc cho build Tauri. Cài qua [rustup](https://rustup.rs/). |
 | **Python** | `3.12` | Tùy chọn — chỉ cần cho một số tooling Tauri trên Windows. |
