@@ -250,6 +250,26 @@ interface HistoryEntry {
 | Offline | Full functionality without internet |
 | Global Hotkey | System-wide hotkey to open app (optional) |
 
+## 🚦 Error Pages & Offline (v0.27)
+
+A single reusable, fully-localized `ErrorPage` component (`src/components/errors/`)
+backed by a pure kind→meta config (`src/config/error-pages.ts`). All copy ships
+in every locale (en/vi/ja/es/ko/zh).
+
+| Kind | Route | Trigger |
+|------|-------|---------|
+| 404 Not found | catch-all `*` | A mistyped / dead hash route (live — was a blank screen before) |
+| 403 Forbidden | `/#/403` | Designed page, route-reachable for future triggers |
+| 419 Expired | `/#/419` | Designed page, route-reachable for future triggers |
+| 500 Server error | `/#/500` | Designed page (covers 408/5xx), route-reachable for future triggers |
+| Offline | `/#/offline` + banner | `navigator.onLine` flips false |
+| Runtime crash | — | A render error caught by `ErrorBoundary` (shared `contained` variant) |
+
+- **Full-screen, no shell** — dedicated error routes render outside `AppShell`
+  (no Sidebar/Header), with Home / Back / (Reload) / Report-a-bug actions.
+- **Non-blocking offline banner** — a dismissible bottom strip; the app stays
+  fully usable offline, and a toast confirms when the connection returns.
+
 ## 🔌 Future Extension Points
 
 | Extension | Description | Effort |

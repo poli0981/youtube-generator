@@ -2,6 +2,37 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.27.0 — 2026-06-13
+
+Adds a designed, internationalized **error-page system**. A mistyped hash
+route used to render a blank screen; now any unknown route shows a full-screen
+404, and a non-blocking banner signals lost connectivity (the app is fully
+offline-capable, so it never blocks input). The render-crash boundary adopts
+the same visual language, and `403 / 419 / 500` pages are route-reachable and
+ready for future triggers (a Tauri command failure, a future sync backend).
+
+### Added
+
+- **Error-page system** ([src/components/errors/ErrorPage.tsx](src/components/errors/ErrorPage.tsx), [src/config/error-pages.ts](src/config/error-pages.ts)) — one reusable, router-agnostic component covering six kinds (`notFound`, `forbidden`, `expired`, `serverError`, `offline`, `runtime`) driven by a pure kind→meta config (HTTP code, lucide icon, severity colour, i18n key prefix). Renders a `fullscreen` variant for standalone routes and a `contained` variant for the crash boundary.
+- **Standalone error routes + live 404** ([src/App.tsx](src/App.tsx)) — `/#/403`, `/#/419`, `/#/500`, `/#/offline`, plus a catch-all `*` → 404, all rendered **outside** the `AppShell` group so they fill the screen with no Sidebar/Header. The catch-all closes a long-standing gap where unknown hash routes rendered nothing.
+- **Offline detection** ([src/hooks/use-online-status.ts](src/hooks/use-online-status.ts), [src/components/errors/OfflineBanner.tsx](src/components/errors/OfflineBanner.tsx)) — a `navigator.onLine` hook (SSR/Tauri-safe) drives a dismissible, non-blocking bottom banner; dismissal hides only the current offline episode, and a toast confirms when the connection returns. The app keeps working offline throughout.
+- **120 new locale strings** (20 keys × 6 languages) + [`_schema.json`](src/i18n/locales/_schema.json) — per-kind titles/descriptions, shared action labels, and offline-banner copy across en/vi/ja/es/ko/zh. Validator now expects 927 ui keys per locale (907 → 927).
+
+### Changed
+
+- **ErrorBoundary fallback** ([src/components/ErrorBoundary.tsx](src/components/ErrorBoundary.tsx)) now renders `<ErrorPage kind="runtime" variant="contained" />` instead of a bespoke hardcoded-English card — render crashes share the error-page look and are localized. The boundary still logs the crashing subtree's `label` for bug reports; only the visible copy went generic.
+
+### Under the hood
+
+- **+6 tests (494 → 500)** — [tests/config/error-pages.test.ts](tests/config/error-pages.test.ts) guards the pure config: exactly six kinds, correct HTTP codes, unique key prefixes, the resolver / severity-token mappings, and that every kind's `title` + `description` exists in `en/ui.json` (so the config can't point at a missing key — complements `validate:locales`, which only proves cross-locale key parity).
+- `ErrorPage` is **router-agnostic by design** — the root boundary in [src/main.tsx](src/main.tsx) mounts *outside* `<HashRouter>`, so it navigates via `#/` anchors + `history.back()` rather than `useNavigate()`, which would throw in that crash path.
+- Web bundle: main chunk 264.0 → 270.8 kB minified (82.0 → 84.2 kB gzip) — the eagerly-bundled ErrorPage + config + icons (must render synchronously in the crash path) and the English error strings account for the delta; still well under Rollup's 500 kB threshold.
+- Five manifests bumped 0.26.0 → 0.27.0.
+
+### Security / dependencies
+
+- `npm audit` reports 4 high-severity advisories in **dev-only** `esbuild` (transitive via `vite` / `tsx` / `@vitejs/plugin-react`); the only remedy is a `vite` 7 → 8 major upgrade. They affect the local dev server, not the shipped static bundle. Deferred to a dedicated dependency-upgrade release rather than bundling a breaking change into a feature release.
+
 ## v0.26.0 — 2026-06-11
 
 Performance release: locale bundles are now lazy-loaded per language, so
