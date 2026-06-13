@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import { AppShell } from "@components/layout/AppShell";
 import { ErrorBoundary } from "@components/ErrorBoundary";
+import { ErrorPage } from "@components/errors/ErrorPage";
+import { OfflineBanner } from "@components/errors/OfflineBanner";
 import { EditorPage } from "@pages/EditorPage";
 import { OutputPage } from "@pages/OutputPage";
 import { checkDataFileHealth } from "@utils/storage-adapter";
@@ -155,7 +157,17 @@ export default function App() {
               element={<PageBoundary label="About"><AboutPage /></PageBoundary>}
             />
           </Route>
+          {/* Designed error pages — siblings of the AppShell group so they
+              render full-screen with no Sidebar/Header. `403/419/500` are
+              route-reachable for future triggers; `*` is the live 404 for
+              any mistyped hash path. */}
+          <Route path="/403" element={<ErrorPage kind="forbidden" />} />
+          <Route path="/419" element={<ErrorPage kind="expired" />} />
+          <Route path="/500" element={<ErrorPage kind="serverError" />} />
+          <Route path="/offline" element={<ErrorPage kind="offline" />} />
+          <Route path="*" element={<ErrorPage kind="notFound" />} />
         </Routes>
+        <OfflineBanner />
       </HashRouter>
       <Toaster
         position="bottom-right"

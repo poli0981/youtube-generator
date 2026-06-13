@@ -749,6 +749,44 @@
     "dismiss": "Bỏ qua",
     "scrollToTop": "Cuộn lên đầu trang"
   },
+  "errorPages": {
+    "actions": {
+      "home": "Về trang chính",
+      "back": "Quay lại",
+      "retry": "Thử lại",
+      "reload": "Tải lại trang",
+      "reportBug": "Báo lỗi"
+    },
+    "offlineBanner": {
+      "message": "Bạn đang ngoại tuyến. Ứng dụng vẫn hoạt động — dữ liệu được lưu cục bộ.",
+      "details": "Chi tiết",
+      "backOnline": "Đã kết nối lại"
+    },
+    "notFound": {
+      "title": "Không tìm thấy trang",
+      "description": "Trang bạn tìm không tồn tại hoặc đã được di chuyển. Hãy kiểm tra địa chỉ hoặc quay về trình soạn thảo."
+    },
+    "forbidden": {
+      "title": "Truy cập bị từ chối",
+      "description": "Bạn không có quyền xem trang này. Nếu bạn cho rằng đây là nhầm lẫn, vui lòng báo lỗi."
+    },
+    "expired": {
+      "title": "Phiên đã hết hạn",
+      "description": "Trang này không còn hợp lệ vì phiên của bạn đã hết hạn. Hãy tải lại để bắt đầu lại."
+    },
+    "serverError": {
+      "title": "Đã xảy ra lỗi",
+      "description": "Có lỗi không mong muốn khi tải trang này. Hãy thử tải lại và báo lỗi nếu sự cố tiếp diễn."
+    },
+    "offline": {
+      "title": "Bạn đang ngoại tuyến",
+      "description": "Hiện không có kết nối mạng. YTDescGen hoạt động hoàn toàn ngoại tuyến — hồ sơ, lịch sử và văn bản đã tạo đều được lưu cục bộ."
+    },
+    "runtime": {
+      "title": "Đã xảy ra lỗi",
+      "description": "Ứng dụng đã bắt được lỗi hiển thị trước khi trang bị treo. Dữ liệu của bạn vẫn an toàn — lỗi đã được ghi vào tab Nhật ký."
+    }
+  },
   "videoTypes": {
     "full": "Full Gameplay",
     "part": "Gameplay Phần",

@@ -749,6 +749,44 @@
     "dismiss": "Descartar",
     "scrollToTop": "Volver arriba"
   },
+  "errorPages": {
+    "actions": {
+      "home": "Ir al inicio",
+      "back": "Volver",
+      "retry": "Reintentar",
+      "reload": "Recargar página",
+      "reportBug": "Informar de un error"
+    },
+    "offlineBanner": {
+      "message": "Estás sin conexión. La aplicación sigue funcionando — tus datos se guardan localmente.",
+      "details": "Detalles",
+      "backOnline": "De nuevo en línea"
+    },
+    "notFound": {
+      "title": "Página no encontrada",
+      "description": "La página que buscas no existe o se ha movido. Comprueba la dirección o vuelve al editor."
+    },
+    "forbidden": {
+      "title": "Acceso denegado",
+      "description": "No tienes permiso para ver esta página. Si crees que es un error, infórmalo."
+    },
+    "expired": {
+      "title": "Sesión expirada",
+      "description": "Esta página ya no es válida porque tu sesión ha expirado. Recarga para empezar de nuevo."
+    },
+    "serverError": {
+      "title": "Algo salió mal",
+      "description": "Se produjo un error inesperado al cargar esta página. Intenta recargar e informa del error si persiste."
+    },
+    "offline": {
+      "title": "Estás sin conexión",
+      "description": "No hay conexión de red ahora mismo. YTDescGen funciona completamente sin conexión — tus perfiles, historial y textos generados se guardan localmente."
+    },
+    "runtime": {
+      "title": "Algo salió mal",
+      "description": "La aplicación detectó un error de renderizado antes de que la página fallara. Tus datos están a salvo — el error se registró en la pestaña Registros."
+    }
+  },
   "videoTypes": {
     "full": "Gameplay Completo",
     "part": "Gameplay Parte",
