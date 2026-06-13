@@ -9,7 +9,8 @@
       "repoHeading", "repoLabel", "issuesLabel", "reportBugLabel", "discussionsLabel", "authorLabel", "licenseLabel",
       "donateHeading", "donateHelp",
       "connectHeading",
-      "thirdPartyHeading", "thirdPartyHelp"
+      "thirdPartyHeading", "thirdPartyHelp",
+      "legalHeading"
     ],
     "about.donate": ["githubSponsors", "kofi", "buyMeACoffee", "patreon", "paypal"],
     "about.socials": ["youtube", "x", "bluesky", "mastodon", "discord", "discordGame", "steam", "telegramBot", "telegramUser", "email"],
@@ -169,6 +170,7 @@
     "errorPages.serverError": ["title", "description"],
     "errorPages.offline": ["title", "description"],
     "errorPages.runtime": ["title", "description"],
+    "consentGate": ["title", "intro", "agreeLabel", "continue", "mustAgree", "docTerms", "docPrivacy", "docDisclaimer", "docLicense"],
     "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream", "gacha_quest"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
     "rig": ["os", "cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],

@@ -20,6 +20,7 @@ import {
 import { ABOUT, type AboutSocialId } from "@config/about";
 import { DONATE, type DonateId } from "@config/donate";
 import { THIRD_PARTY } from "@config/third-party";
+import { LEGAL_DOCS } from "@config/legal";
 import { useDocumentTitle } from "@hooks/use-document-title";
 
 interface SocialLinkConfig {
@@ -109,6 +110,22 @@ export function AboutPage() {
             icon={ExternalLink}
             label={`${t("about.licenseLabel")} · ${ABOUT.license}`}
           />
+        </div>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+          {t("about.legalHeading")}
+        </h2>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {LEGAL_DOCS.map((doc) => (
+            <ExternalLinkRow
+              key={doc.id}
+              href={doc.url}
+              icon={ExternalLink}
+              label={t(doc.labelKey)}
+            />
+          ))}
         </div>
       </section>
 

@@ -35,6 +35,7 @@
     "licenseLabel": "Giấy phép",
     "donateHeading": "Ủng hộ / Donate",
     "donateHelp": "Nếu YTDescGen giúp bạn tiết kiệm thời gian, mời mình một ly cà phê nhé. Mọi ủng hộ đều giúp dự án tiếp tục.",
+    "legalHeading": "Pháp lý",
     "donate": {
       "githubSponsors": "GitHub Sponsors",
       "kofi": "Ko-fi",
@@ -786,6 +787,17 @@
       "title": "Đã xảy ra lỗi",
       "description": "Ứng dụng đã bắt được lỗi hiển thị trước khi trang bị treo. Dữ liệu của bạn vẫn an toàn — lỗi đã được ghi vào tab Nhật ký."
     }
+  },
+  "consentGate": {
+    "title": "Trước khi bắt đầu",
+    "intro": "YTDescGen là công cụ miễn phí, ưu tiên hoạt động ngoại tuyến. Vui lòng xem các tài liệu bên dưới. Khi tiếp tục, bạn xác nhận đã đọc và đồng ý với chúng.",
+    "agreeLabel": "Tôi đã đọc và đồng ý với Điều khoản Sử dụng, Chính sách Bảo mật, Tuyên bố Miễn trừ và Giấy phép.",
+    "continue": "Tiếp tục",
+    "mustAgree": "Vui lòng tích vào ô để tiếp tục.",
+    "docTerms": "Điều khoản Sử dụng",
+    "docPrivacy": "Chính sách Bảo mật",
+    "docDisclaimer": "Tuyên bố Miễn trừ",
+    "docLicense": "Giấy phép (Apache-2.0)"
   },
   "videoTypes": {
     "full": "Full Gameplay",

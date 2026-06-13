@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { SupportedLanguage } from "@engine/types";
+import { CURRENT_TERMS_VERSION } from "@config/legal";
 import { saveSettings, loadSettings } from "@utils/storage-adapter";
 import {
   healSettings,
@@ -19,6 +20,8 @@ interface SettingsState extends SettingsData {
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
   setTitleFormat: (patch: Partial<TitleFormatConfig>) => void;
   toggleEditorAccordion: (id: string) => void;
+  /** Record acceptance of the current legal terms (dismisses the consent gate). */
+  acceptLegalConsent: () => void;
 }
 
 const STORE_KEY = "ytdescgen-settings";
@@ -50,6 +53,12 @@ export const useSettingsStore = create<SettingsState>()(
             [id]: !state.editorAccordionState[id],
           },
         })),
+
+      acceptLegalConsent: () =>
+        set({
+          legalConsentVersion: CURRENT_TERMS_VERSION,
+          legalConsentAt: new Date().toISOString(),
+        }),
     }),
     {
       name: STORE_KEY,
@@ -116,6 +125,8 @@ export function extractData(state: SettingsData): SettingsData {
     editorAccordionState: state.editorAccordionState,
     sidebarCollapsed: state.sidebarCollapsed,
     logRetentionDays: state.logRetentionDays,
+    legalConsentVersion: state.legalConsentVersion,
+    legalConsentAt: state.legalConsentAt,
   };
 }
 

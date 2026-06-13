@@ -50,6 +50,8 @@ YouTube oEmbed, the Steam store API, Twitch helix, and similar services are **no
 
 The web version uses **`localStorage`**, not cookies. No cookie is set by the application. GitHub Pages itself may issue a session cookie at the platform level — that is GitHub's, not ours, and is governed by [GitHub's Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
 
+The first-run consent acknowledgement (added in v0.28.0) is recorded **inside the existing settings record** — a `legalConsentVersion` number plus a local timestamp — not as a separate cookie or storage key. It never leaves your device.
+
 ## Children's Privacy
 
 This application is not directed at children under 13 and does not knowingly process any personal data from anyone.

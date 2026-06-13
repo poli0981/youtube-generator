@@ -1,0 +1,30 @@
+YTDescGen — Installation & Terms Notice
+=======================================
+
+By installing and using YTDescGen, you confirm that you have read and agree
+to the following documents:
+
+  Terms of Use:  https://github.com/poli0981/youtube-generator/blob/main/TERMS.md
+  Privacy Policy: https://github.com/poli0981/youtube-generator/blob/main/PRIVACY.md
+  Disclaimer:    https://github.com/poli0981/youtube-generator/blob/main/DISCLAIMER.md
+  License:       https://github.com/poli0981/youtube-generator/blob/main/LICENSE
+
+In short:
+
+  * YTDescGen is free, open-source software, provided AS IS, WITHOUT WARRANTY
+    OF ANY KIND. You use it at your own risk (see the Disclaimer and License
+    sections 7-8).
+  * It works fully offline. It does not collect, transmit, or sell any
+    personal data; your profiles, history, and generated text stay on your
+    device (see the Privacy Policy).
+  * You are responsible for ensuring the titles, descriptions, and tags you
+    generate comply with YouTube's policies and applicable law (see the
+    Terms of Use).
+  * YTDescGen is an independent project and is not affiliated with, endorsed
+    by, or sponsored by YouTube, Google, or any game publisher.
+
+The software itself is licensed under the Apache License, Version 2.0. The
+full license text is included with this distribution and is available at the
+License URL above.
+
+If you do not agree to these terms, do not install or use the software.

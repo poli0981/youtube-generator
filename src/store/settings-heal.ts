@@ -97,6 +97,18 @@ export interface SettingsData {
    * by `healSettings`.
    */
   logRetentionDays: number;
+  /**
+   * v0.28.0 legal consent. The `CURRENT_TERMS_VERSION` (see
+   * `@config/legal`) the user last accepted on the first-run consent gate.
+   * `0` = never accepted → the gate shows. Bumped via `acceptLegalConsent`;
+   * re-shows whenever `CURRENT_TERMS_VERSION` is raised (terms changed).
+   * Persisted inside the existing `ytdescgen-settings` record — no cookie,
+   * no new storage key. A malformed value is coerced to `0` by
+   * {@link healSettings} so a corrupt file re-shows the gate, never skips it.
+   */
+  legalConsentVersion: number;
+  /** ISO timestamp of the most recent acceptance, or `null`. Audit-only. */
+  legalConsentAt: string | null;
 }
 
 function detectBrowserLanguage(): SupportedLanguage {
@@ -148,6 +160,8 @@ export const initialSettings: SettingsData = {
   },
   sidebarCollapsed: false,
   logRetentionDays: 7,
+  legalConsentVersion: 0,
+  legalConsentAt: null,
 };
 
 /**
@@ -200,6 +214,19 @@ export function healSettings(raw: unknown): SettingsData {
       1,
       Math.min(90, Math.floor(incoming.logRetentionDays)),
     );
+  }
+
+  // v0.28.0: `legalConsentVersion` added. A non-number / non-finite / negative
+  // value must fall through to "never accepted" (0) so a corrupt or
+  // hand-edited file re-shows the consent gate rather than silently skipping
+  // it. (Additive — the trailing spread back-fills legacy payloads to 0.)
+  if (
+    typeof incoming.legalConsentVersion !== "number" ||
+    !Number.isFinite(incoming.legalConsentVersion)
+  ) {
+    incoming.legalConsentVersion = initialSettings.legalConsentVersion;
+  } else {
+    incoming.legalConsentVersion = Math.max(0, Math.floor(incoming.legalConsentVersion));
   }
 
   return { ...initialSettings, ...incoming } as SettingsData;

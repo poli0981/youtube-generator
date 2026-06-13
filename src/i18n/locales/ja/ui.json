@@ -35,6 +35,7 @@
     "licenseLabel": "ライセンス",
     "donateHeading": "寄付 / サポート",
     "donateHelp": "YTDescGenが時短に役立ったら、コーヒー一杯分でも支援していただけると嬉しいです。",
+    "legalHeading": "法的事項",
     "donate": {
       "githubSponsors": "GitHub Sponsors",
       "kofi": "Ko-fi",
@@ -786,6 +787,17 @@
       "title": "問題が発生しました",
       "description": "ページがクラッシュする前にレンダリングエラーを検出しました。データは安全です — エラーはログタブに記録されました。"
     }
+  },
+  "consentGate": {
+    "title": "始める前に",
+    "intro": "YTDescGen は無料・オフライン優先のツールです。下記の文書をご確認ください。続行すると、これらを読み同意したことになります。",
+    "agreeLabel": "利用規約、プライバシーポリシー、免責事項、およびライセンスを読み、同意します。",
+    "continue": "続行",
+    "mustAgree": "続行するにはチェックを入れてください。",
+    "docTerms": "利用規約",
+    "docPrivacy": "プライバシーポリシー",
+    "docDisclaimer": "免責事項",
+    "docLicense": "ライセンス (Apache-2.0)"
   },
   "videoTypes": {
     "full": "フルゲームプレイ",
