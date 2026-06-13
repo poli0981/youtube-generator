@@ -68,7 +68,7 @@ Nothing leaves your device. No analytics, no telemetry, no tracking. The web ver
 
 ## Tech Stack
 
-React 18 · TypeScript (strict) · Vite 7 · Tailwind CSS 3 · Zustand · i18next · Tauri 2 (Rust stable).
+React 18 · TypeScript (strict) · Vite 8 · Tailwind CSS 3 · Zustand · i18next · Tauri 2 (Rust stable).
 
 Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 

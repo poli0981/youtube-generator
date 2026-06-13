@@ -23,10 +23,21 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ["react", "react-dom"],
-          router: ["react-router-dom"],
-          i18n: ["i18next", "react-i18next", "i18next-resources-to-backend"],
+        // Vite 8 bundles with Rolldown, which only accepts the function form of
+        // manualChunks (the object form is a Rollup-only API). Anchored [\\/]
+        // regexes keep each vendor in its own chunk without cross-matching —
+        // react-router* and react-i18next must not fall into the "react" chunk.
+        manualChunks(id) {
+          if (/[\\/]node_modules[\\/]react(-dom)?[\\/]/.test(id)) return "react";
+          if (/[\\/]node_modules[\\/]react-router(-dom)?[\\/]/.test(id))
+            return "router";
+          if (
+            /[\\/]node_modules[\\/](i18next|react-i18next|i18next-resources-to-backend)[\\/]/.test(
+              id,
+            )
+          )
+            return "i18n";
+          return undefined;
         },
       },
     },
