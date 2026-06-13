@@ -749,6 +749,44 @@
     "dismiss": "关闭",
     "scrollToTop": "回到顶部"
   },
+  "errorPages": {
+    "actions": {
+      "home": "返回主页",
+      "back": "返回",
+      "retry": "重试",
+      "reload": "重新加载页面",
+      "reportBug": "报告错误"
+    },
+    "offlineBanner": {
+      "message": "您已离线。应用仍可正常使用 — 数据保存在本地。",
+      "details": "详情",
+      "backOnline": "已恢复在线"
+    },
+    "notFound": {
+      "title": "页面未找到",
+      "description": "您查找的页面不存在或已移动。请检查地址，或返回编辑器。"
+    },
+    "forbidden": {
+      "title": "访问被拒绝",
+      "description": "您没有权限查看此页面。如果您认为这是错误，请报告。"
+    },
+    "expired": {
+      "title": "会话已过期",
+      "description": "由于您的会话已过期，此页面不再有效。请重新加载以重新开始。"
+    },
+    "serverError": {
+      "title": "出现问题",
+      "description": "加载此页面时发生意外错误。请尝试重新加载，如果问题持续请报告。"
+    },
+    "offline": {
+      "title": "您已离线",
+      "description": "当前没有网络连接。YTDescGen 完全可离线运行 — 您的配置、历史记录和生成的文本都保存在本地。"
+    },
+    "runtime": {
+      "title": "出现问题",
+      "description": "应用在页面崩溃前捕获了一个渲染错误。您的数据是安全的 — 错误已记录到日志标签页。"
+    }
+  },
   "videoTypes": {
     "full": "完整游戏实况",
     "part": "游戏实况分集",

@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
-import { AlertTriangle, RotateCcw } from "lucide-react";
+import { ErrorPage } from "@components/errors/ErrorPage";
 
 interface ErrorBoundaryProps {
   /** Children to render normally. The boundary only kicks in on render
@@ -77,51 +77,19 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.setState({ error: null });
   };
 
-  private handleReload = (): void => {
-    window.location.reload();
-  };
-
   render(): ReactNode {
     if (!this.state.error) return this.props.children;
 
-    const label = this.props.label ?? "this section";
-
+    // The visible copy is now generic + localized via the shared ErrorPage
+    // (contained variant). The `label` is still logged in componentDidCatch
+    // so bug reports keep the "which subtree crashed" context.
     return (
-      <div className="flex min-h-[200px] items-center justify-center p-6">
-        <div className="w-full max-w-md rounded-lg border border-danger/40 bg-surface-2 p-5 shadow-md shadow-black/10">
-          <div className="mb-3 flex items-center gap-2 text-danger">
-            <AlertTriangle className="h-4 w-4" />
-            <h2 className="text-sm font-semibold">
-              Something went wrong in {label}
-            </h2>
-          </div>
-          <p className="mb-3 text-xs text-text-secondary">
-            The app caught a render error before it could crash the page.
-            Your data is safe — the error has been logged to the Logs
-            tab.
-          </p>
-          <pre className="mb-4 max-h-32 overflow-auto whitespace-pre-wrap rounded bg-surface-3 p-2 text-[11px] text-text-muted">
-            {this.state.error.message}
-          </pre>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={this.handleReset}
-              className="inline-flex items-center gap-1.5 rounded bg-accent px-3 py-1.5 text-xs font-semibold text-white hover:bg-accent-hover"
-            >
-              <RotateCcw className="h-3.5 w-3.5" />
-              Try again
-            </button>
-            <button
-              type="button"
-              onClick={this.handleReload}
-              className="inline-flex items-center gap-1.5 rounded border border-border bg-surface-2 px-3 py-1.5 text-xs font-semibold text-text-primary hover:bg-surface-3"
-            >
-              Reload page
-            </button>
-          </div>
-        </div>
-      </div>
+      <ErrorPage
+        kind="runtime"
+        variant="contained"
+        onReset={this.handleReset}
+        detail={this.state.error.message}
+      />
     );
   }
 }

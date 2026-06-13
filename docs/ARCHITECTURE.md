@@ -46,6 +46,14 @@
 └──────────────────────────────────────────────────────────────┘
 ```
 
+**Error pages (v0.27):** `components/errors/` holds a reusable `ErrorPage`
+(404/403/419/500/offline/runtime) driven by the pure `config/error-pages.ts`
+map. The dedicated error routes (`/403`, `/419`, `/500`, `/offline`, catch-all
+`*`) are declared as **siblings of the `AppShell` route group** in `App.tsx`, so
+they render full-screen with no Sidebar/Header. `ErrorPage` is router-agnostic
+(hash anchors + `history.back()`) so the root `ErrorBoundary` — mounted outside
+`HashRouter` in `main.tsx` — can reuse it as its crash fallback.
+
 ## 2. Core Engine Design
 
 Engine module chứa toàn bộ logic generate — **zero framework dependency**. Mọi function đều pure: input → string.

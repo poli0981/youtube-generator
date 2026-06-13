@@ -749,6 +749,44 @@
     "dismiss": "Dismiss",
     "scrollToTop": "Scroll to top"
   },
+  "errorPages": {
+    "actions": {
+      "home": "Go home",
+      "back": "Go back",
+      "retry": "Try again",
+      "reload": "Reload page",
+      "reportBug": "Report a bug"
+    },
+    "offlineBanner": {
+      "message": "You're offline. The app keeps working — your data is stored locally.",
+      "details": "Details",
+      "backOnline": "Back online"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist or has moved. Check the address, or head back to the editor."
+    },
+    "forbidden": {
+      "title": "Access denied",
+      "description": "You don't have permission to view this page. If you think this is a mistake, please report it."
+    },
+    "expired": {
+      "title": "Session expired",
+      "description": "This page is no longer valid because your session expired. Reload to start again."
+    },
+    "serverError": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred while loading this page. Try reloading, and report the bug if it keeps happening."
+    },
+    "offline": {
+      "title": "You're offline",
+      "description": "There's no network connection right now. YTDescGen works fully offline — your profiles, history, and generated text are all stored locally."
+    },
+    "runtime": {
+      "title": "Something went wrong",
+      "description": "The app caught a render error before it could crash the page. Your data is safe — the error was logged to the Logs tab."
+    }
+  },
   "videoTypes": {
     "full": "Full Gameplay",
     "part": "Gameplay Part",
