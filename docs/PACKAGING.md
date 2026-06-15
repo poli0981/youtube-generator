@@ -283,17 +283,39 @@ point, and the Android launcher icons live in `src-tauri/icons/android/`. The
 desktop-only tray / single-instance / hide-to-tray logic in `src-tauri/src/lib.rs`
 is gated behind `#[cfg(desktop)]` so the library compiles for Android.
 
-> **Min version: Android 11 (minSdk 30), targetSdk 36.** Set via
-> `bundle.android.minSdkVersion` in `src-tauri/tauri.conf.json` (the source of
-> truth used by `tauri android init`) and the generated
-> `gen/android/app/build.gradle.kts` (`minSdk = 30` — edit this directly if you
-> change it without re-running `init`, since the gradle value is baked at init
-> time). Android 11+ covers the large majority of active devices and keeps a
-> modern, auto-updating System WebView (the WebView minimum is Android 10) plus
-> Google Play system/Play-services security updates, even though Google's
-> OS-level security bulletins for Android 11–13 have ended. Raising minSdk also
-> moots the ancient-WebView class of bug (e.g. the Chromium-91 `crypto.randomUUID`
-> boot crash fixed in this release).
+### Requirements & tested versions
+
+| | |
+|---|---|
+| **Minimum OS** | **Android 11** (API level 30, `minSdk 30`). The APK will not install below this. |
+| **Target OS** | **Android 16** (API level 36, `targetSdk 36`). |
+| **Architectures** | Universal APK — `arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`. |
+| **Tested** | **Android 11 → 16.** The v0.29.0 build was verified on Android emulators across this range **and on a real device running Android 12** (the maintainer's phone). |
+
+Where the value lives: `bundle.android.minSdkVersion` in
+[`src-tauri/tauri.conf.json`](../src-tauri/tauri.conf.json) is the source of
+truth used by `tauri android init`; the generated
+`gen/android/app/build.gradle.kts` carries the baked `minSdk = 30` — edit that
+directly if you change the floor without re-running `init`.
+
+**Why Android 11 is the floor (rationale):**
+
+- **Coverage.** Android 11+ accounts for the large majority of active devices in
+  2026 (Android 14/15 alone are the two biggest slices, and 11–13 together still
+  hold a sizeable share). Going lower buys few extra users at growing compat cost.
+- **A modern, patched WebView.** The app renders entirely in the system WebView,
+  whose minimum is Android 10. On Android 11+ the WebView auto-updates via Google
+  Play, so the rendering/JS engine stays current and patched. This is exactly why
+  the **real-device test on Android 12 worked**, while a *stale* Android-12
+  emulator stuck on WebView 91 showed a black screen (the `crypto.randomUUID`
+  boot crash) — that class of bug is fixed in v0.29.0 and is moot on an
+  up-to-date WebView.
+- **Security upkeep.** Even though Google's *OS-level* monthly security bulletins
+  for Android 11–13 have ended (Android 12 in 2025, Android 13 in early 2026),
+  Android 11+ keeps receiving security updates for the components that matter to a
+  sandboxed WebView app: Google Play system updates (Project Mainline), Google
+  Play services, and System WebView. Requiring strict OS-bulletin support would
+  mean Android 14+, which would drop more than half of users.
 
 ### Prerequisites
 

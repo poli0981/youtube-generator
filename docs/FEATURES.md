@@ -260,6 +260,7 @@ separate mobile project. Build with `cargo tauri android build --apk`; see
 |---------|-------------|
 | Same codebase | One Tauri 2 project produces web, desktop, and Android |
 | Min version | Android 11+ (minSdk 30); `targetSdk` 36 (Android 16) |
+| Tested | Android 11 → 16 (emulators); real device on Android 12 |
 | Signed APK | Self-signed release APK for sideloading; CI publishes it to GitHub Releases |
 | Responsive UI | Drawer navigation, touch-sized controls, safe-area insets |
 | File export | Routed through the WebView download (lands in Downloads) on Android |
