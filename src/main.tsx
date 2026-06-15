@@ -5,6 +5,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import i18n, { ensureLanguagesLoaded } from "@i18n/index";
 import { useSettingsStore } from "@store/settings-store";
 import { useEditorStore } from "@store/editor-store";
+import { installExternalLinkHandler } from "@utils/open-external";
 import "./styles/globals.css";
 
 const root = document.getElementById("root");
@@ -56,6 +57,9 @@ function applyPersistedTheme(): void {
 // page — defeating the point of per-route boundaries.
 void preloadLocales().finally(() => {
   applyPersistedTheme();
+  // In a Tauri webview, `<a target="_blank">` is inert — route external links
+  // through the OS via the opener plugin. No-op on the web build.
+  installExternalLinkHandler();
   createRoot(root).render(
     <StrictMode>
       <ErrorBoundary label="app">

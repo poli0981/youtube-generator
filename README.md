@@ -2,7 +2,7 @@
 
 **YouTube Gameplay Description Generator** — an offline-first template engine for Gameplay No Commentary YouTube channels.
 
-Generate YouTube titles, descriptions, and tags in six languages with one click. Save channel, rig, and game presets to skip repetitive data entry. Works in the browser (GitHub Pages) or as a ~8 MB native desktop app (Tauri).
+Generate YouTube titles, descriptions, and tags in six languages with one click. Save channel, rig, and game presets to skip repetitive data entry. Works in the browser (GitHub Pages), as a ~8 MB native desktop app (Windows / macOS / Linux), or as an installable Android APK — all from one Tauri 2 codebase.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A522-brightgreen)](./docs/DEVELOPMENT.md)
@@ -33,6 +33,7 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Batch mode** — generate metadata for all parts of a series in one pass.
 - **Cross-post captions** — a dedicated **Social** tab re-packages the same YouTube source into short-form captions for **TikTok** (4,000-char), **Instagram Reels**, and **Facebook Reels** — title, rig, content warnings, copyright, thanks, and hashtags (game + genre + curated per-platform popular tags). Single + bulk modes, per-platform character limits with smart overflow trimming, and JSON import/export.
 - **Desktop app** — Windows, macOS & Linux native binaries via Tauri (~8 MB).
+- **Android app** — installable, sideloadable `.apk` (Android 11+) built from the same Tauri 2 codebase. Grab it from [Releases](https://github.com/poli0981/youtube-generator/releases) and enable "Install unknown apps" to sideload.
 - **Mobile-responsive web** — drawer navigation, touch-sized controls, iOS-safe text-input behavior. Tested down to 360 × 640.
 - **100% offline** — no server, no telemetry, no account. See [PRIVACY.md](./PRIVACY.md).
 
@@ -51,6 +52,16 @@ Desktop build (Windows / macOS / Linux):
 npm run tauri:build
 # Output: src-tauri/target/release/bundle/{msi,deb,dmg,app}
 ```
+
+Android build (`.apk`) — requires the Android SDK + NDK + a JDK:
+
+```bash
+cargo tauri android init          # one-time; generates src-tauri/gen/android
+cargo tauri android build --apk
+# Output: src-tauri/gen/android/app/build/outputs/apk/universal/release/
+```
+
+See [`docs/PACKAGING.md`](./docs/PACKAGING.md#android-apk-packaging) for the SDK/NDK setup and signing steps.
 
 Full development setup, IDE config, and troubleshooting: see [`docs/DEVELOPMENT.md`](./docs/DEVELOPMENT.md). Vietnamese version: [`docs/i18n/vi/DEVELOPMENT.md`](./docs/i18n/vi/DEVELOPMENT.md).
 
@@ -83,7 +94,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 | [Roadmap](./docs/ROADMAP.md) | Development phases. |
 | [Tech Spec](./docs/TECH-SPEC.md) | Implementation details and configs. |
 | [i18n Guide](./docs/I18N.md) | Adding new locales. |
-| [Packaging](./docs/PACKAGING.md) | Tauri release builds and signing. |
+| [Packaging](./docs/PACKAGING.md) | Tauri desktop + Android release builds and signing. |
 | [Contributing](./CONTRIBUTING.md) | PR process, commit conventions, auto-ignore rules. |
 | [Security](./SECURITY.md) | Reporting vulnerabilities. |
 | [Privacy](./PRIVACY.md) | Data handling (TL;DR: none). |

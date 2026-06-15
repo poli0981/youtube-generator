@@ -250,6 +250,22 @@ interface HistoryEntry {
 | Offline | Full functionality without internet |
 | Global Hotkey | System-wide hotkey to open app (optional) |
 
+## 📱 Android App (v0.29)
+
+An installable, sideloadable `.apk` built from the same Tauri 2 codebase — no
+separate mobile project. Build with `cargo tauri android build --apk`; see
+[PACKAGING.md](./PACKAGING.md#android-apk-packaging).
+
+| Feature | Description |
+|---------|-------------|
+| Same codebase | One Tauri 2 project produces web, desktop, and Android |
+| Min version | Android 11+ (minSdk 30); `targetSdk` 36 (Android 16) |
+| Signed APK | Self-signed release APK for sideloading; CI publishes it to GitHub Releases |
+| Responsive UI | Drawer navigation, touch-sized controls, safe-area insets |
+| File export | Routed through the WebView download (lands in Downloads) on Android |
+| Persistence | App-private data dir (`appDataDir()`) + localStorage; works offline |
+| No tray | Desktop-only tray / single-instance are `#[cfg(desktop)]`-gated out |
+
 ## 🚦 Error Pages & Offline (v0.27)
 
 A single reusable, fully-localized `ErrorPage` component (`src/components/errors/`)
