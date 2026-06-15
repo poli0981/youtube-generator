@@ -33,7 +33,7 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Batch mode** — generate metadata for all parts of a series in one pass.
 - **Cross-post captions** — a dedicated **Social** tab re-packages the same YouTube source into short-form captions for **TikTok** (4,000-char), **Instagram Reels**, and **Facebook Reels** — title, rig, content warnings, copyright, thanks, and hashtags (game + genre + curated per-platform popular tags). Single + bulk modes, per-platform character limits with smart overflow trimming, and JSON import/export.
 - **Desktop app** — Windows, macOS & Linux native binaries via Tauri (~8 MB).
-- **Android app** — installable, sideloadable `.apk` (Android 11+) built from the same Tauri 2 codebase. Grab it from [Releases](https://github.com/poli0981/youtube-generator/releases) and enable "Install unknown apps" to sideload.
+- **Android app** — installable, sideloadable `.apk` built from the same Tauri 2 codebase. **Requires Android 11+** (tested 11–16; real-device test on Android 12). Grab it from [Releases](https://github.com/poli0981/youtube-generator/releases) and enable "Install unknown apps" to sideload.
 - **Mobile-responsive web** — drawer navigation, touch-sized controls, iOS-safe text-input behavior. Tested down to 360 × 640.
 - **100% offline** — no server, no telemetry, no account. See [PRIVACY.md](./PRIVACY.md).
 
