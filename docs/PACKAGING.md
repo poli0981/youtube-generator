@@ -274,6 +274,120 @@ Linux runners install `libwebkit2gtk-4.1-dev`, `libgtk-3-dev`, `libayatana-appin
 
 **Backfill for pre-workflow tags:** `v0.8.0` and `v0.8.1` predate the multi-platform matrix and only have local Windows builds. To attach binaries retroactively, build manually then `gh release create v0.8.0 --notes-file CHANGELOG.md path/to/*.msi …`.
 
+## Android (.apk) Packaging
+
+YTDescGen also builds an installable Android APK from the **same** Tauri 2
+codebase — there is no separate mobile project. Tauri 2 ships Android support;
+the crate is already `cdylib`/`staticlib` with a `#[cfg_attr(mobile, …)]` entry
+point, and the Android launcher icons live in `src-tauri/icons/android/`. The
+desktop-only tray / single-instance / hide-to-tray logic in `src-tauri/src/lib.rs`
+is gated behind `#[cfg(desktop)]` so the library compiles for Android.
+
+> **Min version: Android 11 (minSdk 30), targetSdk 36.** Set via
+> `bundle.android.minSdkVersion` in `src-tauri/tauri.conf.json` (the source of
+> truth used by `tauri android init`) and the generated
+> `gen/android/app/build.gradle.kts` (`minSdk = 30` — edit this directly if you
+> change it without re-running `init`, since the gradle value is baked at init
+> time). Android 11+ covers the large majority of active devices and keeps a
+> modern, auto-updating System WebView (the WebView minimum is Android 10) plus
+> Google Play system/Play-services security updates, even though Google's
+> OS-level security bulletins for Android 11–13 have ended. Raising minSdk also
+> moots the ancient-WebView class of bug (e.g. the Chromium-91 `crypto.randomUUID`
+> boot crash fixed in this release).
+
+### Prerequisites
+
+- **Android SDK** — platform-tools, a platform (e.g. `android-34`/`android-36`), build-tools. Install via Android Studio or the command-line tools.
+- **Android NDK** — r27 LTS recommended (e.g. `27.3.13750724`).
+- **JDK 17** — Android Studio's bundled JBR works (`…/Android Studio/jbr`).
+- **Rust android targets**:
+  ```bash
+  rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+  ```
+
+Set these environment variables before any `android` command (PowerShell shown):
+
+```powershell
+$env:ANDROID_HOME = "C:\Users\<you>\AppData\Local\Android\Sdk"
+$env:NDK_HOME     = "C:\Users\<you>\AppData\Local\Android\Sdk\ndk\27.3.13750724"
+$env:JAVA_HOME    = "C:\Jetbrains\Android Studio\jbr"   # or any JDK 17
+```
+
+### Initialize (one-time)
+
+```bash
+cargo tauri android init
+```
+
+Generates the Gradle project under `src-tauri/gen/android/` — **committed** to
+the repo so the signing block and any manifest edits persist. It pulls launcher
+icons from `src-tauri/icons/android/` and sets `applicationId =
+com.skullmute.ytdescgen`. Treat `init` as a one-time step: re-running it
+overwrites hand edits like the signing config below, so only re-run it if a
+Tauri upgrade requires regenerating the project (then re-apply the signing edit).
+
+### Signing (one-time)
+
+Sideloaded APKs must be signed. Create a self-signed release keystore and keep
+it **outside** the repo:
+
+```powershell
+& "$env:JAVA_HOME\bin\keytool.exe" -genkeypair -v `
+  -keystore C:\keys\ytdescgen-release.jks `
+  -keyalg RSA -keysize 2048 -validity 10000 -alias ytdescgen
+```
+
+> ⚠️ **Back this keystore up.** If you lose it you can never publish an update
+> that installs over an existing copy — Android rejects a changed signature.
+
+Create `src-tauri/gen/android/keystore.properties` (gitignored):
+
+```properties
+storeFile=C:/keys/ytdescgen-release.jks
+storePassword=<store-password>
+keyAlias=ytdescgen
+keyPassword=<key-password>
+```
+
+`app/build.gradle.kts` carries a `release` `signingConfigs` block that reads this
+file, guarded by `if (exists())` — a missing keystore yields an *unsigned*
+release build rather than a hard failure (handy for contributors).
+
+### Build
+
+```bash
+cargo tauri android build --apk
+# → src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk
+```
+
+- `--apk` produces an APK. **Without it Tauri builds an `.aab`** App Bundle for the Play Store, which cannot be sideloaded.
+- `cargo tauri android build --apk --target aarch64` builds an arm64-only APK (smaller download; covers virtually all modern phones).
+- The build runs `npm run build` first (the `beforeBuildCommand`), then Gradle. The first build takes several minutes (Rust × up to 4 ABIs + a cold Gradle).
+- For on-device iteration with hot reload: `cargo tauri android dev`.
+
+Install on a device: copy the APK over (or `adb install -r <apk>`) and enable
+"Install unknown apps" for the source app.
+
+### CI
+
+[.github/workflows/release-android.yml](../.github/workflows/release-android.yml)
+builds and signs the APK on a `v*` tag (or `workflow_dispatch`) and attaches it
+to the same draft GitHub Release as the desktop binaries. It needs four repo
+secrets:
+
+| Secret | Value |
+|---|---|
+| `ANDROID_KEYSTORE_BASE64` | base64 of the `.jks` (`base64 -w0 ytdescgen-release.jks`) |
+| `ANDROID_STORE_PASSWORD` | keystore store password |
+| `ANDROID_KEY_PASSWORD` | key password |
+| `ANDROID_KEY_ALIAS` | `ytdescgen` |
+
+### App-level changes for Android
+
+- **`src-tauri/src/lib.rs`** — tray / single-instance / hide-to-tray / exit-prevention are `#[cfg(desktop)]`; the dialog/fs/opener/shell plugins and the six file commands run on every platform.
+- **`src-tauri/Cargo.toml`** — `tauri-plugin-single-instance` lives in a desktop-only `[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]` table.
+- **`src/utils/platform.ts` / `file-ops.ts`** — `IS_MOBILE` routes file export through the WebView blob download on Android (the native save dialog is unreliable under scoped storage). Settings persist via `appDataDir()` (app-private storage) **and** localStorage, both of which work on Android.
+
 ## Auto-Update Flow
 
 ```

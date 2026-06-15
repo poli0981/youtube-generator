@@ -11,3 +11,14 @@ coverage/
 .claude/
 src-tauri/target/
 app-icon.png
+
+# Android (Tauri gen) — the generated Gradle project source IS committed, but
+# never the signing secrets, machine-local files, or build artifacts.
+*.jks
+*.keystore
+src-tauri/gen/android/keystore.properties
+src-tauri/gen/android/local.properties
+src-tauri/gen/android/.gradle/
+src-tauri/gen/android/.idea/
+src-tauri/gen/android/build/
+src-tauri/gen/android/app/build/

@@ -21,6 +21,14 @@ export default defineConfig({
     },
   },
   build: {
+    // Tauri ships the *system* WebView. On Android that can be an old, frozen
+    // Chromium (e.g. some emulator system images sit at ~91 until the user
+    // updates Android System WebView), which chokes on Vite's modern default
+    // target and renders a blank/black screen. Downlevel the bundle for Tauri
+    // builds so it runs on those older WebViews; the web (GitHub Pages) build
+    // keeps Vite's modern default. Desktop WebViews are evergreen, so a lower
+    // target is a harmless no-op there.
+    target: isTauri ? "es2020" : undefined,
     rollupOptions: {
       output: {
         // Vite 8 bundles with Rolldown, which only accepts the function form of

@@ -2,6 +2,41 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.29.0 — 2026-06-15
+
+Adds an **Android build** — an installable, sideloadable signed `.apk` built
+from the same Tauri 2 codebase as the desktop apps. No app rewrite: Tauri 2
+ships Android support, the crate was already `cdylib`/`staticlib` with a
+`#[cfg_attr(mobile, …)]` entry point, and the Android launcher icons were
+already in the repo. The work was making the Rust shell compile for mobile,
+routing file export through the WebView on Android, and wiring a signed-APK CI
+job that publishes the APK alongside the desktop binaries.
+
+### Added
+
+- **Android APK target** — `cargo tauri android init` + `cargo tauri android build --apk` produce a signed, sideloadable APK. The generated Gradle project lives at [src-tauri/gen/android](src-tauri/gen/android) (committed so signing/manifest edits persist); secrets (`keystore.properties`, `*.jks`) and build artifacts are gitignored.
+- **Requires Android 11+ (minSdk 30)** ([src-tauri/tauri.conf.json](src-tauri/tauri.conf.json) `bundle.android.minSdkVersion`, [build.gradle.kts](src-tauri/gen/android/app/build.gradle.kts)) — raised from Tauri's default 24 (Android 7) to API 30. Android 11+ covers the large majority of active devices and keeps a modern, auto-updating System WebView plus Google Play system/Play-services security updates — even though Google's OS-level security bulletins for Android 11–13 have now ended (12 in 2025, 13 in early 2026). `targetSdk` stays at 36 (Android 16).
+- **APK signing config** ([src-tauri/gen/android/app/build.gradle.kts](src-tauri/gen/android/app/build.gradle.kts)) — a `release` `signingConfigs` block reads `keystore.properties`, guarded by `if (exists())` so keystore-less debug / contributor builds still work (they produce an unsigned release build instead of failing).
+- **Android release CI** ([.github/workflows/release-android.yml](.github/workflows/release-android.yml)) — on a `v*` tag (or `workflow_dispatch`), an `ubuntu-latest` job sets up JDK 17 + Android SDK/NDK + the four Rust android targets, decodes the keystore from repo secrets, builds the signed APK, and uploads it to the same draft release as the desktop binaries. Needs four secrets: `ANDROID_KEYSTORE_BASE64`, `ANDROID_STORE_PASSWORD`, `ANDROID_KEY_PASSWORD`, `ANDROID_KEY_ALIAS`.
+
+### Changed
+
+- **Rust shell is now mobile-aware** ([src-tauri/src/lib.rs](src-tauri/src/lib.rs)) — the tray icon, single-instance plugin, hide-to-tray and exit-prevention logic are gated behind `#[cfg(desktop)]`; the four cross-platform plugins (dialog / fs / opener / shell) and all six file commands register on every platform. Desktop behaviour is byte-for-byte unchanged (`cargo check` clean).
+- **`tauri-plugin-single-instance` is desktop-only** ([src-tauri/Cargo.toml](src-tauri/Cargo.toml)) — moved under `[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]` so it is never compiled into the Android library.
+- **File export is mobile-aware** ([src/utils/platform.ts](src/utils/platform.ts), [src/utils/file-ops.ts](src/utils/file-ops.ts)) — a new `IS_MOBILE` flag routes `saveFile()` (log export) through the in-WebView blob download on Android (lands in Downloads), since the native save dialog + `std::fs` path write is unreliable under Android scoped storage. Settings / profile / preset JSON export + import already use blob download / `<input type=file>`, which work as-is in the Android WebView.
+
+### Fixed
+
+These two surfaced during on-device testing of the Android build:
+
+- **External links now open on Android** ([src/utils/open-external.ts](src/utils/open-external.ts), [src/main.tsx](src/main.tsx)) — legal-doc / donate / repo / social links did nothing on a real device. On-device debugging showed why: a real tap on `<a target="_blank">` makes the Android WebView fire its native `onCreateWindow`, which Tauri tries to satisfy via the shell plugin's `open` — there is no such binary on Android, so it throws an uncaught *"Scoped shell IO error"* and nothing opens (JS `preventDefault` does **not** stop that native path). Fix (Tauri-only; the web build keeps native `target="_blank"`): strip `target="_blank"` from external anchors (a `MutationObserver` covers React re-renders) so `onCreateWindow` never fires, and intercept the click in the **capture** phase, routing the URL through the `opener` plugin (`openUrl` → system browser). `opener:default` already grants `allow-open-url`, so no capability change was needed. Verified end-to-end on an Android 13 emulator (tap → Chrome opens, no shell error).
+- **No more black screen on older Android WebViews** ([src/utils/uuid.ts](src/utils/uuid.ts)) — `generateId()` called `crypto.randomUUID()`, which only exists in Chromium/WebView **92+**. It runs at module load (the log store's `CURRENT_SESSION_ID`), so on a stale WebView (e.g. the Chromium 91 some emulator images ship) it threw during boot and black-screened the whole app. It now falls back to a manual RFC 4122 v4 built on `crypto.getRandomValues`. As defence-in-depth, Tauri builds also set `build.target: "es2020"` ([vite.config.ts](vite.config.ts)) so the bundle's *syntax* stays within reach of older WebViews (the web build keeps Vite's modern default).
+
+### Under the hood
+
+- **+4 tests (509 → 513)** — [tests/utils/uuid.test.ts](tests/utils/uuid.test.ts) locks down the `generateId()` v4 shape and both fallback paths (no `randomUUID`, no `crypto` at all) so the WebView-91 black screen can't regress. The rest is build/infra plus small guards. Storage (`appDataDir()` via the six file commands) and localStorage persistence both work unchanged on Android (the app's private data dir is writable with `std::fs`).
+- Five manifests bumped 0.28.0 → 0.29.0.
+
 ## v0.28.0 — 2026-06-13
 
 Adds a first-run **legal consent gate**. Before the app is usable, the user
