@@ -2,6 +2,27 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.29.1 — 2026-06-17
+
+A UI/UX hotfix for **mobile viewport overflow**. On Android and narrow web
+mobile (~360–400px) the **Batch** and **Profile** screens overran the viewport
+horizontally — rows laid out side-by-side on desktop never collapsed to a stack
+on small screens. This release makes those rows responsive and sweeps a few
+adjacent overflow spots. Layout-only: no logic, store, or i18n changes, and
+desktop layout is byte-for-byte unchanged (every change is gated behind the
+`sm` breakpoint).
+
+### Fixed
+
+- **Batch page fits mobile** ([src/pages/BatchPage.tsx](src/pages/BatchPage.tsx)) — the part-range row (Start / End / Generate) stacks vertically below `sm` with a full-width Generate button, and the result-card copy-button rows wrap instead of overflowing.
+- **Profile page fits mobile** ([src/pages/ProfilesPage.tsx](src/pages/ProfilesPage.tsx)) — the tab pill and the Export/Import buttons drop onto separate rows below `sm`; the Profile / Preset / Template cards ([ProfileCard](src/components/profiles/ProfileCard.tsx), [PresetCard](src/components/presets/PresetCard.tsx), [TemplateCard](src/components/templates/TemplateCard.tsx)) move their action buttons below the content and let long names wrap (`min-w-0`) instead of shoving the buttons off-screen.
+- **Adjacent mobile overflow swept** — responsive padding + a wrapping header on [Settings](src/pages/SettingsPage.tsx) (its Import/Export row shows on Android, where `IS_TAURI` is true), the video-settings selector grid collapses to one column below `sm` ([VideoSettingsForm](src/components/editor/VideoSettingsForm.tsx)), and modals are pinned to `calc(100% - 2rem)` so they never exceed the viewport ([Modal](src/components/ui/Modal.tsx)).
+
+### Under the hood
+
+- Layout-only className changes across 8 components. typecheck, lint, locale validation (937/542), all **513 tests**, and the production build pass; verified live at 375 px and 1280 px with zero horizontal overflow on Batch, Profiles, Settings, and Editor.
+- Five manifests bumped 0.29.0 → 0.29.1 (`package-lock.json`, which had drifted at 0.28.0, is resynced to 0.29.1).
+
 ## v0.29.0 — 2026-06-15
 
 Adds an **Android build** — an installable, sideloadable signed `.apk` built

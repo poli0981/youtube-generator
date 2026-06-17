@@ -176,8 +176,8 @@ export function ProfilesPage() {
   };
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="mx-auto max-w-3xl p-4 sm:p-6">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex gap-1 rounded-lg bg-surface-1 p-1">
           {(["profiles", "presets", "templates"] as const).map((t2) => (
             <button
@@ -194,7 +194,7 @@ export function ProfilesPage() {
             </button>
           ))}
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {tab === "profiles" && (
             <>
               <Button variant="ghost" size="sm" onClick={handleExportProfiles}>

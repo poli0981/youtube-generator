@@ -113,7 +113,7 @@ export function VideoSettingsForm() {
     <div className="flex flex-col gap-3">
       <span className="text-sm font-medium text-text-secondary">{t("editor.videoSettings")}</span>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Select
           label={t("editor.resolution")}
           options={RESOLUTION_OPTIONS}
