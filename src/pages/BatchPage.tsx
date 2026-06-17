@@ -137,7 +137,7 @@ export function BatchPage() {
   );
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
+    <div className="mx-auto max-w-4xl p-4 sm:p-6">
       <h1 className="mb-4 text-lg font-bold text-text-primary">{t("batch.title")}</h1>
 
       {/* Language selector */}
@@ -163,7 +163,7 @@ export function BatchPage() {
         </div>
       </div>
 
-      <div className="mb-6 flex items-end gap-4">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
         <Input
           label={t("batch.startPart")}
           type="number"
@@ -177,6 +177,7 @@ export function BatchPage() {
           onChange={(e) => setEndPart(e.target.value)}
         />
         <Button
+          className="w-full sm:w-auto"
           onClick={() => void handleGenerate()}
           disabled={!state.gameName || generating}
         >
@@ -190,7 +191,7 @@ export function BatchPage() {
         </p>
       ) : (
         <>
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <span className="text-sm text-text-secondary">
               {results.length} parts x {selectedLangs.length} languages
             </span>
@@ -205,7 +206,7 @@ export function BatchPage() {
                 <div className="flex flex-col gap-3">
                   {result.languages.map((lang) => (
                     <div key={lang.language} className="rounded-lg bg-surface-2 p-3">
-                      <div className="mb-1 flex items-center justify-between">
+                      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                         <span className="text-xs font-medium uppercase text-text-muted">
                           {lang.language.toUpperCase()}
                         </span>
@@ -220,7 +221,7 @@ export function BatchPage() {
                       <pre className="mb-2 max-h-20 overflow-y-auto whitespace-pre-wrap font-sans text-xs text-text-secondary">
                         {lang.output.description.slice(0, 200)}...
                       </pre>
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2">
                         <CopyButton text={lang.output.description} label={t("output.copyDescription")} />
                         <CopyButton text={lang.output.tagString} label={t("output.copyTags")} />
                         {lang.pinnedComment && (

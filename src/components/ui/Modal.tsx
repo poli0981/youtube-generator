@@ -35,7 +35,7 @@ export function Modal({ open, onClose, title, children, footer, className }: Mod
     >
       <div
         className={clsx(
-          "mx-4 flex max-h-[85vh] w-full max-w-lg flex-col rounded-xl border border-border bg-surface-1 shadow-2xl",
+          "mx-4 flex max-h-[85vh] w-[calc(100%-2rem)] max-w-lg flex-col rounded-xl border border-border bg-surface-1 shadow-2xl",
           className,
         )}
       >

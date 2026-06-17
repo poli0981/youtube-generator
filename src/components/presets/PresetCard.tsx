@@ -46,8 +46,8 @@ export function PresetCard({ preset }: PresetCardProps) {
 
   return (
     <>
-      <div className="flex items-center justify-between rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30">
-        <div className="flex-1">
+      <div className="flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold text-text-primary">{preset.gameName}</h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-text-muted">
             {genreDefs.map((g) => (
@@ -58,7 +58,7 @@ export function PresetCard({ preset }: PresetCardProps) {
             <span>{preset.platform}</span>
           </div>
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex shrink-0 items-center gap-1.5">
           <Button variant="primary" size="sm" onClick={handleLoad}>
             <Upload className="h-3.5 w-3.5" />
             {t("presets.loadPreset")}

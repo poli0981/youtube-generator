@@ -196,8 +196,8 @@ export function SettingsPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="mx-auto max-w-2xl p-4 sm:p-6">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-lg font-bold text-text-primary">{t("settings.title")}</h1>
         {IS_TAURI && (
           <div className="flex gap-2">
