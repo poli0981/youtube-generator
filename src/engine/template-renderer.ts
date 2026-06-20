@@ -67,6 +67,14 @@ export interface RenderOptions extends TagOptions {
    * to single-language output via `t`.
    */
   tEn?: TranslationFn;
+  /**
+   * When false, the three "video" content blocks (content warnings, tech
+   * notes, playthrough notes) render single-language even though `tEn` is
+   * supplied — used by the multi-language Output tabs, where each tab is
+   * already a single target language. The AI-translation disclaimer is
+   * unaffected and stays bilingual. Defaults to true. v0.29.3.
+   */
+  bilingualContentBlocks?: boolean;
 }
 
 export function renderAll(
@@ -89,6 +97,7 @@ export function renderAll(
     showGameCopyright: options?.showGameCopyright,
     showTranslationQuality: options?.showTranslationQuality,
     tEn: options?.tEn,
+    bilingualContentBlocks: options?.bilingualContentBlocks,
   });
   const tags = generateTags(input, options);
   const tagString = formatTagString(tags);

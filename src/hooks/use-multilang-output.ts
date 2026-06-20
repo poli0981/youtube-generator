@@ -28,9 +28,12 @@ export function useMultilangOutput(
     titleFormat,
   } = useSettingsStore();
 
-  // Always-English `t` for the bilingual content-warning / translation-quality
-  // blocks — must match `useGeneratedOutput` so multi-language tabs render the
-  // same `EN · LOCAL` output instead of falling back to target-language-only.
+  // Always-English `t` for the bilingual translation-quality disclaimer.
+  // In multi-language tabs each tab is already a single target language, so
+  // we pass `bilingualContentBlocks: false` below — `tEn` therefore drives
+  // ONLY the AI-translation disclaimer here (content warnings / tech notes /
+  // playthrough notes stay single-language per tab), unlike `useGeneratedOutput`
+  // where `tEn` also makes those blocks bilingual `EN · LOCAL`. v0.29.3.
   // `en` is eagerly bundled, so it never needs the readiness gate.
   const tEn = useMemo(() => i18n.getFixedT("en", "templates"), []);
 
@@ -53,6 +56,7 @@ export function useMultilangOutput(
         showTranslationQuality,
         titleFormat,
         tEn,
+        bilingualContentBlocks: false,
       });
     }
     return results;

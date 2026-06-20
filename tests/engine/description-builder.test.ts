@@ -1498,6 +1498,84 @@ describe("buildDescription — translation quality notice (v0.24.0)", () => {
   });
 });
 
+describe("buildDescription — bilingualContentBlocks gate (v0.29.3)", () => {
+  it("multi-language tabs: content blocks single-language but translation-quality stays bilingual", () => {
+    const t = createMockT("ja");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "ja",
+        contentWarnings: ["flashing_lights"],
+        techNotes: ["fps_drops_hardware"],
+        playthroughStatus: "blind",
+      }),
+      t,
+      { tEn, bilingualContentBlocks: false, showTranslationQuality: true },
+    );
+    // Content warnings: JA-only header + no EN pairing.
+    expect(result).toContain("▸ ⚠️ コンテンツ警告");
+    expect(result).not.toContain("▸ ⚠️ CONTENT WARNINGS");
+    expect(result).not.toContain(
+      "Flashing lights — photosensitive viewers take care",
+    );
+    // Tech notes: JA-only header + no EN pairing.
+    expect(result).toContain("▸ 🛠 技術メモ");
+    expect(result).not.toContain("▸ 🛠 TECH NOTES");
+    expect(result).not.toContain(
+      "FPS drops — caused by hardware (FPS counter visible top-left)",
+    );
+    // Playthrough notes: JA-only header + no EN pairing.
+    expect(result).toContain("▸ 🎮 プレイ情報");
+    expect(result).not.toContain("▸ 🎮 PLAYTHROUGH NOTES");
+    // Translation-quality disclaimer: STILL bilingual (the v0.29.2 goal).
+    expect(result).toContain("ABOUT THIS TRANSLATION"); // EN header via tEn
+    expect(result).toContain("翻訳について"); // JA header — proves bilingual
+  });
+
+  it("multi-language tabs: content warnings render single-language with no `· ` separator", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        contentWarnings: ["jump_scares", "flashing_lights"],
+      }),
+      t,
+      { tEn, bilingualContentBlocks: false },
+    );
+    expect(result).not.toContain(" · ");
+    expect(result).toContain("▸ ⚠️ CẢNH BÁO NỘI DUNG");
+    expect(result).not.toContain("▸ ⚠️ CONTENT WARNINGS");
+    expect(result).toContain("• Có jumpscare");
+  });
+
+  it("single-language mode (default true): content warnings stay bilingual", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({ language: "vi", contentWarnings: ["jump_scares"] }),
+      t,
+      { tEn }, // bilingualContentBlocks omitted → defaults to true
+    );
+    expect(result).toContain("▸ ⚠️ CONTENT WARNINGS / ▸ ⚠️ CẢNH BÁO NỘI DUNG");
+    expect(result).toContain("• Jumpscares · Có jumpscare");
+  });
+
+  it("explicit bilingualContentBlocks:true matches the default", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const base = makeInput({
+      language: "vi",
+      contentWarnings: ["jump_scares"],
+      techNotes: ["fps_drops_hardware"],
+      playthroughStatus: "blind",
+    });
+    const a = buildDescription(base, t, { tEn });
+    const b = buildDescription(base, t, { tEn, bilingualContentBlocks: true });
+    expect(a).toBe(b);
+  });
+});
+
 describe("checkDescriptionWarning", () => {
   it("returns null for description under limit", () => {
     expect(checkDescriptionWarning("Short description")).toBeNull();
