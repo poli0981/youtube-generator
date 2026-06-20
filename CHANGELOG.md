@@ -2,6 +2,26 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.29.3 — 2026-06-20
+
+A follow-up **hotfix** to v0.29.2. Forwarding the always-English `tEn` translator
+to multi-language Output (so the AI-translation disclaimer could render `EN · LOCAL`)
+also turned the **content-warnings, tech-notes, and playthrough-notes** blocks
+bilingual in every multi-language tab — because `tEn` was the single shared signal
+for bilingual rendering. Each multi-language tab is already a dedicated single
+language, so those "video" blocks should be that language only; only the
+translation disclaimer is meant to stay bilingual.
+
+### Fixed
+
+- **Multi-language tabs render content blocks single-language again** ([src/hooks/use-multilang-output.ts](src/hooks/use-multilang-output.ts), [src/engine/description-builder.ts](src/engine/description-builder.ts), [src/engine/template-renderer.ts](src/engine/template-renderer.ts)) — a new `bilingualContentBlocks` render option (default `true`) gates the three video blocks. The multi-language hook passes `false`, so content warnings / tech notes / playthrough notes show the target language only, while the `▸ 🌐 ABOUT THIS TRANSLATION` disclaimer keeps the raw `tEn` and stays bilingual `EN · LOCAL`. Single-language output is unchanged (default `true` preserves the v0.11/v0.12 bilingual blocks).
+
+### Under the hood
+
+- The Social / cross-post path ([src/engine/social-post-builder.ts](src/engine/social-post-builder.ts)) is intentionally left as-is — it is driven by separate hooks, never wired through the multi-language Output tabs, and its bilingual content warnings are long-standing v0.24.0 behavior. The asymmetry is deliberate.
+- Additive, default-preserving change: the engine option defaults to the old behavior, so every existing caller and test is unaffected. typecheck, lint, locale validation (937/542), and all **517 tests** (513 + 4 new `bilingualContentBlocks` gate tests) pass; verified live — multi-language JA tab shows JA-only content blocks with a bilingual disclaimer, the EN tab omits the disclaimer, and single-language JA still renders content warnings bilingually.
+- Five manifests bumped 0.29.2 → 0.29.3.
+
 ## v0.29.2 — 2026-06-20
 
 A one-line **hotfix**. The opt-in *"Show translation-quality notice"* setting

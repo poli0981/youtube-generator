@@ -260,6 +260,12 @@ export interface BuildDescriptionOptions {
    *  `EN · output-language`. When omitted, the warnings block falls
    *  back to single-language output via `t`. */
   tEn?: TranslationFn;
+  /** When false, content warnings / tech notes / playthrough notes render
+   *  single-language even when `tEn` is provided; the translation-quality
+   *  disclaimer stays bilingual. Multi-language Output tabs pass false so
+   *  each (single-language) tab doesn't show `EN · LOCAL` content blocks.
+   *  Defaults to true. v0.29.3. */
+  bilingualContentBlocks?: boolean;
 }
 
 export function buildDescription(
@@ -276,7 +282,12 @@ export function buildDescription(
     showGameCopyright = false,
     showTranslationQuality = false,
     tEn,
+    bilingualContentBlocks = true,
   } = options;
+  // Multi-language Output tabs set this false: each tab is one target
+  // language, so the v0.11/v0.12 content blocks must NOT render `EN · LOCAL`.
+  // The translation-quality disclaimer keeps the raw `tEn` and stays bilingual.
+  const contentBlockTEn = bilingualContentBlocks ? tEn : undefined;
   const sections: string[] = [];
   const gameName =
     input.gameNameLocalized?.[input.language] ?? input.gameName;
@@ -339,7 +350,7 @@ export function buildDescription(
   // are skipped; if every bullet is empty the whole block is skipped.
   // Bilingual when `tEn` is provided AND output language ≠ English —
   // pattern mirrors the v0.11 content-warnings block.
-  const pnBlock = buildPlaythroughNotesSection(input, t, tEn);
+  const pnBlock = buildPlaythroughNotesSection(input, t, contentBlockTEn);
   if (pnBlock) sections.push(pnBlock);
 
   // 2. No Commentary tagline
@@ -508,7 +519,7 @@ export function buildDescription(
     "description.contentWarnings",
     input.language,
     t,
-    tEn,
+    contentBlockTEn,
   );
   if (cwSection) sections.push(cwSection);
 
@@ -521,7 +532,7 @@ export function buildDescription(
     "description.techNotes",
     input.language,
     t,
-    tEn,
+    contentBlockTEn,
   );
   if (tnSection) sections.push(tnSection);
 
