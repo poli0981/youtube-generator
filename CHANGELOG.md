@@ -2,6 +2,24 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.29.2 — 2026-06-20
+
+A one-line **hotfix**. The opt-in *"Show translation-quality notice"* setting
+(the AI-translation disclaimer, v0.24.0) had no effect when the Output page was
+showing **two or more languages at once** — the multi-language output hook had
+drifted out of sync with the single-language one and never forwarded the setting
+to the engine.
+
+### Fixed
+
+- **AI-translation disclaimer now appears in multi-language Output** ([src/hooks/use-multilang-output.ts](src/hooks/use-multilang-output.ts)) — the multi-language hook now forwards `showTranslationQuality` to `renderAll`, matching [useGeneratedOutput](src/hooks/use-generated-output.ts). The same patch also restores `showThirdPartyAds` (an identical latent gap — its disclaimer was dropped in multi-language mode too) and the always-English `tEn` translator, so the bilingual blocks render `EN · LOCAL` instead of target-language-only. Selecting 2+ languages and viewing a non-English/Vietnamese tab now shows the `▸ 🌐 ABOUT THIS TRANSLATION` block. Single-language output and the Batch page were already correct.
+
+### Under the hood
+
+- One-file fix; no engine, store, config, or i18n changes (the `translationQuality` template keys already exist in all six locales). typecheck, lint, locale validation (937/542), all **513 tests**, and the production build pass; verified live — the JA tab renders the block bilingually while the EN/VI tabs correctly omit it.
+- This hook has drifted out of sync before (a prior `showSponsorCredit` miss), so the recurrence is a known class of bug.
+- Five manifests bumped 0.29.1 → 0.29.2.
+
 ## v0.29.1 — 2026-06-17
 
 A UI/UX hotfix for **mobile viewport overflow**. On Android and narrow web

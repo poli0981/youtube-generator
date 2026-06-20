@@ -23,8 +23,16 @@ export function useMultilangOutput(
     showUsagePolicy,
     showSponsorCredit,
     showGameCopyright,
+    showThirdPartyAds,
+    showTranslationQuality,
     titleFormat,
   } = useSettingsStore();
+
+  // Always-English `t` for the bilingual content-warning / translation-quality
+  // blocks — must match `useGeneratedOutput` so multi-language tabs render the
+  // same `EN · LOCAL` output instead of falling back to target-language-only.
+  // `en` is eagerly bundled, so it never needs the readiness gate.
+  const tEn = useMemo(() => i18n.getFixedT("en", "templates"), []);
 
   return useMemo(() => {
     const results: Record<string, GeneratorOutput> = {};
@@ -41,7 +49,10 @@ export function useMultilangOutput(
         showUsagePolicy,
         showSponsorCredit,
         showGameCopyright,
+        showThirdPartyAds,
+        showTranslationQuality,
         titleFormat,
+        tEn,
       });
     }
     return results;
@@ -57,6 +68,9 @@ export function useMultilangOutput(
     showUsagePolicy,
     showSponsorCredit,
     showGameCopyright,
+    showThirdPartyAds,
+    showTranslationQuality,
     titleFormat,
+    tEn,
   ]);
 }
