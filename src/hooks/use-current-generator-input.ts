@@ -94,6 +94,9 @@ export function buildGeneratorInputFromEditor(
     vnBankHolder: state.vnBankHolder,
     vnMomo: state.vnMomo,
     vnZalopay: state.vnZalopay,
+    playtestLink: state.playtestLink,
+    playtestPlatform: state.playtestPlatform,
+    playtestInvites: state.playtestInvites,
   };
 }
 

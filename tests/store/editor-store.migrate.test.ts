@@ -202,3 +202,63 @@ describe("migrateEditorState — v10 → v11 (v0.13)", () => {
     expect(result.gachaVersion).toBe("4.2");
   });
 });
+
+describe("migrateEditorState — v14 → v15 (v0.30.0 Playtest)", () => {
+  // Build a pre-v15 blob by routing v9 through every prior migration, then
+  // strip the playtest keys so the v15 block is what supplies them.
+  function makeV14Persisted(
+    overrides: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
+      string,
+      unknown
+    >;
+    delete full.playtestLink;
+    delete full.playtestPlatform;
+    delete full.playtestInvites;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills the playtest fields with safe defaults", () => {
+    const result = migrateEditorState(makeV14Persisted(), 14);
+    expect(result.playtestLink).toBe("");
+    expect(result.playtestPlatform).toBe("steam");
+    expect(result.playtestInvites).toBe(0);
+  });
+
+  it("clamps an over-cap persisted invite count to 100", () => {
+    const result = migrateEditorState(makeV14Persisted({ playtestInvites: 250 }), 14);
+    expect(result.playtestInvites).toBe(100);
+  });
+
+  it("coerces a decimal or negative invite count to 0", () => {
+    expect(
+      migrateEditorState(makeV14Persisted({ playtestInvites: 2.5 }), 14).playtestInvites,
+    ).toBe(0);
+    expect(
+      migrateEditorState(makeV14Persisted({ playtestInvites: -3 }), 14).playtestInvites,
+    ).toBe(0);
+  });
+
+  it("coerces an unknown persisted platform to the default", () => {
+    const result = migrateEditorState(
+      makeV14Persisted({ playtestPlatform: "mystery" }),
+      14,
+    );
+    expect(result.playtestPlatform).toBe("steam");
+  });
+
+  it("preserves valid persisted playtest values", () => {
+    const result = migrateEditorState(
+      makeV14Persisted({
+        playtestLink: "https://dev.itch.io/my-game",
+        playtestPlatform: "itchio",
+        playtestInvites: 40,
+      }),
+      14,
+    );
+    expect(result.playtestLink).toBe("https://dev.itch.io/my-game");
+    expect(result.playtestPlatform).toBe("itchio");
+    expect(result.playtestInvites).toBe(40);
+  });
+});

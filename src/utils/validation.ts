@@ -136,3 +136,86 @@ export function validatePlaylistUrl(input: string): ValidationResult {
 
   return { valid: true };
 }
+
+export interface IntRangeOptions {
+  min: number;
+  max: number;
+  /** When true, an empty / whitespace-only string is valid (the field is
+   *  optional). When false, blank is rejected as `validation.numberRequired`. */
+  allowEmpty?: boolean;
+}
+
+/**
+ * Validate that a string holds a whole number within `[min, max]`.
+ * Rejects (in order) blank-when-required, non-numeric, decimals /
+ * non-integers, and out-of-range values — covering every "invalid number"
+ * case the editor needs to warn on (v0.30.0). Pure; returns the shared
+ * {@link ValidationResult} so it slots into the existing inline-error UI.
+ */
+export function validateIntegerInRange(
+  input: string,
+  { min, max, allowEmpty = false }: IntRangeOptions,
+): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) {
+    return allowEmpty ? { valid: true } : { valid: false, error: "validation.numberRequired" };
+  }
+
+  const n = Number(trimmed);
+  if (!Number.isFinite(n)) {
+    return { valid: false, error: "validation.numberInvalid" };
+  }
+  if (!Number.isInteger(n)) {
+    return { valid: false, error: "validation.numberNotInteger" };
+  }
+  if (n < min || n > max) {
+    return {
+      valid: false,
+      error: "validation.numberOutOfRange",
+      errorParams: { min, max },
+    };
+  }
+
+  return { valid: true };
+}
+
+export interface BatchRangeOptions {
+  /** Maximum number of parts allowed in a single batch (inclusive span). */
+  maxSpan: number;
+}
+
+/**
+ * Validate a Batch / Social-bulk "start → end part" range. Both endpoints
+ * must be whole numbers ≥ 1, `end ≥ start`, and the inclusive span must not
+ * exceed `maxSpan`. Returns the first failing reason so the caller can both
+ * block generation (disable the button) and surface the message. v0.30.0.
+ */
+export function validateBatchRange(
+  startStr: string,
+  endStr: string,
+  { maxSpan }: BatchRangeOptions,
+): ValidationResult {
+  const startResult = validateIntegerInRange(startStr, { min: 1, max: Number.MAX_SAFE_INTEGER });
+  if (!startResult.valid) return startResult;
+  const endResult = validateIntegerInRange(endStr, { min: 1, max: Number.MAX_SAFE_INTEGER });
+  if (!endResult.valid) return endResult;
+
+  const start = Number(startStr.trim());
+  const end = Number(endStr.trim());
+  if (end < start) {
+    return {
+      valid: false,
+      error: "validation.rangeEndBeforeStart",
+      errorParams: { start, end },
+    };
+  }
+  if (end - start + 1 > maxSpan) {
+    return {
+      valid: false,
+      error: "validation.rangeTooLarge",
+      errorParams: { maxSpan },
+    };
+  }
+
+  return { valid: true };
+}

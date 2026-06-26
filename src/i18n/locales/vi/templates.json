@@ -105,6 +105,8 @@
       "demo": "demo miễn phí"
     },
     "sections": {
+      "playtest": "🧪 PLAYTEST / TRẢI NGHIỆM SỚM",
+      "playtestInvites": "🎟️ Còn {{count}} lời mời — ai nhanh tay người đó được",
       "timestamps": "⏱ MỐC THỜI GIAN",
       "storeLinksBuy": "🎮 MUA GAME (nếu bạn muốn ủng hộ)",
       "storeLinksDownload": "⬇️ TẢI GAME (nếu bạn muốn chơi)",

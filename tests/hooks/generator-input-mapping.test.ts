@@ -102,6 +102,9 @@ function makeEditorData(overrides: Partial<EditorData> = {}): EditorData {
     vnBankHolder: DEFAULTS.editor.vnBankHolder,
     vnMomo: DEFAULTS.editor.vnMomo,
     vnZalopay: DEFAULTS.editor.vnZalopay,
+    playtestLink: DEFAULTS.editor.playtestLink,
+    playtestPlatform: DEFAULTS.editor.playtestPlatform,
+    playtestInvites: DEFAULTS.editor.playtestInvites,
     ...overrides,
   };
 }
@@ -147,6 +150,19 @@ describe("buildGeneratorInputFromEditor — v0.12 fields propagation (regression
       "fps_drops_hardware",
       "loading_cut",
     ]);
+  });
+
+  it("passes through the playtest fields (v0.30.0)", () => {
+    const input = buildGeneratorInputFromEditor(
+      makeEditorData({
+        playtestLink: "https://store.steampowered.com/app/1245620",
+        playtestPlatform: "steam",
+        playtestInvites: 25,
+      }),
+    );
+    expect(input.playtestLink).toBe("https://store.steampowered.com/app/1245620");
+    expect(input.playtestPlatform).toBe("steam");
+    expect(input.playtestInvites).toBe(25);
   });
 
   it("respects languageOverride for batch / multi-language rendering", () => {

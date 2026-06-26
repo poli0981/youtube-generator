@@ -60,6 +60,13 @@
     }
   },
   "editor": {
+    "playtest": {
+      "heading": "Playtest",
+      "linkLabel": "Enlace de playtest",
+      "platformLabel": "Plataforma",
+      "invitesLabel": "Invitaciones (máx. {{max}})",
+      "invitesHelp": "Cuántas invitaciones de playtest tienes para repartir (1–{{max}})."
+    },
     "sections": {
       "gameInfo": "Info del Juego",
       "videoSettings": "Ajustes de Video",
@@ -1047,6 +1054,12 @@
     "noResults": "No se encontraron atajos"
   },
   "validation": {
+    "numberRequired": "Introduce un número.",
+    "numberInvalid": "Introduce un número válido.",
+    "numberNotInteger": "Introduce un número entero (sin decimales).",
+    "numberOutOfRange": "Introduce un número entre {{min}} y {{max}}.",
+    "rangeEndBeforeStart": "La parte final ({{end}}) debe ser ≥ la parte inicial ({{start}}).",
+    "rangeTooLarge": "Rango demasiado grande: genera como máximo {{maxSpan}} partes a la vez.",
     "emailInvalid": "Email inválido: {{email}}",
     "emailMaxExceeded": "Máximo {{max}} emails permitidos (actualmente {{count}})",
     "urlInvalid": "URL inválida. Debe comenzar con https://",

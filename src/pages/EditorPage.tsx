@@ -6,6 +6,7 @@ import { ExtraFieldsInput } from "@components/editor/ExtraFieldsInput";
 import { VideoSettingsForm } from "@components/editor/VideoSettingsForm";
 import { TimestampEditor } from "@components/editor/TimestampEditor";
 import { StoreLinkEditor } from "@components/editor/StoreLinkEditor";
+import { PlaytestEditor } from "@components/editor/PlaytestEditor";
 import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { VietnameseDonateEditor } from "@components/editor/VietnameseDonateEditor";
@@ -152,6 +153,7 @@ export function EditorPage() {
           onToggle={() => toggleAccordion("storeAndSocial")}
         >
           <StoreLinkEditor />
+          <PlaytestEditor />
           <SocialEditor />
           <VietnameseDonateEditor />
         </Accordion>

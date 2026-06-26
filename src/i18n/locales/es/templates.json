@@ -105,6 +105,8 @@
       "demo": "demo gratis"
     },
     "sections": {
+      "playtest": "🧪 PLAYTEST / ACCESO ANTICIPADO",
+      "playtestInvites": "🎟️ {{count}} invitaciones disponibles — por orden de llegada",
       "timestamps": "⏱ MARCAS DE TIEMPO",
       "storeLinksBuy": "🎮 CONSIGUE EL JUEGO (si quieres comprarlo)",
       "storeLinksDownload": "⬇️ DESCARGA EL JUEGO (si quieres jugar)",

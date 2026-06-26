@@ -10,6 +10,7 @@ import type {
 } from "./graphics-settings";
 import type { VideoStyleEra } from "./video-styles";
 import { DEFAULT_GACHA_QUEST_TYPE, type GachaQuestType } from "./gacha-quest-types";
+import { DEFAULT_PLAYTEST_PLATFORM } from "./playtest-platforms";
 import type {
   SupportedLanguage,
   StoreLinkType,
@@ -131,6 +132,12 @@ export interface EditorDefaults {
   vnBankHolder: string;
   vnMomo: string;
   vnZalopay: string;
+  /** Playtest signup link (v0.30.0). Empty string = no playtest block. */
+  playtestLink: string;
+  /** Playtest platform id (see `@config/playtest-platforms`). */
+  playtestPlatform: string;
+  /** Playtest invites available, 0..platform max (≤100). 0 = unset. */
+  playtestInvites: number;
 }
 
 export interface SettingsDefaults {
@@ -208,6 +215,9 @@ export const DEFAULTS = {
     vnBankHolder: "",
     vnMomo: "",
     vnZalopay: "",
+    playtestLink: "",
+    playtestPlatform: DEFAULT_PLAYTEST_PLATFORM,
+    playtestInvites: 0,
   } satisfies EditorDefaults,
 
   settings: {

@@ -821,6 +821,18 @@ export interface GeneratorInput {
   vnBankHolder?: string;
   vnMomo?: string;
   vnZalopay?: string;
+  /**
+   * Playtest access (v0.30.0). When {@link playtestLink} is non-empty the
+   * description emits a "🧪 PLAYTEST / EARLY ACCESS" block: a heading, the
+   * link prefixed by the platform label, and an optional
+   * "N invites available" line. {@link playtestPlatform} is a config id
+   * (see `@config/playtest-platforms`); {@link playtestInvites} is
+   * 0..100 (0 = unset → no count line). Always rendered when filled, like
+   * store links — no settings toggle gates it.
+   */
+  playtestLink?: string;
+  playtestPlatform?: string;
+  playtestInvites?: number;
 }
 
 export interface GeneratorOutput {

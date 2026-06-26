@@ -105,6 +105,8 @@
       "demo": "無料体験版"
     },
     "sections": {
+      "playtest": "🧪 プレイテスト / 早期アクセス",
+      "playtestInvites": "🎟️ 招待枠 残り {{count}} 件 — 先着順",
       "timestamps": "⏱ タイムスタンプ",
       "storeLinksBuy": "🎮 ゲームを購入 (応援したい方へ)",
       "storeLinksDownload": "⬇️ ゲームをダウンロード (遊びたい方へ)",

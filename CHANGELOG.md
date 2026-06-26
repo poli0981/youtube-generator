@@ -2,6 +2,23 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.30.0 — 2026-06-27
+
+A **feature** release adding two things creators kept doing by hand: advertising a
+game's **playtest / early-access signup**, and getting **stopped before a bad number**
+breaks a batch.
+
+### Added
+
+- **Playtest section** ([src/components/editor/PlaytestEditor.tsx](src/components/editor/PlaytestEditor.tsx), [src/config/playtest-platforms.ts](src/config/playtest-platforms.ts)) — a new entry in the **Store & Social** group: a signup link, a platform dropdown (Steam Playtest, Epic, itch.io, Discord / Community, Other), and an invite count. The invite input maxes out at the selected platform's cap (≤ 100); switching to a lower-cap platform clamps an over-budget count down. It renders into the description **only when a link is entered** — no toggle, no video-type gating — exactly like Store Links. The description block ([src/engine/description-builder.ts](src/engine/description-builder.ts)) is a localized `🧪 PLAYTEST / EARLY ACCESS` heading, the platform-labelled link, and an optional `🎟️ N invites available` line (emitted only for a positive whole number, so a stray decimal / negative can never produce a broken line).
+- **Invalid-number guarding** ([src/utils/validation.ts](src/utils/validation.ts)) — two pure validators (`validateIntegerInRange`, `validateBatchRange`) now reject negative, decimal, out-of-range, and `end < start` / over-100-span inputs. The **Batch** ([src/pages/BatchPage.tsx](src/pages/BatchPage.tsx)) and **Social bulk** ([src/pages/SocialPage.tsx](src/pages/SocialPage.tsx)) part-range inputs **disable the Generate button** and show a warning when the range is invalid; **Playlist** "Total videos" ([src/pages/PlaylistPage.tsx](src/pages/PlaylistPage.tsx)) and the new Playtest invite count warn inline and guard the output. The `Input` primitive ([src/components/ui/Input.tsx](src/components/ui/Input.tsx)) gained optional `errorText` / `helpText` props (backward-compatible).
+
+### Under the hood
+
+- Three editor fields (`playtestLink`, `playtestPlatform`, `playtestInvites`) thread through the store (persist **v14 → v15** migration: unknown platform → default, invite count clamped to an integer in `[0, 100]`), `GeneratorInput`, and the editor → engine mapping — guarded by the existing parity test.
+- 60 new i18n strings across all six locales (validator **948 ui / 544 templates**). typecheck, lint, locale validation, and **544 tests** (517 + 27: playtest block, validators, v15 migration, mapping parity) pass; verified live — the block renders and localizes (EN / JA), the itch.io cap clamps invites 80 → 50, decimals warn, and Batch generation blocks on `end < start` and over-100 ranges.
+- Five manifests bumped 0.29.3 → 0.30.0.
+
 ## v0.29.3 — 2026-06-20
 
 A follow-up **hotfix** to v0.29.2. Forwarding the always-English `tEn` translator
