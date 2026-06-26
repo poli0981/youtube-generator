@@ -105,6 +105,8 @@
       "demo": "免费试玩"
     },
     "sections": {
+      "playtest": "🧪 试玩测试 / 抢先体验",
+      "playtestInvites": "🎟️ 剩余 {{count}} 个名额 — 先到先得",
       "timestamps": "⏱ 时间戳",
       "storeLinksBuy": "🎮 获取游戏 (如果你想购买)",
       "storeLinksDownload": "⬇️ 下载游戏 (如果你想游玩)",

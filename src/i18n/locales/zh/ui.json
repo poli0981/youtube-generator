@@ -60,6 +60,13 @@
     }
   },
   "editor": {
+    "playtest": {
+      "heading": "试玩测试",
+      "linkLabel": "试玩测试链接",
+      "platformLabel": "平台",
+      "invitesLabel": "邀请数量（最多 {{max}}）",
+      "invitesHelp": "你有多少个试玩测试邀请可以送出（1–{{max}}）。"
+    },
     "sections": {
       "gameInfo": "游戏信息",
       "videoSettings": "视频设置",
@@ -1047,6 +1054,12 @@
     "noResults": "未找到快捷键"
   },
   "validation": {
+    "numberRequired": "请输入一个数字。",
+    "numberInvalid": "请输入有效的数字。",
+    "numberNotInteger": "请输入整数（不能有小数）。",
+    "numberOutOfRange": "请输入 {{min}} 到 {{max}} 之间的数字。",
+    "rangeEndBeforeStart": "结束分集（{{end}}）必须 ≥ 起始分集（{{start}}）。",
+    "rangeTooLarge": "范围太大 — 每次最多生成 {{maxSpan}} 个分集。",
     "emailInvalid": "无效邮箱: {{email}}",
     "emailMaxExceeded": "最多允许{{max}}个邮箱 (当前{{count}}个)",
     "urlInvalid": "无效URL。必须以https://开头",

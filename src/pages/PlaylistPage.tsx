@@ -9,6 +9,7 @@ import { ChipGroup } from "@components/ui/ChipGroup";
 import { Select } from "@components/ui/Select";
 import { CopyButton } from "@components/output/CopyButton";
 import { useEditorStore } from "@store/editor-store";
+import { validateIntegerInRange } from "@utils/validation";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { useLanguagesReady } from "@hooks/use-languages-ready";
 import {
@@ -54,17 +55,41 @@ export function PlaylistPage() {
     label: `${l.flag} ${l.nativeName}`,
   }));
 
+  // Guard the output: only forward a valid whole number in range so a
+  // negative / decimal / out-of-range entry simply omits the count line
+  // instead of producing a broken "X videos" string.
+  const totalVideosValidation = validateIntegerInRange(totalVideos, {
+    min: 1,
+    max: 1000,
+    allowEmpty: true,
+  });
+  const totalVideosError = totalVideosValidation.valid
+    ? undefined
+    : t(totalVideosValidation.error ?? "", totalVideosValidation.errorParams);
+
   const playlistInput: PlaylistInput = useMemo(
     () => ({
       gameName: editor.gameName,
       channelName: editor.channelName,
       status,
       contentType,
-      totalVideos: totalVideos ? parseInt(totalVideos) : undefined,
+      totalVideos:
+        totalVideosValidation.valid && totalVideos.trim()
+          ? parseInt(totalVideos)
+          : undefined,
       storeLinks: editor.storeLinks,
       playlistNote: customNote,
     }),
-    [editor.gameName, editor.channelName, status, contentType, totalVideos, editor.storeLinks, customNote],
+    [
+      editor.gameName,
+      editor.channelName,
+      status,
+      contentType,
+      totalVideos,
+      totalVideosValidation.valid,
+      editor.storeLinks,
+      customNote,
+    ],
   );
 
   // Lazy-loaded locales (v0.26): the dropdown can pick a language whose
@@ -110,8 +135,12 @@ export function PlaylistPage() {
         <Input
           label={t("playlist.totalVideos")}
           type="number"
+          min={1}
+          step={1}
+          inputMode="numeric"
           placeholder="e.g. 25"
           value={totalVideos}
+          errorText={totalVideosError}
           onChange={(e) => setTotalVideos(e.target.value)}
         />
 

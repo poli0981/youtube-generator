@@ -1,6 +1,7 @@
 import type { GeneratorInput, TranslationFn, CharLimitWarning } from "./types";
 import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
+import { PLAYTEST_PLATFORMS } from "@config/playtest-platforms";
 import { SOCIAL_FIELDS } from "@config/social-fields";
 import { formatRigValue } from "@config/rig-fields";
 import { DEFAULT_GACHA_QUEST_TYPE } from "@config/gacha-quest-types";
@@ -412,6 +413,29 @@ export function buildDescription(
         publisher: input.pubDevName.trim(),
       }),
     );
+  }
+
+  // 4.7 Playtest / early access — opt-in access block (v0.30.0). Always
+  //     available in the editor; renders only when a link is entered, so
+  //     it follows the Store Links convention (localized heading + plain
+  //     link line, NOT bilingual). The platform label prefixes the link;
+  //     the optional invites line is gated on a positive integer so a
+  //     stray decimal / negative that slipped past the editor can never
+  //     produce a broken line.
+  if (input.playtestLink && input.playtestLink.trim()) {
+    const link = input.playtestLink.trim();
+    const platformLabel = getLabelForId(
+      input.playtestPlatform ?? "",
+      PLAYTEST_PLATFORMS,
+    );
+    const lines = [`🧪 ${platformLabel}: ${link}`];
+    const invites = input.playtestInvites ?? 0;
+    if (Number.isInteger(invites) && invites > 0) {
+      lines.push(
+        t("description.sections.playtestInvites", { count: String(invites) }),
+      );
+    }
+    sections.push(`${t("description.sections.playtest")}\n${lines.join("\n")}`);
   }
 
   // 5. Video Settings — skipped entirely for 2D / pixel-art / no-in-game-

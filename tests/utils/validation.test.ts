@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { validateUrlWithPattern, validatePlaylistUrl } from "@utils/validation";
+import {
+  validateUrlWithPattern,
+  validatePlaylistUrl,
+  validateIntegerInRange,
+  validateBatchRange,
+} from "@utils/validation";
 import { PLATFORMS } from "@config/platforms";
 
 function platform(id: string) {
@@ -236,5 +241,95 @@ describe("validatePlaylistUrl", () => {
 
   it("rejects a totally unrelated URL", () => {
     expect(validatePlaylistUrl("https://example.com/playlist").valid).toBe(false);
+  });
+});
+
+describe("validateIntegerInRange", () => {
+  it("accepts a whole number within range", () => {
+    expect(validateIntegerInRange("5", { min: 1, max: 10 }).valid).toBe(true);
+    expect(validateIntegerInRange("1", { min: 1, max: 10 }).valid).toBe(true);
+    expect(validateIntegerInRange("10", { min: 1, max: 10 }).valid).toBe(true);
+  });
+
+  it("rejects a blank value when allowEmpty is off", () => {
+    const result = validateIntegerInRange("", { min: 1, max: 10 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberRequired");
+  });
+
+  it("accepts a blank value when allowEmpty is on", () => {
+    expect(validateIntegerInRange("", { min: 1, max: 10, allowEmpty: true }).valid).toBe(true);
+    expect(validateIntegerInRange("   ", { min: 1, max: 10, allowEmpty: true }).valid).toBe(true);
+  });
+
+  it("rejects non-numeric input", () => {
+    const result = validateIntegerInRange("abc", { min: 1, max: 10 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberInvalid");
+  });
+
+  it("rejects a decimal / non-integer value", () => {
+    const result = validateIntegerInRange("2.5", { min: 1, max: 10 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberNotInteger");
+  });
+
+  it("rejects a negative value below the minimum", () => {
+    const result = validateIntegerInRange("-3", { min: 1, max: 10 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberOutOfRange");
+    expect(result.errorParams).toEqual({ min: 1, max: 10 });
+  });
+
+  it("rejects zero when the minimum is 1", () => {
+    expect(validateIntegerInRange("0", { min: 1, max: 10 }).valid).toBe(false);
+  });
+
+  it("rejects a value above the maximum", () => {
+    const result = validateIntegerInRange("11", { min: 1, max: 10 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberOutOfRange");
+  });
+});
+
+describe("validateBatchRange", () => {
+  it("accepts a valid ascending range within the span", () => {
+    expect(validateBatchRange("1", "5", { maxSpan: 100 }).valid).toBe(true);
+    expect(validateBatchRange("3", "3", { maxSpan: 100 }).valid).toBe(true);
+  });
+
+  it("accepts a range exactly at the max span", () => {
+    expect(validateBatchRange("1", "100", { maxSpan: 100 }).valid).toBe(true);
+  });
+
+  it("rejects an end part before the start", () => {
+    const result = validateBatchRange("5", "2", { maxSpan: 100 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.rangeEndBeforeStart");
+    expect(result.errorParams).toEqual({ start: 5, end: 2 });
+  });
+
+  it("rejects a range that exceeds the max span", () => {
+    const result = validateBatchRange("1", "101", { maxSpan: 100 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.rangeTooLarge");
+    expect(result.errorParams).toEqual({ maxSpan: 100 });
+  });
+
+  it("rejects a decimal endpoint", () => {
+    const result = validateBatchRange("1", "5.5", { maxSpan: 100 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberNotInteger");
+  });
+
+  it("rejects a non-positive start", () => {
+    expect(validateBatchRange("-1", "5", { maxSpan: 100 }).valid).toBe(false);
+    expect(validateBatchRange("0", "5", { maxSpan: 100 }).valid).toBe(false);
+  });
+
+  it("rejects a blank endpoint", () => {
+    const result = validateBatchRange("", "5", { maxSpan: 100 });
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.numberRequired");
   });
 });

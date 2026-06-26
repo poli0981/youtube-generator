@@ -17,6 +17,7 @@ import {
   type SocialPostOutput,
 } from "@engine/social-post-builder";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
+import { validateBatchRange } from "@utils/validation";
 import {
   exportTypedToJsonFile,
   importTypedFromJsonFile,
@@ -74,6 +75,15 @@ export function SocialPage() {
   ]);
   const [bulkResults, setBulkResults] = useState<BulkRow[]>([]);
   const [generating, setGenerating] = useState(false);
+
+  // Block bulk generation on an invalid part range (mirrors BatchPage).
+  const rangeResult = useMemo(
+    () => validateBatchRange(startPart, endPart, { maxSpan: 100 }),
+    [startPart, endPart],
+  );
+  const rangeError = rangeResult.valid
+    ? undefined
+    : t(rangeResult.error ?? "", rangeResult.errorParams);
 
   // Import display (read-only)
   const [imported, setImported] = useState<SocialExportBundle | null>(null);
@@ -380,22 +390,38 @@ export function SocialPage() {
             <Input
               label={t("batch.startPart")}
               type="number"
+              min={1}
+              step={1}
+              inputMode="numeric"
+              error={!rangeResult.valid}
               value={startPart}
               onChange={(e) => setStartPart(e.target.value)}
             />
             <Input
               label={t("batch.endPart")}
               type="number"
+              min={1}
+              step={1}
+              inputMode="numeric"
+              error={!rangeResult.valid}
               value={endPart}
               onChange={(e) => setEndPart(e.target.value)}
             />
             <Button
               onClick={() => void handleBulkGenerate()}
-              disabled={!gameName || generating}
+              disabled={!gameName || generating || !rangeResult.valid}
             >
               {t("common.generate")}
             </Button>
           </div>
+          {rangeError && (
+            <p
+              role="alert"
+              className="rounded-lg border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-warning"
+            >
+              {rangeError}
+            </p>
+          )}
 
           {bulkResults.length === 0 ? (
             <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">

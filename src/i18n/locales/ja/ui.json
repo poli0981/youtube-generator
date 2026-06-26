@@ -60,6 +60,13 @@
     }
   },
   "editor": {
+    "playtest": {
+      "heading": "プレイテスト",
+      "linkLabel": "プレイテストのリンク",
+      "platformLabel": "プラットフォーム",
+      "invitesLabel": "招待枠（最大 {{max}}）",
+      "invitesHelp": "配布できるプレイテスト招待の数（1〜{{max}}）。"
+    },
     "sections": {
       "gameInfo": "ゲーム情報",
       "videoSettings": "動画設定",
@@ -1047,6 +1054,12 @@
     "noResults": "該当するショートカットはありません"
   },
   "validation": {
+    "numberRequired": "数値を入力してください。",
+    "numberInvalid": "正しい数値を入力してください。",
+    "numberNotInteger": "整数を入力してください（小数は不可）。",
+    "numberOutOfRange": "{{min}}〜{{max}}の数値を入力してください。",
+    "rangeEndBeforeStart": "終了パート（{{end}}）は開始パート（{{start}}）以上にしてください。",
+    "rangeTooLarge": "範囲が大きすぎます — 一度に生成できるのは最大{{maxSpan}}パートまでです。",
     "emailInvalid": "無効なメール: {{email}}",
     "emailMaxExceeded": "最大{{max}}件のメール (現在{{count}}件)",
     "urlInvalid": "無効なURL。https://で始める必要があります",

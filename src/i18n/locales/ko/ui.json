@@ -60,6 +60,13 @@
     }
   },
   "editor": {
+    "playtest": {
+      "heading": "플레이테스트",
+      "linkLabel": "플레이테스트 링크",
+      "platformLabel": "플랫폼",
+      "invitesLabel": "초대 수 (최대 {{max}})",
+      "invitesHelp": "나눠줄 수 있는 플레이테스트 초대 수 (1–{{max}})."
+    },
     "sections": {
       "gameInfo": "게임 정보",
       "videoSettings": "비디오 설정",
@@ -1047,6 +1054,12 @@
     "noResults": "일치하는 단축키 없음"
   },
   "validation": {
+    "numberRequired": "숫자를 입력하세요.",
+    "numberInvalid": "올바른 숫자를 입력하세요.",
+    "numberNotInteger": "정수를 입력하세요 (소수 불가).",
+    "numberOutOfRange": "{{min}}에서 {{max}} 사이의 숫자를 입력하세요.",
+    "rangeEndBeforeStart": "끝 파트({{end}})는 시작 파트({{start}}) 이상이어야 합니다.",
+    "rangeTooLarge": "범위가 너무 큽니다 — 한 번에 최대 {{maxSpan}}개 파트까지 생성할 수 있습니다.",
     "emailInvalid": "잘못된 이메일: {{email}}",
     "emailMaxExceeded": "최대 {{max}}개 이메일 허용 (현재 {{count}}개)",
     "urlInvalid": "잘못된 URL입니다. https://로 시작해야 합니다",

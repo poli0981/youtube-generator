@@ -81,6 +81,7 @@
       "gpuMissingSeries", "gpuMissingModel", "gpuCustomEmpty",
       "ramMissingDdr", "ramMissingSize", "ramCustomEmpty"
     ],
+    "editor.playtest": ["heading", "linkLabel", "platformLabel", "invitesLabel", "invitesHelp"],
     "editor.playthroughOptions": ["none", "blind", "replay", "newgame_plus", "postgame"],
     "editor.difficultyOptions": ["none", "easy", "normal", "hard", "nightmare", "custom"],
     "editor.playthroughNotes": [
@@ -186,7 +187,7 @@
     "socialPost": ["title", "single", "bulk", "copyCaption", "emptyState", "trimmedHint", "overLimitHint", "exported", "exportFailed", "imported", "importFailed", "importedHeading"],
     "socialPost.platforms": ["tiktok", "instagram_reels", "facebook_reels"],
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "toggleSidebar", "help", "close", "searchPlaceholder", "noResults"],
-    "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid"],
+    "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid", "numberRequired", "numberInvalid", "numberNotInteger", "numberOutOfRange", "rangeEndBeforeStart", "rangeTooLarge"],
     "logs": ["title", "emptyState", "clearAll", "clearConfirm", "clearPersistedConfirm", "clearSession", "searchPlaceholder", "exportJson", "exportTxt", "sessionCurrent", "sessionLabel", "entriesShort"],
     "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
   },
@@ -214,7 +215,7 @@
     ],
     "description": ["noCommentaryLine"],
     "description.sections": [
-      "timestamps", "storeLinksBuy", "storeLinksDownload", "gameCopyright", "videoSettings", "rig",
+      "timestamps", "storeLinksBuy", "storeLinksDownload", "gameCopyright", "playtest", "playtestInvites", "videoSettings", "rig",
       "modList", "vnDonate",
       "sponsorCredit", "thirdPartyAds", "music", "donate", "social",
       "playlist", "contact", "cta",

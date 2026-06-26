@@ -38,6 +38,11 @@ import {
   DEFAULT_GACHA_QUEST_TYPE,
   type GachaQuestType,
 } from "@config/gacha-quest-types";
+import {
+  PLAYTEST_PLATFORMS,
+  PLAYTEST_MAX_INVITES_CAP,
+  DEFAULT_PLAYTEST_PLATFORM,
+} from "@config/playtest-platforms";
 import { DEFAULTS } from "@config/defaults";
 
 export interface EditorData {
@@ -168,6 +173,12 @@ export interface EditorData {
   vnBankHolder: string;
   vnMomo: string;
   vnZalopay: string;
+  /** Playtest signup link (v0.30.0). Empty = no Playtest description block. */
+  playtestLink: string;
+  /** Playtest platform id (see `@config/playtest-platforms`). */
+  playtestPlatform: string;
+  /** Playtest invites available — 0 = unset; clamped to the platform max (≤100). */
+  playtestInvites: number;
 }
 
 /**
@@ -348,6 +359,9 @@ const initialState: EditorData = {
   vnBankHolder: DEFAULTS.editor.vnBankHolder,
   vnMomo: DEFAULTS.editor.vnMomo,
   vnZalopay: DEFAULTS.editor.vnZalopay,
+  playtestLink: DEFAULTS.editor.playtestLink,
+  playtestPlatform: DEFAULTS.editor.playtestPlatform,
+  playtestInvites: DEFAULTS.editor.playtestInvites,
 };
 
 export const useEditorStore = create<EditorState>()(
@@ -465,7 +479,14 @@ export const useEditorStore = create<EditorState>()(
       //         migration defensively coerces unrecognised values to `""`
       //         so a hand-edited blob or downgrade from a future version
       //         can't leave the Select stuck on a missing option.
-      version: 14,
+      // v14 → v15: v0.30.0. Playtest section — `playtestLink`,
+      //         `playtestPlatform`, `playtestInvites` joined the schema.
+      //         Additive: empty link / default platform / 0 invites
+      //         back-fill. The migration coerces an unknown platform id to
+      //         the default and clamps the invite count to an integer in
+      //         [0, 100], so a hand-edited blob can't strand the editor's
+      //         platform Select or number input on a bad value.
+      version: 15,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -537,6 +558,9 @@ export const useEditorStore = create<EditorState>()(
         vnBankHolder: state.vnBankHolder,
         vnMomo: state.vnMomo,
         vnZalopay: state.vnZalopay,
+        playtestLink: state.playtestLink,
+        playtestPlatform: state.playtestPlatform,
+        playtestInvites: state.playtestInvites,
       }),
     },
   ),
@@ -758,6 +782,21 @@ export function migrateEditorState(
     state.videoStyleEra = isVideoStyleEra(state.videoStyleEra)
       ? state.videoStyleEra
       : "";
+  }
+  if (version < 15) {
+    // v0.30.0 Playtest section. Additive back-fill + defensive coercion.
+    if (typeof state.playtestLink !== "string") state.playtestLink = "";
+    if (
+      typeof state.playtestPlatform !== "string" ||
+      !PLAYTEST_PLATFORMS.some((p) => p.id === state.playtestPlatform)
+    ) {
+      state.playtestPlatform = DEFAULT_PLAYTEST_PLATFORM;
+    }
+    const inv = state.playtestInvites;
+    state.playtestInvites =
+      typeof inv === "number" && Number.isInteger(inv) && inv >= 0
+        ? Math.min(inv, PLAYTEST_MAX_INVITES_CAP)
+        : 0;
   }
   return { ...initialState, ...state } as EditorData;
 }

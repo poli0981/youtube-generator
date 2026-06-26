@@ -60,6 +60,13 @@
     }
   },
   "editor": {
+    "playtest": {
+      "heading": "Playtest",
+      "linkLabel": "Link playtest",
+      "platformLabel": "Nền tảng",
+      "invitesLabel": "Số lời mời (tối đa {{max}})",
+      "invitesHelp": "Bạn có bao nhiêu lời mời playtest để tặng (1–{{max}})."
+    },
     "sections": {
       "gameInfo": "Thông tin game",
       "videoSettings": "Cài đặt video",
@@ -1047,6 +1054,12 @@
     "noResults": "Không có phím tắt phù hợp"
   },
   "validation": {
+    "numberRequired": "Hãy nhập một số.",
+    "numberInvalid": "Hãy nhập một số hợp lệ.",
+    "numberNotInteger": "Hãy nhập số nguyên (không có số thập phân).",
+    "numberOutOfRange": "Hãy nhập số trong khoảng {{min}} đến {{max}}.",
+    "rangeEndBeforeStart": "Phần cuối ({{end}}) phải ≥ phần đầu ({{start}}).",
+    "rangeTooLarge": "Khoảng quá lớn — chỉ tạo tối đa {{maxSpan}} phần mỗi lần.",
     "emailInvalid": "Email không hợp lệ: {{email}}",
     "emailMaxExceeded": "Tối đa {{max}} email (hiện tại {{count}})",
     "urlInvalid": "URL không hợp lệ. Phải bắt đầu bằng https://",

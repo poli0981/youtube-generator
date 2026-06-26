@@ -60,6 +60,13 @@
     }
   },
   "editor": {
+    "playtest": {
+      "heading": "Playtest",
+      "linkLabel": "Playtest link",
+      "platformLabel": "Platform",
+      "invitesLabel": "Invitations (max {{max}})",
+      "invitesHelp": "How many playtest invites you have to give away (1–{{max}})."
+    },
     "sections": {
       "gameInfo": "Game Info",
       "videoSettings": "Video Settings",
@@ -1047,6 +1054,12 @@
     "noResults": "No matching shortcuts"
   },
   "validation": {
+    "numberRequired": "Enter a number.",
+    "numberInvalid": "Enter a valid number.",
+    "numberNotInteger": "Enter a whole number (no decimals).",
+    "numberOutOfRange": "Enter a number between {{min}} and {{max}}.",
+    "rangeEndBeforeStart": "End part ({{end}}) must be ≥ start part ({{start}}).",
+    "rangeTooLarge": "Range too large — generate at most {{maxSpan}} parts at once.",
     "emailInvalid": "Invalid email: {{email}}",
     "emailMaxExceeded": "Maximum {{max}} emails allowed (currently {{count}})",
     "urlInvalid": "Invalid URL. Must start with https://",

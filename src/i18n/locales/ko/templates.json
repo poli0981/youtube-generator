@@ -105,6 +105,8 @@
       "demo": "무료 데모"
     },
     "sections": {
+      "playtest": "🧪 플레이테스트 / 앞서 해보기",
+      "playtestInvites": "🎟️ 초대 {{count}}개 남음 — 선착순",
       "timestamps": "⏱ 타임스탬프",
       "storeLinksBuy": "🎮 게임 구매 (구매하고 싶다면)",
       "storeLinksDownload": "⬇️ 게임 다운로드 (플레이하고 싶다면)",

@@ -14,6 +14,7 @@ import { buildPinnedComment } from "@engine/pinned-comment-builder";
 import { YT_LIMITS } from "@engine/types";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
+import { validateBatchRange } from "@utils/validation";
 import clsx from "clsx";
 
 interface BatchLanguageRow {
@@ -52,6 +53,16 @@ export function BatchPage() {
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([state.language]);
   const [results, setResults] = useState<BatchResult[]>([]);
   const [generating, setGenerating] = useState(false);
+
+  // Block generation on an invalid part range: negative / decimal / NaN
+  // endpoints, end < start, or a span over 100 parts (the loop's hard cap).
+  const rangeResult = useMemo(
+    () => validateBatchRange(startPart, endPart, { maxSpan: 100 }),
+    [startPart, endPart],
+  );
+  const rangeError = rangeResult.valid
+    ? undefined
+    : t(rangeResult.error ?? "", rangeResult.errorParams);
 
   const toggleLang = (lang: SupportedLanguage) => {
     setSelectedLangs((prev) => {
@@ -163,27 +174,44 @@ export function BatchPage() {
         </div>
       </div>
 
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
+      <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
         <Input
           label={t("batch.startPart")}
           type="number"
+          min={1}
+          step={1}
+          inputMode="numeric"
+          error={!rangeResult.valid}
           value={startPart}
           onChange={(e) => setStartPart(e.target.value)}
         />
         <Input
           label={t("batch.endPart")}
           type="number"
+          min={1}
+          step={1}
+          inputMode="numeric"
+          error={!rangeResult.valid}
           value={endPart}
           onChange={(e) => setEndPart(e.target.value)}
         />
         <Button
           className="w-full sm:w-auto"
           onClick={() => void handleGenerate()}
-          disabled={!state.gameName || generating}
+          disabled={!state.gameName || generating || !rangeResult.valid}
         >
           {t("batch.generateBatch")}
         </Button>
       </div>
+      {rangeError && (
+        <p
+          role="alert"
+          className="mb-6 rounded-lg border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-warning"
+        >
+          {rangeError}
+        </p>
+      )}
+      {!rangeError && <div className="mb-6" />}
 
       {results.length === 0 ? (
         <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">

@@ -163,6 +163,90 @@ describe("buildDescription", () => {
     expect(result).not.toContain("(free)");
   });
 
+  it("includes the playtest block with platform label + link when a link is set (v0.30.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        playtestLink: "https://store.steampowered.com/app/1245620",
+        playtestPlatform: "steam",
+        playtestInvites: 25,
+      }),
+      t,
+    );
+    expect(result).toContain("🧪 PLAYTEST / EARLY ACCESS");
+    expect(result).toContain(
+      "🧪 Steam Playtest: https://store.steampowered.com/app/1245620",
+    );
+    expect(result).toContain("25 invites available");
+  });
+
+  it("omits the playtest block entirely when no link is set", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ playtestPlatform: "steam", playtestInvites: 25 }),
+      t,
+    );
+    expect(result).not.toContain("PLAYTEST / EARLY ACCESS");
+  });
+
+  it("omits the invites line when the count is 0", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        playtestLink: "https://dev.itch.io/my-game",
+        playtestPlatform: "itchio",
+        playtestInvites: 0,
+      }),
+      t,
+    );
+    expect(result).toContain("🧪 PLAYTEST / EARLY ACCESS");
+    expect(result).not.toContain("invites available");
+  });
+
+  it("guards the invites line against non-integer / negative counts", () => {
+    const t = createMockT("en");
+    const decimal = buildDescription(
+      makeInput({
+        playtestLink: "https://store.steampowered.com/app/1",
+        playtestInvites: 2.5,
+      }),
+      t,
+    );
+    expect(decimal).not.toContain("invites available");
+    const negative = buildDescription(
+      makeInput({
+        playtestLink: "https://store.steampowered.com/app/1",
+        playtestInvites: -3,
+      }),
+      t,
+    );
+    expect(negative).not.toContain("invites available");
+  });
+
+  it("falls back to the raw platform id when the platform is unknown", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        playtestLink: "https://example.com/signup",
+        playtestPlatform: "mystery",
+      }),
+      t,
+    );
+    expect(result).toContain("🧪 mystery: https://example.com/signup");
+  });
+
+  it("renders the localized playtest heading in Vietnamese", () => {
+    const t = createMockT("vi");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        playtestLink: "https://store.steampowered.com/app/1",
+      }),
+      t,
+    );
+    expect(result).toContain("🧪 PLAYTEST / TRẢI NGHIỆM SỚM");
+  });
+
   it("includes video settings with the v0.8-polish multi-line block", () => {
     const t = createMockT("en");
     const result = buildDescription(
