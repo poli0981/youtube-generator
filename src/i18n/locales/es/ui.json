@@ -720,6 +720,7 @@
     "copyDescription": "Copiar Descripción",
     "copyTags": "Copiar Etiquetas",
     "copyAll": "Copiar Todo",
+    "copyComment": "Copiar comentario",
     "copied": "¡Copiado!",
     "charCount": "{{count}}/{{limit}}",
     "selectLanguages": "Seleccionar Idiomas",
@@ -1077,7 +1078,19 @@
     "contentType": "Tipo de Contenido",
     "totalVideos": "Total de Videos",
     "customNote": "Nota Personal",
-    "generatePlaylist": "Generar Playlist"
+    "generatePlaylist": "Generar Playlist",
+    "droppedReasonsLabel": "Razones para abandonar",
+    "droppedReasonCustomLabel": "Otra razón (opcional)",
+    "droppedReasonCustomPlaceholder": "p. ej. cerraron el servidor, perdí la partida guardada…",
+    "pinnedComment": "Comentario fijado (último vídeo)",
+    "droppedReasons": {
+      "boring": "El juego se volvió aburrido / perdí interés",
+      "performance": "Problemas de rendimiento (lag, FPS bajos)",
+      "bugs": "Demasiados errores / cierres",
+      "delisted": "Eliminado / retirado de la tienda",
+      "low_views": "Pocas visitas / interacción",
+      "time": "Sin tiempo / cambio de prioridades"
+    }
   },
   "logs": {
     "title": "Registros",

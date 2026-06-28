@@ -612,6 +612,26 @@
     "videoCount": "📹 {{count}} video(s)",
     "storeSection": "🎮 Get the game:",
     "footer": "👍 Like | 🔔 Subscribe for more gameplay!",
+    "droppedHeading": "⚠️ Why this series was dropped:",
+    "droppedReasons": {
+      "boring": "Game got boring / lost interest",
+      "performance": "Performance issues (lag, low FPS)",
+      "bugs": "Too many bugs / crashes",
+      "delisted": "Removed / delisted from store",
+      "low_views": "Low views / engagement",
+      "time": "No time / shifted priorities"
+    },
+    "comment": {
+      "opening": {
+        "completed": "✅ The {{gameName}} series is complete — thanks for watching, No Commentary all the way! 🎮",
+        "in_progress": "▶️ New {{gameName}} part is live! More episodes coming soon. 🎮",
+        "incomplete": "🔄 The {{gameName}} playthrough continues — catch up on the series so far!",
+        "dropped": "❌ Update on the {{gameName}} series: I've decided to drop this playthrough."
+      },
+      "playlistPrompt": "▶️ Watch the full playlist here: {{link}}",
+      "droppedReasonsIntro": "Here's why:",
+      "engagement": "👍 Drop a like & 🔔 subscribe for more No Commentary gameplay!"
+    },
     "description": {
       "full_gameplay": "This playlist contains the full gameplay of {{gameName}} on {{channelName}}.\nNo Commentary — pure gameplay experience.",
       "boss_fights": "This playlist contains boss fights from {{gameName}} on {{channelName}}.\nNo Commentary — pure gameplay experience.",

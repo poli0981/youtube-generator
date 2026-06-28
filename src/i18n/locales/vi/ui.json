@@ -720,6 +720,7 @@
     "copyDescription": "Sao chép mô tả",
     "copyTags": "Sao chép tags",
     "copyAll": "Sao chép tất cả",
+    "copyComment": "Sao chép comment",
     "copied": "Đã sao chép!",
     "charCount": "{{count}}/{{limit}}",
     "selectLanguages": "Chọn ngôn ngữ",
@@ -1077,7 +1078,19 @@
     "contentType": "Loại nội dung",
     "totalVideos": "Tổng video",
     "customNote": "Ghi chú",
-    "generatePlaylist": "Tạo Playlist"
+    "generatePlaylist": "Tạo Playlist",
+    "droppedReasonsLabel": "Lý do dừng series",
+    "droppedReasonCustomLabel": "Lý do khác (tùy chọn)",
+    "droppedReasonCustomPlaceholder": "vd: server đóng cửa, mất file save…",
+    "pinnedComment": "Comment ghim (video mới nhất)",
+    "droppedReasons": {
+      "boring": "Game nhàm chán / mất hứng thú",
+      "performance": "Vấn đề hiệu năng (lag, FPS thấp)",
+      "bugs": "Quá nhiều lỗi / crash",
+      "delisted": "Bị gỡ / khai tử khỏi store",
+      "low_views": "Lượt xem / tương tác thấp",
+      "time": "Không có thời gian / đổi ưu tiên"
+    }
   },
   "logs": {
     "title": "Nhật ký",

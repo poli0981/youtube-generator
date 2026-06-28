@@ -612,6 +612,26 @@
     "videoCount": "📹 {{count}} video",
     "storeSection": "🎮 Tải / mua game:",
     "footer": "👍 Like | 🔔 Subscribe để xem thêm gameplay!",
+    "droppedHeading": "⚠️ Vì sao series này bị dừng:",
+    "droppedReasons": {
+      "boring": "Game nhàm chán / mất hứng thú",
+      "performance": "Vấn đề hiệu năng (lag, FPS thấp)",
+      "bugs": "Quá nhiều lỗi / crash",
+      "delisted": "Bị gỡ / khai tử khỏi store",
+      "low_views": "Lượt xem / tương tác thấp",
+      "time": "Không có thời gian / đổi ưu tiên"
+    },
+    "comment": {
+      "opening": {
+        "completed": "✅ Series {{gameName}} đã hoàn thành — cảm ơn các bạn đã theo dõi, No Commentary trọn vẹn! 🎮",
+        "in_progress": "▶️ Phần mới của {{gameName}} đã lên sóng! Các tập tiếp theo sẽ sớm ra mắt. 🎮",
+        "incomplete": "🔄 Series {{gameName}} vẫn đang tiếp tục — xem lại các phần trước nhé!",
+        "dropped": "❌ Cập nhật về series {{gameName}}: mình quyết định dừng playthrough này."
+      },
+      "playlistPrompt": "▶️ Xem toàn bộ playlist tại đây: {{link}}",
+      "droppedReasonsIntro": "Lý do là:",
+      "engagement": "👍 Để lại một like & 🔔 đăng ký kênh để xem thêm gameplay No Commentary nhé!"
+    },
     "description": {
       "full_gameplay": "Playlist này là toàn bộ gameplay của game {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",
       "boss_fights": "Playlist này là tổng hợp các trận đánh boss trong {{gameName}} trên kênh {{channelName}}.\nKhông bình luận — chỉ có gameplay thuần túy.",

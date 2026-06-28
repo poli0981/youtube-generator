@@ -612,6 +612,26 @@
     "videoCount": "📹 {{count}}本の動画",
     "storeSection": "🎮 ゲーム購入:",
     "footer": "👍 高評価 | 🔔 チャンネル登録お願いします！",
+    "droppedHeading": "⚠️ このシリーズを中止した理由：",
+    "droppedReasons": {
+      "boring": "ゲームに飽きた / 興味を失った",
+      "performance": "パフォーマンスの問題（ラグ、低FPS）",
+      "bugs": "バグ / クラッシュが多すぎる",
+      "delisted": "ストアから削除 / 配信終了",
+      "low_views": "再生回数 / 反応が少ない",
+      "time": "時間がない / 優先度の変更"
+    },
+    "comment": {
+      "opening": {
+        "completed": "✅ {{gameName}} シリーズが完結しました — ノーコメンタリーで最後までご視聴ありがとうございました！🎮",
+        "in_progress": "▶️ {{gameName}} の新しいパートを公開しました！続きもお楽しみに。🎮",
+        "incomplete": "🔄 {{gameName}} のプレイはまだ続きます — これまでのシリーズもぜひチェックしてください！",
+        "dropped": "❌ {{gameName}} シリーズについてのお知らせ：このプレイは中止することにしました。"
+      },
+      "playlistPrompt": "▶️ 再生リスト全体はこちら：{{link}}",
+      "droppedReasonsIntro": "理由は次のとおりです：",
+      "engagement": "👍 高評価＆🔔 チャンネル登録で、ノーコメンタリー実況をもっとお楽しみください！"
+    },
     "description": {
       "full_gameplay": "このプレイリストは{{channelName}}での{{gameName}}のフルゲームプレイです。\n解説なし — 純粋なゲームプレイ体験。",
       "boss_fights": "このプレイリストは{{channelName}}での{{gameName}}のボス戦集です。\n解説なし — 純粋なゲームプレイ体験。",

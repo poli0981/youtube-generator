@@ -15,10 +15,12 @@ import { useLanguagesReady } from "@hooks/use-languages-ready";
 import {
   buildPlaylistTitle,
   buildPlaylistDescription,
+  buildPlaylistComment,
   type PlaylistStatus,
   type PlaylistContentType,
   type PlaylistInput,
 } from "@engine/playlist-builder";
+import { DROPPED_REASONS } from "@config/dropped-reasons";
 import type { SupportedLanguage } from "@engine/types";
 
 const STATUS_OPTIONS = [
@@ -48,6 +50,8 @@ export function PlaylistPage() {
   const [contentType, setContentType] = useState<PlaylistContentType>("full_gameplay");
   const [totalVideos, setTotalVideos] = useState("");
   const [customNote, setCustomNote] = useState("");
+  const [droppedReasons, setDroppedReasons] = useState<string[]>([]);
+  const [droppedReasonCustom, setDroppedReasonCustom] = useState("");
   const [language, setLanguage] = useState<SupportedLanguage>(editor.language);
 
   const langOptions = SUPPORTED_LANGUAGES.map((l) => ({
@@ -79,6 +83,9 @@ export function PlaylistPage() {
           : undefined,
       storeLinks: editor.storeLinks,
       playlistNote: customNote,
+      droppedReasons,
+      droppedReasonCustom,
+      playlistLink: editor.playlistLink,
     }),
     [
       editor.gameName,
@@ -89,6 +96,9 @@ export function PlaylistPage() {
       totalVideosValidation.valid,
       editor.storeLinks,
       customNote,
+      droppedReasons,
+      droppedReasonCustom,
+      editor.playlistLink,
     ],
   );
 
@@ -97,11 +107,12 @@ export function PlaylistPage() {
   const ready = useLanguagesReady([language]);
 
   const output = useMemo(() => {
-    if (!ready) return { title: "", description: "" };
+    if (!ready) return { title: "", description: "", comment: "" };
     const tFn = i18n.getFixedT(language, "templates");
     return {
       title: buildPlaylistTitle(playlistInput, tFn),
       description: buildPlaylistDescription(playlistInput, tFn),
+      comment: buildPlaylistComment(playlistInput, tFn),
     };
   }, [ready, playlistInput, language]);
 
@@ -124,6 +135,29 @@ export function PlaylistPage() {
           value={status}
           onChange={(v) => setStatus(v as PlaylistStatus)}
         />
+
+        {status === "dropped" && (
+          <>
+            <ChipGroup
+              label={t("playlist.droppedReasonsLabel")}
+              multiple
+              options={DROPPED_REASONS.map((r) => ({
+                id: r.id,
+                label: t(`playlist.droppedReasons.${r.id}`),
+                icon: r.icon,
+              }))}
+              value={droppedReasons}
+              onChange={setDroppedReasons}
+            />
+            <Textarea
+              label={t("playlist.droppedReasonCustomLabel")}
+              placeholder={t("playlist.droppedReasonCustomPlaceholder")}
+              value={droppedReasonCustom}
+              onChange={(e) => setDroppedReasonCustom(e.target.value)}
+              rows={2}
+            />
+          </>
+        )}
 
         <ChipGroup
           label={t("playlist.contentType")}
@@ -175,6 +209,18 @@ export function PlaylistPage() {
             </div>
             <pre className="max-h-64 overflow-y-auto whitespace-pre-wrap rounded bg-surface-2 p-2 font-sans text-xs text-text-secondary">
               {output.description || "..."}
+            </pre>
+          </div>
+
+          <div>
+            <div className="mb-1 flex items-center justify-between">
+              <span className="text-xs font-medium uppercase text-text-muted">
+                {t("playlist.pinnedComment")}
+              </span>
+              <CopyButton text={output.comment} label={t("output.copyComment")} />
+            </div>
+            <pre className="max-h-64 overflow-y-auto whitespace-pre-wrap rounded bg-surface-2 p-2 font-sans text-xs text-text-secondary">
+              {output.comment || "..."}
             </pre>
           </div>
 
