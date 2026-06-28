@@ -720,6 +720,7 @@
     "copyDescription": "설명 복사",
     "copyTags": "태그 복사",
     "copyAll": "전체 복사",
+    "copyComment": "댓글 복사",
     "copied": "복사 완료!",
     "charCount": "{{count}}/{{limit}}",
     "selectLanguages": "언어 선택",
@@ -1077,7 +1078,19 @@
     "contentType": "콘텐츠 유형",
     "totalVideos": "총 영상 수",
     "customNote": "사용자 메모",
-    "generatePlaylist": "플레이리스트 생성"
+    "generatePlaylist": "플레이리스트 생성",
+    "droppedReasonsLabel": "중단한 이유",
+    "droppedReasonCustomLabel": "기타 이유 (선택)",
+    "droppedReasonCustomPlaceholder": "예: 서버 종료, 세이브 파일 분실…",
+    "pinnedComment": "고정 댓글 (최신 영상용)",
+    "droppedReasons": {
+      "boring": "게임이 지루해짐 / 흥미 상실",
+      "performance": "성능 문제 (렉, 낮은 FPS)",
+      "bugs": "버그 / 크래시가 너무 많음",
+      "delisted": "스토어에서 삭제 / 판매 종료",
+      "low_views": "조회수 / 반응 저조",
+      "time": "시간 부족 / 우선순위 변경"
+    }
   },
   "logs": {
     "title": "로그",

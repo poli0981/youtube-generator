@@ -720,6 +720,7 @@
     "copyDescription": "复制描述",
     "copyTags": "复制标签",
     "copyAll": "复制全部",
+    "copyComment": "复制评论",
     "copied": "已复制！",
     "charCount": "{{count}}/{{limit}}",
     "selectLanguages": "选择语言",
@@ -1077,7 +1078,19 @@
     "contentType": "内容类型",
     "totalVideos": "视频总数",
     "customNote": "自定义备注",
-    "generatePlaylist": "生成播放列表"
+    "generatePlaylist": "生成播放列表",
+    "droppedReasonsLabel": "弃坑原因",
+    "droppedReasonCustomLabel": "其他原因（可选）",
+    "droppedReasonCustomPlaceholder": "例如：服务器关闭、存档丢失……",
+    "pinnedComment": "置顶评论（最新视频）",
+    "droppedReasons": {
+      "boring": "游戏变无聊 / 失去兴趣",
+      "performance": "性能问题（卡顿、低帧率）",
+      "bugs": "太多 bug / 崩溃",
+      "delisted": "已从商店下架 / 停售",
+      "low_views": "播放量 / 互动太低",
+      "time": "没时间 / 优先级改变"
+    }
   },
   "logs": {
     "title": "日志",

@@ -612,6 +612,26 @@
     "videoCount": "📹 {{count}} video(s)",
     "storeSection": "🎮 Obtener el juego:",
     "footer": "👍 Me gusta | 🔔 ¡Suscríbete para más gameplay!",
+    "droppedHeading": "⚠️ Por qué se abandonó esta serie:",
+    "droppedReasons": {
+      "boring": "El juego se volvió aburrido / perdí interés",
+      "performance": "Problemas de rendimiento (lag, FPS bajos)",
+      "bugs": "Demasiados errores / cierres",
+      "delisted": "Eliminado / retirado de la tienda",
+      "low_views": "Pocas visitas / interacción",
+      "time": "Sin tiempo / cambio de prioridades"
+    },
+    "comment": {
+      "opening": {
+        "completed": "✅ ¡La serie de {{gameName}} está completa! Gracias por ver, sin comentarios de principio a fin. 🎮",
+        "in_progress": "▶️ ¡Nueva parte de {{gameName}} ya disponible! Más episodios muy pronto. 🎮",
+        "incomplete": "🔄 La partida de {{gameName}} continúa: ¡ponte al día con la serie!",
+        "dropped": "❌ Novedad sobre la serie de {{gameName}}: he decidido abandonar esta partida."
+      },
+      "playlistPrompt": "▶️ Mira la lista de reproducción completa aquí: {{link}}",
+      "droppedReasonsIntro": "Estas son las razones:",
+      "engagement": "👍 ¡Deja un like y 🔔 suscríbete para más gameplay sin comentarios!"
+    },
     "description": {
       "full_gameplay": "Esta playlist contiene el gameplay completo de {{gameName}} en {{channelName}}.\nSin comentarios — experiencia de juego pura.",
       "boss_fights": "Esta playlist contiene todas las peleas de jefes de {{gameName}} en {{channelName}}.\nSin comentarios.",

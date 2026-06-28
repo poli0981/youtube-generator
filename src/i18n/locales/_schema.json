@@ -152,7 +152,7 @@
     "storeLinkTypes": ["paid", "free", "demo"],
     "output": [
       "title", "description", "tags",
-      "copyTitle", "copyDescription", "copyTags", "copyAll",
+      "copyTitle", "copyDescription", "copyTags", "copyAll", "copyComment",
       "copied", "charCount", "selectLanguages",
       "thumbnailText", "copyThumbnailText",
       "pinnedComment", "copyPinnedComment",
@@ -189,7 +189,8 @@
     "shortcuts": ["title", "generate", "copyAll", "saveDraft", "toggleSidebar", "help", "close", "searchPlaceholder", "noResults"],
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid", "numberRequired", "numberInvalid", "numberNotInteger", "numberOutOfRange", "rangeEndBeforeStart", "rangeTooLarge"],
     "logs": ["title", "emptyState", "clearAll", "clearConfirm", "clearPersistedConfirm", "clearSession", "searchPlaceholder", "exportJson", "exportTxt", "sessionCurrent", "sessionLabel", "entriesShort"],
-    "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist"]
+    "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist", "droppedReasonsLabel", "droppedReasonCustomLabel", "droppedReasonCustomPlaceholder", "pinnedComment"],
+    "playlist.droppedReasons": ["boring", "performance", "bugs", "delisted", "low_views", "time"]
   },
   "templates": {
     "title": ["separator", "suffix"],
@@ -289,8 +290,11 @@
     ],
     "hashtags": ["gameplay", "noCommentary", "genre"],
     "playlist.status": ["completed", "dropped", "incomplete", "in_progress"],
-    "playlist": ["titleFormat", "videoCount", "storeSection", "footer"],
+    "playlist": ["titleFormat", "videoCount", "storeSection", "footer", "droppedHeading"],
     "playlist.description": ["full_gameplay", "boss_fights", "speedrun", "all_endings", "dlc", "100_percent", "guide", "highlights"],
+    "playlist.droppedReasons": ["boring", "performance", "bugs", "delisted", "low_views", "time"],
+    "playlist.comment": ["playlistPrompt", "droppedReasonsIntro", "engagement"],
+    "playlist.comment.opening": ["completed", "dropped", "incomplete", "in_progress"],
     "timeline.keywords": ["chapter", "part", "boss", "final_boss", "intro", "ending", "tutorial", "credits"]
   }
 }

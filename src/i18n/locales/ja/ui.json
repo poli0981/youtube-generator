@@ -720,6 +720,7 @@
     "copyDescription": "説明文をコピー",
     "copyTags": "タグをコピー",
     "copyAll": "全てコピー",
+    "copyComment": "コメントをコピー",
     "copied": "コピーしました！",
     "charCount": "{{count}}/{{limit}}",
     "selectLanguages": "言語を選択",
@@ -1077,7 +1078,19 @@
     "contentType": "コンテンツタイプ",
     "totalVideos": "動画総数",
     "customNote": "カスタムノート",
-    "generatePlaylist": "プレイリスト生成"
+    "generatePlaylist": "プレイリスト生成",
+    "droppedReasonsLabel": "中止した理由",
+    "droppedReasonCustomLabel": "その他の理由（任意）",
+    "droppedReasonCustomPlaceholder": "例：サーバー終了、セーブデータ消失…",
+    "pinnedComment": "固定コメント（最新動画用）",
+    "droppedReasons": {
+      "boring": "ゲームに飽きた / 興味を失った",
+      "performance": "パフォーマンスの問題（ラグ、低FPS）",
+      "bugs": "バグ / クラッシュが多すぎる",
+      "delisted": "ストアから削除 / 配信終了",
+      "low_views": "再生回数 / 反応が少ない",
+      "time": "時間がない / 優先度の変更"
+    }
   },
   "logs": {
     "title": "ログ",

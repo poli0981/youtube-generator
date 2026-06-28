@@ -720,6 +720,7 @@
     "copyDescription": "Copy Description",
     "copyTags": "Copy Tags",
     "copyAll": "Copy All",
+    "copyComment": "Copy comment",
     "copied": "Copied!",
     "charCount": "{{count}}/{{limit}}",
     "selectLanguages": "Select Languages",
@@ -1077,7 +1078,19 @@
     "contentType": "Content Type",
     "totalVideos": "Total Videos",
     "customNote": "Custom Note",
-    "generatePlaylist": "Generate Playlist"
+    "generatePlaylist": "Generate Playlist",
+    "droppedReasonsLabel": "Reasons for dropping",
+    "droppedReasonCustomLabel": "Other reason (optional)",
+    "droppedReasonCustomPlaceholder": "e.g. server shut down, lost the save file…",
+    "pinnedComment": "Pinned Comment (latest video)",
+    "droppedReasons": {
+      "boring": "Game got boring / lost interest",
+      "performance": "Performance issues (lag, low FPS)",
+      "bugs": "Too many bugs / crashes",
+      "delisted": "Removed / delisted from store",
+      "low_views": "Low views / engagement",
+      "time": "No time / shifted priorities"
+    }
   },
   "logs": {
     "title": "Logs",

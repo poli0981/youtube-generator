@@ -612,6 +612,26 @@
     "videoCount": "📹 {{count}}个视频",
     "storeSection": "🎮 获取游戏:",
     "footer": "👍 点赞 | 🔔 订阅获取更多游戏实况！",
+    "droppedHeading": "⚠️ 这个系列弃坑的原因：",
+    "droppedReasons": {
+      "boring": "游戏变无聊 / 失去兴趣",
+      "performance": "性能问题（卡顿、低帧率）",
+      "bugs": "太多 bug / 崩溃",
+      "delisted": "已从商店下架 / 停售",
+      "low_views": "播放量 / 互动太低",
+      "time": "没时间 / 优先级改变"
+    },
+    "comment": {
+      "opening": {
+        "completed": "✅ {{gameName}} 系列已完结——感谢观看，全程无解说！🎮",
+        "in_progress": "▶️ {{gameName}} 新一期已上线！更多内容敬请期待。🎮",
+        "incomplete": "🔄 {{gameName}} 的流程仍在继续——快来补看之前的系列吧！",
+        "dropped": "❌ 关于 {{gameName}} 系列的更新：我决定弃坑这个流程。"
+      },
+      "playlistPrompt": "▶️ 在此观看完整播放列表：{{link}}",
+      "droppedReasonsIntro": "原因如下：",
+      "engagement": "👍 点个赞并 🔔 订阅，观看更多无解说游戏实况！"
+    },
     "description": {
       "full_gameplay": "本播放列表包含{{channelName}}的{{gameName}}完整游戏实况。\n无解说 — 纯粹的游戏体验。",
       "boss_fights": "本播放列表包含{{channelName}}的{{gameName}}全部Boss战。\n无解说。",
