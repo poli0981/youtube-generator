@@ -533,6 +533,75 @@ describe("buildDescription", () => {
     expect(result).not.toContain("💸 MoMo");
   });
 
+  it("renders the community block with the Messenger line for any language (v0.32.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ messengerCommunityLink: "https://m.me/mychannel" }),
+      t,
+    );
+    expect(result).toContain("💬 COMMUNITY / JOIN THE GROUP");
+    expect(result).toContain("💬 Messenger: https://m.me/mychannel");
+    expect(result).not.toContain("💙 Zalo");
+  });
+
+  it("renders the Zalo group line when language is 'vi' (v0.32.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        messengerCommunityLink: "https://m.me/mychannel",
+        zaloGroupLink: "https://zalo.me/g/abc123",
+      }),
+      t,
+    );
+    expect(result).toContain("💬 Messenger: https://m.me/mychannel");
+    expect(result).toContain("💙 Zalo: https://zalo.me/g/abc123");
+  });
+
+  it("never renders the Zalo group line when language is not 'vi', even if set (v0.32.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        language: "en",
+        messengerCommunityLink: "https://m.me/mychannel",
+        zaloGroupLink: "https://zalo.me/g/abc123",
+      }),
+      t,
+    );
+    // Messenger is language-agnostic and still renders…
+    expect(result).toContain("💬 Messenger: https://m.me/mychannel");
+    // …but the Zalo line is gated to Vietnamese output.
+    expect(result).not.toContain("💙 Zalo");
+    expect(result).not.toContain("zalo.me/g/abc123");
+  });
+
+  it("omits the community block entirely when it would be empty (v0.32.0)", () => {
+    const t = createMockT("en");
+    // Zalo is set but the output language is English and there's no
+    // Messenger link → the block has no eligible lines and is skipped.
+    const result = buildDescription(
+      makeInput({ language: "en", zaloGroupLink: "https://zalo.me/g/abc123" }),
+      t,
+    );
+    expect(result).not.toContain("COMMUNITY / JOIN THE GROUP");
+    expect(result).not.toContain("💬 Messenger");
+    expect(result).not.toContain("💙 Zalo");
+  });
+
+  it("localizes the community heading for Vietnamese output (v0.32.0)", () => {
+    const t = createMockT("vi");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        messengerCommunityLink: "https://m.me/mychannel",
+        zaloGroupLink: "https://zalo.me/g/abc123",
+      }),
+      t,
+    );
+    expect(result).toContain("CỘNG ĐỒNG / THAM GIA NHÓM");
+    expect(result).toContain("💙 Zalo: https://zalo.me/g/abc123");
+  });
+
   it("renders the Mod List block when videoType is 'mods' and modList is non-empty", () => {
     const t = createMockT("en");
     const modList = "• Requiem\n• NaturalVision Evolved\n• Custom Skinpack v2.1";

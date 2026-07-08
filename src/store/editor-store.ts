@@ -179,6 +179,10 @@ export interface EditorData {
   playtestPlatform: string;
   /** Playtest invites available — 0 = unset; clamped to the platform max (≤100). */
   playtestInvites: number;
+  /** Messenger community invite link (v0.32.0). Empty = no community line. */
+  messengerCommunityLink: string;
+  /** Zalo group invite link (v0.32.0). Rendered into the description only for Vietnamese output. */
+  zaloGroupLink: string;
 }
 
 /**
@@ -362,6 +366,8 @@ const initialState: EditorData = {
   playtestLink: DEFAULTS.editor.playtestLink,
   playtestPlatform: DEFAULTS.editor.playtestPlatform,
   playtestInvites: DEFAULTS.editor.playtestInvites,
+  messengerCommunityLink: DEFAULTS.editor.messengerCommunityLink,
+  zaloGroupLink: DEFAULTS.editor.zaloGroupLink,
 };
 
 export const useEditorStore = create<EditorState>()(
@@ -486,7 +492,13 @@ export const useEditorStore = create<EditorState>()(
       //         the default and clamps the invite count to an integer in
       //         [0, 100], so a hand-edited blob can't strand the editor's
       //         platform Select or number input on a bad value.
-      version: 15,
+      // v15 → v16: v0.32.0. Community links — `messengerCommunityLink`
+      //         (`https://m.me/<id>`) and `zaloGroupLink`
+      //         (`https://zalo.me/g/<code>`) joined the schema. Additive:
+      //         both back-fill to "". Messenger renders for every output
+      //         language; the Zalo line only renders for Vietnamese output.
+      //         Non-string values coerce to "".
+      version: 16,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -561,6 +573,8 @@ export const useEditorStore = create<EditorState>()(
         playtestLink: state.playtestLink,
         playtestPlatform: state.playtestPlatform,
         playtestInvites: state.playtestInvites,
+        messengerCommunityLink: state.messengerCommunityLink,
+        zaloGroupLink: state.zaloGroupLink,
       }),
     },
   ),
@@ -797,6 +811,13 @@ export function migrateEditorState(
       typeof inv === "number" && Number.isInteger(inv) && inv >= 0
         ? Math.min(inv, PLAYTEST_MAX_INVITES_CAP)
         : 0;
+  }
+  if (version < 16) {
+    // v0.32.0 Community links. Additive back-fill + defensive coercion.
+    if (typeof state.messengerCommunityLink !== "string") {
+      state.messengerCommunityLink = "";
+    }
+    if (typeof state.zaloGroupLink !== "string") state.zaloGroupLink = "";
   }
   return { ...initialState, ...state } as EditorData;
 }

@@ -10,6 +10,7 @@ import { PlaytestEditor } from "@components/editor/PlaytestEditor";
 import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { VietnameseDonateEditor } from "@components/editor/VietnameseDonateEditor";
+import { CommunityEditor } from "@components/editor/CommunityEditor";
 import { ContentWarningChecklist } from "@components/editor/ContentWarningChecklist";
 import { PlaythroughNotesForm } from "@components/editor/PlaythroughNotesForm";
 import { TechNotesChecklist } from "@components/editor/TechNotesChecklist";
@@ -155,6 +156,7 @@ export function EditorPage() {
           <StoreLinkEditor />
           <PlaytestEditor />
           <SocialEditor />
+          <CommunityEditor />
           <VietnameseDonateEditor />
         </Accordion>
       </div>

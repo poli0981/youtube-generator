@@ -137,6 +137,57 @@ export function validatePlaylistUrl(input: string): ValidationResult {
   return { valid: true };
 }
 
+/**
+ * Strict validators for community-invite links (v0.32.0).
+ *
+ * - Messenger community: `https://m.me/<id>` — the id is a page username or
+ *   numeric page id. Non-`m.me` URLs are hard-rejected so a broken invite
+ *   never reaches the description.
+ * - Zalo group: `https://zalo.me/g/<code>` — the `/g/` path is the group
+ *   join link, distinct from a personal `zalo.me/<phone>` profile. Only
+ *   rendered for Vietnamese output, but validated regardless of language.
+ */
+const MESSENGER_URL_REGEX = /^https:\/\/m\.me\/[A-Za-z0-9._-]+$/;
+const MESSENGER_URL_EXPECTED = "https://m.me/[id]";
+const ZALO_GROUP_URL_REGEX = /^https:\/\/zalo\.me\/g\/[A-Za-z0-9]+$/;
+const ZALO_GROUP_URL_EXPECTED = "https://zalo.me/g/[id]";
+
+export function validateMessengerUrl(input: string): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!MESSENGER_URL_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: "validation.messengerUrlInvalid",
+      errorParams: { expected: MESSENGER_URL_EXPECTED },
+    };
+  }
+
+  return { valid: true };
+}
+
+export function validateZaloGroupUrl(input: string): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!ZALO_GROUP_URL_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: "validation.zaloUrlInvalid",
+      errorParams: { expected: ZALO_GROUP_URL_EXPECTED },
+    };
+  }
+
+  return { valid: true };
+}
+
 export interface IntRangeOptions {
   min: number;
   max: number;

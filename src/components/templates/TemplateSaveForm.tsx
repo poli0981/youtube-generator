@@ -80,6 +80,8 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
       vnBankHolder: editor.vnBankHolder,
       vnMomo: editor.vnMomo,
       vnZalopay: editor.vnZalopay,
+      messengerCommunityLink: editor.messengerCommunityLink,
+      zaloGroupLink: editor.zaloGroupLink,
     };
     addTemplate(name, snapshot);
     toast.success(t("templates.savedAs", { name: name.trim() || "Untitled" }));

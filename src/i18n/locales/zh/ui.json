@@ -292,6 +292,12 @@
     "warnings": "内容警告",
     "playlistLink": "播放列表链接",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "community": "💬 社区",
+    "communityHelp": "社区聊天链接。Zalo 群仅在内容语言为越南语时显示。",
+    "messengerCommunityLink": "Messenger 社区链接",
+    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "zaloGroupLink": "Zalo 群链接",
+    "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "联系邮箱",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "音乐 / 音效署名",
@@ -1065,7 +1071,9 @@
     "emailMaxExceeded": "最多允许{{max}}个邮箱 (当前{{count}}个)",
     "urlInvalid": "无效URL。必须以https://开头",
     "urlPrefixMismatch": "URL应以{{expected}}开头",
-    "playlistUrlInvalid": "无效的YouTube播放列表URL。期望格式: {{expected}}"
+    "playlistUrlInvalid": "无效的YouTube播放列表URL。期望格式: {{expected}}",
+    "messengerUrlInvalid": "无效的Messenger链接。期望格式: {{expected}}",
+    "zaloUrlInvalid": "无效的Zalo群链接。期望格式: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "付费",
