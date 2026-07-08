@@ -292,6 +292,12 @@
     "warnings": "Advertencias de contenido",
     "playlistLink": "Enlace de Lista de Reproducción",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "community": "💬 Comunidad",
+    "communityHelp": "Enlaces al chat de tu comunidad. El grupo de Zalo solo aparece cuando el idioma del contenido es vietnamita.",
+    "messengerCommunityLink": "Enlace de comunidad de Messenger",
+    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "zaloGroupLink": "Enlace de grupo de Zalo",
+    "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "Correo de Contacto",
     "contactEmailPlaceholder": "negocios@ejemplo.com",
     "musicAttribution": "Crédito Musical / Sonidos",
@@ -1065,7 +1071,9 @@
     "emailMaxExceeded": "Máximo {{max}} emails permitidos (actualmente {{count}})",
     "urlInvalid": "URL inválida. Debe comenzar con https://",
     "urlPrefixMismatch": "Se espera URL que comience con {{expected}}",
-    "playlistUrlInvalid": "URL de lista de reproducción de YouTube inválida. Se espera: {{expected}}"
+    "playlistUrlInvalid": "URL de lista de reproducción de YouTube inválida. Se espera: {{expected}}",
+    "messengerUrlInvalid": "Enlace de Messenger inválido. Se espera: {{expected}}",
+    "zaloUrlInvalid": "Enlace de grupo de Zalo inválido. Se espera: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "De pago",

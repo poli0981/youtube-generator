@@ -97,6 +97,8 @@ export function buildGeneratorInputFromEditor(
     playtestLink: state.playtestLink,
     playtestPlatform: state.playtestPlatform,
     playtestInvites: state.playtestInvites,
+    messengerCommunityLink: state.messengerCommunityLink,
+    zaloGroupLink: state.zaloGroupLink,
   };
 }
 

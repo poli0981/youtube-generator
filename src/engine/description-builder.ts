@@ -667,6 +667,22 @@ export function buildDescription(
     sections.push(`${t("description.sections.social")}\n${socialEntries.join("\n")}`);
   }
 
+  // 10.5 Community — a single "💬 COMMUNITY" block for "join the chat"
+  // invites. Messenger renders for every language; the Zalo group is a
+  // Vietnam-audience app so its line is gated on Vietnamese output (same
+  // rationale as the VN donate block above). The whole block is skipped
+  // when neither eligible link is present.
+  const communityLines: string[] = [];
+  const messenger = input.messengerCommunityLink?.trim() ?? "";
+  if (messenger) communityLines.push(`💬 Messenger: ${messenger}`);
+  const zalo = input.zaloGroupLink?.trim() ?? "";
+  if (zalo && input.language === "vi") communityLines.push(`💙 Zalo: ${zalo}`);
+  if (communityLines.length > 0) {
+    sections.push(
+      `${t("description.sections.community")}\n${communityLines.join("\n")}`,
+    );
+  }
+
   // 11. Playlist
   if (input.playlistLink && input.playlistLink.trim()) {
     sections.push(t("description.sections.playlist", { link: input.playlistLink }));

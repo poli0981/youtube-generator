@@ -292,6 +292,12 @@
     "warnings": "콘텐츠 경고",
     "playlistLink": "재생목록 링크",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "community": "💬 커뮤니티",
+    "communityHelp": "커뮤니티 채팅 링크입니다. Zalo 그룹은 콘텐츠 언어가 베트남어일 때만 표시됩니다.",
+    "messengerCommunityLink": "Messenger 커뮤니티 링크",
+    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "zaloGroupLink": "Zalo 그룹 링크",
+    "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "문의 이메일",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "음악 / 사운드 크레딧",
@@ -1065,7 +1071,9 @@
     "emailMaxExceeded": "최대 {{max}}개 이메일 허용 (현재 {{count}}개)",
     "urlInvalid": "잘못된 URL입니다. https://로 시작해야 합니다",
     "urlPrefixMismatch": "{{expected}}로 시작하는 URL이 필요합니다",
-    "playlistUrlInvalid": "잘못된 YouTube 재생목록 URL입니다. 예상 형식: {{expected}}"
+    "playlistUrlInvalid": "잘못된 YouTube 재생목록 URL입니다. 예상 형식: {{expected}}",
+    "messengerUrlInvalid": "잘못된 Messenger 링크입니다. 예상 형식: {{expected}}",
+    "zaloUrlInvalid": "잘못된 Zalo 그룹 링크입니다. 예상 형식: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "유료",

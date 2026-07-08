@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   validateUrlWithPattern,
   validatePlaylistUrl,
+  validateMessengerUrl,
+  validateZaloGroupUrl,
   validateIntegerInRange,
   validateBatchRange,
 } from "@utils/validation";
@@ -241,6 +243,75 @@ describe("validatePlaylistUrl", () => {
 
   it("rejects a totally unrelated URL", () => {
     expect(validatePlaylistUrl("https://example.com/playlist").valid).toBe(false);
+  });
+});
+
+describe("validateMessengerUrl", () => {
+  it("accepts a canonical m.me link with a username", () => {
+    const result = validateMessengerUrl("https://m.me/mychannel");
+    expect(result.valid).toBe(true);
+    expect(result.error).toBeUndefined();
+  });
+
+  it("accepts a numeric page id", () => {
+    expect(validateMessengerUrl("https://m.me/100123456789").valid).toBe(true);
+  });
+
+  it("accepts ids with dots, dashes and underscores", () => {
+    expect(validateMessengerUrl("https://m.me/my.page_name-1").valid).toBe(true);
+  });
+
+  it("rejects a non-m.me host", () => {
+    const result = validateMessengerUrl("https://messenger.com/mychannel");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.messengerUrlInvalid");
+    expect(result.errorParams?.expected).toBe("https://m.me/[id]");
+  });
+
+  it("rejects the bare m.me host with no id", () => {
+    expect(validateMessengerUrl("https://m.me/").valid).toBe(false);
+    expect(validateMessengerUrl("https://m.me").valid).toBe(false);
+  });
+
+  it("rejects an http (non-https) link", () => {
+    expect(validateMessengerUrl("http://m.me/mychannel").valid).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validateMessengerUrl("").valid).toBe(true);
+    expect(validateMessengerUrl("   ").valid).toBe(true);
+  });
+});
+
+describe("validateZaloGroupUrl", () => {
+  it("accepts a canonical zalo.me group link", () => {
+    const result = validateZaloGroupUrl("https://zalo.me/g/abc123");
+    expect(result.valid).toBe(true);
+    expect(result.error).toBeUndefined();
+  });
+
+  it("rejects a personal zalo.me profile (no /g/ path)", () => {
+    const result = validateZaloGroupUrl("https://zalo.me/0901234567");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.zaloUrlInvalid");
+    expect(result.errorParams?.expected).toBe("https://zalo.me/g/[id]");
+  });
+
+  it("rejects the bare group path with no code", () => {
+    expect(validateZaloGroupUrl("https://zalo.me/g/").valid).toBe(false);
+  });
+
+  it("rejects a non-zalo.me host", () => {
+    expect(validateZaloGroupUrl("https://example.com/g/abc123").valid).toBe(false);
+  });
+
+  it("rejects an http (non-https) link", () => {
+    expect(validateZaloGroupUrl("http://zalo.me/g/abc123").valid).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validateZaloGroupUrl("").valid).toBe(true);
+    expect(validateZaloGroupUrl("   ").valid).toBe(true);
   });
 });
 

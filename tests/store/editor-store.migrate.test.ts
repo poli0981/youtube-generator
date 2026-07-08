@@ -262,3 +262,46 @@ describe("migrateEditorState — v14 → v15 (v0.30.0 Playtest)", () => {
     expect(result.playtestInvites).toBe(40);
   });
 });
+
+describe("migrateEditorState — v15 → v16 (v0.32.0 Community links)", () => {
+  // Build a pre-v16 blob by routing v9 through every prior migration, then
+  // strip the community keys so the v16 block is what supplies them.
+  function makeV15Persisted(
+    overrides: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
+      string,
+      unknown
+    >;
+    delete full.messengerCommunityLink;
+    delete full.zaloGroupLink;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills the community link fields with empty strings", () => {
+    const result = migrateEditorState(makeV15Persisted(), 15);
+    expect(result.messengerCommunityLink).toBe("");
+    expect(result.zaloGroupLink).toBe("");
+  });
+
+  it("coerces non-string persisted community values to empty strings", () => {
+    const result = migrateEditorState(
+      makeV15Persisted({ messengerCommunityLink: 42, zaloGroupLink: null }),
+      15,
+    );
+    expect(result.messengerCommunityLink).toBe("");
+    expect(result.zaloGroupLink).toBe("");
+  });
+
+  it("preserves valid persisted community links", () => {
+    const result = migrateEditorState(
+      makeV15Persisted({
+        messengerCommunityLink: "https://m.me/mychannel",
+        zaloGroupLink: "https://zalo.me/g/abc123",
+      }),
+      15,
+    );
+    expect(result.messengerCommunityLink).toBe("https://m.me/mychannel");
+    expect(result.zaloGroupLink).toBe("https://zalo.me/g/abc123");
+  });
+});

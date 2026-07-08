@@ -292,6 +292,12 @@
     "warnings": "Cảnh báo nội dung",
     "playlistLink": "Link Playlist",
     "playlistLinkPlaceholder": "https://youtube.com/playlist?list=...",
+    "community": "💬 Cộng đồng",
+    "communityHelp": "Link nhóm chat cộng đồng. Nhóm Zalo chỉ hiển thị khi ngôn ngữ nội dung là Tiếng Việt.",
+    "messengerCommunityLink": "Link cộng đồng Messenger",
+    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "zaloGroupLink": "Link nhóm Zalo",
+    "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "Email liên hệ",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "Credit nhạc / âm thanh",
@@ -1065,7 +1071,9 @@
     "emailMaxExceeded": "Tối đa {{max}} email (hiện tại {{count}})",
     "urlInvalid": "URL không hợp lệ. Phải bắt đầu bằng https://",
     "urlPrefixMismatch": "URL nên bắt đầu bằng {{expected}}",
-    "playlistUrlInvalid": "URL playlist YouTube không hợp lệ. Định dạng mong muốn: {{expected}}"
+    "playlistUrlInvalid": "URL playlist YouTube không hợp lệ. Định dạng mong muốn: {{expected}}",
+    "messengerUrlInvalid": "Link Messenger không hợp lệ. Định dạng mong muốn: {{expected}}",
+    "zaloUrlInvalid": "Link nhóm Zalo không hợp lệ. Định dạng mong muốn: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "Trả phí",

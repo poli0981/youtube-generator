@@ -120,6 +120,9 @@ export interface TemplateSnapshot {
   vnBankHolder?: string;
   vnMomo?: string;
   vnZalopay?: string;
+  /** Community invite links (v0.32.0). Optional for back-compat. */
+  messengerCommunityLink?: string;
+  zaloGroupLink?: string;
   /** Channel-level third-party advertising copy (v0.11). Optional for
    *  back-compat with pre-v0.11 templates. */
   thirdPartyAdText?: string;
