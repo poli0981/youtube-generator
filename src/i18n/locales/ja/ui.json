@@ -295,7 +295,7 @@
     "community": "💬 コミュニティ",
     "communityHelp": "コミュニティチャットへのリンク。Zaloグループはコンテンツ言語がベトナム語の場合のみ表示されます。",
     "messengerCommunityLink": "Messengerコミュニティリンク",
-    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Zaloグループリンク",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "連絡先メール",

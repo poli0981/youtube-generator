@@ -835,7 +835,7 @@ export interface GeneratorInput {
   playtestInvites?: number;
   /**
    * Community invite links (v0.32.0). {@link messengerCommunityLink}
-   * (`https://m.me/<id>`) renders for every language; {@link zaloGroupLink}
+   * (`https://m.me/ch/<id>`) renders for every language; {@link zaloGroupLink}
    * (`https://zalo.me/g/<code>`) is gated on {@link language} === `"vi"`
    * (Zalo is a Vietnam-audience app). Both feed a single "💬 COMMUNITY"
    * block, which is omitted when it would be empty.

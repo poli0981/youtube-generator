@@ -295,7 +295,7 @@
     "community": "💬 社区",
     "communityHelp": "社区聊天链接。Zalo 群仅在内容语言为越南语时显示。",
     "messengerCommunityLink": "Messenger 社区链接",
-    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Zalo 群链接",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "联系邮箱",

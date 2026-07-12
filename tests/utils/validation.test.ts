@@ -247,34 +247,55 @@ describe("validatePlaylistUrl", () => {
 });
 
 describe("validateMessengerUrl", () => {
-  it("accepts a canonical m.me link with a username", () => {
-    const result = validateMessengerUrl("https://m.me/mychannel");
+  it("accepts a canonical m.me/ch community link", () => {
+    const result = validateMessengerUrl("https://m.me/ch/mychannel");
     expect(result.valid).toBe(true);
     expect(result.error).toBeUndefined();
   });
 
-  it("accepts a numeric page id", () => {
-    expect(validateMessengerUrl("https://m.me/100123456789").valid).toBe(true);
+  it("accepts the community link with or without a trailing slash", () => {
+    expect(
+      validateMessengerUrl("https://m.me/ch/Abb1hmBhU_97UMCF/").valid,
+    ).toBe(true);
+    expect(validateMessengerUrl("https://m.me/ch/Abb1hmBhU_97UMCF").valid).toBe(
+      true,
+    );
+  });
+
+  it("accepts a numeric id", () => {
+    expect(validateMessengerUrl("https://m.me/ch/100123456789").valid).toBe(
+      true,
+    );
   });
 
   it("accepts ids with dots, dashes and underscores", () => {
-    expect(validateMessengerUrl("https://m.me/my.page_name-1").valid).toBe(true);
+    expect(validateMessengerUrl("https://m.me/ch/my.page_name-1").valid).toBe(
+      true,
+    );
+  });
+
+  it("rejects the old bare m.me link without the /ch/ segment", () => {
+    const result = validateMessengerUrl("https://m.me/mychannel");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.messengerUrlInvalid");
+    expect(result.errorParams?.expected).toBe("https://m.me/ch/[id]");
   });
 
   it("rejects a non-m.me host", () => {
-    const result = validateMessengerUrl("https://messenger.com/mychannel");
+    const result = validateMessengerUrl("https://messenger.com/ch/mychannel");
     expect(result.valid).toBe(false);
     expect(result.error).toBe("validation.messengerUrlInvalid");
-    expect(result.errorParams?.expected).toBe("https://m.me/[id]");
+    expect(result.errorParams?.expected).toBe("https://m.me/ch/[id]");
   });
 
-  it("rejects the bare m.me host with no id", () => {
+  it("rejects the bare host and the /ch/ path with no id", () => {
     expect(validateMessengerUrl("https://m.me/").valid).toBe(false);
     expect(validateMessengerUrl("https://m.me").valid).toBe(false);
+    expect(validateMessengerUrl("https://m.me/ch/").valid).toBe(false);
   });
 
   it("rejects an http (non-https) link", () => {
-    expect(validateMessengerUrl("http://m.me/mychannel").valid).toBe(false);
+    expect(validateMessengerUrl("http://m.me/ch/mychannel").valid).toBe(false);
   });
 
   it("accepts empty input (not an error)", () => {

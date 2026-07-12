@@ -7,7 +7,7 @@ import { validateMessengerUrl, validateZaloGroupUrl } from "@utils/validation";
  * Community invite links (v0.32.0). A single section for "join the chat"
  * links that feed the description's "💬 COMMUNITY" block:
  *
- *  - Messenger community (`https://m.me/<id>`) — shown for every output
+ *  - Messenger community (`https://m.me/ch/<id>`) — shown for every output
  *    language.
  *  - Zalo group (`https://zalo.me/g/<code>`) — Zalo is a Vietnam-audience
  *    app, so the input only appears (and the description line only renders)

@@ -138,7 +138,7 @@ export interface EditorDefaults {
   playtestPlatform: string;
   /** Playtest invites available, 0..platform max (≤100). 0 = unset. */
   playtestInvites: number;
-  /** Messenger community invite link (v0.32.0). `https://m.me/<id>`. Empty = no community line. */
+  /** Messenger community invite link (v0.32.0). `https://m.me/ch/<id>`. Empty = no community line. */
   messengerCommunityLink: string;
   /** Zalo group invite link (v0.32.0). `https://zalo.me/g/<code>`. Rendered only for Vietnamese output. */
   zaloGroupLink: string;

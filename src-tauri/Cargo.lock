@@ -5535,7 +5535,7 @@ dependencies = [
 
 [[package]]
 name = "yt-desc-gen"
-version = "0.32.0"
+version = "0.32.1"
 dependencies = [
  "tauri",
  "tauri-build",
