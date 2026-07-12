@@ -296,12 +296,12 @@ describe("migrateEditorState — v15 → v16 (v0.32.0 Community links)", () => {
   it("preserves valid persisted community links", () => {
     const result = migrateEditorState(
       makeV15Persisted({
-        messengerCommunityLink: "https://m.me/mychannel",
+        messengerCommunityLink: "https://m.me/ch/mychannel",
         zaloGroupLink: "https://zalo.me/g/abc123",
       }),
       15,
     );
-    expect(result.messengerCommunityLink).toBe("https://m.me/mychannel");
+    expect(result.messengerCommunityLink).toBe("https://m.me/ch/mychannel");
     expect(result.zaloGroupLink).toBe("https://zalo.me/g/abc123");
   });
 });

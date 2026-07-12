@@ -295,7 +295,7 @@
     "community": "💬 Cộng đồng",
     "communityHelp": "Link nhóm chat cộng đồng. Nhóm Zalo chỉ hiển thị khi ngôn ngữ nội dung là Tiếng Việt.",
     "messengerCommunityLink": "Link cộng đồng Messenger",
-    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Link nhóm Zalo",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "Email liên hệ",

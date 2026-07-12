@@ -295,7 +295,7 @@
     "community": "💬 Comunidad",
     "communityHelp": "Enlaces al chat de tu comunidad. El grupo de Zalo solo aparece cuando el idioma del contenido es vietnamita.",
     "messengerCommunityLink": "Enlace de comunidad de Messenger",
-    "messengerCommunityLinkPlaceholder": "https://m.me/yourpage",
+    "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Enlace de grupo de Zalo",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
     "contactEmail": "Correo de Contacto",

@@ -493,7 +493,7 @@ export const useEditorStore = create<EditorState>()(
       //         [0, 100], so a hand-edited blob can't strand the editor's
       //         platform Select or number input on a bad value.
       // v15 → v16: v0.32.0. Community links — `messengerCommunityLink`
-      //         (`https://m.me/<id>`) and `zaloGroupLink`
+      //         (`https://m.me/ch/<id>`) and `zaloGroupLink`
       //         (`https://zalo.me/g/<code>`) joined the schema. Additive:
       //         both back-fill to "". Messenger renders for every output
       //         language; the Zalo line only renders for Vietnamese output.

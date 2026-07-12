@@ -536,11 +536,11 @@ describe("buildDescription", () => {
   it("renders the community block with the Messenger line for any language (v0.32.0)", () => {
     const t = createMockT("en");
     const result = buildDescription(
-      makeInput({ messengerCommunityLink: "https://m.me/mychannel" }),
+      makeInput({ messengerCommunityLink: "https://m.me/ch/mychannel" }),
       t,
     );
     expect(result).toContain("💬 COMMUNITY / JOIN THE GROUP");
-    expect(result).toContain("💬 Messenger: https://m.me/mychannel");
+    expect(result).toContain("💬 Messenger: https://m.me/ch/mychannel");
     expect(result).not.toContain("💙 Zalo");
   });
 
@@ -549,12 +549,12 @@ describe("buildDescription", () => {
     const result = buildDescription(
       makeInput({
         language: "vi",
-        messengerCommunityLink: "https://m.me/mychannel",
+        messengerCommunityLink: "https://m.me/ch/mychannel",
         zaloGroupLink: "https://zalo.me/g/abc123",
       }),
       t,
     );
-    expect(result).toContain("💬 Messenger: https://m.me/mychannel");
+    expect(result).toContain("💬 Messenger: https://m.me/ch/mychannel");
     expect(result).toContain("💙 Zalo: https://zalo.me/g/abc123");
   });
 
@@ -563,13 +563,13 @@ describe("buildDescription", () => {
     const result = buildDescription(
       makeInput({
         language: "en",
-        messengerCommunityLink: "https://m.me/mychannel",
+        messengerCommunityLink: "https://m.me/ch/mychannel",
         zaloGroupLink: "https://zalo.me/g/abc123",
       }),
       t,
     );
     // Messenger is language-agnostic and still renders…
-    expect(result).toContain("💬 Messenger: https://m.me/mychannel");
+    expect(result).toContain("💬 Messenger: https://m.me/ch/mychannel");
     // …but the Zalo line is gated to Vietnamese output.
     expect(result).not.toContain("💙 Zalo");
     expect(result).not.toContain("zalo.me/g/abc123");
@@ -593,7 +593,7 @@ describe("buildDescription", () => {
     const result = buildDescription(
       makeInput({
         language: "vi",
-        messengerCommunityLink: "https://m.me/mychannel",
+        messengerCommunityLink: "https://m.me/ch/mychannel",
         zaloGroupLink: "https://zalo.me/g/abc123",
       }),
       t,

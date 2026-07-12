@@ -140,15 +140,16 @@ export function validatePlaylistUrl(input: string): ValidationResult {
 /**
  * Strict validators for community-invite links (v0.32.0).
  *
- * - Messenger community: `https://m.me/<id>` — the id is a page username or
- *   numeric page id. Non-`m.me` URLs are hard-rejected so a broken invite
- *   never reaches the description.
+ * - Messenger community: `https://m.me/ch/<id>` — the `/ch/` path is the
+ *   community/channel invite (distinct from a personal `m.me/<page>` link).
+ *   A trailing slash is allowed. Non-matching URLs are hard-rejected so a
+ *   broken invite never reaches the description.
  * - Zalo group: `https://zalo.me/g/<code>` — the `/g/` path is the group
  *   join link, distinct from a personal `zalo.me/<phone>` profile. Only
  *   rendered for Vietnamese output, but validated regardless of language.
  */
-const MESSENGER_URL_REGEX = /^https:\/\/m\.me\/[A-Za-z0-9._-]+$/;
-const MESSENGER_URL_EXPECTED = "https://m.me/[id]";
+const MESSENGER_URL_REGEX = /^https:\/\/m\.me\/ch\/[A-Za-z0-9._-]+\/?$/;
+const MESSENGER_URL_EXPECTED = "https://m.me/ch/[id]";
 const ZALO_GROUP_URL_REGEX = /^https:\/\/zalo\.me\/g\/[A-Za-z0-9]+$/;
 const ZALO_GROUP_URL_EXPECTED = "https://zalo.me/g/[id]";
 
