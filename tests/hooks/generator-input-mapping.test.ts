@@ -105,6 +105,11 @@ function makeEditorData(overrides: Partial<EditorData> = {}): EditorData {
     playtestLink: DEFAULTS.editor.playtestLink,
     playtestPlatform: DEFAULTS.editor.playtestPlatform,
     playtestInvites: DEFAULTS.editor.playtestInvites,
+    messengerCommunityLink: DEFAULTS.editor.messengerCommunityLink,
+    zaloGroupLink: DEFAULTS.editor.zaloGroupLink,
+    signalGroupLink: DEFAULTS.editor.signalGroupLink,
+    instagramGroupLink: DEFAULTS.editor.instagramGroupLink,
+    facebookGroupLink: DEFAULTS.editor.facebookGroupLink,
     ...overrides,
   };
 }
@@ -163,6 +168,23 @@ describe("buildGeneratorInputFromEditor — v0.12 fields propagation (regression
     expect(input.playtestLink).toBe("https://store.steampowered.com/app/1245620");
     expect(input.playtestPlatform).toBe("steam");
     expect(input.playtestInvites).toBe(25);
+  });
+
+  it("passes through the community invite links (v0.32.0 + v0.33.0)", () => {
+    const input = buildGeneratorInputFromEditor(
+      makeEditorData({
+        messengerCommunityLink: "https://m.me/ch/mychannel",
+        zaloGroupLink: "https://zalo.me/g/abc123",
+        signalGroupLink: "https://signal.group/#abc123",
+        instagramGroupLink: "https://ig.me/j/xyz789",
+        facebookGroupLink: "https://facebook.com/groups/mygroup",
+      }),
+    );
+    expect(input.messengerCommunityLink).toBe("https://m.me/ch/mychannel");
+    expect(input.zaloGroupLink).toBe("https://zalo.me/g/abc123");
+    expect(input.signalGroupLink).toBe("https://signal.group/#abc123");
+    expect(input.instagramGroupLink).toBe("https://ig.me/j/xyz789");
+    expect(input.facebookGroupLink).toBe("https://facebook.com/groups/mygroup");
   });
 
   it("respects languageOverride for batch / multi-language rendering", () => {

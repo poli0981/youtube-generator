@@ -183,6 +183,12 @@ export interface EditorData {
   messengerCommunityLink: string;
   /** Zalo group invite link (v0.32.0). Rendered into the description only for Vietnamese output. */
   zaloGroupLink: string;
+  /** Signal group invite link (v0.33.0). `https://signal.group/#<id>`. All languages. */
+  signalGroupLink: string;
+  /** Instagram group-chat invite link (v0.33.0). `https://www.instagram.com/j/<id>` or `https://ig.me/j/<id>`. All languages. */
+  instagramGroupLink: string;
+  /** Facebook group invite link (v0.33.0). `https://facebook.com/groups/<id>`. Moved here from the generic `social` map. */
+  facebookGroupLink: string;
 }
 
 /**
@@ -276,6 +282,24 @@ function normalizeEditorPatch(
     out.spoilerWarning = false;
     out.matureWarning = false;
   }
+  // v0.33.0: Facebook Group moved from the generic `social` map to the
+  // dedicated `facebookGroupLink` community field. A profile / preset /
+  // template snapshot saved before the move still carries the value under
+  // `social.fb_group`; lift it so applying the snapshot doesn't silently
+  // drop the link. Don't override an explicit `facebookGroupLink` in the
+  // patch. The stale `social.fb_group` entry is harmless at render time
+  // (it's no longer in SOCIAL_FIELDS, so the Social block filters it out).
+  const socialPatch: unknown = (patch as { social?: unknown }).social;
+  if (socialPatch && typeof socialPatch === "object") {
+    const legacyFbGroup = (socialPatch as Record<string, unknown>).fb_group;
+    if (
+      typeof legacyFbGroup === "string" &&
+      legacyFbGroup.trim() !== "" &&
+      typeof out.facebookGroupLink !== "string"
+    ) {
+      out.facebookGroupLink = legacyFbGroup;
+    }
+  }
   return out;
 }
 
@@ -368,6 +392,9 @@ const initialState: EditorData = {
   playtestInvites: DEFAULTS.editor.playtestInvites,
   messengerCommunityLink: DEFAULTS.editor.messengerCommunityLink,
   zaloGroupLink: DEFAULTS.editor.zaloGroupLink,
+  signalGroupLink: DEFAULTS.editor.signalGroupLink,
+  instagramGroupLink: DEFAULTS.editor.instagramGroupLink,
+  facebookGroupLink: DEFAULTS.editor.facebookGroupLink,
 };
 
 export const useEditorStore = create<EditorState>()(
@@ -498,7 +525,15 @@ export const useEditorStore = create<EditorState>()(
       //         both back-fill to "". Messenger renders for every output
       //         language; the Zalo line only renders for Vietnamese output.
       //         Non-string values coerce to "".
-      version: 16,
+      // v16 → v17: v0.33.0. Community expansion — `signalGroupLink`
+      //         (`https://signal.group/#<id>`), `instagramGroupLink` (the
+      //         Instagram group-chat invite), and `facebookGroupLink`
+      //         (`https://facebook.com/groups/<id>`) joined the schema, all
+      //         rendered for every output language. Facebook Group also
+      //         moved OUT of the generic `social` map: the migration lifts a
+      //         legacy `social.fb_group` value into `facebookGroupLink` and
+      //         drops the dead key. Other fields back-fill to "".
+      version: 17,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -575,6 +610,9 @@ export const useEditorStore = create<EditorState>()(
         playtestInvites: state.playtestInvites,
         messengerCommunityLink: state.messengerCommunityLink,
         zaloGroupLink: state.zaloGroupLink,
+        signalGroupLink: state.signalGroupLink,
+        instagramGroupLink: state.instagramGroupLink,
+        facebookGroupLink: state.facebookGroupLink,
       }),
     },
   ),
@@ -818,6 +856,32 @@ export function migrateEditorState(
       state.messengerCommunityLink = "";
     }
     if (typeof state.zaloGroupLink !== "string") state.zaloGroupLink = "";
+  }
+  if (version < 17) {
+    // v0.33.0 Community expansion. Additive back-fill + defensive coercion,
+    // plus a lift of the legacy `social.fb_group` link into the new
+    // dedicated `facebookGroupLink` field (Facebook Group moved out of the
+    // generic Social map into the Community section).
+    if (typeof state.signalGroupLink !== "string") state.signalGroupLink = "";
+    if (typeof state.instagramGroupLink !== "string") {
+      state.instagramGroupLink = "";
+    }
+    if (typeof state.facebookGroupLink !== "string") {
+      state.facebookGroupLink = "";
+    }
+    const social = state.social;
+    if (social && typeof social === "object") {
+      const legacyFbGroup = (social as Record<string, unknown>).fb_group;
+      if (
+        typeof legacyFbGroup === "string" &&
+        legacyFbGroup.trim() !== "" &&
+        state.facebookGroupLink === ""
+      ) {
+        state.facebookGroupLink = legacyFbGroup;
+      }
+      // Drop the dead key so the moved link doesn't linger in `social`.
+      delete (social as Record<string, unknown>).fb_group;
+    }
   }
   return { ...initialState, ...state } as EditorData;
 }

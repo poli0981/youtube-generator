@@ -26,7 +26,6 @@ const SOCIAL_ICONS: Record<string, string> = {
   mastodon: "🐘",
   facebook: "👤",
   fb_page: "📄",
-  fb_group: "👥",
   telegram: "✈️",
   website: "🌐",
 };
@@ -668,13 +667,21 @@ export function buildDescription(
   }
 
   // 10.5 Community — a single "💬 COMMUNITY" block for "join the chat"
-  // invites. Messenger renders for every language; the Zalo group is a
-  // Vietnam-audience app so its line is gated on Vietnamese output (same
-  // rationale as the VN donate block above). The whole block is skipped
-  // when neither eligible link is present.
+  // invites. Messenger, Signal, Instagram (group chat) and Facebook Group
+  // render for every language; the Zalo group is a Vietnam-audience app so
+  // its line is gated on Vietnamese output (same rationale as the VN donate
+  // block above). Line labels are fixed brand names (not localized), like
+  // the rest of this block. The whole block is skipped when no eligible
+  // link is present.
   const communityLines: string[] = [];
   const messenger = input.messengerCommunityLink?.trim() ?? "";
   if (messenger) communityLines.push(`💬 Messenger: ${messenger}`);
+  const signal = input.signalGroupLink?.trim() ?? "";
+  if (signal) communityLines.push(`🔒 Signal: ${signal}`);
+  const instagram = input.instagramGroupLink?.trim() ?? "";
+  if (instagram) communityLines.push(`📸 Instagram: ${instagram}`);
+  const facebookGroup = input.facebookGroupLink?.trim() ?? "";
+  if (facebookGroup) communityLines.push(`👥 Facebook Group: ${facebookGroup}`);
   const zalo = input.zaloGroupLink?.trim() ?? "";
   if (zalo && input.language === "vi") communityLines.push(`💙 Zalo: ${zalo}`);
   if (communityLines.length > 0) {

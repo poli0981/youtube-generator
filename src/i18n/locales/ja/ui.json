@@ -298,6 +298,12 @@
     "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Zaloグループリンク",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
+    "signalGroupLink": "Signalグループリンク",
+    "signalGroupLinkPlaceholder": "https://signal.group/#yourid",
+    "instagramGroupLink": "Instagramグループチャットリンク",
+    "instagramGroupLinkPlaceholder": "https://ig.me/j/yourid",
+    "facebookGroupLink": "Facebookグループリンク",
+    "facebookGroupLinkPlaceholder": "https://facebook.com/groups/yourid",
     "contactEmail": "連絡先メール",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "音楽・サウンドクレジット",
@@ -908,7 +914,6 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebookページ",
-    "fb_group": "Facebookグループ",
     "telegram": "Telegram"
   },
   "resolutions": {
@@ -1073,7 +1078,10 @@
     "urlPrefixMismatch": "{{expected}}で始まるURLが必要です",
     "playlistUrlInvalid": "無効なYouTubeプレイリストURLです。期待される形式: {{expected}}",
     "messengerUrlInvalid": "無効なMessengerリンクです。期待される形式: {{expected}}",
-    "zaloUrlInvalid": "無効なZaloグループリンクです。期待される形式: {{expected}}"
+    "zaloUrlInvalid": "無効なZaloグループリンクです。期待される形式: {{expected}}",
+    "signalUrlInvalid": "無効なSignalグループリンクです。期待される形式: {{expected}}",
+    "instagramInviteUrlInvalid": "無効なInstagramグループチャットリンクです。期待される形式: {{expected}}",
+    "facebookGroupUrlInvalid": "無効なFacebookグループリンクです。期待される形式: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "有料",

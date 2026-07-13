@@ -4,6 +4,9 @@ import {
   validatePlaylistUrl,
   validateMessengerUrl,
   validateZaloGroupUrl,
+  validateSignalGroupUrl,
+  validateInstagramInviteUrl,
+  validateFacebookGroupUrl,
   validateIntegerInRange,
   validateBatchRange,
 } from "@utils/validation";
@@ -333,6 +336,114 @@ describe("validateZaloGroupUrl", () => {
   it("accepts empty input (not an error)", () => {
     expect(validateZaloGroupUrl("").valid).toBe(true);
     expect(validateZaloGroupUrl("   ").valid).toBe(true);
+  });
+});
+
+describe("validateSignalGroupUrl", () => {
+  it("accepts a canonical signal.group link with a # payload", () => {
+    const result = validateSignalGroupUrl("https://signal.group/#CjQKIAbc123_-def");
+    expect(result.valid).toBe(true);
+    expect(result.error).toBeUndefined();
+  });
+
+  it("accepts a base64 payload with + / = characters", () => {
+    expect(
+      validateSignalGroupUrl("https://signal.group/#CjQKIA+b/c=").valid,
+    ).toBe(true);
+  });
+
+  it("rejects a signal.group link with no fragment", () => {
+    const result = validateSignalGroupUrl("https://signal.group/");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.signalUrlInvalid");
+    expect(result.errorParams?.expected).toBe("https://signal.group/#[id]");
+  });
+
+  it("rejects an empty fragment", () => {
+    expect(validateSignalGroupUrl("https://signal.group/#").valid).toBe(false);
+  });
+
+  it("rejects a non-signal host", () => {
+    expect(validateSignalGroupUrl("https://example.com/#abc").valid).toBe(false);
+  });
+
+  it("rejects an http (non-https) link", () => {
+    expect(validateSignalGroupUrl("http://signal.group/#abc").valid).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validateSignalGroupUrl("").valid).toBe(true);
+    expect(validateSignalGroupUrl("   ").valid).toBe(true);
+  });
+});
+
+describe("validateInstagramInviteUrl", () => {
+  it("accepts the www.instagram.com/j/ form", () => {
+    const result = validateInstagramInviteUrl("https://www.instagram.com/j/AbCdEf123");
+    expect(result.valid).toBe(true);
+    expect(result.error).toBeUndefined();
+  });
+
+  it("accepts the short ig.me/j/ form", () => {
+    expect(validateInstagramInviteUrl("https://ig.me/j/AbCdEf123").valid).toBe(true);
+  });
+
+  it("accepts a trailing slash", () => {
+    expect(validateInstagramInviteUrl("https://ig.me/j/AbCdEf123/").valid).toBe(true);
+  });
+
+  it("rejects a plain Instagram profile link (no /j/ path)", () => {
+    const result = validateInstagramInviteUrl("https://www.instagram.com/myhandle");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.instagramInviteUrlInvalid");
+    expect(result.errorParams?.expected).toBe("https://www.instagram.com/j/[id]");
+  });
+
+  it("rejects the bare /j/ path with no id", () => {
+    expect(validateInstagramInviteUrl("https://ig.me/j/").valid).toBe(false);
+  });
+
+  it("rejects a non-Instagram host", () => {
+    expect(validateInstagramInviteUrl("https://example.com/j/abc").valid).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validateInstagramInviteUrl("").valid).toBe(true);
+    expect(validateInstagramInviteUrl("   ").valid).toBe(true);
+  });
+});
+
+describe("validateFacebookGroupUrl", () => {
+  it("accepts a canonical facebook.com/groups link", () => {
+    const result = validateFacebookGroupUrl("https://facebook.com/groups/mygroup");
+    expect(result.valid).toBe(true);
+    expect(result.error).toBeUndefined();
+  });
+
+  it("accepts www., m. and web. subdomains and a trailing slash", () => {
+    expect(validateFacebookGroupUrl("https://www.facebook.com/groups/mygroup").valid).toBe(true);
+    expect(validateFacebookGroupUrl("https://m.facebook.com/groups/123456/").valid).toBe(true);
+    expect(validateFacebookGroupUrl("https://web.facebook.com/groups/my.group").valid).toBe(true);
+  });
+
+  it("rejects a plain Facebook profile / page link (no /groups/ path)", () => {
+    const result = validateFacebookGroupUrl("https://facebook.com/mypage");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.facebookGroupUrlInvalid");
+    expect(result.errorParams?.expected).toBe("https://facebook.com/groups/[id]");
+  });
+
+  it("rejects the bare /groups/ path with no id", () => {
+    expect(validateFacebookGroupUrl("https://facebook.com/groups/").valid).toBe(false);
+  });
+
+  it("rejects an http (non-https) link", () => {
+    expect(validateFacebookGroupUrl("http://facebook.com/groups/mygroup").valid).toBe(false);
+  });
+
+  it("accepts empty input (not an error)", () => {
+    expect(validateFacebookGroupUrl("").valid).toBe(true);
+    expect(validateFacebookGroupUrl("   ").valid).toBe(true);
   });
 });
 

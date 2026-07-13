@@ -842,6 +842,17 @@ export interface GeneratorInput {
    */
   messengerCommunityLink?: string;
   zaloGroupLink?: string;
+  /**
+   * More community invite links (v0.33.0), all rendered for every output
+   * language into the same "💬 COMMUNITY" block. {@link signalGroupLink}
+   * (`https://signal.group/#<id>`), {@link instagramGroupLink} (the IG
+   * group-chat invite `https://www.instagram.com/j/<id>` or
+   * `https://ig.me/j/<id>`), and {@link facebookGroupLink}
+   * (`https://facebook.com/groups/<id>`, moved here from the Social block).
+   */
+  signalGroupLink?: string;
+  instagramGroupLink?: string;
+  facebookGroupLink?: string;
 }
 
 export interface GeneratorOutput {

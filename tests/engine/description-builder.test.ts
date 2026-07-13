@@ -602,6 +602,78 @@ describe("buildDescription", () => {
     expect(result).toContain("💙 Zalo: https://zalo.me/g/abc123");
   });
 
+  it("renders Signal, Instagram and Facebook Group community lines for any language (v0.33.0)", () => {
+    // Japanese output — the three new links are language-agnostic (only
+    // the heading localizes), so they must appear just like for English.
+    const t = createMockT("ja");
+    const result = buildDescription(
+      makeInput({
+        language: "ja",
+        signalGroupLink: "https://signal.group/#abc123",
+        instagramGroupLink: "https://ig.me/j/xyz789",
+        facebookGroupLink: "https://facebook.com/groups/mygroup",
+      }),
+      t,
+    );
+    expect(result).toContain("🔒 Signal: https://signal.group/#abc123");
+    expect(result).toContain("📸 Instagram: https://ig.me/j/xyz789");
+    expect(result).toContain("👥 Facebook Group: https://facebook.com/groups/mygroup");
+    // Zalo is gated to Vietnamese output and unset here.
+    expect(result).not.toContain("💙 Zalo");
+  });
+
+  it("orders the community lines Messenger → Signal → Instagram → Facebook Group → Zalo (v0.33.0)", () => {
+    const t = createMockT("vi");
+    const result = buildDescription(
+      makeInput({
+        language: "vi",
+        messengerCommunityLink: "https://m.me/ch/mychannel",
+        signalGroupLink: "https://signal.group/#abc123",
+        instagramGroupLink: "https://ig.me/j/xyz789",
+        facebookGroupLink: "https://facebook.com/groups/mygroup",
+        zaloGroupLink: "https://zalo.me/g/abc123",
+      }),
+      t,
+    );
+    const iMessenger = result.indexOf("💬 Messenger");
+    const iSignal = result.indexOf("🔒 Signal");
+    const iInstagram = result.indexOf("📸 Instagram");
+    const iFacebook = result.indexOf("👥 Facebook Group");
+    const iZalo = result.indexOf("💙 Zalo");
+    expect(iMessenger).toBeGreaterThan(-1);
+    expect(iSignal).toBeGreaterThan(iMessenger);
+    expect(iInstagram).toBeGreaterThan(iSignal);
+    expect(iFacebook).toBeGreaterThan(iInstagram);
+    expect(iZalo).toBeGreaterThan(iFacebook);
+  });
+
+  it("renders Facebook Group in the Community block, not the Social block (v0.33.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        facebookGroupLink: "https://facebook.com/groups/mygroup",
+        social: { twitter: "myhandle" },
+      }),
+      t,
+    );
+    const iCommunity = result.indexOf("💬 COMMUNITY / JOIN THE GROUP");
+    const iFacebook = result.indexOf(
+      "👥 Facebook Group: https://facebook.com/groups/mygroup",
+    );
+    expect(iCommunity).toBeGreaterThan(-1);
+    expect(iFacebook).toBeGreaterThan(iCommunity);
+    // The FB group line appears exactly once — only under Community, never
+    // in the Social block (fb_group is no longer a SOCIAL_FIELDS entry).
+    expect(result.split("Facebook Group:").length - 1).toBe(1);
+  });
+
+  it("omits the community block when only an empty Facebook Group link is set (v0.33.0)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ facebookGroupLink: "   " }), t);
+    expect(result).not.toContain("COMMUNITY / JOIN THE GROUP");
+    expect(result).not.toContain("👥 Facebook Group");
+  });
+
   it("renders the Mod List block when videoType is 'mods' and modList is non-empty", () => {
     const t = createMockT("en");
     const modList = "• Requiem\n• NaturalVision Evolved\n• Custom Skinpack v2.1";

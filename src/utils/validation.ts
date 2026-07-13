@@ -189,6 +189,85 @@ export function validateZaloGroupUrl(input: string): ValidationResult {
   return { valid: true };
 }
 
+/**
+ * Strict validators for the v0.33.0 community-invite links. Same shape as
+ * the Messenger / Zalo validators above: empty is valid (optional field),
+ * the base URL check runs first, then a platform-specific pattern that is
+ * hard-rejected so a broken invite never reaches the description.
+ *
+ * - Signal group: `https://signal.group/#<payload>` — the `#` fragment is
+ *   the base64 group-invite blob (may contain `+ / = _ -`).
+ * - Instagram group chat: `https://www.instagram.com/j/<id>` or the short
+ *   `https://ig.me/j/<id>` form — distinct from an `instagram.com/<user>`
+ *   profile link, which stays in the Social section.
+ * - Facebook group: `https://facebook.com/groups/<id>` — the `www.`, `m.`
+ *   and `web.` subdomains and a trailing slash are tolerated. This moved
+ *   out of the generic Social map (which used a soft prefix warning) into
+ *   the Community section, so it now hard-rejects like its siblings.
+ */
+const SIGNAL_GROUP_URL_REGEX = /^https:\/\/signal\.group\/#[A-Za-z0-9+/=_-]+$/;
+const SIGNAL_GROUP_URL_EXPECTED = "https://signal.group/#[id]";
+const INSTAGRAM_INVITE_URL_REGEX =
+  /^https:\/\/(?:www\.instagram\.com|ig\.me)\/j\/[A-Za-z0-9._-]+\/?$/;
+const INSTAGRAM_INVITE_URL_EXPECTED = "https://www.instagram.com/j/[id]";
+const FACEBOOK_GROUP_URL_REGEX =
+  /^https:\/\/(?:www\.|m\.|web\.)?facebook\.com\/groups\/[A-Za-z0-9._-]+\/?$/;
+const FACEBOOK_GROUP_URL_EXPECTED = "https://facebook.com/groups/[id]";
+
+export function validateSignalGroupUrl(input: string): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!SIGNAL_GROUP_URL_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: "validation.signalUrlInvalid",
+      errorParams: { expected: SIGNAL_GROUP_URL_EXPECTED },
+    };
+  }
+
+  return { valid: true };
+}
+
+export function validateInstagramInviteUrl(input: string): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!INSTAGRAM_INVITE_URL_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: "validation.instagramInviteUrlInvalid",
+      errorParams: { expected: INSTAGRAM_INVITE_URL_EXPECTED },
+    };
+  }
+
+  return { valid: true };
+}
+
+export function validateFacebookGroupUrl(input: string): ValidationResult {
+  const trimmed = input.trim();
+  if (!trimmed) return { valid: true };
+
+  const baseResult = validateUrl(trimmed);
+  if (!baseResult.valid) return baseResult;
+
+  if (!FACEBOOK_GROUP_URL_REGEX.test(trimmed)) {
+    return {
+      valid: false,
+      error: "validation.facebookGroupUrlInvalid",
+      errorParams: { expected: FACEBOOK_GROUP_URL_EXPECTED },
+    };
+  }
+
+  return { valid: true };
+}
+
 export interface IntRangeOptions {
   min: number;
   max: number;

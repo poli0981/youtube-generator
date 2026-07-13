@@ -298,6 +298,12 @@
     "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Link nhóm Zalo",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
+    "signalGroupLink": "Link nhóm Signal",
+    "signalGroupLinkPlaceholder": "https://signal.group/#yourid",
+    "instagramGroupLink": "Link nhóm chat Instagram",
+    "instagramGroupLinkPlaceholder": "https://ig.me/j/yourid",
+    "facebookGroupLink": "Link nhóm Facebook",
+    "facebookGroupLinkPlaceholder": "https://facebook.com/groups/yourid",
     "contactEmail": "Email liên hệ",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "Credit nhạc / âm thanh",
@@ -908,7 +914,6 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "fb_group": "Facebook Group",
     "telegram": "Telegram"
   },
   "resolutions": {
@@ -1073,7 +1078,10 @@
     "urlPrefixMismatch": "URL nên bắt đầu bằng {{expected}}",
     "playlistUrlInvalid": "URL playlist YouTube không hợp lệ. Định dạng mong muốn: {{expected}}",
     "messengerUrlInvalid": "Link Messenger không hợp lệ. Định dạng mong muốn: {{expected}}",
-    "zaloUrlInvalid": "Link nhóm Zalo không hợp lệ. Định dạng mong muốn: {{expected}}"
+    "zaloUrlInvalid": "Link nhóm Zalo không hợp lệ. Định dạng mong muốn: {{expected}}",
+    "signalUrlInvalid": "Link nhóm Signal không hợp lệ. Định dạng mong muốn: {{expected}}",
+    "instagramInviteUrlInvalid": "Link nhóm chat Instagram không hợp lệ. Định dạng mong muốn: {{expected}}",
+    "facebookGroupUrlInvalid": "Link nhóm Facebook không hợp lệ. Định dạng mong muốn: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "Trả phí",

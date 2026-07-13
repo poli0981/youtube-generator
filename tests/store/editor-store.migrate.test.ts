@@ -305,3 +305,83 @@ describe("migrateEditorState — v15 → v16 (v0.32.0 Community links)", () => {
     expect(result.zaloGroupLink).toBe("https://zalo.me/g/abc123");
   });
 });
+
+describe("migrateEditorState — v16 → v17 (v0.33.0 Community expansion)", () => {
+  // Route v9 through every prior migration, then strip the v17 keys so the
+  // v17 block is what supplies them.
+  function makeV16Persisted(
+    overrides: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
+      string,
+      unknown
+    >;
+    delete full.signalGroupLink;
+    delete full.instagramGroupLink;
+    delete full.facebookGroupLink;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills the new community link fields with empty strings", () => {
+    const result = migrateEditorState(makeV16Persisted(), 16);
+    expect(result.signalGroupLink).toBe("");
+    expect(result.instagramGroupLink).toBe("");
+    expect(result.facebookGroupLink).toBe("");
+  });
+
+  it("coerces non-string persisted values to empty strings", () => {
+    const result = migrateEditorState(
+      makeV16Persisted({
+        signalGroupLink: 7,
+        instagramGroupLink: null,
+        facebookGroupLink: {},
+      }),
+      16,
+    );
+    expect(result.signalGroupLink).toBe("");
+    expect(result.instagramGroupLink).toBe("");
+    expect(result.facebookGroupLink).toBe("");
+  });
+
+  it("preserves valid persisted new community links", () => {
+    const result = migrateEditorState(
+      makeV16Persisted({
+        signalGroupLink: "https://signal.group/#abc123",
+        instagramGroupLink: "https://ig.me/j/xyz789",
+        facebookGroupLink: "https://facebook.com/groups/mygroup",
+      }),
+      16,
+    );
+    expect(result.signalGroupLink).toBe("https://signal.group/#abc123");
+    expect(result.instagramGroupLink).toBe("https://ig.me/j/xyz789");
+    expect(result.facebookGroupLink).toBe("https://facebook.com/groups/mygroup");
+  });
+
+  it("lifts a legacy social.fb_group value into facebookGroupLink and drops the dead key", () => {
+    const result = migrateEditorState(
+      makeV16Persisted({
+        social: {
+          fb_group: "https://facebook.com/groups/mygroup",
+          twitter: "myhandle",
+        },
+      }),
+      16,
+    );
+    expect(result.facebookGroupLink).toBe("https://facebook.com/groups/mygroup");
+    expect(result.social.fb_group).toBeUndefined();
+    // Other social entries survive the lift.
+    expect(result.social.twitter).toBe("myhandle");
+  });
+
+  it("does not overwrite an explicit facebookGroupLink with the legacy value", () => {
+    const result = migrateEditorState(
+      makeV16Persisted({
+        facebookGroupLink: "https://facebook.com/groups/explicit",
+        social: { fb_group: "https://facebook.com/groups/legacy" },
+      }),
+      16,
+    );
+    expect(result.facebookGroupLink).toBe("https://facebook.com/groups/explicit");
+    expect(result.social.fb_group).toBeUndefined();
+  });
+});
