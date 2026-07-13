@@ -82,6 +82,9 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
       vnZalopay: editor.vnZalopay,
       messengerCommunityLink: editor.messengerCommunityLink,
       zaloGroupLink: editor.zaloGroupLink,
+      signalGroupLink: editor.signalGroupLink,
+      instagramGroupLink: editor.instagramGroupLink,
+      facebookGroupLink: editor.facebookGroupLink,
     };
     addTemplate(name, snapshot);
     toast.success(t("templates.savedAs", { name: name.trim() || "Untitled" }));

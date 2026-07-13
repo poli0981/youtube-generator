@@ -99,6 +99,9 @@ export function buildGeneratorInputFromEditor(
     playtestInvites: state.playtestInvites,
     messengerCommunityLink: state.messengerCommunityLink,
     zaloGroupLink: state.zaloGroupLink,
+    signalGroupLink: state.signalGroupLink,
+    instagramGroupLink: state.instagramGroupLink,
+    facebookGroupLink: state.facebookGroupLink,
   };
 }
 

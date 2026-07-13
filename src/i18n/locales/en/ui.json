@@ -298,6 +298,12 @@
     "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Zalo Group Link",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
+    "signalGroupLink": "Signal Group Link",
+    "signalGroupLinkPlaceholder": "https://signal.group/#yourid",
+    "instagramGroupLink": "Instagram Group Chat Link",
+    "instagramGroupLinkPlaceholder": "https://ig.me/j/yourid",
+    "facebookGroupLink": "Facebook Group Link",
+    "facebookGroupLinkPlaceholder": "https://facebook.com/groups/yourid",
     "contactEmail": "Contact Email",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "Music / Sound Attribution",
@@ -908,7 +914,6 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "fb_group": "Facebook Group",
     "telegram": "Telegram"
   },
   "resolutions": {
@@ -1073,7 +1078,10 @@
     "urlPrefixMismatch": "Expected URL starting with {{expected}}",
     "playlistUrlInvalid": "Invalid YouTube playlist URL. Expected: {{expected}}",
     "messengerUrlInvalid": "Invalid Messenger link. Expected: {{expected}}",
-    "zaloUrlInvalid": "Invalid Zalo group link. Expected: {{expected}}"
+    "zaloUrlInvalid": "Invalid Zalo group link. Expected: {{expected}}",
+    "signalUrlInvalid": "Invalid Signal group link. Expected: {{expected}}",
+    "instagramInviteUrlInvalid": "Invalid Instagram group chat link. Expected: {{expected}}",
+    "facebookGroupUrlInvalid": "Invalid Facebook group link. Expected: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "Paid",

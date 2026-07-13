@@ -142,6 +142,12 @@ export interface EditorDefaults {
   messengerCommunityLink: string;
   /** Zalo group invite link (v0.32.0). `https://zalo.me/g/<code>`. Rendered only for Vietnamese output. */
   zaloGroupLink: string;
+  /** Signal group invite link (v0.33.0). `https://signal.group/#<id>`. Rendered for all languages. Empty = no line. */
+  signalGroupLink: string;
+  /** Instagram group-chat invite link (v0.33.0). `https://www.instagram.com/j/<id>` or `https://ig.me/j/<id>`. All languages. */
+  instagramGroupLink: string;
+  /** Facebook group invite link (v0.33.0). `https://facebook.com/groups/<id>`. Moved from the generic Social list; all languages. */
+  facebookGroupLink: string;
 }
 
 export interface SettingsDefaults {
@@ -224,6 +230,9 @@ export const DEFAULTS = {
     playtestInvites: 0,
     messengerCommunityLink: "",
     zaloGroupLink: "",
+    signalGroupLink: "",
+    instagramGroupLink: "",
+    facebookGroupLink: "",
   } satisfies EditorDefaults,
 
   settings: {

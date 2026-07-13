@@ -2,6 +2,23 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.33.0 — 2026-07-13
+
+A **feature** release that turns the description's Community block into the channel's
+full "join the chat" hub: two new invite links (**Signal**, **Instagram group chat**)
+and **Facebook Group** moved in from the generic Social list.
+
+### Added
+
+- **Signal + Instagram community invites** ([src/components/editor/CommunityEditor.tsx](src/components/editor/CommunityEditor.tsx), [src/utils/validation.ts](src/utils/validation.ts)) — two new inputs in the **Community** section that feed the `💬 COMMUNITY` description block for **every** output language (like Messenger). Signal expects `https://signal.group/#<id>`; Instagram expects the group-chat invite `https://www.instagram.com/j/<id>` or the short `https://ig.me/j/<id>` (distinct from the Instagram **profile** link, which stays in Social). Both hard-reject anything off-format via `ValidatedInput`, so a broken invite never reaches the description.
+- **Facebook Group moved into Community** ([src/config/social-fields.ts](src/config/social-fields.ts), [src/engine/description-builder.ts](src/engine/description-builder.ts)) — the old generic `fb_group` Social entry is now a dedicated `facebookGroupLink` community field with its own strict `https://facebook.com/groups/<id>` validator (tolerating `www.` / `m.` / `web.` and a trailing slash). It renders in the Community block for all languages. The block order is Messenger → Signal → Instagram → Facebook Group → Zalo (Vietnamese-only).
+
+### Under the hood
+
+- Three editor fields (`signalGroupLink`, `instagramGroupLink`, `facebookGroupLink`) thread through defaults, the store (persist **v16 → v17**), `GeneratorInput`, the editor → engine mapping, and template snapshots — guarded by the existing parity test. The v17 migration **lifts** a legacy `social.fb_group` value into `facebookGroupLink` and drops the dead key; `normalizeEditorPatch` does the same when a pre-move profile / preset / template is applied. Consequence: like the other community links, Facebook Group is no longer stored inside Profiles.
+- Nine i18n keys per locale added, one (`social.fb_group`) removed, across all six locales (validator **975 ui / 559 templates**). typecheck, lint, locale validation, and **613 tests** (583 + 30: three new validators, v17 migration incl. the fb_group lift, community render/order/all-language cases, mapping parity) pass; verified live — Vietnamese output shows all five lines in order with a localized heading, English output drops the Zalo line while keeping the rest, and a malformed Signal link surfaces an inline hard-reject error.
+- Five manifests bumped 0.32.1 → 0.33.0.
+
 ## v0.30.0 — 2026-06-27
 
 A **feature** release adding two things creators kept doing by hand: advertising a

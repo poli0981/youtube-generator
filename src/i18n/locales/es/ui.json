@@ -298,6 +298,12 @@
     "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Enlace de grupo de Zalo",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
+    "signalGroupLink": "Enlace de grupo de Signal",
+    "signalGroupLinkPlaceholder": "https://signal.group/#yourid",
+    "instagramGroupLink": "Enlace de chat grupal de Instagram",
+    "instagramGroupLinkPlaceholder": "https://ig.me/j/yourid",
+    "facebookGroupLink": "Enlace de grupo de Facebook",
+    "facebookGroupLinkPlaceholder": "https://facebook.com/groups/yourid",
     "contactEmail": "Correo de Contacto",
     "contactEmailPlaceholder": "negocios@ejemplo.com",
     "musicAttribution": "Crédito Musical / Sonidos",
@@ -908,7 +914,6 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Página de Facebook",
-    "fb_group": "Grupo de Facebook",
     "telegram": "Telegram"
   },
   "resolutions": {
@@ -1073,7 +1078,10 @@
     "urlPrefixMismatch": "Se espera URL que comience con {{expected}}",
     "playlistUrlInvalid": "URL de lista de reproducción de YouTube inválida. Se espera: {{expected}}",
     "messengerUrlInvalid": "Enlace de Messenger inválido. Se espera: {{expected}}",
-    "zaloUrlInvalid": "Enlace de grupo de Zalo inválido. Se espera: {{expected}}"
+    "zaloUrlInvalid": "Enlace de grupo de Zalo inválido. Se espera: {{expected}}",
+    "signalUrlInvalid": "Enlace de grupo de Signal inválido. Se espera: {{expected}}",
+    "instagramInviteUrlInvalid": "Enlace de chat grupal de Instagram inválido. Se espera: {{expected}}",
+    "facebookGroupUrlInvalid": "Enlace de grupo de Facebook inválido. Se espera: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "De pago",

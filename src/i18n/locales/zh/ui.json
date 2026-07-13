@@ -298,6 +298,12 @@
     "messengerCommunityLinkPlaceholder": "https://m.me/ch/yourid",
     "zaloGroupLink": "Zalo 群链接",
     "zaloGroupLinkPlaceholder": "https://zalo.me/g/xxxxxx",
+    "signalGroupLink": "Signal 群组链接",
+    "signalGroupLinkPlaceholder": "https://signal.group/#yourid",
+    "instagramGroupLink": "Instagram 群聊链接",
+    "instagramGroupLinkPlaceholder": "https://ig.me/j/yourid",
+    "facebookGroupLink": "Facebook 群组链接",
+    "facebookGroupLinkPlaceholder": "https://facebook.com/groups/yourid",
     "contactEmail": "联系邮箱",
     "contactEmailPlaceholder": "business@example.com",
     "musicAttribution": "音乐 / 音效署名",
@@ -908,7 +914,6 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook主页",
-    "fb_group": "Facebook群组",
     "telegram": "Telegram"
   },
   "resolutions": {
@@ -1073,7 +1078,10 @@
     "urlPrefixMismatch": "URL应以{{expected}}开头",
     "playlistUrlInvalid": "无效的YouTube播放列表URL。期望格式: {{expected}}",
     "messengerUrlInvalid": "无效的Messenger链接。期望格式: {{expected}}",
-    "zaloUrlInvalid": "无效的Zalo群链接。期望格式: {{expected}}"
+    "zaloUrlInvalid": "无效的Zalo群链接。期望格式: {{expected}}",
+    "signalUrlInvalid": "无效的Signal群组链接。期望格式: {{expected}}",
+    "instagramInviteUrlInvalid": "无效的Instagram群聊链接。期望格式: {{expected}}",
+    "facebookGroupUrlInvalid": "无效的Facebook群组链接。期望格式: {{expected}}"
   },
   "storeLinkTypes": {
     "paid": "付费",

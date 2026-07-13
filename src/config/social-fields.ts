@@ -16,7 +16,8 @@ export const SOCIAL_FIELDS = [
   { id: "mastodon", label: "Mastodon", labelKey: "social.mastodon", urlPrefix: "", category: "social" },
   { id: "facebook", label: "Facebook", labelKey: "social.facebook", urlPrefix: "https://facebook.com/", category: "social" },
   { id: "fb_page", label: "Facebook Page", labelKey: "social.fb_page", urlPrefix: "https://facebook.com/", category: "social" },
-  { id: "fb_group", label: "Facebook Group", labelKey: "social.fb_group", urlPrefix: "https://facebook.com/groups/", category: "social" },
+  // Facebook Group moved to the Community section in v0.33.0 — it's now a
+  // dedicated `facebookGroupLink` editor field (see CommunityEditor).
   { id: "telegram", label: "Telegram", labelKey: "social.telegram", urlPrefix: "https://t.me/", category: "social" },
   { id: "website", label: "Website", labelKey: "social.website", urlPrefix: "", category: "social" },
 ] as const;

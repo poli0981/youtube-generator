@@ -123,6 +123,11 @@ export interface TemplateSnapshot {
   /** Community invite links (v0.32.0). Optional for back-compat. */
   messengerCommunityLink?: string;
   zaloGroupLink?: string;
+  /** More community invite links (v0.33.0) — Signal, Instagram group chat,
+   *  and Facebook Group (moved from Social). Optional for back-compat. */
+  signalGroupLink?: string;
+  instagramGroupLink?: string;
+  facebookGroupLink?: string;
   /** Channel-level third-party advertising copy (v0.11). Optional for
    *  back-compat with pre-v0.11 templates. */
   thirdPartyAdText?: string;
