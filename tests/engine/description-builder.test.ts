@@ -1012,6 +1012,72 @@ describe("buildDescription", () => {
     expect(result).toContain("Business inquiries: test@example.com");
   });
 
+  describe("splitContactEmail", () => {
+    it("keeps the single business line when the toggle is off (default)", () => {
+      const t = createMockT("en");
+      const result = buildDescription(
+        makeInput({
+          contactEmail: "contact@example.com",
+          adEmail: "ads@example.com",
+          gameKeyEmail: "games@example.com",
+        }),
+        t,
+      );
+      expect(result).toContain("Business inquiries: contact@example.com");
+      // The extra purpose fields are ignored while the toggle is off.
+      expect(result).not.toContain("BUSINESS / CONTACT");
+      expect(result).not.toContain("ads@example.com");
+      expect(result).not.toContain("games@example.com");
+    });
+
+    it("renders a grouped block with one labeled line per non-empty field", () => {
+      const t = createMockT("en");
+      const result = buildDescription(
+        makeInput({
+          contactEmail: "contact@example.com",
+          adEmail: "ads@example.com",
+          gameKeyEmail: "games@example.com",
+        }),
+        t,
+        { splitContactEmail: true },
+      );
+      expect(result).toContain("BUSINESS / CONTACT");
+      expect(result).toContain("Contact: contact@example.com");
+      expect(result).toContain("Advertising: ads@example.com");
+      expect(result).toContain("Game keys & playtest: games@example.com");
+      // The single-line form must not also appear.
+      expect(result).not.toContain("Business inquiries:");
+    });
+
+    it("skips a purpose line whose field is empty", () => {
+      const t = createMockT("en");
+      const result = buildDescription(
+        makeInput({
+          contactEmail: "contact@example.com",
+          adEmail: "",
+          gameKeyEmail: "games@example.com",
+        }),
+        t,
+        { splitContactEmail: true },
+      );
+      expect(result).toContain("BUSINESS / CONTACT");
+      expect(result).toContain("Contact: contact@example.com");
+      expect(result).toContain("Game keys & playtest: games@example.com");
+      expect(result).not.toContain("Advertising:");
+    });
+
+    it("omits the whole block when all three fields are empty", () => {
+      const t = createMockT("en");
+      const result = buildDescription(
+        makeInput({ contactEmail: "", adEmail: "", gameKeyEmail: "" }),
+        t,
+        { splitContactEmail: true },
+      );
+      expect(result).not.toContain("BUSINESS / CONTACT");
+      expect(result).not.toContain("Business inquiries:");
+    });
+  });
+
   it("generates part description correctly", () => {
     const t = createMockT("en");
     const result = buildDescription(

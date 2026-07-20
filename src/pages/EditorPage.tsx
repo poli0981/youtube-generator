@@ -11,6 +11,7 @@ import { RigEditor } from "@components/editor/RigEditor";
 import { SocialEditor } from "@components/editor/SocialEditor";
 import { VietnameseDonateEditor } from "@components/editor/VietnameseDonateEditor";
 import { CommunityEditor } from "@components/editor/CommunityEditor";
+import { ContactEmailEditor } from "@components/editor/ContactEmailEditor";
 import { ContentWarningChecklist } from "@components/editor/ContentWarningChecklist";
 import { PlaythroughNotesForm } from "@components/editor/PlaythroughNotesForm";
 import { TechNotesChecklist } from "@components/editor/TechNotesChecklist";
@@ -29,7 +30,7 @@ import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
-import { validateEmails, validatePlaylistUrl } from "@utils/validation";
+import { validatePlaylistUrl } from "@utils/validation";
 import { RotateCcw } from "lucide-react";
 import { useState } from "react";
 
@@ -111,16 +112,7 @@ export function EditorPage() {
             inputMode="url"
             autoComplete="off"
           />
-          <ValidatedInput
-            label={t("editor.contactEmail")}
-            placeholder={t("editor.contactEmailPlaceholder")}
-            value={store.contactEmail ?? ""}
-            onChange={(v) => store.set("contactEmail", v)}
-            validate={validateEmails}
-            helpText={t("editor.contactEmailHelp")}
-            inputMode="email"
-            autoComplete="email"
-          />
+          <ContactEmailEditor />
         </Accordion>
 
         <Accordion

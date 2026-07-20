@@ -19,6 +19,7 @@ export function useGeneratedOutput(): GeneratorOutput {
     showGameCopyright,
     showThirdPartyAds,
     showTranslationQuality,
+    splitContactEmail,
     titleFormat,
   } = useSettingsStore();
 
@@ -49,6 +50,7 @@ export function useGeneratedOutput(): GeneratorOutput {
             showGameCopyright,
             showThirdPartyAds,
             showTranslationQuality,
+            splitContactEmail,
             titleFormat,
             tEn,
           }),
@@ -67,6 +69,7 @@ export function useGeneratedOutput(): GeneratorOutput {
       showGameCopyright,
       showThirdPartyAds,
       showTranslationQuality,
+      splitContactEmail,
       titleFormat,
     ],
   );

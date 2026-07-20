@@ -79,6 +79,11 @@ export interface TemplateSnapshot {
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
+  /** v0.34.0 email-split fields. Optional for back-compat with pre-v0.34
+   *  templates — `loadTemplate` spreads `...snapshot` onto editor state, so
+   *  a missing key keeps the editor's existing value. */
+  adEmail?: string;
+  gameKeyEmail?: string;
   musicAttribution: string;
   thumbnailText: string;
   pinnedComment: string;

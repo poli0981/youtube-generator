@@ -27,6 +27,8 @@ export function ProfileCard({ profile }: ProfileCardProps) {
     loadProfile({
       channelName: profile.channelName,
       contactEmail: profile.contactEmail,
+      adEmail: profile.adEmail ?? "",
+      gameKeyEmail: profile.gameKeyEmail ?? "",
       social: { ...(profile.social ?? {}) },
       rig: { ...(profile.rig ?? {}) },
       resolution: profile.resolution,

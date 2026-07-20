@@ -251,6 +251,11 @@ export interface BuildDescriptionOptions {
   /** When true and the active profile's `thirdPartyAdText` is non-empty,
    *  emits a "🤝 SPONSORS & PARTNERS" block (v0.11). */
   showThirdPartyAds?: boolean;
+  /** When true, the contact block (§12) splits into a grouped
+   *  "📧 BUSINESS / CONTACT" block with one labeled line per non-empty
+   *  purpose field (`contactEmail` / `adEmail` / `gameKeyEmail`) instead
+   *  of the single "📧 Business inquiries" line. v0.34.0. */
+  splitContactEmail?: boolean;
   /** When true, appends an AI-translation disclaimer block for output
    *  languages outside the trusted set ({@link TRANSLATION_TRUSTED} —
    *  English / Vietnamese, which are human-reviewed). v0.24.0. */
@@ -279,6 +284,7 @@ export function buildDescription(
     showUsagePolicy = false,
     showSponsorCredit = false,
     showThirdPartyAds = false,
+    splitContactEmail = false,
     showGameCopyright = false,
     showTranslationQuality = false,
     tEn,
@@ -695,8 +701,29 @@ export function buildDescription(
     sections.push(t("description.sections.playlist", { link: input.playlistLink }));
   }
 
-  // 12. Contact
-  if (input.contactEmail && input.contactEmail.trim()) {
+  // 12. Contact. Two modes, gated by the `splitContactEmail` toggle:
+  //   • off (default) — a single "📧 Business inquiries" line, unchanged.
+  //   • on — a grouped "📧 BUSINESS / CONTACT" block with one labeled line
+  //     per non-empty purpose field. Each line is skipped when its field
+  //     is empty, and the whole block is skipped when all three are empty
+  //     (same skip logic as the Community block above).
+  if (splitContactEmail) {
+    const emailLines: string[] = [];
+    if (input.contactEmail?.trim()) {
+      emailLines.push(t("description.sections.emailContact", { email: input.contactEmail }));
+    }
+    if (input.adEmail?.trim()) {
+      emailLines.push(t("description.sections.emailAd", { email: input.adEmail }));
+    }
+    if (input.gameKeyEmail?.trim()) {
+      emailLines.push(t("description.sections.emailGameKeys", { email: input.gameKeyEmail }));
+    }
+    if (emailLines.length > 0) {
+      sections.push(
+        `${t("description.sections.contactHeader")}\n${emailLines.join("\n")}`,
+      );
+    }
+  } else if (input.contactEmail && input.contactEmail.trim()) {
     sections.push(t("description.sections.contact", { email: input.contactEmail }));
   }
 

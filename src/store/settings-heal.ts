@@ -52,6 +52,15 @@ export interface SettingsData {
    */
   showTranslationQuality: boolean;
   /**
+   * v0.34.0 opt-in toggle. When true, the description's contact block
+   * splits into up to three labeled lines by purpose — general
+   * (`contactEmail`), advertising / sponsorship (`adEmail`), and game
+   * keys & playtest (`gameKeyEmail`) — and the editor exposes the two
+   * extra fields. Off by default so existing users keep the single
+   * "📧 Business inquiries" line and see no new fields after upgrade.
+   */
+  splitContactEmail: boolean;
+  /**
    * When true, Output + Batch render a generated pinned-comment
    * template alongside the user's freeform pinnedComment field. Default
    * off — the template is opt-in, so v0.6 users don't see a new block
@@ -139,6 +148,7 @@ export const initialSettings: SettingsData = {
   showGameCopyright: false,
   showThirdPartyAds: false,
   showTranslationQuality: false,
+  splitContactEmail: false,
   showPinnedCommentTemplate: false,
   pinnedCommentIncludeAskNextGame: true,
   pinnedCommentIncludeGenrePlaylist: false,

@@ -25,6 +25,7 @@ export function useMultilangOutput(
     showGameCopyright,
     showThirdPartyAds,
     showTranslationQuality,
+    splitContactEmail,
     titleFormat,
   } = useSettingsStore();
 
@@ -54,6 +55,7 @@ export function useMultilangOutput(
         showGameCopyright,
         showThirdPartyAds,
         showTranslationQuality,
+        splitContactEmail,
         titleFormat,
         tEn,
         bilingualContentBlocks: false,
@@ -74,6 +76,7 @@ export function useMultilangOutput(
     showGameCopyright,
     showThirdPartyAds,
     showTranslationQuality,
+    splitContactEmail,
     titleFormat,
     tEn,
   ]);

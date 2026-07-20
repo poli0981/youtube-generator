@@ -2,6 +2,22 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.34.0 — 2026-07-20
+
+A **feature** release that lets creators publish a different email per purpose instead of a
+single catch-all address — so viewers, sponsors, and studios each reach the right inbox.
+
+### Added
+
+- **Split contact email by purpose** ([src/pages/SettingsPage.tsx](src/pages/SettingsPage.tsx), [src/components/editor/ContactEmailEditor.tsx](src/components/editor/ContactEmailEditor.tsx)) — a new **Settings → Description** toggle (off by default). Off keeps today's single `📧 Business inquiries:` line, unchanged. On splits the editor's Contact Email field into three: **Contact** (general), **Advertising / sponsorship**, and **Game keys & playtest** — each accepting up to 3 comma-separated addresses via the existing email validator.
+- **Grouped contact block** ([src/engine/description-builder.ts](src/engine/description-builder.ts)) — when the toggle is on, the description renders a localized `📧 BUSINESS / CONTACT` block with one labeled line per non-empty field (`📧 Contact:`, `🤝 Advertising:`, `🎮 Game keys & playtest:`). Empty fields are skipped and the whole block drops when all three are empty — same skip logic as the Community block. The existing `contactEmail` is reused as the Contact line, so no saved data moves.
+
+### Under the hood
+
+- Two editor fields (`adEmail`, `gameKeyEmail`) thread through defaults, the store (persist **v17 → v18**), `GeneratorInput`, the editor → engine mapping, template snapshots, and Profiles (persist **v1 → v2**) — guarded by the existing parity test. The `splitContactEmail` toggle mirrors `showThirdPartyAds` end-to-end: the settings store (persist **v10 → v11**, `SCHEMA_VERSIONS.settings` in lockstep), both output hooks, and the render options. Both migrations are additive `""` / `false` back-fills, so existing drafts, profiles, and settings upgrade untouched.
+- Twelve i18n keys per locale added (8 ui + 4 templates) across all six locales (validator **983 ui / 563 templates**). typecheck, lint, locale validation, and **621 tests** (613 + 8: split render on/off/partial/empty, v18 migration back-fill/coerce/preserve) pass; verified live.
+- Five manifests bumped 0.33.0 → 0.34.0.
+
 ## v0.33.0 — 2026-07-13
 
 A **feature** release that turns the description's Community block into the channel's

@@ -70,7 +70,10 @@ export const useSettingsStore = create<SettingsState>()(
       // path as v8.
       // v9 → v10: v0.17.0 added `logRetentionDays`. Additive — defaults to
       // 7 days; `healSettings` clamps incoming values to [1, 90].
-      version: 10,
+      // v10 → v11: v0.34.0 added `splitContactEmail`. Additive — the
+      // `initialSettings` spread in `healSettings` back-fills the default
+      // (false), so no explicit per-version migration step is required.
+      version: 11,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -117,6 +120,7 @@ export function extractData(state: SettingsData): SettingsData {
     showGameCopyright: state.showGameCopyright,
     showThirdPartyAds: state.showThirdPartyAds,
     showTranslationQuality: state.showTranslationQuality,
+    splitContactEmail: state.splitContactEmail,
     showPinnedCommentTemplate: state.showPinnedCommentTemplate,
     pinnedCommentIncludeAskNextGame: state.pinnedCommentIncludeAskNextGame,
     pinnedCommentIncludeGenrePlaylist: state.pinnedCommentIncludeGenrePlaylist,

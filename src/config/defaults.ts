@@ -71,6 +71,17 @@ export interface EditorDefaults {
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
+  /**
+   * v0.34.0 email-split fields. When the `splitContactEmail` settings
+   * toggle is on, the description's contact block renders a labeled line
+   * per purpose: `contactEmail` (general), `adEmail` (advertising /
+   * sponsorship inquiries — distinct from the video-sponsor-credit
+   * fields `sponsorName` / `sponsorPlatform`), and `gameKeyEmail` (game
+   * keys & playtest invites). Each holds up to 3 comma-separated emails
+   * (same `validateEmails` cap as `contactEmail`). Empty by default.
+   */
+  adEmail: string;
+  gameKeyEmail: string;
   musicAttribution: string;
   sponsorName: string;
   sponsorPlatform: string;
@@ -193,6 +204,8 @@ export const DEFAULTS = {
     timestamps: "",
     playlistLink: "",
     contactEmail: "",
+    adEmail: "",
+    gameKeyEmail: "",
     musicAttribution: "",
     sponsorName: "",
     sponsorPlatform: "",
