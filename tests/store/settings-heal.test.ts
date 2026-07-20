@@ -80,6 +80,7 @@ describe("healSettings", () => {
       showSponsorCredit: true,
       showThirdPartyAds: false,
       showTranslationQuality: true,
+      splitContactEmail: true,
       titleFormat: {
         badgePosition: "prefix" as const,
         separator: "hyphen" as const,

@@ -56,6 +56,8 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
       timestamps: editor.timestamps,
       playlistLink: editor.playlistLink,
       contactEmail: editor.contactEmail,
+      adEmail: editor.adEmail,
+      gameKeyEmail: editor.gameKeyEmail,
       musicAttribution: editor.musicAttribution,
       thumbnailText: editor.thumbnailText,
       pinnedComment: editor.pinnedComment,

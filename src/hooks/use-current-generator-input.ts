@@ -58,6 +58,8 @@ export function buildGeneratorInputFromEditor(
     timestamps: state.timestamps,
     playlistLink: state.playlistLink,
     contactEmail: state.contactEmail,
+    adEmail: state.adEmail,
+    gameKeyEmail: state.gameKeyEmail,
     musicAttribution: state.musicAttribution,
     sponsorName: state.sponsorName,
     sponsorPlatform: state.sponsorPlatform,

@@ -34,6 +34,8 @@ export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormP
       name: name.trim() || "Unnamed Profile",
       channelName: editProfile?.channelName ?? editor.channelName,
       contactEmail: editProfile?.contactEmail ?? editor.contactEmail,
+      adEmail: editProfile?.adEmail ?? editor.adEmail,
+      gameKeyEmail: editProfile?.gameKeyEmail ?? editor.gameKeyEmail,
       social: editProfile?.social ?? { ...editor.social },
       rig: editProfile?.rig ?? { ...editor.rig },
       resolution: editProfile?.resolution ?? editor.resolution,

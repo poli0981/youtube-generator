@@ -334,6 +334,16 @@ export function SettingsPage() {
             </p>
           )}
           <Toggle
+            label={t("settings.splitContactEmail")}
+            checked={settings.splitContactEmail}
+            onChange={(v) => settings.setSetting("splitContactEmail", v)}
+          />
+          {settings.splitContactEmail && (
+            <p className="-mt-1 ml-14 text-xs text-text-muted">
+              {t("settings.splitContactEmailHint")}
+            </p>
+          )}
+          <Toggle
             label={t("settings.showTranslationQuality")}
             checked={settings.showTranslationQuality}
             onChange={(v) => settings.setSetting("showTranslationQuality", v)}

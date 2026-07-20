@@ -657,6 +657,15 @@ export interface GeneratorInput {
   playlistLink?: string;
   contactEmail?: string;
   /**
+   * v0.34.0 email-split fields. Rendered as labeled lines inside the
+   * contact block when the `splitContactEmail` render option is on:
+   * `adEmail` (advertising / sponsorship inquiries — distinct from
+   * {@link sponsorName}) and `gameKeyEmail` (game keys & playtest
+   * invites). Each holds up to 3 comma-separated emails.
+   */
+  adEmail?: string;
+  gameKeyEmail?: string;
+  /**
    * Music / sound attribution credit. Free-form multiline string.
    * When set, adds a "🎵 MUSIC / SOUND" section to the description
    * before the donate links.

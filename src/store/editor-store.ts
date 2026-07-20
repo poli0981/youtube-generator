@@ -96,6 +96,12 @@ export interface EditorData {
   timestamps: string;
   playlistLink: string;
   contactEmail: string;
+  /** v0.34.0 email-split fields — see {@link DEFAULTS.editor}. Rendered
+   *  as labeled lines in the contact block when `splitContactEmail` is
+   *  on. `adEmail` = advertising/sponsorship inquiries (distinct from
+   *  `sponsorName`); `gameKeyEmail` = game keys & playtest invites. */
+  adEmail: string;
+  gameKeyEmail: string;
   musicAttribution: string;
   sponsorName: string;
   sponsorPlatform: string;
@@ -355,6 +361,8 @@ const initialState: EditorData = {
   timestamps: DEFAULTS.editor.timestamps,
   playlistLink: DEFAULTS.editor.playlistLink,
   contactEmail: DEFAULTS.editor.contactEmail,
+  adEmail: DEFAULTS.editor.adEmail,
+  gameKeyEmail: DEFAULTS.editor.gameKeyEmail,
   musicAttribution: DEFAULTS.editor.musicAttribution,
   sponsorName: DEFAULTS.editor.sponsorName,
   sponsorPlatform: DEFAULTS.editor.sponsorPlatform,
@@ -533,7 +541,14 @@ export const useEditorStore = create<EditorState>()(
       //         moved OUT of the generic `social` map: the migration lifts a
       //         legacy `social.fb_group` value into `facebookGroupLink` and
       //         drops the dead key. Other fields back-fill to "".
-      version: 17,
+      // v17 → v18: v0.34.0. Email split — `adEmail` (advertising /
+      //         sponsorship inquiries) and `gameKeyEmail` (game keys &
+      //         playtest invites) joined the schema. Both render as labeled
+      //         lines in the contact block when the `splitContactEmail`
+      //         settings toggle is on. Additive: both back-fill to "".
+      //         Non-string values coerce to "". The existing `contactEmail`
+      //         is reused as the general-contact line, so no data moves.
+      version: 18,
       migrate: (persistedState, version) =>
         migrateEditorState(persistedState, version),
       partialize: (state) => ({
@@ -573,6 +588,8 @@ export const useEditorStore = create<EditorState>()(
         timestamps: state.timestamps,
         playlistLink: state.playlistLink,
         contactEmail: state.contactEmail,
+        adEmail: state.adEmail,
+        gameKeyEmail: state.gameKeyEmail,
         musicAttribution: state.musicAttribution,
         sponsorName: state.sponsorName,
         sponsorPlatform: state.sponsorPlatform,
@@ -882,6 +899,13 @@ export function migrateEditorState(
       // Drop the dead key so the moved link doesn't linger in `social`.
       delete (social as Record<string, unknown>).fb_group;
     }
+  }
+  if (version < 18) {
+    // v0.34.0 Email split. Additive back-fill + defensive coercion. The
+    // existing `contactEmail` is reused as the general-contact line, so
+    // there's nothing to lift — just seed the two new purpose fields.
+    if (typeof state.adEmail !== "string") state.adEmail = "";
+    if (typeof state.gameKeyEmail !== "string") state.gameKeyEmail = "";
   }
   return { ...initialState, ...state } as EditorData;
 }

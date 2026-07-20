@@ -15,12 +15,19 @@ import type { GraphicsPreset } from "@config/graphics-settings";
  * persisted shapes — pre-v0.11 profiles get a `""` back-fill via the
  * profile-store v0→v1 migrate fn. Held on the profile (not per-video)
  * because partner / affiliate copy is channel-stable.
+ *
+ * v0.34.0: `adEmail` / `gameKeyEmail` joined the schema (the email-split
+ * fields). Channel-stable business addresses, so persisted on the profile
+ * like `contactEmail`. Pre-v0.34 profiles get a `""` back-fill via the
+ * v1→v2 migrate fn.
  */
 export interface Profile {
   id: string;
   name: string;
   channelName: string;
   contactEmail: string;
+  adEmail: string;
+  gameKeyEmail: string;
   social: Record<string, string>;
   rig: Record<string, string>;
   resolution: string;
@@ -98,16 +105,23 @@ export const useProfileStore = create<ProfileState>()(
       // v0 (unversioned) → v1: v0.11 added `thirdPartyAdText`. The store
       // had no version field before — anything `version < 1` is treated
       // as "pre-v0.11" and gets the empty-string back-fill.
-      version: 1,
+      // v1 → v2: v0.34.0 added `adEmail` / `gameKeyEmail` (email split).
+      // Additive — pre-v0.34 profiles get a `""` back-fill.
+      version: 2,
       migrate: (persistedState: unknown, version: number) => {
         if (!persistedState || typeof persistedState !== "object") return persistedState;
-        if (version < 1) {
-          const state = persistedState as { profiles?: Array<Record<string, unknown>> };
-          if (Array.isArray(state.profiles)) {
-            state.profiles = state.profiles.map((p) =>
-              typeof p.thirdPartyAdText === "string" ? p : { ...p, thirdPartyAdText: "" },
-            );
-          }
+        const state = persistedState as { profiles?: Array<Record<string, unknown>> };
+        if (version < 1 && Array.isArray(state.profiles)) {
+          state.profiles = state.profiles.map((p) =>
+            typeof p.thirdPartyAdText === "string" ? p : { ...p, thirdPartyAdText: "" },
+          );
+        }
+        if (version < 2 && Array.isArray(state.profiles)) {
+          state.profiles = state.profiles.map((p) => ({
+            ...p,
+            adEmail: typeof p.adEmail === "string" ? p.adEmail : "",
+            gameKeyEmail: typeof p.gameKeyEmail === "string" ? p.gameKeyEmail : "",
+          }));
         }
         return persistedState as { profiles: Profile[] };
       },

@@ -385,3 +385,54 @@ describe("migrateEditorState — v16 → v17 (v0.33.0 Community expansion)", () 
     expect(result.social.fb_group).toBeUndefined();
   });
 });
+
+describe("migrateEditorState — v17 → v18 (v0.34.0 Email split)", () => {
+  // Route v9 through every prior migration, then strip the v18 keys so the
+  // v18 block is what supplies them.
+  function makeV17Persisted(
+    overrides: Record<string, unknown> = {},
+  ): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
+      string,
+      unknown
+    >;
+    delete full.adEmail;
+    delete full.gameKeyEmail;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills the new email fields with empty strings", () => {
+    const result = migrateEditorState(makeV17Persisted(), 17);
+    expect(result.adEmail).toBe("");
+    expect(result.gameKeyEmail).toBe("");
+  });
+
+  it("coerces non-string persisted values to empty strings", () => {
+    const result = migrateEditorState(
+      makeV17Persisted({ adEmail: 42, gameKeyEmail: null }),
+      17,
+    );
+    expect(result.adEmail).toBe("");
+    expect(result.gameKeyEmail).toBe("");
+  });
+
+  it("preserves valid persisted email values", () => {
+    const result = migrateEditorState(
+      makeV17Persisted({
+        adEmail: "ads@example.com",
+        gameKeyEmail: "games@example.com",
+      }),
+      17,
+    );
+    expect(result.adEmail).toBe("ads@example.com");
+    expect(result.gameKeyEmail).toBe("games@example.com");
+  });
+
+  it("leaves the existing contactEmail untouched (reused as the Contact line)", () => {
+    const result = migrateEditorState(
+      makeV17Persisted({ contactEmail: "hello@channel.com" }),
+      17,
+    );
+    expect(result.contactEmail).toBe("hello@channel.com");
+  });
+});

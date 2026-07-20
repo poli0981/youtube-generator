@@ -48,6 +48,12 @@ export interface RenderOptions extends TagOptions {
    */
   showThirdPartyAds?: boolean;
   /**
+   * When true, the description's contact block splits into up to three
+   * labeled lines by purpose (general / advertising / game keys &
+   * playtest) instead of the single "📧 Business inquiries" line. v0.34.0.
+   */
+  splitContactEmail?: boolean;
+  /**
    * When true and the editor's `pubDevName` is non-empty, the description
    * emits a `© {publisher}. All rights reserved.` line right after the
    * Store Links block (v0.21.0). Opt-in — meant for games whose
@@ -94,6 +100,7 @@ export function renderAll(
     showUsagePolicy: options?.showUsagePolicy,
     showSponsorCredit: options?.showSponsorCredit,
     showThirdPartyAds: options?.showThirdPartyAds,
+    splitContactEmail: options?.splitContactEmail,
     showGameCopyright: options?.showGameCopyright,
     showTranslationQuality: options?.showTranslationQuality,
     tEn: options?.tEn,
