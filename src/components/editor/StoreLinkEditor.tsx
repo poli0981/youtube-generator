@@ -77,11 +77,11 @@ export function StoreLinkEditor() {
     setField("gameName", extracted);
     toast.custom(
       (item) => (
-        <div className="flex items-center gap-3 rounded-lg border border-border bg-surface-2 px-3 py-2 text-sm text-text-primary shadow">
+        <div className="border-border bg-surface-2 text-text-primary flex items-center gap-3 rounded-lg border px-3 py-2 text-sm shadow">
           <span>{t("editor.toast.urlAutoFilled", { name: extracted })}</span>
           <button
             type="button"
-            className="rounded px-2 py-0.5 text-xs font-medium text-accent hover:bg-surface-1"
+            className="text-accent hover:bg-surface-1 rounded px-2 py-0.5 text-xs font-medium"
             onClick={() => {
               setField("gameName", "");
               toast.dismiss(item.id);
@@ -97,10 +97,10 @@ export function StoreLinkEditor() {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-sm font-medium text-text-secondary">{t("editor.storeLinks")}</span>
+      <span className="text-text-secondary text-sm font-medium">{t("editor.storeLinks")}</span>
       {mismatch && (
-        <div className="flex items-start gap-2 rounded-lg border border-warning bg-surface-2 px-3 py-2 text-sm">
-          <span className="flex-1 text-text-primary">
+        <div className="border-warning bg-surface-2 flex items-start gap-2 rounded-lg border px-3 py-2 text-sm">
+          <span className="text-text-primary flex-1">
             {t("editor.warning.linkNameMismatch", {
               host: mismatch.host,
               suggestedName: mismatch.suggestedName,
@@ -110,7 +110,7 @@ export function StoreLinkEditor() {
           <button
             type="button"
             aria-label={t("common.dismiss")}
-            className="shrink-0 rounded px-2 py-0.5 text-base leading-none text-text-secondary hover:bg-surface-1"
+            className="text-text-secondary hover:bg-surface-1 shrink-0 rounded px-2 py-0.5 text-base leading-none"
             onClick={() =>
               setDismissedFingerprints((prev) => {
                 const next = new Set(prev);

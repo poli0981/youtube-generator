@@ -45,13 +45,13 @@ export function ProfileCard({ profile }: ProfileCardProps) {
 
   return (
     <>
-      <div className="hover:border-accent/30 flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
+      <div className="hover:border-accent/30 border-border-strong bg-surface-2 flex flex-col gap-3 rounded-lg border p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-semibold text-text-primary">{profile.name}</h3>
-          <p className="mt-0.5 text-xs text-text-secondary">
+          <h3 className="text-text-primary text-sm font-semibold">{profile.name}</h3>
+          <p className="text-text-secondary mt-0.5 text-xs">
             {profile.channelName || "No channel"}
           </p>
-          <div className="mt-1.5 flex flex-wrap gap-3 text-xs text-text-muted">
+          <div className="text-text-muted mt-1.5 flex flex-wrap gap-3 text-xs">
             {socialCount > 0 && <span>{socialCount} social links</span>}
             {rigCount > 0 && <span>{rigCount} rig fields</span>}
           </div>
@@ -65,7 +65,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
             <Pencil className="h-3.5 w-3.5" />
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="h-3.5 w-3.5 text-danger" />
+            <Trash2 className="text-danger h-3.5 w-3.5" />
           </Button>
         </div>
       </div>

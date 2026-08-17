@@ -67,26 +67,26 @@ export function TechNotesChecklist() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between">
-        <span className="text-sm font-medium text-text-secondary">{t("editor.techNotes")}</span>
+        <span className="text-text-secondary text-sm font-medium">{t("editor.techNotes")}</span>
         {selected.length > 0 && (
-          <span className="text-xs text-text-muted">{selected.length} selected</span>
+          <span className="text-text-muted text-xs">{selected.length} selected</span>
         )}
       </div>
 
       <div className="relative">
-        <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-text-muted" />
+        <Search className="text-text-muted pointer-events-none absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("editor.techNoteSearchPlaceholder")}
-          className="w-full rounded-md border border-border bg-surface-1 py-1.5 pl-8 pr-7 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none"
+          className="border-border bg-surface-1 text-text-primary placeholder:text-text-muted focus:border-accent w-full rounded-md border py-1.5 pr-7 pl-8 text-sm focus:outline-none"
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-primary"
+            className="text-text-muted hover:text-text-primary absolute top-1/2 right-2 -translate-y-1/2"
             aria-label="Clear search"
           >
             <X className="h-3.5 w-3.5" />
@@ -95,7 +95,7 @@ export function TechNotesChecklist() {
       </div>
 
       {isFiltering && totalMatching === 0 ? (
-        <p className="py-2 text-center text-xs text-text-muted">{t("editor.techNoteEmpty")}</p>
+        <p className="text-text-muted py-2 text-center text-xs">{t("editor.techNoteEmpty")}</p>
       ) : (
         <div className="flex flex-col gap-1">
           {filteredGroups.map((group) => {
@@ -104,12 +104,12 @@ export function TechNotesChecklist() {
             return (
               <div
                 key={group.id}
-                className="overflow-hidden rounded-md border border-border bg-surface-1"
+                className="border-border bg-surface-1 overflow-hidden rounded-md border"
               >
                 <button
                   type="button"
                   onClick={() => toggleGroup(group.id)}
-                  className="flex w-full items-center justify-between px-3 py-2 text-left text-xs font-medium text-text-secondary hover:bg-surface-2"
+                  className="text-text-secondary hover:bg-surface-2 flex w-full items-center justify-between px-3 py-2 text-left text-xs font-medium"
                   aria-expanded={isOpen}
                 >
                   <span className="flex items-center gap-1.5">
@@ -121,13 +121,13 @@ export function TechNotesChecklist() {
                     {t(group.labelKey)}
                   </span>
                   {groupSelectedCount > 0 && (
-                    <span className="bg-accent/15 rounded-full px-2 py-0.5 text-[10px] font-medium text-accent">
+                    <span className="bg-accent/15 text-accent rounded-full px-2 py-0.5 text-[10px] font-medium">
                       {groupSelectedCount}
                     </span>
                   )}
                 </button>
                 {isOpen && (
-                  <div className="grid grid-cols-1 gap-x-3 gap-y-1 border-t border-border bg-surface-1 px-3 py-2 sm:grid-cols-2">
+                  <div className="border-border bg-surface-1 grid grid-cols-1 gap-x-3 gap-y-1 border-t px-3 py-2 sm:grid-cols-2">
                     {group.items.map((id) => {
                       const checked = selected.includes(id);
                       return (
@@ -144,7 +144,7 @@ export function TechNotesChecklist() {
                             type="checkbox"
                             checked={checked}
                             onChange={() => toggleItem(id)}
-                            className="focus:ring-accent/40 h-3.5 w-3.5 shrink-0 cursor-pointer rounded border-border text-accent focus:ring-1"
+                            className="focus:ring-accent/40 border-border text-accent h-3.5 w-3.5 shrink-0 cursor-pointer rounded focus:ring-1"
                           />
                           <span>{t(`editor.techNoteOptions.${id}`)}</span>
                         </label>

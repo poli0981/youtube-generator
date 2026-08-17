@@ -40,7 +40,7 @@ export function RigEditor() {
   const renderValidationBadge = (issue: RigValidationIssue | null) => {
     if (!issue) return null;
     return (
-      <div className="flex items-center gap-1 text-xs text-warning">
+      <div className="text-warning flex items-center gap-1 text-xs">
         <AlertTriangle className="h-3 w-3" />
         <span>{t(issue.messageKey)}</span>
       </div>
@@ -87,7 +87,7 @@ export function RigEditor() {
 
     return (
       <div key={field.id} className="col-span-2 flex flex-col gap-2">
-        <span className="text-sm font-medium text-text-secondary">{t(field.labelKey)}</span>
+        <span className="text-text-secondary text-sm font-medium">{t(field.labelKey)}</span>
         <div className="grid grid-cols-3 gap-2">
           <Select
             label={t("editor.gpu_brand")}
@@ -173,7 +173,7 @@ export function RigEditor() {
 
     return (
       <div key={field.id} className="col-span-2 flex flex-col gap-2">
-        <span className="text-sm font-medium text-text-secondary">{t(field.labelKey)}</span>
+        <span className="text-text-secondary text-sm font-medium">{t(field.labelKey)}</span>
         <div className="grid grid-cols-2 gap-2">{renderedParts}</div>
         {renderValidationBadge(issue)}
       </div>
@@ -223,7 +223,7 @@ export function RigEditor() {
                 onChange={(e) => onCustomChange(e.target.value)}
               />
               {part.customSuffix && (
-                <span className="text-sm text-text-muted">{part.customSuffix.trim()}</span>
+                <span className="text-text-muted text-sm">{part.customSuffix.trim()}</span>
               )}
             </div>
           )}
@@ -263,7 +263,7 @@ export function RigEditor() {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-sm font-medium text-text-secondary">{t("editor.rig")}</span>
+      <span className="text-text-secondary text-sm font-medium">{t("editor.rig")}</span>
       <div className="grid grid-cols-2 gap-2">
         {RIG_FIELDS.map((field) => {
           if (field.type === "cascading_dropdown") return renderCascading(field);

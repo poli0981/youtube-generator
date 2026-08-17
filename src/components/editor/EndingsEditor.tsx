@@ -202,11 +202,11 @@ export function EndingsEditor() {
         )}
       </div>
 
-      {count === 0 && <p className="text-xs text-text-muted">{t("editor.endings.emptyHint")}</p>}
+      {count === 0 && <p className="text-text-muted text-xs">{t("editor.endings.emptyHint")}</p>}
 
       {/* CASE A: single ending — number + name pair, with preview. */}
       {count === 1 && endings[0] && (
-        <div className="flex flex-col gap-2 rounded-lg border border-border bg-surface-1 p-3">
+        <div className="border-border bg-surface-1 flex flex-col gap-2 rounded-lg border p-3">
           <div className="grid grid-cols-[100px_1fr] gap-2">
             <Input
               label={t("editor.endings.numberLabel")}
@@ -228,12 +228,12 @@ export function EndingsEditor() {
               onChange={(e) => updateEnding(0, { name: e.target.value })}
             />
           </div>
-          <p className="text-xs text-text-muted">
+          <p className="text-text-muted text-xs">
             {t("editor.endings.previewLabel")}:{" "}
-            <span className="font-mono text-text-secondary">{previewFor(endings[0])}</span>
+            <span className="text-text-secondary font-mono">{previewFor(endings[0])}</span>
           </p>
           {!endings[0].number && !endings[0].name.trim() && (
-            <p className="flex items-center gap-1.5 text-xs text-warning">
+            <p className="text-warning flex items-center gap-1.5 text-xs">
               <AlertTriangle className="h-3 w-3" />
               {t("editor.endings.warnings.singleEmpty")}
             </p>
@@ -244,9 +244,9 @@ export function EndingsEditor() {
       {/* CASE B / C: multi-ending table. */}
       {count >= 2 && (
         <div className="flex flex-col gap-2">
-          <div className="overflow-hidden rounded-lg border border-border">
+          <div className="border-border overflow-hidden rounded-lg border">
             <table className="w-full text-sm">
-              <thead className="bg-surface-1 text-xs uppercase text-text-muted">
+              <thead className="bg-surface-1 text-text-muted text-xs uppercase">
                 <tr>
                   <th className="px-2 py-1.5 text-left">#</th>
                   <th className="w-[100px] px-2 py-1.5 text-left">
@@ -258,8 +258,8 @@ export function EndingsEditor() {
               </thead>
               <tbody>
                 {endings.map((entry, i) => (
-                  <tr key={i} className="border-t border-border">
-                    <td className="px-2 py-1.5 text-text-muted">{i + 1}</td>
+                  <tr key={i} className="border-border border-t">
+                    <td className="text-text-muted px-2 py-1.5">{i + 1}</td>
                     <td className="px-2 py-1.5">
                       <Input
                         type="number"
@@ -279,7 +279,7 @@ export function EndingsEditor() {
                         onChange={(e) => updateEnding(i, { name: e.target.value })}
                       />
                     </td>
-                    <td className="px-2 py-1.5 font-mono text-xs text-text-muted">
+                    <td className="text-text-muted px-2 py-1.5 font-mono text-xs">
                       {previewFor(entry)}
                     </td>
                   </tr>
@@ -292,7 +292,7 @@ export function EndingsEditor() {
 
       {/* Case B: timeline gate banner. */}
       {isMultiEnding && !isMultiVideo && timelineEndingCount < count && (
-        <p className="border-warning/40 bg-warning/10 flex items-start gap-1.5 rounded border p-2 text-xs text-warning">
+        <p className="border-warning/40 bg-warning/10 text-warning flex items-start gap-1.5 rounded border p-2 text-xs">
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>
             {t("editor.endings.warnings.timelineShort", {
@@ -305,7 +305,7 @@ export function EndingsEditor() {
 
       {/* CASE C: video-count input + per-video ranges. */}
       {isMultiEnding && (
-        <div className="flex flex-col gap-2 rounded-lg border border-border bg-surface-1 p-3">
+        <div className="border-border bg-surface-1 flex flex-col gap-2 rounded-lg border p-3">
           <Input
             label={t("editor.endings.videoCountLabel")}
             type="number"
@@ -316,10 +316,10 @@ export function EndingsEditor() {
           />
           {isMultiVideo && (
             <>
-              <p className="text-xs text-text-muted">{t("editor.endings.videoRangeHint")}</p>
-              <div className="overflow-hidden rounded border border-border">
+              <p className="text-text-muted text-xs">{t("editor.endings.videoRangeHint")}</p>
+              <div className="border-border overflow-hidden rounded border">
                 <table className="w-full text-sm">
-                  <thead className="bg-surface-2 text-xs uppercase text-text-muted">
+                  <thead className="bg-surface-2 text-text-muted text-xs uppercase">
                     <tr>
                       <th className="px-2 py-1.5 text-left">{t("editor.endings.videoLabel")}</th>
                       <th className="px-2 py-1.5 text-left">From</th>
@@ -328,7 +328,7 @@ export function EndingsEditor() {
                   </thead>
                   <tbody>
                     {endingVideoRanges.map((r, i) => (
-                      <tr key={i} className="border-t border-border">
+                      <tr key={i} className="border-border border-t">
                         <td className="px-2 py-1.5">{i + 1}</td>
                         <td className="px-2 py-1.5">
                           <Input
@@ -354,7 +354,7 @@ export function EndingsEditor() {
                 </table>
               </div>
               {rangeWarnings.length > 0 && (
-                <ul className="border-warning/40 bg-warning/10 flex flex-col gap-1 rounded border p-2 text-xs text-warning">
+                <ul className="border-warning/40 bg-warning/10 text-warning flex flex-col gap-1 rounded border p-2 text-xs">
                   {rangeWarnings.map((w, i) => (
                     <li key={i} className="flex items-start gap-1.5">
                       <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
@@ -381,7 +381,7 @@ export function EndingsEditor() {
                 value={String(Math.min(endingVideoIndex, endingVideoCount))}
                 onChange={(v) => set("endingVideoIndex", Number(v) || 1)}
               />
-              <p className="text-xs text-text-muted">{t("editor.endings.videoIndexHint")}</p>
+              <p className="text-text-muted text-xs">{t("editor.endings.videoIndexHint")}</p>
             </>
           )}
         </div>

@@ -37,23 +37,23 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
   };
 
   return (
-    <header className="flex items-center justify-between gap-2 border-b border-border bg-surface-1 px-3 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6">
+    <header className="border-border bg-surface-1 flex items-center justify-between gap-2 border-b px-3 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6">
       <div className="flex min-w-0 items-center gap-2">
         {onOpenMobileNav && (
           <button
             type="button"
             onClick={onOpenMobileNav}
             aria-label="Open navigation menu"
-            className="-ml-1 rounded-lg p-2 text-text-secondary transition-colors hover:bg-surface-2 hover:text-text-primary md:hidden"
+            className="text-text-secondary hover:bg-surface-2 hover:text-text-primary -ml-1 rounded-lg p-2 transition-colors md:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
         )}
         <div className="min-w-0">
-          <h1 className="truncate text-base font-bold text-text-primary sm:text-lg">
+          <h1 className="text-text-primary truncate text-base font-bold sm:text-lg">
             {t("app.title")}
           </h1>
-          <p className="hidden truncate text-xs text-text-muted sm:block">{t("app.subtitle")}</p>
+          <p className="text-text-muted hidden truncate text-xs sm:block">{t("app.subtitle")}</p>
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-2">
@@ -71,7 +71,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
         <button
           type="button"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-lg p-2 text-text-secondary transition-colors hover:bg-surface-2 hover:text-text-primary"
+          className="text-text-secondary hover:bg-surface-2 hover:text-text-primary rounded-lg p-2 transition-colors"
           title={t("header.toggleTheme")}
           aria-label={t("header.toggleTheme")}
         >
@@ -80,22 +80,22 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors hover:bg-surface-2 sm:px-3"
+            className="hover:bg-surface-2 flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm transition-colors sm:px-3"
             aria-haspopup="listbox"
             aria-expanded={open}
           >
             <span>{current?.flag}</span>
-            <span className="hidden text-text-primary sm:inline">{current?.nativeName}</span>
-            <ChevronDown className="h-3.5 w-3.5 text-text-muted" />
+            <span className="text-text-primary hidden sm:inline">{current?.nativeName}</span>
+            <ChevronDown className="text-text-muted h-3.5 w-3.5" />
           </button>
           {open && (
-            <div className="absolute right-0 top-full z-50 mt-1 min-w-[200px] max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-surface-1 py-1 shadow-xl">
+            <div className="border-border bg-surface-1 absolute top-full right-0 z-50 mt-1 max-w-[calc(100vw-2rem)] min-w-[200px] rounded-lg border py-1 shadow-xl">
               {SUPPORTED_LANGUAGES.map((lang) => (
                 <button
                   key={lang.id}
                   onClick={() => handleSwitch(lang.id as SupportedLanguage)}
                   className={clsx(
-                    "flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-surface-2",
+                    "hover:bg-surface-2 flex w-full items-center gap-2 px-3 py-2 text-sm transition-colors",
                     lang.id === appLanguage ? "bg-accent-muted text-accent" : "text-text-primary",
                   )}
                 >

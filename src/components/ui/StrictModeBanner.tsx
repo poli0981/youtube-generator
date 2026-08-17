@@ -21,7 +21,7 @@ export function StrictModeBanner() {
   return (
     <div
       role="alert"
-      className="border-danger/40 bg-danger/10 flex flex-col gap-1 rounded-lg border px-3 py-2 text-xs text-danger"
+      className="border-danger/40 bg-danger/10 text-danger flex flex-col gap-1 rounded-lg border px-3 py-2 text-xs"
     >
       <span className="flex items-center gap-1.5 font-semibold">
         <ShieldAlert className="h-3.5 w-3.5 shrink-0" />

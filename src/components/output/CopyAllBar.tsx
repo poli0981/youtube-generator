@@ -30,7 +30,7 @@ export function CopyAllBar({ text, status }: CopyAllBarProps) {
   const { copy } = useClipboard();
 
   return (
-    <div className="sticky bottom-0 flex flex-col gap-2 border-t border-border bg-surface-0 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-4">
+    <div className="border-border bg-surface-0 sticky bottom-0 flex flex-col gap-2 border-t px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-4">
       <LimitBlockBanner status={status} />
       <div className="flex items-center justify-end">
         <Button

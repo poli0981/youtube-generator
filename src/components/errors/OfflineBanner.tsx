@@ -35,18 +35,18 @@ export function OfflineBanner() {
   return (
     <div
       role="status"
-      className="border-warning/40 fixed inset-x-0 bottom-0 z-50 flex items-center justify-center gap-3 border-t bg-surface-2 px-4 py-2 text-sm text-text-primary shadow-md shadow-black/20"
+      className="border-warning/40 bg-surface-2 text-text-primary fixed inset-x-0 bottom-0 z-50 flex items-center justify-center gap-3 border-t px-4 py-2 text-sm shadow-md shadow-black/20"
     >
-      <WifiOff className="h-4 w-4 shrink-0 text-warning" aria-hidden />
+      <WifiOff className="text-warning h-4 w-4 shrink-0" aria-hidden />
       <span>{t("errorPages.offlineBanner.message")}</span>
-      <Link to="/offline" className="font-medium text-accent hover:text-accent-hover">
+      <Link to="/offline" className="text-accent hover:text-accent-hover font-medium">
         {t("errorPages.offlineBanner.details")}
       </Link>
       <button
         type="button"
         onClick={() => setDismissed(true)}
         aria-label={t("common.dismiss")}
-        className="ml-1 rounded p-1 text-text-muted transition-colors hover:bg-surface-3 hover:text-text-primary"
+        className="text-text-muted hover:bg-surface-3 hover:text-text-primary ml-1 rounded p-1 transition-colors"
       >
         <X className="h-4 w-4" />
       </button>

@@ -2,6 +2,40 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.37.0 — 2026-08-17
+
+A **dependency modernization** release. No user-facing feature changes; the app
+should behave identically. Every major the project had been sitting on is now
+current, and the two new lint rules that came with them found four real
+performance bugs.
+
+### Changed
+
+- **React 18 → 19**, `@types/react` 19, `@vitejs/plugin-react` 6. One source change: React 19 types `useRef<T>(null)` as `RefObject<T | null>` rather than `RefObject<T>` — the old type quietly claimed a ref was non-null before its element mounted. [ScrollToTopButton](src/components/layout/ScrollToTopButton.tsx) now matches, which keeps its existing null check honest.
+- **Tailwind 3 → 4** ([src/styles/globals.css](src/styles/globals.css)) — configuration moves from `tailwind.config.ts` (deleted) into CSS. The design tokens live in an `@theme` block that maps Tailwind's names onto the existing `:root` / `.light` variables, so the runtime theme toggle keeps working exactly as before. `darkMode: "class"` becomes `@custom-variant dark`, because the app toggles a class on `<html>` rather than following the OS. PostCSS now loads `@tailwindcss/postcss`. Verified in the browser in both themes.
+- **ESLint 9 → 10** + `eslint-plugin-react-hooks` 5 → 7, which enables the React Compiler diagnostics.
+- **Zustand 4 → 5**, **i18next 23 → 26**, **react-i18next 15 → 17**, `@testing-library/*`, `typescript-eslint` 8.67, plus the Vite / Vitest / tsx / knip / Tauri-plugin patch line.
+
+### Fixed
+
+The new `react-hooks/set-state-in-effect` rule flagged seven call sites. Four were real extra render passes and are fixed:
+
+- **[use-online-status](src/hooks/use-online-status.ts)** rewritten to `useSyncExternalStore`. It was re-reading `navigator.onLine` inside an effect to close the gap between the first render and the listeners attaching — subscribing properly removes the gap rather than patching it, and costs one render fewer on every mount.
+- **[ShortcutHelpModal](src/components/ui/ShortcutHelpModal.tsx)** derives its filter from `open` instead of resetting state in an effect, so a modal that spends most of its life closed no longer schedules work on unrelated parent updates.
+- **[DraftIndicator](src/components/editor/DraftIndicator.tsx)** and **[use-languages-ready](src/hooks/use-languages-ready.ts)** now guard their setters.
+
+Three remain as **warnings**, deliberately: they genuinely sync state *from* an external source (i18next bundle readiness, a text mirror of a numeric store field, and a `useMemo` the compiler can't preserve). Each needs a restructure rather than a guard, so they are recorded in [eslint.config.js](eslint.config.js) rather than silenced or used as a reason to hold back the upgrade.
+
+### Not upgraded
+
+- **`lucide-react` stays at 0.577.0.** 1.x removes every brand icon (Instagram, Facebook, GitHub, YouTube, X) — upstream dropped them for trademark reasons. Taking 1.x would mean either a generic globe next to a Facebook link, or re-adding the marks ourselves and inheriting the exposure lucide just shed. Neither is worth it: 0.577 already delivered the win, cutting the main bundle **175 kB → 137 kB**.
+
+### Under the hood
+
+- `knip` now ignores `tailwindcss`, whose only reference after the migration is `@import "tailwindcss"` in CSS — which knip doesn't follow.
+- Full gate green: typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, **692 tests**, build. Verified live in the browser: both themes render, icons intact, editor and batch functional.
+- Six manifests bumped 0.35.0 → 0.37.0. (0.36.0 is reserved for the two new locales.)
+
 ## v0.35.0 — 2026-08-17
 
 A **guardrails** release. Four things the app quietly let you do wrong — publish

@@ -177,7 +177,7 @@ export function ProfilesPage() {
   return (
     <div className="mx-auto max-w-3xl p-4 sm:p-6">
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex gap-1 rounded-lg bg-surface-1 p-1">
+        <div className="bg-surface-1 flex gap-1 rounded-lg p-1">
           {(["profiles", "presets", "templates"] as const).map((t2) => (
             <button
               key={t2}

@@ -110,7 +110,7 @@ export function Sidebar() {
   return (
     <aside
       className={clsx(
-        "hidden shrink-0 flex-col border-r border-border bg-surface-1 transition-[width] duration-200 md:flex",
+        "border-border bg-surface-1 hidden shrink-0 flex-col border-r transition-[width] duration-200 md:flex",
         collapsed ? "w-14" : "w-56",
       )}
     >
@@ -119,7 +119,7 @@ export function Sidebar() {
         onClick={toggle}
         aria-label={t(collapsed ? "sidebar.expand" : "sidebar.collapse")}
         title={t(collapsed ? "sidebar.expand" : "sidebar.collapse")}
-        className="flex h-12 items-center justify-center border-b border-border text-text-muted transition-colors hover:bg-surface-2 hover:text-text-primary"
+        className="border-border text-text-muted hover:bg-surface-2 hover:text-text-primary flex h-12 items-center justify-center border-b transition-colors"
       >
         {collapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
       </button>

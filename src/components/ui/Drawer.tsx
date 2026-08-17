@@ -49,8 +49,8 @@ export function Drawer({
         aria-modal="true"
         aria-label={ariaLabel ?? title}
         className={clsx(
-          "absolute bottom-0 top-0 flex w-64 max-w-[85vw] flex-col bg-surface-1 shadow-2xl transition-transform duration-200",
-          side === "left" ? "left-0 border-r border-border" : "right-0 border-l border-border",
+          "bg-surface-1 absolute top-0 bottom-0 flex w-64 max-w-[85vw] flex-col shadow-2xl transition-transform duration-200",
+          side === "left" ? "border-border left-0 border-r" : "border-border right-0 border-l",
           open ? "translate-x-0" : side === "left" ? "-translate-x-full" : "translate-x-full",
           className,
         )}
@@ -60,12 +60,12 @@ export function Drawer({
         }}
       >
         {title && (
-          <div className="flex items-center justify-between border-b border-border px-4 py-3">
-            <h2 className="text-base font-semibold text-text-primary">{title}</h2>
+          <div className="border-border flex items-center justify-between border-b px-4 py-3">
+            <h2 className="text-text-primary text-base font-semibold">{title}</h2>
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg p-2 text-text-muted hover:bg-surface-2 hover:text-text-primary"
+              className="text-text-muted hover:bg-surface-2 hover:text-text-primary rounded-lg p-2"
               aria-label="Close"
             >
               <X className="h-4 w-4" />

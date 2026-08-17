@@ -33,7 +33,7 @@ const LogPage = lazy(() => import("@pages/LogPage").then((m) => ({ default: m.Lo
 const AboutPage = lazy(() => import("@pages/AboutPage").then((m) => ({ default: m.AboutPage })));
 
 function PageLoader() {
-  return <div className="flex items-center justify-center p-12 text-text-muted">Loading...</div>;
+  return <div className="text-text-muted flex items-center justify-center p-12">Loading...</div>;
 }
 
 /**

@@ -56,14 +56,14 @@ export function ExtraFieldsInput() {
     <div className="flex flex-col gap-3">
       {extraFields.includes("gachaQuestType") && (
         <div className="flex flex-col gap-1">
-          <label htmlFor="gacha-quest-type" className="text-sm font-medium text-text-secondary">
+          <label htmlFor="gacha-quest-type" className="text-text-secondary text-sm font-medium">
             {t("editor.gachaQuestType")}
           </label>
           <select
             id="gacha-quest-type"
             value={store.gachaQuestType ?? "main_story"}
             onChange={(e) => store.set("gachaQuestType", e.target.value as GachaQuestType)}
-            className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2"
+            className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
           >
             {GACHA_QUEST_TYPE_GROUPS.map((g) => (
               <optgroup key={g.group} label={t(`editor.gachaQuestTypeGroups.${g.group}`)}>
@@ -88,7 +88,7 @@ export function ExtraFieldsInput() {
       )}
       {isGacha && visibility.anniversaryYear && (
         <div className="flex flex-col gap-1">
-          <label htmlFor="anniversary-year" className="text-sm font-medium text-text-secondary">
+          <label htmlFor="anniversary-year" className="text-text-secondary text-sm font-medium">
             {t("editor.anniversaryYear")}
           </label>
           <select
@@ -97,7 +97,7 @@ export function ExtraFieldsInput() {
             onChange={(e) =>
               store.set("anniversaryYear", e.target.value === "" ? null : Number(e.target.value))
             }
-            className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2"
+            className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
           >
             <option value="">—</option>
             {ANNIVERSARY_YEARS.map((y) => (
@@ -201,14 +201,14 @@ export function ExtraFieldsInput() {
       )}
       {extraFields.includes("scheduledTime") && (
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-text-secondary">
+          <label className="text-text-secondary text-sm font-medium">
             {t("editor.scheduledTime")}
           </label>
           <input
             type="datetime-local"
             value={store.scheduledTime ?? ""}
             onChange={(e) => store.set("scheduledTime", e.target.value)}
-            className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-2"
+            className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary placeholder:text-text-muted focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
           />
         </div>
       )}

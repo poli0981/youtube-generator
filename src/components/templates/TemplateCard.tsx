@@ -37,10 +37,10 @@ export function TemplateCard({ template }: TemplateCardProps) {
 
   return (
     <>
-      <div className="hover:border-accent/30 flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
+      <div className="hover:border-accent/30 border-border-strong bg-surface-2 flex flex-col gap-3 rounded-lg border p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-semibold text-text-primary">{template.name}</h3>
-          <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-text-muted">
+          <h3 className="text-text-primary text-sm font-semibold">{template.name}</h3>
+          <div className="text-text-muted mt-1.5 flex flex-wrap items-center gap-2 text-xs">
             <span>{template.snapshot.gameName || "—"}</span>
             <span>·</span>
             <span>{date}</span>
@@ -52,7 +52,7 @@ export function TemplateCard({ template }: TemplateCardProps) {
             {t("templates.loadTemplate")}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="h-3.5 w-3.5 text-danger" />
+            <Trash2 className="text-danger h-3.5 w-3.5" />
           </Button>
         </div>
       </div>

@@ -33,15 +33,15 @@ export function ConsentGate() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="consent-title"
-      className="flex min-h-screen flex-col items-center justify-center gap-6 bg-surface-0 px-6 py-12 text-center"
+      className="bg-surface-0 flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-12 text-center"
     >
-      <ShieldCheck className="h-14 w-14 text-accent" aria-hidden />
+      <ShieldCheck className="text-accent h-14 w-14" aria-hidden />
 
       <div className="max-w-md space-y-2">
-        <h1 id="consent-title" className="text-2xl font-semibold text-text-primary">
+        <h1 id="consent-title" className="text-text-primary text-2xl font-semibold">
           {t("consentGate.title")}
         </h1>
-        <p className="text-sm text-text-secondary">{t("consentGate.intro")}</p>
+        <p className="text-text-secondary text-sm">{t("consentGate.intro")}</p>
       </div>
 
       <div className="grid w-full max-w-md gap-2 sm:grid-cols-2">
@@ -51,15 +51,15 @@ export function ConsentGate() {
             href={doc.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-accent hover:bg-surface-2"
+            className="border-border bg-surface-1 text-text-primary hover:border-accent hover:bg-surface-2 flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm transition-colors"
           >
             <span className="flex-1 truncate text-left">{t(doc.labelKey)}</span>
-            <ExternalLink className="h-3.5 w-3.5 shrink-0 text-text-muted" />
+            <ExternalLink className="text-text-muted h-3.5 w-3.5 shrink-0" />
           </a>
         ))}
       </div>
 
-      <div className="w-full max-w-md rounded-lg border border-border bg-surface-1 p-4">
+      <div className="border-border bg-surface-1 w-full max-w-md rounded-lg border p-4">
         <Checkbox checked={agreed} onChange={setAgreed} label={t("consentGate.agreeLabel")} />
       </div>
 
@@ -67,7 +67,7 @@ export function ConsentGate() {
         <Button variant="primary" onClick={onContinue} disabled={!agreed}>
           {t("consentGate.continue")}
         </Button>
-        {!agreed && <p className="text-xs text-text-muted">{t("consentGate.mustAgree")}</p>}
+        {!agreed && <p className="text-text-muted text-xs">{t("consentGate.mustAgree")}</p>}
       </div>
     </div>
   );

@@ -46,12 +46,12 @@ export function PresetCard({ preset }: PresetCardProps) {
 
   return (
     <>
-      <div className="hover:border-accent/30 flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
+      <div className="hover:border-accent/30 border-border-strong bg-surface-2 flex flex-col gap-3 rounded-lg border p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
-          <h3 className="text-sm font-semibold text-text-primary">{preset.gameName}</h3>
-          <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-text-muted">
+          <h3 className="text-text-primary text-sm font-semibold">{preset.gameName}</h3>
+          <div className="text-text-muted mt-1.5 flex flex-wrap items-center gap-1.5 text-xs">
             {genreDefs.map((g) => (
-              <span key={g.id} className="rounded bg-surface-2 px-1.5 py-0.5">
+              <span key={g.id} className="bg-surface-2 rounded px-1.5 py-0.5">
                 {g.icon} {t(g.labelKey)}
               </span>
             ))}
@@ -67,7 +67,7 @@ export function PresetCard({ preset }: PresetCardProps) {
             <Pencil className="h-3.5 w-3.5" />
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="h-3.5 w-3.5 text-danger" />
+            <Trash2 className="text-danger h-3.5 w-3.5" />
           </Button>
         </div>
       </div>

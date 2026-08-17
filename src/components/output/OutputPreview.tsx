@@ -28,7 +28,7 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
       {/* Title */}
       <section className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-text-primary">{t("output.title")}</h3>
+          <h3 className="text-text-primary text-sm font-semibold">{t("output.title")}</h3>
           <div className="flex items-center gap-3">
             {showCharCount && <CharCounter text={output.title} limit={YT_LIMITS.TITLE_MAX} />}
             <CopyButton
@@ -40,15 +40,15 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
             />
           </div>
         </div>
-        <div className="rounded-lg border border-border bg-surface-1 p-3">
-          <p className="text-sm font-medium text-text-primary">{output.title}</p>
+        <div className="border-border bg-surface-1 rounded-lg border p-3">
+          <p className="text-text-primary text-sm font-medium">{output.title}</p>
         </div>
       </section>
 
       {/* Description */}
       <section className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-text-primary">{t("output.description")}</h3>
+          <h3 className="text-text-primary text-sm font-semibold">{t("output.description")}</h3>
           <div className="flex items-center gap-3">
             {showCharCount && (
               <CharCounter text={output.description} limit={YT_LIMITS.DESCRIPTION_MAX} />
@@ -62,8 +62,8 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
             />
           </div>
         </div>
-        <div className="max-h-[60vh] overflow-y-auto rounded-lg border border-border bg-surface-1 p-3 sm:max-h-[400px]">
-          <pre className="whitespace-pre-wrap font-sans text-sm text-text-secondary">
+        <div className="border-border bg-surface-1 max-h-[60vh] overflow-y-auto rounded-lg border p-3 sm:max-h-[400px]">
+          <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
             {output.description}
           </pre>
         </div>
@@ -72,7 +72,7 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
       {/* Tags */}
       <section className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-text-primary">
+          <h3 className="text-text-primary text-sm font-semibold">
             {t("output.tags")} ({output.tags.length})
           </h3>
           <div className="flex items-center gap-3">
@@ -86,15 +86,15 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
             />
           </div>
         </div>
-        <div className="rounded-lg border border-border bg-surface-1 p-3">
+        <div className="border-border bg-surface-1 rounded-lg border p-3">
           {compactTagDisplay ? (
-            <p className="text-xs text-text-secondary">{output.tagString}</p>
+            <p className="text-text-secondary text-xs">{output.tagString}</p>
           ) : (
             <div className="flex flex-wrap gap-1.5">
               {output.tags.map((tag, i) => (
                 <span
                   key={i}
-                  className="rounded-md bg-surface-2 px-2 py-0.5 text-xs text-text-secondary"
+                  className="bg-surface-2 text-text-secondary rounded-md px-2 py-0.5 text-xs"
                 >
                   {tag}
                 </span>

@@ -22,7 +22,7 @@ export function CharCounter({ text, limit }: CharCounterProps) {
         "font-mono text-xs font-semibold transition-colors",
         isOver && "text-danger",
         isWarning && "text-warning",
-        !isOver && !isWarning && "font-normal text-text-muted",
+        !isOver && !isWarning && "text-text-muted font-normal",
       )}
     >
       {count}/{limit}

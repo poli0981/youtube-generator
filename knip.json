@@ -6,6 +6,7 @@
   "ignoreDependencies": [
     "@tauri-apps/plugin-fs",
     "@tauri-apps/plugin-shell",
+    "tailwindcss",
     "@testing-library/jest-dom",
     "@testing-library/react"
   ],

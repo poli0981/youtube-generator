@@ -32,13 +32,13 @@ export function GenrePlaylistsSection() {
       open={accordion.genrePlaylists ?? false}
       onToggle={() => toggleAccordion("genrePlaylists")}
       badge={
-        <span className="rounded bg-surface-2 px-1.5 py-0.5 text-xs text-text-muted">
+        <span className="bg-surface-2 text-text-muted rounded px-1.5 py-0.5 text-xs">
           {t("settings.genrePlaylistsBadge", { filled, total: GENRES.length })}
         </span>
       }
     >
-      <p className="text-xs text-text-muted">{t("settings.genrePlaylistsHelp")}</p>
-      <p className="text-xs text-text-muted">{t("settings.genrePlaylistsEmptyHint")}</p>
+      <p className="text-text-muted text-xs">{t("settings.genrePlaylistsHelp")}</p>
+      <p className="text-text-muted text-xs">{t("settings.genrePlaylistsEmptyHint")}</p>
       <div className="flex flex-col gap-2">
         {GENRES.map((g) => (
           <ValidatedInput

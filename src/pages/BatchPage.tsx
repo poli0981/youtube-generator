@@ -158,11 +158,11 @@ export function BatchPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-6">
-      <h1 className="mb-4 text-lg font-bold text-text-primary">{t("batch.title")}</h1>
+      <h1 className="text-text-primary mb-4 text-lg font-bold">{t("batch.title")}</h1>
 
       {/* Language selector */}
       <div className="mb-4">
-        <span className="mb-2 block text-sm font-medium text-text-secondary">
+        <span className="text-text-secondary mb-2 block text-sm font-medium">
           {t("output.selectLanguages")}
         </span>
         <div className="flex flex-wrap gap-2">
@@ -215,7 +215,7 @@ export function BatchPage() {
       {rangeError && (
         <p
           role="alert"
-          className="border-warning/40 bg-warning/10 mb-6 rounded-lg border px-3 py-2 text-xs text-warning"
+          className="border-warning/40 bg-warning/10 text-warning mb-6 rounded-lg border px-3 py-2 text-xs"
         >
           {rangeError}
         </p>
@@ -225,7 +225,7 @@ export function BatchPage() {
       </div>
 
       {results.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
+        <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
           {t("batch.emptyState")}
         </p>
       ) : (
@@ -233,7 +233,7 @@ export function BatchPage() {
           <div className="mb-4 flex flex-col gap-2">
             <LimitBlockBanner status={batchStatus} titleKey="output.limits.batchAllBlocked" />
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-sm text-text-secondary">
+              <span className="text-text-secondary text-sm">
                 {results.length} parts x {selectedLangs.length} languages
               </span>
               <CopyButton
@@ -247,16 +247,16 @@ export function BatchPage() {
             {results.map((result) => (
               <div
                 key={result.partNumber}
-                className="rounded-lg border border-border bg-surface-1 p-4"
+                className="border-border bg-surface-1 rounded-lg border p-4"
               >
-                <h3 className="mb-3 text-sm font-semibold text-text-primary">
+                <h3 className="text-text-primary mb-3 text-sm font-semibold">
                   Part {result.partNumber}
                 </h3>
                 <div className="flex flex-col gap-3">
                   {result.languages.map((lang) => (
-                    <div key={lang.language} className="rounded-lg bg-surface-2 p-3">
+                    <div key={lang.language} className="bg-surface-2 rounded-lg p-3">
                       <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                        <span className="text-xs font-medium uppercase text-text-muted">
+                        <span className="text-text-muted text-xs font-medium uppercase">
                           {lang.language.toUpperCase()}
                         </span>
                         <div className="flex items-center gap-2">
@@ -270,26 +270,26 @@ export function BatchPage() {
                           />
                         </div>
                       </div>
-                      <p className="mb-2 text-sm font-medium text-text-primary">
+                      <p className="text-text-primary mb-2 text-sm font-medium">
                         {lang.output.title}
                       </p>
-                      <pre className="mb-2 max-h-20 overflow-y-auto whitespace-pre-wrap font-sans text-xs text-text-secondary">
+                      <pre className="text-text-secondary mb-2 max-h-20 overflow-y-auto font-sans text-xs whitespace-pre-wrap">
                         {lang.output.description.slice(0, 200)}...
                       </pre>
                       {/* Batch showed a counter for the title only, so a row
                           could be 1500 characters over on the description with
                           nothing on screen saying so. */}
                       <div className="mb-2 flex flex-wrap items-center gap-3">
-                        <span className="text-xs text-text-muted">{t("output.description")}</span>
+                        <span className="text-text-muted text-xs">{t("output.description")}</span>
                         <CharCounter
                           text={lang.output.description}
                           limit={YT_LIMITS.DESCRIPTION_MAX}
                         />
-                        <span className="text-xs text-text-muted">{t("output.tags")}</span>
+                        <span className="text-text-muted text-xs">{t("output.tags")}</span>
                         <CharCounter text={lang.output.tagString} limit={YT_LIMITS.TAGS_MAX} />
                       </div>
                       {lang.status.blocked && (
-                        <p role="alert" className="mb-2 text-xs font-medium text-danger">
+                        <p role="alert" className="text-danger mb-2 text-xs font-medium">
                           {t("output.limits.batchRowBlocked")}
                         </p>
                       )}

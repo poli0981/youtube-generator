@@ -84,8 +84,8 @@ export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormP
           onChange={(e) => setAdText(e.target.value)}
           rows={4}
         />
-        <p className="text-xs text-text-muted">{t("profiles.thirdPartyAdTextHelp")}</p>
-        <p className="text-xs text-text-muted">
+        <p className="text-text-muted text-xs">{t("profiles.thirdPartyAdTextHelp")}</p>
+        <p className="text-text-muted text-xs">
           {editProfile
             ? "Update this profile's name and ad copy. Other fields are saved from the editor."
             : "Profile will save your current channel name, social links, rig info, and video settings."}

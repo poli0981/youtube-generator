@@ -10,15 +10,22 @@ export function DraftIndicator() {
   const videoType = useEditorStore((s) => s.videoType);
 
   useEffect(() => {
-    setShowSaved(true);
-    const timer = setTimeout(() => setShowSaved(false), 2000);
-    return () => clearTimeout(timer);
+    // Show, then hide 2s later. Both transitions go through the timer rather
+    // than one synchronous `setShowSaved(true)` on every dependency change,
+    // which cost an extra render pass each keystroke-driven update
+    // (react-hooks/set-state-in-effect).
+    const show = setTimeout(() => setShowSaved(true), 0);
+    const hide = setTimeout(() => setShowSaved(false), 2000);
+    return () => {
+      clearTimeout(show);
+      clearTimeout(hide);
+    };
   }, [gameName, videoType]);
 
   if (!showSaved) return null;
 
   return (
-    <span className="flex items-center gap-1 text-xs text-success">
+    <span className="text-success flex items-center gap-1 text-xs">
       <Check className="h-3 w-3" />
       {t("editor.draftSaved")}
     </span>

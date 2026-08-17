@@ -26,7 +26,7 @@ export function HistoryPage() {
   return (
     <div className="mx-auto max-w-3xl p-6">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-text-primary">{t("history.title")}</h1>
+        <h1 className="text-text-primary text-lg font-bold">{t("history.title")}</h1>
         {entries.length > 0 && (
           <Button variant="ghost" size="sm" onClick={() => setShowClearAll(true)}>
             <Trash2 className="h-3.5 w-3.5" />
@@ -46,7 +46,7 @@ export function HistoryPage() {
       )}
 
       {filtered.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
+        <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
           {t("history.emptyState")}
         </p>
       ) : (

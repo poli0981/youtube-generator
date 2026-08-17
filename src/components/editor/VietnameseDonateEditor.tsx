@@ -61,8 +61,8 @@ export function VietnameseDonateEditor() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-text-secondary">{t("editor.vnDonate")}</span>
-        <p className="text-xs text-text-muted">{t("editor.vnDonateHelp")}</p>
+        <span className="text-text-secondary text-sm font-medium">{t("editor.vnDonate")}</span>
+        <p className="text-text-muted text-xs">{t("editor.vnDonateHelp")}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-3">

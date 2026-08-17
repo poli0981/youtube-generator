@@ -50,8 +50,8 @@ export function GenreSelector() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="text-sm font-medium text-text-secondary">{t("editor.genre")}</span>
-        <span className="text-xs text-text-muted">
+        <span className="text-text-secondary text-sm font-medium">{t("editor.genre")}</span>
+        <span className="text-text-muted text-xs">
           {genres.length}/{MAX_GENRES}
         </span>
       </div>
@@ -61,7 +61,7 @@ export function GenreSelector() {
             key={groupId}
             type="button"
             onClick={() => applyGroup(groupId)}
-            className="rounded-lg border border-border bg-surface-1 px-2.5 py-1 text-xs font-medium text-text-secondary transition-colors hover:border-accent hover:text-text-primary"
+            className="border-border bg-surface-1 text-text-secondary hover:border-accent hover:text-text-primary rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors"
           >
             {t(`editor.genreGroups.${groupId}`)}
           </button>
@@ -72,10 +72,10 @@ export function GenreSelector() {
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
         placeholder={t("editor.genreSearchPlaceholder")}
-        className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-2"
+        className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary placeholder:text-text-muted focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
       />
       {visibleOptions.length === 0 ? (
-        <p className="py-2 text-sm text-text-muted">{t("editor.genreSearchNoResults")}</p>
+        <p className="text-text-muted py-2 text-sm">{t("editor.genreSearchNoResults")}</p>
       ) : (
         <ChipGroup
           multiple
@@ -86,12 +86,12 @@ export function GenreSelector() {
         />
       )}
       {showHint && (
-        <div className="border-accent/40 bg-accent/5 flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-xs text-text-secondary">
+        <div className="border-accent/40 bg-accent/5 text-text-secondary flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-xs">
           <span>{t("editor.skipGraphicsHintLabel")}</span>
           <div className="flex shrink-0 gap-2">
             <button
               type="button"
-              className="rounded bg-accent px-2 py-1 font-medium text-white"
+              className="bg-accent rounded px-2 py-1 font-medium text-white"
               onClick={() => {
                 set("skipGraphicsSettings", true);
                 setHintDismissed(true);
@@ -101,7 +101,7 @@ export function GenreSelector() {
             </button>
             <button
               type="button"
-              className="rounded px-2 py-1 font-medium text-text-secondary hover:bg-surface-2"
+              className="text-text-secondary hover:bg-surface-2 rounded px-2 py-1 font-medium"
               onClick={() => setHintDismissed(true)}
             >
               {t("editor.skipGraphicsHintKeep")}

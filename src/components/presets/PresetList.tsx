@@ -14,7 +14,7 @@ export function PresetList() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold text-text-primary">{t("presets.title")}</h2>
+        <h2 className="text-text-primary text-base font-semibold">{t("presets.title")}</h2>
         <Button size="sm" onClick={() => setShowCreate(true)}>
           <Plus className="h-4 w-4" />
           {t("presets.createNew")}
@@ -22,7 +22,7 @@ export function PresetList() {
       </div>
 
       {presets.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
+        <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
           {t("presets.emptyState")}
         </p>
       ) : (

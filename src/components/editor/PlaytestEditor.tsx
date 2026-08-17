@@ -43,11 +43,14 @@ export function PlaytestEditor() {
   // (platform clamp, profile / preset load, draft reset). Only fires on a
   // real store change, so it never clobbers an in-progress invalid edit.
   useEffect(() => {
-    const current = invitesText.trim() === "" ? 0 : Number(invitesText);
-    if (current !== playtestInvites) {
-      setInvitesText(playtestInvites > 0 ? String(playtestInvites) : "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const next = playtestInvites > 0 ? String(playtestInvites) : "";
+    // Functional form so the comparison happens against the *current* text
+    // without depending on it, and so an unchanged value returns the same
+    // reference instead of scheduling a render (react-hooks/set-state-in-effect).
+    setInvitesText((prev) => {
+      const current = prev.trim() === "" ? 0 : Number(prev);
+      return current === playtestInvites ? prev : next;
+    });
   }, [playtestInvites]);
 
   const handlePlatformChange = (id: string) => {
@@ -77,7 +80,7 @@ export function PlaytestEditor() {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-sm font-medium text-text-secondary">
+      <span className="text-text-secondary text-sm font-medium">
         {t("editor.playtest.heading")}
       </span>
 

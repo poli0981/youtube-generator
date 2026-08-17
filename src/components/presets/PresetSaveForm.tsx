@@ -66,7 +66,7 @@ export function PresetSaveForm({ open, onClose, editPreset }: PresetSaveFormProp
           onChange={(e) => setGameName(e.target.value)}
           autoFocus
         />
-        <p className="text-xs text-text-muted">
+        <p className="text-text-muted text-xs">
           {editPreset
             ? "Update the game name. Other fields are saved from the editor."
             : "Preset will save your current game name, genre, platform, store links, and warning settings."}

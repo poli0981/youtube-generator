@@ -15,10 +15,10 @@ export function SocialEditor() {
 
   return (
     <div className="flex flex-col gap-4">
-      <span className="text-sm font-medium text-text-secondary">{t("editor.social")}</span>
+      <span className="text-text-secondary text-sm font-medium">{t("editor.social")}</span>
 
       <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium uppercase text-text-muted">Donate</span>
+        <span className="text-text-muted text-xs font-medium uppercase">Donate</span>
         {donateFields.map((field) => (
           <ValidatedInput
             key={field.id}
@@ -37,7 +37,7 @@ export function SocialEditor() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-xs font-medium uppercase text-text-muted">Social</span>
+        <span className="text-text-muted text-xs font-medium uppercase">Social</span>
         {socialFields.map((field) => (
           <ValidatedInput
             key={field.id}

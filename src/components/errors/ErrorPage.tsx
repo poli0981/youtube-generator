@@ -52,16 +52,16 @@ function FullscreenError({ kind }: ErrorPageProps) {
   useDocumentTitle(title);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-surface-0 px-6 py-12 text-center">
+    <div className="bg-surface-0 flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-12 text-center">
       <Icon className={clsx("h-16 w-16", colour)} aria-hidden />
       {meta.code !== null && (
-        <p className={clsx("font-mono text-6xl font-bold tabular-nums leading-none", colour)}>
+        <p className={clsx("font-mono text-6xl leading-none font-bold tabular-nums", colour)}>
           {meta.code}
         </p>
       )}
       <div className="max-w-md space-y-2">
-        <h1 className="text-2xl font-semibold text-text-primary">{title}</h1>
-        <p className="text-sm text-text-secondary">{description}</p>
+        <h1 className="text-text-primary text-2xl font-semibold">{title}</h1>
+        <p className="text-text-secondary text-sm">{description}</p>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <Button
@@ -99,14 +99,14 @@ function ContainedError({ kind, onReset, detail }: ErrorPageProps) {
 
   return (
     <div className="flex min-h-[200px] items-center justify-center p-6">
-      <div className="border-danger/40 w-full max-w-md rounded-lg border bg-surface-2 p-5 shadow-md shadow-black/10">
+      <div className="border-danger/40 bg-surface-2 w-full max-w-md rounded-lg border p-5 shadow-md shadow-black/10">
         <div className={clsx("mb-3 flex items-center gap-2", colour)}>
           <Icon className="h-4 w-4" />
           <h2 className="text-sm font-semibold">{title}</h2>
         </div>
-        <p className="mb-3 text-xs text-text-secondary">{description}</p>
+        <p className="text-text-secondary mb-3 text-xs">{description}</p>
         {detail && (
-          <pre className="mb-4 max-h-32 overflow-auto whitespace-pre-wrap rounded bg-surface-3 p-2 text-[11px] text-text-muted">
+          <pre className="bg-surface-3 text-text-muted mb-4 max-h-32 overflow-auto rounded p-2 text-[11px] whitespace-pre-wrap">
             {detail}
           </pre>
         )}
@@ -140,7 +140,7 @@ function ReportBugLink({ size = "md" }: { size?: "sm" | "md" }) {
       target="_blank"
       rel="noopener noreferrer"
       className={clsx(
-        "focus:ring-accent/50 inline-flex items-center justify-center gap-2 rounded-lg font-medium text-text-secondary transition-colors hover:bg-surface-2 hover:text-text-primary focus:outline-none focus:ring-2",
+        "focus:ring-accent/50 text-text-secondary hover:bg-surface-2 hover:text-text-primary inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus:ring-2 focus:outline-none",
         sizeClass,
       )}
     >

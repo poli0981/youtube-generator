@@ -141,7 +141,7 @@ export function OutputPage() {
         </div>
         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
           <div className="flex-1">
-            <span className="mb-2 block text-sm font-medium text-text-secondary">
+            <span className="text-text-secondary mb-2 block text-sm font-medium">
               {t("output.selectLanguages")}
             </span>
             <div className="flex flex-wrap gap-2">
@@ -184,7 +184,7 @@ export function OutputPage() {
         </div>
 
         {isMultiLang && (
-          <div className="mb-4 flex gap-1 rounded-lg bg-surface-1 p-1">
+          <div className="bg-surface-1 mb-4 flex gap-1 rounded-lg p-1">
             {selectedLangs.map((lang) => (
               <button
                 key={lang}
@@ -203,8 +203,8 @@ export function OutputPage() {
         )}
 
         {isMultiVideoEnding && (
-          <div className="border-accent/40 bg-accent/10 mb-4 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs text-text-secondary">
-            <Film className="h-3.5 w-3.5 shrink-0 text-accent" />
+          <div className="border-accent/40 bg-accent/10 text-text-secondary mb-4 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs">
+            <Film className="text-accent h-3.5 w-3.5 shrink-0" />
             <span>
               {t("output.previewingVideo", {
                 index: Math.min(endingVideoIndex, endingVideoCount),

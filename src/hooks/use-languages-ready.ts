@@ -27,7 +27,9 @@ export function useLanguagesReady(langs: readonly SupportedLanguage[]): boolean 
   useEffect(() => {
     const wanted = (key ? key.split(",") : []) as SupportedLanguage[];
     if (wanted.every(hasLanguageBundles)) {
-      setReadyKey(key);
+      // Already in memory. Guarded so a re-run with an unchanged key doesn't
+      // schedule a redundant render (react-hooks/set-state-in-effect).
+      setReadyKey((prev) => (prev === key ? prev : key));
       return;
     }
     let cancelled = false;
