@@ -26,6 +26,7 @@ import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Button } from "@components/ui/Button";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
 import { Accordion } from "@components/ui/Accordion";
+import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useTranslation } from "react-i18next";
@@ -66,6 +67,11 @@ export function EditorPage() {
           message={t("editor.clearDraftConfirm")}
           variant="danger"
         />
+
+        {/* Banner only — there is nothing to gate on the editor. This is where
+            the user comes to FIX the fields Strict Mode is blocking on, so
+            disabling anything here would be exactly backwards. */}
+        <StrictModeBanner scope="editor" />
 
         <Accordion
           id="gameInfo"

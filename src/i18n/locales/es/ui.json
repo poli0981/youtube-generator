@@ -760,6 +760,14 @@
       "overLimit": "{{field}} demasiado largo: {{count}}/{{limit}} caracteres. Recórtalo antes de copiar.",
       "fieldGeneric": "Texto",
       "failed": "Error al copiar"
+    },
+    "limits": {
+      "bannerTitle": "Copia bloqueada: supera el límite de YouTube",
+      "fieldLine": "{{field}}: {{count}} / {{limit}} caracteres",
+      "bannerHint": "Acorta el campo indicado y vuelve a copiar.",
+      "copyBlocked": "Bloqueado: otro campo supera el límite de YouTube",
+      "batchRowBlocked": "Esta parte supera el límite: copia bloqueada.",
+      "batchAllBlocked": "Copiar todo bloqueado: al menos una parte supera el límite"
     }
   },
   "common": {
@@ -774,7 +782,9 @@
     "generate": "Generar",
     "undo": "Deshacer",
     "dismiss": "Descartar",
-    "scrollToTop": "Volver arriba"
+    "scrollToTop": "Volver arriba",
+    "exported": "Exportado",
+    "exportFailed": "Error al exportar"
   },
   "errorPages": {
     "actions": {
@@ -1033,7 +1043,11 @@
     "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
     "logSettings": "Registros",
     "logRetentionDays": "Retención de logs (días)",
-    "logRetentionHint": "Los logs más antiguos se eliminan al iniciar. Rango: 1–90 días."
+    "logRetentionHint": "Los logs más antiguos se eliminan al iniciar. Rango: 1–90 días.",
+    "guardrails": "Protecciones",
+    "strictMode": "Modo estricto",
+    "strictModeHint": "Bloquea Generar, Copiar y Exportar mientras algún campo tenga un error. Las advertencias leves no bloquean.",
+    "genrePlaylistsBadge": "{{filled}}/{{total}}"
   },
   "socialPost": {
     "title": "Publicaciones multiplataforma",
@@ -1089,7 +1103,9 @@
     "zaloUrlInvalid": "Enlace de grupo de Zalo inválido. Se espera: {{expected}}",
     "signalUrlInvalid": "Enlace de grupo de Signal inválido. Se espera: {{expected}}",
     "instagramInviteUrlInvalid": "Enlace de chat grupal de Instagram inválido. Se espera: {{expected}}",
-    "facebookGroupUrlInvalid": "Enlace de grupo de Facebook inválido. Se espera: {{expected}}"
+    "facebookGroupUrlInvalid": "Enlace de grupo de Facebook inválido. Se espera: {{expected}}",
+    "emailMaxReached": "Máximo {{max}} direcciones de correo: elimina una primero",
+    "fieldTooLong": "Máximo {{max}} caracteres"
   },
   "storeLinkTypes": {
     "paid": "De pago",
@@ -1129,5 +1145,9 @@
     "sessionCurrent": "Sesión actual",
     "sessionLabel": "Sesión {{n}}",
     "entriesShort": "entradas"
+  },
+  "strict": {
+    "blockedTitle": "Modo estricto: {{count}} campo(s) por corregir",
+    "fixHint": "Corrígelos en el Editor o desactiva el Modo estricto en Ajustes."
   }
 }

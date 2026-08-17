@@ -760,6 +760,14 @@
       "overLimit": "{{field}}이(가) 너무 깁니다: {{count}}/{{limit}}자. 복사 전에 줄여주세요.",
       "fieldGeneric": "텍스트",
       "failed": "복사 실패"
+    },
+    "limits": {
+      "bannerTitle": "복사 차단됨 — YouTube 제한 초과",
+      "fieldLine": "{{field}}: {{count}} / {{limit}}자",
+      "bannerHint": "위 항목을 줄인 뒤 다시 복사하세요.",
+      "copyBlocked": "차단됨: 다른 항목이 YouTube 제한을 초과했습니다",
+      "batchRowBlocked": "이 파트가 제한을 초과했습니다 — 복사할 수 없습니다.",
+      "batchAllBlocked": "전체 복사 차단됨 — 제한을 초과한 파트가 있습니다"
     }
   },
   "common": {
@@ -774,7 +782,9 @@
     "generate": "생성",
     "undo": "되돌리기",
     "dismiss": "닫기",
-    "scrollToTop": "맨 위로"
+    "scrollToTop": "맨 위로",
+    "exported": "내보냈습니다",
+    "exportFailed": "내보내기 실패"
   },
   "errorPages": {
     "actions": {
@@ -1033,7 +1043,11 @@
     "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
     "logSettings": "로그",
     "logRetentionDays": "로그 보관 기간 (일)",
-    "logRetentionHint": "이 일수보다 오래된 로그는 앱 시작 시 삭제됩니다. 범위: 1–90일."
+    "logRetentionHint": "이 일수보다 오래된 로그는 앱 시작 시 삭제됩니다. 범위: 1–90일.",
+    "guardrails": "안전장치",
+    "strictMode": "엄격 모드",
+    "strictModeHint": "오류가 있는 항목이 남아 있는 동안 생성·복사·내보내기를 차단합니다. 가벼운 경고는 통과합니다.",
+    "genrePlaylistsBadge": "{{filled}}/{{total}}"
   },
   "socialPost": {
     "title": "크로스포스트 캡션",
@@ -1089,7 +1103,9 @@
     "zaloUrlInvalid": "잘못된 Zalo 그룹 링크입니다. 예상 형식: {{expected}}",
     "signalUrlInvalid": "잘못된 Signal 그룹 링크입니다. 예상 형식: {{expected}}",
     "instagramInviteUrlInvalid": "잘못된 Instagram 그룹 채팅 링크입니다. 예상 형식: {{expected}}",
-    "facebookGroupUrlInvalid": "잘못된 Facebook 그룹 링크입니다. 예상 형식: {{expected}}"
+    "facebookGroupUrlInvalid": "잘못된 Facebook 그룹 링크입니다. 예상 형식: {{expected}}",
+    "emailMaxReached": "이메일 주소는 최대 {{max}}개입니다 — 먼저 하나를 지우세요",
+    "fieldTooLong": "최대 {{max}}자"
   },
   "storeLinkTypes": {
     "paid": "유료",
@@ -1129,5 +1145,9 @@
     "sessionCurrent": "현재 세션",
     "sessionLabel": "세션 {{n}}",
     "entriesShort": "건"
+  },
+  "strict": {
+    "blockedTitle": "엄격 모드: {{count}}개 항목을 수정해야 합니다",
+    "fixHint": "편집기에서 수정하거나 설정에서 엄격 모드를 끄세요."
   }
 }

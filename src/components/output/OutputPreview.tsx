@@ -5,12 +5,19 @@ import { CopyButton } from "./CopyButton";
 import { CharCounter } from "./CharCounter";
 import { YT_LIMITS } from "@engine/types";
 import type { GeneratorOutput } from "@engine/types";
+import type { OutputLimitStatus } from "@engine/limits";
 
 interface OutputPreviewProps {
   output?: GeneratorOutput;
+  /**
+   * Over-limit status of the output actually shown. All three copy buttons are
+   * gated on it together — see `CopyButton.blocked` for why it is
+   * all-or-nothing rather than per field.
+   */
+  status: OutputLimitStatus;
 }
 
-export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
+export function OutputPreview({ output: outputProp, status }: OutputPreviewProps) {
   const { t } = useTranslation("ui");
   const defaultOutput = useGeneratedOutput();
   const { showCharCount, compactTagDisplay } = useSettingsStore();
@@ -29,6 +36,7 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
               label={t("output.copyTitle")}
               limit={YT_LIMITS.TITLE_MAX}
               fieldLabel={t("output.title")}
+              blocked={status.blocked}
             />
           </div>
         </div>
@@ -50,6 +58,7 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
               label={t("output.copyDescription")}
               limit={YT_LIMITS.DESCRIPTION_MAX}
               fieldLabel={t("output.description")}
+              blocked={status.blocked}
             />
           </div>
         </div>
@@ -73,6 +82,7 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
               label={t("output.copyTags")}
               limit={YT_LIMITS.TAGS_MAX}
               fieldLabel={t("output.tags")}
+              blocked={status.blocked}
             />
           </div>
         </div>

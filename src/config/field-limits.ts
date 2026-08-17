@@ -61,8 +61,6 @@ export const FIELD_LIMITS = {
   NUMERIC: 10,
 } as const;
 
-export type FieldLimitKey = keyof typeof FIELD_LIMITS;
-
 /**
  * Truncate a value to `max`.
  *

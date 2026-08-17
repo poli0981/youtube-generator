@@ -760,6 +760,14 @@
       "overLimit": "{{field}} quá dài: {{count}}/{{limit}} ký tự. Cắt bớt trước khi copy.",
       "fieldGeneric": "Văn bản",
       "failed": "Copy thất bại"
+    },
+    "limits": {
+      "bannerTitle": "Không thể sao chép — vượt giới hạn của YouTube",
+      "fieldLine": "{{field}}: {{count}} / {{limit}} ký tự",
+      "bannerHint": "Hãy rút ngắn trường ở trên rồi sao chép lại.",
+      "copyBlocked": "Bị chặn: một trường khác vượt giới hạn của YouTube",
+      "batchRowBlocked": "Phần này vượt giới hạn — không thể sao chép.",
+      "batchAllBlocked": "Không thể sao chép tất cả — có ít nhất một phần vượt giới hạn"
     }
   },
   "common": {
@@ -774,7 +782,9 @@
     "generate": "Tạo",
     "undo": "Hoàn tác",
     "dismiss": "Bỏ qua",
-    "scrollToTop": "Cuộn lên đầu trang"
+    "scrollToTop": "Cuộn lên đầu trang",
+    "exported": "Đã xuất",
+    "exportFailed": "Xuất thất bại"
   },
   "errorPages": {
     "actions": {
@@ -1033,7 +1043,11 @@
     "genrePlaylistsEmptyHint": "Bỏ trống nếu chưa có playlist cho thể loại đó.",
     "logSettings": "Nhật ký",
     "logRetentionDays": "Giữ log (ngày)",
-    "logRetentionHint": "Log cũ hơn số ngày này sẽ tự xoá khi mở app. Phạm vi: 1–90 ngày."
+    "logRetentionHint": "Log cũ hơn số ngày này sẽ tự xoá khi mở app. Phạm vi: 1–90 ngày.",
+    "guardrails": "Bảo vệ",
+    "strictMode": "Chế độ nghiêm ngặt",
+    "strictModeHint": "Chặn Generate, Copy và Export khi còn trường bị lỗi. Cảnh báo nhẹ vẫn cho qua.",
+    "genrePlaylistsBadge": "{{filled}}/{{total}}"
   },
   "socialPost": {
     "title": "Bài đăng đa nền tảng",
@@ -1089,7 +1103,9 @@
     "zaloUrlInvalid": "Link nhóm Zalo không hợp lệ. Định dạng mong muốn: {{expected}}",
     "signalUrlInvalid": "Link nhóm Signal không hợp lệ. Định dạng mong muốn: {{expected}}",
     "instagramInviteUrlInvalid": "Link nhóm chat Instagram không hợp lệ. Định dạng mong muốn: {{expected}}",
-    "facebookGroupUrlInvalid": "Link nhóm Facebook không hợp lệ. Định dạng mong muốn: {{expected}}"
+    "facebookGroupUrlInvalid": "Link nhóm Facebook không hợp lệ. Định dạng mong muốn: {{expected}}",
+    "emailMaxReached": "Tối đa {{max}} địa chỉ email — hãy xoá bớt một cái",
+    "fieldTooLong": "Tối đa {{max}} ký tự"
   },
   "storeLinkTypes": {
     "paid": "Trả phí",
@@ -1129,5 +1145,9 @@
     "sessionCurrent": "Phiên hiện tại",
     "sessionLabel": "Phiên {{n}}",
     "entriesShort": "bản ghi"
+  },
+  "strict": {
+    "blockedTitle": "Strict Mode: {{count}} trường cần sửa",
+    "fixHint": "Hãy sửa trong tab Editor, hoặc tắt Strict Mode trong Cài đặt."
   }
 }

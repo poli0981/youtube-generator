@@ -1,10 +1,22 @@
 import { useState, useCallback, useEffect, useRef, type ClipboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import type { ValidationResult } from "@utils/validation";
+import { useValidationStore, type IssueSeverity } from "@store/validation-store";
 import clsx from "clsx";
 
 interface ValidatedInputProps {
   label: string;
+  /**
+   * Stable, unique id used to register this field's validation state with
+   * `useValidationStore`, which is what Strict Mode reads. Compose it for
+   * fields rendered in a loop: `` `editor.social.${field.id}` ``.
+   *
+   * Omit it and the input behaves exactly as before, just invisibly to Strict
+   * Mode — so an unregistered field can never *block* anything.
+   */
+  fieldId?: string;
+  /** Grouping for the Strict Mode banner. Defaults to `"editor"`. */
+  scope?: string;
   value: string;
   onChange: (value: string) => void;
   validate: (value: string) => ValidationResult;
@@ -42,6 +54,8 @@ interface ValidatedInputProps {
 
 export function ValidatedInput({
   label,
+  fieldId,
+  scope = "editor",
   value,
   onChange,
   validate,
@@ -121,6 +135,40 @@ export function ValidatedInput({
   );
 
   const message = blocked ? (blockedMessage ?? error) : error;
+
+  // Publish this field's state to the app-wide registry Strict Mode reads.
+  //
+  // Keyed on the raw validation result, not on `message`, because `message` is
+  // an already-translated string that changes with the UI language and would
+  // re-register on every language switch. A warning (`{ valid: true, error }`)
+  // registers at `severity: "warning"` so it shows in the banner without
+  // blocking.
+  const result = validate(displayValue);
+  const messageKey = blocked ? "validation.emailMaxReached" : (result.error ?? "");
+  const severity: IssueSeverity = blocked || !result.valid ? "error" : "warning";
+  const hasIssue = blocked || Boolean(result.error);
+  const paramsJson = JSON.stringify(result.errorParams ?? null);
+
+  useEffect(() => {
+    if (!fieldId) return;
+    const { setIssue, clearIssue } = useValidationStore.getState();
+    if (hasIssue) {
+      setIssue({
+        id: fieldId,
+        scope,
+        label,
+        messageKey,
+        params: (JSON.parse(paramsJson) as Record<string, string | number> | null) ?? undefined,
+        severity,
+      });
+    } else {
+      clearIssue(fieldId);
+    }
+    // An unmounting field must stop blocking: `adEmail` disappears when the
+    // split-email toggle goes off, and ExtraFieldsInput swaps fields on every
+    // video-type change. A hidden field's invalidity is not the user's problem.
+    return () => clearIssue(fieldId);
+  }, [fieldId, scope, label, messageKey, severity, hasIssue, paramsJson]);
 
   return (
     <div className="flex flex-col gap-1">

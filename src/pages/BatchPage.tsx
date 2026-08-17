@@ -6,6 +6,7 @@ import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
 import { CopyButton } from "@components/output/CopyButton";
 import { CharCounter } from "@components/output/CharCounter";
+import { LimitBlockBanner } from "@components/output/LimitBlockBanner";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { SUPPORTED_LANGUAGES, ensureLanguagesLoaded } from "@i18n/index";
@@ -16,6 +17,9 @@ import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import { useRenderOptions } from "@hooks/use-render-options";
 import { validateBatchRange } from "@utils/validation";
+import { useStrictBlock } from "@hooks/use-strict-block";
+import { StrictModeBanner } from "@components/ui/StrictModeBanner";
+import { getOutputLimitStatus, mergeLimitStatus, type OutputLimitStatus } from "@engine/limits";
 import clsx from "clsx";
 
 interface BatchLanguageRow {
@@ -23,6 +27,11 @@ interface BatchLanguageRow {
   output: GeneratorOutput;
   /** Empty string when the pinned-comment template setting is off. */
   pinnedComment: string;
+  /**
+   * Over-limit state for this one row. Computed at generate time so the
+   * render pass stays cheap across 100 parts x 6 languages.
+   */
+  status: OutputLimitStatus;
 }
 
 interface BatchResult {
@@ -47,6 +56,9 @@ export function BatchPage() {
   const pinnedCommentIncludeAskNextGame = useSettingsStore(
     (s) => s.pinnedCommentIncludeAskNextGame,
   );
+  // Strict Mode: refuse to spin out 100 parts from a form that already has a
+  // known-bad field. No-op unless the user opted in.
+  const strictBlocked = useStrictBlock();
   const [startPart, setStartPart] = useState("1");
   const [endPart, setEndPart] = useState("5");
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([state.language]);
@@ -98,7 +110,7 @@ export function BatchPage() {
               includeAskNextGame: pinnedCommentIncludeAskNextGame,
             })
           : "";
-        return { language: lang, output, pinnedComment };
+        return { language: lang, output, pinnedComment, status: getOutputLimitStatus(output) };
       });
       outputs.push({ partNumber: String(i), languages });
     }
@@ -132,6 +144,15 @@ export function BatchPage() {
             .join("\n\n---\n\n"),
         )
         .join("\n\n===\n\n"),
+    [results],
+  );
+
+  // Copy All Batch concatenates every row, so one over-limit part poisons the
+  // whole blob. Scoped deliberately: a single bad part disables Copy All and
+  // that part's own buttons, but NOT the other 99 parts' buttons — freezing an
+  // entire batch because part 7 is three characters long would be useless.
+  const batchStatus = useMemo(
+    () => mergeLimitStatus(results.flatMap((r) => r.languages.map((l) => l.status))),
     [results],
   );
 
@@ -186,7 +207,7 @@ export function BatchPage() {
         <Button
           className="w-full sm:w-auto"
           onClick={() => void handleGenerate()}
-          disabled={!state.gameName || generating || !rangeResult.valid}
+          disabled={!state.gameName || generating || !rangeResult.valid || strictBlocked}
         >
           {t("batch.generateBatch")}
         </Button>
@@ -199,7 +220,9 @@ export function BatchPage() {
           {rangeError}
         </p>
       )}
-      {!rangeError && <div className="mb-6" />}
+      <div className="mb-6 empty:mb-0">
+        <StrictModeBanner />
+      </div>
 
       {results.length === 0 ? (
         <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
@@ -207,11 +230,18 @@ export function BatchPage() {
         </p>
       ) : (
         <>
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-            <span className="text-sm text-text-secondary">
-              {results.length} parts x {selectedLangs.length} languages
-            </span>
-            <CopyButton text={allCombined} label={t("batch.copyAllBatch")} />
+          <div className="mb-4 flex flex-col gap-2">
+            <LimitBlockBanner status={batchStatus} titleKey="output.limits.batchAllBlocked" />
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-sm text-text-secondary">
+                {results.length} parts x {selectedLangs.length} languages
+              </span>
+              <CopyButton
+                text={allCombined}
+                label={t("batch.copyAllBatch")}
+                blocked={batchStatus.blocked}
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-4">
             {results.map((result) => (
@@ -231,7 +261,13 @@ export function BatchPage() {
                         </span>
                         <div className="flex items-center gap-2">
                           <CharCounter text={lang.output.title} limit={YT_LIMITS.TITLE_MAX} />
-                          <CopyButton text={lang.output.title} label={t("output.copyTitle")} />
+                          <CopyButton
+                            text={lang.output.title}
+                            label={t("output.copyTitle")}
+                            limit={YT_LIMITS.TITLE_MAX}
+                            fieldLabel={t("output.title")}
+                            blocked={lang.status.blocked}
+                          />
                         </div>
                       </div>
                       <p className="mb-2 text-sm font-medium text-text-primary">
@@ -240,12 +276,38 @@ export function BatchPage() {
                       <pre className="mb-2 max-h-20 overflow-y-auto whitespace-pre-wrap font-sans text-xs text-text-secondary">
                         {lang.output.description.slice(0, 200)}...
                       </pre>
+                      {/* Batch showed a counter for the title only, so a row
+                          could be 1500 characters over on the description with
+                          nothing on screen saying so. */}
+                      <div className="mb-2 flex flex-wrap items-center gap-3">
+                        <span className="text-xs text-text-muted">{t("output.description")}</span>
+                        <CharCounter
+                          text={lang.output.description}
+                          limit={YT_LIMITS.DESCRIPTION_MAX}
+                        />
+                        <span className="text-xs text-text-muted">{t("output.tags")}</span>
+                        <CharCounter text={lang.output.tagString} limit={YT_LIMITS.TAGS_MAX} />
+                      </div>
+                      {lang.status.blocked && (
+                        <p role="alert" className="mb-2 text-xs font-medium text-danger">
+                          {t("output.limits.batchRowBlocked")}
+                        </p>
+                      )}
                       <div className="flex flex-wrap gap-2">
                         <CopyButton
                           text={lang.output.description}
                           label={t("output.copyDescription")}
+                          limit={YT_LIMITS.DESCRIPTION_MAX}
+                          fieldLabel={t("output.description")}
+                          blocked={lang.status.blocked}
                         />
-                        <CopyButton text={lang.output.tagString} label={t("output.copyTags")} />
+                        <CopyButton
+                          text={lang.output.tagString}
+                          label={t("output.copyTags")}
+                          limit={YT_LIMITS.TAGS_MAX}
+                          fieldLabel={t("output.tags")}
+                          blocked={lang.status.blocked}
+                        />
                         {lang.pinnedComment && (
                           <CopyButton
                             text={lang.pinnedComment}

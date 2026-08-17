@@ -15,6 +15,7 @@ import {
   type ImportFailure,
 } from "@utils/import-export";
 import { useFileExport } from "@hooks/use-file-export";
+import { useStrictBlock } from "@hooks/use-strict-block";
 import type { ExportType } from "@utils/file-schema";
 import { logger } from "@utils/logger";
 import toast from "react-hot-toast";
@@ -43,6 +44,9 @@ export function ProfilesPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.profiles"));
   const { report } = useFileExport();
+  // Strict Mode gates exports of editor-derived data so a known-bad URL
+  // doesn't get baked into a profile the user then reuses everywhere.
+  const strictBlocked = useStrictBlock();
   const [tab, setTab] = useState<Tab>("profiles");
   const { profiles, importProfiles } = useProfileStore();
   const { presets, importPresets } = usePresetStore();
@@ -190,7 +194,12 @@ export function ProfilesPage() {
         <div className="flex flex-wrap gap-2">
           {tab === "profiles" && (
             <>
-              <Button variant="ghost" size="sm" onClick={() => void handleExportProfiles()}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void handleExportProfiles()}
+                disabled={strictBlocked}
+              >
                 <Download className="h-3.5 w-3.5" />
                 {t("profiles.exportProfiles")}
               </Button>
@@ -202,7 +211,12 @@ export function ProfilesPage() {
           )}
           {tab === "presets" && (
             <>
-              <Button variant="ghost" size="sm" onClick={() => void handleExportPresets()}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void handleExportPresets()}
+                disabled={strictBlocked}
+              >
                 <Download className="h-3.5 w-3.5" />
                 {t("presets.exportPresets")}
               </Button>
@@ -214,7 +228,12 @@ export function ProfilesPage() {
           )}
           {tab === "templates" && (
             <>
-              <Button variant="ghost" size="sm" onClick={() => void handleExportTemplates()}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void handleExportTemplates()}
+                disabled={strictBlocked}
+              >
                 <Download className="h-3.5 w-3.5" />
                 {t("templates.exportTemplates")}
               </Button>

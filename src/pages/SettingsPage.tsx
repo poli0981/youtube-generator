@@ -7,6 +7,7 @@ import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
+import { Accordion } from "@components/ui/Accordion";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES } from "@config/genres";
 import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
@@ -164,6 +165,16 @@ export function SettingsPage() {
   const { t, i18n } = useTranslation("ui");
   useDocumentTitle(t("tabs.settings"));
   const settings = useSettingsStore();
+  const accordion = useSettingsStore((s) => s.settingsAccordionState);
+  const toggleAccordion = useSettingsStore((s) => s.toggleSettingsAccordion);
+  // Unknown ids default OPEN here — the opposite of EditorPage. A section
+  // added in a later version must not silently vanish for a user whose
+  // persisted map predates it. Only Genre Playlists ships collapsed, because
+  // it renders one input per genre.
+  const isOpen = (id: string): boolean => accordion[id] ?? true;
+  const filledGenrePlaylists = Object.values(settings.genrePlaylists).filter((v) =>
+    v?.trim(),
+  ).length;
 
   const langOptions = SUPPORTED_LANGUAGES.map((l) => ({
     value: l.id,
@@ -218,18 +229,28 @@ export function SettingsPage() {
 
       <div className="flex flex-col gap-8">
         {/* 1. Appearance — theme toggle only. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.appearance")}</h2>
+        <Accordion
+          id="appearance"
+          icon="🎨"
+          title={t("settings.appearance")}
+          open={isOpen("appearance")}
+          onToggle={() => toggleAccordion("appearance")}
+        >
           <Toggle
             label={t("settings.theme") + (settings.theme === "dark" ? " (Dark)" : " (Light)")}
             checked={settings.theme === "dark"}
             onChange={(v) => settings.setTheme(v ? "dark" : "light")}
           />
-        </section>
+        </Accordion>
 
         {/* 2. Language & Defaults — app + output language. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.defaults")}</h2>
+        <Accordion
+          id="defaults"
+          icon="🌐"
+          title={t("settings.defaults")}
+          open={isOpen("defaults")}
+          onToggle={() => toggleAccordion("defaults")}
+        >
           <Select
             label={t("settings.appLanguage")}
             options={langOptions}
@@ -245,13 +266,16 @@ export function SettingsPage() {
             value={settings.defaultOutputLanguage}
             onChange={(v) => settings.setDefaultOutputLanguage(v as SupportedLanguage)}
           />
-        </section>
+        </Accordion>
 
         {/* 3. Editor — UI knobs that affect the editor page itself. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">
-            {t("settings.editorSettings")}
-          </h2>
+        <Accordion
+          id="editorSettings"
+          icon="✏️"
+          title={t("settings.editorSettings")}
+          open={isOpen("editorSettings")}
+          onToggle={() => toggleAccordion("editorSettings")}
+        >
           <Toggle
             label={t("settings.showCharCount")}
             checked={settings.showCharCount}
@@ -262,13 +286,35 @@ export function SettingsPage() {
             checked={settings.compactTagDisplay}
             onChange={(v) => settings.setSetting("compactTagDisplay", v)}
           />
-        </section>
+        </Accordion>
+
+        {/* 3.5 Guardrails — v0.35.0 Strict Mode. Off by default: the app's
+            whole premise is getting a description out quickly, so the seatbelt
+            is opt-in for creators who publish in bulk and would rather be
+            stopped than fix it after upload. */}
+        <Accordion
+          id="guardrails"
+          icon="🛡️"
+          title={t("settings.guardrails")}
+          open={isOpen("guardrails")}
+          onToggle={() => toggleAccordion("guardrails")}
+        >
+          <Toggle
+            label={t("settings.strictMode")}
+            checked={settings.strictMode}
+            onChange={(v) => settings.setSetting("strictMode", v)}
+          />
+          <p className="text-xs text-text-muted">{t("settings.strictModeHint")}</p>
+        </Accordion>
 
         {/* 4. Title format — NEW in v0.7. Quality badge + format knobs. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">
-            {t("settings.titleFormatTitle")}
-          </h2>
+        <Accordion
+          id="titleFormat"
+          icon="🏷️"
+          title={t("settings.titleFormatTitle")}
+          open={isOpen("titleFormat")}
+          onToggle={() => toggleAccordion("titleFormat")}
+        >
           <Toggle
             label={t("settings.showQualityBadge")}
             checked={settings.showQualityBadge}
@@ -292,13 +338,16 @@ export function SettingsPage() {
             value={settings.titleFormat.badgeCase}
             onChange={(v) => settings.setTitleFormat({ badgeCase: v as TitleBadgeCase })}
           />
-        </section>
+        </Accordion>
 
         {/* 5. Description — controls for auto-generated description blocks. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">
-            {t("settings.descriptionSettingsTitle")}
-          </h2>
+        <Accordion
+          id="description"
+          icon="📝"
+          title={t("settings.descriptionSettingsTitle")}
+          open={isOpen("description")}
+          onToggle={() => toggleAccordion("description")}
+        >
           <Toggle
             label={t("settings.showCopyright")}
             checked={settings.showCopyright}
@@ -373,11 +422,16 @@ export function SettingsPage() {
             value={String(settings.hashtagCount)}
             onChange={(v) => settings.setSetting("hashtagCount", Number(v))}
           />
-        </section>
+        </Accordion>
 
         {/* 6. Tags — tag-pool controls (narrowed from the old mixed section). */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.tagSettings")}</h2>
+        <Accordion
+          id="tags"
+          icon="#️⃣"
+          title={t("settings.tagSettings")}
+          open={isOpen("tags")}
+          onToggle={() => toggleAccordion("tags")}
+        >
           <Toggle
             label={t("settings.multilingualTags")}
             checked={settings.includeMultilingualTags}
@@ -388,15 +442,26 @@ export function SettingsPage() {
             checked={settings.includeTrendingTags}
             onChange={(v) => settings.setSetting("includeTrendingTags", v)}
           />
-        </section>
+        </Accordion>
 
         {/* 6.5 Genre Playlists — per-genre YouTube playlist URLs that the
             pinned-comment template can auto-suggest based on the video's
             primary genre. v0.8 phase 2. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">
-            {t("settings.genrePlaylistsTitle")}
-          </h2>
+        <Accordion
+          id="genrePlaylists"
+          icon="🎵"
+          title={t("settings.genrePlaylistsTitle")}
+          open={isOpen("genrePlaylists")}
+          onToggle={() => toggleAccordion("genrePlaylists")}
+          badge={
+            <span className="rounded bg-surface-2 px-1.5 py-0.5 text-xs text-text-muted">
+              {t("settings.genrePlaylistsBadge", {
+                filled: filledGenrePlaylists,
+                total: GENRES.length,
+              })}
+            </span>
+          }
+        >
           <p className="text-xs text-text-muted">{t("settings.genrePlaylistsHelp")}</p>
           <p className="text-xs text-text-muted">{t("settings.genrePlaylistsEmptyHint")}</p>
           <div className="flex flex-col gap-2">
@@ -427,13 +492,16 @@ export function SettingsPage() {
               />
             ))}
           </div>
-        </section>
+        </Accordion>
 
         {/* 7. History. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">
-            {t("settings.historySettings")}
-          </h2>
+        <Accordion
+          id="history"
+          icon="🕘"
+          title={t("settings.historySettings")}
+          open={isOpen("history")}
+          onToggle={() => toggleAccordion("history")}
+        >
           <Input
             label={t("settings.historyLimit")}
             type="number"
@@ -443,11 +511,16 @@ export function SettingsPage() {
               settings.setSetting("historyLimit", val);
             }}
           />
-        </section>
+        </Accordion>
 
         {/* 8. Logs — v0.17.0 retention. */}
-        <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.logSettings")}</h2>
+        <Accordion
+          id="logs"
+          icon="📋"
+          title={t("settings.logSettings")}
+          open={isOpen("logs")}
+          onToggle={() => toggleAccordion("logs")}
+        >
           <Input
             label={t("settings.logRetentionDays")}
             type="number"
@@ -462,7 +535,7 @@ export function SettingsPage() {
             }}
           />
           <p className="text-xs text-text-muted">{t("settings.logRetentionHint")}</p>
-        </section>
+        </Accordion>
       </div>
     </div>
   );

@@ -14,7 +14,10 @@ import { useEditorStore } from "@store/editor-store";
 import { useHistoryStore } from "@store/history-store";
 import { useSettingsStore } from "@store/settings-store";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
-import type { SupportedLanguage } from "@engine/types";
+import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
+import { useOutputLimits } from "@hooks/use-output-limits";
+import { useStrictBlock } from "@hooks/use-strict-block";
+import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import clsx from "clsx";
 
 export function OutputPage() {
@@ -46,6 +49,37 @@ export function OutputPage() {
   const multilangOutputs = useMultilangOutput(isMultiLang ? selectedLangs : []);
 
   const currentOutput = isMultiLang ? multilangOutputs[activeTab] : defaultOutput;
+
+  // Two different scopes, on purpose:
+  //  - `tabStatus` gates the three per-field copy buttons, and reflects only
+  //    the language currently on screen. An over-long Japanese title must not
+  //    disable the English copy button the user is looking at.
+  //  - `allStatus` gates Copy All, which concatenates every selected language,
+  //    so any one of them being over means the blob is unusable.
+  const shownOutputs = useMemo(() => (currentOutput ? [currentOutput] : []), [currentOutput]);
+  const everyOutput = useMemo(
+    () =>
+      isMultiLang
+        ? selectedLangs
+            .map((l) => multilangOutputs[l])
+            .filter((o): o is GeneratorOutput => Boolean(o))
+        : [defaultOutput],
+    [isMultiLang, selectedLangs, multilangOutputs, defaultOutput],
+  );
+  const tabStatus = useOutputLimits(shownOutputs);
+  const allStatus = useOutputLimits(everyOutput);
+
+  // Strict Mode folds into the same "blocked" signal the char-limit gate
+  // uses, so a copy button has one reason to be disabled, not two.
+  const strictBlocked = useStrictBlock();
+  const tabBlocked = useMemo(
+    () => (strictBlocked ? { ...tabStatus, blocked: true } : tabStatus),
+    [strictBlocked, tabStatus],
+  );
+  const allBlocked = useMemo(
+    () => (strictBlocked ? { ...allStatus, blocked: true } : allStatus),
+    [strictBlocked, allStatus],
+  );
 
   const toggleLang = (lang: SupportedLanguage) => {
     setSelectedLangs((prev) => {
@@ -102,6 +136,9 @@ export function OutputPage() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="mx-auto w-full max-w-4xl flex-1 p-6">
+        <div className="mb-4">
+          <StrictModeBanner />
+        </div>
         <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
           <div className="flex-1">
             <span className="mb-2 block text-sm font-medium text-text-secondary">
@@ -178,12 +215,23 @@ export function OutputPage() {
             </span>
           </div>
         )}
-        {currentOutput && <OutputPreview output={isMultiLang ? currentOutput : undefined} />}
+        {currentOutput && (
+          <OutputPreview output={isMultiLang ? currentOutput : undefined} status={tabBlocked} />
+        )}
         <div className="mt-6">
           <OutputExtras />
         </div>
       </div>
-      <CopyAllBar extraText={isMultiLang ? allLangsCombined : undefined} />
+      <CopyAllBar
+        text={
+          isMultiLang
+            ? allLangsCombined
+            : `${defaultOutput.title}
+
+${defaultOutput.description}`
+        }
+        status={allBlocked}
+      />
 
       <VariantPicker open={showVariants} onClose={() => setShowVariants(false)} />
       <TemplateSaveForm open={showSaveTemplate} onClose={() => setShowSaveTemplate(false)} />
