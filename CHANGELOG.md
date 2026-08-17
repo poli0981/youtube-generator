@@ -2,6 +2,32 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.38.0 — 2026-08-17
+
+Two new languages: **Portuguese (Brazil)** and **Indonesian**. Brazil is a
+top-three market for gameplay viewing and Indonesia the largest in Southeast
+Asia; both use Latin script, so neither needed font or layout work.
+
+### Added
+
+- **`pt-BR` and `id` locales** — 1,562 strings each. Both are complete: titles, every description block, all 248 content warnings, tech notes, playthrough notes, pinned comments, playlist copy, and the whole interface from the editor through Settings, Batch, Social and Logs.
+- **Per-language tag pools** ([src/engine/tag-generator.ts](src/engine/tag-generator.ts)) — `CORE_TAGS_BY_LANG` and `MULTILINGUAL_TAGS` gained entries for both, so a Brazilian video gets `gameplay sem comentários` and `detonado` rather than falling back to English tags.
+- **Region-aware browser detection** ([src/store/settings-heal.ts](src/store/settings-heal.ts)) — `detectBrowserLanguage` now matches the full BCP-47 tag before the bare language, or `pt-BR` would be reduced to `pt` and never found. Any other Portuguese variant also resolves to `pt-BR` rather than falling through to English.
+
+### Fixed
+
+- **`docs/I18N.md` was wrong about what registering a locale takes.** It said `SUPPORTED_LANGUAGES` was "the only registration step". It is one of four, and they fail differently: the `SupportedLanguage` union and the two tag-pool records are compile errors, but `detectBrowserLanguage`'s own hardcoded copy of the list fails **silently** — the language works and simply never auto-selects for a visitor whose browser is set to it. `SUPPORTED_LANGUAGES` is also not type-bound to the union, and every consumer casts, so a mismatch between the first two compiles cleanly. Corrected, and `SUPPORTED_LANGUAGES` now carries a `satisfies` clause that binds it to the union.
+- **`__dirname` in the Vite and Vitest configs** replaced with `import.meta.dirname`. Vite 8's native config loader — planned to become the default — doesn't provide the CJS global, and warned on every run.
+
+### Under the hood
+
+- **New guard: [tests/i18n/locale-registration.test.ts](tests/i18n/locale-registration.test.ts)** checks the picker list against the locale directories on disk *in both directions*, plus namespace files, flags, native names and tag pools. It exists specifically to close the two registration gaps that fail silently.
+- 115 UI keys were not hand-translated at all — their English text is byte-identical to a string already translated in `templates.json` (graphics presets, ray-tracing modes, difficulty names, content-warning labels), so they are copied across. Translating those twice risks a checkbox and the rendered description disagreeing about what the same option is called.
+- Left as English on purpose, matching what the Spanish locale already does: vendor product names (NVIDIA DLSS, AMD FSR, Intel XeSS, Fluid Motion Frames), platform brands (Ko-fi, Patreon, Discord, Steam, TikTok), hardware acronyms (CPU, GPU, RAM), genre terms that are loanwords in both languages (RPG, FPS, MMO, Indie, Metroidvania, Roguelike, Battle Royale), and example URLs / emails in placeholders. **pt-BR 1,344 / 1,562 and id 1,308 / 1,562 strings differ from English**; the remainder are those pass-throughs, not gaps.
+- Both are **AI-translated and not native-reviewed** — recorded in [DISCLAIMER.md](DISCLAIMER.md) alongside JA / ES / KO / ZH. Native-speaker corrections are the most welcome contribution to this project; `src/i18n/locales/<code>/*.json` can be edited straight from GitHub's web UI.
+- Validator now **1,562 keys × 8 locales**. typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, **698 tests** and build all pass; verified live in the browser — both languages appear in every picker, generate correctly translated titles and descriptions, and translate the interface itself.
+- Six manifests bumped 0.37.0 → 0.38.0. (v0.36.0 was skipped: the dependency release shipped first and had already taken 0.37.0.)
+
 ## v0.37.0 — 2026-08-17
 
 A **dependency modernization** release. No user-facing feature changes; the app

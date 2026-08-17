@@ -146,9 +146,19 @@ export interface SettingsData {
 
 function detectBrowserLanguage(): SupportedLanguage {
   if (typeof navigator === "undefined") return "en";
-  const lang = navigator.language.split("-")[0];
-  const supported: SupportedLanguage[] = ["en", "vi", "ja", "es", "ko", "zh"];
-  return (supported.find((s) => s === lang) ?? "en") as SupportedLanguage;
+  const tag = navigator.language;
+  // Region-qualified locales must be matched on the FULL tag before the bare
+  // language, or `pt-BR` would be reduced to `pt` and never found. Currently
+  // pt-BR is the only such locale; a future `pt-PT` would slot in beside it.
+  const REGIONAL: SupportedLanguage[] = ["pt-BR"];
+  const exact = REGIONAL.find((s) => s.toLowerCase() === tag.toLowerCase());
+  if (exact) return exact;
+  // Any other Portuguese variant still gets Brazilian Portuguese rather than
+  // English — closer than the fallback, and the only Portuguese we ship.
+  if (tag.toLowerCase().startsWith("pt")) return "pt-BR";
+  const base = tag.split("-")[0];
+  const supported: SupportedLanguage[] = ["en", "vi", "ja", "es", "ko", "zh", "id"];
+  return (supported.find((s) => s === base) ?? "en") as SupportedLanguage;
 }
 
 /**

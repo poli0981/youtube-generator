@@ -41,7 +41,7 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 If your change adds or removes any user-facing string:
 
 1. Update the locale schema at `src/i18n/locales/_schema.json` first.
-2. Add the key to **all 6 locales** (`en` / `vi` / `ja` / `es` / `ko` / `zh`).
+2. Add the key to **all 8 locales** (`en` / `vi` / `ja` / `es` / `ko` / `zh` / `pt-BR` / `id`).
 3. `npm run validate:locales` must pass.
 
 Native-speaker corrections to AI-translated locales (JA / ES / KO / ZH) are especially welcome — see [DISCLAIMER.md](./DISCLAIMER.md) for the current translation-quality status.
