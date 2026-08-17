@@ -72,7 +72,7 @@ export function EditorPage() {
         {/* Banner only — there is nothing to gate on the editor. This is where
             the user comes to FIX the fields Strict Mode is blocking on, so
             disabling anything here would be exactly backwards. */}
-        <StrictModeBanner scope="editor" />
+        <StrictModeBanner />
 
         <Accordion
           id="gameInfo"
@@ -111,7 +111,8 @@ export function EditorPage() {
           <ContentWarningChecklist />
           <TechNotesChecklist />
           <ValidatedInput
-            fieldId="editor.playlistLink"
+            fieldId="playlistLink"
+            labelKey="editor.playlistLink"
             label={t("editor.playlistLink")}
             maxLength={FIELD_LIMITS.URL}
             placeholder={t("editor.playlistLinkPlaceholder")}

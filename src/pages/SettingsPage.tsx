@@ -469,8 +469,6 @@ export function SettingsPage() {
             {GENRES.map((g) => (
               <ValidatedInput
                 key={g.id}
-                fieldId={`settings.genrePlaylists.${g.id}`}
-                scope="settings"
                 label={`${g.icon} ${t(g.labelKey)}`}
                 maxLength={FIELD_LIMITS.URL}
                 placeholder="https://www.youtube.com/playlist?list=..."

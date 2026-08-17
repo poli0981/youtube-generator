@@ -22,7 +22,8 @@ export function SocialEditor() {
         {donateFields.map((field) => (
           <ValidatedInput
             key={field.id}
-            fieldId={`editor.social.${field.id}`}
+            fieldId={`social.${field.id}`}
+            labelKey={field.labelKey}
             label={t(field.labelKey)}
             placeholder={field.urlPrefix || "URL"}
             maxLength={FIELD_LIMITS.URL}
@@ -40,7 +41,8 @@ export function SocialEditor() {
         {socialFields.map((field) => (
           <ValidatedInput
             key={field.id}
-            fieldId={`editor.social.${field.id}`}
+            fieldId={`social.${field.id}`}
+            labelKey={field.labelKey}
             label={t(field.labelKey)}
             placeholder={field.urlPrefix || "URL"}
             maxLength={FIELD_LIMITS.URL}

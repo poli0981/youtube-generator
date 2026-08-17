@@ -82,7 +82,8 @@ export function PlaytestEditor() {
       </span>
 
       <ValidatedInput
-        fieldId="editor.playtestLink"
+        fieldId="playtestLink"
+        labelKey="editor.playtest.linkLabel"
         label={t("editor.playtest.linkLabel")}
         maxLength={FIELD_LIMITS.URL}
         placeholder={platform?.urlPrefix ?? "https://"}

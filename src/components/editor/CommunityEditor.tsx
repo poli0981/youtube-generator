@@ -48,7 +48,8 @@ export function CommunityEditor() {
       </div>
 
       <ValidatedInput
-        fieldId="editor.messengerCommunityLink"
+        fieldId="messengerCommunityLink"
+        labelKey="editor.messengerCommunityLink"
         label={t("editor.messengerCommunityLink")}
         maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.messengerCommunityLinkPlaceholder")}
@@ -60,7 +61,8 @@ export function CommunityEditor() {
       />
 
       <ValidatedInput
-        fieldId="editor.signalGroupLink"
+        fieldId="signalGroupLink"
+        labelKey="editor.signalGroupLink"
         label={t("editor.signalGroupLink")}
         maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.signalGroupLinkPlaceholder")}
@@ -72,7 +74,8 @@ export function CommunityEditor() {
       />
 
       <ValidatedInput
-        fieldId="editor.instagramGroupLink"
+        fieldId="instagramGroupLink"
+        labelKey="editor.instagramGroupLink"
         label={t("editor.instagramGroupLink")}
         maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.instagramGroupLinkPlaceholder")}
@@ -84,7 +87,8 @@ export function CommunityEditor() {
       />
 
       <ValidatedInput
-        fieldId="editor.facebookGroupLink"
+        fieldId="facebookGroupLink"
+        labelKey="editor.facebookGroupLink"
         label={t("editor.facebookGroupLink")}
         maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.facebookGroupLinkPlaceholder")}
@@ -97,7 +101,8 @@ export function CommunityEditor() {
 
       {isVi && (
         <ValidatedInput
-          fieldId="editor.zaloGroupLink"
+          fieldId="zaloGroupLink"
+          labelKey="editor.zaloGroupLink"
           label={t("editor.zaloGroupLink")}
           maxLength={FIELD_LIMITS.URL}
           placeholder={t("editor.zaloGroupLinkPlaceholder")}

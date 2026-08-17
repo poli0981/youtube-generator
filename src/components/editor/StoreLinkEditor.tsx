@@ -135,7 +135,7 @@ export function StoreLinkEditor() {
           return (
             <div key={platform.id} className="grid grid-cols-[1fr_9rem] items-end gap-2">
               <ValidatedInput
-                fieldId={`editor.storeLinks.${platform.id}`}
+                fieldId={`storeLinks.${platform.id}`}
                 label={platform.label}
                 placeholder={platform.urlPrefix}
                 maxLength={FIELD_LIMITS.URL}

@@ -1,12 +1,7 @@
 import { ShieldAlert } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useValidationErrors } from "@store/validation-store";
 import { useSettingsStore } from "@store/settings-store";
-
-interface StrictModeBannerProps {
-  /** Limit to one group of fields, e.g. `"editor"`. Omit for all. */
-  scope?: string;
-}
+import { useEditorIssues } from "@hooks/use-strict-block";
 
 /**
  * Lists the fields Strict Mode is blocking on.
@@ -15,10 +10,11 @@ interface StrictModeBannerProps {
  * so this always names the offending field and its error. Renders nothing when
  * Strict Mode is off or nothing is wrong.
  */
-export function StrictModeBanner({ scope }: StrictModeBannerProps) {
+export function StrictModeBanner() {
   const { t } = useTranslation("ui");
   const strictMode = useSettingsStore((s) => s.strictMode);
-  const errors = useValidationErrors(scope);
+  const issues = useEditorIssues();
+  const errors = issues.filter((i) => i.severity === "error");
 
   if (!strictMode || errors.length === 0) return null;
 
@@ -34,7 +30,7 @@ export function StrictModeBanner({ scope }: StrictModeBannerProps) {
       <ul className="flex flex-col gap-0.5 pl-5">
         {errors.map((issue) => (
           <li key={issue.id}>
-            <span className="font-medium">{issue.label}</span>
+            <span className="font-medium">{t(issue.labelKey)}</span>
             {" — "}
             {t(issue.messageKey, issue.params as Record<string, string>)}
           </li>
