@@ -11,9 +11,9 @@ structure, and tag bias. The complete table — every type with its icon and
 the extra fields the editor reveals — is in
 [Content Inventory](./CONTENT-INVENTORY.md).
 
-## 🌐 Languages (6 shipped)
+## 🌐 Languages (8 shipped)
 
-All six locales ship today — UI strings and description templates fully
+All eight locales ship today — UI strings and description templates fully
 translated and parity-validated by `npm run validate:locales`.
 
 | Code | Language | Native Name | Status |
@@ -24,9 +24,12 @@ translated and parity-validated by `npm run validate:locales`.
 | `es` | Spanish | Español | ✅ Shipped |
 | `ko` | Korean | 한국어 | ✅ Shipped |
 | `zh` | Chinese (Simplified) | 简体中文 | ✅ Shipped |
+| `pt-BR` | Portuguese (Brazil) | Português (BR) | ✅ Shipped |
+| `id` | Indonesian | Bahasa Indonesia | ✅ Shipped |
 
-Further locales (French, German, Portuguese, Russian, Thai, Arabic) are
-tracked in [Roadmap § 5.3](./ROADMAP.md).
+Further locales (French, German, Russian, Thai, Arabic) are tracked in
+[Roadmap § 5.3](./ROADMAP.md). Arabic additionally needs RTL layout work —
+see [I18N.md](./I18N.md).
 
 Each language requires:
 - `ui.json` — UI labels, buttons, placeholders, error messages

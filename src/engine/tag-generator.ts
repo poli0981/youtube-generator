@@ -336,7 +336,7 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
  * getCoreTags. Selected by GeneratorInput.language so the channel can
  * match the viewer's region.
  */
-const CORE_TAGS_BY_LANG: Record<SupportedLanguage, (gameName: string) => string[]> = {
+export const CORE_TAGS_BY_LANG: Record<SupportedLanguage, (gameName: string) => string[]> = {
   en: (g) => [
     `${g} gameplay`,
     `${g} no commentary`,
@@ -385,6 +385,22 @@ const CORE_TAGS_BY_LANG: Record<SupportedLanguage, (gameName: string) => string[
     `${g} 流程`,
     `${g} 通关`,
   ],
+  "pt-BR": (g) => [
+    `${g} gameplay`,
+    `${g} sem comentários`,
+    "gameplay sem comentários",
+    `${g} detonado`,
+    `${g} jogo completo`,
+    `${g} gameplay sem comentarios`,
+  ],
+  id: (g) => [
+    `${g} gameplay`,
+    `${g} tanpa komentar`,
+    "gameplay tanpa komentar",
+    `${g} walkthrough`,
+    `${g} tamat`,
+    `${g} gameplay indonesia`,
+  ],
 };
 
 /**
@@ -392,13 +408,15 @@ const CORE_TAGS_BY_LANG: Record<SupportedLanguage, (gameName: string) => string[
  * Only the selected language's entry is used — v0.2.0 incorrectly mixed
  * all languages regardless of the user's choice.
  */
-const MULTILINGUAL_TAGS: Record<SupportedLanguage, (gameName: string) => string[]> = {
+export const MULTILINGUAL_TAGS: Record<SupportedLanguage, (gameName: string) => string[]> = {
   en: (g) => [`${g} english`, "gameplay english no commentary"],
   ja: (g) => [`${g} 日本語`, `${g} 実況`, "日本語 ゲームプレイ"],
   vi: (g) => [`${g} tiếng Việt`, `${g} thuyết minh`, "gameplay tiếng Việt"],
   es: (g) => [`${g} español`, `${g} en español`, "gameplay en español"],
   ko: (g) => [`${g} 한국어`, `${g} 플레이`, "한국어 게임플레이"],
   zh: (g) => [`${g} 中文`, `${g} 游戏`, "中文 游戏实况"],
+  "pt-BR": (g) => [`${g} português`, `${g} em português`, "gameplay em português"],
+  id: (g) => [`${g} bahasa indonesia`, `${g} indonesia`, "gameplay bahasa indonesia"],
 };
 
 function getPlatformTags(gameName: string, platform: string): string[] {

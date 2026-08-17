@@ -1,18 +1,21 @@
 import { defineConfig } from "vitest/config";
+// `import.meta.dirname` rather than `__dirname`: Vite 8's native config
+// loader (planned to become the default) does not provide the CJS global,
+// and warns on every run until this changes.
 import path from "path";
 
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@config": path.resolve(__dirname, "./src/config"),
-      "@engine": path.resolve(__dirname, "./src/engine"),
-      "@store": path.resolve(__dirname, "./src/store"),
-      "@hooks": path.resolve(__dirname, "./src/hooks"),
-      "@components": path.resolve(__dirname, "./src/components"),
-      "@pages": path.resolve(__dirname, "./src/pages"),
-      "@utils": path.resolve(__dirname, "./src/utils"),
-      "@i18n": path.resolve(__dirname, "./src/i18n"),
+      "@": path.resolve(import.meta.dirname, "./src"),
+      "@config": path.resolve(import.meta.dirname, "./src/config"),
+      "@engine": path.resolve(import.meta.dirname, "./src/engine"),
+      "@store": path.resolve(import.meta.dirname, "./src/store"),
+      "@hooks": path.resolve(import.meta.dirname, "./src/hooks"),
+      "@components": path.resolve(import.meta.dirname, "./src/components"),
+      "@pages": path.resolve(import.meta.dirname, "./src/pages"),
+      "@utils": path.resolve(import.meta.dirname, "./src/utils"),
+      "@i18n": path.resolve(import.meta.dirname, "./src/i18n"),
     },
   },
   test: {

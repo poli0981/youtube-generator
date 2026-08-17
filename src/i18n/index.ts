@@ -14,7 +14,14 @@ export const SUPPORTED_LANGUAGES = [
   { id: "es", label: "Spanish", flag: "🇪🇸", nativeName: "Español" },
   { id: "ko", label: "Korean", flag: "🇰🇷", nativeName: "한국어" },
   { id: "zh", label: "Chinese", flag: "🇨🇳", nativeName: "简体中文" },
-] as const;
+  { id: "pt-BR", label: "Portuguese (Brazil)", flag: "🇧🇷", nativeName: "Português (BR)" },
+  { id: "id", label: "Indonesian", flag: "🇮🇩", nativeName: "Bahasa Indonesia" },
+] as const satisfies readonly {
+  id: SupportedLanguage;
+  label: string;
+  flag: string;
+  nativeName: string;
+}[];
 
 i18n
   .use(initReactI18next)

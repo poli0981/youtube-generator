@@ -17,7 +17,7 @@ See also: [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) § "AI-Assisted D
 
 ## Translation quality
 
-The application UI ships in six languages. Authoring quality varies:
+The application UI ships in eight languages. Authoring quality varies:
 
 | Locale | Authoring | Notes |
 | --- | --- | --- |
@@ -27,6 +27,8 @@ The application UI ships in six languages. Authoring quality varies:
 | Spanish (`es`) | AI-translated | Not native-reviewed. Regional voice (LatAm vs. Castilian) not specifically targeted. |
 | Korean (`ko`) | AI-translated | Not native-reviewed. Honorific register chosen for neutrality, not specific cultural fit. |
 | Chinese (`zh`) | AI-translated | Simplified Chinese only. Not native-reviewed. |
+| Portuguese, Brazil (`pt-BR`) | AI-translated | Not native-reviewed. Brazilian Portuguese specifically — European Portuguese is not separately targeted. |
+| Indonesian (`id`) | AI-translated | Not native-reviewed. Standard Indonesian; gaming loanwords kept in English where that is the common usage. |
 
 If you're a native speaker and spot mistranslations, please open an issue or PR — see [CONTRIBUTING.md](./CONTRIBUTING.md) § "i18n Contributions".
 

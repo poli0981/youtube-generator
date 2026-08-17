@@ -95,7 +95,7 @@ export type Genre =
  */
 export const MAX_GENRES = 3;
 
-export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh";
+export type SupportedLanguage = "en" | "vi" | "ja" | "es" | "ko" | "zh" | "pt-BR" | "id";
 
 /**
  * Pricing category of a store link. Decides the heading wording

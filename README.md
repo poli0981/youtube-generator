@@ -2,7 +2,7 @@
 
 **YouTube Gameplay Description Generator** — an offline-first template engine for Gameplay No Commentary YouTube channels.
 
-Generate YouTube titles, descriptions, and tags in six languages with one click. Save channel, rig, and game presets to skip repetitive data entry. Works in the browser (GitHub Pages), as a ~8 MB native desktop app (Windows / macOS / Linux), or as an installable Android APK — all from one Tauri 2 codebase.
+Generate YouTube titles, descriptions, and tags in eight languages with one click. Save channel, rig, and game presets to skip repetitive data entry. Works in the browser (GitHub Pages), as a ~8 MB native desktop app (Windows / macOS / Linux), or as an installable Android APK — all from one Tauri 2 codebase.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A522-brightgreen)](./docs/DEVELOPMENT.md)
@@ -22,7 +22,7 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 ## Features
 
 - **20 video types** — Full Gameplay, Part, Boss Fight, Boss No-Hit, Ending, Speedrun, 100%, DLC, NG+, Challenge, Side Quest, Secret, Comparison, Guide, Mods, Collectibles, Livestream, Gacha Quest, Demo, Demo Part.
-- **6 UI languages** — English, Vietnamese, Japanese, Spanish, Korean, Chinese. *(VI authored by a native speaker; JA / ES / KO / ZH AI-translated — see [DISCLAIMER.md](./DISCLAIMER.md).)*
+- **8 UI languages** — English, Vietnamese, Japanese, Spanish, Korean, Chinese, Portuguese (Brazil), Indonesian. *(VI authored by a native speaker; JA / ES / KO / ZH / PT-BR / ID AI-translated — see [DISCLAIMER.md](./DISCLAIMER.md).)*
 - **40+ game genres** — across action, RPG, FPS, horror, soulslike, indie, simulation, fighting, and more.
 - **248 content-warning IDs** across 12 groups — spoilers, photosensitive/VFX, audio, dialogue/language, phobias (incl. color phobias), mental health, social phenomena, internet/digital life, sensitive themes (incl. method-specific death/violence and suggestive imagery), horror-specific, playstyle, and gameplay disclosure (mods / cheats / glitches / guide-assisted / educational purpose). Sets viewer expectations before they hit play.
 - **Profile system** — save channel / social / rig info once, reuse across every video.
