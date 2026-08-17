@@ -2,7 +2,7 @@
 
 **YouTube Gameplay Description Generator** — an offline-first template engine for Gameplay No Commentary YouTube channels.
 
-Generate YouTube titles, descriptions, and tags in eight languages with one click. Save channel, rig, and game presets to skip repetitive data entry. Works in the browser (GitHub Pages), as a ~8 MB native desktop app (Windows / macOS / Linux), or as an installable Android APK — all from one Tauri 2 codebase.
+Generate YouTube titles, descriptions, and tags in eight languages with one click. Save channel, rig, and game presets to skip repetitive data entry. Works in the browser (GitHub Pages), as a small native desktop app (Windows / macOS / Linux — the installers are 2-5 MB), or as an installable Android APK — all from one Tauri 2 codebase.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A522-brightgreen)](./docs/DEVELOPMENT.md)
@@ -33,7 +33,7 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Guardrails** — hard length caps on every input field, a three-address cap per email field, and an opt-in **Strict Mode** that blocks Generate / Copy / Export while any field holds an error.
 - **Batch mode** — generate metadata for all parts of a series in one pass.
 - **Cross-post captions** — a dedicated **Social** tab re-packages the same YouTube source into short-form captions for **TikTok** (4,000-char), **Instagram Reels**, and **Facebook Reels** — title, rig, content warnings, copyright, thanks, and hashtags (game + genre + curated per-platform popular tags). Single + bulk modes, per-platform character limits with smart overflow trimming, and JSON import/export.
-- **Desktop app** — Windows, macOS & Linux native binaries via Tauri (~8 MB).
+- **Desktop app** — Windows, macOS & Linux native binaries via Tauri. The Windows, macOS and deb/rpm installers are 2-5 MB; the self-contained Linux AppImage is larger.
 - **Android app** — installable, sideloadable `.apk` built from the same Tauri 2 codebase. **Requires Android 11+** (tested 11–16; real-device test on Android 12). Grab it from [Releases](https://github.com/poli0981/youtube-generator/releases) and enable "Install unknown apps" to sideload.
 - **Mobile-responsive web** — drawer navigation, touch-sized controls, iOS-safe text-input behavior. Tested down to 360 × 640.
 - **100% offline** — no server, no telemetry, no account. See [PRIVACY.md](./PRIVACY.md).
@@ -80,7 +80,7 @@ Nothing leaves your device. No analytics, no telemetry, no tracking. The web ver
 
 ## Tech Stack
 
-React 18 · TypeScript (strict) · Vite 8 · Tailwind CSS 3 · Zustand · i18next · Tauri 2 (Rust stable).
+React 19 · TypeScript (strict) · Vite 8 · Tailwind CSS 4 · Zustand 5 · i18next 26 · Tauri 2 (Rust stable).
 
 Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
@@ -117,7 +117,7 @@ Licensed under the **[Apache License 2.0](./LICENSE)**. See [`NOTICE`](./NOTICE)
 
 ## AI Disclosure
 
-This project was co-authored with **Anthropic's Claude Code (model 4.7 Opus, 1M-context variant)**. Source code, locale translations, documentation, and CI workflows were generated or edited with AI assistance, then reviewed by the human maintainer (`@poli0981`) before being committed. See [DISCLAIMER.md](./DISCLAIMER.md) for the full disclosure.
+This project was co-authored with **Anthropic's Claude Code** (Opus-class models; most recently Opus 5). Source code, locale translations, documentation, and CI workflows were generated or edited with AI assistance, then reviewed by the human maintainer (`@poli0981`) before being committed. See [DISCLAIMER.md](./DISCLAIMER.md) for the full disclosure.
 
 ## Channel & Socials
 
