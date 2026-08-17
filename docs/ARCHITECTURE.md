@@ -261,12 +261,54 @@ Zustand Stores:
 ├───────────────────────────────────────────────┤
 │  SettingsStore                                 │
 │  - theme: "dark" | "light"                     │
-│  - defaultLanguage: SupportedLanguage          │
-│  - defaultGenres: GenreId[]                    │
+│  - appLanguage / defaultOutputLanguage         │
+│  - strictMode, settingsAccordionState  (v12)   │
 │  - (flags: quality badge / copyright / ...)    │
 │  Middleware: persist (localStorage + file)     │
+├───────────────────────────────────────────────┤
+│  PendingInvalidStore                    (0.35) │
+│  - entries: Record<fieldId, PendingInvalid>    │
+│  Middleware: NONE — in-flight typing, not data │
 └───────────────────────────────────────────────┘
 ```
+
+### Settings → engine options
+
+`renderAll` is called from three places (the Output hook, the multi-language
+Output hook, BatchPage). Each used to hand-copy the same twelve settings fields
+into an options object, and they had drifted — BatchPage's copy silently omitted
+`splitContactEmail` and `showThirdPartyAds`, so Batch rendered a different
+description than Output from identical data.
+
+`src/hooks/use-render-options.ts` is now the single mapping, with two guards:
+
+- **Compile-time** — `buildRenderOptions` builds a
+  `Required<SettingsRenderOptions>`, so omitting a key is a type error.
+- **Runtime** — `tests/hooks/render-options-parity.test.ts` diffs the produced
+  keys against `SETTINGS_DERIVED_RENDER_KEYS` in both directions.
+
+`RenderOptions` is split accordingly: `SettingsRenderOptions` (from the user)
+plus `RenderOptionOverrides` (`tEn`, `bilingualContentBlocks` — decided per call
+site, since Output wants bilingual content blocks and Batch does not).
+
+### Validation state
+
+Two sources, unioned by `useStrictBlock`, because neither alone is sufficient:
+
+| Source | Catches | Why it's needed |
+|---|---|---|
+| `collectEditorIssues` (pure, over `EditorData`) | Saved values that fail validation | Bad data from imports — `ValidatedInput` refuses to commit invalid text, so imports are the main way it gets in |
+| `PendingInvalidStore` | Typed text that is invalid and therefore **not** saved | Otherwise a field showing a red error is invisible to every gate, because the store behind it holds the last good value |
+
+Both are filtered through `isRelevantIssueId`, so a field that isn't currently
+shown (`adEmail` with split-email off, `zaloGroupLink` outside Vietnamese
+output) can never block on a value with no visible input to fix it.
+
+The first implementation registered issues from the inputs themselves and
+cleared on unmount. It typechecked and had passing tests, and did nothing: the
+fields live on the Editor page while the gates live on Batch / Social / Output,
+so navigating away cleared every issue. Deriving from state removes the mount
+coupling entirely.
 
 ## 4. i18n Architecture
 

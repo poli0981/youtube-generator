@@ -29,7 +29,8 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Game presets** — save game name + store links once, reuse across the entire part series.
 - **Snapshot templates** — save full-form configurations and recall in one click.
 - **Smart tag generation** — combines genre pool, platform, quality tier, multilingual hooks, and trending terms; auto-dedup and 500-char-limit aware.
-- **Character counters** — real-time limits for title (100), description (5000), tags (500).
+- **Character counters** — real-time limits for title (100), description (5000), tags (500). If **any one** is over, no field can be copied — partial copying is how a half-finished description gets published.
+- **Guardrails** — hard length caps on every input field, a three-address cap per email field, and an opt-in **Strict Mode** that blocks Generate / Copy / Export while any field holds an error.
 - **Batch mode** — generate metadata for all parts of a series in one pass.
 - **Cross-post captions** — a dedicated **Social** tab re-packages the same YouTube source into short-form captions for **TikTok** (4,000-char), **Instagram Reels**, and **Facebook Reels** — title, rig, content warnings, copyright, thanks, and hashtags (game + genre + curated per-platform popular tags). Single + bulk modes, per-platform character limits with smart overflow trimming, and JSON import/export.
 - **Desktop app** — Windows, macOS & Linux native binaries via Tauri (~8 MB).
@@ -87,6 +88,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
 | Document | What's in it |
 | --- | --- |
+| **[Wiki](https://github.com/poli0981/youtube-generator/wiki)** | **User documentation** — quick start, glossary, every field and its limit, guardrails, troubleshooting, FAQ. Start here if you're using the app rather than building it. |
 | [Development Guide](./docs/DEVELOPMENT.md) | Toolchain, IDE setup, build commands, troubleshooting. *(Also: [Vietnamese](./docs/i18n/vi/DEVELOPMENT.md).)* |
 | [Architecture](./docs/ARCHITECTURE.md) | Layer model, data flow, engine design. |
 | [Features](./docs/FEATURES.md) | Full feature matrix. |

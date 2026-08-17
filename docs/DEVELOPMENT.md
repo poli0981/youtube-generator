@@ -86,14 +86,18 @@ npm run dev
 | `npm run dev` | Vite dev server, hot reload, web only. |
 | `npm run build` | Production web bundle into `dist/`. |
 | `npm run preview` | Serve the production bundle for sanity-testing. |
-| `npm run typecheck` | `tsc --noEmit`. Run before every PR. |
+| `npm run typecheck` | `tsc --noEmit` over `src/` — what Vite actually builds. |
+| `npm run typecheck:all` | Same, plus `tests/` and `scripts/`, which the base config deliberately excludes. Added in v0.35.0 after it turned out they had **never** been type-checked — and immediately found three fields silently missing from the editor→engine parity fixture. |
 | `npm run lint` | ESLint. Use `npm run lint:fix` to autofix. |
-| `npm run format` | Prettier write across `src/`. |
+| `npm run format` | Prettier write across `src/`, `tests/`, `scripts/`. |
+| `npm run format:check` | Same, read-only. CI gate. Markdown and the locale JSON are deliberately out of scope — Prettier reflows prose and expands the schema's compact arrays by ~1600 lines for no benefit. |
+| `npm run knip` | Dead-code / unused-dependency check. CI gate. |
+| `npm run check:version` | Asserts all **six** version fields agree (`package.json`, both `package-lock.json` entries, `tauri.conf.json`, `Cargo.toml`, `Cargo.lock`). The only thing that notices a missed one. |
 | `npm run test` | Vitest watch mode. |
 | `npm run test:run` | Vitest single-run (for CI / pre-commit). |
 | `npm run test:coverage` | Coverage report into `coverage/`. |
 | `npm run validate:locales` | Enforces all 6 locales match `_schema.json` exactly. **Must pass before any locale-touching PR merges.** |
-| `npm run generate:locale` | Scaffold an empty locale from `_schema.json` for a new language. |
+| `npm run generate:locale` | Scaffold a locale from the English source. `--lang <code>`, plus optional `--copy-english` / `--force`. (Advertised since v0.1 but only actually written in v0.35.0.) |
 | `npm run tauri:dev` | Tauri desktop in dev mode (auto-restarts on Rust or frontend changes). |
 | `npm run tauri:build` | Tauri release binary for the current platform. |
 
