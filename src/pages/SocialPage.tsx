@@ -84,28 +84,37 @@ export function SocialPage() {
   const platformLabel = (id: string) =>
     t(SOCIAL_PLATFORMS.find((p) => p.id === id)?.labelKey ?? id);
 
-  const handleExport = () => {
-    try {
-      const bundle: SocialExportBundle = {
-        gameName: baseInput.gameName,
-        language: baseInput.language,
-        posts: SOCIAL_PLATFORMS.map((p) => ({
-          platform: p.id,
-          charLimit: p.charLimit,
-          text: posts[p.id]?.text ?? "",
-          charCount: posts[p.id]?.charCount ?? 0,
-          isOver: posts[p.id]?.isOver ?? false,
-        })),
-      };
-      const safeName = (baseInput.gameName || "captions")
-        .replace(/[^\p{L}\p{N}]+/gu, "-")
-        .toLowerCase();
-      exportTypedToJsonFile("social", bundle, `ytdescgen-social-${safeName}.json`);
-      toast.success(t("socialPost.exported"));
-    } catch (e) {
+  const handleExport = async () => {
+    // The bundle is built synchronously and `exportTypedToJsonFile` is the
+    // first await — the web file picker needs the click's transient user
+    // activation, which any earlier await would spend.
+    const bundle: SocialExportBundle = {
+      gameName: baseInput.gameName,
+      language: baseInput.language,
+      posts: SOCIAL_PLATFORMS.map((p) => ({
+        platform: p.id,
+        charLimit: p.charLimit,
+        text: posts[p.id]?.text ?? "",
+        charCount: posts[p.id]?.charCount ?? 0,
+        isOver: posts[p.id]?.isOver ?? false,
+      })),
+    };
+    const safeName = (baseInput.gameName || "captions")
+      .replace(/[^\p{L}\p{N}]+/gu, "-")
+      .toLowerCase();
+    const outcome = await exportTypedToJsonFile(
+      "social",
+      bundle,
+      `ytdescgen-social-${safeName}.json`,
+    );
+    // Dismissing the save dialog is a decision, not a failure — stay silent.
+    if (outcome === "cancelled") return;
+    if (outcome === "failed") {
       toast.error(t("socialPost.exportFailed"));
-      logger.error("social", "Failed to export captions", String(e));
+      logger.error("social", "Failed to export captions");
+      return;
     }
+    toast.success(t("socialPost.exported"));
   };
 
   const handleImport = async () => {
@@ -244,7 +253,12 @@ export function SocialPage() {
               );
             })}
             <div className="ml-auto flex gap-2">
-              <Button variant="ghost" size="sm" onClick={handleExport} disabled={!gameName}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void handleExport()}
+                disabled={!gameName}
+              >
                 <Download className="h-3.5 w-3.5" />
                 {t("common.export")}
               </Button>

@@ -5,6 +5,7 @@ import {
   type ExportType,
   type DetectedShape,
 } from "./file-schema";
+import { saveTextFile, type SaveOutcome } from "./file-ops";
 
 /**
  * Distinct failure modes the import pipeline surfaces to callers.
@@ -40,24 +41,28 @@ export type ImportResult<T> =
   | { ok: false; failure: ImportFailure };
 
 /**
- * Write `data` to a download as a typed envelope JSON file. The
+ * Write `data` to a user-chosen file as a typed envelope JSON file. The
  * envelope marker lets a later import auto-detect the file's type
  * (see {@link importTypedFromJsonFile}).
+ *
+ * Async since v0.35.0: this used to be a synchronous blob download that never
+ * asked where to save, on any platform. It now delegates to
+ * {@link saveTextFile}, which offers a native Save As on Tauri desktop and the
+ * File System Access picker on Chromium. Callers must `await` and handle the
+ * returned {@link SaveOutcome} — in particular, `"cancelled"` should be silent.
+ *
+ * Awaiting nothing before this call matters on the web: the file picker needs
+ * transient user activation, which an earlier `await` in the click handler
+ * would spend. Build the payload synchronously, then call this.
  */
-export function exportTypedToJsonFile<T>(type: ExportType, data: T, filename: string): void {
+export async function exportTypedToJsonFile<T>(
+  type: ExportType,
+  data: T,
+  filename: string,
+): Promise<SaveOutcome> {
   const envelope = wrapEnvelope(type, data);
   const json = JSON.stringify(envelope, null, 2);
-  triggerDownload(json, filename);
-}
-
-function triggerDownload(content: string, filename: string): void {
-  const blob = new Blob([content], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
+  return saveTextFile({ content: json, filename, mimeType: "application/json" });
 }
 
 /**

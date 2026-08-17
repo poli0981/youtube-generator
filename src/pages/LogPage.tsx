@@ -8,7 +8,8 @@ import { ConfirmDialog } from "@components/ui/ConfirmDialog";
 import { LogEntryCard } from "@components/logs/LogEntry";
 import { useLogStore, type LogEntry, type LogLevel } from "@store/log-store";
 import { exportTypedToJsonFile } from "@utils/import-export";
-import { saveFile } from "@utils/file-ops";
+import { saveTextFile } from "@utils/file-ops";
+import { useFileExport } from "@hooks/use-file-export";
 import clsx from "clsx";
 
 const LEVEL_FILTERS: Array<{ value: LogLevel | "all"; label: string; color: string }> = [
@@ -45,6 +46,7 @@ const LEVEL_FILTERS: Array<{ value: LogLevel | "all"; label: string; color: stri
 export function LogPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.logs"));
+  const { report } = useFileExport();
   // `clearAll` (in-memory only) intentionally omitted — the page uses
   // `clearAllPersisted` so the on-disk JSONL files don't drift out of
   // sync with the in-memory tail when the user hits the toolbar trash.
@@ -100,17 +102,26 @@ export function LogPage() {
   const totalErrorCount = entries.filter((e) => e.level === "error").length;
   const totalWarnCount = entries.filter((e) => e.level === "warn").length;
 
-  const handleExportJson = () => {
-    exportTypedToJsonFile("history", entries, `ytdescgen-logs-${todayStamp()}.json`);
+  const handleExportJson = async () => {
+    report(await exportTypedToJsonFile("history", entries, `ytdescgen-logs-${todayStamp()}.json`));
   };
 
   const handleExportTxt = async () => {
+    // Built synchronously so `saveTextFile` is the first await — the web file
+    // picker needs the click's transient user activation, and an earlier await
+    // would spend it.
     const text = entries
       .slice()
       .reverse() // chronological order in the export
       .map(formatPlaintextLine)
       .join("\n");
-    await saveFile(text, `ytdescgen-logs-${todayStamp()}.txt`);
+    report(
+      await saveTextFile({
+        content: text,
+        filename: `ytdescgen-logs-${todayStamp()}.txt`,
+        mimeType: "text/plain",
+      }),
+    );
   };
 
   return (
@@ -131,11 +142,11 @@ export function LogPage() {
         <div className="flex items-center gap-2">
           {entries.length > 0 && (
             <>
-              <Button variant="ghost" size="sm" onClick={handleExportJson}>
+              <Button variant="ghost" size="sm" onClick={() => void handleExportJson()}>
                 <FileJson className="h-3.5 w-3.5" />
                 {t("logs.exportJson")}
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleExportTxt}>
+              <Button variant="ghost" size="sm" onClick={() => void handleExportTxt()}>
                 <FileText className="h-3.5 w-3.5" />
                 {t("logs.exportTxt")}
               </Button>

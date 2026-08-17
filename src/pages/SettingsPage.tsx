@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import { Save, Upload } from "lucide-react";
 import { Toggle } from "@components/ui/Toggle";
@@ -10,7 +11,6 @@ import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES } from "@config/genres";
 import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
 import { validatePlaylistUrl } from "@utils/validation";
-import { IS_TAURI } from "@utils/platform";
 import { exportTypedToJsonFile, importParsedFromJsonFile } from "@utils/import-export";
 import { resolveForType } from "@utils/file-schema";
 import {
@@ -49,15 +49,19 @@ function isLegacyMultiStoreDump(parsed: unknown): boolean {
  * produces, so users can swap export files between machines without
  * worrying about which tab they're using.
  */
-function exportSettingsToFile() {
-  try {
-    const data = extractData(useSettingsStore.getState());
-    exportTypedToJsonFile("settings", data, "ytdescgen-settings.json");
-    toast.success("Settings exported!");
-  } catch (e) {
-    toast.error("Export failed");
-    logger.error("settings", "Failed to export settings", String(e));
+async function exportSettingsToFile(t: TFunction<"ui">) {
+  // `extractData` is synchronous, so the export call is the first await — the
+  // web file picker needs the click's transient user activation.
+  const data = extractData(useSettingsStore.getState());
+  const outcome = await exportTypedToJsonFile("settings", data, "ytdescgen-settings.json");
+  // Dismissing the save dialog is a decision, not a failure — stay silent.
+  if (outcome === "cancelled") return;
+  if (outcome === "failed") {
+    toast.error(t("common.exportFailed"));
+    logger.error("settings", "Failed to export settings");
+    return;
   }
+  toast.success(t("common.exported"));
 }
 
 /**
@@ -194,18 +198,22 @@ export function SettingsPage() {
     <div className="mx-auto max-w-2xl p-4 sm:p-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-lg font-bold text-text-primary">{t("settings.title")}</h1>
-        {IS_TAURI && (
-          <div className="flex gap-2">
-            <Button variant="ghost" size="sm" onClick={importSettingsFromFile}>
-              <Upload className="h-3.5 w-3.5" />
-              Import
-            </Button>
-            <Button variant="ghost" size="sm" onClick={exportSettingsToFile}>
-              <Save className="h-3.5 w-3.5" />
-              Export
-            </Button>
-          </div>
-        )}
+        {/* Ungated since v0.35.0. This pair used to be desktop-only, a leftover
+            from when "export" meant dumping the on-disk settings.json. Import
+            has always been a plain <input type="file"> that needs no Tauri, and
+            export now offers a real save dialog on the web too — so hiding both
+            on the web build was the odd one out among every other export button
+            in the app. */}
+        <div className="flex gap-2">
+          <Button variant="ghost" size="sm" onClick={() => void importSettingsFromFile()}>
+            <Upload className="h-3.5 w-3.5" />
+            {t("common.import")}
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => void exportSettingsToFile(t)}>
+            <Save className="h-3.5 w-3.5" />
+            {t("common.export")}
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col gap-8">

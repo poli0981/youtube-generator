@@ -9,6 +9,9 @@ import {
   validateFacebookGroupUrl,
   validateIntegerInRange,
   validateBatchRange,
+  validateEmails,
+  countEmailSegments,
+  canAcceptEmailInput,
 } from "@utils/validation";
 import { PLATFORMS } from "@config/platforms";
 
@@ -476,5 +479,83 @@ describe("validateBatchRange", () => {
     const result = validateBatchRange("", "5", { maxSpan: 100 });
     expect(result.valid).toBe(false);
     expect(result.error).toBe("validation.numberRequired");
+  });
+});
+
+describe("countEmailSegments", () => {
+  it("counts nothing in an empty field", () => {
+    expect(countEmailSegments("")).toBe(0);
+    expect(countEmailSegments("   ")).toBe(0);
+  });
+
+  it("counts a single address", () => {
+    expect(countEmailSegments("a@b.com")).toBe(1);
+  });
+
+  it("ignores a trailing separator — the instant after typing the comma", () => {
+    expect(countEmailSegments("a@b.com,")).toBe(1);
+    expect(countEmailSegments("a@b.com, ")).toBe(1);
+  });
+
+  it("ignores empty segments between separators", () => {
+    expect(countEmailSegments("a@b.com, ,c@d.com")).toBe(2);
+  });
+
+  it("counts a half-typed address as one", () => {
+    expect(countEmailSegments("a@b.com,c@")).toBe(2);
+  });
+});
+
+describe("canAcceptEmailInput", () => {
+  const three = "a@b.com,c@d.com,e@f.com";
+
+  it("accepts typing up to the cap", () => {
+    expect(canAcceptEmailInput("a@b.com", "")).toBe(true);
+    expect(canAcceptEmailInput("a@b.com,c@d.com", "a@b.com")).toBe(true);
+    expect(canAcceptEmailInput(three, "a@b.com,c@d.com")).toBe(true);
+  });
+
+  it("rejects a fourth address", () => {
+    expect(canAcceptEmailInput(`${three},g@h.com`, three)).toBe(false);
+  });
+
+  it("still accepts the separator after the third — the count has not risen yet", () => {
+    expect(canAcceptEmailInput(`${three},`, three)).toBe(true);
+  });
+
+  it("never punishes a half-typed address", () => {
+    // "a@b.com,c@" is two segments; the format validator handles the rest.
+    expect(canAcceptEmailInput("a@b.com,c@", "a@b.com,")).toBe(true);
+  });
+
+  it("lets an over-cap field be edited back down", () => {
+    // A legacy profile or hand-edited import can carry four. A flat
+    // `count > max` reject would freeze the field and strand the user.
+    const four = `${three},g@h.com`;
+    expect(canAcceptEmailInput(four.slice(0, -1), four)).toBe(true);
+    expect(canAcceptEmailInput(three, four)).toBe(true);
+  });
+
+  it("honours a custom cap", () => {
+    expect(canAcceptEmailInput(`${three},g@h.com`, three, 5)).toBe(true);
+    expect(canAcceptEmailInput("a@b.com,c@d.com", "a@b.com", 1)).toBe(false);
+  });
+});
+
+describe("validateEmails — the cap still applies to imported values", () => {
+  it("accepts up to three", () => {
+    expect(validateEmails("a@b.com,c@d.com,e@f.com").valid).toBe(true);
+  });
+
+  it("rejects four, since an import never passes through the input guard", () => {
+    const result = validateEmails("a@b.com,c@d.com,e@f.com,g@h.com");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.emailMaxExceeded");
+  });
+
+  it("reports a malformed address rather than the cap when both are wrong", () => {
+    const result = validateEmails("a@b.com,c@d.com,nope");
+    expect(result.valid).toBe(false);
+    expect(result.error).toBe("validation.emailInvalid");
   });
 });

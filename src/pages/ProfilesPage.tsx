@@ -14,6 +14,7 @@ import {
   importTypedFromJsonFile,
   type ImportFailure,
 } from "@utils/import-export";
+import { useFileExport } from "@hooks/use-file-export";
 import type { ExportType } from "@utils/file-schema";
 import { logger } from "@utils/logger";
 import toast from "react-hot-toast";
@@ -41,6 +42,7 @@ const TYPE_TO_TAB: Partial<Record<ExportType, Tab>> = {
 export function ProfilesPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.profiles"));
+  const { report } = useFileExport();
   const [tab, setTab] = useState<Tab>("profiles");
   const { profiles, importProfiles } = useProfileStore();
   const { presets, importPresets } = usePresetStore();
@@ -103,9 +105,8 @@ export function ProfilesPage() {
     }
   }
 
-  const handleExportProfiles = () => {
-    exportTypedToJsonFile("profile", profiles, "ytdescgen-profiles.json");
-    toast.success("Exported!");
+  const handleExportProfiles = async () => {
+    report(await exportTypedToJsonFile("profile", profiles, "ytdescgen-profiles.json"));
   };
 
   const handleImportProfiles = async () => {
@@ -129,9 +130,8 @@ export function ProfilesPage() {
     );
   };
 
-  const handleExportPresets = () => {
-    exportTypedToJsonFile("preset", presets, "ytdescgen-presets.json");
-    toast.success("Exported!");
+  const handleExportPresets = async () => {
+    report(await exportTypedToJsonFile("preset", presets, "ytdescgen-presets.json"));
   };
 
   const handleImportPresets = async () => {
@@ -150,9 +150,8 @@ export function ProfilesPage() {
     );
   };
 
-  const handleExportTemplates = () => {
-    exportTypedToJsonFile("template", templates, "ytdescgen-templates.json");
-    toast.success("Exported!");
+  const handleExportTemplates = async () => {
+    report(await exportTypedToJsonFile("template", templates, "ytdescgen-templates.json"));
   };
 
   const handleImportTemplates = async () => {
@@ -191,7 +190,7 @@ export function ProfilesPage() {
         <div className="flex flex-wrap gap-2">
           {tab === "profiles" && (
             <>
-              <Button variant="ghost" size="sm" onClick={handleExportProfiles}>
+              <Button variant="ghost" size="sm" onClick={() => void handleExportProfiles()}>
                 <Download className="h-3.5 w-3.5" />
                 {t("profiles.exportProfiles")}
               </Button>
@@ -203,7 +202,7 @@ export function ProfilesPage() {
           )}
           {tab === "presets" && (
             <>
-              <Button variant="ghost" size="sm" onClick={handleExportPresets}>
+              <Button variant="ghost" size="sm" onClick={() => void handleExportPresets()}>
                 <Download className="h-3.5 w-3.5" />
                 {t("presets.exportPresets")}
               </Button>
@@ -215,7 +214,7 @@ export function ProfilesPage() {
           )}
           {tab === "templates" && (
             <>
-              <Button variant="ghost" size="sm" onClick={handleExportTemplates}>
+              <Button variant="ghost" size="sm" onClick={() => void handleExportTemplates()}>
                 <Download className="h-3.5 w-3.5" />
                 {t("templates.exportTemplates")}
               </Button>
