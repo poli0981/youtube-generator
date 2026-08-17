@@ -39,24 +39,16 @@ describe("validateUrlWithPattern — Steam", () => {
   });
 
   it("rejects URLs without /app/<id>", () => {
+    expect(validateUrlWithPattern("https://store.steampowered.com/", steam.urlPattern).valid).toBe(
+      false,
+    );
     expect(
-      validateUrlWithPattern(
-        "https://store.steampowered.com/",
-        steam.urlPattern,
-      ).valid,
-    ).toBe(false);
-    expect(
-      validateUrlWithPattern(
-        "https://store.steampowered.com/news/app/123",
-        steam.urlPattern,
-      ).valid,
+      validateUrlWithPattern("https://store.steampowered.com/news/app/123", steam.urlPattern).valid,
     ).toBe(false);
   });
 
   it("rejects totally unrelated URLs", () => {
-    expect(
-      validateUrlWithPattern("https://example.com", steam.urlPattern).valid,
-    ).toBe(false);
+    expect(validateUrlWithPattern("https://example.com", steam.urlPattern).valid).toBe(false);
   });
 
   it("accepts empty input (not an error)", () => {
@@ -68,23 +60,19 @@ describe("Steam normalize", () => {
   const steam = platform("steam");
 
   it("strips trailing slug from canonical URL", () => {
-    expect(
-      steam.normalize?.(
-        "https://store.steampowered.com/app/1245620/ELDEN_RING/",
-      ),
-    ).toBe("https://store.steampowered.com/app/1245620");
+    expect(steam.normalize?.("https://store.steampowered.com/app/1245620/ELDEN_RING/")).toBe(
+      "https://store.steampowered.com/app/1245620",
+    );
   });
 
   it("is a no-op on an already-normalized URL", () => {
-    expect(
-      steam.normalize?.("https://store.steampowered.com/app/1245620"),
-    ).toBe("https://store.steampowered.com/app/1245620");
+    expect(steam.normalize?.("https://store.steampowered.com/app/1245620")).toBe(
+      "https://store.steampowered.com/app/1245620",
+    );
   });
 
   it("leaves unrelated URLs alone", () => {
-    expect(steam.normalize?.("https://example.com/app/123")).toBe(
-      "https://example.com/app/123",
-    );
+    expect(steam.normalize?.("https://example.com/app/123")).toBe("https://example.com/app/123");
   });
 });
 
@@ -92,33 +80,23 @@ describe("validateUrlWithPattern — itch.io", () => {
   const itch = platform("itchio");
 
   it("accepts dev subdomain URL", () => {
-    expect(
-      validateUrlWithPattern(
-        "https://devname.itch.io/my-game",
-        itch.urlPattern,
-      ).valid,
-    ).toBe(true);
+    expect(validateUrlWithPattern("https://devname.itch.io/my-game", itch.urlPattern).valid).toBe(
+      true,
+    );
   });
 
   it("accepts trailing slash", () => {
-    expect(
-      validateUrlWithPattern(
-        "https://devname.itch.io/my-game/",
-        itch.urlPattern,
-      ).valid,
-    ).toBe(true);
+    expect(validateUrlWithPattern("https://devname.itch.io/my-game/", itch.urlPattern).valid).toBe(
+      true,
+    );
   });
 
   it("rejects the bare itch.io host", () => {
-    expect(
-      validateUrlWithPattern("https://itch.io/games", itch.urlPattern).valid,
-    ).toBe(false);
+    expect(validateUrlWithPattern("https://itch.io/games", itch.urlPattern).valid).toBe(false);
   });
 
   it("rejects missing game slug", () => {
-    expect(
-      validateUrlWithPattern("https://devname.itch.io/", itch.urlPattern).valid,
-    ).toBe(false);
+    expect(validateUrlWithPattern("https://devname.itch.io/", itch.urlPattern).valid).toBe(false);
   });
 
   it("accepts empty input (not an error)", () => {
@@ -130,24 +108,17 @@ describe("validateUrlWithPattern — Publisher / Developer site", () => {
   const publisher = platform("publisher");
 
   it("accepts a generic publisher HTTPS URL", () => {
-    expect(
-      validateUrlWithPattern(
-        "https://playmygame.com/buy",
-        publisher.urlPattern,
-      ).valid,
-    ).toBe(true);
+    expect(validateUrlWithPattern("https://playmygame.com/buy", publisher.urlPattern).valid).toBe(
+      true,
+    );
   });
 
   it("accepts a bare host without path", () => {
-    expect(
-      validateUrlWithPattern("https://playmygame.com", publisher.urlPattern).valid,
-    ).toBe(true);
+    expect(validateUrlWithPattern("https://playmygame.com", publisher.urlPattern).valid).toBe(true);
   });
 
   it("rejects http (non-https) URLs", () => {
-    expect(
-      validateUrlWithPattern("http://playmygame.com", publisher.urlPattern).valid,
-    ).toBe(false);
+    expect(validateUrlWithPattern("http://playmygame.com", publisher.urlPattern).valid).toBe(false);
   });
 
   it("accepts empty input (not an error)", () => {
@@ -165,78 +136,59 @@ describe("validatePlaylistUrl", () => {
   });
 
   it("accepts a short playlist id", () => {
-    expect(
-      validatePlaylistUrl("https://www.youtube.com/playlist?list=abc_DEF-123").valid,
-    ).toBe(true);
+    expect(validatePlaylistUrl("https://www.youtube.com/playlist?list=abc_DEF-123").valid).toBe(
+      true,
+    );
   });
 
   it("accepts a bare youtube.com host without the www. subdomain (v0.8.1 fix)", () => {
     expect(
-      validatePlaylistUrl(
-        "https://youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHjMZOz59Oq8B1X22",
-      ).valid,
+      validatePlaylistUrl("https://youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHjMZOz59Oq8B1X22")
+        .valid,
     ).toBe(true);
   });
 
   it("accepts an extra trailing query parameter alongside list= (v0.8.1 fix)", () => {
-    expect(
-      validatePlaylistUrl(
-        "https://www.youtube.com/playlist?list=PLabc&si=xyz123",
-      ).valid,
-    ).toBe(true);
+    expect(validatePlaylistUrl("https://www.youtube.com/playlist?list=PLabc&si=xyz123").valid).toBe(
+      true,
+    );
   });
 
   it("accepts a list= param sitting after another query param (v0.8.1 fix)", () => {
-    expect(
-      validatePlaylistUrl(
-        "https://www.youtube.com/playlist?si=foo&list=PLabc",
-      ).valid,
-    ).toBe(true);
+    expect(validatePlaylistUrl("https://www.youtube.com/playlist?si=foo&list=PLabc").valid).toBe(
+      true,
+    );
   });
 
   it("accepts a trailing fragment (v0.8.1 fix)", () => {
-    expect(
-      validatePlaylistUrl(
-        "https://www.youtube.com/playlist?list=PLabc#bookmark",
-      ).valid,
-    ).toBe(true);
+    expect(validatePlaylistUrl("https://www.youtube.com/playlist?list=PLabc#bookmark").valid).toBe(
+      true,
+    );
   });
 
   it("rejects a watch?v= URL (most common mistake)", () => {
-    const result = validatePlaylistUrl(
-      "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    );
+    const result = validatePlaylistUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
     expect(result.valid).toBe(false);
     expect(result.error).toBe("validation.playlistUrlInvalid");
-    expect(result.errorParams?.expected).toBe(
-      "https://www.youtube.com/playlist?list=[id]",
-    );
+    expect(result.errorParams?.expected).toBe("https://www.youtube.com/playlist?list=[id]");
   });
 
   it("rejects a watch URL with both v= and list= params", () => {
     expect(
-      validatePlaylistUrl(
-        "https://www.youtube.com/watch?v=abc&list=PLrAXtmRdnEQy6nuLMHj",
-      ).valid,
+      validatePlaylistUrl("https://www.youtube.com/watch?v=abc&list=PLrAXtmRdnEQy6nuLMHj").valid,
     ).toBe(false);
   });
 
   it("rejects a youtu.be short URL", () => {
-    expect(
-      validatePlaylistUrl("https://youtu.be/dQw4w9WgXcQ").valid,
-    ).toBe(false);
+    expect(validatePlaylistUrl("https://youtu.be/dQw4w9WgXcQ").valid).toBe(false);
   });
 
   it("rejects an http (non-https) URL", () => {
-    expect(
-      validatePlaylistUrl("http://www.youtube.com/playlist?list=abc").valid,
-    ).toBe(false);
+    expect(validatePlaylistUrl("http://www.youtube.com/playlist?list=abc").valid).toBe(false);
   });
 
   it("rejects a playlist URL with no id", () => {
-    expect(
-      validatePlaylistUrl("https://www.youtube.com/playlist?list=").valid,
-    ).toBe(false);
+    expect(validatePlaylistUrl("https://www.youtube.com/playlist?list=").valid).toBe(false);
   });
 
   it("accepts empty input (not an error)", () => {
@@ -257,24 +209,16 @@ describe("validateMessengerUrl", () => {
   });
 
   it("accepts the community link with or without a trailing slash", () => {
-    expect(
-      validateMessengerUrl("https://m.me/ch/Abb1hmBhU_97UMCF/").valid,
-    ).toBe(true);
-    expect(validateMessengerUrl("https://m.me/ch/Abb1hmBhU_97UMCF").valid).toBe(
-      true,
-    );
+    expect(validateMessengerUrl("https://m.me/ch/Abb1hmBhU_97UMCF/").valid).toBe(true);
+    expect(validateMessengerUrl("https://m.me/ch/Abb1hmBhU_97UMCF").valid).toBe(true);
   });
 
   it("accepts a numeric id", () => {
-    expect(validateMessengerUrl("https://m.me/ch/100123456789").valid).toBe(
-      true,
-    );
+    expect(validateMessengerUrl("https://m.me/ch/100123456789").valid).toBe(true);
   });
 
   it("accepts ids with dots, dashes and underscores", () => {
-    expect(validateMessengerUrl("https://m.me/ch/my.page_name-1").valid).toBe(
-      true,
-    );
+    expect(validateMessengerUrl("https://m.me/ch/my.page_name-1").valid).toBe(true);
   });
 
   it("rejects the old bare m.me link without the /ch/ segment", () => {
@@ -347,9 +291,7 @@ describe("validateSignalGroupUrl", () => {
   });
 
   it("accepts a base64 payload with + / = characters", () => {
-    expect(
-      validateSignalGroupUrl("https://signal.group/#CjQKIA+b/c=").valid,
-    ).toBe(true);
+    expect(validateSignalGroupUrl("https://signal.group/#CjQKIA+b/c=").valid).toBe(true);
   });
 
   it("rejects a signal.group link with no fragment", () => {

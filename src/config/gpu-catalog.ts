@@ -44,7 +44,15 @@ const NVIDIA_SERIES: readonly GpuSeries[] = [
   {
     id: "rtx_50",
     label: "RTX 50 Series",
-    models: ["RTX 5050", "RTX 5060", "RTX 5060 Ti", "RTX 5070", "RTX 5070 Ti", "RTX 5080", "RTX 5090"],
+    models: [
+      "RTX 5050",
+      "RTX 5060",
+      "RTX 5060 Ti",
+      "RTX 5070",
+      "RTX 5070 Ti",
+      "RTX 5080",
+      "RTX 5090",
+    ],
   },
   {
     id: "rtx_40",
@@ -185,12 +193,32 @@ const AMD_SERIES: readonly GpuSeries[] = [
   {
     id: "r9_300",
     label: "Radeon R7/R9 300",
-    models: ["R7 360", "R7 370", "R9 380", "R9 380X", "R9 390", "R9 390X", "R9 Fury", "R9 Fury X", "R9 Nano"],
+    models: [
+      "R7 360",
+      "R7 370",
+      "R9 380",
+      "R9 380X",
+      "R9 390",
+      "R9 390X",
+      "R9 Fury",
+      "R9 Fury X",
+      "R9 Nano",
+    ],
   },
   {
     id: "r9_200",
     label: "Radeon R7/R9 200",
-    models: ["R7 250", "R7 260", "R7 260X", "R9 270", "R9 270X", "R9 280", "R9 280X", "R9 290", "R9 290X"],
+    models: [
+      "R7 250",
+      "R7 260",
+      "R7 260X",
+      "R9 270",
+      "R9 270X",
+      "R9 280",
+      "R9 280X",
+      "R9 290",
+      "R9 290X",
+    ],
   },
   {
     id: "hd_7000",

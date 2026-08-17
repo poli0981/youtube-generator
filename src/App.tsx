@@ -24,21 +24,13 @@ const HistoryPage = lazy(() =>
 const SettingsPage = lazy(() =>
   import("@pages/SettingsPage").then((m) => ({ default: m.SettingsPage })),
 );
-const BatchPage = lazy(() =>
-  import("@pages/BatchPage").then((m) => ({ default: m.BatchPage })),
-);
-const SocialPage = lazy(() =>
-  import("@pages/SocialPage").then((m) => ({ default: m.SocialPage })),
-);
+const BatchPage = lazy(() => import("@pages/BatchPage").then((m) => ({ default: m.BatchPage })));
+const SocialPage = lazy(() => import("@pages/SocialPage").then((m) => ({ default: m.SocialPage })));
 const PlaylistPage = lazy(() =>
   import("@pages/PlaylistPage").then((m) => ({ default: m.PlaylistPage })),
 );
-const LogPage = lazy(() =>
-  import("@pages/LogPage").then((m) => ({ default: m.LogPage })),
-);
-const AboutPage = lazy(() =>
-  import("@pages/AboutPage").then((m) => ({ default: m.AboutPage })),
-);
+const LogPage = lazy(() => import("@pages/LogPage").then((m) => ({ default: m.LogPage })));
+const AboutPage = lazy(() => import("@pages/AboutPage").then((m) => ({ default: m.AboutPage })));
 
 function PageLoader() {
   return <div className="flex items-center justify-center p-12 text-text-muted">Loading...</div>;
@@ -152,35 +144,67 @@ export default function App() {
             />
             <Route
               path="profiles"
-              element={<PageBoundary label="Profiles"><ProfilesPage /></PageBoundary>}
+              element={
+                <PageBoundary label="Profiles">
+                  <ProfilesPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="history"
-              element={<PageBoundary label="History"><HistoryPage /></PageBoundary>}
+              element={
+                <PageBoundary label="History">
+                  <HistoryPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="settings"
-              element={<PageBoundary label="Settings"><SettingsPage /></PageBoundary>}
+              element={
+                <PageBoundary label="Settings">
+                  <SettingsPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="batch"
-              element={<PageBoundary label="Batch"><BatchPage /></PageBoundary>}
+              element={
+                <PageBoundary label="Batch">
+                  <BatchPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="social"
-              element={<PageBoundary label="Social"><SocialPage /></PageBoundary>}
+              element={
+                <PageBoundary label="Social">
+                  <SocialPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="playlist"
-              element={<PageBoundary label="Playlist"><PlaylistPage /></PageBoundary>}
+              element={
+                <PageBoundary label="Playlist">
+                  <PlaylistPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="logs"
-              element={<PageBoundary label="Logs"><LogPage /></PageBoundary>}
+              element={
+                <PageBoundary label="Logs">
+                  <LogPage />
+                </PageBoundary>
+              }
             />
             <Route
               path="about"
-              element={<PageBoundary label="About"><AboutPage /></PageBoundary>}
+              element={
+                <PageBoundary label="About">
+                  <AboutPage />
+                </PageBoundary>
+              }
             />
           </Route>
           {/* Designed error pages — siblings of the AppShell group so they

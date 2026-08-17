@@ -42,7 +42,9 @@ export function OutputPreview({ output: outputProp }: OutputPreviewProps) {
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-text-primary">{t("output.description")}</h3>
           <div className="flex items-center gap-3">
-            {showCharCount && <CharCounter text={output.description} limit={YT_LIMITS.DESCRIPTION_MAX} />}
+            {showCharCount && (
+              <CharCounter text={output.description} limit={YT_LIMITS.DESCRIPTION_MAX} />
+            )}
             <CopyButton
               text={output.description}
               label={t("output.copyDescription")}

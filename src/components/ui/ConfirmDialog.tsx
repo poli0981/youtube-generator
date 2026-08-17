@@ -36,7 +36,7 @@ export function ConfirmDialog({
           <Button
             variant="primary"
             onClick={onConfirm}
-            className={variant === "danger" ? "bg-danger hover:bg-danger/80" : ""}
+            className={variant === "danger" ? "hover:bg-danger/80 bg-danger" : ""}
           >
             {confirmLabel ?? t("common.confirm")}
           </Button>

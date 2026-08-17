@@ -59,10 +59,7 @@ describe("buildTitleVariants", () => {
 
   it("qualityFirst falls back to default when the badge is empty (1080p 60fps)", () => {
     const t = createMockT("en");
-    const variants = buildTitleVariants(
-      makeInput({ resolution: "1080p", fps: "60" }),
-      t,
-    );
+    const variants = buildTitleVariants(makeInput({ resolution: "1080p", fps: "60" }), t);
     const defaultTitle = variants.find((v) => v.id === "default")!.title;
     const qualityFirstTitle = variants.find((v) => v.id === "qualityFirst")!.title;
     expect(qualityFirstTitle).toBe(defaultTitle);

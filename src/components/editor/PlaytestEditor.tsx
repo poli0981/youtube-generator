@@ -4,15 +4,8 @@ import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Input } from "@components/ui/Input";
 import { Select } from "@components/ui/Select";
 import { useEditorStore } from "@store/editor-store";
-import {
-  validateUrl,
-  validateUrlWithPattern,
-  validateIntegerInRange,
-} from "@utils/validation";
-import {
-  PLAYTEST_PLATFORMS,
-  maxInvitesForPlatform,
-} from "@config/playtest-platforms";
+import { validateUrl, validateUrlWithPattern, validateIntegerInRange } from "@utils/validation";
+import { PLAYTEST_PLATFORMS, maxInvitesForPlatform } from "@config/playtest-platforms";
 
 /**
  * Playtest section (v0.30.0). One signup link + the platform it lives on +

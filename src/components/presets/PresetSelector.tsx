@@ -40,5 +40,7 @@ export function PresetSelector() {
     }
   };
 
-  return <Select label={t("presets.selectPreset")} options={options} value="" onChange={handleSelect} />;
+  return (
+    <Select label={t("presets.selectPreset")} options={options} value="" onChange={handleSelect} />
+  );
 }

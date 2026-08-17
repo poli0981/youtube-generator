@@ -16,9 +16,7 @@ describe("lazy locale loading", () => {
     expect(i18n.isInitialized).toBe(true);
     expect(i18n.hasResourceBundle("en", "ui")).toBe(true);
     expect(i18n.hasResourceBundle("en", "templates")).toBe(true);
-    expect(i18n.getFixedT("en", "templates")("title.suffix")).toBe(
-      "Gameplay No Commentary",
-    );
+    expect(i18n.getFixedT("en", "templates")("title.suffix")).toBe("Gameplay No Commentary");
   });
 
   it("does not bundle non-English languages at import time", () => {
@@ -39,9 +37,7 @@ describe("lazy locale loading", () => {
   });
 
   it("is idempotent for already-loaded and bundled languages", async () => {
-    await expect(
-      ensureLanguagesLoaded(["vi", "en"]),
-    ).resolves.toBeUndefined();
+    await expect(ensureLanguagesLoaded(["vi", "en"])).resolves.toBeUndefined();
     expect(i18n.hasResourceBundle("vi", "templates")).toBe(true);
   });
 });

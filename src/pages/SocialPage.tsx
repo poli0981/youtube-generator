@@ -12,16 +12,10 @@ import { useSettingsStore } from "@store/settings-store";
 import { SUPPORTED_LANGUAGES, ensureLanguagesLoaded } from "@i18n/index";
 import { SOCIAL_PLATFORMS } from "@config/social-platforms";
 import { useSocialPosts } from "@hooks/use-social-posts";
-import {
-  buildAllSocialPosts,
-  type SocialPostOutput,
-} from "@engine/social-post-builder";
+import { buildAllSocialPosts, type SocialPostOutput } from "@engine/social-post-builder";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import { validateBatchRange } from "@utils/validation";
-import {
-  exportTypedToJsonFile,
-  importTypedFromJsonFile,
-} from "@utils/import-export";
+import { exportTypedToJsonFile, importTypedFromJsonFile } from "@utils/import-export";
 import type { SupportedLanguage } from "@engine/types";
 import toast from "react-hot-toast";
 import { logger } from "@utils/logger";
@@ -63,16 +57,12 @@ export function SocialPage() {
 
   const posts = useSocialPosts();
   const [mode, setMode] = useState<"single" | "bulk">("single");
-  const [activePlatform, setActivePlatform] = useState<string>(
-    SOCIAL_PLATFORMS[0]?.id ?? "tiktok",
-  );
+  const [activePlatform, setActivePlatform] = useState<string>(SOCIAL_PLATFORMS[0]?.id ?? "tiktok");
 
   // Bulk state
   const [startPart, setStartPart] = useState("1");
   const [endPart, setEndPart] = useState("5");
-  const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([
-    language,
-  ]);
+  const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([language]);
   const [bulkResults, setBulkResults] = useState<BulkRow[]>([]);
   const [generating, setGenerating] = useState(false);
 
@@ -88,8 +78,7 @@ export function SocialPage() {
   // Import display (read-only)
   const [imported, setImported] = useState<SocialExportBundle | null>(null);
 
-  const activeConfig =
-    SOCIAL_PLATFORMS.find((p) => p.id === activePlatform) ?? SOCIAL_PLATFORMS[0];
+  const activeConfig = SOCIAL_PLATFORMS.find((p) => p.id === activePlatform) ?? SOCIAL_PLATFORMS[0];
   const activePost = posts[activePlatform];
 
   const platformLabel = (id: string) =>
@@ -135,8 +124,7 @@ export function SocialPage() {
     setImported({
       gameName: typeof data.gameName === "string" ? data.gameName : "",
       language: (data.language ?? "en") as SupportedLanguage,
-      partNumber:
-        typeof data.partNumber === "string" ? data.partNumber : undefined,
+      partNumber: typeof data.partNumber === "string" ? data.partNumber : undefined,
       posts: data.posts as SocialPostExport[],
     });
     toast.success(t("socialPost.imported"));
@@ -216,9 +204,7 @@ export function SocialPage() {
   return (
     <div className="mx-auto max-w-4xl p-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-lg font-bold text-text-primary">
-          {t("socialPost.title")}
-        </h1>
+        <h1 className="text-lg font-bold text-text-primary">{t("socialPost.title")}</h1>
         <div className="flex gap-1 rounded-lg bg-surface-1 p-1">
           {(["single", "bulk"] as const).map((m) => (
             <button
@@ -226,9 +212,7 @@ export function SocialPage() {
               onClick={() => setMode(m)}
               className={clsx(
                 "rounded-md px-3 py-1 text-sm font-medium transition-colors",
-                mode === m
-                  ? "bg-accent text-white"
-                  : "text-text-muted hover:text-text-primary",
+                mode === m ? "bg-accent text-white" : "text-text-muted hover:text-text-primary",
               )}
             >
               {t(`socialPost.${m}`)}
@@ -260,12 +244,7 @@ export function SocialPage() {
               );
             })}
             <div className="ml-auto flex gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleExport}
-                disabled={!gameName}
-              >
+              <Button variant="ghost" size="sm" onClick={handleExport} disabled={!gameName}>
                 <Download className="h-3.5 w-3.5" />
                 {t("common.export")}
               </Button>
@@ -291,10 +270,7 @@ export function SocialPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CharCounter
-                      text={activePost.text}
-                      limit={activeConfig.charLimit}
-                    />
+                    <CharCounter text={activePost.text} limit={activeConfig.charLimit} />
                     <CopyButton
                       text={activePost.text}
                       label={t("socialPost.copyCaption")}
@@ -325,17 +301,13 @@ export function SocialPage() {
           )}
 
           {imported && (
-            <div className="mt-6 rounded-lg border border-accent/40 bg-accent/5 p-4">
+            <div className="border-accent/40 bg-accent/5 mt-6 rounded-lg border p-4">
               <div className="mb-3 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-text-primary">
                   {t("socialPost.importedHeading")}
                   {imported.gameName ? ` — ${imported.gameName}` : ""}
                 </h2>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setImported(null)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => setImported(null)}>
                   {t("common.dismiss")}
                 </Button>
               </div>
@@ -417,7 +389,7 @@ export function SocialPage() {
           {rangeError && (
             <p
               role="alert"
-              className="rounded-lg border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-warning"
+              className="border-warning/40 bg-warning/10 rounded-lg border px-3 py-2 text-xs text-warning"
             >
               {rangeError}
             </p>
@@ -449,19 +421,13 @@ export function SocialPage() {
                         const post = row.posts[p.id];
                         if (!post) return null;
                         return (
-                          <div
-                            key={p.id}
-                            className="rounded-lg bg-surface-2 p-3"
-                          >
+                          <div key={p.id} className="rounded-lg bg-surface-2 p-3">
                             <div className="mb-1 flex items-center justify-between">
                               <span className="text-xs font-medium uppercase text-text-muted">
                                 {t(p.labelKey)}
                               </span>
                               <div className="flex items-center gap-2">
-                                <CharCounter
-                                  text={post.text}
-                                  limit={p.charLimit}
-                                />
+                                <CharCounter text={post.text} limit={p.charLimit} />
                                 <CopyButton
                                   text={post.text}
                                   label={t("socialPost.copyCaption")}

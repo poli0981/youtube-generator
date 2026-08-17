@@ -32,9 +32,9 @@ export const VIDEO_STYLE_ERAS = [
 export type VideoStyleEra = (typeof VIDEO_STYLE_ERAS)[number];
 
 /** Subset minus the empty sentinel — used by the form to render options. */
-export const VIDEO_STYLE_ERA_IDS = VIDEO_STYLE_ERAS.filter(
-  (id) => id !== "",
-) as ReadonlyArray<Exclude<VideoStyleEra, "">>;
+export const VIDEO_STYLE_ERA_IDS = VIDEO_STYLE_ERAS.filter((id) => id !== "") as ReadonlyArray<
+  Exclude<VideoStyleEra, "">
+>;
 
 /**
  * Type guard so the engine + migration can coerce unrecognised values
@@ -42,8 +42,5 @@ export const VIDEO_STYLE_ERA_IDS = VIDEO_STYLE_ERAS.filter(
  * eras) back to the empty sentinel without crashing.
  */
 export function isVideoStyleEra(value: unknown): value is VideoStyleEra {
-  return (
-    typeof value === "string" &&
-    (VIDEO_STYLE_ERAS as readonly string[]).includes(value)
-  );
+  return typeof value === "string" && (VIDEO_STYLE_ERAS as readonly string[]).includes(value);
 }

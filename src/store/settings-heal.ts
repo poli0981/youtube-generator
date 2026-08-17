@@ -220,10 +220,7 @@ export function healSettings(raw: unknown): SettingsData {
   // to [1, 90] so an extreme value can't either spam the disk or
   // wipe everything on boot.
   if (typeof incoming.logRetentionDays === "number") {
-    incoming.logRetentionDays = Math.max(
-      1,
-      Math.min(90, Math.floor(incoming.logRetentionDays)),
-    );
+    incoming.logRetentionDays = Math.max(1, Math.min(90, Math.floor(incoming.logRetentionDays)));
   }
 
   // v0.28.0: `legalConsentVersion` added. A non-number / non-finite / negative

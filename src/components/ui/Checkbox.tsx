@@ -25,7 +25,10 @@ export function Checkbox({ checked, onChange, label, className, id }: CheckboxPr
   return (
     <label
       htmlFor={inputId}
-      className={clsx("group flex min-h-touch cursor-pointer items-start gap-3 text-left", className)}
+      className={clsx(
+        "group flex min-h-touch cursor-pointer items-start gap-3 text-left",
+        className,
+      )}
     >
       <input
         id={inputId}
@@ -38,7 +41,7 @@ export function Checkbox({ checked, onChange, label, className, id }: CheckboxPr
         aria-hidden
         className={clsx(
           "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border transition-colors",
-          "peer-focus-visible:ring-2 peer-focus-visible:ring-accent/50",
+          "peer-focus-visible:ring-accent/50 peer-focus-visible:ring-2",
           checked
             ? "border-accent bg-accent text-white"
             : "border-border bg-surface-1 text-transparent group-hover:border-border-strong",

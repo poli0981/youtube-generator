@@ -1,8 +1,4 @@
-import type {
-  FrameGenVendor,
-  FrameGenMultiplier,
-  UpscaleQuality,
-} from "@config/graphics-settings";
+import type { FrameGenVendor, FrameGenMultiplier, UpscaleQuality } from "@config/graphics-settings";
 
 /**
  * Vendor-aware filtering for upscaling-quality and frame-generation
@@ -21,19 +17,10 @@ import type {
  * and by description-builder / editor-store / template-store to coerce
  * invalid vendor×quality combos back to `"none"` on rehydrate.
  */
-export function getValidUpscaleQualities(
-  vendor: FrameGenVendor,
-): readonly UpscaleQuality[] {
+export function getValidUpscaleQualities(vendor: FrameGenVendor): readonly UpscaleQuality[] {
   switch (vendor) {
     case "nvidia":
-      return [
-        "none",
-        "dlaa",
-        "quality",
-        "balanced",
-        "performance",
-        "ultra_performance",
-      ] as const;
+      return ["none", "dlaa", "quality", "balanced", "performance", "ultra_performance"] as const;
     case "amd":
       return [
         "none",
@@ -65,9 +52,7 @@ export function getValidUpscaleQualities(
   }
 }
 
-export function getValidFrameGenMultipliers(
-  vendor: FrameGenVendor,
-): readonly FrameGenMultiplier[] {
+export function getValidFrameGenMultipliers(vendor: FrameGenVendor): readonly FrameGenMultiplier[] {
   switch (vendor) {
     case "nvidia":
       return ["none", "x2", "x3", "x4"] as const;

@@ -44,9 +44,7 @@ describe("detectShape", () => {
   });
 
   it("guesses profile from an array with channelName/social/rig sample", () => {
-    const shape = detectShape([
-      { id: "p1", channelName: "Skullmute", social: {}, rig: {} },
-    ]);
+    const shape = detectShape([{ id: "p1", channelName: "Skullmute", social: {}, rig: {} }]);
     expect(shape.kind).toBe("legacy");
     if (shape.kind !== "legacy") return;
     expect(shape.guessedType).toBe("profile");

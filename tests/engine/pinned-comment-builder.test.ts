@@ -43,17 +43,13 @@ describe("buildPinnedComment", () => {
 
   it("includes the genre-playlist suggestion when option + URL + label all present", () => {
     const t = createMockT("en");
-    const result = buildPinnedComment(
-      makeInput({ genres: ["horror"] }),
-      t,
-      {
-        includeGenrePlaylist: true,
-        genrePlaylists: {
-          horror: "https://www.youtube.com/playlist?list=PLhorror",
-        },
-        genreLabels: { horror: "Horror" },
+    const result = buildPinnedComment(makeInput({ genres: ["horror"] }), t, {
+      includeGenrePlaylist: true,
+      genrePlaylists: {
+        horror: "https://www.youtube.com/playlist?list=PLhorror",
       },
-    );
+      genreLabels: { horror: "Horror" },
+    });
     expect(result).toContain(
       "📺 More Horror gameplay on the channel: https://www.youtube.com/playlist?list=PLhorror",
     );
@@ -61,51 +57,39 @@ describe("buildPinnedComment", () => {
 
   it("omits the genre-playlist line when the option is off", () => {
     const t = createMockT("en");
-    const result = buildPinnedComment(
-      makeInput({ genres: ["horror"] }),
-      t,
-      {
-        includeGenrePlaylist: false,
-        genrePlaylists: {
-          horror: "https://www.youtube.com/playlist?list=PLhorror",
-        },
-        genreLabels: { horror: "Horror" },
+    const result = buildPinnedComment(makeInput({ genres: ["horror"] }), t, {
+      includeGenrePlaylist: false,
+      genrePlaylists: {
+        horror: "https://www.youtube.com/playlist?list=PLhorror",
       },
-    );
+      genreLabels: { horror: "Horror" },
+    });
     expect(result).not.toContain("More Horror gameplay");
   });
 
   it("omits the genre-playlist line when no URL is configured for the primary genre", () => {
     const t = createMockT("en");
-    const result = buildPinnedComment(
-      makeInput({ genres: ["rpg"] }),
-      t,
-      {
-        includeGenrePlaylist: true,
-        genrePlaylists: {
-          horror: "https://www.youtube.com/playlist?list=PLhorror",
-        },
-        genreLabels: { horror: "Horror", rpg: "RPG" },
+    const result = buildPinnedComment(makeInput({ genres: ["rpg"] }), t, {
+      includeGenrePlaylist: true,
+      genrePlaylists: {
+        horror: "https://www.youtube.com/playlist?list=PLhorror",
       },
-    );
+      genreLabels: { horror: "Horror", rpg: "RPG" },
+    });
     expect(result).not.toContain("More");
     expect(result).not.toContain("playlist?list=PLhorror");
   });
 
   it("uses the primary (first) genre, ignoring secondary genres", () => {
     const t = createMockT("en");
-    const result = buildPinnedComment(
-      makeInput({ genres: ["action", "horror"] }),
-      t,
-      {
-        includeGenrePlaylist: true,
-        genrePlaylists: {
-          action: "https://www.youtube.com/playlist?list=PLaction",
-          horror: "https://www.youtube.com/playlist?list=PLhorror",
-        },
-        genreLabels: { action: "Action", horror: "Horror" },
+    const result = buildPinnedComment(makeInput({ genres: ["action", "horror"] }), t, {
+      includeGenrePlaylist: true,
+      genrePlaylists: {
+        action: "https://www.youtube.com/playlist?list=PLaction",
+        horror: "https://www.youtube.com/playlist?list=PLhorror",
       },
-    );
+      genreLabels: { action: "Action", horror: "Horror" },
+    });
     expect(result).toContain("More Action gameplay");
     expect(result).not.toContain("More Horror gameplay");
   });
@@ -163,10 +147,7 @@ describe("buildPinnedComment", () => {
   it("picks the per-video-type greeting when available", () => {
     const t = createMockT("en");
     const bossResult = buildPinnedComment(makeInput({ videoType: "boss" }), t);
-    const speedrunResult = buildPinnedComment(
-      makeInput({ videoType: "speedrun" }),
-      t,
-    );
+    const speedrunResult = buildPinnedComment(makeInput({ videoType: "speedrun" }), t);
     expect(bossResult).toContain("boss was a ride");
     expect(speedrunResult).toContain("Speedrun attempt complete");
   });
@@ -200,10 +181,7 @@ describe("buildPinnedComment", () => {
       if (key === "pinnedComment.askNextGame") return "Next game?";
       return key;
     };
-    const result = buildPinnedComment(
-      makeInput({ videoType: "part" }),
-      noGreetingT,
-    );
+    const result = buildPinnedComment(makeInput({ videoType: "part" }), noGreetingT);
     // Ensure no raw "pinnedComment.greetings.…" key leaks into the
     // output — we drop the line rather than render the key.
     expect(result).not.toContain("pinnedComment.greetings");
@@ -212,10 +190,7 @@ describe("buildPinnedComment", () => {
 
   it("interpolates channelName into the part greeting", () => {
     const t = createMockT("en");
-    const result = buildPinnedComment(
-      makeInput({ channelName: "NoCommentarySan" }),
-      t,
-    );
+    const result = buildPinnedComment(makeInput({ channelName: "NoCommentarySan" }), t);
     expect(result).toContain("NoCommentarySan");
   });
 

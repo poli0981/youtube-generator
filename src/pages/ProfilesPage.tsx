@@ -77,15 +77,11 @@ export function ProfilesPage() {
           const suggestedTab = TYPE_TO_TAB[failure.actual];
           const label = failure.actual.charAt(0).toUpperCase() + failure.actual.slice(1);
           if (suggestedTab) {
-            toast.error(
-              `This file looks like a ${label} export. Switching tabs…`,
-              { duration: 4000 },
-            );
+            toast.error(`This file looks like a ${label} export. Switching tabs…`, {
+              duration: 4000,
+            });
             setTab(suggestedTab);
-            logger.info(
-              "import",
-              `auto-switched tab from ${expected} to ${failure.actual}`,
-            );
+            logger.info("import", `auto-switched tab from ${expected} to ${failure.actual}`);
             return;
           }
           toast.error(`This file is a ${label} export, not ${expected}.`);
@@ -185,9 +181,7 @@ export function ProfilesPage() {
               onClick={() => setTab(t2)}
               className={clsx(
                 "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
-                tab === t2
-                  ? "bg-accent text-white"
-                  : "text-text-muted hover:text-text-primary",
+                tab === t2 ? "bg-accent text-white" : "text-text-muted hover:text-text-primary",
               )}
             >
               {t(`${t2}.title`)}

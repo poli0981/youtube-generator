@@ -76,7 +76,17 @@ export function OutputPage() {
       },
       historyLimit,
     );
-  }, [gameName, videoType, language, genres, defaultOutput.title, defaultOutput.description, defaultOutput.tagString, addEntry, historyLimit]);
+  }, [
+    gameName,
+    videoType,
+    language,
+    genres,
+    defaultOutput.title,
+    defaultOutput.description,
+    defaultOutput.tagString,
+    addEntry,
+    historyLimit,
+  ]);
 
   const allLangsCombined = useMemo(() => {
     if (!isMultiLang) return "";
@@ -115,11 +125,21 @@ export function OutputPage() {
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button variant="ghost" size="sm" onClick={() => setShowVariants(true)} disabled={!gameName}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowVariants(true)}
+              disabled={!gameName}
+            >
               <Shuffle className="h-3.5 w-3.5" />
               {t("output.generateAlternatives")}
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => setShowSaveTemplate(true)} disabled={!gameName}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowSaveTemplate(true)}
+              disabled={!gameName}
+            >
               <Bookmark className="h-3.5 w-3.5" />
               {t("output.saveAsTemplate")}
             </Button>
@@ -146,7 +166,7 @@ export function OutputPage() {
         )}
 
         {isMultiVideoEnding && (
-          <div className="mb-4 flex items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs text-text-secondary">
+          <div className="border-accent/40 bg-accent/10 mb-4 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs text-text-secondary">
             <Film className="h-3.5 w-3.5 shrink-0 text-accent" />
             <span>
               {t("output.previewingVideo", {

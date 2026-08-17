@@ -48,11 +48,8 @@ export function VietnameseDonateEditor() {
     () => isVi && isCustomVietnameseBank(vnBankName ?? ""),
   );
 
-  const customMode =
-    isVi && (otherSticky || isCustomVietnameseBank(vnBankName ?? ""));
-  const selectValue = customMode
-    ? VIETNAMESE_BANK_OTHER
-    : (vnBankName ?? "");
+  const customMode = isVi && (otherSticky || isCustomVietnameseBank(vnBankName ?? ""));
+  const selectValue = customMode ? VIETNAMESE_BANK_OTHER : (vnBankName ?? "");
 
   const bankOptions = [
     { value: "", label: t("editor.vnBankNameSelectPlaceholder") },
@@ -63,9 +60,7 @@ export function VietnameseDonateEditor() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-text-secondary">
-          {t("editor.vnDonate")}
-        </span>
+        <span className="text-sm font-medium text-text-secondary">{t("editor.vnDonate")}</span>
         <p className="text-xs text-text-muted">{t("editor.vnDonateHelp")}</p>
       </div>
 

@@ -12,9 +12,7 @@ import type { SupportedLanguage } from "@engine/types";
  * deploy): `ensureLanguagesLoaded` logs the failure and the app degrades
  * to English rather than hanging the UI.
  */
-export function useLanguagesReady(
-  langs: readonly SupportedLanguage[],
-): boolean {
+export function useLanguagesReady(langs: readonly SupportedLanguage[]): boolean {
   const joined = langs.join(",");
   // Stable identity for the requested set — callers pass fresh array
   // literals on every render.

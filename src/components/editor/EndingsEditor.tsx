@@ -4,10 +4,7 @@ import { Plus, Minus, AlertTriangle } from "lucide-react";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
 import { Select } from "@components/ui/Select";
-import {
-  useEditorStore,
-  computeContiguousRanges,
-} from "@store/editor-store";
+import { useEditorStore, computeContiguousRanges } from "@store/editor-store";
 import { parseTimeline } from "@engine/timeline-parser";
 import { formatEndingEntry } from "@engine/endings-format";
 import type { EndingEntry, EndingVideoRange } from "@engine/types";
@@ -78,7 +75,10 @@ export function EndingsEditor() {
     const nextEndings: EndingEntry[] =
       clamped <= count
         ? endings.slice(0, clamped)
-        : [...endings, ...Array.from({ length: clamped - count }, () => ({ number: null, name: "" }))];
+        : [
+            ...endings,
+            ...Array.from({ length: clamped - count }, () => ({ number: null, name: "" })),
+          ];
     set("endings", nextEndings);
 
     // Re-derive endingVideoCount + ranges so the schema invariants
@@ -86,10 +86,7 @@ export function EndingsEditor() {
     // stay true after a shrink/grow.
     const nextVideoCount = clamped === 0 ? 1 : Math.min(endingVideoCount, clamped);
     set("endingVideoCount", nextVideoCount);
-    set(
-      "endingVideoRanges",
-      clamped === 0 ? [] : computeContiguousRanges(clamped, nextVideoCount),
-    );
+    set("endingVideoRanges", clamped === 0 ? [] : computeContiguousRanges(clamped, nextVideoCount));
   };
 
   /** Update one ending row's number / name. */
@@ -119,9 +116,7 @@ export function EndingsEditor() {
    *  configurations after the fact, since mid-edit overlaps are
    *  expected. */
   const updateRange = (i: number, patch: Partial<EndingVideoRange>) => {
-    const next = endingVideoRanges.map((r, idx) =>
-      idx === i ? { ...r, ...patch } : r,
-    );
+    const next = endingVideoRanges.map((r, idx) => (idx === i ? { ...r, ...patch } : r));
     set("endingVideoRanges", next);
   };
 
@@ -206,9 +201,7 @@ export function EndingsEditor() {
         )}
       </div>
 
-      {count === 0 && (
-        <p className="text-xs text-text-muted">{t("editor.endings.emptyHint")}</p>
-      )}
+      {count === 0 && <p className="text-xs text-text-muted">{t("editor.endings.emptyHint")}</p>}
 
       {/* CASE A: single ending — number + name pair, with preview. */}
       {count === 1 && endings[0] && (
@@ -297,7 +290,7 @@ export function EndingsEditor() {
 
       {/* Case B: timeline gate banner. */}
       {isMultiEnding && !isMultiVideo && timelineEndingCount < count && (
-        <p className="flex items-start gap-1.5 rounded border border-warning/40 bg-warning/10 p-2 text-xs text-warning">
+        <p className="border-warning/40 bg-warning/10 flex items-start gap-1.5 rounded border p-2 text-xs text-warning">
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
           <span>
             {t("editor.endings.warnings.timelineShort", {
@@ -321,16 +314,12 @@ export function EndingsEditor() {
           />
           {isMultiVideo && (
             <>
-              <p className="text-xs text-text-muted">
-                {t("editor.endings.videoRangeHint")}
-              </p>
+              <p className="text-xs text-text-muted">{t("editor.endings.videoRangeHint")}</p>
               <div className="overflow-hidden rounded border border-border">
                 <table className="w-full text-sm">
                   <thead className="bg-surface-2 text-xs uppercase text-text-muted">
                     <tr>
-                      <th className="px-2 py-1.5 text-left">
-                        {t("editor.endings.videoLabel")}
-                      </th>
+                      <th className="px-2 py-1.5 text-left">{t("editor.endings.videoLabel")}</th>
                       <th className="px-2 py-1.5 text-left">From</th>
                       <th className="px-2 py-1.5 text-left">To</th>
                     </tr>
@@ -345,9 +334,7 @@ export function EndingsEditor() {
                             min={1}
                             max={count}
                             value={String(r.from)}
-                            onChange={(e) =>
-                              updateRange(i, { from: Number(e.target.value) || 1 })
-                            }
+                            onChange={(e) => updateRange(i, { from: Number(e.target.value) || 1 })}
                           />
                         </td>
                         <td className="px-2 py-1.5">
@@ -356,9 +343,7 @@ export function EndingsEditor() {
                             min={1}
                             max={count}
                             value={String(r.to)}
-                            onChange={(e) =>
-                              updateRange(i, { to: Number(e.target.value) || 1 })
-                            }
+                            onChange={(e) => updateRange(i, { to: Number(e.target.value) || 1 })}
                           />
                         </td>
                       </tr>
@@ -367,7 +352,7 @@ export function EndingsEditor() {
                 </table>
               </div>
               {rangeWarnings.length > 0 && (
-                <ul className="flex flex-col gap-1 rounded border border-warning/40 bg-warning/10 p-2 text-xs text-warning">
+                <ul className="border-warning/40 bg-warning/10 flex flex-col gap-1 rounded border p-2 text-xs text-warning">
                   {rangeWarnings.map((w, i) => (
                     <li key={i} className="flex items-start gap-1.5">
                       <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
@@ -394,9 +379,7 @@ export function EndingsEditor() {
                 value={String(Math.min(endingVideoIndex, endingVideoCount))}
                 onChange={(v) => set("endingVideoIndex", Number(v) || 1)}
               />
-              <p className="text-xs text-text-muted">
-                {t("editor.endings.videoIndexHint")}
-              </p>
+              <p className="text-xs text-text-muted">{t("editor.endings.videoIndexHint")}</p>
             </>
           )}
         </div>

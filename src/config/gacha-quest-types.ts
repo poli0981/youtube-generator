@@ -140,10 +140,7 @@ const DEFAULT_FIELD_VISIBILITY: GachaQuestFieldVisibility = {
   anniversaryYear: false,
 };
 
-export const GACHA_QUEST_FIELD_VISIBILITY: Record<
-  GachaQuestType,
-  GachaQuestFieldVisibility
-> = {
+export const GACHA_QUEST_FIELD_VISIBILITY: Record<GachaQuestType, GachaQuestFieldVisibility> = {
   main_story: { ...DEFAULT_FIELD_VISIBILITY, questName: false },
   world_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },
   side_quest: { ...DEFAULT_FIELD_VISIBILITY, chapterName: false, partNumber: false },

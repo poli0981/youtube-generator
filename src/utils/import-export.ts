@@ -44,11 +44,7 @@ export type ImportResult<T> =
  * envelope marker lets a later import auto-detect the file's type
  * (see {@link importTypedFromJsonFile}).
  */
-export function exportTypedToJsonFile<T>(
-  type: ExportType,
-  data: T,
-  filename: string,
-): void {
+export function exportTypedToJsonFile<T>(type: ExportType, data: T, filename: string): void {
   const envelope = wrapEnvelope(type, data);
   const json = JSON.stringify(envelope, null, 2);
   triggerDownload(json, filename);

@@ -48,20 +48,55 @@ export function AboutPage() {
     { id: "youtube", url: ABOUT.socials.youtube, icon: Youtube, labelKey: "about.socials.youtube" },
     { id: "x", url: ABOUT.socials.x, icon: Twitter, labelKey: "about.socials.x" },
     { id: "bluesky", url: ABOUT.socials.bluesky, icon: Cloud, labelKey: "about.socials.bluesky" },
-    { id: "mastodon", url: ABOUT.socials.mastodon, icon: MessageSquare, labelKey: "about.socials.mastodon" },
-    { id: "discord", url: ABOUT.socials.discord, icon: MessageCircle, labelKey: "about.socials.discord" },
-    { id: "discordGame", url: ABOUT.socials.discordGame, icon: Gamepad2, labelKey: "about.socials.discordGame" },
+    {
+      id: "mastodon",
+      url: ABOUT.socials.mastodon,
+      icon: MessageSquare,
+      labelKey: "about.socials.mastodon",
+    },
+    {
+      id: "discord",
+      url: ABOUT.socials.discord,
+      icon: MessageCircle,
+      labelKey: "about.socials.discord",
+    },
+    {
+      id: "discordGame",
+      url: ABOUT.socials.discordGame,
+      icon: Gamepad2,
+      labelKey: "about.socials.discordGame",
+    },
     { id: "steam", url: ABOUT.socials.steam, icon: Gamepad2, labelKey: "about.socials.steam" },
-    { id: "telegramBot", url: ABOUT.socials.telegramBot, icon: Send, labelKey: "about.socials.telegramBot" },
-    { id: "telegramUser", url: ABOUT.socials.telegramUser, icon: Send, labelKey: "about.socials.telegramUser" },
+    {
+      id: "telegramBot",
+      url: ABOUT.socials.telegramBot,
+      icon: Send,
+      labelKey: "about.socials.telegramBot",
+    },
+    {
+      id: "telegramUser",
+      url: ABOUT.socials.telegramUser,
+      icon: Send,
+      labelKey: "about.socials.telegramUser",
+    },
     { id: "email", url: ABOUT.socials.email, icon: Mail, labelKey: "about.socials.email" },
   ];
   const socials = allSocials.filter((s) => s.url.trim().length > 0);
 
   const donateLinks: readonly DonateLinkConfig[] = [
-    { id: "githubSponsors", url: DONATE.githubSponsors, icon: Sparkles, labelKey: "about.donate.githubSponsors" },
+    {
+      id: "githubSponsors",
+      url: DONATE.githubSponsors,
+      icon: Sparkles,
+      labelKey: "about.donate.githubSponsors",
+    },
     { id: "kofi", url: DONATE.kofi, icon: Coffee, labelKey: "about.donate.kofi" },
-    { id: "buyMeACoffee", url: DONATE.buyMeACoffee, icon: Coffee, labelKey: "about.donate.buyMeACoffee" },
+    {
+      id: "buyMeACoffee",
+      url: DONATE.buyMeACoffee,
+      icon: Coffee,
+      labelKey: "about.donate.buyMeACoffee",
+    },
     { id: "patreon", url: DONATE.patreon, icon: Heart, labelKey: "about.donate.patreon" },
     { id: "paypal", url: DONATE.paypal, icon: DollarSign, labelKey: "about.donate.paypal" },
   ];
@@ -70,9 +105,7 @@ export function AboutPage() {
     <div className="mx-auto flex max-w-3xl flex-col gap-8 p-6">
       <header className="flex flex-col gap-2">
         <div className="flex items-baseline gap-3">
-          <h1 className="text-2xl font-bold text-text-primary">
-            {ABOUT.appName}
-          </h1>
+          <h1 className="text-2xl font-bold text-text-primary">{ABOUT.appName}</h1>
           <span className="rounded bg-surface-2 px-2 py-0.5 font-mono text-xs text-text-secondary">
             v{ABOUT.version}
           </span>
@@ -85,26 +118,14 @@ export function AboutPage() {
           {t("about.repoHeading")}
         </h2>
         <div className="grid gap-2 sm:grid-cols-2">
-          <ExternalLinkRow
-            href={ABOUT.repo}
-            icon={Github}
-            label={t("about.repoLabel")}
-          />
-          <ExternalLinkRow
-            href={ABOUT.bugReportUrl}
-            icon={Bug}
-            label={t("about.reportBugLabel")}
-          />
+          <ExternalLinkRow href={ABOUT.repo} icon={Github} label={t("about.repoLabel")} />
+          <ExternalLinkRow href={ABOUT.bugReportUrl} icon={Bug} label={t("about.reportBugLabel")} />
           <ExternalLinkRow
             href={ABOUT.discussionsUrl}
             icon={MessageSquare}
             label={t("about.discussionsLabel")}
           />
-          <ExternalLinkRow
-            href={ABOUT.githubAuthor}
-            icon={Github}
-            label={t("about.authorLabel")}
-          />
+          <ExternalLinkRow href={ABOUT.githubAuthor} icon={Github} label={t("about.authorLabel")} />
           <ExternalLinkRow
             href={ABOUT.licenseUrl}
             icon={ExternalLink}
@@ -136,13 +157,7 @@ export function AboutPage() {
         <p className="text-xs text-text-muted">{t("about.donateHelp")}</p>
         <div className="grid gap-2 sm:grid-cols-2">
           {donateLinks.map((d) => (
-            <ExternalLinkRow
-              key={d.id}
-              href={d.url}
-              icon={d.icon}
-              label={t(d.labelKey)}
-              accent
-            />
+            <ExternalLinkRow key={d.id} href={d.url} icon={d.icon} label={t(d.labelKey)} accent />
           ))}
         </div>
       </section>
@@ -154,12 +169,7 @@ export function AboutPage() {
           </h2>
           <div className="grid gap-2 sm:grid-cols-2">
             {socials.map((s) => (
-              <ExternalLinkRow
-                key={s.id}
-                href={s.url}
-                icon={s.icon}
-                label={t(s.labelKey)}
-              />
+              <ExternalLinkRow key={s.id} href={s.url} icon={s.icon} label={t(s.labelKey)} />
             ))}
           </div>
         </section>
@@ -172,7 +182,10 @@ export function AboutPage() {
         <p className="text-xs text-text-muted">{t("about.thirdPartyHelp")}</p>
         <ul className="grid gap-1.5 sm:grid-cols-2">
           {THIRD_PARTY.map((entry) => (
-            <li key={entry.name} className="flex items-center justify-between rounded-lg border border-border bg-surface-1 px-3 py-2">
+            <li
+              key={entry.name}
+              className="flex items-center justify-between rounded-lg border border-border bg-surface-1 px-3 py-2"
+            >
               <a
                 href={entry.url}
                 target="_blank"
@@ -180,9 +193,7 @@ export function AboutPage() {
                 className="flex items-center gap-2 text-sm text-text-primary hover:text-accent"
               >
                 <span className="font-medium">{entry.name}</span>
-                <span className="font-mono text-xs text-text-muted">
-                  {entry.version}
-                </span>
+                <span className="font-mono text-xs text-text-muted">{entry.version}</span>
               </a>
               <span className="text-xs text-text-muted">{entry.license}</span>
             </li>
@@ -212,7 +223,11 @@ function ExternalLinkRow({ href, icon: Icon, label, accent }: ExternalLinkRowPro
           : "flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-accent hover:bg-surface-2"
       }
     >
-      <Icon className={accent ? "h-4 w-4 shrink-0 text-pink-300" : "h-4 w-4 shrink-0 text-text-secondary"} />
+      <Icon
+        className={
+          accent ? "h-4 w-4 shrink-0 text-pink-300" : "h-4 w-4 shrink-0 text-text-secondary"
+        }
+      />
       <span className="flex-1 truncate">{label}</span>
       <ExternalLink className="h-3.5 w-3.5 shrink-0 text-text-muted" />
     </a>

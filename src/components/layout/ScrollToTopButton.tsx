@@ -50,9 +50,7 @@ export function ScrollToTopButton({ scrollRef }: ScrollToTopButtonProps) {
   function scrollToTop() {
     const el = scrollRef.current;
     if (!el) return;
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     el.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
   }
 

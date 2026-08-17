@@ -75,10 +75,7 @@ function dedupeHashtags(tags: readonly string[]): string[] {
   return out;
 }
 
-function buildHashtagLine(
-  input: GeneratorInput,
-  popular: readonly string[],
-): string {
+function buildHashtagLine(input: GeneratorInput, popular: readonly string[]): string {
   const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
   const primaryGenre = input.genres[0];
   const derived = [
@@ -94,8 +91,7 @@ export function buildSocialPost(
   t: TranslationFn,
   options: SocialPostOptions,
 ): SocialPostOutput {
-  const { charLimit, popularHashtags, showCopyright, showSponsorCredit, tEn } =
-    options;
+  const { charLimit, popularHashtags, showCopyright, showSponsorCredit, tEn } = options;
 
   // Title — short-form, so the `[2K 60FPS]` badge is suppressed.
   const title = buildTitle(input, t, { showQualityBadge: false });
@@ -111,9 +107,7 @@ export function buildSocialPost(
         tEn,
       ) ?? "",
     thanks:
-      showSponsorCredit &&
-      input.sponsorName?.trim() &&
-      input.sponsorPlatform?.trim()
+      showSponsorCredit && input.sponsorName?.trim() && input.sponsorPlatform?.trim()
         ? t("description.sections.sponsorCredit", {
             sponsor: input.sponsorName.trim(),
             platform: input.sponsorPlatform.trim(),
@@ -132,9 +126,7 @@ export function buildSocialPost(
 
   // Track which optional blocks are still present; drop in priority order
   // until the caption fits. Title + hashtags are always kept.
-  const present = new Set<BlockId>(
-    DISPLAY_ORDER.filter((id) => blocks[id].trim() !== ""),
-  );
+  const present = new Set<BlockId>(DISPLAY_ORDER.filter((id) => blocks[id].trim() !== ""));
 
   const assemble = (): string => {
     const parts: string[] = [title];

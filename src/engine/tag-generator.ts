@@ -23,11 +23,7 @@ const QUALIFIER_SUFFIX_RE =
  * Pure — exported for testing.
  */
 export function sanitizeForTag(name: string): string {
-  return name
-    .replace(/[™®©]/g, "")
-    .replace(/[,;|]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+  return name.replace(/[™®©]/g, "").replace(/[,;|]/g, " ").replace(/\s+/g, " ").trim();
 }
 
 /**
@@ -79,13 +75,45 @@ export function tagFriendlyGameName(name: string, budget: number): string {
  * MULTILINGUAL_TAGS.
  */
 const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
-  action: (g) => [`${g} action`, "action game no commentary", "action adventure gameplay", `${g} combat`],
-  horror: (g) => [`${g} horror`, "horror game no commentary", "survival horror gameplay", `${g} scary`],
-  rpg: (g) => [`${g} RPG`, "RPG no commentary", "RPG gameplay", "JRPG no commentary", `${g} role playing`],
+  action: (g) => [
+    `${g} action`,
+    "action game no commentary",
+    "action adventure gameplay",
+    `${g} combat`,
+  ],
+  horror: (g) => [
+    `${g} horror`,
+    "horror game no commentary",
+    "survival horror gameplay",
+    `${g} scary`,
+  ],
+  rpg: (g) => [
+    `${g} RPG`,
+    "RPG no commentary",
+    "RPG gameplay",
+    "JRPG no commentary",
+    `${g} role playing`,
+  ],
   fps: (g) => [`${g} FPS`, "FPS no commentary", "shooter gameplay no commentary", `${g} shooter`],
-  openworld: (g) => [`${g} open world`, "open world no commentary", "free roam gameplay", `${g} exploration`],
-  indie: (g) => [`${g} indie`, `${g} indie game`, "indie game no commentary", "indie gameplay", "best indie games"],
-  soulslike: (g) => [`${g} souls like`, "soulsborne no commentary", "souls like gameplay", `${g} hardcore`],
+  openworld: (g) => [
+    `${g} open world`,
+    "open world no commentary",
+    "free roam gameplay",
+    `${g} exploration`,
+  ],
+  indie: (g) => [
+    `${g} indie`,
+    `${g} indie game`,
+    "indie game no commentary",
+    "indie gameplay",
+    "best indie games",
+  ],
+  soulslike: (g) => [
+    `${g} souls like`,
+    "soulsborne no commentary",
+    "souls like gameplay",
+    `${g} hardcore`,
+  ],
   racing: (g) => [`${g} racing`, "racing game no commentary", "racing gameplay", `${g} cars`],
   story: (g) => [
     `${g} story`,
@@ -94,9 +122,19 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
     "narrative gameplay",
     "cinematic adventure no commentary",
   ],
-  simulation: (g) => [`${g} simulation`, "simulation game no commentary", "strategy gameplay", `${g} sim`],
+  simulation: (g) => [
+    `${g} simulation`,
+    "simulation game no commentary",
+    "strategy gameplay",
+    `${g} sim`,
+  ],
   fighting: (g) => [`${g} fighting`, "fighting game no commentary", "combo gameplay", `${g} fight`],
-  stealth: (g) => [`${g} stealth`, "stealth game no commentary", "stealth gameplay", `${g} ghost run`],
+  stealth: (g) => [
+    `${g} stealth`,
+    "stealth game no commentary",
+    "stealth gameplay",
+    `${g} ghost run`,
+  ],
   survival_craft: (g) => [
     `${g} survival`,
     "survival crafting no commentary",
@@ -112,15 +150,45 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
   ],
   mmo: (g) => [`${g} MMO`, "MMO no commentary", "MMORPG gameplay", `${g} online`],
   rhythm: (g) => [`${g} rhythm`, "rhythm game no commentary", "music game gameplay", `${g} music`],
-  puzzle: (g) => [`${g} puzzle`, "puzzle game no commentary", "brain teaser gameplay", `${g} logic`],
-  tower_defense: (g) => [`${g} tower defense`, "tower defense no commentary", "TD gameplay", `${g} strategy`],
-  card_game: (g) => [`${g} card game`, "deck builder no commentary", "card game gameplay", `${g} TCG`],
-  battle_royale: (g) => [`${g} battle royale`, "battle royale no commentary", "BR gameplay", `${g} solo`],
+  puzzle: (g) => [
+    `${g} puzzle`,
+    "puzzle game no commentary",
+    "brain teaser gameplay",
+    `${g} logic`,
+  ],
+  tower_defense: (g) => [
+    `${g} tower defense`,
+    "tower defense no commentary",
+    "TD gameplay",
+    `${g} strategy`,
+  ],
+  card_game: (g) => [
+    `${g} card game`,
+    "deck builder no commentary",
+    "card game gameplay",
+    `${g} TCG`,
+  ],
+  battle_royale: (g) => [
+    `${g} battle royale`,
+    "battle royale no commentary",
+    "BR gameplay",
+    `${g} solo`,
+  ],
   crpg: (g) => [`${g} CRPG`, "CRPG no commentary", "isometric RPG gameplay", `${g} party`],
-  tactical: (g) => [`${g} tactical`, "tactical game no commentary", "turn based strategy", `${g} tactics`],
+  tactical: (g) => [
+    `${g} tactical`,
+    "tactical game no commentary",
+    "turn based strategy",
+    `${g} tactics`,
+  ],
   space: (g) => [`${g} space`, "space game no commentary", "sci-fi gameplay", `${g} sci fi`],
   farming: (g) => [`${g} farming`, "farming sim no commentary", "cozy game gameplay", `${g} cozy`],
-  fmv: (g) => [`${g} FMV`, "FMV game no commentary", "interactive movie gameplay", `${g} live action`],
+  fmv: (g) => [
+    `${g} FMV`,
+    "FMV game no commentary",
+    "interactive movie gameplay",
+    `${g} live action`,
+  ],
   visual_novel: (g) => [
     `${g} visual novel`,
     `${g} VN no commentary`,
@@ -158,12 +226,7 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
     `${g} atmospheric horror`,
     "mind bending horror gameplay",
   ],
-  jrpg: (g) => [
-    `${g} JRPG`,
-    "JRPG no commentary",
-    `${g} japanese RPG`,
-    "turn based JRPG gameplay",
-  ],
+  jrpg: (g) => [`${g} JRPG`, "JRPG no commentary", `${g} japanese RPG`, "turn based JRPG gameplay"],
   action_rpg: (g) => [
     `${g} action RPG`,
     "action RPG no commentary",
@@ -194,12 +257,7 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
     `${g} loot and extract`,
     "extraction FPS gameplay",
   ],
-  shmup: (g) => [
-    `${g} shmup`,
-    `${g} bullet hell`,
-    "shoot em up no commentary",
-    "danmaku gameplay",
-  ],
+  shmup: (g) => [`${g} shmup`, `${g} bullet hell`, "shoot em up no commentary", "danmaku gameplay"],
   city_builder: (g) => [
     `${g} city builder`,
     "city builder no commentary",
@@ -259,13 +317,7 @@ const VIDEO_TYPE_TAGS: Record<string, (gameName: string) => string[]> = {
     `${g} completionist no commentary`,
     `${g} achievement guide`,
   ],
-  livestream: (g) => [
-    "livestream",
-    "live gameplay",
-    `${g} live`,
-    `${g} stream`,
-    `${g} livestream`,
-  ],
+  livestream: (g) => ["livestream", "live gameplay", `${g} live`, `${g} stream`, `${g} livestream`],
   // One pool for the whole gacha bucket — quest-type-specific tags
   // would balloon the pool and rarely surface in YouTube search anyway.
   // The intro / title / hashtags already carry the per-quest framing.
@@ -317,8 +369,22 @@ const CORE_TAGS_BY_LANG: Record<SupportedLanguage, (gameName: string) => string[
     `${g} guía`,
     `${g} español`,
   ],
-  ko: (g) => [`${g} 게임플레이`, `${g} 무편집`, "게임플레이 무편집", `${g} 공략`, `${g} 플레이`, `${g} 한국어`],
-  zh: (g) => [`${g} 游戏实况`, `${g} 无解说`, "游戏实况 无解说", `${g} 攻略`, `${g} 流程`, `${g} 通关`],
+  ko: (g) => [
+    `${g} 게임플레이`,
+    `${g} 무편집`,
+    "게임플레이 무편집",
+    `${g} 공략`,
+    `${g} 플레이`,
+    `${g} 한국어`,
+  ],
+  zh: (g) => [
+    `${g} 游戏实况`,
+    `${g} 无解说`,
+    "游戏实况 无解说",
+    `${g} 攻略`,
+    `${g} 流程`,
+    `${g} 通关`,
+  ],
 };
 
 /**
@@ -362,7 +428,11 @@ function getQualityTags(gameName: string, resolution?: string, fps?: string): st
 function getTrendingTags(gameName: string, genre: string): string[] {
   const year = new Date().getFullYear().toString();
   const genreLabel = humanizeId(genre);
-  return [`${gameName} ${year}`, `best ${genreLabel} games ${year}`, `${genreLabel} gameplay ${year}`];
+  return [
+    `${gameName} ${year}`,
+    `best ${genreLabel} games ${year}`,
+    `${genreLabel} gameplay ${year}`,
+  ];
 }
 
 export interface TagOptions {
@@ -372,9 +442,7 @@ export interface TagOptions {
 
 export function generateTags(input: GeneratorInput, options?: TagOptions): string[] {
   const { includeMultilingualTags = true, includeTrendingTags = true } = options ?? {};
-  const rawName = sanitizeForTag(
-    input.gameNameLocalized?.[input.language] ?? input.gameName,
-  );
+  const rawName = sanitizeForTag(input.gameNameLocalized?.[input.language] ?? input.gameName);
 
   // Two friendly forms of the game name:
   //   • bareNameTag — fits the per-tag 30-char limit; always added so the

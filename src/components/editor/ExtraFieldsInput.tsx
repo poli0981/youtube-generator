@@ -32,9 +32,7 @@ export function ExtraFieldsInput() {
   const visibility = GACHA_QUEST_FIELD_VISIBILITY[questType];
   const placeholders = GACHA_QUEST_PLACEHOLDERS[questType];
 
-  const placeholderFor = (
-    field: "chapterName" | "questName" | "partNumber",
-  ): string => {
+  const placeholderFor = (field: "chapterName" | "questName" | "partNumber"): string => {
     const key = `editor.placeholders.questType.${questType}.${field}`;
     const localised = t(key);
     if (localised && localised !== key) return localised;
@@ -57,25 +55,17 @@ export function ExtraFieldsInput() {
     <div className="flex flex-col gap-3">
       {extraFields.includes("gachaQuestType") && (
         <div className="flex flex-col gap-1">
-          <label
-            htmlFor="gacha-quest-type"
-            className="text-sm font-medium text-text-secondary"
-          >
+          <label htmlFor="gacha-quest-type" className="text-sm font-medium text-text-secondary">
             {t("editor.gachaQuestType")}
           </label>
           <select
             id="gacha-quest-type"
             value={store.gachaQuestType ?? "main_story"}
-            onChange={(e) =>
-              store.set("gachaQuestType", e.target.value as GachaQuestType)
-            }
-            className="rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+            onChange={(e) => store.set("gachaQuestType", e.target.value as GachaQuestType)}
+            className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2"
           >
             {GACHA_QUEST_TYPE_GROUPS.map((g) => (
-              <optgroup
-                key={g.group}
-                label={t(`editor.gachaQuestTypeGroups.${g.group}`)}
-              >
+              <optgroup key={g.group} label={t(`editor.gachaQuestTypeGroups.${g.group}`)}>
                 {g.members.map((m) => (
                   <option key={m} value={m}>
                     {t(`editor.gachaQuestTypeOptions.${m}`)}
@@ -96,22 +86,16 @@ export function ExtraFieldsInput() {
       )}
       {isGacha && visibility.anniversaryYear && (
         <div className="flex flex-col gap-1">
-          <label
-            htmlFor="anniversary-year"
-            className="text-sm font-medium text-text-secondary"
-          >
+          <label htmlFor="anniversary-year" className="text-sm font-medium text-text-secondary">
             {t("editor.anniversaryYear")}
           </label>
           <select
             id="anniversary-year"
             value={store.anniversaryYear ?? ""}
             onChange={(e) =>
-              store.set(
-                "anniversaryYear",
-                e.target.value === "" ? null : Number(e.target.value),
-              )
+              store.set("anniversaryYear", e.target.value === "" ? null : Number(e.target.value))
             }
-            className="rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+            className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2"
           >
             <option value="">—</option>
             {ANNIVERSARY_YEARS.map((y) => (
@@ -212,7 +196,7 @@ export function ExtraFieldsInput() {
             type="datetime-local"
             value={store.scheduledTime ?? ""}
             onChange={(e) => store.set("scheduledTime", e.target.value)}
-            className="rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+            className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-2"
           />
         </div>
       )}

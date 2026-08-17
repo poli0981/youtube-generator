@@ -19,9 +19,8 @@ import type { EndingEntry, EndingVideoRange, GeneratorInput } from "./types";
  * Pure — exported for unit tests + direct use from React components.
  */
 export function formatEndingEntry(entry: EndingEntry): string | null {
-  const num = typeof entry.number === "number" && Number.isFinite(entry.number)
-    ? entry.number
-    : null;
+  const num =
+    typeof entry.number === "number" && Number.isFinite(entry.number) ? entry.number : null;
   const name = (entry.name ?? "").trim();
   if (num !== null && name) return `Ending ${num}: ${name}`;
   if (num !== null) return `Ending ${num}`;
@@ -66,10 +65,7 @@ export function sliceEndingsForVideo(
  * a creator who shrank `endings[]` without re-deriving ranges still
  * gets a sane slice instead of an empty / over-shot one. Pure.
  */
-export function clampRange(
-  range: EndingVideoRange,
-  length: number,
-): EndingVideoRange {
+export function clampRange(range: EndingVideoRange, length: number): EndingVideoRange {
   const from = Math.max(1, Math.min(range.from, length));
   const to = Math.max(from, Math.min(range.to, length));
   return { from, to };

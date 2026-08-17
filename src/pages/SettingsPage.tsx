@@ -11,10 +11,7 @@ import { GENRES } from "@config/genres";
 import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
 import { validatePlaylistUrl } from "@utils/validation";
 import { IS_TAURI } from "@utils/platform";
-import {
-  exportTypedToJsonFile,
-  importParsedFromJsonFile,
-} from "@utils/import-export";
+import { exportTypedToJsonFile, importParsedFromJsonFile } from "@utils/import-export";
 import { resolveForType } from "@utils/file-schema";
 import {
   type SupportedLanguage,
@@ -125,9 +122,7 @@ async function importSettingsFromFile() {
   if (!resolved.ok) {
     switch (resolved.reason.kind) {
       case "wrong-type":
-        toast.error(
-          `This file looks like a ${resolved.reason.actual} export, not settings.`,
-        );
+        toast.error(`This file looks like a ${resolved.reason.actual} export, not settings.`);
         logger.warn(
           "settings",
           `Refused wrong-type file on settings import (got ${resolved.reason.actual})`,
@@ -246,7 +241,9 @@ export function SettingsPage() {
 
         {/* 3. Editor — UI knobs that affect the editor page itself. */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.editorSettings")}</h2>
+          <h2 className="text-sm font-semibold text-text-secondary">
+            {t("settings.editorSettings")}
+          </h2>
           <Toggle
             label={t("settings.showCharCount")}
             checked={settings.showCharCount}
@@ -273,25 +270,19 @@ export function SettingsPage() {
             label={t("settings.badgePosition")}
             options={badgePositionOptions}
             value={settings.titleFormat.badgePosition}
-            onChange={(v) =>
-              settings.setTitleFormat({ badgePosition: v as TitleBadgePosition })
-            }
+            onChange={(v) => settings.setTitleFormat({ badgePosition: v as TitleBadgePosition })}
           />
           <Select
             label={t("settings.titleSeparator")}
             options={titleSeparatorOptions}
             value={settings.titleFormat.separator}
-            onChange={(v) =>
-              settings.setTitleFormat({ separator: v as TitleSeparatorId })
-            }
+            onChange={(v) => settings.setTitleFormat({ separator: v as TitleSeparatorId })}
           />
           <Select
             label={t("settings.badgeCase")}
             options={badgeCaseOptions}
             value={settings.titleFormat.badgeCase}
-            onChange={(v) =>
-              settings.setTitleFormat({ badgeCase: v as TitleBadgeCase })
-            }
+            onChange={(v) => settings.setTitleFormat({ badgeCase: v as TitleBadgeCase })}
           />
         </section>
 
@@ -329,9 +320,7 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showThirdPartyAds", v)}
           />
           {settings.showThirdPartyAds && (
-            <p className="-mt-1 ml-14 text-xs text-text-muted">
-              {t("settings.thirdPartyAdsHint")}
-            </p>
+            <p className="-mt-1 ml-14 text-xs text-text-muted">{t("settings.thirdPartyAdsHint")}</p>
           )}
           <Toggle
             label={t("settings.splitContactEmail")}
@@ -361,16 +350,12 @@ export function SettingsPage() {
               <Toggle
                 label={t("settings.pinnedCommentIncludeAskNextGame")}
                 checked={settings.pinnedCommentIncludeAskNextGame}
-                onChange={(v) =>
-                  settings.setSetting("pinnedCommentIncludeAskNextGame", v)
-                }
+                onChange={(v) => settings.setSetting("pinnedCommentIncludeAskNextGame", v)}
               />
               <Toggle
                 label={t("settings.pinnedCommentIncludeGenrePlaylist")}
                 checked={settings.pinnedCommentIncludeGenrePlaylist}
-                onChange={(v) =>
-                  settings.setSetting("pinnedCommentIncludeGenrePlaylist", v)
-                }
+                onChange={(v) => settings.setSetting("pinnedCommentIncludeGenrePlaylist", v)}
               />
             </div>
           )}
@@ -425,9 +410,7 @@ export function SettingsPage() {
                     // map stays sparse. Filter pattern instead of `delete`
                     // satisfies @typescript-eslint/no-dynamic-delete.
                     const next = Object.fromEntries(
-                      Object.entries(settings.genrePlaylists).filter(
-                        ([k]) => k !== g.id,
-                      ),
+                      Object.entries(settings.genrePlaylists).filter(([k]) => k !== g.id),
                     );
                     settings.setSetting("genrePlaylists", next);
                   }
@@ -440,7 +423,9 @@ export function SettingsPage() {
 
         {/* 7. History. */}
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold text-text-secondary">{t("settings.historySettings")}</h2>
+          <h2 className="text-sm font-semibold text-text-secondary">
+            {t("settings.historySettings")}
+          </h2>
           <Input
             label={t("settings.historyLimit")}
             type="number"

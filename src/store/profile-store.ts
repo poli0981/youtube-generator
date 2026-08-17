@@ -41,7 +41,10 @@ export interface Profile {
 interface ProfileState {
   profiles: Profile[];
   addProfile: (data: Omit<Profile, "id" | "createdAt" | "updatedAt">) => string;
-  updateProfile: (id: string, data: Partial<Omit<Profile, "id" | "createdAt" | "updatedAt">>) => void;
+  updateProfile: (
+    id: string,
+    data: Partial<Omit<Profile, "id" | "createdAt" | "updatedAt">>,
+  ) => void;
   deleteProfile: (id: string) => void;
   getProfile: (id: string) => Profile | undefined;
   importProfiles: (profiles: Profile[]) => void;

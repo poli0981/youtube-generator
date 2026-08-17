@@ -24,9 +24,7 @@ i18n
     // imported above, so Rollup keeps it in the main chunk — and i18next
     // never asks the backend for it because bundled namespaces are served
     // from `resources` (see `partialBundledLanguages`).
-    resourcesToBackend(
-      (lng: string, ns: string) => import(`./locales/${lng}/${ns}.json`),
-    ),
+    resourcesToBackend((lng: string, ns: string) => import(`./locales/${lng}/${ns}.json`)),
   )
   .init({
     resources: { en: { ui: enUI, templates: enTemplates } },
@@ -61,9 +59,7 @@ export function hasLanguageBundles(lang: string): boolean {
  * Never rejects: a language whose chunk cannot be fetched (offline, stale
  * deploy HTML) is logged and left to the `fallbackLng` English degrade.
  */
-export async function ensureLanguagesLoaded(
-  langs: readonly SupportedLanguage[],
-): Promise<void> {
+export async function ensureLanguagesLoaded(langs: readonly SupportedLanguage[]): Promise<void> {
   const wanted = [...new Set(langs)].filter((l) => !hasLanguageBundles(l));
   if (wanted.length === 0) return;
   await i18n.loadLanguages(wanted);

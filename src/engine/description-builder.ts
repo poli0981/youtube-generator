@@ -40,12 +40,7 @@ const TRANSLATION_TRUSTED: readonly string[] = ["vi", "en"];
 
 /** Caveat bullet ids for the Translation Quality section, resolved against
  *  `description.translationQuality.items.<id>` (v0.24.0). */
-const TRANSLATION_QUALITY_ITEMS = [
-  "accuracy",
-  "phrasing",
-  "localStyle",
-  "corrections",
-] as const;
+const TRANSLATION_QUALITY_ITEMS = ["accuracy", "phrasing", "localStyle", "corrections"] as const;
 
 function hasEntries(obj: Partial<Record<string, string>>): boolean {
   return Object.values(obj).some((v) => v && v.trim() !== "");
@@ -87,14 +82,12 @@ function formatScheduledTime(iso: string, language: string): string {
  * is similarly fixed: "Frame Generation" (NVIDIA), "Fluid Motion Frames"
  * (AMD's official term), "XeFG" (Intel's announced FG tech).
  */
-const VENDOR_GFX_BRANDS: Record<
-  "nvidia" | "amd" | "intel",
-  { upscale: string; framegen: string }
-> = {
-  nvidia: { upscale: "NVIDIA DLSS", framegen: "NVIDIA Frame Generation" },
-  amd: { upscale: "AMD FSR", framegen: "AMD Fluid Motion Frames" },
-  intel: { upscale: "Intel XeSS", framegen: "Intel XeFG" },
-};
+const VENDOR_GFX_BRANDS: Record<"nvidia" | "amd" | "intel", { upscale: string; framegen: string }> =
+  {
+    nvidia: { upscale: "NVIDIA DLSS", framegen: "NVIDIA Frame Generation" },
+    amd: { upscale: "AMD FSR", framegen: "AMD Fluid Motion Frames" },
+    intel: { upscale: "Intel XeSS", framegen: "Intel XeFG" },
+  };
 
 /**
  * Compose the value half of the "In-game Setting:" line — e.g.
@@ -125,13 +118,9 @@ function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
   // 2. Modifier (upscale + frame-gen). Vendor gates the whole clause —
   //    upscaling/frame-gen quality without a vendor is meaningless.
   const vendor =
-    input.frameGenVendor && input.frameGenVendor !== "none"
-      ? input.frameGenVendor
-      : null;
+    input.frameGenVendor && input.frameGenVendor !== "none" ? input.frameGenVendor : null;
   const upscaleQ =
-    input.upscaleQuality && input.upscaleQuality !== "none"
-      ? input.upscaleQuality
-      : null;
+    input.upscaleQuality && input.upscaleQuality !== "none" ? input.upscaleQuality : null;
   const fgMul =
     input.frameGenMultiplier && input.frameGenMultiplier !== "none"
       ? input.frameGenMultiplier
@@ -219,10 +208,7 @@ function composeVideoStyleLine(input: GeneratorInput, t: TranslationFn): string 
   const eraLabel = t(eraKey);
   if (!eraLabel || eraLabel === eraKey) return "";
 
-  const editor = formatRigValue(
-    "video_editor",
-    input.rig?.video_editor ?? "",
-  ).trim();
+  const editor = formatRigValue("video_editor", input.rig?.video_editor ?? "").trim();
 
   if (editor) {
     return t("description.videoSettings.styleLine", { era: eraLabel, editor });
@@ -295,8 +281,7 @@ export function buildDescription(
   // The translation-quality disclaimer keeps the raw `tEn` and stays bilingual.
   const contentBlockTEn = bilingualContentBlocks ? tEn : undefined;
   const sections: string[] = [];
-  const gameName =
-    input.gameNameLocalized?.[input.language] ?? input.gameName;
+  const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
 
   // 1. Intro. Gacha videos dispatch on `gachaQuestType` so each of the
   // 17 patterns can frame the description with its own opening line
@@ -323,8 +308,7 @@ export function buildDescription(
     questName: input.questName ?? "",
     characterName: input.characterName ?? "",
     anniversaryYear: input.anniversaryYear != null ? String(input.anniversaryYear) : "",
-    ordinalSuffix:
-      input.anniversaryYear != null ? ordinalSuffix(input.anniversaryYear) : "",
+    ordinalSuffix: input.anniversaryYear != null ? ordinalSuffix(input.anniversaryYear) : "",
     gachaVersion: input.gachaVersion ?? "",
     versionLabel,
   });
@@ -372,8 +356,9 @@ export function buildDescription(
   // 4. Store Links (heading + per-link suffix by pricing category)
   if (hasEntries(input.storeLinks)) {
     const entries = Object.entries(input.storeLinks)
-      .filter((entry): entry is [string, string] =>
-        typeof entry[1] === "string" && entry[1].trim() !== "",
+      .filter(
+        (entry): entry is [string, string] =>
+          typeof entry[1] === "string" && entry[1].trim() !== "",
       )
       .map(([id, url]) => ({
         id,
@@ -429,16 +414,11 @@ export function buildDescription(
   //     produce a broken line.
   if (input.playtestLink && input.playtestLink.trim()) {
     const link = input.playtestLink.trim();
-    const platformLabel = getLabelForId(
-      input.playtestPlatform ?? "",
-      PLAYTEST_PLATFORMS,
-    );
+    const platformLabel = getLabelForId(input.playtestPlatform ?? "", PLAYTEST_PLATFORMS);
     const lines = [`🧪 ${platformLabel}: ${link}`];
     const invites = input.playtestInvites ?? 0;
     if (Number.isInteger(invites) && invites > 0) {
-      lines.push(
-        t("description.sections.playtestInvites", { count: String(invites) }),
-      );
+      lines.push(t("description.sections.playtestInvites", { count: String(invites) }));
     }
     sections.push(`${t("description.sections.playtest")}\n${lines.join("\n")}`);
   }
@@ -527,14 +507,8 @@ export function buildDescription(
   // Vortex, Mod Organizer…). The single-line `modName` field stays in the
   // title / intro for short identification; this block lists the full
   // load order for the description.
-  if (
-    input.videoType === "mods" &&
-    input.modList &&
-    input.modList.trim()
-  ) {
-    sections.push(
-      `${t("description.sections.modList")}\n${input.modList.trim()}`,
-    );
+  if (input.videoType === "mods" && input.modList && input.modList.trim()) {
+    sections.push(`${t("description.sections.modList")}\n${input.modList.trim()}`);
   }
 
   // 7. Content warnings — unified bilingual checklist (v0.11). Header +
@@ -606,22 +580,14 @@ export function buildDescription(
   // verbatim. Gated on settings toggle AND profile field non-empty;
   // partial state is a no-op so flipping the toggle without filling
   // the profile doesn't sneak an empty section into the description.
-  if (
-    showThirdPartyAds &&
-    input.thirdPartyAdText &&
-    input.thirdPartyAdText.trim()
-  ) {
-    sections.push(
-      `${t("description.sections.thirdPartyAds")}\n${input.thirdPartyAdText.trim()}`,
-    );
+  if (showThirdPartyAds && input.thirdPartyAdText && input.thirdPartyAdText.trim()) {
+    sections.push(`${t("description.sections.thirdPartyAds")}\n${input.thirdPartyAdText.trim()}`);
   }
 
   // 8.5. Music / sound attribution — sits right before the donate
   // block because both are "credits"-adjacent sections.
   if (input.musicAttribution && input.musicAttribution.trim()) {
-    sections.push(
-      `${t("description.sections.music")}\n${input.musicAttribution.trim()}`,
-    );
+    sections.push(`${t("description.sections.music")}\n${input.musicAttribution.trim()}`);
   }
 
   // 9. Donate Links (use proper labels + icons)
@@ -691,9 +657,7 @@ export function buildDescription(
   const zalo = input.zaloGroupLink?.trim() ?? "";
   if (zalo && input.language === "vi") communityLines.push(`💙 Zalo: ${zalo}`);
   if (communityLines.length > 0) {
-    sections.push(
-      `${t("description.sections.community")}\n${communityLines.join("\n")}`,
-    );
+    sections.push(`${t("description.sections.community")}\n${communityLines.join("\n")}`);
   }
 
   // 11. Playlist
@@ -719,9 +683,7 @@ export function buildDescription(
       emailLines.push(t("description.sections.emailGameKeys", { email: input.gameKeyEmail }));
     }
     if (emailLines.length > 0) {
-      sections.push(
-        `${t("description.sections.contactHeader")}\n${emailLines.join("\n")}`,
-      );
+      sections.push(`${t("description.sections.contactHeader")}\n${emailLines.join("\n")}`);
     }
   } else if (input.contactEmail && input.contactEmail.trim()) {
     sections.push(t("description.sections.contact", { email: input.contactEmail }));
@@ -793,19 +755,13 @@ function buildPlaythroughNotesSection(
    * in bilingual mode and `Label: Value` otherwise. Returns null when the
    * value is empty (caller filters these out).
    */
-  function bullet(
-    labelKey: string,
-    valueEn: string,
-    valueLocal: string,
-  ): string | null {
+  function bullet(labelKey: string, valueEn: string, valueLocal: string): string | null {
     const trimmedEn = valueEn.trim();
     const trimmedLocal = valueLocal.trim();
     if (!trimmedEn && !trimmedLocal) return null;
     const labelEn = tEnUse(labelKey);
     const labelLocal = t(labelKey);
-    const labelLine = renderBilingual
-      ? `${labelEn} · ${labelLocal}`
-      : labelEn;
+    const labelLine = renderBilingual ? `${labelEn} · ${labelLocal}` : labelEn;
     const valueLine = renderBilingual
       ? `${trimmedEn || trimmedLocal} · ${trimmedLocal || trimmedEn}`
       : trimmedEn || trimmedLocal;
@@ -867,11 +823,7 @@ function buildPlaythroughNotesSection(
       valueEn = en === key ? input.difficulty : en;
       valueLocal = local === key ? input.difficulty : local;
     }
-    const b = bullet(
-      "description.playthroughNotes.labels.difficulty",
-      valueEn,
-      valueLocal,
-    );
+    const b = bullet("description.playthroughNotes.labels.difficulty", valueEn, valueLocal);
     if (b) bullets.push(b);
   }
 
@@ -892,26 +844,16 @@ function buildPlaythroughNotesSection(
   const structured = Array.isArray(input.endings) ? input.endings : [];
   const sliced = sliceEndingsForVideo(structured, input);
   if (sliced.length > 0) {
-    const formatted = sliced
-      .map(formatEndingEntry)
-      .filter((s): s is string => !!s);
+    const formatted = sliced.map(formatEndingEntry).filter((s): s is string => !!s);
     if (formatted.length > 0) {
       const joined = formatted.join(", ");
-      const b = bullet(
-        "description.playthroughNotes.labels.endings",
-        joined,
-        joined,
-      );
+      const b = bullet("description.playthroughNotes.labels.endings", joined, joined);
       if (b) bullets.push(b);
     }
   } else {
     const legacy = (input.endingsShown ?? "").trim();
     if (legacy) {
-      const b = bullet(
-        "description.playthroughNotes.labels.endings",
-        legacy,
-        legacy,
-      );
+      const b = bullet("description.playthroughNotes.labels.endings", legacy, legacy);
       if (b) bullets.push(b);
     }
   }
@@ -931,11 +873,7 @@ function buildPlaythroughNotesSection(
       valueEn = resolved.en;
       valueLocal = resolved.local;
     }
-    const b = bullet(
-      "description.playthroughNotes.labels.languagePatch",
-      valueEn,
-      valueLocal,
-    );
+    const b = bullet("description.playthroughNotes.labels.languagePatch", valueEn, valueLocal);
     if (b) bullets.push(b);
   }
 
@@ -949,19 +887,11 @@ function buildPlaythroughNotesSection(
       valueEn = custom;
       valueLocal = custom;
     } else {
-      const resolved = resolveEnum(
-        "gameVersionOptions",
-        input.gameVersion,
-        "full_release",
-      );
+      const resolved = resolveEnum("gameVersionOptions", input.gameVersion, "full_release");
       valueEn = resolved.en;
       valueLocal = resolved.local;
     }
-    const b = bullet(
-      "description.playthroughNotes.labels.gameVersion",
-      valueEn,
-      valueLocal,
-    );
+    const b = bullet("description.playthroughNotes.labels.gameVersion", valueEn, valueLocal);
     if (b) bullets.push(b);
   }
 

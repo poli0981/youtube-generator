@@ -26,12 +26,7 @@ export type GraphicsPreset = (typeof GRAPHICS_PRESETS)[number];
  * of these layered (e.g. Path Tracing + Ray Reconstruction + Frame
  * Generation). Empty array → no RT clause in the description.
  */
-export const RT_MODES = [
-  "ray_tracing",
-  "full_rt",
-  "path_tracing",
-  "ray_reconstruction",
-] as const;
+export const RT_MODES = ["ray_tracing", "full_rt", "path_tracing", "ray_reconstruction"] as const;
 export type RTMode = (typeof RT_MODES)[number];
 
 /**

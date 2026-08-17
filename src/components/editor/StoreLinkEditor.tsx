@@ -7,10 +7,7 @@ import { Select } from "@components/ui/Select";
 import { PLATFORMS } from "@config/platforms";
 import { useEditorStore } from "@store/editor-store";
 import { validateUrlWithPattern } from "@utils/validation";
-import {
-  extractGameNameFromUrl,
-  isLinkNameMismatch,
-} from "@utils/url-extractors";
+import { extractGameNameFromUrl, isLinkNameMismatch } from "@utils/url-extractors";
 import type { StoreLinkType } from "@engine/types";
 
 const STORE_LINK_TYPE_VALUES: readonly StoreLinkType[] = ["paid", "free", "demo"];
@@ -30,9 +27,9 @@ export function StoreLinkEditor() {
   const setNested = useEditorStore((s) => s.setNested);
   const setStoreLinkType = useEditorStore((s) => s.setStoreLinkType);
 
-  const [dismissedFingerprints, setDismissedFingerprints] = useState<
-    ReadonlySet<string>
-  >(new Set());
+  const [dismissedFingerprints, setDismissedFingerprints] = useState<ReadonlySet<string>>(
+    new Set(),
+  );
 
   const typeOptions = STORE_LINK_TYPE_VALUES.map((value) => ({
     value,
@@ -135,10 +132,7 @@ export function StoreLinkEditor() {
           // the optional game-copyright description line independently
           // of whether the publisher URL is filled.
           return (
-            <div
-              key={platform.id}
-              className="grid grid-cols-[1fr_9rem] items-end gap-2"
-            >
+            <div key={platform.id} className="grid grid-cols-[1fr_9rem] items-end gap-2">
               <ValidatedInput
                 label={platform.label}
                 placeholder={platform.urlPrefix}

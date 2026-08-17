@@ -23,15 +23,7 @@ interface AccordionProps {
  * sections are open and persists that choice. Height animates via a
  * grid-rows trick so content can be any height without measurement.
  */
-export function Accordion({
-  id,
-  title,
-  icon,
-  badge,
-  open,
-  onToggle,
-  children,
-}: AccordionProps) {
+export function Accordion({ id, title, icon, badge, open, onToggle, children }: AccordionProps) {
   return (
     <section
       data-accordion-id={id}
@@ -62,9 +54,7 @@ export function Accordion({
         )}
       >
         <div className="overflow-hidden">
-          <div className="flex flex-col gap-3 border-t border-border px-4 py-4">
-            {children}
-          </div>
+          <div className="flex flex-col gap-3 border-t border-border px-4 py-4">{children}</div>
         </div>
       </div>
     </section>

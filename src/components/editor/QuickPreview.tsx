@@ -11,12 +11,8 @@ export function QuickPreview() {
 
       <div className="flex flex-col gap-2">
         <div>
-          <span className="text-xs font-medium uppercase text-text-muted">
-            {t("output.title")}
-          </span>
-          <p className="mt-1 text-sm font-medium text-text-primary">
-            {output.title || "..."}
-          </p>
+          <span className="text-xs font-medium uppercase text-text-muted">{t("output.title")}</span>
+          <p className="mt-1 text-sm font-medium text-text-primary">{output.title || "..."}</p>
         </div>
 
         <div>
@@ -32,9 +28,7 @@ export function QuickPreview() {
           <span className="text-xs font-medium uppercase text-text-muted">
             {t("output.tags")} ({output.tags.length})
           </span>
-          <p className="mt-1 line-clamp-2 text-xs text-text-muted">
-            {output.tagString || "..."}
-          </p>
+          <p className="mt-1 line-clamp-2 text-xs text-text-muted">{output.tagString || "..."}</p>
         </div>
       </div>
     </div>

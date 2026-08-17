@@ -19,7 +19,7 @@ export function HistoryCard({ entry }: HistoryCardProps) {
   const date = new Date(entry.createdAt).toLocaleDateString();
 
   return (
-    <div className="rounded-lg border border-border-strong bg-surface-2 shadow-md shadow-black/10 transition-colors hover:border-accent/30">
+    <div className="hover:border-accent/30 rounded-lg border border-border-strong bg-surface-2 shadow-md shadow-black/10 transition-colors">
       <div
         className="flex cursor-pointer items-center justify-between p-3"
         onClick={() => setExpanded(!expanded)}

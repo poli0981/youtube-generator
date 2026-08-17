@@ -72,10 +72,9 @@ describe("generateTags", () => {
   });
 
   it("humanises snake_case genres in trending tags (fixes visual_novel leak)", () => {
-    const tags = generateTags(
-      makeInput({ genres: ["visual_novel"] }),
-      { includeTrendingTags: true },
-    );
+    const tags = generateTags(makeInput({ genres: ["visual_novel"] }), {
+      includeTrendingTags: true,
+    });
     // No tag should contain the raw underscore form
     expect(tags.every((t) => !t.includes("visual_novel"))).toBe(true);
     // The humanised form should be present in the trending tags
@@ -162,17 +161,12 @@ describe("tagFriendlyGameName", () => {
   });
 
   it("strips a trailing 'Definitive Edition' qualifier", () => {
-    expect(tagFriendlyGameName("Some Game: Definitive Edition", 30)).toBe(
-      "Some Game",
-    );
+    expect(tagFriendlyGameName("Some Game: Definitive Edition", 30)).toBe("Some Game");
   });
 
   it("iteratively strips multiple trailing qualifiers", () => {
     expect(
-      tagFriendlyGameName(
-        "Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition",
-        30,
-      ),
+      tagFriendlyGameName("Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition", 30),
     ).toBe("Tony Hawk's Pro Skater 1+2");
   });
 
@@ -181,28 +175,21 @@ describe("tagFriendlyGameName", () => {
   });
 
   it("falls back to the head before a colon when stripping qualifiers isn't enough", () => {
-    expect(
-      tagFriendlyGameName(
-        "A Very Long Subtitle: That Keeps Going Forever Indeed",
-        25,
-      ),
-    ).toBe("A Very Long Subtitle");
+    expect(tagFriendlyGameName("A Very Long Subtitle: That Keeps Going Forever Indeed", 25)).toBe(
+      "A Very Long Subtitle",
+    );
   });
 
   it("falls back to leading-words truncation for unstoppably long names", () => {
     expect(
-      tagFriendlyGameName(
-        "An Extremely Verbose Name Without Any Qualifiers Whatsoever",
-        20,
-      ),
+      tagFriendlyGameName("An Extremely Verbose Name Without Any Qualifiers Whatsoever", 20),
     ).toBe("An Extremely Verbose");
   });
 });
 
 describe("generateTags — long game names (regression for v0.7 silent drop)", () => {
   it("includes a friendly form of long game names in the tag list", () => {
-    const longName =
-      "Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition";
+    const longName = "Tony Hawk's Pro Skater 1+2 Remastered: Definitive Edition";
     const tags = generateTags(makeInput({ gameName: longName }));
     const lowered = tags.map((t) => t.toLowerCase());
 
@@ -247,9 +234,7 @@ describe("generateTags — long game names (regression for v0.7 silent drop)", (
     // sponsorName itself isn't tagged, so this guards against future
     // reintroduction: a user typing the same publisher in both fields
     // should see exactly one bare tag for that name.
-    const tags = generateTags(
-      makeInput({ sponsorName: "Acme Inc", pubDevName: "ACME INC" }),
-    );
+    const tags = generateTags(makeInput({ sponsorName: "Acme Inc", pubDevName: "ACME INC" }));
     const acme = tags.filter((t) => t.toLowerCase() === "acme inc");
     expect(acme.length).toBe(1);
   });
@@ -292,17 +277,13 @@ describe("generateTags — game names with tag-delimiter punctuation (v0.20.0)",
   });
 
   it("emits clean composite tags for comma-bearing names", () => {
-    const tags = generateTags(
-      makeInput({ gameName: "Hello, World", genres: ["action"] }),
-    );
+    const tags = generateTags(makeInput({ gameName: "Hello, World", genres: ["action"] }));
     expect(tags).toContain("Hello World gameplay");
     expect(tags.some((t) => t === "Hello World action")).toBe(true);
   });
 
   it("strips semicolons inside the game name path", () => {
-    const tags = generateTags(
-      makeInput({ gameName: "Crypt of the NecroDancer; Reaper Edition" }),
-    );
+    const tags = generateTags(makeInput({ gameName: "Crypt of the NecroDancer; Reaper Edition" }));
     // Semicolon stripped, edition qualifier still peeled off, no semicolon in any tag.
     expect(tags.every((t) => !t.includes(";"))).toBe(true);
     expect(tags.some((t) => t.toLowerCase().includes("necrodancer"))).toBe(true);
