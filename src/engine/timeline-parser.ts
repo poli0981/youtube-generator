@@ -5,14 +5,7 @@ import type { SupportedLanguage, TranslationFn } from "./types";
  * translation key under `timeline.keywords.*` in templates.json.
  */
 type TimelineKeyword =
-  | "chapter"
-  | "part"
-  | "boss"
-  | "final_boss"
-  | "intro"
-  | "ending"
-  | "tutorial"
-  | "credits";
+  "chapter" | "part" | "boss" | "final_boss" | "intro" | "ending" | "tutorial" | "credits";
 
 export interface TimelineEntry {
   /** Raw timecode as it appeared in the input (e.g. "0:00", "1:23:45"). */

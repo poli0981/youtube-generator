@@ -149,8 +149,7 @@ function isExportType(value: string): value is ExportType {
  */
 function guessArrayType(arr: unknown[]): ExportType | null {
   const sample = arr.find((x) => !!x && typeof x === "object") as
-    | Record<string, unknown>
-    | undefined;
+    Record<string, unknown> | undefined;
   if (!sample) return null;
 
   // Templates have a top-level `snapshot` object — most distinctive
