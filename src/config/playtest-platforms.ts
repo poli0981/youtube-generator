@@ -50,8 +50,7 @@ export const PLAYTEST_PLATFORMS: readonly PlaytestPlatformConfig[] = [
     id: "itchio",
     label: "itch.io",
     urlPrefix: "https://<dev>.itch.io/<game>",
-    urlPattern:
-      /^https:\/\/[a-z0-9][a-z0-9-]*\.itch\.io\/[a-z0-9][a-z0-9_-]*\/?$/i,
+    urlPattern: /^https:\/\/[a-z0-9][a-z0-9-]*\.itch\.io\/[a-z0-9][a-z0-9_-]*\/?$/i,
     maxInvites: 50,
   },
   {

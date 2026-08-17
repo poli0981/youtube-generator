@@ -46,7 +46,7 @@ export function PresetCard({ preset }: PresetCardProps) {
 
   return (
     <>
-      <div className="flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30 sm:flex-row sm:items-center sm:justify-between">
+      <div className="hover:border-accent/30 flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold text-text-primary">{preset.gameName}</h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-text-muted">
@@ -85,11 +85,7 @@ export function PresetCard({ preset }: PresetCardProps) {
         variant="danger"
       />
 
-      <PresetSaveForm
-        open={showEdit}
-        onClose={() => setShowEdit(false)}
-        editPreset={preset}
-      />
+      <PresetSaveForm open={showEdit} onClose={() => setShowEdit(false)} editPreset={preset} />
     </>
   );
 }

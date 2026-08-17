@@ -43,11 +43,7 @@ export function Drawer({
       )}
       aria-hidden={!open}
     >
-      <div
-        className="absolute inset-0 bg-black/60"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/60" onClick={onClose} aria-hidden="true" />
       <div
         role="dialog"
         aria-modal="true"
@@ -55,11 +51,7 @@ export function Drawer({
         className={clsx(
           "absolute bottom-0 top-0 flex w-64 max-w-[85vw] flex-col bg-surface-1 shadow-2xl transition-transform duration-200",
           side === "left" ? "left-0 border-r border-border" : "right-0 border-l border-border",
-          open
-            ? "translate-x-0"
-            : side === "left"
-              ? "-translate-x-full"
-              : "translate-x-full",
+          open ? "translate-x-0" : side === "left" ? "-translate-x-full" : "translate-x-full",
           className,
         )}
         style={{

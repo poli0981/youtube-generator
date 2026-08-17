@@ -27,9 +27,7 @@ export function OutputExtras() {
   const pinnedComment = useEditorStore((s) => s.pinnedComment);
   const showPinnedCommentTemplate = useSettingsStore((s) => s.showPinnedCommentTemplate);
   const includeAskNextGame = useSettingsStore((s) => s.pinnedCommentIncludeAskNextGame);
-  const includeGenrePlaylist = useSettingsStore(
-    (s) => s.pinnedCommentIncludeGenrePlaylist,
-  );
+  const includeGenrePlaylist = useSettingsStore((s) => s.pinnedCommentIncludeGenrePlaylist);
   const genrePlaylists = useSettingsStore((s) => s.genrePlaylists);
   const input = useCurrentGeneratorInput();
 
@@ -75,9 +73,7 @@ export function OutputExtras() {
       {hasThumbnail && (
         <section className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-text-primary">
-              {t("output.thumbnailText")}
-            </h3>
+            <h3 className="text-sm font-semibold text-text-primary">{t("output.thumbnailText")}</h3>
             <CopyButton text={thumbnailText} label={t("output.copyThumbnailText")} />
           </div>
           <div className="rounded-lg border border-border bg-surface-1 p-3">
@@ -91,9 +87,7 @@ export function OutputExtras() {
       {hasPinned && (
         <section className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-text-primary">
-              {t("output.pinnedComment")}
-            </h3>
+            <h3 className="text-sm font-semibold text-text-primary">{t("output.pinnedComment")}</h3>
             <CopyButton text={pinnedComment} label={t("output.copyPinnedComment")} />
           </div>
           <div className="rounded-lg border border-border bg-surface-1 p-3">

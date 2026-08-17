@@ -111,9 +111,7 @@ export async function hydrateLogStore(retentionDays: number): Promise<void> {
       // Sort by timestamp descending so the newest is first
       // (matches `addEntry`'s prepend semantics). Filter out anything
       // already in memory by id to keep hydration idempotent.
-      const sorted = [...prior].sort(
-        (a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp),
-      );
+      const sorted = [...prior].sort((a, b) => Date.parse(b.timestamp) - Date.parse(a.timestamp));
       useLogStore.setState((state) => {
         const existing = new Set(state.entries.map((e) => e.id));
         const fresh = sorted.filter((e) => !existing.has(e.id));

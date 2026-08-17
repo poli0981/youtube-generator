@@ -192,10 +192,7 @@ export function LogPage() {
               : !collapsedSessions.has(`__expanded__${session.id}`);
 
             return (
-              <div
-                key={session.id}
-                className="rounded-lg border border-border bg-surface-1"
-              >
+              <div key={session.id} className="rounded-lg border border-border bg-surface-1">
                 <div
                   className="flex cursor-pointer items-center gap-2 px-3 py-2"
                   onClick={() => {
@@ -204,9 +201,7 @@ export function LogPage() {
                     // collapsed" semantic from leaking into the set.
                     setCollapsedSessions((prev) => {
                       const next = new Set(prev);
-                      const key = session.isCurrent
-                        ? session.id
-                        : `__expanded__${session.id}`;
+                      const key = session.isCurrent ? session.id : `__expanded__${session.id}`;
                       if (next.has(key)) next.delete(key);
                       else next.add(key);
                       return next;
@@ -230,14 +225,10 @@ export function LogPage() {
                     · {session.entries.length} {t("logs.entriesShort")}
                   </span>
                   {session.errorCount > 0 && (
-                    <span className="text-xs text-red-400">
-                      · {session.errorCount} errors
-                    </span>
+                    <span className="text-xs text-red-400">· {session.errorCount} errors</span>
                   )}
                   {session.warnCount > 0 && (
-                    <span className="text-xs text-yellow-400">
-                      · {session.warnCount} warnings
-                    </span>
+                    <span className="text-xs text-yellow-400">· {session.warnCount} warnings</span>
                   )}
                   <div className="flex-1" />
                   <button

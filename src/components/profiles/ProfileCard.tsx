@@ -45,10 +45,12 @@ export function ProfileCard({ profile }: ProfileCardProps) {
 
   return (
     <>
-      <div className="flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30 sm:flex-row sm:items-center sm:justify-between">
+      <div className="hover:border-accent/30 flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold text-text-primary">{profile.name}</h3>
-          <p className="mt-0.5 text-xs text-text-secondary">{profile.channelName || "No channel"}</p>
+          <p className="mt-0.5 text-xs text-text-secondary">
+            {profile.channelName || "No channel"}
+          </p>
           <div className="mt-1.5 flex flex-wrap gap-3 text-xs text-text-muted">
             {socialCount > 0 && <span>{socialCount} social links</span>}
             {rigCount > 0 && <span>{rigCount} rig fields</span>}
@@ -81,11 +83,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
         variant="danger"
       />
 
-      <ProfileSaveForm
-        open={showEdit}
-        onClose={() => setShowEdit(false)}
-        editProfile={profile}
-      />
+      <ProfileSaveForm open={showEdit} onClose={() => setShowEdit(false)} editProfile={profile} />
     </>
   );
 }

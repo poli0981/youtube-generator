@@ -9,10 +9,7 @@ interface ShortcutOptions {
   onToggleSidebar: () => void;
 }
 
-export function useKeyboardShortcuts({
-  onToggleHelp,
-  onToggleSidebar,
-}: ShortcutOptions) {
+export function useKeyboardShortcuts({ onToggleHelp, onToggleSidebar }: ShortcutOptions) {
   const navigate = useNavigate();
   const output = useGeneratedOutput();
   const { copy } = useClipboard();
@@ -52,14 +49,7 @@ export function useKeyboardShortcuts({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [
-    navigate,
-    output.title,
-    output.description,
-    copy,
-    onToggleHelp,
-    onToggleSidebar,
-  ]);
+  }, [navigate, output.title, output.description, copy, onToggleHelp, onToggleSidebar]);
 }
 
 /**

@@ -23,9 +23,7 @@ describe("healSettings", () => {
       });
       expect(healed.showPinnedCommentTemplate).toBe(false);
       expect(healed.pinnedCommentIncludeAskNextGame).toBe(true);
-      expect(healed.editorAccordionState).toEqual(
-        expect.objectContaining({ gameInfo: true }),
-      );
+      expect(healed.editorAccordionState).toEqual(expect.objectContaining({ gameInfo: true }));
     }
   });
 
@@ -46,7 +44,7 @@ describe("healSettings", () => {
   });
 
   it("strips the removed `autoSaveDraft` key even if persisted", () => {
-    const healed = healSettings({ autoSaveDraft: true, theme: "dark" }) as Record<
+    const healed = healSettings({ autoSaveDraft: true, theme: "dark" }) as unknown as Record<
       string,
       unknown
     >;
@@ -57,7 +55,7 @@ describe("healSettings", () => {
     const healed = healSettings({
       defaultGenre: "rpg",
       defaultGenres: ["horror", "action"],
-    }) as Record<string, unknown>;
+    }) as unknown as Record<string, unknown>;
     expect(healed.defaultGenre).toBeUndefined();
     expect(healed.defaultGenres).toBeUndefined();
   });

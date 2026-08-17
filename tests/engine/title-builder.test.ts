@@ -46,19 +46,13 @@ describe("buildTitle", () => {
 
   it("generates boss title with boss name", () => {
     const t = createMockT("en");
-    const result = buildTitle(
-      makeInput({ videoType: "boss", bossName: "Margit" }),
-      t,
-    );
+    const result = buildTitle(makeInput({ videoType: "boss", bossName: "Margit" }), t);
     expect(result).toBe("Elden Ring — Margit Boss Fight — Gameplay No Commentary");
   });
 
   it("generates boss no hit title", () => {
     const t = createMockT("en");
-    const result = buildTitle(
-      makeInput({ videoType: "boss_nohit", bossName: "Margit" }),
-      t,
-    );
+    const result = buildTitle(makeInput({ videoType: "boss_nohit", bossName: "Margit" }), t);
     expect(result).toBe("Elden Ring — Margit Boss No Hit — Gameplay No Commentary");
   });
 
@@ -80,9 +74,7 @@ describe("buildTitle", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Elden Ring — Ending 3: Best End — Gameplay No Commentary",
-    );
+    expect(result).toBe("Elden Ring — Ending 3: Best End — Gameplay No Commentary");
   });
 
   it("renders a single structured ending with number only (v0.17.0)", () => {
@@ -122,9 +114,7 @@ describe("buildTitle", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Elden Ring — True End, Bad End, Hidden — Gameplay No Commentary",
-    );
+    expect(result).toBe("Elden Ring — True End, Bad End, Hidden — Gameplay No Commentary");
   });
 
   it("renders contiguous numbered endings as a range (v0.17.0)", () => {
@@ -141,9 +131,7 @@ describe("buildTitle", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Elden Ring — Endings 1–3 — Gameplay No Commentary",
-    );
+    expect(result).toBe("Elden Ring — Endings 1–3 — Gameplay No Commentary");
   });
 
   it("handles out-of-order numbered endings by sorting for the range (v0.17.0)", () => {
@@ -216,10 +204,7 @@ describe("buildTitle", () => {
 
   it("falls back when endings array is undefined (legacy creator)", () => {
     const t = createMockT("en");
-    const result = buildTitle(
-      makeInput({ videoType: "ending", endings: undefined }),
-      t,
-    );
+    const result = buildTitle(makeInput({ videoType: "ending", endings: undefined }), t);
     expect(result).toBe("Elden Ring — Ending — Gameplay No Commentary");
   });
 
@@ -266,10 +251,7 @@ describe("buildTitle", () => {
 
   it("generates part title in Vietnamese", () => {
     const t = createMockT("vi");
-    const result = buildTitle(
-      makeInput({ videoType: "part", partNumber: "3", language: "vi" }),
-      t,
-    );
+    const result = buildTitle(makeInput({ videoType: "part", partNumber: "3", language: "vi" }), t);
     expect(result).toBe("Elden Ring — Phần 3 — Gameplay No Commentary");
   });
 
@@ -304,10 +286,7 @@ describe("buildTitle", () => {
 
   it("combines resolution and FPS when both are non-default", () => {
     const t = createMockT("en");
-    const result = buildTitle(
-      makeInput({ resolution: "4K", fps: "120" }),
-      t,
-    );
+    const result = buildTitle(makeInput({ resolution: "4K", fps: "120" }), t);
     // videoType "full" renders empty, so the badge becomes its own segment
     expect(result).toBe("Elden Ring — [4K 120FPS] — Gameplay No Commentary");
   });
@@ -333,10 +312,7 @@ describe("buildTitle", () => {
 
   it("renders mods video type with mod name", () => {
     const t = createMockT("en");
-    const result = buildTitle(
-      makeInput({ videoType: "mods", modName: "Requiem" }),
-      t,
-    );
+    const result = buildTitle(makeInput({ videoType: "mods", modName: "Requiem" }), t);
     expect(result).toBe("Elden Ring — Requiem Mods — Gameplay No Commentary");
   });
 
@@ -376,9 +352,7 @@ describe("buildTitle — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Honkai: Star Rail — Penacony 2.0 — Gameplay No Commentary",
-    );
+    expect(result).toBe("Honkai: Star Rail — Penacony 2.0 — Gameplay No Commentary");
   });
 
   it("composes a World Quest title using questName", () => {
@@ -409,9 +383,7 @@ describe("buildTitle — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Honkai Impact 3rd — 7th Anniversary - Day 3 — Gameplay No Commentary",
-    );
+    expect(result).toBe("Honkai Impact 3rd — 7th Anniversary - Day 3 — Gameplay No Commentary");
   });
 
   it("uses the floor suffix style for endgame", () => {
@@ -426,9 +398,7 @@ describe("buildTitle — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Genshin Impact — Spiral Abyss - Floor 12 — Gameplay No Commentary",
-    );
+    expect(result).toBe("Genshin Impact — Spiral Abyss - Floor 12 — Gameplay No Commentary");
   });
 
   it("falls back to main_story when gachaQuestType is missing", () => {
@@ -441,9 +411,7 @@ describe("buildTitle — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Wuthering Waves — Chapter 1 — Gameplay No Commentary",
-    );
+    expect(result).toBe("Wuthering Waves — Chapter 1 — Gameplay No Commentary");
   });
 
   it("renders the badge as its own middle segment (videoTypeLabel is empty)", () => {
@@ -480,9 +448,7 @@ describe("buildTitle — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toBe(
-      "Genshin Impact — Chương 5 Hồi 2 - Phần 5 — Gameplay No Commentary",
-    );
+    expect(result).toBe("Genshin Impact — Chương 5 Hồi 2 - Phần 5 — Gameplay No Commentary");
   });
 });
 

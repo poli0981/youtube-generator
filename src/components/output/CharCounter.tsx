@@ -19,10 +19,10 @@ export function CharCounter({ text, limit }: CharCounterProps) {
   return (
     <span
       className={clsx(
-        "text-xs font-mono font-semibold transition-colors",
+        "font-mono text-xs font-semibold transition-colors",
         isOver && "text-danger",
         isWarning && "text-warning",
-        !isOver && !isWarning && "text-text-muted font-normal",
+        !isOver && !isWarning && "font-normal text-text-muted",
       )}
     >
       {count}/{limit}

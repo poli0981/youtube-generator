@@ -3,10 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
 import clsx from "clsx";
 import { useEditorStore } from "@store/editor-store";
-import {
-  CONTENT_WARNING_GROUPS,
-  type ContentWarningGroup,
-} from "@config/content-warning-groups";
+import { CONTENT_WARNING_GROUPS, type ContentWarningGroup } from "@config/content-warning-groups";
 import type { ContentWarning } from "@engine/types";
 
 /**
@@ -69,13 +66,9 @@ export function ContentWarningChecklist() {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-baseline justify-between">
-        <span className="text-sm font-medium text-text-secondary">
-          {t("editor.warnings")}
-        </span>
+        <span className="text-sm font-medium text-text-secondary">{t("editor.warnings")}</span>
         {selected.length > 0 && (
-          <span className="text-xs text-text-muted">
-            {selected.length} selected
-          </span>
+          <span className="text-xs text-text-muted">{selected.length} selected</span>
         )}
       </div>
 
@@ -108,9 +101,7 @@ export function ContentWarningChecklist() {
         <div className="flex flex-col gap-1">
           {filteredGroups.map((group) => {
             const isOpen = isFiltering || openGroups[group.id];
-            const groupSelectedCount = group.items.filter((id) =>
-              selected.includes(id),
-            ).length;
+            const groupSelectedCount = group.items.filter((id) => selected.includes(id)).length;
             return (
               <div
                 key={group.id}
@@ -131,7 +122,7 @@ export function ContentWarningChecklist() {
                     {t(group.labelKey)}
                   </span>
                   {groupSelectedCount > 0 && (
-                    <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-medium text-accent">
+                    <span className="bg-accent/15 rounded-full px-2 py-0.5 text-[10px] font-medium text-accent">
                       {groupSelectedCount}
                     </span>
                   )}
@@ -154,7 +145,7 @@ export function ContentWarningChecklist() {
                             type="checkbox"
                             checked={checked}
                             onChange={() => toggleItem(id)}
-                            className="h-3.5 w-3.5 shrink-0 cursor-pointer rounded border-border text-accent focus:ring-1 focus:ring-accent/40"
+                            className="focus:ring-accent/40 h-3.5 w-3.5 shrink-0 cursor-pointer rounded border-border text-accent focus:ring-1"
                           />
                           <span>{t(`editor.contentWarningOptions.${id}`)}</span>
                         </label>

@@ -11,14 +11,6 @@
     "fs:allow-read-text-file",
     "fs:allow-write-text-file",
     "shell:default",
-    "opener:default",
-    {
-      "identifier": "opener:allow-open-path",
-      "allow": [{ "path": "$APPDATA" }, { "path": "$APPDATA/**" }]
-    },
-    {
-      "identifier": "opener:allow-reveal-item-in-dir",
-      "allow": [{ "path": "$APPDATA" }, { "path": "$APPDATA/**" }]
-    }
+    "opener:default"
   ]
 }

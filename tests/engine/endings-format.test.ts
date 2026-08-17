@@ -1,16 +1,10 @@
 import { describe, it, expect } from "vitest";
-import {
-  formatEndingEntry,
-  sliceEndingsForVideo,
-  clampRange,
-} from "@engine/endings-format";
+import { formatEndingEntry, sliceEndingsForVideo, clampRange } from "@engine/endings-format";
 import type { EndingEntry } from "@engine/types";
 
 describe("formatEndingEntry", () => {
   it("renders 'Ending {n}: {name}' when both are filled", () => {
-    expect(formatEndingEntry({ number: 3, name: "Best End" })).toBe(
-      "Ending 3: Best End",
-    );
+    expect(formatEndingEntry({ number: 3, name: "Best End" })).toBe("Ending 3: Best End");
   });
 
   it("renders 'Ending {n}' when only the number is filled", () => {
@@ -18,9 +12,7 @@ describe("formatEndingEntry", () => {
   });
 
   it("renders just the name when only the name is filled", () => {
-    expect(formatEndingEntry({ number: null, name: "True Ending" })).toBe(
-      "True Ending",
-    );
+    expect(formatEndingEntry({ number: null, name: "True Ending" })).toBe("True Ending");
   });
 
   it("returns null when neither is filled (drop signal)", () => {
@@ -29,16 +21,12 @@ describe("formatEndingEntry", () => {
   });
 
   it("trims whitespace from the name", () => {
-    expect(formatEndingEntry({ number: 2, name: "  Bad End  " })).toBe(
-      "Ending 2: Bad End",
-    );
+    expect(formatEndingEntry({ number: 2, name: "  Bad End  " })).toBe("Ending 2: Bad End");
   });
 
   it("rejects NaN / Infinity numbers as if missing", () => {
     expect(formatEndingEntry({ number: NaN, name: "True End" })).toBe("True End");
-    expect(
-      formatEndingEntry({ number: Infinity, name: "X" }),
-    ).toBe("X");
+    expect(formatEndingEntry({ number: Infinity, name: "X" })).toBe("X");
   });
 });
 
@@ -65,9 +53,7 @@ describe("sliceEndingsForVideo", () => {
       ],
     };
     expect(sliceEndingsForVideo(endings, input)).toEqual(endings);
-    expect(
-      sliceEndingsForVideo(endings, { ...input, endingVideoIndex: 99 }),
-    ).toEqual(endings);
+    expect(sliceEndingsForVideo(endings, { ...input, endingVideoIndex: 99 })).toEqual(endings);
   });
 
   it("returns the slice for video 1 when indexed", () => {

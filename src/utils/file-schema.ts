@@ -28,13 +28,7 @@ export const APP_MARKER = "ytdescgen" as const;
 /** Kinds of payload the app can round-trip via JSON files. The string
  *  literal IS the on-disk discriminator — don't rename without writing
  *  a back-compat alias. */
-export type ExportType =
-  | "profile"
-  | "preset"
-  | "template"
-  | "settings"
-  | "history"
-  | "social";
+export type ExportType = "profile" | "preset" | "template" | "settings" | "history" | "social";
 
 /** Versioned wrapper written by every v0.15+ export. */
 export interface ExportEnvelope<T = unknown> {
@@ -108,16 +102,11 @@ export function detectShape(parsed: unknown): DetectedShape {
 
   // 1. Envelope path.
   const maybe = parsed as Partial<ExportEnvelope>;
-  if (
-    maybe._app === APP_MARKER &&
-    typeof maybe._type === "string" &&
-    isExportType(maybe._type)
-  ) {
+  if (maybe._app === APP_MARKER && typeof maybe._type === "string" && isExportType(maybe._type)) {
     return {
       kind: "envelope",
       type: maybe._type,
-      schemaVersion:
-        typeof maybe._schemaVersion === "number" ? maybe._schemaVersion : 0,
+      schemaVersion: typeof maybe._schemaVersion === "number" ? maybe._schemaVersion : 0,
       data: maybe.data,
     };
   }
@@ -177,10 +166,7 @@ function guessArrayType(arr: unknown[]): ExportType | null {
     return "profile";
   }
   // Presets carry game-level data (gameName + storeLinks).
-  if (
-    typeof sample.gameName === "string" &&
-    typeof sample.storeLinks === "object"
-  ) {
+  if (typeof sample.gameName === "string" && typeof sample.storeLinks === "object") {
     return "preset";
   }
   // History entries always have a `createdAt` + (title|description|tags).

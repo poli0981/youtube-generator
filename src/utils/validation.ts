@@ -56,10 +56,7 @@ export function validateUrl(input: string): ValidationResult {
   return { valid: true };
 }
 
-export function validateUrlWithPrefix(
-  input: string,
-  expectedPrefix: string,
-): ValidationResult {
+export function validateUrlWithPrefix(input: string, expectedPrefix: string): ValidationResult {
   const baseResult = validateUrl(input);
   if (!baseResult.valid) return baseResult;
 
@@ -82,10 +79,7 @@ export function validateUrlWithPrefix(
  * validateUrlWithPrefix, prefix-style mismatches are treated as hard
  * errors so invalid links can be kept out of the output.
  */
-export function validateUrlWithPattern(
-  input: string,
-  pattern: RegExp,
-): ValidationResult {
+export function validateUrlWithPattern(input: string, pattern: RegExp): ValidationResult {
   const trimmed = input.trim();
   if (!trimmed) return { valid: true };
 

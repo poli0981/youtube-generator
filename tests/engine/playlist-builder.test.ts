@@ -24,9 +24,7 @@ describe("buildPlaylistTitle", () => {
     expect(buildPlaylistTitle(makeInput({ status: "completed" }), t)).toBe(
       "✅ Completed - Elden Ring",
     );
-    expect(buildPlaylistTitle(makeInput({ status: "dropped" }), t)).toBe(
-      "❌ Dropped - Elden Ring",
-    );
+    expect(buildPlaylistTitle(makeInput({ status: "dropped" }), t)).toBe("❌ Dropped - Elden Ring");
     expect(buildPlaylistTitle(makeInput({ status: "incomplete" }), t)).toBe(
       "🔄 Incomplete - Elden Ring",
     );
@@ -46,9 +44,7 @@ describe("buildPlaylistDescription", () => {
   });
 
   it("includes a video-count line when totalVideos is set", () => {
-    expect(buildPlaylistDescription(makeInput({ totalVideos: 25 }), t)).toContain(
-      "📹 25 video(s)",
-    );
+    expect(buildPlaylistDescription(makeInput({ totalVideos: 25 }), t)).toContain("📹 25 video(s)");
     expect(buildPlaylistDescription(makeInput(), t)).not.toContain("📹");
   });
 
@@ -117,15 +113,11 @@ describe("buildPlaylistComment", () => {
     expect(buildPlaylistComment(makeInput({ status: "completed" }), t)).toContain(
       "series is complete",
     );
-    expect(buildPlaylistComment(makeInput({ status: "in_progress" }), t)).toContain(
-      "part is live",
-    );
+    expect(buildPlaylistComment(makeInput({ status: "in_progress" }), t)).toContain("part is live");
     expect(buildPlaylistComment(makeInput({ status: "incomplete" }), t)).toContain(
       "playthrough continues",
     );
-    expect(buildPlaylistComment(makeInput({ status: "dropped" }), t)).toContain(
-      "decided to drop",
-    );
+    expect(buildPlaylistComment(makeInput({ status: "dropped" }), t)).toContain("decided to drop");
   });
 
   it("always ends with the engagement call-to-action", () => {
@@ -140,15 +132,11 @@ describe("buildPlaylistComment", () => {
     expect(withLink).toContain("Watch the full playlist here:");
     expect(withLink).toContain("https://youtube.com/playlist?list=abc");
 
-    expect(buildPlaylistComment(makeInput(), t)).not.toContain(
-      "Watch the full playlist here:",
-    );
+    expect(buildPlaylistComment(makeInput(), t)).not.toContain("Watch the full playlist here:");
   });
 
   it("includes the video-count line only when totalVideos is set", () => {
-    expect(buildPlaylistComment(makeInput({ totalVideos: 12 }), t)).toContain(
-      "📹 12 video(s)",
-    );
+    expect(buildPlaylistComment(makeInput({ totalVideos: 12 }), t)).toContain("📹 12 video(s)");
     expect(buildPlaylistComment(makeInput(), t)).not.toContain("📹");
   });
 

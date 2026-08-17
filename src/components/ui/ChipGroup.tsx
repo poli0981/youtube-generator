@@ -52,8 +52,7 @@ export function ChipGroup(props: ChipGroupProps) {
     }
   };
 
-  const counter =
-    props.multiple && props.max != null ? `${props.value.length}/${props.max}` : null;
+  const counter = props.multiple && props.max != null ? `${props.value.length}/${props.max}` : null;
 
   return (
     <div className={clsx("flex flex-col gap-2", className)}>

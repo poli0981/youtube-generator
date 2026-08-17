@@ -28,9 +28,7 @@ describe("formatRigValue", () => {
   });
 
   it("falls back to the raw option id when unknown", () => {
-    expect(formatRigValue("video_editor", "unknown_tool|1.0")).toBe(
-      "unknown_tool 1.0",
-    );
+    expect(formatRigValue("video_editor", "unknown_tool|1.0")).toBe("unknown_tool 1.0");
   });
 
   it("includes a video_editor entry in RIG_FIELDS", () => {
@@ -59,9 +57,7 @@ describe("formatRigValue", () => {
 
     it("passes legacy free-text values through unchanged", () => {
       // Pre-v0.13 rigs persisted GPU as plain text. Round-trip those.
-      expect(formatRigValue("gpu", "NVIDIA GeForce RTX 4090")).toBe(
-        "NVIDIA GeForce RTX 4090",
-      );
+      expect(formatRigValue("gpu", "NVIDIA GeForce RTX 4090")).toBe("NVIDIA GeForce RTX 4090");
     });
   });
 

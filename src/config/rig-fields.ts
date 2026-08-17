@@ -1,9 +1,4 @@
-import {
-  GPU_CATALOG,
-  GPU_CUSTOM_BRAND_ID,
-  findGpuBrand,
-  type GpuCatalog,
-} from "./gpu-catalog";
+import { GPU_CATALOG, GPU_CUSTOM_BRAND_ID, findGpuBrand, type GpuCatalog } from "./gpu-catalog";
 
 /**
  * Supported rig field input types.
@@ -25,11 +20,7 @@ import {
  *   may opt into a free-text "Custom" override; the stored format is
  *   pipe-delimited in the order parts are declared.
  */
-type RigFieldType =
-  | "text"
-  | "dropdown_with_version"
-  | "cascading_dropdown"
-  | "composite_dropdown";
+type RigFieldType = "text" | "dropdown_with_version" | "cascading_dropdown" | "composite_dropdown";
 
 interface RigFieldOption {
   readonly value: string;
@@ -344,7 +335,12 @@ const OS_COMPOSITE: CompositeFieldSpec = {
 
 export const RIG_FIELDS: readonly RigField[] = [
   { id: "os", labelKey: "rig.os", type: "composite_dropdown", composite: OS_COMPOSITE },
-  { id: "cpu", labelKey: "rig.cpu", type: "text", placeholder: "Intel i9-14900K / AMD Ryzen 9 7950X" },
+  {
+    id: "cpu",
+    labelKey: "rig.cpu",
+    type: "text",
+    placeholder: "Intel i9-14900K / AMD Ryzen 9 7950X",
+  },
   {
     id: "gpu",
     labelKey: "rig.gpu",
@@ -358,10 +354,20 @@ export const RIG_FIELDS: readonly RigField[] = [
     composite: RAM_COMPOSITE,
   },
   { id: "storage", labelKey: "rig.storage", type: "text", placeholder: "2TB Samsung 990 PRO NVMe" },
-  { id: "monitor", labelKey: "rig.monitor", type: "text", placeholder: "LG 27GP950 27\" 4K 144Hz" },
+  { id: "monitor", labelKey: "rig.monitor", type: "text", placeholder: 'LG 27GP950 27" 4K 144Hz' },
   { id: "capture", labelKey: "rig.capture", type: "text", placeholder: "OBS Studio 30.x" },
-  { id: "motherboard", labelKey: "rig.motherboard", type: "text", placeholder: "ASUS ROG Maximus Z790 Hero" },
-  { id: "controller", labelKey: "rig.controller", type: "text", placeholder: "DualSense / Xbox Elite Series 2" },
+  {
+    id: "motherboard",
+    labelKey: "rig.motherboard",
+    type: "text",
+    placeholder: "ASUS ROG Maximus Z790 Hero",
+  },
+  {
+    id: "controller",
+    labelKey: "rig.controller",
+    type: "text",
+    placeholder: "DualSense / Xbox Elite Series 2",
+  },
   {
     id: "video_editor",
     labelKey: "rig.video_editor",

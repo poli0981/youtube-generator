@@ -27,19 +27,6 @@ fn read_from_file(path: String) -> Result<String, String> {
     std::fs::read_to_string(&path).map_err(|e| e.to_string())
 }
 
-/// Ensure a directory exists on disk, creating it (and any missing
-/// parents) if necessary. No-op when the path already exists as a
-/// directory. Fixes the "Windows cannot find ... AppData\Roaming\
-/// com.skullmute.ytdescgen" Explorer error on first launch — see
-/// `openSettingsFolder()` in `SettingsPage.tsx`, where this is called
-/// before `openPath(dir)` so the OS shell never sees a non-existent
-/// path. Returns the OS error string on failure (e.g. permission
-/// denied) so the caller can surface it via the in-app log.
-#[tauri::command]
-fn ensure_dir(path: String) -> Result<(), String> {
-    std::fs::create_dir_all(&path).map_err(|e| e.to_string())
-}
-
 /// Append `content` to the file at `path`, creating the file (and any
 /// missing parent directories) if necessary. Used by the v0.17.0 log
 /// persistence pipeline to write JSONL entries one line at a time,
@@ -111,7 +98,6 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             save_to_file,
             read_from_file,
-            ensure_dir,
             append_to_file,
             list_dir,
             delete_file

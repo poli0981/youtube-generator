@@ -109,18 +109,12 @@ describe("migrateEditorState — v9 → v10 (v0.12)", () => {
   });
 
   it("coerces an invalid persisted languagePatch to 'none'", () => {
-    const result = migrateEditorState(
-      makeV9Persisted({ languagePatch: "not_a_real_option" }),
-      9,
-    );
+    const result = migrateEditorState(makeV9Persisted({ languagePatch: "not_a_real_option" }), 9);
     expect(result.languagePatch).toBe("none");
   });
 
   it("coerces an invalid persisted gameVersion to 'full_release'", () => {
-    const result = migrateEditorState(
-      makeV9Persisted({ gameVersion: "definitely_not_valid" }),
-      9,
-    );
+    const result = migrateEditorState(makeV9Persisted({ gameVersion: "definitely_not_valid" }), 9);
     expect(result.gameVersion).toBe("full_release");
   });
 
@@ -131,10 +125,7 @@ describe("migrateEditorState — v9 → v10 (v0.12)", () => {
       }),
       9,
     );
-    expect(result.techNotes).toEqual([
-      "copyright_muted_sections",
-      "fps_drops_hardware",
-    ]);
+    expect(result.techNotes).toEqual(["copyright_muted_sections", "fps_drops_hardware"]);
   });
 
   it("preserves valid techNotes values when migrating from a manually-bumped v10 blob", () => {
@@ -163,9 +154,7 @@ describe("migrateEditorState — v9 → v10 (v0.12)", () => {
 });
 
 describe("migrateEditorState — v10 → v11 (v0.13)", () => {
-  function makeV10Persisted(
-    overrides: Record<string, unknown> = {},
-  ): Record<string, unknown> {
+  function makeV10Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
     // v10 is v9 + the playthrough-notes / tech-notes fields. Easiest to
     // build by routing v9 through the migration once and then apply
     // overrides — keeps this test surface narrow even as the v9 base
@@ -187,10 +176,18 @@ describe("migrateEditorState — v10 → v11 (v0.13)", () => {
   });
 
   it("coerces out-of-range / non-integer anniversaryYear values to null", () => {
-    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: 0 }), 10).anniversaryYear).toBeNull();
-    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: 21 }), 10).anniversaryYear).toBeNull();
-    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: 2.5 }), 10).anniversaryYear).toBeNull();
-    expect(migrateEditorState(makeV10Persisted({ anniversaryYear: "7" }), 10).anniversaryYear).toBeNull();
+    expect(
+      migrateEditorState(makeV10Persisted({ anniversaryYear: 0 }), 10).anniversaryYear,
+    ).toBeNull();
+    expect(
+      migrateEditorState(makeV10Persisted({ anniversaryYear: 21 }), 10).anniversaryYear,
+    ).toBeNull();
+    expect(
+      migrateEditorState(makeV10Persisted({ anniversaryYear: 2.5 }), 10).anniversaryYear,
+    ).toBeNull();
+    expect(
+      migrateEditorState(makeV10Persisted({ anniversaryYear: "7" }), 10).anniversaryYear,
+    ).toBeNull();
   });
 
   it("preserves existing characterName and gachaVersion values", () => {
@@ -206,13 +203,8 @@ describe("migrateEditorState — v10 → v11 (v0.13)", () => {
 describe("migrateEditorState — v14 → v15 (v0.30.0 Playtest)", () => {
   // Build a pre-v15 blob by routing v9 through every prior migration, then
   // strip the playtest keys so the v15 block is what supplies them.
-  function makeV14Persisted(
-    overrides: Record<string, unknown> = {},
-  ): Record<string, unknown> {
-    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
-      string,
-      unknown
-    >;
+  function makeV14Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
     delete full.playtestLink;
     delete full.playtestPlatform;
     delete full.playtestInvites;
@@ -232,19 +224,16 @@ describe("migrateEditorState — v14 → v15 (v0.30.0 Playtest)", () => {
   });
 
   it("coerces a decimal or negative invite count to 0", () => {
-    expect(
-      migrateEditorState(makeV14Persisted({ playtestInvites: 2.5 }), 14).playtestInvites,
-    ).toBe(0);
-    expect(
-      migrateEditorState(makeV14Persisted({ playtestInvites: -3 }), 14).playtestInvites,
-    ).toBe(0);
+    expect(migrateEditorState(makeV14Persisted({ playtestInvites: 2.5 }), 14).playtestInvites).toBe(
+      0,
+    );
+    expect(migrateEditorState(makeV14Persisted({ playtestInvites: -3 }), 14).playtestInvites).toBe(
+      0,
+    );
   });
 
   it("coerces an unknown persisted platform to the default", () => {
-    const result = migrateEditorState(
-      makeV14Persisted({ playtestPlatform: "mystery" }),
-      14,
-    );
+    const result = migrateEditorState(makeV14Persisted({ playtestPlatform: "mystery" }), 14);
     expect(result.playtestPlatform).toBe("steam");
   });
 
@@ -266,13 +255,8 @@ describe("migrateEditorState — v14 → v15 (v0.30.0 Playtest)", () => {
 describe("migrateEditorState — v15 → v16 (v0.32.0 Community links)", () => {
   // Build a pre-v16 blob by routing v9 through every prior migration, then
   // strip the community keys so the v16 block is what supplies them.
-  function makeV15Persisted(
-    overrides: Record<string, unknown> = {},
-  ): Record<string, unknown> {
-    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
-      string,
-      unknown
-    >;
+  function makeV15Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
     delete full.messengerCommunityLink;
     delete full.zaloGroupLink;
     return { ...full, ...overrides };
@@ -309,13 +293,8 @@ describe("migrateEditorState — v15 → v16 (v0.32.0 Community links)", () => {
 describe("migrateEditorState — v16 → v17 (v0.33.0 Community expansion)", () => {
   // Route v9 through every prior migration, then strip the v17 keys so the
   // v17 block is what supplies them.
-  function makeV16Persisted(
-    overrides: Record<string, unknown> = {},
-  ): Record<string, unknown> {
-    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
-      string,
-      unknown
-    >;
+  function makeV16Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
     delete full.signalGroupLink;
     delete full.instagramGroupLink;
     delete full.facebookGroupLink;
@@ -389,13 +368,8 @@ describe("migrateEditorState — v16 → v17 (v0.33.0 Community expansion)", () 
 describe("migrateEditorState — v17 → v18 (v0.34.0 Email split)", () => {
   // Route v9 through every prior migration, then strip the v18 keys so the
   // v18 block is what supplies them.
-  function makeV17Persisted(
-    overrides: Record<string, unknown> = {},
-  ): Record<string, unknown> {
-    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<
-      string,
-      unknown
-    >;
+  function makeV17Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
     delete full.adEmail;
     delete full.gameKeyEmail;
     return { ...full, ...overrides };
@@ -408,10 +382,7 @@ describe("migrateEditorState — v17 → v18 (v0.34.0 Email split)", () => {
   });
 
   it("coerces non-string persisted values to empty strings", () => {
-    const result = migrateEditorState(
-      makeV17Persisted({ adEmail: 42, gameKeyEmail: null }),
-      17,
-    );
+    const result = migrateEditorState(makeV17Persisted({ adEmail: 42, gameKeyEmail: null }), 17);
     expect(result.adEmail).toBe("");
     expect(result.gameKeyEmail).toBe("");
   });
@@ -429,10 +400,7 @@ describe("migrateEditorState — v17 → v18 (v0.34.0 Email split)", () => {
   });
 
   it("leaves the existing contactEmail untouched (reused as the Contact line)", () => {
-    const result = migrateEditorState(
-      makeV17Persisted({ contactEmail: "hello@channel.com" }),
-      17,
-    );
+    const result = migrateEditorState(makeV17Persisted({ contactEmail: "hello@channel.com" }), 17);
     expect(result.contactEmail).toBe("hello@channel.com");
   });
 });

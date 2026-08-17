@@ -16,6 +16,17 @@ export default tseslint.config(
     },
   },
   {
+    // Tests index into fixture arrays constantly, and `noUncheckedIndexedAccess`
+    // makes every one of those reads `T | undefined`. A `!` there asserts the
+    // fixture the test itself just built — the alternative is a guard clause per
+    // lookup that can only ever fail if the test is already broken. Production
+    // code keeps the rule.
+    files: ["tests/**/*.ts", "tests/**/*.tsx"],
+    rules: {
+      "@typescript-eslint/no-non-null-assertion": "off",
+    },
+  },
+  {
     ignores: ["dist/", "node_modules/", "*.config.*"],
   },
 );

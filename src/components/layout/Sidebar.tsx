@@ -121,11 +121,7 @@ export function Sidebar() {
         title={t(collapsed ? "sidebar.expand" : "sidebar.collapse")}
         className="flex h-12 items-center justify-center border-b border-border text-text-muted transition-colors hover:bg-surface-2 hover:text-text-primary"
       >
-        {collapsed ? (
-          <PanelLeftOpen className="h-5 w-5" />
-        ) : (
-          <PanelLeftClose className="h-5 w-5" />
-        )}
+        {collapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
       </button>
       <SidebarNavList collapsed={collapsed} />
     </aside>

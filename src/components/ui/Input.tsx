@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           aria-invalid={isError || undefined}
           className={clsx(
-            "min-h-touch rounded-lg border bg-surface-1 px-3 py-2.5 text-base text-text-primary placeholder:text-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 sm:text-sm",
+            "focus:ring-accent/50 min-h-touch rounded-lg border bg-surface-1 px-3 py-2.5 text-base text-text-primary transition-colors placeholder:text-text-muted focus:outline-none focus:ring-2 sm:text-sm",
             isError ? "border-danger" : "border-border focus:border-accent",
             className,
           )}

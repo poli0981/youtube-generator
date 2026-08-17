@@ -55,7 +55,7 @@ function FullscreenError({ kind }: ErrorPageProps) {
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-surface-0 px-6 py-12 text-center">
       <Icon className={clsx("h-16 w-16", colour)} aria-hidden />
       {meta.code !== null && (
-        <p className={clsx("font-mono text-6xl font-bold leading-none tabular-nums", colour)}>
+        <p className={clsx("font-mono text-6xl font-bold tabular-nums leading-none", colour)}>
           {meta.code}
         </p>
       )}
@@ -99,7 +99,7 @@ function ContainedError({ kind, onReset, detail }: ErrorPageProps) {
 
   return (
     <div className="flex min-h-[200px] items-center justify-center p-6">
-      <div className="w-full max-w-md rounded-lg border border-danger/40 bg-surface-2 p-5 shadow-md shadow-black/10">
+      <div className="border-danger/40 w-full max-w-md rounded-lg border bg-surface-2 p-5 shadow-md shadow-black/10">
         <div className={clsx("mb-3 flex items-center gap-2", colour)}>
           <Icon className="h-4 w-4" />
           <h2 className="text-sm font-semibold">{title}</h2>
@@ -140,7 +140,7 @@ function ReportBugLink({ size = "md" }: { size?: "sm" | "md" }) {
       target="_blank"
       rel="noopener noreferrer"
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-lg font-medium text-text-secondary transition-colors hover:bg-surface-2 hover:text-text-primary focus:outline-none focus:ring-2 focus:ring-accent/50",
+        "focus:ring-accent/50 inline-flex items-center justify-center gap-2 rounded-lg font-medium text-text-secondary transition-colors hover:bg-surface-2 hover:text-text-primary focus:outline-none focus:ring-2",
         sizeClass,
       )}
     >

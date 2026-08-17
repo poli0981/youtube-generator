@@ -12,15 +12,11 @@ describe("liftLegacyEndingString", () => {
   });
 
   it("parses 'Ending N: Name' into a structured entry", () => {
-    expect(liftLegacyEndingString("Ending 3: Best End")).toEqual([
-      { number: 3, name: "Best End" },
-    ]);
+    expect(liftLegacyEndingString("Ending 3: Best End")).toEqual([{ number: 3, name: "Best End" }]);
   });
 
   it("parses 'Ending N' (number only) into a structured entry", () => {
-    expect(liftLegacyEndingString("Ending 7")).toEqual([
-      { number: 7, name: "" },
-    ]);
+    expect(liftLegacyEndingString("Ending 7")).toEqual([{ number: 7, name: "" }]);
   });
 
   it("recognises localised 'Kết thúc N' (Vietnamese)", () => {
@@ -39,9 +35,7 @@ describe("liftLegacyEndingString", () => {
     expect(liftLegacyEndingString("True ending only")).toEqual([
       { number: null, name: "True ending only" },
     ]);
-    expect(liftLegacyEndingString("1 of 3")).toEqual([
-      { number: null, name: "1 of 3" },
-    ]);
+    expect(liftLegacyEndingString("1 of 3")).toEqual([{ number: null, name: "1 of 3" }]);
   });
 });
 
@@ -196,10 +190,7 @@ describe("migrateEditorState v12 → v13 (endingVideoIndex)", () => {
   });
 
   it("clamps below 1 to 1", () => {
-    const result = migrateEditorState(
-      { endingVideoCount: 3, endingVideoIndex: -2 },
-      12,
-    );
+    const result = migrateEditorState({ endingVideoCount: 3, endingVideoIndex: -2 }, 12);
     expect(result.endingVideoIndex).toBe(1);
   });
 });

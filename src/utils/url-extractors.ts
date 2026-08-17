@@ -66,19 +66,15 @@ const PLATFORM_NAME_EXTRACTORS: readonly NameExtractor[] = [
     // Epic Games Store. Path is locale-prefixed (`en-US`, `de`, `fr`,
     // …) and ends with `/p/<slug>` where the slug carries a 6+-char
     // hex product hash like `-aa04de` we strip before display.
-    pattern:
-      /^https:\/\/store\.epicgames\.com\/[a-z]{2}(?:-[a-z]{2})?\/p\/([a-z0-9-]+)/i,
-    humanize: (s) =>
-      titleCase(s.replace(/-[a-f0-9]{6,}$/i, "").replace(/-+/g, " ")),
+    pattern: /^https:\/\/store\.epicgames\.com\/[a-z]{2}(?:-[a-z]{2})?\/p\/([a-z0-9-]+)/i,
+    humanize: (s) => titleCase(s.replace(/-[a-f0-9]{6,}$/i, "").replace(/-+/g, " ")),
   },
   {
     // Nintendo US store (`/us/store/products/<slug>`). Slugs frequently
     // carry a `-switch` or `-switch-2` platform suffix that we strip
     // for a cleaner display name.
-    pattern:
-      /^https:\/\/www\.nintendo\.com\/us\/store\/products\/([^/?#\s]+)/i,
-    humanize: (s) =>
-      titleCase(s.replace(/-switch(?:-2)?$/i, "").replace(/-+/g, " ")),
+    pattern: /^https:\/\/www\.nintendo\.com\/us\/store\/products\/([^/?#\s]+)/i,
+    humanize: (s) => titleCase(s.replace(/-switch(?:-2)?$/i, "").replace(/-+/g, " ")),
   },
   {
     // Nintendo EU store (`/<locale>/Games/<segment>/<slug>-<id>.html`).

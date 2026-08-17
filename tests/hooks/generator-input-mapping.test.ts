@@ -70,10 +70,13 @@ function makeEditorData(overrides: Partial<EditorData> = {}): EditorData {
     frameGenMultiplier: DEFAULTS.editor.frameGenMultiplier as FrameGenMultiplier,
     upscaleQuality: DEFAULTS.editor.upscaleQuality as UpscaleQuality,
     artStyle: DEFAULTS.editor.artStyle as ArtStyle,
+    videoStyleEra: DEFAULTS.editor.videoStyleEra,
     versionInfo: DEFAULTS.editor.versionInfo,
     timestamps: DEFAULTS.editor.timestamps,
     playlistLink: DEFAULTS.editor.playlistLink,
     contactEmail: DEFAULTS.editor.contactEmail,
+    adEmail: DEFAULTS.editor.adEmail,
+    gameKeyEmail: DEFAULTS.editor.gameKeyEmail,
     musicAttribution: DEFAULTS.editor.musicAttribution,
     sponsorName: DEFAULTS.editor.sponsorName,
     sponsorPlatform: DEFAULTS.editor.sponsorPlatform,
@@ -87,6 +90,10 @@ function makeEditorData(overrides: Partial<EditorData> = {}): EditorData {
     difficulty: DEFAULTS.editor.difficulty as DifficultyLevel,
     difficultyCustomLabel: DEFAULTS.editor.difficultyCustomLabel,
     endingsShown: DEFAULTS.editor.endingsShown,
+    endings: [...DEFAULTS.editor.endings],
+    endingVideoCount: DEFAULTS.editor.endingVideoCount,
+    endingVideoRanges: [...DEFAULTS.editor.endingVideoRanges],
+    endingVideoIndex: DEFAULTS.editor.endingVideoIndex,
     languagePatch: DEFAULTS.editor.languagePatch as LanguagePatch,
     languagePatchCustom: DEFAULTS.editor.languagePatchCustom,
     gameVersion: DEFAULTS.editor.gameVersion as GameVersion,
@@ -188,10 +195,7 @@ describe("buildGeneratorInputFromEditor — v0.12 fields propagation (regression
   });
 
   it("respects languageOverride for batch / multi-language rendering", () => {
-    const input = buildGeneratorInputFromEditor(
-      makeEditorData({ language: "en" }),
-      "vi",
-    );
+    const input = buildGeneratorInputFromEditor(makeEditorData({ language: "en" }), "vi");
     expect(input.language).toBe("vi");
   });
 
@@ -205,10 +209,7 @@ describe("buildGeneratorInputFromEditor — v0.12 fields propagation (regression
    * repeat of the v0.12.0 bug.
    */
   it("forwards every non-excluded EditorData field into GeneratorInput", () => {
-    const editorOnlyKeys = new Set<keyof EditorData>([
-      "thumbnailText",
-      "pinnedComment",
-    ]);
+    const editorOnlyKeys = new Set<keyof EditorData>(["thumbnailText", "pinnedComment"]);
 
     const editor = makeEditorData();
     const input = buildGeneratorInputFromEditor(editor);

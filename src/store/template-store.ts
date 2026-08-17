@@ -24,10 +24,7 @@ import type {
   UpscaleQuality,
   ArtStyle,
 } from "@config/graphics-settings";
-import {
-  coerceUpscaleQuality,
-  coerceFrameGenMultiplier,
-} from "@engine/graphics-vendor";
+import { coerceUpscaleQuality, coerceFrameGenMultiplier } from "@engine/graphics-vendor";
 import type { GachaQuestType } from "@config/gacha-quest-types";
 
 /**
@@ -235,10 +232,7 @@ export const useTemplateStore = create<TemplateState>()(
                 snap.upscaleQuality = coerceUpscaleQuality(vendor, snap.upscaleQuality);
               }
               if (snap.frameGenMultiplier) {
-                snap.frameGenMultiplier = coerceFrameGenMultiplier(
-                  vendor,
-                  snap.frameGenMultiplier,
-                );
+                snap.frameGenMultiplier = coerceFrameGenMultiplier(vendor, snap.frameGenMultiplier);
               }
             }
           }

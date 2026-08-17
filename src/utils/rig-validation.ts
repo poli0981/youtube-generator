@@ -1,7 +1,4 @@
-import {
-  parseCascadingValue,
-  parseCompositeValue,
-} from "@config/rig-fields";
+import { parseCascadingValue, parseCompositeValue } from "@config/rig-fields";
 import { GPU_CUSTOM_BRAND_ID } from "@config/gpu-catalog";
 
 /**
@@ -90,9 +87,6 @@ export function validateRamValue(raw: string): RigValidationIssue | null {
  * Only RAM has DDR/size semantics; the OS composite has no validator, so
  * it (and any future composite) returns `null` until one is added here.
  */
-export function validateCompositeField(
-  fieldId: string,
-  raw: string,
-): RigValidationIssue | null {
+export function validateCompositeField(fieldId: string, raw: string): RigValidationIssue | null {
   return fieldId === "ram" ? validateRamValue(raw) : null;
 }

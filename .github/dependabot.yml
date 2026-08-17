@@ -1,10 +1,11 @@
 # Dependabot configuration.
 #
-# This file exists only to configure SECURITY updates for cargo in /src-tauri.
-# Version updates stay disabled (open-pull-requests-limit: 0); npm and
-# GitHub Actions keep GitHub's default security-update behavior.
+# Three ecosystems: npm (the app), cargo (the Tauri shell), and github-actions
+# (the workflows). Security updates are on repo-wide by default; the entries
+# below add scheduled VERSION updates so the tree does not silently rot between
+# advisories, and carry the ignore rules that keep unfixable alerts quiet.
 #
-# Why the ignores: `rand` and `glib` are transitive dependencies of tauri,
+# Why the cargo ignores: `rand` and `glib` are transitive dependencies of tauri,
 # and their security fixes require semver-major bumps that the dependency
 # tree does not allow, so every Dependabot security-update job for them
 # fails with `security_update_not_possible` (runs 27387346373, 27387346324):
@@ -20,12 +21,53 @@
 
 version: 2
 updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    groups:
+      # One PR per family instead of one per package. A split React or
+      # typescript-eslint bump is never independently mergeable anyway, and
+      # CI has to run for each PR.
+      react:
+        patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
+      i18n:
+        patterns: ["i18next*", "react-i18next"]
+      tauri:
+        patterns: ["@tauri-apps/*"]
+      lint-and-format:
+        patterns: ["eslint*", "@eslint/*", "typescript-eslint", "prettier*", "knip"]
+      build-tooling:
+        patterns: ["vite", "vitest", "@vitejs/*", "tailwindcss", "postcss", "autoprefixer", "tsx"]
+    ignore:
+      # Majors land in their own planned release (see docs/ROADMAP.md) because
+      # each one needs a real migration — React 19, Tailwind 4 and ESLint 10 all
+      # change APIs the app uses directly. Dependabot handles minor + patch.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
   - package-ecosystem: "cargo"
     directory: "/src-tauri"
     schedule:
       interval: "weekly"
-    # No version-update PRs; this entry only feeds ignore rules to security updates.
+    # No version-update PRs; this entry only feeds ignore rules to security
+    # updates. The Rust side is pinned to whatever tauri's tree allows.
     open-pull-requests-limit: 0
     ignore:
       - dependency-name: "rand"
       - dependency-name: "glib"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns: ["*"]

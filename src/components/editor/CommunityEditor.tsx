@@ -42,9 +42,7 @@ export function CommunityEditor() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-text-secondary">
-          {t("editor.community")}
-        </span>
+        <span className="text-sm font-medium text-text-secondary">{t("editor.community")}</span>
         <p className="text-xs text-text-muted">{t("editor.communityHelp")}</p>
       </div>
 

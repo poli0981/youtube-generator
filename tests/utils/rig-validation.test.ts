@@ -1,27 +1,17 @@
 import { describe, it, expect } from "vitest";
-import {
-  validateRamValue,
-  validateGpuValue,
-  validateCompositeField,
-} from "@utils/rig-validation";
+import { validateRamValue, validateGpuValue, validateCompositeField } from "@utils/rig-validation";
 
 describe("validateRamValue", () => {
   it("flags a size with no DDR generation", () => {
-    expect(validateRamValue("32|")?.messageKey).toBe(
-      "editor.validation.ramMissingDdr",
-    );
+    expect(validateRamValue("32|")?.messageKey).toBe("editor.validation.ramMissingDdr");
   });
 
   it("flags a DDR generation with no size", () => {
-    expect(validateRamValue("|DDR5")?.messageKey).toBe(
-      "editor.validation.ramMissingSize",
-    );
+    expect(validateRamValue("|DDR5")?.messageKey).toBe("editor.validation.ramMissingSize");
   });
 
   it("flags an empty custom size", () => {
-    expect(validateRamValue("custom:|DDR5")?.messageKey).toBe(
-      "editor.validation.ramCustomEmpty",
-    );
+    expect(validateRamValue("custom:|DDR5")?.messageKey).toBe("editor.validation.ramCustomEmpty");
   });
 
   it("passes a complete size + DDR", () => {
@@ -39,15 +29,11 @@ describe("validateRamValue", () => {
 
 describe("validateGpuValue", () => {
   it("flags a brand with no series", () => {
-    expect(validateGpuValue("nvidia||")?.messageKey).toBe(
-      "editor.validation.gpuMissingSeries",
-    );
+    expect(validateGpuValue("nvidia||")?.messageKey).toBe("editor.validation.gpuMissingSeries");
   });
 
   it("flags an empty custom GPU", () => {
-    expect(validateGpuValue("custom||")?.messageKey).toBe(
-      "editor.validation.gpuCustomEmpty",
-    );
+    expect(validateGpuValue("custom||")?.messageKey).toBe("editor.validation.gpuCustomEmpty");
   });
 
   it("passes a complete brand + series + model", () => {

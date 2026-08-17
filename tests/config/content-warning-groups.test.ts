@@ -24,9 +24,7 @@ describe("CONTENT_WARNING_GROUPS ↔ CONTENT_WARNINGS parity", () => {
   });
 
   it("covers every engine warning id exactly (none missing, none extra)", () => {
-    const missingFromGroups = CONTENT_WARNINGS.filter(
-      (id) => !grouped.includes(id),
-    );
+    const missingFromGroups = CONTENT_WARNINGS.filter((id) => !grouped.includes(id));
     const unknownInGroups = grouped.filter(
       (id) => !(CONTENT_WARNINGS as readonly string[]).includes(id),
     );

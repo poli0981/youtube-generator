@@ -1,10 +1,7 @@
 import { useMemo } from "react";
 import i18n from "i18next";
 import { useSettingsStore } from "@store/settings-store";
-import {
-  buildAllSocialPosts,
-  type SocialPostOutput,
-} from "@engine/social-post-builder";
+import { buildAllSocialPosts, type SocialPostOutput } from "@engine/social-post-builder";
 import { SOCIAL_PLATFORMS } from "@config/social-platforms";
 import type { SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "./use-current-generator-input";
@@ -27,10 +24,7 @@ export function useSocialPosts(
   // bundle is in memory — SocialPage renders nothing for an empty record.
   const ready = useLanguagesReady([input.language]);
 
-  const t = useMemo(
-    () => i18n.getFixedT(input.language, "templates"),
-    [input.language],
-  );
+  const t = useMemo(() => i18n.getFixedT(input.language, "templates"), [input.language]);
   // Always-English `t` for the bilingual content-warnings block, built
   // once so the engine receives a stable ref.
   const tEn = useMemo(() => i18n.getFixedT("en", "templates"), []);

@@ -11,8 +11,7 @@
  * `Math.random` only if even that is missing.
  */
 export function generateId(): string {
-  const c: Crypto | undefined =
-    typeof globalThis !== "undefined" ? globalThis.crypto : undefined;
+  const c: Crypto | undefined = typeof globalThis !== "undefined" ? globalThis.crypto : undefined;
 
   if (c && typeof c.randomUUID === "function") {
     return c.randomUUID();

@@ -198,10 +198,7 @@ export function buildGachaPartSuffix(
  * endings. The Output page passes the index when looping over
  * `endingVideoCount`; bare generation (no index) sees the union.
  */
-function buildStructuredEndingLabel(
-  input: GeneratorInput,
-  t: TranslationFn,
-): string | null {
+function buildStructuredEndingLabel(input: GeneratorInput, t: TranslationFn): string | null {
   const endings: EndingEntry[] = input.endings ?? [];
   if (endings.length === 0) return null;
 
@@ -209,8 +206,7 @@ function buildStructuredEndingLabel(
   // Drop entries that have neither number nor a non-empty name — they
   // produce no visible label and would dilute the comma-join / count.
   const usable = sliced.filter((e) => {
-    const hasNumber =
-      typeof e.number === "number" && Number.isFinite(e.number);
+    const hasNumber = typeof e.number === "number" && Number.isFinite(e.number);
     const hasName = (e.name ?? "").trim().length > 0;
     return hasNumber || hasName;
   });
@@ -235,9 +231,7 @@ function buildStructuredEndingLabel(
     .filter((n): n is number => typeof n === "number" && Number.isFinite(n));
   if (numbers.length === usable.length) {
     const sorted = [...numbers].sort((a, b) => a - b);
-    const isContiguous = sorted.every(
-      (n, i) => i === 0 || n === (sorted[i - 1] as number) + 1,
-    );
+    const isContiguous = sorted.every((n, i) => i === 0 || n === (sorted[i - 1] as number) + 1);
     if (isContiguous) {
       const from = sorted[0] as number;
       const to = sorted[sorted.length - 1] as number;
@@ -271,8 +265,7 @@ export function buildTitle(
 
   const suffix = t("title.suffix");
 
-  const gameName =
-    input.gameNameLocalized?.[input.language] ?? input.gameName;
+  const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
 
   let badge = opts.showQualityBadge ? buildQualityBadge(input.resolution, input.fps) : "";
   if (badge && opts.badgeCase === "lower") badge = badge.toLowerCase();

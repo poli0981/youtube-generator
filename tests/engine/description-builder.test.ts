@@ -33,10 +33,7 @@ describe("buildDescription", () => {
 
   it("sanitises hashtags for game names with special characters", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ gameName: "S.T.A.L.K.E.R. 2" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ gameName: "S.T.A.L.K.E.R. 2" }), t);
     expect(result).toContain("#STALKER2");
     expect(result).not.toMatch(/#\s?S\./);
   });
@@ -61,10 +58,7 @@ describe("buildDescription", () => {
 
   it("includes timestamps when provided", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ timestamps: "0:00 Intro\n5:30 Boss" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ timestamps: "0:00 Intro\n5:30 Boss" }), t);
     expect(result).toContain("TIMESTAMPS");
     expect(result).toContain("0:00 Intro");
     expect(result).toContain("5:30 Boss");
@@ -132,22 +126,22 @@ describe("buildDescription", () => {
 
   it("adds (free) suffix to free links but not paid ones", () => {
     const t = createMockT("en");
+    const steamUrl = "https://store.steampowered.com/app/1";
+    const itchUrl = "https://dev.itch.io/game";
     const result = buildDescription(
       makeInput({
-        storeLinks: {
-          steam: "https://store.steampowered.com/app/1",
-          itchio: "https://dev.itch.io/game",
-        },
+        storeLinks: { steam: steamUrl, itchio: itchUrl },
         storeLinkTypes: { steam: "paid", itchio: "free" },
       }),
       t,
     );
-    // Find the itchio line and make sure it has (free), Steam line does not
-    const lines = result.split("\n");
-    const itchLine = lines.find((l) => l.includes("itch.io"));
-    const steamLine = lines.find((l) => l.includes("steampowered"));
-    expect(itchLine).toContain("(free)");
-    expect(steamLine).not.toContain("(free)");
+    // A store line renders as `🎮 {label}{suffix}: {url}`, so the suffix sits
+    // immediately before `: <url>`. Asserting that adjacency is stricter than
+    // locating the line by a host substring — `includes("itch.io")` would also
+    // match a decoy like `https://itch.io.example.com/`, which is exactly why
+    // CodeQL flags that shape as js/incomplete-url-substring-sanitization.
+    expect(result).toContain(`(free): ${itchUrl}`);
+    expect(result).not.toContain(`(free): ${steamUrl}`);
   });
 
   it("defaults unspecified link types to paid", () => {
@@ -174,9 +168,7 @@ describe("buildDescription", () => {
       t,
     );
     expect(result).toContain("🧪 PLAYTEST / EARLY ACCESS");
-    expect(result).toContain(
-      "🧪 Steam Playtest: https://store.steampowered.com/app/1245620",
-    );
+    expect(result).toContain("🧪 Steam Playtest: https://store.steampowered.com/app/1245620");
     expect(result).toContain("25 invites available");
   });
 
@@ -328,9 +320,7 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "In-game Setting: High - Intel XeSS Ultra Quality + Intel XeFG x2",
-    );
+    expect(result).toContain("In-game Setting: High - Intel XeSS Ultra Quality + Intel XeFG x2");
   });
 
   it("emits multiple RT modes joined with commas", () => {
@@ -344,9 +334,7 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "In-game Setting: High with Path Tracing, Ray Reconstruction",
-    );
+    expect(result).toContain("In-game Setting: High with Path Tracing, Ray Reconstruction");
   });
 
   it("uses the user's free-form label when graphicsPreset is custom", () => {
@@ -448,9 +436,7 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "Live stream of Elden Ring on TestChannel",
-    );
+    expect(result).toContain("Live stream of Elden Ring on TestChannel");
     expect(result).toContain("🔴 LIVE on");
     expect(result).toContain("Watch / replay: https://www.youtube.com/watch?v=live123");
   });
@@ -657,9 +643,7 @@ describe("buildDescription", () => {
       t,
     );
     const iCommunity = result.indexOf("💬 COMMUNITY / JOIN THE GROUP");
-    const iFacebook = result.indexOf(
-      "👥 Facebook Group: https://facebook.com/groups/mygroup",
-    );
+    const iFacebook = result.indexOf("👥 Facebook Group: https://facebook.com/groups/mygroup");
     expect(iCommunity).toBeGreaterThan(-1);
     expect(iFacebook).toBeGreaterThan(iCommunity);
     // The FB group line appears exactly once — only under Community, never
@@ -720,10 +704,7 @@ describe("buildDescription", () => {
 
   it("includes rig info when provided", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ rig: { CPU: "i9-14900K", GPU: "RTX 4090" } }),
-      t,
-    );
+    const result = buildDescription(makeInput({ rig: { CPU: "i9-14900K", GPU: "RTX 4090" } }), t);
     expect(result).toContain("MY RIG");
     expect(result).toContain("CPU: i9-14900K");
     expect(result).toContain("GPU: RTX 4090");
@@ -801,22 +782,18 @@ describe("buildDescription", () => {
 
   it("skips the sponsor credit when sponsorName is blank even if toggle is on", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ sponsorName: "", sponsorPlatform: "Steam" }),
-      t,
-      { showSponsorCredit: true },
-    );
+    const result = buildDescription(makeInput({ sponsorName: "", sponsorPlatform: "Steam" }), t, {
+      showSponsorCredit: true,
+    });
     expect(result).not.toContain("🎁");
     expect(result).not.toContain("Steam key of this game");
   });
 
   it("skips the sponsor credit when sponsorPlatform is blank even if toggle is on", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "" }),
-      t,
-      { showSponsorCredit: true },
-    );
+    const result = buildDescription(makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "" }), t, {
+      showSponsorCredit: true,
+    });
     expect(result).not.toContain("🎁");
     expect(result).not.toContain("Thanks to Ubisoft");
   });
@@ -945,32 +922,26 @@ describe("buildDescription", () => {
   it("preserves multi-line third-party ad text verbatim (v0.11)", () => {
     const t = createMockT("en");
     const adText = "Sponsored by ChairCo — link below\nUse code SAVE10 for 10% off";
-    const result = buildDescription(
-      makeInput({ thirdPartyAdText: adText }),
-      t,
-      { showThirdPartyAds: true },
-    );
+    const result = buildDescription(makeInput({ thirdPartyAdText: adText }), t, {
+      showThirdPartyAds: true,
+    });
     expect(result).toContain(adText);
   });
 
   it("skips ads block when toggle is off, even with non-empty text (v0.11)", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ thirdPartyAdText: "Sponsor copy" }),
-      t,
-      { showThirdPartyAds: false },
-    );
+    const result = buildDescription(makeInput({ thirdPartyAdText: "Sponsor copy" }), t, {
+      showThirdPartyAds: false,
+    });
     expect(result).not.toContain("SPONSORS & PARTNERS");
     expect(result).not.toContain("Sponsor copy");
   });
 
   it("skips ads block when toggle is on but text is empty (v0.11)", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ thirdPartyAdText: "  " }),
-      t,
-      { showThirdPartyAds: true },
-    );
+    const result = buildDescription(makeInput({ thirdPartyAdText: "  " }), t, {
+      showThirdPartyAds: true,
+    });
     expect(result).not.toContain("SPONSORS & PARTNERS");
   });
 
@@ -1005,10 +976,7 @@ describe("buildDescription", () => {
 
   it("includes contact email when provided", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ contactEmail: "test@example.com" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ contactEmail: "test@example.com" }), t);
     expect(result).toContain("Business inquiries: test@example.com");
   });
 
@@ -1080,19 +1048,13 @@ describe("buildDescription", () => {
 
   it("generates part description correctly", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ videoType: "part", partNumber: "5" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ videoType: "part", partNumber: "5" }), t);
     expect(result).toContain("Part 5 of Elden Ring");
   });
 
   it("generates boss description correctly", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ videoType: "boss", bossName: "Margit" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ videoType: "boss", bossName: "Margit" }), t);
     expect(result).toContain("Margit boss fight");
   });
 
@@ -1107,10 +1069,7 @@ describe("buildDescription", () => {
 describe("buildDescription — v0.12 Playthrough Notes consolidation", () => {
   it("renders run type as a bullet of the unified PLAYTHROUGH NOTES block", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ playthroughStatus: "blind" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ playthroughStatus: "blind" }), t);
     expect(result).toContain("▸ 🎮 PLAYTHROUGH NOTES");
     expect(result).toContain("• Run type: Blind run (first time playing)");
     // The block sits between the intro and No Commentary, replacing the
@@ -1201,9 +1160,7 @@ describe("buildDescription — v0.12 Playthrough Notes consolidation", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "• Endings shown: Ending 1: True End, Ending 3: Bad End, Hidden",
-    );
+    expect(result).toContain("• Endings shown: Ending 1: True End, Ending 3: Bad End, Hidden");
   });
 
   it("falls back to legacy endingsShown when endings[] is empty (v0.16.0)", () => {
@@ -1308,16 +1265,12 @@ describe("buildDescription — v0.12 Playthrough Notes consolidation", () => {
       t,
       { tEn },
     );
-    expect(result).toContain(
-      "▸ 🎮 PLAYTHROUGH NOTES / ▸ 🎮 GHI CHÚ LƯỢT CHƠI",
-    );
+    expect(result).toContain("▸ 🎮 PLAYTHROUGH NOTES / ▸ 🎮 GHI CHÚ LƯỢT CHƠI");
     expect(result).toContain(
       "• Run type · Kiểu chơi: Blind run (first time playing) · Chơi lần đầu (blind run)",
     );
     expect(result).toContain("• Difficulty · Độ khó: Hard · Khó");
-    expect(result).toContain(
-      "• Language patch · Bản dịch: Fan translation · Bản dịch của fan",
-    );
+    expect(result).toContain("• Language patch · Bản dịch: Fan translation · Bản dịch của fan");
   });
 });
 
@@ -1331,15 +1284,9 @@ describe("buildDescription — v0.12 Tech Notes", () => {
       t,
     );
     expect(result).toContain("▸ 🛠 TECH NOTES");
-    expect(result).toContain(
-      "Production and playstyle notes for transparency.",
-    );
-    expect(result).toContain(
-      "• Some sections muted due to YouTube copyright",
-    );
-    expect(result).toContain(
-      "• FPS drops — caused by hardware (FPS counter visible top-left)",
-    );
+    expect(result).toContain("Production and playstyle notes for transparency.");
+    expect(result).toContain("• Some sections muted due to YouTube copyright");
+    expect(result).toContain("• FPS drops — caused by hardware (FPS counter visible top-left)");
     expect(result).not.toContain("• Game music replaced");
   });
 
@@ -1353,11 +1300,7 @@ describe("buildDescription — v0.12 Tech Notes", () => {
     const t = createMockT("en");
     const result = buildDescription(
       makeInput({
-        techNotes: [
-          "not_no_hit_run",
-          "support_developers",
-          "loading_cut",
-        ],
+        techNotes: ["not_no_hit_run", "support_developers", "loading_cut"],
       }),
       t,
     );
@@ -1384,9 +1327,7 @@ describe("buildDescription — v0.12 Tech Notes", () => {
     expect(result).toContain(
       "• Some sections muted due to YouTube copyright · Một số đoạn tắt tiếng do bản quyền YouTube",
     );
-    expect(result).toContain(
-      "• Casual play, no commentary · Chơi giải trí, không bình luận",
-    );
+    expect(result).toContain("• Casual play, no commentary · Chơi giải trí, không bình luận");
   });
 
   it("renders bilingual EN · JA tech-note bullets in Japanese mode", () => {
@@ -1418,9 +1359,7 @@ describe("buildDescription — v0.12 Tech Notes", () => {
     // No `· ` separator since tEn isn't passed.
     expect(result).not.toContain(" · ");
     expect(result).toContain("▸ 🛠 GHI CHÚ KỸ THUẬT");
-    expect(result).toContain(
-      "• Có sụt FPS — do phần cứng (xem FPS góc trái video)",
-    );
+    expect(result).toContain("• Có sụt FPS — do phần cứng (xem FPS góc trái video)");
   });
 });
 
@@ -1435,9 +1374,7 @@ describe("buildDescription — v0.7 content fields (legacy)", () => {
     expect(result).toContain(
       "This video contains the following content. Viewer discretion advised.",
     );
-    expect(result).toContain(
-      "• Flashing lights — photosensitive viewers take care",
-    );
+    expect(result).toContain("• Flashing lights — photosensitive viewers take care");
     expect(result).toContain("• Loud / sudden sounds");
     expect(result).not.toContain("• Jumpscares");
   });
@@ -1566,10 +1503,7 @@ describe("buildDescription — v0.25.0 dialogue / internet / suggestive warnings
 
   it("renders color phobias without dragging in siblings (en)", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ contentWarnings: ["erythrophobia"] }),
-      t,
-    );
+    const result = buildDescription(makeInput({ contentWarnings: ["erythrophobia"] }), t);
     expect(result).toContain("• Red / all-red scenes (erythrophobia)");
     expect(result).not.toContain("(leukophobia)");
   });
@@ -1582,9 +1516,7 @@ describe("buildDescription — v0.25.0 dialogue / internet / suggestive warnings
       t,
       { tEn },
     );
-    expect(result).toContain(
-      "• Sexualized character designs · Tạo hình nhân vật bị t*nh d*c hóa",
-    );
+    expect(result).toContain("• Sexualized character designs · Tạo hình nhân vật bị t*nh d*c hóa");
   });
 
   it("masks YouTube-flag-prone Vietnamese terms on the new suggestive warnings", () => {
@@ -1593,11 +1525,7 @@ describe("buildDescription — v0.25.0 dialogue / internet / suggestive warnings
     const result = buildDescription(
       makeInput({
         language: "vi",
-        contentWarnings: [
-          "sexual_innuendo",
-          "partial_nudity",
-          "sexualized_characters",
-        ],
+        contentWarnings: ["sexual_innuendo", "partial_nudity", "sexualized_characters"],
       }),
       t,
       { tEn },
@@ -1665,9 +1593,7 @@ describe("buildDescription — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      'Endgame mode "Memory of Chaos" in Honkai: Star Rail on TestChannel.',
-    );
+    expect(result).toContain('Endgame mode "Memory of Chaos" in Honkai: Star Rail on TestChannel.');
   });
 
   it("falls back to main_story intro when gachaQuestType is missing", () => {
@@ -1680,9 +1606,7 @@ describe("buildDescription — gacha_quest video type (v0.9)", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "Welcome to Chapter 1 of Wuthering Waves on TestChannel!",
-    );
+    expect(result).toContain("Welcome to Chapter 1 of Wuthering Waves on TestChannel!");
   });
 });
 
@@ -1702,17 +1626,12 @@ describe("video style era line (v0.22.0)", () => {
       }),
       t,
     );
-    expect(result).toContain(
-      "Edited in 1990s VHS style using DaVinci Resolve Studio 19.1",
-    );
+    expect(result).toContain("Edited in 1990s VHS style using DaVinci Resolve Studio 19.1");
   });
 
   it("falls back to the editor-less template when rig.video_editor is missing", () => {
     const t = createMockT("en");
-    const result = buildDescription(
-      makeInput({ videoStyleEra: "cinematic" }),
-      t,
-    );
+    const result = buildDescription(makeInput({ videoStyleEra: "cinematic" }), t);
     expect(result).toContain("Edited in cinematic style");
     expect(result).not.toContain(" using ");
   });
@@ -1806,15 +1725,11 @@ describe("buildDescription — bilingualContentBlocks gate (v0.29.3)", () => {
     // Content warnings: JA-only header + no EN pairing.
     expect(result).toContain("▸ ⚠️ コンテンツ警告");
     expect(result).not.toContain("▸ ⚠️ CONTENT WARNINGS");
-    expect(result).not.toContain(
-      "Flashing lights — photosensitive viewers take care",
-    );
+    expect(result).not.toContain("Flashing lights — photosensitive viewers take care");
     // Tech notes: JA-only header + no EN pairing.
     expect(result).toContain("▸ 🛠 技術メモ");
     expect(result).not.toContain("▸ 🛠 TECH NOTES");
-    expect(result).not.toContain(
-      "FPS drops — caused by hardware (FPS counter visible top-left)",
-    );
+    expect(result).not.toContain("FPS drops — caused by hardware (FPS counter visible top-left)");
     // Playthrough notes: JA-only header + no EN pairing.
     expect(result).toContain("▸ 🎮 プレイ情報");
     expect(result).not.toContain("▸ 🎮 PLAYTHROUGH NOTES");

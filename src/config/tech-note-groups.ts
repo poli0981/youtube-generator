@@ -34,21 +34,12 @@ export const TECH_NOTE_GROUPS: readonly TechNoteGroup[] = [
   {
     id: "video_quality",
     labelKey: "editor.techNoteGroups.video_quality",
-    items: [
-      "low_resolution_hardware",
-      "low_graphics_performance",
-      "fps_drops_hardware",
-    ],
+    items: ["low_resolution_hardware", "low_graphics_performance", "fps_drops_hardware"],
   },
   {
     id: "recording_issues",
     labelKey: "editor.techNoteGroups.recording_issues",
-    items: [
-      "bug_from_game",
-      "crash_kept_transparency",
-      "loading_cut",
-      "obs_artifacts_possible",
-    ],
+    items: ["bug_from_game", "crash_kept_transparency", "loading_cut", "obs_artifacts_possible"],
   },
   {
     id: "playstyle",

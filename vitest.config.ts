@@ -17,6 +17,10 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    include: ["tests/**/*.test.ts", "src/**/*.test.ts"],
+    // `.tsx` was absent until v0.35.0, so any component test written here
+    // would have been collected by nobody and passed silently. Note that the
+    // default environment is node — a test that renders needs an explicit
+    // `// @vitest-environment jsdom` docblock (and jsdom installed).
+    include: ["tests/**/*.test.{ts,tsx}", "src/**/*.test.{ts,tsx}"],
   },
 });

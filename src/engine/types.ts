@@ -8,6 +8,20 @@ import type {
 } from "@config/graphics-settings";
 import type { GachaQuestType } from "@config/gacha-quest-types";
 
+// `GeneratorInput` exposes all of these on its own fields, so anyone typing a
+// value to hand to the engine needs them too. Re-exported here so `@engine/types`
+// is a complete public surface and callers don't have to reach into `@config/*`
+// for a type the engine already speaks.
+export type {
+  GraphicsPreset,
+  RTMode,
+  FrameGenVendor,
+  FrameGenMultiplier,
+  UpscaleQuality,
+  ArtStyle,
+  GachaQuestType,
+};
+
 export type VideoType =
   | "full"
   | "part"
@@ -114,14 +128,7 @@ export type PlaythroughStatus = (typeof PLAYTHROUGH_STATUSES)[number];
  * difficulty names don't fit (e.g. "Lethal", "Fromsoft default").
  * `"none"` → skip the section.
  */
-export const DIFFICULTY_LEVELS = [
-  "none",
-  "easy",
-  "normal",
-  "hard",
-  "nightmare",
-  "custom",
-] as const;
+export const DIFFICULTY_LEVELS = ["none", "easy", "normal", "hard", "nightmare", "custom"] as const;
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
 
 /**

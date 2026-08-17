@@ -74,9 +74,7 @@ function validate(): void {
         console.log(`✓ ${locale}/${filename} — ${actualKeys.length}/${expectedKeys.length} keys`);
       } else {
         hasErrors = true;
-        console.error(
-          `✗ ${locale}/${filename} — ${actualKeys.length}/${expectedKeys.length} keys`,
-        );
+        console.error(`✗ ${locale}/${filename} — ${actualKeys.length}/${expectedKeys.length} keys`);
         if (missing.length > 0) {
           console.error(`  Missing: ${missing.join(", ")}`);
         }

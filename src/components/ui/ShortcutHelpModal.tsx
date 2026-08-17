@@ -45,13 +45,11 @@ export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("shortcuts.searchPlaceholder")}
-          className="rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary placeholder:text-text-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/50"
+          className="focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-2"
           autoFocus
         />
         {filtered.length === 0 ? (
-          <p className="py-2 text-sm text-text-muted">
-            {t("shortcuts.noResults")}
-          </p>
+          <p className="py-2 text-sm text-text-muted">{t("shortcuts.noResults")}</p>
         ) : (
           <div className="flex flex-col gap-2">
             {filtered.map((s) => (
@@ -59,9 +57,7 @@ export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
                 key={`${s.keys}-${s.labelKey}`}
                 className="flex items-center justify-between py-1"
               >
-                <span className="text-sm text-text-secondary">
-                  {t(s.labelKey)}
-                </span>
+                <span className="text-sm text-text-secondary">{t(s.labelKey)}</span>
                 <kbd className="rounded bg-surface-2 px-2 py-0.5 font-mono text-xs text-text-primary">
                   {s.keys}
                 </kbd>

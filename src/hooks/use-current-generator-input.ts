@@ -79,8 +79,7 @@ export function buildGeneratorInputFromEditor(
     // means the engine should see the union (the slice helpers
     // already short-circuit on `videoCount <= 1`, but skipping the
     // pass-through here keeps the input cleaner for tests).
-    endingVideoIndex:
-      state.endingVideoCount > 1 ? state.endingVideoIndex : undefined,
+    endingVideoIndex: state.endingVideoCount > 1 ? state.endingVideoIndex : undefined,
     languagePatch: state.languagePatch,
     languagePatchCustom: state.languagePatchCustom,
     gameVersion: state.gameVersion,

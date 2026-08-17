@@ -82,7 +82,12 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
   ]);
 
   return (
-    <Modal open={open} onClose={onClose} title={t("output.generateAlternatives")} className="max-w-2xl">
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={t("output.generateAlternatives")}
+      className="max-w-2xl"
+    >
       <div className="flex flex-col gap-4">
         {variants.map((variant) => (
           <section key={variant.id} className="flex flex-col gap-2">

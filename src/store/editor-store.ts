@@ -14,11 +14,7 @@ import type {
   EndingEntry,
   EndingVideoRange,
 } from "@engine/types";
-import {
-  LANGUAGE_PATCH_OPTIONS,
-  GAME_VERSION_OPTIONS,
-  TECH_NOTES,
-} from "@engine/types";
+import { LANGUAGE_PATCH_OPTIONS, GAME_VERSION_OPTIONS, TECH_NOTES } from "@engine/types";
 import {
   GRAPHICS_PRESETS,
   type GraphicsPreset,
@@ -29,10 +25,7 @@ import {
   type ArtStyle,
 } from "@config/graphics-settings";
 import { isVideoStyleEra, type VideoStyleEra } from "@config/video-styles";
-import {
-  coerceUpscaleQuality,
-  coerceFrameGenMultiplier,
-} from "@engine/graphics-vendor";
+import { coerceUpscaleQuality, coerceFrameGenMultiplier } from "@engine/graphics-vendor";
 import {
   GACHA_QUEST_TYPES,
   DEFAULT_GACHA_QUEST_TYPE,
@@ -210,9 +203,7 @@ export function legacyGraphicsPresetToEnum(legacy: string): {
   const trimmed = legacy.trim();
   if (!trimmed) return { preset: "medium", custom: "" };
   const normalised = trimmed.toLowerCase();
-  const known = GRAPHICS_PRESETS.find(
-    (p) => p !== "custom" && p.replace(/_/g, " ") === normalised,
-  );
+  const known = GRAPHICS_PRESETS.find((p) => p !== "custom" && p.replace(/_/g, " ") === normalised);
   if (known) return { preset: known, custom: "" };
   return { preset: "custom", custom: trimmed };
 }
@@ -226,9 +217,7 @@ export function legacyGraphicsPresetToEnum(legacy: string): {
  * accepts via structural compatibility — we sniff the runtime value here
  * via an `unknown` cast.
  */
-function normalizeEditorPatch(
-  patch: Partial<EditorData> | null | undefined,
-): Partial<EditorData> {
+function normalizeEditorPatch(patch: Partial<EditorData> | null | undefined): Partial<EditorData> {
   // v0.15.0: guard against malformed input. Previously a `null` patch
   // — typically from an imported template whose `snapshot` field was
   // null/undefined — reached the spread on the next line and threw
@@ -251,8 +240,7 @@ function normalizeEditorPatch(
   // (DLSS lost `native_aa`, FSR lost `dlaa`, etc.), coerce to "none" so
   // the editor doesn't end up with a Select stuck on a value missing
   // from its options. The vendor itself is left as-is.
-  const vendor =
-    typeof patch.frameGenVendor === "string" ? patch.frameGenVendor : undefined;
+  const vendor = typeof patch.frameGenVendor === "string" ? patch.frameGenVendor : undefined;
   if (vendor) {
     if (typeof patch.upscaleQuality === "string") {
       out.upscaleQuality = coerceUpscaleQuality(vendor, patch.upscaleQuality);
@@ -427,11 +415,9 @@ export const useEditorStore = create<EditorState>()(
       // rather than crashing the render. The action signature still
       // requires a non-null patch in TypeScript — runtime safety covers
       // the persisted-blob case where types lie.
-      loadProfile: (profile) =>
-        set((state) => ({ ...state, ...normalizeEditorPatch(profile) })),
+      loadProfile: (profile) => set((state) => ({ ...state, ...normalizeEditorPatch(profile) })),
 
-      loadPreset: (preset) =>
-        set((state) => ({ ...state, ...normalizeEditorPatch(preset) })),
+      loadPreset: (preset) => set((state) => ({ ...state, ...normalizeEditorPatch(preset) })),
 
       reset: () => set(initialState),
     }),
@@ -549,8 +535,7 @@ export const useEditorStore = create<EditorState>()(
       //         Non-string values coerce to "". The existing `contactEmail`
       //         is reused as the general-contact line, so no data moves.
       version: 18,
-      migrate: (persistedState, version) =>
-        migrateEditorState(persistedState, version),
+      migrate: (persistedState, version) => migrateEditorState(persistedState, version),
       partialize: (state) => ({
         videoType: state.videoType,
         language: state.language,
@@ -642,10 +627,7 @@ export const useEditorStore = create<EditorState>()(
  * tests can feed in a known persisted blob and assert the migrated
  * result without going through localStorage.
  */
-export function migrateEditorState(
-  persistedState: unknown,
-  version: number,
-): EditorData {
+export function migrateEditorState(persistedState: unknown, version: number): EditorData {
   if (!persistedState || typeof persistedState !== "object") {
     return { ...initialState };
   }
@@ -705,10 +687,7 @@ export function migrateEditorState(
   }
   if (version < 7) {
     const gqt = state.gachaQuestType;
-    if (
-      typeof gqt !== "string" ||
-      !(GACHA_QUEST_TYPES as readonly string[]).includes(gqt)
-    ) {
+    if (typeof gqt !== "string" || !(GACHA_QUEST_TYPES as readonly string[]).includes(gqt)) {
       state.gachaQuestType = DEFAULT_GACHA_QUEST_TYPE;
     }
     if (typeof state.chapterName !== "string") state.chapterName = "";
@@ -739,14 +718,10 @@ export function migrateEditorState(
 
     // 3. Coerce vendor-incompatible upscale / frame-gen combos.
     const persistedVendor =
-      typeof state.frameGenVendor === "string"
-        ? (state.frameGenVendor as FrameGenVendor)
-        : "none";
+      typeof state.frameGenVendor === "string" ? (state.frameGenVendor as FrameGenVendor) : "none";
     state.upscaleQuality = coerceUpscaleQuality(
       persistedVendor,
-      typeof state.upscaleQuality === "string"
-        ? (state.upscaleQuality as UpscaleQuality)
-        : "none",
+      typeof state.upscaleQuality === "string" ? (state.upscaleQuality as UpscaleQuality) : "none",
     );
     state.frameGenMultiplier = coerceFrameGenMultiplier(
       persistedVendor,
@@ -784,8 +759,7 @@ export function migrateEditorState(
     } else {
       state.techNotes = (state.techNotes as unknown[]).filter(
         (id): id is TechNote =>
-          typeof id === "string" &&
-          (TECH_NOTES as readonly string[]).includes(id),
+          typeof id === "string" && (TECH_NOTES as readonly string[]).includes(id),
       );
     }
   }
@@ -848,9 +822,7 @@ export function migrateEditorState(
     // v0.22.0 video-style era. Coerce any unrecognised value back to ""
     // so the form Select never lands on an option that doesn't exist —
     // covers both pre-v0.22 drafts (no key) and hand-edited blobs.
-    state.videoStyleEra = isVideoStyleEra(state.videoStyleEra)
-      ? state.videoStyleEra
-      : "";
+    state.videoStyleEra = isVideoStyleEra(state.videoStyleEra) ? state.videoStyleEra : "";
   }
   if (version < 15) {
     // v0.30.0 Playtest section. Additive back-fill + defensive coercion.

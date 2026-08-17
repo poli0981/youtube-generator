@@ -66,10 +66,7 @@ export function RigEditor() {
       : [{ value: "", label: "—" }];
     const currentSeries = currentBrand?.series.find((s) => s.id === series);
     const modelOptions = currentSeries
-      ? [
-          { value: "", label: "—" },
-          ...currentSeries.models.map((m) => ({ value: m, label: m })),
-        ]
+      ? [{ value: "", label: "—" }, ...currentSeries.models.map((m) => ({ value: m, label: m }))]
       : [{ value: "", label: "—" }];
 
     const setBrand = (next: string) => {
@@ -84,11 +81,7 @@ export function RigEditor() {
       setNested("rig", field.id, joinCascading(brand, series, next));
     };
     const setCustomText = (text: string) => {
-      setNested(
-        "rig",
-        field.id,
-        text ? joinCascading(GPU_CUSTOM_BRAND_ID, "", text) : "",
-      );
+      setNested("rig", field.id, text ? joinCascading(GPU_CUSTOM_BRAND_ID, "", text) : "");
     };
 
     return (
@@ -141,9 +134,7 @@ export function RigEditor() {
     // Validate per field — only RAM has size/DDR semantics. Running the
     // RAM validator on the OS composite mis-fired "Pick a DDR generation."
     const issue = validateCompositeField(field.id, raw);
-    const partValues = field.composite.parts.map(
-      (_p, i) => storedParts[i] ?? "",
-    );
+    const partValues = field.composite.parts.map((_p, i) => storedParts[i] ?? "");
 
     // v0.23.0: setting a part also resets all downstream parts to "" so
     // a cascading parent change can't leave the form with a stale child
@@ -181,9 +172,7 @@ export function RigEditor() {
     return (
       <div key={field.id} className="col-span-2 flex flex-col gap-2">
         <span className="text-sm font-medium text-text-secondary">{t(field.labelKey)}</span>
-        <div className="grid grid-cols-2 gap-2">
-          {renderedParts}
-        </div>
+        <div className="grid grid-cols-2 gap-2">{renderedParts}</div>
         {renderValidationBadge(issue)}
       </div>
     );
@@ -247,8 +236,7 @@ export function RigEditor() {
 
     const commit = (nextValue: string, nextVersion: string) => {
       // Keep the stored form compact: drop the pipe when empty.
-      const next =
-        !nextValue && !nextVersion ? "" : `${nextValue}|${nextVersion}`;
+      const next = !nextValue && !nextVersion ? "" : `${nextValue}|${nextVersion}`;
       setNested("rig", field.id, next);
     };
 

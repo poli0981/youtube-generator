@@ -21,9 +21,7 @@ export interface PlatformConfig {
  * numeric id, yielding the canonical `.../app/<id>` form.
  */
 function normalizeSteamUrl(url: string): string {
-  const match = url.match(
-    /^(https:\/\/store\.steampowered\.com\/app\/\d+)(?:\/.*)?$/i,
-  );
+  const match = url.match(/^(https:\/\/store\.steampowered\.com\/app\/\d+)(?:\/.*)?$/i);
   return match?.[1] ?? url;
 }
 
@@ -72,8 +70,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     urlPrefix: "https://<dev>.itch.io/<game>",
     // itch.io games live at https://<dev>.itch.io/<game>, where <dev>
     // is a user subdomain. Reject the bare https://itch.io/... host.
-    urlPattern:
-      /^https:\/\/[a-z0-9][a-z0-9-]*\.itch\.io\/[a-z0-9][a-z0-9_-]*\/?$/i,
+    urlPattern: /^https:\/\/[a-z0-9][a-z0-9-]*\.itch\.io\/[a-z0-9][a-z0-9_-]*\/?$/i,
   },
   {
     id: "humble",

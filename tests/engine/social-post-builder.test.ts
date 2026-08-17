@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  buildSocialPost,
-  buildAllSocialPosts,
-} from "@engine/social-post-builder";
+import { buildSocialPost, buildAllSocialPosts } from "@engine/social-post-builder";
 import { SOCIAL_PLATFORMS } from "@config/social-platforms";
 import { createMockT } from "../helpers/mock-t";
 import type { GeneratorInput } from "@engine/types";
@@ -43,11 +40,7 @@ describe("buildSocialPost", () => {
 
   it("suppresses the quality badge (short-form title)", () => {
     const t = createMockT("en");
-    const { text } = buildSocialPost(
-      makeInput({ resolution: "4K", fps: "120" }),
-      t,
-      baseOpts,
-    );
+    const { text } = buildSocialPost(makeInput({ resolution: "4K", fps: "120" }), t, baseOpts);
     expect(text).not.toContain("[4K");
     expect(text).not.toContain("120FPS");
   });
@@ -65,11 +58,7 @@ describe("buildSocialPost", () => {
 
   it("uses only the first genre for the hashtag", () => {
     const t = createMockT("en");
-    const { text } = buildSocialPost(
-      makeInput({ genres: ["hack_slash", "action"] }),
-      t,
-      baseOpts,
-    );
+    const { text } = buildSocialPost(makeInput({ genres: ["hack_slash", "action"] }), t, baseOpts);
     expect(text).toContain("#hackslash");
     expect(text).not.toContain("#action");
   });
@@ -130,17 +119,15 @@ describe("buildSocialPost", () => {
 
   it("adds the sponsor thanks only when enabled and both fields are set", () => {
     const t = createMockT("en");
-    const on = buildSocialPost(
-      makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "Steam" }),
-      t,
-      { ...baseOpts, showSponsorCredit: true },
-    );
+    const on = buildSocialPost(makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "Steam" }), t, {
+      ...baseOpts,
+      showSponsorCredit: true,
+    });
     expect(on.text).toContain("Ubisoft");
-    const partial = buildSocialPost(
-      makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "" }),
-      t,
-      { ...baseOpts, showSponsorCredit: true },
-    );
+    const partial = buildSocialPost(makeInput({ sponsorName: "Ubisoft", sponsorPlatform: "" }), t, {
+      ...baseOpts,
+      showSponsorCredit: true,
+    });
     expect(partial.text).not.toContain("Thanks to Ubisoft");
   });
 

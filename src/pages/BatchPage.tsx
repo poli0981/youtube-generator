@@ -206,7 +206,7 @@ export function BatchPage() {
       {rangeError && (
         <p
           role="alert"
-          className="mb-6 rounded-lg border border-warning/40 bg-warning/10 px-3 py-2 text-xs text-warning"
+          className="border-warning/40 bg-warning/10 mb-6 rounded-lg border px-3 py-2 text-xs text-warning"
         >
           {rangeError}
         </p>
@@ -227,7 +227,10 @@ export function BatchPage() {
           </div>
           <div className="flex flex-col gap-4">
             {results.map((result) => (
-              <div key={result.partNumber} className="rounded-lg border border-border bg-surface-1 p-4">
+              <div
+                key={result.partNumber}
+                className="rounded-lg border border-border bg-surface-1 p-4"
+              >
                 <h3 className="mb-3 text-sm font-semibold text-text-primary">
                   Part {result.partNumber}
                 </h3>
@@ -250,7 +253,10 @@ export function BatchPage() {
                         {lang.output.description.slice(0, 200)}...
                       </pre>
                       <div className="flex flex-wrap gap-2">
-                        <CopyButton text={lang.output.description} label={t("output.copyDescription")} />
+                        <CopyButton
+                          text={lang.output.description}
+                          label={t("output.copyDescription")}
+                        />
                         <CopyButton text={lang.output.tagString} label={t("output.copyTags")} />
                         {lang.pinnedComment && (
                           <CopyButton

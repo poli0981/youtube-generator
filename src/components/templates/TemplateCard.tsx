@@ -24,7 +24,9 @@ export function TemplateCard({ template }: TemplateCardProps) {
     // patch via `normalizeEditorPatch`, but checking here lets us
     // surface a clearer toast and skip the no-op success message.
     if (!template.snapshot || typeof template.snapshot !== "object") {
-      toast.error(t("templates.applyFailed", { defaultValue: "Template is corrupt — cannot apply" }));
+      toast.error(
+        t("templates.applyFailed", { defaultValue: "Template is corrupt — cannot apply" }),
+      );
       return;
     }
     loadProfile(template.snapshot);
@@ -35,7 +37,7 @@ export function TemplateCard({ template }: TemplateCardProps) {
 
   return (
     <>
-      <div className="flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors hover:border-accent/30 sm:flex-row sm:items-center sm:justify-between">
+      <div className="hover:border-accent/30 flex flex-col gap-3 rounded-lg border border-border-strong bg-surface-2 p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
           <h3 className="text-sm font-semibold text-text-primary">{template.name}</h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-text-muted">

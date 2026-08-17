@@ -37,9 +37,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
   };
 
   return (
-    <header
-      className="flex items-center justify-between gap-2 border-b border-border bg-surface-1 px-3 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6"
-    >
+    <header className="flex items-center justify-between gap-2 border-b border-border bg-surface-1 px-3 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6">
       <div className="flex min-w-0 items-center gap-2">
         {onOpenMobileNav && (
           <button
@@ -55,9 +53,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
           <h1 className="truncate text-base font-bold text-text-primary sm:text-lg">
             {t("app.title")}
           </h1>
-          <p className="hidden truncate text-xs text-text-muted sm:block">
-            {t("app.subtitle")}
-          </p>
+          <p className="hidden truncate text-xs text-text-muted sm:block">{t("app.subtitle")}</p>
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-2">
@@ -79,11 +75,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
           title={t("header.toggleTheme")}
           aria-label={t("header.toggleTheme")}
         >
-          {theme === "dark" ? (
-            <Moon className="h-4 w-4" />
-          ) : (
-            <Sun className="h-4 w-4" />
-          )}
+          {theme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
         </button>
         <div className="relative" ref={dropdownRef}>
           <button
@@ -97,7 +89,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
             <ChevronDown className="h-3.5 w-3.5 text-text-muted" />
           </button>
           {open && (
-            <div className="absolute right-0 top-full z-50 mt-1 max-w-[calc(100vw-2rem)] min-w-[200px] rounded-lg border border-border bg-surface-1 py-1 shadow-xl">
+            <div className="absolute right-0 top-full z-50 mt-1 min-w-[200px] max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-surface-1 py-1 shadow-xl">
               {SUPPORTED_LANGUAGES.map((lang) => (
                 <button
                   key={lang.id}
