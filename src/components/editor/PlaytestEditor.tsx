@@ -6,6 +6,7 @@ import { Select } from "@components/ui/Select";
 import { useEditorStore } from "@store/editor-store";
 import { validateUrl, validateUrlWithPattern, validateIntegerInRange } from "@utils/validation";
 import { PLAYTEST_PLATFORMS, maxInvitesForPlatform } from "@config/playtest-platforms";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /**
  * Playtest section (v0.30.0). One signup link + the platform it lives on +
@@ -81,7 +82,9 @@ export function PlaytestEditor() {
       </span>
 
       <ValidatedInput
+        fieldId="editor.playtestLink"
         label={t("editor.playtest.linkLabel")}
+        maxLength={FIELD_LIMITS.URL}
         placeholder={platform?.urlPrefix ?? "https://"}
         value={playtestLink}
         onChange={(v) => setField("playtestLink", v)}

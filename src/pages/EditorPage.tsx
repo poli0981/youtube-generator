@@ -27,6 +27,7 @@ import { Button } from "@components/ui/Button";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
 import { Accordion } from "@components/ui/Accordion";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
+import { FIELD_LIMITS } from "@config/field-limits";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useTranslation } from "react-i18next";
@@ -110,7 +111,9 @@ export function EditorPage() {
           <ContentWarningChecklist />
           <TechNotesChecklist />
           <ValidatedInput
+            fieldId="editor.playlistLink"
             label={t("editor.playlistLink")}
+            maxLength={FIELD_LIMITS.URL}
             placeholder={t("editor.playlistLinkPlaceholder")}
             value={store.playlistLink ?? ""}
             onChange={(v) => store.set("playlistLink", v)}

@@ -3,6 +3,7 @@ import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { SOCIAL_FIELDS } from "@config/social-fields";
 import { useEditorStore } from "@store/editor-store";
 import { validateUrl, validateUrlWithPrefix } from "@utils/validation";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 export function SocialEditor() {
   const { t } = useTranslation("ui");
@@ -21,8 +22,10 @@ export function SocialEditor() {
         {donateFields.map((field) => (
           <ValidatedInput
             key={field.id}
+            fieldId={`editor.social.${field.id}`}
             label={t(field.labelKey)}
             placeholder={field.urlPrefix || "URL"}
+            maxLength={FIELD_LIMITS.URL}
             value={social[field.id] ?? ""}
             onChange={(v) => setNested("social", field.id, v)}
             validate={(v) =>
@@ -37,8 +40,10 @@ export function SocialEditor() {
         {socialFields.map((field) => (
           <ValidatedInput
             key={field.id}
+            fieldId={`editor.social.${field.id}`}
             label={t(field.labelKey)}
             placeholder={field.urlPrefix || "URL"}
+            maxLength={FIELD_LIMITS.URL}
             value={social[field.id] ?? ""}
             onChange={(v) => setNested("social", field.id, v)}
             validate={(v) =>

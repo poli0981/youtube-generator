@@ -23,6 +23,7 @@ import {
   coerceFrameGenMultiplier,
 } from "@engine/graphics-vendor";
 import { VIDEO_STYLE_ERA_IDS, type VideoStyleEra } from "@config/video-styles";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 const RESOLUTION_OPTIONS = [
   { value: "720p", label: "720p" },
@@ -137,6 +138,7 @@ export function VideoSettingsForm() {
       {store.graphicsPreset === "custom" && (
         <Input
           label={t("editor.graphicsPresetCustom")}
+          maxLength={FIELD_LIMITS.LABEL}
           placeholder={t("editor.graphicsPresetCustomPlaceholder")}
           value={store.graphicsPresetCustom}
           onChange={(e) => store.set("graphicsPresetCustom", e.target.value)}
@@ -200,6 +202,7 @@ export function VideoSettingsForm() {
 
           <Input
             label={t("editor.versionInfo")}
+            maxLength={FIELD_LIMITS.LABEL}
             placeholder={t("editor.versionInfoPlaceholder")}
             value={store.versionInfo}
             onChange={(e) => store.set("versionInfo", e.target.value)}

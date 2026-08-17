@@ -22,6 +22,7 @@ import {
 } from "@engine/playlist-builder";
 import { DROPPED_REASONS, type DroppedReasonId } from "@config/dropped-reasons";
 import type { SupportedLanguage } from "@engine/types";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 const STATUS_OPTIONS = [
   { id: "completed", label: "✅ Completed", icon: "" },
@@ -152,6 +153,7 @@ export function PlaylistPage() {
             />
             <Textarea
               label={t("playlist.droppedReasonCustomLabel")}
+              maxLength={FIELD_LIMITS.LONG_TEXT}
               placeholder={t("playlist.droppedReasonCustomPlaceholder")}
               value={droppedReasonCustom}
               onChange={(e) => setDroppedReasonCustom(e.target.value)}
@@ -181,6 +183,7 @@ export function PlaylistPage() {
 
         <Textarea
           label={t("playlist.customNote")}
+          maxLength={FIELD_LIMITS.LONG_TEXT}
           placeholder="Optional note..."
           value={customNote}
           onChange={(e) => setCustomNote(e.target.value)}

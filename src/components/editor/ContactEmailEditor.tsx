@@ -46,6 +46,7 @@ export function ContactEmailEditor() {
   if (!splitContactEmail) {
     return (
       <ValidatedInput
+        fieldId="editor.contactEmail"
         label={t("editor.contactEmail")}
         placeholder={t("editor.contactEmailPlaceholder")}
         value={contactEmail ?? ""}
@@ -59,6 +60,7 @@ export function ContactEmailEditor() {
   return (
     <div className="flex flex-col gap-3">
       <ValidatedInput
+        fieldId="editor.contactEmail"
         label={t("editor.contactEmail")}
         placeholder={t("editor.contactEmailPlaceholder")}
         value={contactEmail ?? ""}
@@ -67,6 +69,7 @@ export function ContactEmailEditor() {
         {...emailGuard}
       />
       <ValidatedInput
+        fieldId="editor.adEmail"
         label={t("editor.adEmail")}
         placeholder={t("editor.adEmailPlaceholder")}
         value={adEmail ?? ""}
@@ -75,6 +78,7 @@ export function ContactEmailEditor() {
         {...emailGuard}
       />
       <ValidatedInput
+        fieldId="editor.gameKeyEmail"
         label={t("editor.gameKeyEmail")}
         placeholder={t("editor.gameKeyEmailPlaceholder")}
         value={gameKeyEmail ?? ""}

@@ -3,6 +3,7 @@ import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
 import { EndingsEditor } from "./EndingsEditor";
+import { FIELD_LIMITS } from "@config/field-limits";
 import {
   PLAYTHROUGH_STATUSES,
   DIFFICULTY_LEVELS,
@@ -83,6 +84,7 @@ export function PlaythroughNotesForm() {
       {store.difficulty === "custom" && (
         <Input
           label={t("editor.difficultyCustomLabel")}
+          maxLength={FIELD_LIMITS.LABEL}
           placeholder={t("editor.difficultyCustomPlaceholder")}
           value={store.difficultyCustomLabel}
           onChange={(e) => store.set("difficultyCustomLabel", e.target.value)}
@@ -105,6 +107,7 @@ export function PlaythroughNotesForm() {
       {languagePatchHasCustomSlot(store.languagePatch) && (
         <Input
           label={t("editor.playthroughNotes.languagePatchCustomLabel")}
+          maxLength={FIELD_LIMITS.LABEL}
           placeholder={t("editor.playthroughNotes.languagePatchCustomPlaceholder")}
           value={store.languagePatchCustom}
           onChange={(e) => store.set("languagePatchCustom", e.target.value)}
@@ -120,6 +123,7 @@ export function PlaythroughNotesForm() {
       {gameVersionHasCustomSlot(store.gameVersion) && (
         <Input
           label={t("editor.playthroughNotes.gameVersionCustomLabel")}
+          maxLength={FIELD_LIMITS.LABEL}
           placeholder={t("editor.playthroughNotes.gameVersionCustomPlaceholder")}
           value={store.gameVersionCustom}
           onChange={(e) => store.set("gameVersionCustom", e.target.value)}

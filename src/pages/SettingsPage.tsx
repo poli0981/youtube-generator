@@ -8,6 +8,7 @@ import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Accordion } from "@components/ui/Accordion";
+import { FIELD_LIMITS } from "@config/field-limits";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { GENRES } from "@config/genres";
 import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
@@ -468,7 +469,10 @@ export function SettingsPage() {
             {GENRES.map((g) => (
               <ValidatedInput
                 key={g.id}
+                fieldId={`settings.genrePlaylists.${g.id}`}
+                scope="settings"
                 label={`${g.icon} ${t(g.labelKey)}`}
+                maxLength={FIELD_LIMITS.URL}
                 placeholder="https://www.youtube.com/playlist?list=..."
                 value={settings.genrePlaylists[g.id] ?? ""}
                 onChange={(v) => {

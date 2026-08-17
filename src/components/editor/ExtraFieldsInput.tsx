@@ -10,6 +10,7 @@ import {
   type GachaQuestType,
 } from "@config/gacha-quest-types";
 import { useEditorStore } from "@store/editor-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 const ANNIVERSARY_YEARS = Array.from({ length: 20 }, (_, i) => i + 1);
 
@@ -79,6 +80,7 @@ export function ExtraFieldsInput() {
       {isGacha && visibility.characterName && (
         <Input
           label={t("editor.characterName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.characterNamePlaceholder")}
           value={store.characterName ?? ""}
           onChange={(e) => store.set("characterName", e.target.value)}
@@ -109,6 +111,7 @@ export function ExtraFieldsInput() {
       {showField("chapterName") && (
         <Input
           label={t("editor.chapterName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={isGacha ? placeholderFor("chapterName") : t("editor.chapterNamePlaceholder")}
           value={store.chapterName ?? ""}
           onChange={(e) => store.set("chapterName", e.target.value)}
@@ -117,6 +120,7 @@ export function ExtraFieldsInput() {
       {showField("questName") && (
         <Input
           label={t("editor.questName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={isGacha ? placeholderFor("questName") : t("editor.questNamePlaceholder")}
           value={store.questName ?? ""}
           onChange={(e) => store.set("questName", e.target.value)}
@@ -125,6 +129,7 @@ export function ExtraFieldsInput() {
       {showField("partNumber") && (
         <Input
           label={t("editor.partNumber")}
+          maxLength={FIELD_LIMITS.NUMERIC}
           placeholder={isGacha ? placeholderFor("partNumber") : t("editor.partNumberPlaceholder")}
           value={store.partNumber ?? ""}
           onChange={(e) => store.set("partNumber", e.target.value)}
@@ -133,6 +138,7 @@ export function ExtraFieldsInput() {
       {isGacha && (
         <Input
           label={t("editor.gachaVersion")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.gachaVersionPlaceholder")}
           value={store.gachaVersion ?? ""}
           onChange={(e) => store.set("gachaVersion", e.target.value)}
@@ -141,6 +147,7 @@ export function ExtraFieldsInput() {
       {extraFields.includes("bossName") && (
         <Input
           label={t("editor.bossName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.bossNamePlaceholder")}
           value={store.bossName ?? ""}
           onChange={(e) => store.set("bossName", e.target.value)}
@@ -149,6 +156,7 @@ export function ExtraFieldsInput() {
       {extraFields.includes("dlcName") && (
         <Input
           label={t("editor.dlcName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.dlcNamePlaceholder")}
           value={store.dlcName ?? ""}
           onChange={(e) => store.set("dlcName", e.target.value)}
@@ -157,6 +165,7 @@ export function ExtraFieldsInput() {
       {extraFields.includes("challengeName") && (
         <Input
           label={t("editor.challengeName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.challengeNamePlaceholder")}
           value={store.challengeName ?? ""}
           onChange={(e) => store.set("challengeName", e.target.value)}
@@ -166,12 +175,14 @@ export function ExtraFieldsInput() {
         <>
           <Input
             label={t("editor.modName")}
+            maxLength={FIELD_LIMITS.SHORT_NAME}
             placeholder={t("editor.modNamePlaceholder")}
             value={store.modName ?? ""}
             onChange={(e) => store.set("modName", e.target.value)}
           />
           <Textarea
             label={t("editor.modList")}
+            maxLength={FIELD_LIMITS.LONG_TEXT}
             placeholder={t("editor.modListPlaceholder")}
             value={store.modList ?? ""}
             onChange={(e) => store.set("modList", e.target.value)}
@@ -182,6 +193,7 @@ export function ExtraFieldsInput() {
       {extraFields.includes("liveUrl") && (
         <Input
           label={t("editor.liveUrl")}
+          maxLength={FIELD_LIMITS.URL}
           placeholder={t("editor.liveUrlPlaceholder")}
           value={store.liveUrl ?? ""}
           onChange={(e) => store.set("liveUrl", e.target.value)}

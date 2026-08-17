@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/Input";
 import { Select } from "@components/ui/Select";
 import { useEditorStore } from "@store/editor-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 import {
   VIETNAMESE_BANKS,
   VIETNAMESE_BANK_OTHER,
@@ -93,6 +94,7 @@ export function VietnameseDonateEditor() {
         ) : (
           <Input
             label={t("editor.vnBankName")}
+            maxLength={FIELD_LIMITS.SHORT_NAME}
             placeholder={t("editor.vnBankNamePlaceholder")}
             value={vnBankName ?? ""}
             onChange={(e) => store.set("vnBankName", e.target.value)}
@@ -100,6 +102,7 @@ export function VietnameseDonateEditor() {
         )}
         <Input
           label={t("editor.vnBankAccount")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.vnBankAccountPlaceholder")}
           value={store.vnBankAccount ?? ""}
           onChange={(e) => store.set("vnBankAccount", e.target.value)}
@@ -108,6 +111,7 @@ export function VietnameseDonateEditor() {
 
       <Input
         label={t("editor.vnBankHolder")}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
         placeholder={t("editor.vnBankHolderPlaceholder")}
         value={store.vnBankHolder ?? ""}
         onChange={(e) => store.set("vnBankHolder", e.target.value)}
@@ -116,12 +120,14 @@ export function VietnameseDonateEditor() {
       <div className="grid grid-cols-2 gap-3">
         <Input
           label={t("editor.vnMomo")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.vnMomoPlaceholder")}
           value={store.vnMomo ?? ""}
           onChange={(e) => store.set("vnMomo", e.target.value)}
         />
         <Input
           label={t("editor.vnZalopay")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.vnZalopayPlaceholder")}
           value={store.vnZalopay ?? ""}
           onChange={(e) => store.set("vnZalopay", e.target.value)}

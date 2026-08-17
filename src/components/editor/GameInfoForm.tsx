@@ -3,6 +3,7 @@ import { Input } from "@components/ui/Input";
 import { Select } from "@components/ui/Select";
 import { PLATFORMS } from "@config/platforms";
 import { useEditorStore } from "@store/editor-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /**
  * Core identity fields for the video (game name, channel, platform).
@@ -19,6 +20,7 @@ export function GameInfoForm() {
     <div className="flex flex-col gap-3">
       <Input
         label={t("editor.gameName")}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
         placeholder={t("editor.gameNamePlaceholder")}
         value={store.gameName}
         onChange={(e) => store.set("gameName", e.target.value)}
@@ -27,6 +29,7 @@ export function GameInfoForm() {
       />
       <Input
         label={t("editor.channelName")}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
         placeholder={t("editor.channelNamePlaceholder")}
         value={store.channelName}
         onChange={(e) => store.set("channelName", e.target.value)}
@@ -49,6 +52,7 @@ export function GameInfoForm() {
        */}
       <Input
         label={t("editor.pubDevName")}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
         placeholder={t("editor.pubDevNamePlaceholder")}
         value={store.pubDevName ?? ""}
         onChange={(e) => store.set("pubDevName", e.target.value)}

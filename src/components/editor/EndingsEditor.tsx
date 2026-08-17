@@ -8,6 +8,7 @@ import { useEditorStore, computeContiguousRanges } from "@store/editor-store";
 import { parseTimeline } from "@engine/timeline-parser";
 import { formatEndingEntry } from "@engine/endings-format";
 import type { EndingEntry, EndingVideoRange } from "@engine/types";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /** Editor cap, matching the original spec ("Giá trị từ 1 - 100"). */
 const MAX_ENDINGS = 100;
@@ -221,6 +222,7 @@ export function EndingsEditor() {
             />
             <Input
               label={t("editor.endings.nameLabel")}
+              maxLength={FIELD_LIMITS.SHORT_NAME}
               placeholder={t("editor.endings.namePlaceholder")}
               value={endings[0].name}
               onChange={(e) => updateEnding(0, { name: e.target.value })}

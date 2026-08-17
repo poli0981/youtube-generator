@@ -6,6 +6,7 @@ import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
 import { useTemplateStore, type TemplateSnapshot } from "@store/template-store";
 import toast from "react-hot-toast";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 interface TemplateSaveFormProps {
   open: boolean;
@@ -111,6 +112,7 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
       <div className="flex flex-col gap-3">
         <Input
           label={t("templates.templateName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("templates.templateNamePlaceholder")}
           value={name}
           onChange={(e) => setName(e.target.value)}
