@@ -126,11 +126,6 @@ describe("buildDescription", () => {
 
   it("adds (free) suffix to free links but not paid ones", () => {
     const t = createMockT("en");
-    // Match on the FULL url, not a bare host substring. A substring test like
-    // `includes("itch.io")` is the pattern CodeQL flags as
-    // js/incomplete-url-substring-sanitization — and it would also match a
-    // decoy such as `https://itch.io.example.com/`, so the assertion would
-    // pass for the wrong line.
     const steamUrl = "https://store.steampowered.com/app/1";
     const itchUrl = "https://dev.itch.io/game";
     const result = buildDescription(
@@ -140,12 +135,13 @@ describe("buildDescription", () => {
       }),
       t,
     );
-    // Find the itchio line and make sure it has (free), Steam line does not
-    const lines = result.split("\n");
-    const itchLine = lines.find((l) => l.includes(itchUrl));
-    const steamLine = lines.find((l) => l.includes(steamUrl));
-    expect(itchLine).toContain("(free)");
-    expect(steamLine).not.toContain("(free)");
+    // A store line renders as `🎮 {label}{suffix}: {url}`, so the suffix sits
+    // immediately before `: <url>`. Asserting that adjacency is stricter than
+    // locating the line by a host substring — `includes("itch.io")` would also
+    // match a decoy like `https://itch.io.example.com/`, which is exactly why
+    // CodeQL flags that shape as js/incomplete-url-substring-sanitization.
+    expect(result).toContain(`(free): ${itchUrl}`);
+    expect(result).not.toContain(`(free): ${steamUrl}`);
   });
 
   it("defaults unspecified link types to paid", () => {
