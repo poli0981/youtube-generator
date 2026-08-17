@@ -8,6 +8,7 @@ import {
   validateInstagramInviteUrl,
   validateFacebookGroupUrl,
 } from "@utils/validation";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /**
  * Community invite links. A single section for "join the chat" links that
@@ -47,7 +48,10 @@ export function CommunityEditor() {
       </div>
 
       <ValidatedInput
+        fieldId="messengerCommunityLink"
+        labelKey="editor.messengerCommunityLink"
         label={t("editor.messengerCommunityLink")}
+        maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.messengerCommunityLinkPlaceholder")}
         value={messengerCommunityLink}
         onChange={(v) => setField("messengerCommunityLink", v)}
@@ -57,7 +61,10 @@ export function CommunityEditor() {
       />
 
       <ValidatedInput
+        fieldId="signalGroupLink"
+        labelKey="editor.signalGroupLink"
         label={t("editor.signalGroupLink")}
+        maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.signalGroupLinkPlaceholder")}
         value={signalGroupLink}
         onChange={(v) => setField("signalGroupLink", v)}
@@ -67,7 +74,10 @@ export function CommunityEditor() {
       />
 
       <ValidatedInput
+        fieldId="instagramGroupLink"
+        labelKey="editor.instagramGroupLink"
         label={t("editor.instagramGroupLink")}
+        maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.instagramGroupLinkPlaceholder")}
         value={instagramGroupLink}
         onChange={(v) => setField("instagramGroupLink", v)}
@@ -77,7 +87,10 @@ export function CommunityEditor() {
       />
 
       <ValidatedInput
+        fieldId="facebookGroupLink"
+        labelKey="editor.facebookGroupLink"
         label={t("editor.facebookGroupLink")}
+        maxLength={FIELD_LIMITS.URL}
         placeholder={t("editor.facebookGroupLinkPlaceholder")}
         value={facebookGroupLink}
         onChange={(v) => setField("facebookGroupLink", v)}
@@ -88,7 +101,10 @@ export function CommunityEditor() {
 
       {isVi && (
         <ValidatedInput
+          fieldId="zaloGroupLink"
+          labelKey="editor.zaloGroupLink"
           label={t("editor.zaloGroupLink")}
+          maxLength={FIELD_LIMITS.URL}
           placeholder={t("editor.zaloGroupLinkPlaceholder")}
           value={zaloGroupLink}
           onChange={(v) => setField("zaloGroupLink", v)}

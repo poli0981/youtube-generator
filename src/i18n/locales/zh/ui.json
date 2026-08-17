@@ -760,6 +760,14 @@
       "overLimit": "{{field}}过长：{{count}}/{{limit}} 字符。复制前请精简。",
       "fieldGeneric": "文本",
       "failed": "复制失败"
+    },
+    "limits": {
+      "bannerTitle": "已阻止复制 — 超出 YouTube 上限",
+      "fieldLine": "{{field}}：{{count}} / {{limit}} 个字符",
+      "bannerHint": "请缩短上述字段后再复制。",
+      "copyBlocked": "已阻止：另一个字段超出 YouTube 上限",
+      "batchRowBlocked": "该部分超出上限 — 已阻止复制。",
+      "batchAllBlocked": "已阻止复制全部 — 至少有一个部分超出上限"
     }
   },
   "common": {
@@ -774,7 +782,9 @@
     "generate": "生成",
     "undo": "撤销",
     "dismiss": "关闭",
-    "scrollToTop": "回到顶部"
+    "scrollToTop": "回到顶部",
+    "exported": "已导出",
+    "exportFailed": "导出失败"
   },
   "errorPages": {
     "actions": {
@@ -1033,7 +1043,11 @@
     "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
     "logSettings": "日志",
     "logRetentionDays": "日志保留 (天)",
-    "logRetentionHint": "早于此天数的日志会在启动时删除。范围：1–90 天。"
+    "logRetentionHint": "早于此天数的日志会在启动时删除。范围：1–90 天。",
+    "guardrails": "防护",
+    "strictMode": "严格模式",
+    "strictModeHint": "只要有字段存在错误，就阻止生成、复制和导出。轻微警告仍可通过。",
+    "genrePlaylistsBadge": "{{filled}}/{{total}}"
   },
   "socialPost": {
     "title": "跨平台文案",
@@ -1089,7 +1103,9 @@
     "zaloUrlInvalid": "无效的Zalo群链接。期望格式: {{expected}}",
     "signalUrlInvalid": "无效的Signal群组链接。期望格式: {{expected}}",
     "instagramInviteUrlInvalid": "无效的Instagram群聊链接。期望格式: {{expected}}",
-    "facebookGroupUrlInvalid": "无效的Facebook群组链接。期望格式: {{expected}}"
+    "facebookGroupUrlInvalid": "无效的Facebook群组链接。期望格式: {{expected}}",
+    "emailMaxReached": "最多 {{max}} 个邮箱地址 — 请先删除一个",
+    "fieldTooLong": "最多 {{max}} 个字符"
   },
   "storeLinkTypes": {
     "paid": "付费",
@@ -1129,5 +1145,9 @@
     "sessionCurrent": "当前会话",
     "sessionLabel": "会话 {{n}}",
     "entriesShort": "条"
+  },
+  "strict": {
+    "blockedTitle": "严格模式：{{count}} 个字段需要修正",
+    "fixHint": "请在编辑器中修正，或在设置中关闭严格模式。"
   }
 }

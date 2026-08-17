@@ -52,10 +52,10 @@ export interface ExportEnvelope<T = unknown> {
  *  branch on it. Additive changes (new optional fields) don't need a
  *  bump — `healX` functions back-fill them on load. */
 export const SCHEMA_VERSIONS: Record<ExportType, number> = {
-  profile: 1, // v0.11 added `thirdPartyAdText`
+  profile: 2, // v0.34.0 added `adEmail` + `gameKeyEmail`; matches profile-store persist version
   preset: 2, // v0.5 added `genres[]` (was `genre`)
   template: 1, // v0.11 vendor-coercion
-  settings: 11, // matches settings-store persist version
+  settings: 12, // matches settings-store persist version
   history: 2, // v0.5 added `genres[]` to HistoryEntry
   social: 1, // v0.24.0 cross-post caption bundle (generated captions)
 };

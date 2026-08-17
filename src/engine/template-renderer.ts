@@ -10,7 +10,20 @@ import { buildDescription, checkDescriptionWarning } from "./description-builder
 import { generateTags, formatTagString, type TagOptions } from "./tag-generator";
 import { YT_LIMITS } from "./types";
 
-export interface RenderOptions extends TagOptions {
+/**
+ * Every {@link RenderOptions} knob that comes from the user's Settings.
+ *
+ * Split out from the per-caller knobs deliberately. Before v0.35.0 each of the
+ * three `renderAll` call sites hand-copied this list out of the settings store,
+ * and BatchPage's copy was missing `splitContactEmail` and `showThirdPartyAds`
+ * — so a creator with the split-email toggle on saw all three contact lines on
+ * the Output tab and only the old single "Business inquiries" line in Batch.
+ *
+ * Naming the set lets `buildRenderOptions` return `Required<SettingsRenderOptions>`,
+ * which makes a forgotten key a compile error rather than a silent omission.
+ * See `src/hooks/use-render-options.ts` and its parity test.
+ */
+export interface SettingsRenderOptions extends TagOptions {
   hashtagCount?: number;
   /**
    * When true, buildTitle appends a `[2K 60FPS]`-style badge to the
@@ -66,6 +79,15 @@ export interface RenderOptions extends TagOptions {
    * v0.24.0.
    */
   showTranslationQuality?: boolean;
+}
+
+/**
+ * The knobs a *caller* decides, not the user. These vary by render surface —
+ * the Output tab wants bilingual content blocks, the multi-language tabs and
+ * Batch do not — so they are supplied per call site rather than read from
+ * Settings.
+ */
+export interface RenderOptionOverrides {
   /**
    * Optional English-fixed translation function. Used by the v0.11
    * unified content-warnings block to render bilingual lines
@@ -82,6 +104,8 @@ export interface RenderOptions extends TagOptions {
    */
   bilingualContentBlocks?: boolean;
 }
+
+export interface RenderOptions extends SettingsRenderOptions, RenderOptionOverrides {}
 
 export function renderAll(
   input: GeneratorInput,

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /**
  * Publisher/developer + platform pair for the "🎁 Thanks to …" credit
@@ -17,12 +18,14 @@ export function SponsorCreditEditor() {
     <div className="flex flex-col gap-2">
       <Input
         label={t("editor.sponsorName")}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
         placeholder={t("editor.sponsorNamePlaceholder")}
         value={sponsorName ?? ""}
         onChange={(e) => set("sponsorName", e.target.value)}
       />
       <Input
         label={t("editor.sponsorPlatform")}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
         placeholder={t("editor.sponsorPlatformPlaceholder")}
         value={sponsorPlatform ?? ""}
         onChange={(e) => set("sponsorPlatform", e.target.value)}

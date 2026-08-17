@@ -6,6 +6,7 @@ import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { usePresetStore, type GamePreset } from "@store/preset-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 interface PresetSaveFormProps {
   open: boolean;
@@ -59,6 +60,7 @@ export function PresetSaveForm({ open, onClose, editPreset }: PresetSaveFormProp
       <div className="flex flex-col gap-3">
         <Input
           label={t("editor.gameName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("editor.gameNamePlaceholder")}
           value={gameName}
           onChange={(e) => setGameName(e.target.value)}

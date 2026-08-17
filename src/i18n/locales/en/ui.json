@@ -760,6 +760,14 @@
       "overLimit": "{{field}} is too long: {{count}}/{{limit}} chars. Trim before copying.",
       "fieldGeneric": "Text",
       "failed": "Failed to copy"
+    },
+    "limits": {
+      "bannerTitle": "Copying is blocked — over the YouTube limit",
+      "fieldLine": "{{field}}: {{count}} / {{limit}} characters",
+      "bannerHint": "Shorten the field above, then copy again.",
+      "copyBlocked": "Blocked: another field is over the YouTube limit",
+      "batchRowBlocked": "This part is over the limit — copying is blocked.",
+      "batchAllBlocked": "Copy All is blocked — at least one part is over the limit"
     }
   },
   "common": {
@@ -774,7 +782,9 @@
     "generate": "Generate",
     "undo": "Undo",
     "dismiss": "Dismiss",
-    "scrollToTop": "Scroll to top"
+    "scrollToTop": "Scroll to top",
+    "exported": "Exported",
+    "exportFailed": "Export failed"
   },
   "errorPages": {
     "actions": {
@@ -1033,7 +1043,11 @@
     "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
     "logSettings": "Logs",
     "logRetentionDays": "Log retention (days)",
-    "logRetentionHint": "Logs older than this are deleted at app start. Range: 1–90 days."
+    "logRetentionHint": "Logs older than this are deleted at app start. Range: 1–90 days.",
+    "guardrails": "Guardrails",
+    "strictMode": "Strict Mode",
+    "strictModeHint": "Block Generate, Copy and Export while any field has an error. Soft warnings still let you through.",
+    "genrePlaylistsBadge": "{{filled}}/{{total}}"
   },
   "socialPost": {
     "title": "Cross-Post Captions",
@@ -1089,7 +1103,9 @@
     "zaloUrlInvalid": "Invalid Zalo group link. Expected: {{expected}}",
     "signalUrlInvalid": "Invalid Signal group link. Expected: {{expected}}",
     "instagramInviteUrlInvalid": "Invalid Instagram group chat link. Expected: {{expected}}",
-    "facebookGroupUrlInvalid": "Invalid Facebook group link. Expected: {{expected}}"
+    "facebookGroupUrlInvalid": "Invalid Facebook group link. Expected: {{expected}}",
+    "emailMaxReached": "Maximum {{max}} email addresses — remove one first",
+    "fieldTooLong": "Maximum {{max}} characters"
   },
   "storeLinkTypes": {
     "paid": "Paid",
@@ -1129,5 +1145,9 @@
     "sessionCurrent": "Current session",
     "sessionLabel": "Session {{n}}",
     "entriesShort": "entries"
+  },
+  "strict": {
+    "blockedTitle": "Strict Mode: {{count}} field(s) need fixing",
+    "fixHint": "Fix these in the Editor, or turn Strict Mode off in Settings."
   }
 }

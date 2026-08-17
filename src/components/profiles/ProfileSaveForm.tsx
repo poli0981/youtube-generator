@@ -6,6 +6,7 @@ import { Input } from "@components/ui/Input";
 import { Textarea } from "@components/ui/Textarea";
 import { useEditorStore } from "@store/editor-store";
 import { useProfileStore, type Profile } from "@store/profile-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 interface ProfileSaveFormProps {
   open: boolean;
@@ -69,6 +70,7 @@ export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormP
       <div className="flex flex-col gap-3">
         <Input
           label={t("profiles.profileName")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={t("profiles.profileNamePlaceholder")}
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -76,6 +78,7 @@ export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormP
         />
         <Textarea
           label={t("profiles.thirdPartyAdText")}
+          maxLength={FIELD_LIMITS.LONG_TEXT}
           placeholder={t("profiles.thirdPartyAdTextPlaceholder")}
           value={adText}
           onChange={(e) => setAdText(e.target.value)}

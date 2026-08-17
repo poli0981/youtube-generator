@@ -118,6 +118,30 @@ export interface SettingsData {
   legalConsentVersion: number;
   /** ISO timestamp of the most recent acceptance, or `null`. Audit-only. */
   legalConsentAt: string | null;
+  /**
+   * v0.35.0 "Strict Mode". When on, Generate / Copy / Export are blocked
+   * while any field carries a hard validation **error** — a malformed URL, an
+   * invalid or over-cap email address, or output past a YouTube character
+   * limit.
+   *
+   * Soft warnings never block. `validateUrlWithPrefix` returns
+   * `{ valid: true, error }` for a link that works but doesn't match the
+   * platform's usual prefix; treating that as fatal would strand anyone using
+   * a vanity domain or a regional mirror.
+   *
+   * Off by default: the app's whole premise is getting a description out
+   * quickly, and an opt-in seatbelt is the right shape for someone who
+   * publishes in bulk and would rather be stopped than fix it after upload.
+   */
+  strictMode: boolean;
+  /**
+   * Which Settings sections are expanded. Mirrors `editorAccordionState`,
+   * separately keyed so the two pages can't clobber each other. Unknown ids
+   * default to OPEN here (the editor defaults them closed) — a section added
+   * in a later version must not vanish for an existing user whose persisted
+   * map predates it.
+   */
+  settingsAccordionState: Record<string, boolean>;
 }
 
 function detectBrowserLanguage(): SupportedLanguage {
@@ -172,6 +196,23 @@ export const initialSettings: SettingsData = {
   logRetentionDays: 7,
   legalConsentVersion: 0,
   legalConsentAt: null,
+  strictMode: false,
+  settingsAccordionState: {
+    // Only Genre Playlists starts collapsed — it renders one input per genre
+    // (42 of them), which is by far the tallest block on the page. Everything
+    // else keeps its current always-visible behaviour; the accordion is an
+    // affordance here, not a default.
+    appearance: true,
+    defaults: true,
+    editorSettings: true,
+    guardrails: true,
+    titleFormat: true,
+    description: true,
+    tags: true,
+    genrePlaylists: false,
+    history: true,
+    logs: true,
+  },
 };
 
 /**
@@ -235,6 +276,26 @@ export function healSettings(raw: unknown): SettingsData {
   } else {
     incoming.legalConsentVersion = Math.max(0, Math.floor(incoming.legalConsentVersion));
   }
+
+  // v11 → v12: v0.35.0. `strictMode` added. Coerced rather than merely
+  // back-filled: a hand-edited `"strictMode": "yes"` is truthy in JS and would
+  // silently turn the seatbelt on, which is the opposite of an opt-in.
+  if (typeof incoming.strictMode !== "boolean") {
+    incoming.strictMode = initialSettings.strictMode;
+  }
+
+  // v11 → v12: `settingsAccordionState` added. Merged like `titleFormat` and
+  // `genrePlaylists` so a persisted map from an older version keeps the
+  // sections the user collapsed while picking up defaults for any section
+  // added since.
+  const incomingSa =
+    typeof incoming.settingsAccordionState === "object" && incoming.settingsAccordionState !== null
+      ? (incoming.settingsAccordionState as Record<string, boolean>)
+      : {};
+  incoming.settingsAccordionState = {
+    ...initialSettings.settingsAccordionState,
+    ...incomingSa,
+  };
 
   return { ...initialSettings, ...incoming } as SettingsData;
 }

@@ -20,6 +20,7 @@ interface SettingsState extends SettingsData {
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
   setTitleFormat: (patch: Partial<TitleFormatConfig>) => void;
   toggleEditorAccordion: (id: string) => void;
+  toggleSettingsAccordion: (id: string) => void;
   /** Record acceptance of the current legal terms (dismisses the consent gate). */
   acceptLegalConsent: () => void;
 }
@@ -54,6 +55,17 @@ export const useSettingsStore = create<SettingsState>()(
           },
         })),
 
+      toggleSettingsAccordion: (id) =>
+        set((state) => ({
+          settingsAccordionState: {
+            ...state.settingsAccordionState,
+            // Unknown ids read as OPEN on the Settings page (see
+            // `settingsAccordionState`'s doc comment), so the first click on a
+            // never-toggled section must close it, not open it again.
+            [id]: !(state.settingsAccordionState[id] ?? true),
+          },
+        })),
+
       acceptLegalConsent: () =>
         set({
           legalConsentVersion: CURRENT_TERMS_VERSION,
@@ -73,7 +85,14 @@ export const useSettingsStore = create<SettingsState>()(
       // v10 → v11: v0.34.0 added `splitContactEmail`. Additive — the
       // `initialSettings` spread in `healSettings` back-fills the default
       // (false), so no explicit per-version migration step is required.
-      version: 11,
+      // v11 → v12: v0.35.0 added `strictMode` + `settingsAccordionState`.
+      // Additive, but `healSettings` also *coerces* both: a non-boolean
+      // strictMode falls back to false (an opt-in seatbelt must not be turned
+      // on by a truthy string), and the accordion map is merged rather than
+      // replaced so sections added later still get their default.
+      // NOTE: bump `SCHEMA_VERSIONS.settings` in utils/file-schema.ts in
+      // lockstep — nothing enforces that mechanically.
+      version: 12,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
@@ -131,6 +150,8 @@ export function extractData(state: SettingsData): SettingsData {
     logRetentionDays: state.logRetentionDays,
     legalConsentVersion: state.legalConsentVersion,
     legalConsentAt: state.legalConsentAt,
+    strictMode: state.strictMode,
+    settingsAccordionState: { ...state.settingsAccordionState },
   };
 }
 

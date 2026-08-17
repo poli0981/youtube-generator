@@ -4,7 +4,39 @@ const EMAIL_REGEX =
 const URL_REGEX =
   /^https?:\/\/[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)+([/?#].*)?$/;
 
-const MAX_EMAILS = 3;
+export const MAX_EMAILS = 3;
+
+/**
+ * How many addresses a comma-separated email field currently holds.
+ *
+ * Trailing and empty segments don't count, so `"a@b.com,"` is one address —
+ * the state you are in the instant after typing the separator for the next
+ * one. Shared by the validator and the input guard so "how many is that?"
+ * has exactly one answer.
+ */
+export function countEmailSegments(input: string): number {
+  return input
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean).length;
+}
+
+/**
+ * Should this change to an email field be accepted?
+ *
+ * The cap is enforced on the *increase*, not on the absolute count. Two
+ * consequences, both deliberate:
+ *
+ *  - A field that already holds four addresses (from an older profile, or a
+ *    hand-edited import) stays editable — the user can still delete down to
+ *    three. A flat `count > max` reject would freeze it permanently.
+ *  - A half-typed address is never punished. `"a@b.com,c@"` is two segments,
+ *    so the guard stays quiet and the ordinary format validator handles it.
+ */
+export function canAcceptEmailInput(next: string, prev: string, max = MAX_EMAILS): boolean {
+  const nextCount = countEmailSegments(next);
+  return nextCount <= max || nextCount <= countEmailSegments(prev);
+}
 
 export interface ValidationResult {
   valid: boolean;
@@ -21,6 +53,9 @@ export function validateEmails(input: string): ValidationResult {
     .map((e) => e.trim())
     .filter(Boolean);
 
+  // Still enforced here as well as at the input: `canAcceptEmailInput` guards
+  // typing, but a value can also arrive from a profile / preset / template
+  // import, which never passes through an input at all.
   if (emails.length > MAX_EMAILS) {
     return {
       valid: false,

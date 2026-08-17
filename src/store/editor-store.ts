@@ -37,6 +37,7 @@ import {
   DEFAULT_PLAYTEST_PLATFORM,
 } from "@config/playtest-platforms";
 import { DEFAULTS } from "@config/defaults";
+import { FIELD_LIMITS, clampField } from "@config/field-limits";
 
 export interface EditorData {
   videoType: VideoType;
@@ -293,6 +294,59 @@ function normalizeEditorPatch(patch: Partial<EditorData> | null | undefined): Pa
     ) {
       out.facebookGroupLink = legacyFbGroup;
     }
+  }
+  // v0.35.0: `maxLength` only constrains typing and pasting, so an imported
+  // profile / preset / template — or one saved before the caps existed — can
+  // still carry an oversized value straight past it. Clamp on the way in, or
+  // the cap is decorative for exactly the path most likely to violate it.
+  return clampEditorPatch(out);
+}
+
+/** Field-name → cap, for values that arrive without passing through an input. */
+const PATCH_FIELD_LIMITS: Partial<Record<keyof EditorData, number>> = {
+  gameName: FIELD_LIMITS.SHORT_NAME,
+  channelName: FIELD_LIMITS.SHORT_NAME,
+  pubDevName: FIELD_LIMITS.SHORT_NAME,
+  contactEmail: FIELD_LIMITS.EMAIL_FIELD,
+  adEmail: FIELD_LIMITS.EMAIL_FIELD,
+  gameKeyEmail: FIELD_LIMITS.EMAIL_FIELD,
+  playlistLink: FIELD_LIMITS.URL,
+  playtestLink: FIELD_LIMITS.URL,
+  messengerCommunityLink: FIELD_LIMITS.URL,
+  signalGroupLink: FIELD_LIMITS.URL,
+  instagramGroupLink: FIELD_LIMITS.URL,
+  facebookGroupLink: FIELD_LIMITS.URL,
+  zaloGroupLink: FIELD_LIMITS.URL,
+  liveUrl: FIELD_LIMITS.URL,
+  musicAttribution: FIELD_LIMITS.LONG_TEXT,
+  thumbnailText: FIELD_LIMITS.LONG_TEXT,
+  pinnedComment: FIELD_LIMITS.LONG_TEXT,
+  modList: FIELD_LIMITS.LONG_TEXT,
+  timestamps: FIELD_LIMITS.TIMESTAMPS,
+};
+
+/**
+ * Apply {@link PATCH_FIELD_LIMITS} to a patch, plus the nested `social` and
+ * `storeLinks` URL maps. Only touches string values that are actually over —
+ * an untouched patch keeps its identity, so this is free in the common case.
+ */
+function clampEditorPatch(patch: Partial<EditorData>): Partial<EditorData> {
+  const out: Partial<EditorData> = { ...patch };
+  for (const [field, max] of Object.entries(PATCH_FIELD_LIMITS)) {
+    const key = field as keyof EditorData;
+    const value = out[key];
+    if (typeof value === "string" && value.length > max) {
+      (out as Record<string, unknown>)[key] = clampField(value, max);
+    }
+  }
+  for (const mapKey of ["social", "storeLinks"] as const) {
+    const map: unknown = out[mapKey];
+    if (!map || typeof map !== "object") continue;
+    const entries = Object.entries(map as Record<string, unknown>);
+    if (!entries.some(([, v]) => typeof v === "string" && v.length > FIELD_LIMITS.URL)) continue;
+    (out as Record<string, unknown>)[mapKey] = Object.fromEntries(
+      entries.map(([k, v]) => [k, typeof v === "string" ? clampField(v, FIELD_LIMITS.URL) : v]),
+    );
   }
   return out;
 }

@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
-import { validateEmails } from "@utils/validation";
+import { validateEmails, canAcceptEmailInput, MAX_EMAILS } from "@utils/validation";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /**
  * Contact email input(s). Two modes, driven by the `splitContactEmail`
@@ -27,17 +28,32 @@ export function ContactEmailEditor() {
   const setField = useEditorStore((s) => s.set);
   const splitContactEmail = useSettingsStore((s) => s.splitContactEmail);
 
+  // Shared by all three fields. The cap is per field, not across the split:
+  // each one renders its own labelled description line, so filling the
+  // advertising address must not retroactively invalidate the contact one.
+  const emailGuard = {
+    validate: validateEmails,
+    // Accept the change verbatim, or reject the keystroke with `null` so the
+    // three addresses already typed survive untouched.
+    beforeChange: (next: string, prev: string): string | null =>
+      canAcceptEmailInput(next, prev) ? next : null,
+    blockedMessage: t("validation.emailMaxReached", { max: MAX_EMAILS }),
+    maxLength: FIELD_LIMITS.EMAIL_FIELD,
+    inputMode: "email" as const,
+    autoComplete: "email",
+  };
+
   if (!splitContactEmail) {
     return (
       <ValidatedInput
+        fieldId="contactEmail"
+        labelKey="editor.contactEmail"
         label={t("editor.contactEmail")}
         placeholder={t("editor.contactEmailPlaceholder")}
         value={contactEmail ?? ""}
         onChange={(v) => setField("contactEmail", v)}
-        validate={validateEmails}
         helpText={t("editor.contactEmailHelp")}
-        inputMode="email"
-        autoComplete="email"
+        {...emailGuard}
       />
     );
   }
@@ -45,34 +61,34 @@ export function ContactEmailEditor() {
   return (
     <div className="flex flex-col gap-3">
       <ValidatedInput
+        fieldId="contactEmail"
+        labelKey="editor.contactEmail"
         label={t("editor.contactEmail")}
         placeholder={t("editor.contactEmailPlaceholder")}
         value={contactEmail ?? ""}
         onChange={(v) => setField("contactEmail", v)}
-        validate={validateEmails}
         helpText={t("editor.contactEmailHelp")}
-        inputMode="email"
-        autoComplete="email"
+        {...emailGuard}
       />
       <ValidatedInput
+        fieldId="adEmail"
+        labelKey="editor.adEmail"
         label={t("editor.adEmail")}
         placeholder={t("editor.adEmailPlaceholder")}
         value={adEmail ?? ""}
         onChange={(v) => setField("adEmail", v)}
-        validate={validateEmails}
         helpText={t("editor.adEmailHelp")}
-        inputMode="email"
-        autoComplete="email"
+        {...emailGuard}
       />
       <ValidatedInput
+        fieldId="gameKeyEmail"
+        labelKey="editor.gameKeyEmail"
         label={t("editor.gameKeyEmail")}
         placeholder={t("editor.gameKeyEmailPlaceholder")}
         value={gameKeyEmail ?? ""}
         onChange={(v) => setField("gameKeyEmail", v)}
-        validate={validateEmails}
         helpText={t("editor.gameKeyEmailHelp")}
-        inputMode="email"
-        autoComplete="email"
+        {...emailGuard}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Textarea } from "@components/ui/Textarea";
 import { useEditorStore } from "@store/editor-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 /**
  * Template for the pinned comment a creator posts under their own
@@ -15,6 +16,7 @@ export function PinnedCommentEditor() {
   return (
     <Textarea
       label={t("editor.pinnedComment")}
+      maxLength={FIELD_LIMITS.LONG_TEXT}
       placeholder={t("editor.pinnedCommentPlaceholder")}
       value={pinnedComment ?? ""}
       onChange={(e) => set("pinnedComment", e.target.value)}

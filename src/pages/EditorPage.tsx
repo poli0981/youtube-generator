@@ -26,6 +26,8 @@ import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Button } from "@components/ui/Button";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
 import { Accordion } from "@components/ui/Accordion";
+import { StrictModeBanner } from "@components/ui/StrictModeBanner";
+import { FIELD_LIMITS } from "@config/field-limits";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useTranslation } from "react-i18next";
@@ -67,6 +69,11 @@ export function EditorPage() {
           variant="danger"
         />
 
+        {/* Banner only — there is nothing to gate on the editor. This is where
+            the user comes to FIX the fields Strict Mode is blocking on, so
+            disabling anything here would be exactly backwards. */}
+        <StrictModeBanner />
+
         <Accordion
           id="gameInfo"
           title={t("editor.sections.gameInfo")}
@@ -104,7 +111,10 @@ export function EditorPage() {
           <ContentWarningChecklist />
           <TechNotesChecklist />
           <ValidatedInput
+            fieldId="playlistLink"
+            labelKey="editor.playlistLink"
             label={t("editor.playlistLink")}
+            maxLength={FIELD_LIMITS.URL}
             placeholder={t("editor.playlistLinkPlaceholder")}
             value={store.playlistLink ?? ""}
             onChange={(v) => store.set("playlistLink", v)}

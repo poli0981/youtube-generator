@@ -760,6 +760,14 @@
       "overLimit": "{{field}}が長すぎます：{{count}}/{{limit}}文字。コピー前に短縮してください。",
       "fieldGeneric": "テキスト",
       "failed": "コピーに失敗しました"
+    },
+    "limits": {
+      "bannerTitle": "コピーできません — YouTube の上限を超えています",
+      "fieldLine": "{{field}}: {{count}} / {{limit}} 文字",
+      "bannerHint": "上記の項目を短くしてから、もう一度コピーしてください。",
+      "copyBlocked": "ブロック中: 他の項目が YouTube の上限を超えています",
+      "batchRowBlocked": "このパートは上限を超えています — コピーできません。",
+      "batchAllBlocked": "すべてコピーはできません — 上限を超えたパートがあります"
     }
   },
   "common": {
@@ -774,7 +782,9 @@
     "generate": "生成",
     "undo": "元に戻す",
     "dismiss": "閉じる",
-    "scrollToTop": "トップへ戻る"
+    "scrollToTop": "トップへ戻る",
+    "exported": "エクスポートしました",
+    "exportFailed": "エクスポートに失敗しました"
   },
   "errorPages": {
     "actions": {
@@ -1033,7 +1043,11 @@
     "genrePlaylistsEmptyHint": "Leave empty to skip a genre.",
     "logSettings": "ログ",
     "logRetentionDays": "ログ保持期間 (日)",
-    "logRetentionHint": "この日数より古いログは起動時に削除されます。範囲: 1–90 日。"
+    "logRetentionHint": "この日数より古いログは起動時に削除されます。範囲: 1–90 日。",
+    "guardrails": "ガードレール",
+    "strictMode": "厳格モード",
+    "strictModeHint": "エラーのある項目が残っている間、生成・コピー・エクスポートをブロックします。軽度の警告は通過できます。",
+    "genrePlaylistsBadge": "{{filled}}/{{total}}"
   },
   "socialPost": {
     "title": "クロス投稿キャプション",
@@ -1089,7 +1103,9 @@
     "zaloUrlInvalid": "無効なZaloグループリンクです。期待される形式: {{expected}}",
     "signalUrlInvalid": "無効なSignalグループリンクです。期待される形式: {{expected}}",
     "instagramInviteUrlInvalid": "無効なInstagramグループチャットリンクです。期待される形式: {{expected}}",
-    "facebookGroupUrlInvalid": "無効なFacebookグループリンクです。期待される形式: {{expected}}"
+    "facebookGroupUrlInvalid": "無効なFacebookグループリンクです。期待される形式: {{expected}}",
+    "emailMaxReached": "メールアドレスは最大 {{max}} 件です — 先に 1 件削除してください",
+    "fieldTooLong": "最大 {{max}} 文字です"
   },
   "storeLinkTypes": {
     "paid": "有料",
@@ -1129,5 +1145,9 @@
     "sessionCurrent": "現在のセッション",
     "sessionLabel": "セッション {{n}}",
     "entriesShort": "件"
+  },
+  "strict": {
+    "blockedTitle": "厳格モード: {{count}} 件の項目に修正が必要です",
+    "fixHint": "エディタで修正するか、設定で厳格モードをオフにしてください。"
   }
 }

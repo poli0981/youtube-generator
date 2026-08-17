@@ -9,6 +9,7 @@ import { useEditorStore } from "@store/editor-store";
 import { validateUrlWithPattern } from "@utils/validation";
 import { extractGameNameFromUrl, isLinkNameMismatch } from "@utils/url-extractors";
 import type { StoreLinkType } from "@engine/types";
+import { FIELD_LIMITS } from "@config/field-limits";
 
 const STORE_LINK_TYPE_VALUES: readonly StoreLinkType[] = ["paid", "free", "demo"];
 
@@ -134,8 +135,10 @@ export function StoreLinkEditor() {
           return (
             <div key={platform.id} className="grid grid-cols-[1fr_9rem] items-end gap-2">
               <ValidatedInput
+                fieldId={`storeLinks.${platform.id}`}
                 label={platform.label}
                 placeholder={platform.urlPrefix}
+                maxLength={FIELD_LIMITS.URL}
                 value={url}
                 onChange={(v) => {
                   const final = v && platform.normalize ? platform.normalize(v) : v;

@@ -13,6 +13,7 @@ import {
 } from "@config/rig-fields";
 import { GPU_CUSTOM_BRAND_ID, findGpuBrand } from "@config/gpu-catalog";
 import { useEditorStore } from "@store/editor-store";
+import { FIELD_LIMITS } from "@config/field-limits";
 import {
   validateGpuValue,
   validateCompositeField,
@@ -98,6 +99,7 @@ export function RigEditor() {
             <div className="col-span-2">
               <Input
                 label={t("editor.gpu_custom")}
+                maxLength={FIELD_LIMITS.SHORT_NAME}
                 placeholder="e.g. RTX 4090 (custom OC)"
                 value={model}
                 onChange={(e) => setCustomText(e.target.value)}
@@ -250,6 +252,7 @@ export function RigEditor() {
         />
         <Input
           label={t("editor.version")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
           placeholder={field.versionPlaceholder}
           value={version}
           onChange={(e) => commit(value, e.target.value)}
@@ -270,6 +273,7 @@ export function RigEditor() {
             <Input
               key={field.id}
               label={t(field.labelKey)}
+              maxLength={FIELD_LIMITS.SHORT_NAME}
               placeholder={field.placeholder}
               value={rig[field.id] ?? ""}
               onChange={(e) => setNested("rig", field.id, e.target.value)}

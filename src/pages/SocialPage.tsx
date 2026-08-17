@@ -15,6 +15,8 @@ import { useSocialPosts } from "@hooks/use-social-posts";
 import { buildAllSocialPosts, type SocialPostOutput } from "@engine/social-post-builder";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import { validateBatchRange } from "@utils/validation";
+import { useStrictBlock } from "@hooks/use-strict-block";
+import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import { exportTypedToJsonFile, importTypedFromJsonFile } from "@utils/import-export";
 import type { SupportedLanguage } from "@engine/types";
 import toast from "react-hot-toast";
@@ -55,6 +57,7 @@ export function SocialPage() {
   const baseInput = useCurrentGeneratorInput();
   const { showCopyright, showSponsorCredit } = useSettingsStore();
 
+  const strictBlocked = useStrictBlock();
   const posts = useSocialPosts();
   const [mode, setMode] = useState<"single" | "bulk">("single");
   const [activePlatform, setActivePlatform] = useState<string>(SOCIAL_PLATFORMS[0]?.id ?? "tiktok");
@@ -84,28 +87,37 @@ export function SocialPage() {
   const platformLabel = (id: string) =>
     t(SOCIAL_PLATFORMS.find((p) => p.id === id)?.labelKey ?? id);
 
-  const handleExport = () => {
-    try {
-      const bundle: SocialExportBundle = {
-        gameName: baseInput.gameName,
-        language: baseInput.language,
-        posts: SOCIAL_PLATFORMS.map((p) => ({
-          platform: p.id,
-          charLimit: p.charLimit,
-          text: posts[p.id]?.text ?? "",
-          charCount: posts[p.id]?.charCount ?? 0,
-          isOver: posts[p.id]?.isOver ?? false,
-        })),
-      };
-      const safeName = (baseInput.gameName || "captions")
-        .replace(/[^\p{L}\p{N}]+/gu, "-")
-        .toLowerCase();
-      exportTypedToJsonFile("social", bundle, `ytdescgen-social-${safeName}.json`);
-      toast.success(t("socialPost.exported"));
-    } catch (e) {
+  const handleExport = async () => {
+    // The bundle is built synchronously and `exportTypedToJsonFile` is the
+    // first await — the web file picker needs the click's transient user
+    // activation, which any earlier await would spend.
+    const bundle: SocialExportBundle = {
+      gameName: baseInput.gameName,
+      language: baseInput.language,
+      posts: SOCIAL_PLATFORMS.map((p) => ({
+        platform: p.id,
+        charLimit: p.charLimit,
+        text: posts[p.id]?.text ?? "",
+        charCount: posts[p.id]?.charCount ?? 0,
+        isOver: posts[p.id]?.isOver ?? false,
+      })),
+    };
+    const safeName = (baseInput.gameName || "captions")
+      .replace(/[^\p{L}\p{N}]+/gu, "-")
+      .toLowerCase();
+    const outcome = await exportTypedToJsonFile(
+      "social",
+      bundle,
+      `ytdescgen-social-${safeName}.json`,
+    );
+    // Dismissing the save dialog is a decision, not a failure — stay silent.
+    if (outcome === "cancelled") return;
+    if (outcome === "failed") {
       toast.error(t("socialPost.exportFailed"));
-      logger.error("social", "Failed to export captions", String(e));
+      logger.error("social", "Failed to export captions");
+      return;
     }
+    toast.success(t("socialPost.exported"));
   };
 
   const handleImport = async () => {
@@ -196,6 +208,15 @@ export function SocialPage() {
     [bulkResults, t],
   );
 
+  // Bulk "Copy All" concatenates every caption, so one over-limit post makes
+  // the blob unusable. Each platform has its own cap (TikTok 4000, Reels 2200),
+  // which is why this reads the per-post `isOver` the builder already computed
+  // rather than a single shared limit.
+  const bulkHasOverflow = useMemo(
+    () => bulkResults.some((row) => Object.values(row.posts).some((post) => post.isOver)),
+    [bulkResults],
+  );
+
   // SOCIAL_PLATFORMS is a non-empty literal, so this never fires — it just
   // narrows `activeConfig` to non-undefined for the JSX below without a `!`.
   if (!activeConfig) return null;
@@ -244,7 +265,12 @@ export function SocialPage() {
               );
             })}
             <div className="ml-auto flex gap-2">
-              <Button variant="ghost" size="sm" onClick={handleExport} disabled={!gameName}>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => void handleExport()}
+                disabled={!gameName}
+              >
                 <Download className="h-3.5 w-3.5" />
                 {t("common.export")}
               </Button>
@@ -381,7 +407,7 @@ export function SocialPage() {
             />
             <Button
               onClick={() => void handleBulkGenerate()}
-              disabled={!gameName || generating || !rangeResult.valid}
+              disabled={!gameName || generating || !rangeResult.valid || strictBlocked}
             >
               {t("common.generate")}
             </Button>
@@ -394,6 +420,7 @@ export function SocialPage() {
               {rangeError}
             </p>
           )}
+          <StrictModeBanner />
 
           {bulkResults.length === 0 ? (
             <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
@@ -405,7 +432,11 @@ export function SocialPage() {
                 <span className="text-sm text-text-secondary">
                   {bulkResults.length} × {SOCIAL_PLATFORMS.length}
                 </span>
-                <CopyButton text={bulkCombined} label={t("output.copyAll")} />
+                <CopyButton
+                  text={bulkCombined}
+                  label={t("output.copyAll")}
+                  blocked={bulkHasOverflow}
+                />
               </div>
               <div className="flex flex-col gap-4">
                 {bulkResults.map((row) => (

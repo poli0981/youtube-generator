@@ -1,27 +1,13 @@
 import { useMemo } from "react";
 import i18n from "i18next";
-import { useSettingsStore } from "@store/settings-store";
 import { renderAll } from "@engine/template-renderer";
 import { EMPTY_GENERATOR_OUTPUT, type GeneratorOutput } from "@engine/types";
 import { useCurrentGeneratorInput } from "./use-current-generator-input";
 import { useLanguagesReady } from "./use-languages-ready";
+import { useRenderOptions } from "./use-render-options";
 
 export function useGeneratedOutput(): GeneratorOutput {
   const input = useCurrentGeneratorInput();
-  const {
-    includeMultilingualTags,
-    includeTrendingTags,
-    hashtagCount,
-    showQualityBadge,
-    showCopyright,
-    showUsagePolicy,
-    showSponsorCredit,
-    showGameCopyright,
-    showThirdPartyAds,
-    showTranslationQuality,
-    splitContactEmail,
-    titleFormat,
-  } = useSettingsStore();
 
   // Lazy-loaded locales (v0.26): block generation until the output
   // language's bundle is in memory — getFixedT would otherwise silently
@@ -35,42 +21,12 @@ export function useGeneratedOutput(): GeneratorOutput {
   // bundled, so it never needs the readiness gate.
   const tEn = useMemo(() => i18n.getFixedT("en", "templates"), []);
 
+  // Every settings-derived option in one place — see use-render-options.ts for
+  // why this is a shared hook rather than a per-call-site destructure.
+  const options = useRenderOptions(tEn);
+
   return useMemo(
-    () =>
-      !ready
-        ? EMPTY_GENERATOR_OUTPUT
-        : renderAll(input, t, {
-            includeMultilingualTags,
-            includeTrendingTags,
-            hashtagCount,
-            showQualityBadge,
-            showCopyright,
-            showUsagePolicy,
-            showSponsorCredit,
-            showGameCopyright,
-            showThirdPartyAds,
-            showTranslationQuality,
-            splitContactEmail,
-            titleFormat,
-            tEn,
-          }),
-    [
-      ready,
-      input,
-      t,
-      tEn,
-      includeMultilingualTags,
-      includeTrendingTags,
-      hashtagCount,
-      showQualityBadge,
-      showCopyright,
-      showUsagePolicy,
-      showSponsorCredit,
-      showGameCopyright,
-      showThirdPartyAds,
-      showTranslationQuality,
-      splitContactEmail,
-      titleFormat,
-    ],
+    () => (!ready ? EMPTY_GENERATOR_OUTPUT : renderAll(input, t, options)),
+    [ready, input, t, options],
   );
 }

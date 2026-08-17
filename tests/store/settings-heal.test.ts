@@ -93,9 +93,63 @@ describe("healSettings", () => {
       logRetentionDays: 14,
       legalConsentVersion: 1,
       legalConsentAt: "2026-06-13T00:00:00.000Z",
+      strictMode: true,
+      // Spelled out in full: `healSettings` merges this map against the
+      // defaults, so a partial one here would heal to something wider than
+      // `complete` and fail the round-trip. The merge itself is covered below.
+      settingsAccordionState: {
+        appearance: false,
+        defaults: true,
+        editorSettings: true,
+        guardrails: true,
+        titleFormat: true,
+        description: true,
+        tags: true,
+        genrePlaylists: true,
+        history: true,
+        logs: true,
+      },
     };
     const healed = healSettings(complete);
     expect(healed).toEqual(complete);
+  });
+
+  describe("v11 → v12 (v0.35.0): strictMode + settingsAccordionState", () => {
+    it("defaults strictMode to false when absent", () => {
+      expect(healSettings({ theme: "dark" }).strictMode).toBe(false);
+    });
+
+    it("preserves an explicit strictMode", () => {
+      expect(healSettings({ strictMode: true }).strictMode).toBe(true);
+    });
+
+    it("coerces a non-boolean strictMode to false rather than trusting truthiness", () => {
+      // A hand-edited `"yes"` is truthy in JS. Silently switching the seatbelt
+      // on is the opposite of an opt-in, so it must fall back to the default.
+      expect(healSettings({ strictMode: "yes" }).strictMode).toBe(false);
+      expect(healSettings({ strictMode: 1 }).strictMode).toBe(false);
+      expect(healSettings({ strictMode: null }).strictMode).toBe(false);
+    });
+
+    it("back-fills the whole accordion map when absent", () => {
+      const healed = healSettings({ theme: "dark" });
+      expect(healed.settingsAccordionState.genrePlaylists).toBe(false);
+      expect(healed.settingsAccordionState.appearance).toBe(true);
+    });
+
+    it("merges a partial accordion map instead of replacing it", () => {
+      // A user who collapsed one section on v0.35.0 must still get defaults
+      // for any section added in a later version.
+      const healed = healSettings({ settingsAccordionState: { appearance: false } });
+      expect(healed.settingsAccordionState.appearance).toBe(false);
+      expect(healed.settingsAccordionState.logs).toBe(true);
+      expect(healed.settingsAccordionState.genrePlaylists).toBe(false);
+    });
+
+    it("ignores a non-object accordion map", () => {
+      const healed = healSettings({ settingsAccordionState: "nope" });
+      expect(healed.settingsAccordionState.appearance).toBe(true);
+    });
   });
 
   it("back-fills logRetentionDays to 7 when absent (pre-v0.17 payload)", () => {
