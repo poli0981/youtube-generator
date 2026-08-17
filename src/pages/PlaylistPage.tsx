@@ -119,7 +119,7 @@ export function PlaylistPage() {
     <div className="mx-auto flex max-w-5xl flex-col gap-6 p-6 lg:flex-row">
       {/* Form */}
       <div className="flex flex-1 flex-col gap-5">
-        <h1 className="text-lg font-bold text-text-primary">{t("playlist.title")}</h1>
+        <h1 className="text-text-primary text-lg font-bold">{t("playlist.title")}</h1>
 
         <Select
           label={t("editor.language")}
@@ -193,37 +193,37 @@ export function PlaylistPage() {
 
       {/* Output */}
       <div className="w-full shrink-0 lg:w-96">
-        <div className="sticky top-6 flex flex-col gap-4 rounded-lg border border-border bg-surface-1 p-4">
+        <div className="border-border bg-surface-1 sticky top-6 flex flex-col gap-4 rounded-lg border p-4">
           <div>
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs font-medium uppercase text-text-muted">
+              <span className="text-text-muted text-xs font-medium uppercase">
                 {t("output.title")}
               </span>
               <CopyButton text={output.title} label={t("output.copyTitle")} />
             </div>
-            <p className="text-sm font-medium text-text-primary">{output.title || "..."}</p>
+            <p className="text-text-primary text-sm font-medium">{output.title || "..."}</p>
           </div>
 
           <div>
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs font-medium uppercase text-text-muted">
+              <span className="text-text-muted text-xs font-medium uppercase">
                 {t("output.description")}
               </span>
               <CopyButton text={output.description} label={t("output.copyDescription")} />
             </div>
-            <pre className="max-h-64 overflow-y-auto whitespace-pre-wrap rounded bg-surface-2 p-2 font-sans text-xs text-text-secondary">
+            <pre className="bg-surface-2 text-text-secondary max-h-64 overflow-y-auto rounded p-2 font-sans text-xs whitespace-pre-wrap">
               {output.description || "..."}
             </pre>
           </div>
 
           <div>
             <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs font-medium uppercase text-text-muted">
+              <span className="text-text-muted text-xs font-medium uppercase">
                 {t("playlist.pinnedComment")}
               </span>
               <CopyButton text={output.comment} label={t("output.copyComment")} />
             </div>
-            <pre className="max-h-64 overflow-y-auto whitespace-pre-wrap rounded bg-surface-2 p-2 font-sans text-xs text-text-secondary">
+            <pre className="bg-surface-2 text-text-secondary max-h-64 overflow-y-auto rounded p-2 font-sans text-xs whitespace-pre-wrap">
               {output.comment || "..."}
             </pre>
           </div>

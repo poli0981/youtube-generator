@@ -105,16 +105,16 @@ export function AboutPage() {
     <div className="mx-auto flex max-w-3xl flex-col gap-8 p-6">
       <header className="flex flex-col gap-2">
         <div className="flex items-baseline gap-3">
-          <h1 className="text-2xl font-bold text-text-primary">{ABOUT.appName}</h1>
-          <span className="rounded bg-surface-2 px-2 py-0.5 font-mono text-xs text-text-secondary">
+          <h1 className="text-text-primary text-2xl font-bold">{ABOUT.appName}</h1>
+          <span className="bg-surface-2 text-text-secondary rounded px-2 py-0.5 font-mono text-xs">
             v{ABOUT.version}
           </span>
         </div>
-        <p className="text-sm text-text-secondary">{t("about.tagline")}</p>
+        <p className="text-text-secondary text-sm">{t("about.tagline")}</p>
       </header>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
           {t("about.repoHeading")}
         </h2>
         <div className="grid gap-2 sm:grid-cols-2">
@@ -135,7 +135,7 @@ export function AboutPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
           {t("about.legalHeading")}
         </h2>
         <div className="grid gap-2 sm:grid-cols-2">
@@ -151,10 +151,10 @@ export function AboutPage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
           {t("about.donateHeading")}
         </h2>
-        <p className="text-xs text-text-muted">{t("about.donateHelp")}</p>
+        <p className="text-text-muted text-xs">{t("about.donateHelp")}</p>
         <div className="grid gap-2 sm:grid-cols-2">
           {donateLinks.map((d) => (
             <ExternalLinkRow key={d.id} href={d.url} icon={d.icon} label={t(d.labelKey)} accent />
@@ -164,7 +164,7 @@ export function AboutPage() {
 
       {socials.length > 0 && (
         <section className="flex flex-col gap-3">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+          <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
             {t("about.connectHeading")}
           </h2>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -176,26 +176,26 @@ export function AboutPage() {
       )}
 
       <section className="flex flex-col gap-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-text-muted">
+        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
           {t("about.thirdPartyHeading")}
         </h2>
-        <p className="text-xs text-text-muted">{t("about.thirdPartyHelp")}</p>
+        <p className="text-text-muted text-xs">{t("about.thirdPartyHelp")}</p>
         <ul className="grid gap-1.5 sm:grid-cols-2">
           {THIRD_PARTY.map((entry) => (
             <li
               key={entry.name}
-              className="flex items-center justify-between rounded-lg border border-border bg-surface-1 px-3 py-2"
+              className="border-border bg-surface-1 flex items-center justify-between rounded-lg border px-3 py-2"
             >
               <a
                 href={entry.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-text-primary hover:text-accent"
+                className="text-text-primary hover:text-accent flex items-center gap-2 text-sm"
               >
                 <span className="font-medium">{entry.name}</span>
-                <span className="font-mono text-xs text-text-muted">{entry.version}</span>
+                <span className="text-text-muted font-mono text-xs">{entry.version}</span>
               </a>
-              <span className="text-xs text-text-muted">{entry.license}</span>
+              <span className="text-text-muted text-xs">{entry.license}</span>
             </li>
           ))}
         </ul>
@@ -219,17 +219,17 @@ function ExternalLinkRow({ href, icon: Icon, label, accent }: ExternalLinkRowPro
       rel="noopener noreferrer"
       className={
         accent
-          ? "flex items-center gap-3 rounded-lg border border-pink-500/30 bg-pink-500/5 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-pink-400/60 hover:bg-pink-500/10"
-          : "flex items-center gap-3 rounded-lg border border-border bg-surface-1 px-3 py-2.5 text-sm text-text-primary transition-colors hover:border-accent hover:bg-surface-2"
+          ? "text-text-primary flex items-center gap-3 rounded-lg border border-pink-500/30 bg-pink-500/5 px-3 py-2.5 text-sm transition-colors hover:border-pink-400/60 hover:bg-pink-500/10"
+          : "border-border bg-surface-1 text-text-primary hover:border-accent hover:bg-surface-2 flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm transition-colors"
       }
     >
       <Icon
         className={
-          accent ? "h-4 w-4 shrink-0 text-pink-300" : "h-4 w-4 shrink-0 text-text-secondary"
+          accent ? "h-4 w-4 shrink-0 text-pink-300" : "text-text-secondary h-4 w-4 shrink-0"
         }
       />
       <span className="flex-1 truncate">{label}</span>
-      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-text-muted" />
+      <ExternalLink className="text-text-muted h-3.5 w-3.5 shrink-0" />
     </a>
   );
 }

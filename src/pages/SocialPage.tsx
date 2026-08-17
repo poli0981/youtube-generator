@@ -225,8 +225,8 @@ export function SocialPage() {
   return (
     <div className="mx-auto max-w-4xl p-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-lg font-bold text-text-primary">{t("socialPost.title")}</h1>
-        <div className="flex gap-1 rounded-lg bg-surface-1 p-1">
+        <h1 className="text-text-primary text-lg font-bold">{t("socialPost.title")}</h1>
+        <div className="bg-surface-1 flex gap-1 rounded-lg p-1">
           {(["single", "bulk"] as const).map((m) => (
             <button
               key={m}
@@ -245,7 +245,7 @@ export function SocialPage() {
       {mode === "single" ? (
         <>
           {/* Platform switcher */}
-          <div className="mb-4 flex flex-wrap gap-1 rounded-lg bg-surface-1 p-1">
+          <div className="bg-surface-1 mb-4 flex flex-wrap gap-1 rounded-lg p-1">
             {SOCIAL_PLATFORMS.map((p) => {
               const Icon = p.icon;
               return (
@@ -282,16 +282,16 @@ export function SocialPage() {
           </div>
 
           {!gameName ? (
-            <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
+            <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
               {t("socialPost.emptyState")}
             </p>
           ) : (
             activePost && (
-              <div className="rounded-lg border border-border bg-surface-1 p-4">
+              <div className="border-border bg-surface-1 rounded-lg border p-4">
                 <div className="mb-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <ActiveIcon className="h-4 w-4 text-accent" />
-                    <span className="text-sm font-semibold text-text-primary">
+                    <ActiveIcon className="text-accent h-4 w-4" />
+                    <span className="text-text-primary text-sm font-semibold">
                       {t(activeConfig.labelKey)}
                     </span>
                   </div>
@@ -306,20 +306,20 @@ export function SocialPage() {
                   </div>
                 </div>
                 {activePost.isOver && (
-                  <p className="mb-2 text-xs text-danger">
+                  <p className="text-danger mb-2 text-xs">
                     {t("socialPost.overLimitHint", {
                       platform: t(activeConfig.labelKey),
                     })}
                   </p>
                 )}
                 {activePost.droppedBlocks.length > 0 && (
-                  <p className="mb-2 text-xs text-warning">
+                  <p className="text-warning mb-2 text-xs">
                     {t("socialPost.trimmedHint", {
                       count: activePost.droppedBlocks.length,
                     })}
                   </p>
                 )}
-                <pre className="whitespace-pre-wrap break-words font-sans text-sm text-text-secondary">
+                <pre className="text-text-secondary font-sans text-sm break-words whitespace-pre-wrap">
                   {activePost.text}
                 </pre>
               </div>
@@ -329,7 +329,7 @@ export function SocialPage() {
           {imported && (
             <div className="border-accent/40 bg-accent/5 mt-6 rounded-lg border p-4">
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-sm font-semibold text-text-primary">
+                <h2 className="text-text-primary text-sm font-semibold">
                   {t("socialPost.importedHeading")}
                   {imported.gameName ? ` — ${imported.gameName}` : ""}
                 </h2>
@@ -339,9 +339,9 @@ export function SocialPage() {
               </div>
               <div className="flex flex-col gap-3">
                 {imported.posts.map((p) => (
-                  <div key={p.platform} className="rounded-lg bg-surface-2 p-3">
+                  <div key={p.platform} className="bg-surface-2 rounded-lg p-3">
                     <div className="mb-1 flex items-center justify-between">
-                      <span className="text-xs font-medium uppercase text-text-muted">
+                      <span className="text-text-muted text-xs font-medium uppercase">
                         {platformLabel(p.platform)}
                       </span>
                       <CopyButton
@@ -350,7 +350,7 @@ export function SocialPage() {
                         limit={p.charLimit}
                       />
                     </div>
-                    <pre className="whitespace-pre-wrap break-words font-sans text-xs text-text-secondary">
+                    <pre className="text-text-secondary font-sans text-xs break-words whitespace-pre-wrap">
                       {p.text}
                     </pre>
                   </div>
@@ -363,7 +363,7 @@ export function SocialPage() {
         <div className="flex flex-col gap-4">
           {/* Language selector */}
           <div>
-            <span className="mb-2 block text-sm font-medium text-text-secondary">
+            <span className="text-text-secondary mb-2 block text-sm font-medium">
               {t("output.selectLanguages")}
             </span>
             <div className="flex flex-wrap gap-2">
@@ -415,7 +415,7 @@ export function SocialPage() {
           {rangeError && (
             <p
               role="alert"
-              className="border-warning/40 bg-warning/10 rounded-lg border px-3 py-2 text-xs text-warning"
+              className="border-warning/40 bg-warning/10 text-warning rounded-lg border px-3 py-2 text-xs"
             >
               {rangeError}
             </p>
@@ -423,13 +423,13 @@ export function SocialPage() {
           <StrictModeBanner />
 
           {bulkResults.length === 0 ? (
-            <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
+            <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
               {t("batch.emptyState")}
             </p>
           ) : (
             <>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-text-secondary">
+                <span className="text-text-secondary text-sm">
                   {bulkResults.length} × {SOCIAL_PLATFORMS.length}
                 </span>
                 <CopyButton
@@ -442,9 +442,9 @@ export function SocialPage() {
                 {bulkResults.map((row) => (
                   <div
                     key={`${row.partNumber}-${row.language}`}
-                    className="rounded-lg border border-border bg-surface-1 p-4"
+                    className="border-border bg-surface-1 rounded-lg border p-4"
                   >
-                    <h3 className="mb-3 text-sm font-semibold text-text-primary">
+                    <h3 className="text-text-primary mb-3 text-sm font-semibold">
                       {row.partNumber} · {row.language.toUpperCase()}
                     </h3>
                     <div className="flex flex-col gap-3">
@@ -452,9 +452,9 @@ export function SocialPage() {
                         const post = row.posts[p.id];
                         if (!post) return null;
                         return (
-                          <div key={p.id} className="rounded-lg bg-surface-2 p-3">
+                          <div key={p.id} className="bg-surface-2 rounded-lg p-3">
                             <div className="mb-1 flex items-center justify-between">
-                              <span className="text-xs font-medium uppercase text-text-muted">
+                              <span className="text-text-muted text-xs font-medium uppercase">
                                 {t(p.labelKey)}
                               </span>
                               <div className="flex items-center gap-2">
@@ -466,7 +466,7 @@ export function SocialPage() {
                                 />
                               </div>
                             </div>
-                            <pre className="max-h-24 overflow-y-auto whitespace-pre-wrap break-words font-sans text-xs text-text-secondary">
+                            <pre className="text-text-secondary max-h-24 overflow-y-auto font-sans text-xs break-words whitespace-pre-wrap">
                               {post.text}
                             </pre>
                           </div>

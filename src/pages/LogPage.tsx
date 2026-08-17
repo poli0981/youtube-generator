@@ -128,8 +128,8 @@ export function LogPage() {
     <div className="mx-auto max-w-4xl p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="text-lg font-bold text-text-primary">{t("logs.title")}</h1>
-          <span className="text-xs text-text-muted">
+          <h1 className="text-text-primary text-lg font-bold">{t("logs.title")}</h1>
+          <span className="text-text-muted text-xs">
             {entries.length} entries · {sessions.length} sessions
             {totalErrorCount > 0 && (
               <span className="ml-1 text-red-400">({totalErrorCount} errors)</span>
@@ -161,7 +161,7 @@ export function LogPage() {
 
       {/* Filters */}
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex gap-1 rounded-lg bg-surface-1 p-1">
+        <div className="bg-surface-1 flex gap-1 rounded-lg p-1">
           {LEVEL_FILTERS.map((f) => (
             <button
               key={f.value}
@@ -188,7 +188,7 @@ export function LogPage() {
 
       {/* Session-grouped entries */}
       {sessions.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-border py-12 text-center text-sm text-text-muted">
+        <p className="border-border text-text-muted rounded-lg border border-dashed py-12 text-center text-sm">
           {t("logs.emptyState")}
         </p>
       ) : (
@@ -203,7 +203,7 @@ export function LogPage() {
               : !collapsedSessions.has(`__expanded__${session.id}`);
 
             return (
-              <div key={session.id} className="rounded-lg border border-border bg-surface-1">
+              <div key={session.id} className="border-border bg-surface-1 rounded-lg border">
                 <div
                   className="flex cursor-pointer items-center gap-2 px-3 py-2"
                   onClick={() => {
@@ -220,19 +220,19 @@ export function LogPage() {
                   }}
                 >
                   {effectivelyCollapsed ? (
-                    <ChevronRight className="h-4 w-4 text-text-muted" />
+                    <ChevronRight className="text-text-muted h-4 w-4" />
                   ) : (
-                    <ChevronDown className="h-4 w-4 text-text-muted" />
+                    <ChevronDown className="text-text-muted h-4 w-4" />
                   )}
-                  <span className="text-sm font-semibold text-text-primary">
+                  <span className="text-text-primary text-sm font-semibold">
                     {session.isCurrent
                       ? t("logs.sessionCurrent")
                       : t("logs.sessionLabel", { n: sessions.length - idx })}
                   </span>
-                  <span className="text-xs text-text-muted">
+                  <span className="text-text-muted text-xs">
                     {formatRange(session.firstAt, session.lastAt)}
                   </span>
-                  <span className="text-xs text-text-muted">
+                  <span className="text-text-muted text-xs">
                     · {session.entries.length} {t("logs.entriesShort")}
                   </span>
                   {session.errorCount > 0 && (
@@ -247,14 +247,14 @@ export function LogPage() {
                       e.stopPropagation();
                       clearSession(session.id);
                     }}
-                    className="rounded p-1 text-text-muted hover:bg-surface-3 hover:text-danger"
+                    className="text-text-muted hover:bg-surface-3 hover:text-danger rounded p-1"
                     title={t("logs.clearSession")}
                   >
                     <Trash2 className="h-3 w-3" />
                   </button>
                 </div>
                 {!effectivelyCollapsed && (
-                  <div className="flex flex-col gap-1 border-t border-border p-2">
+                  <div className="border-border flex flex-col gap-1 border-t p-2">
                     {session.entries.map((entry) => (
                       <LogEntryCard key={entry.id} entry={entry} />
                     ))}

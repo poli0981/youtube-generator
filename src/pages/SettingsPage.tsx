@@ -61,7 +61,7 @@ export function SettingsPage() {
   return (
     <div className="mx-auto max-w-2xl p-4 sm:p-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-lg font-bold text-text-primary">{t("settings.title")}</h1>
+        <h1 className="text-text-primary text-lg font-bold">{t("settings.title")}</h1>
         {/* Ungated since v0.35.0. This pair used to be desktop-only, a leftover
             from when "export" meant dumping the on-disk settings.json. Import
             has always been a plain <input type="file"> that needs no Tauri, and
@@ -157,7 +157,7 @@ export function SettingsPage() {
             checked={settings.strictMode}
             onChange={(v) => settings.setSetting("strictMode", v)}
           />
-          <p className="text-xs text-text-muted">{t("settings.strictModeHint")}</p>
+          <p className="text-text-muted text-xs">{t("settings.strictModeHint")}</p>
         </Accordion>
 
         {/* 4. Title format — NEW in v0.7. Quality badge + format knobs. */}
@@ -211,7 +211,7 @@ export function SettingsPage() {
             checked={settings.showGameCopyright}
             onChange={(v) => settings.setSetting("showGameCopyright", v)}
           />
-          <p className="-mt-1 ml-14 text-xs text-text-muted">
+          <p className="text-text-muted -mt-1 ml-14 text-xs">
             {t("settings.showGameCopyrightHint")}
           </p>
           <Toggle
@@ -230,7 +230,7 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showThirdPartyAds", v)}
           />
           {settings.showThirdPartyAds && (
-            <p className="-mt-1 ml-14 text-xs text-text-muted">{t("settings.thirdPartyAdsHint")}</p>
+            <p className="text-text-muted -mt-1 ml-14 text-xs">{t("settings.thirdPartyAdsHint")}</p>
           )}
           <Toggle
             label={t("settings.splitContactEmail")}
@@ -238,7 +238,7 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("splitContactEmail", v)}
           />
           {settings.splitContactEmail && (
-            <p className="-mt-1 ml-14 text-xs text-text-muted">
+            <p className="text-text-muted -mt-1 ml-14 text-xs">
               {t("settings.splitContactEmailHint")}
             </p>
           )}
@@ -247,7 +247,7 @@ export function SettingsPage() {
             checked={settings.showTranslationQuality}
             onChange={(v) => settings.setSetting("showTranslationQuality", v)}
           />
-          <p className="-mt-1 ml-14 text-xs text-text-muted">
+          <p className="text-text-muted -mt-1 ml-14 text-xs">
             {t("settings.showTranslationQualityHint")}
           </p>
           <Toggle
@@ -256,7 +256,7 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showPinnedCommentTemplate", v)}
           />
           {settings.showPinnedCommentTemplate && (
-            <div className="ml-4 flex flex-col gap-2 border-l-2 border-border pl-4">
+            <div className="border-border ml-4 flex flex-col gap-2 border-l-2 pl-4">
               <Toggle
                 label={t("settings.pinnedCommentIncludeAskNextGame")}
                 checked={settings.pinnedCommentIncludeAskNextGame}
@@ -339,7 +339,7 @@ export function SettingsPage() {
               settings.setSetting("logRetentionDays", val);
             }}
           />
-          <p className="text-xs text-text-muted">{t("settings.logRetentionHint")}</p>
+          <p className="text-text-muted text-xs">{t("settings.logRetentionHint")}</p>
         </Accordion>
       </div>
     </div>

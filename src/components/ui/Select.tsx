@@ -19,7 +19,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="flex flex-col gap-1">
         {label && (
-          <label htmlFor={selectId} className="text-sm font-medium text-text-secondary">
+          <label htmlFor={selectId} className="text-text-secondary text-sm font-medium">
             {label}
           </label>
         )}
@@ -29,7 +29,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={clsx(
-            "focus:ring-accent/50 rounded-lg border border-border bg-surface-1 px-3 py-2 text-sm text-text-primary transition-colors focus:border-accent focus:outline-none focus:ring-2",
+            "focus:ring-accent/50 border-border bg-surface-1 text-text-primary focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none",
             className,
           )}
           {...props}

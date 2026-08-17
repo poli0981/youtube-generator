@@ -27,22 +27,22 @@ export function Accordion({ id, title, icon, badge, open, onToggle, children }: 
   return (
     <section
       data-accordion-id={id}
-      className="overflow-hidden rounded-lg border border-border bg-surface-1"
+      className="border-border bg-surface-1 overflow-hidden rounded-lg border"
     >
       <button
         type="button"
         onClick={onToggle}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors hover:bg-surface-2"
+        className="hover:bg-surface-2 flex w-full items-center justify-between gap-3 px-4 py-3 text-left transition-colors"
       >
         <div className="flex items-center gap-2">
           {icon && <span className="text-base leading-none">{icon}</span>}
-          <span className="text-sm font-semibold text-text-primary">{title}</span>
+          <span className="text-text-primary text-sm font-semibold">{title}</span>
           {badge}
         </div>
         <ChevronDown
           className={clsx(
-            "h-4 w-4 text-text-muted transition-transform duration-200",
+            "text-text-muted h-4 w-4 transition-transform duration-200",
             open && "rotate-180",
           )}
         />
@@ -54,7 +54,7 @@ export function Accordion({ id, title, icon, badge, open, onToggle, children }: 
         )}
       >
         <div className="overflow-hidden">
-          <div className="flex flex-col gap-3 border-t border-border px-4 py-4">{children}</div>
+          <div className="border-border flex flex-col gap-3 border-t px-4 py-4">{children}</div>
         </div>
       </div>
     </section>

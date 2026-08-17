@@ -112,7 +112,7 @@ export function VideoSettingsForm() {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-sm font-medium text-text-secondary">{t("editor.videoSettings")}</span>
+      <span className="text-text-secondary text-sm font-medium">{t("editor.videoSettings")}</span>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Select
@@ -151,14 +151,14 @@ export function VideoSettingsForm() {
         value={store.videoStyleEra}
         onChange={(v) => store.set("videoStyleEra", v as VideoStyleEra)}
       />
-      <p className="-mt-1 text-xs text-text-muted">{t("editor.videoStyleHelp")}</p>
+      <p className="text-text-muted -mt-1 text-xs">{t("editor.videoStyleHelp")}</p>
 
       <Toggle
         label={t("editor.skipGraphicsSettings")}
         checked={store.skipGraphicsSettings}
         onChange={(v) => store.set("skipGraphicsSettings", v)}
       />
-      <p className="-mt-1 text-xs text-text-muted">{t("editor.skipGraphicsSettingsHelp")}</p>
+      <p className="text-text-muted -mt-1 text-xs">{t("editor.skipGraphicsSettingsHelp")}</p>
 
       {!store.skipGraphicsSettings && (
         <>

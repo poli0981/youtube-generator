@@ -58,8 +58,8 @@ export function ChipGroup(props: ChipGroupProps) {
     <div className={clsx("flex flex-col gap-2", className)}>
       {(label || counter) && (
         <div className="flex items-center justify-between">
-          {label && <span className="text-sm font-medium text-text-secondary">{label}</span>}
-          {counter && <span className="text-xs text-text-muted">{counter}</span>}
+          {label && <span className="text-text-secondary text-sm font-medium">{label}</span>}
+          {counter && <span className="text-text-muted text-xs">{counter}</span>}
         </div>
       )}
       <div className="flex flex-wrap gap-2">
@@ -77,7 +77,7 @@ export function ChipGroup(props: ChipGroupProps) {
                 selected
                   ? "bg-accent text-white"
                   : disabled
-                    ? "cursor-not-allowed bg-surface-2 text-text-muted opacity-40"
+                    ? "bg-surface-2 text-text-muted cursor-not-allowed opacity-40"
                     : "bg-surface-2 text-text-secondary hover:bg-surface-3 hover:text-text-primary",
               )}
             >

@@ -33,7 +33,7 @@ export function LogEntryCard({ entry }: LogEntryProps) {
   return (
     <div
       className={clsx(
-        "rounded-lg border bg-surface-2 transition-colors",
+        "bg-surface-2 rounded-lg border transition-colors",
         entry.level === "error" ? "border-red-500/30" : "border-border",
       )}
     >
@@ -49,39 +49,39 @@ export function LogEntryCard({ entry }: LogEntryProps) {
         >
           {entry.level}
         </span>
-        <span className="shrink-0 rounded bg-surface-3 px-1.5 py-0.5 text-[10px] text-text-muted">
+        <span className="bg-surface-3 text-text-muted shrink-0 rounded px-1.5 py-0.5 text-[10px]">
           {entry.source}
         </span>
-        <span className="min-w-0 flex-1 truncate text-xs text-text-primary">{entry.message}</span>
-        <span className="shrink-0 text-[10px] text-text-muted">{time}</span>
+        <span className="text-text-primary min-w-0 flex-1 truncate text-xs">{entry.message}</span>
+        <span className="text-text-muted shrink-0 text-[10px]">{time}</span>
         <div className="flex shrink-0 items-center gap-0.5">
           <button
             onClick={handleCopy}
-            className="rounded p-1 text-text-muted hover:bg-surface-3 hover:text-text-primary"
+            className="text-text-muted hover:bg-surface-3 hover:text-text-primary rounded p-1"
           >
-            {copied ? <Check className="h-3 w-3 text-success" /> : <Copy className="h-3 w-3" />}
+            {copied ? <Check className="text-success h-3 w-3" /> : <Copy className="h-3 w-3" />}
           </button>
           <button
             onClick={(e) => {
               e.stopPropagation();
               deleteEntry(entry.id);
             }}
-            className="rounded p-1 text-text-muted hover:bg-surface-3 hover:text-danger"
+            className="text-text-muted hover:bg-surface-3 hover:text-danger rounded p-1"
           >
             <Trash2 className="h-3 w-3" />
           </button>
           {entry.details &&
             (expanded ? (
-              <ChevronUp className="h-3.5 w-3.5 text-text-muted" />
+              <ChevronUp className="text-text-muted h-3.5 w-3.5" />
             ) : (
-              <ChevronDown className="h-3.5 w-3.5 text-text-muted" />
+              <ChevronDown className="text-text-muted h-3.5 w-3.5" />
             ))}
         </div>
       </div>
 
       {expanded && entry.details && (
-        <div className="border-t border-border px-3 py-2">
-          <pre className="max-h-40 overflow-auto whitespace-pre-wrap font-mono text-[11px] text-text-secondary">
+        <div className="border-border border-t px-3 py-2">
+          <pre className="text-text-secondary max-h-40 overflow-auto font-mono text-[11px] whitespace-pre-wrap">
             {entry.details}
           </pre>
         </div>

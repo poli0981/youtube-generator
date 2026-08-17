@@ -13,6 +13,24 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+
+      // eslint-plugin-react-hooks 7 turned on the React Compiler diagnostics.
+      // They are worth having — four of the seven they flagged on arrival were
+      // real extra render passes and were fixed (use-online-status moved to
+      // `useSyncExternalStore`, ShortcutHelpModal now derives instead of
+      // resetting in an effect, DraftIndicator and use-languages-ready were
+      // guarded).
+      //
+      // Three remain, all genuinely syncing state FROM an external source:
+      //   src/hooks/use-languages-ready.ts   — i18next bundle readiness
+      //   src/components/editor/PlaytestEditor.tsx — text mirror of a store number
+      //   src/components/editor/StoreLinkEditor.tsx — compiler can't preserve a useMemo
+      //
+      // Each needs a real restructure, not a guard, so they are warnings rather
+      // than a reason to hold back the ESLint 10 upgrade or to delete the rule.
+      // Downgrade — do not remove: the signal is the point.
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/preserve-manual-memoization": "warn",
     },
   },
   {

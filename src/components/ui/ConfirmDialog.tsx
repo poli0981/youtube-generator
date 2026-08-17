@@ -43,7 +43,7 @@ export function ConfirmDialog({
         </>
       }
     >
-      <p className="text-sm text-text-secondary">{message}</p>
+      <p className="text-text-secondary text-sm">{message}</p>
     </Modal>
   );
 }

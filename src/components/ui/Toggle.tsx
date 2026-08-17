@@ -16,7 +16,7 @@ export function Toggle({ label, checked, onChange, className }: ToggleProps) {
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={clsx(
-          "focus:ring-accent/50 relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors focus:outline-none focus:ring-2",
+          "focus:ring-accent/50 relative inline-flex h-6 w-11 shrink-0 rounded-full border-2 border-transparent transition-colors focus:ring-2 focus:outline-none",
           checked ? "bg-accent" : "bg-surface-3",
         )}
       >
@@ -27,7 +27,7 @@ export function Toggle({ label, checked, onChange, className }: ToggleProps) {
           )}
         />
       </button>
-      <span className="text-sm text-text-primary">{label}</span>
+      <span className="text-text-primary text-sm">{label}</span>
     </label>
   );
 }

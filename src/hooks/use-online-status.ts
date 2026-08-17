@@ -1,16 +1,34 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-function readOnline(): boolean {
+function subscribe(onChange: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener("online", onChange);
+  window.addEventListener("offline", onChange);
+  return () => {
+    window.removeEventListener("online", onChange);
+    window.removeEventListener("offline", onChange);
+  };
+}
+
+function getSnapshot(): boolean {
   return typeof navigator === "undefined" ? true : navigator.onLine;
+}
+
+/** SSR / non-browser: assume online, since nothing here gates core features. */
+function getServerSnapshot(): boolean {
+  return true;
 }
 
 /**
  * Track the browser's connectivity. Returns `true` when online.
  *
- * SSR/Tauri-safe (guards `navigator` / `window`). Re-syncs once on mount in
- * case the status flipped between the initial `useState` read and the effect
- * attaching. Mirrors the add/remove-listener shape of
- * {@link import("@hooks/use-global-error-handler").useGlobalErrorHandler}.
+ * `useSyncExternalStore` rather than `useState` + `useEffect`: connectivity is
+ * an external store, and the hand-rolled version had to re-read `navigator`
+ * inside the effect to close the gap between the initial render and the
+ * listeners attaching — a synchronous `setState` in an effect, which costs an
+ * extra render pass on every mount and is what
+ * `react-hooks/set-state-in-effect` exists to catch. Subscribing properly
+ * removes the gap instead of patching it.
  *
  * Note: `navigator.onLine` only reports the OS/browser link state, not whether
  * the wider internet is reachable — which is exactly right here, since the app
@@ -18,20 +36,5 @@ function readOnline(): boolean {
  * links, never core functionality.
  */
 export function useOnlineStatus(): boolean {
-  const [online, setOnline] = useState(readOnline);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const goOnline = () => setOnline(true);
-    const goOffline = () => setOnline(false);
-    window.addEventListener("online", goOnline);
-    window.addEventListener("offline", goOffline);
-    setOnline(readOnline());
-    return () => {
-      window.removeEventListener("online", goOnline);
-      window.removeEventListener("offline", goOffline);
-    };
-  }, []);
-
-  return online;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }

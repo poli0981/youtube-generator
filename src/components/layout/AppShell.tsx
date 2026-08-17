@@ -23,7 +23,7 @@ export function AppShell() {
   useGlobalErrorHandler();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-surface-0">
+    <div className="bg-surface-0 flex h-screen overflow-hidden">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <Header onOpenMobileNav={() => setMobileNavOpen(true)} />

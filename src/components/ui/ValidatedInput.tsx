@@ -164,7 +164,7 @@ export function ValidatedInput({
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-medium text-text-secondary">{label}</label>
+      <label className="text-text-secondary text-sm font-medium">{label}</label>
       <input
         type="text"
         value={displayValue}
@@ -178,12 +178,12 @@ export function ValidatedInput({
         maxLength={maxLength}
         aria-invalid={touched && Boolean(message) ? true : undefined}
         className={clsx(
-          "focus:ring-accent/50 min-h-touch rounded-lg border bg-surface-1 px-3 py-2.5 text-base text-text-primary transition-colors placeholder:text-text-muted focus:outline-none focus:ring-2 sm:text-sm",
+          "focus:ring-accent/50 min-h-touch bg-surface-1 text-text-primary placeholder:text-text-muted rounded-lg border px-3 py-2.5 text-base transition-colors focus:ring-2 focus:outline-none sm:text-sm",
           touched && message ? "border-danger" : "border-border focus:border-accent",
         )}
       />
-      {touched && message && <p className="text-xs text-danger">{message}</p>}
-      {helpText && !message && <p className="text-xs text-text-muted">{helpText}</p>}
+      {touched && message && <p className="text-danger text-xs">{message}</p>}
+      {helpText && !message && <p className="text-text-muted text-xs">{helpText}</p>}
     </div>
   );
 }

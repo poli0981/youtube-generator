@@ -81,13 +81,11 @@ function main(): void {
     } catch {
       return { label: source.label, version: null };
     }
-    let version: string | null = null;
     try {
-      version = source.extract(raw);
+      return { label: source.label, version: source.extract(raw) };
     } catch {
-      version = null;
+      return { label: source.label, version: null };
     }
-    return { label: source.label, version };
   });
 
   const missing = found.filter((entry) => entry.version === null);

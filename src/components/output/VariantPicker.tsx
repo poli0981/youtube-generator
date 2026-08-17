@@ -92,7 +92,7 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
         {variants.map((variant) => (
           <section key={variant.id} className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <h3 className="text-xs font-semibold uppercase tracking-wide text-text-muted">
+              <h3 className="text-text-muted text-xs font-semibold tracking-wide uppercase">
                 {t(variant.labelKey)}
               </h3>
               <div className="flex items-center gap-3">
@@ -100,8 +100,8 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
                 <CopyButton text={variant.title} label={t("output.copyTitle")} />
               </div>
             </div>
-            <div className="rounded-lg border border-border bg-surface-1 p-3">
-              <p className="text-sm font-medium text-text-primary">{variant.title}</p>
+            <div className="border-border bg-surface-1 rounded-lg border p-3">
+              <p className="text-text-primary text-sm font-medium">{variant.title}</p>
             </div>
           </section>
         ))}

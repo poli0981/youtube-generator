@@ -6,7 +6,13 @@ import clsx from "clsx";
 
 interface ScrollToTopButtonProps {
   /** The scrollable container to watch and scroll back to the top. */
-  scrollRef: RefObject<HTMLElement>;
+  /**
+   * React 19 types `useRef<T>(null)` as `RefObject<T | null>` rather than
+   * `RefObject<T>` — the ref genuinely is null before the element mounts, and
+   * the old type quietly lied about it. Matching that here rather than casting
+   * at the call site keeps the null-check below honest.
+   */
+  scrollRef: RefObject<HTMLElement | null>;
 }
 
 /** Scroll distance (px) past which the button fades in. */
@@ -62,10 +68,10 @@ export function ScrollToTopButton({ scrollRef }: ScrollToTopButtonProps) {
       aria-hidden={!visible}
       tabIndex={visible ? 0 : -1}
       className={clsx(
-        "fixed bottom-6 right-6 z-40 flex h-touch w-touch items-center justify-center",
-        "rounded-full border border-border bg-surface-1 text-text-primary shadow-lg",
-        "transition-opacity duration-200 hover:bg-surface-2",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+        "h-touch w-touch fixed right-6 bottom-6 z-40 flex items-center justify-center",
+        "border-border bg-surface-1 text-text-primary rounded-full border shadow-lg",
+        "hover:bg-surface-2 transition-opacity duration-200",
+        "focus-visible:ring-accent focus:outline-none focus-visible:ring-2",
         visible ? "opacity-100" : "pointer-events-none opacity-0",
       )}
     >

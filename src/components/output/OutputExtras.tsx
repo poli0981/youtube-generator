@@ -73,11 +73,11 @@ export function OutputExtras() {
       {hasThumbnail && (
         <section className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-text-primary">{t("output.thumbnailText")}</h3>
+            <h3 className="text-text-primary text-sm font-semibold">{t("output.thumbnailText")}</h3>
             <CopyButton text={thumbnailText} label={t("output.copyThumbnailText")} />
           </div>
-          <div className="rounded-lg border border-border bg-surface-1 p-3">
-            <pre className="whitespace-pre-wrap font-sans text-sm text-text-secondary">
+          <div className="border-border bg-surface-1 rounded-lg border p-3">
+            <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
               {thumbnailText}
             </pre>
           </div>
@@ -87,11 +87,11 @@ export function OutputExtras() {
       {hasPinned && (
         <section className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-text-primary">{t("output.pinnedComment")}</h3>
+            <h3 className="text-text-primary text-sm font-semibold">{t("output.pinnedComment")}</h3>
             <CopyButton text={pinnedComment} label={t("output.copyPinnedComment")} />
           </div>
-          <div className="rounded-lg border border-border bg-surface-1 p-3">
-            <pre className="whitespace-pre-wrap font-sans text-sm text-text-secondary">
+          <div className="border-border bg-surface-1 rounded-lg border p-3">
+            <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
               {pinnedComment}
             </pre>
           </div>
@@ -101,13 +101,13 @@ export function OutputExtras() {
       {hasTemplate && (
         <section className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-text-primary">
+            <h3 className="text-text-primary text-sm font-semibold">
               {t("output.pinnedCommentTemplate")}
             </h3>
             <CopyButton text={templateText} label={t("output.copyPinnedCommentTemplate")} />
           </div>
-          <div className="rounded-lg border border-border bg-surface-1 p-3">
-            <pre className="whitespace-pre-wrap font-sans text-sm text-text-secondary">
+          <div className="border-border bg-surface-1 rounded-lg border p-3">
+            <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
               {templateText}
             </pre>
           </div>

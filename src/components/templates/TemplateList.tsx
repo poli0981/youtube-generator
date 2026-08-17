@@ -8,7 +8,7 @@ export function TemplateList() {
 
   if (templates.length === 0) {
     return (
-      <p className="rounded-lg border border-dashed border-border py-8 text-center text-sm text-text-muted">
+      <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
         {t("templates.emptyState")}
       </p>
     );

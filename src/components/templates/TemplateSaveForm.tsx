@@ -118,7 +118,7 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
           onChange={(e) => setName(e.target.value)}
           autoFocus
         />
-        <p className="text-xs text-text-muted">{t("templates.saveHint")}</p>
+        <p className="text-text-muted text-xs">{t("templates.saveHint")}</p>
       </div>
     </Modal>
   );
