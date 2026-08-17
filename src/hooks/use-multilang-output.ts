@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import i18n from "i18next";
-import { useSettingsStore } from "@store/settings-store";
 import { renderAll } from "@engine/template-renderer";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "./use-current-generator-input";
 import { useLanguagesReady } from "./use-languages-ready";
+import { useRenderOptions } from "./use-render-options";
 
 export function useMultilangOutput(
   languages: SupportedLanguage[],
@@ -14,20 +14,6 @@ export function useMultilangOutput(
   // renders nothing for an absent tab entry, and the per-language chunks
   // load in parallel, so partial results aren't worth the complexity.
   const ready = useLanguagesReady(languages);
-  const {
-    includeMultilingualTags,
-    includeTrendingTags,
-    hashtagCount,
-    showQualityBadge,
-    showCopyright,
-    showUsagePolicy,
-    showSponsorCredit,
-    showGameCopyright,
-    showThirdPartyAds,
-    showTranslationQuality,
-    splitContactEmail,
-    titleFormat,
-  } = useSettingsStore();
 
   // Always-English `t` for the bilingual translation-quality disclaimer.
   // In multi-language tabs each tab is already a single target language, so
@@ -37,6 +23,7 @@ export function useMultilangOutput(
   // where `tEn` also makes those blocks bilingual `EN · LOCAL`. v0.29.3.
   // `en` is eagerly bundled, so it never needs the readiness gate.
   const tEn = useMemo(() => i18n.getFixedT("en", "templates"), []);
+  const options = useRenderOptions(tEn, false);
 
   return useMemo(() => {
     const results: Record<string, GeneratorOutput> = {};
@@ -44,40 +31,8 @@ export function useMultilangOutput(
     for (const lang of languages) {
       const tFn = i18n.getFixedT(lang, "templates");
       const input = { ...baseInput, language: lang };
-      results[lang] = renderAll(input, tFn, {
-        includeMultilingualTags,
-        includeTrendingTags,
-        hashtagCount,
-        showQualityBadge,
-        showCopyright,
-        showUsagePolicy,
-        showSponsorCredit,
-        showGameCopyright,
-        showThirdPartyAds,
-        showTranslationQuality,
-        splitContactEmail,
-        titleFormat,
-        tEn,
-        bilingualContentBlocks: false,
-      });
+      results[lang] = renderAll(input, tFn, options);
     }
     return results;
-  }, [
-    ready,
-    languages,
-    baseInput,
-    includeMultilingualTags,
-    includeTrendingTags,
-    hashtagCount,
-    showQualityBadge,
-    showCopyright,
-    showUsagePolicy,
-    showSponsorCredit,
-    showGameCopyright,
-    showThirdPartyAds,
-    showTranslationQuality,
-    splitContactEmail,
-    titleFormat,
-    tEn,
-  ]);
+  }, [ready, languages, baseInput, options]);
 }

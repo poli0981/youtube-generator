@@ -14,6 +14,7 @@ import { buildPinnedComment } from "@engine/pinned-comment-builder";
 import { YT_LIMITS } from "@engine/types";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
+import { useRenderOptions } from "@hooks/use-render-options";
 import { validateBatchRange } from "@utils/validation";
 import clsx from "clsx";
 
@@ -34,20 +35,18 @@ export function BatchPage() {
   useDocumentTitle(t("tabs.batch"));
   const state = useEditorStore();
   const baseInput = useCurrentGeneratorInput();
-  const {
-    includeMultilingualTags,
-    includeTrendingTags,
-    hashtagCount,
-    showQualityBadge,
-    showCopyright,
-    showUsagePolicy,
-    showSponsorCredit,
-    showGameCopyright,
-    showTranslationQuality,
-    showPinnedCommentTemplate,
-    pinnedCommentIncludeAskNextGame,
-    titleFormat,
-  } = useSettingsStore();
+  // Was a hand-copied destructure of the settings store that had drifted out of
+  // sync with the other two `renderAll` call sites — it silently dropped
+  // `splitContactEmail` and `showThirdPartyAds`, so Batch rendered the legacy
+  // single contact line while Output rendered the grouped block. v0.35.0.
+  //
+  // No `tEn`: Batch rows are one language each, so the bilingual
+  // `EN · LOCAL` content-warning treatment would just duplicate every line.
+  const renderOptions = useRenderOptions();
+  const showPinnedCommentTemplate = useSettingsStore((s) => s.showPinnedCommentTemplate);
+  const pinnedCommentIncludeAskNextGame = useSettingsStore(
+    (s) => s.pinnedCommentIncludeAskNextGame,
+  );
   const [startPart, setStartPart] = useState("1");
   const [endPart, setEndPart] = useState("5");
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([state.language]);
@@ -93,18 +92,7 @@ export function BatchPage() {
           // editor's timestamps field is a single-video artifact.
           timestamps: "",
         };
-        const output = renderAll(input, tFn, {
-          includeMultilingualTags,
-          includeTrendingTags,
-          hashtagCount,
-          showQualityBadge,
-          showCopyright,
-          showUsagePolicy,
-          showSponsorCredit,
-          showGameCopyright,
-          showTranslationQuality,
-          titleFormat,
-        });
+        const output = renderAll(input, tFn, renderOptions);
         const pinnedComment = showPinnedCommentTemplate
           ? buildPinnedComment(input, tFn, {
               includeAskNextGame: pinnedCommentIncludeAskNextGame,
