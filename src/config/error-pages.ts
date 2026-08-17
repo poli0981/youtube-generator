@@ -21,12 +21,7 @@ import {
  *   - `runtime`  — a render crash caught by ErrorBoundary
  */
 export type ErrorKind =
-  | "notFound"
-  | "forbidden"
-  | "expired"
-  | "serverError"
-  | "offline"
-  | "runtime";
+  "notFound" | "forbidden" | "expired" | "serverError" | "offline" | "runtime";
 
 type ErrorSeverity = "accent" | "danger" | "warning";
 

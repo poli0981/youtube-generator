@@ -36,8 +36,7 @@ interface RigFieldOption {
  * both). Existing static-array call sites continue to work unchanged.
  */
 type RigFieldOptionResolver =
-  | readonly RigFieldOption[]
-  | ((previousParts: readonly string[]) => readonly RigFieldOption[]);
+  readonly RigFieldOption[] | ((previousParts: readonly string[]) => readonly RigFieldOption[]);
 
 export interface CompositePart {
   /** Stable id, used to assemble the storage tuple in declaration order. */

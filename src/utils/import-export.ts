@@ -37,8 +37,7 @@ export type ImportFailure =
   | { kind: "newer-schema"; expected: ExportType; actual: number; supported: number };
 
 export type ImportResult<T> =
-  | { ok: true; data: T; sourceVersion?: number }
-  | { ok: false; failure: ImportFailure };
+  { ok: true; data: T; sourceVersion?: number } | { ok: false; failure: ImportFailure };
 
 /**
  * Write `data` to a user-chosen file as a typed envelope JSON file. The
@@ -88,8 +87,7 @@ export function importParsedFromJsonFile(): Promise<
     let settled = false;
     const settle = (
       result:
-        | { ok: true; shape: DetectedShape; rawText: string }
-        | { ok: false; failure: ImportFailure },
+        { ok: true; shape: DetectedShape; rawText: string } | { ok: false; failure: ImportFailure },
     ) => {
       if (settled) return;
       settled = true;

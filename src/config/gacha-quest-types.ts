@@ -42,11 +42,7 @@ export type GachaQuestType = (typeof GACHA_QUEST_TYPES)[number];
 export const DEFAULT_GACHA_QUEST_TYPE: GachaQuestType = "main_story";
 
 export type GachaQuestTypeGroup =
-  | "story"
-  | "events"
-  | "tutorial_trial"
-  | "endgame_multiplayer"
-  | "showcase";
+  "story" | "events" | "tutorial_trial" | "endgame_multiplayer" | "showcase";
 
 /**
  * Display-order grouping for the quest-type dropdown. Each group
