@@ -42,7 +42,7 @@ const DICT: Record<string, Record<string, string>> = {
 function makeT(lang: "en" | "vi" | "ja"): TranslationFn {
   return (key, opts) => {
     const id = key.replace("timeline.keywords.", "");
-    const template = DICT[lang][id] ?? id;
+    const template = DICT[lang]?.[id] ?? id;
     if (!opts) return template;
     return template.replace(/\{\{(\w+)\}\}/g, (_, k) => opts[k] ?? "");
   };
@@ -52,53 +52,53 @@ describe("parseTimeline", () => {
   it("parses time + label into entries", () => {
     const entries = parseTimeline("0:00 Intro\n5:30 Chapter 1\n15:00 Boss 2");
     expect(entries).toHaveLength(3);
-    expect(entries[0].time).toBe("0:00");
-    expect(entries[0].keyword).toBe("intro");
-    expect(entries[1].keyword).toBe("chapter");
-    expect(entries[1].number).toBe(1);
-    expect(entries[2].keyword).toBe("boss");
-    expect(entries[2].number).toBe(2);
+    expect(entries[0]!.time).toBe("0:00");
+    expect(entries[0]!.keyword).toBe("intro");
+    expect(entries[1]!.keyword).toBe("chapter");
+    expect(entries[1]!.number).toBe(1);
+    expect(entries[2]!.keyword).toBe("boss");
+    expect(entries[2]!.number).toBe(2);
   });
 
   it("supports HH:MM:SS timecodes", () => {
     const entries = parseTimeline("1:23:45 Chapter 7");
-    expect(entries[0].time).toBe("1:23:45");
-    expect(entries[0].keyword).toBe("chapter");
-    expect(entries[0].number).toBe(7);
+    expect(entries[0]!.time).toBe("1:23:45");
+    expect(entries[0]!.keyword).toBe("chapter");
+    expect(entries[0]!.number).toBe(7);
   });
 
   it("recognizes final boss before boss", () => {
     const entries = parseTimeline("10:00 Final Boss");
-    expect(entries[0].keyword).toBe("final_boss");
+    expect(entries[0]!.keyword).toBe("final_boss");
   });
 
   it("recognizes Vietnamese keywords", () => {
     const entries = parseTimeline("0:00 Mở đầu\n5:00 Chương 3\n20:00 Boss cuối");
-    expect(entries[0].keyword).toBe("intro");
-    expect(entries[1].keyword).toBe("chapter");
-    expect(entries[1].number).toBe(3);
-    expect(entries[2].keyword).toBe("final_boss");
+    expect(entries[0]!.keyword).toBe("intro");
+    expect(entries[1]!.keyword).toBe("chapter");
+    expect(entries[1]!.number).toBe(3);
+    expect(entries[2]!.keyword).toBe("final_boss");
   });
 
   it("recognizes Japanese keywords", () => {
     const entries = parseTimeline("0:00 オープニング\n5:00 パート 2\n20:00 ラスボス");
-    expect(entries[0].keyword).toBe("intro");
-    expect(entries[1].keyword).toBe("part");
-    expect(entries[1].number).toBe(2);
-    expect(entries[2].keyword).toBe("final_boss");
+    expect(entries[0]!.keyword).toBe("intro");
+    expect(entries[1]!.keyword).toBe("part");
+    expect(entries[1]!.number).toBe(2);
+    expect(entries[2]!.keyword).toBe("final_boss");
   });
 
   it("preserves lines that don't match a known keyword", () => {
     const entries = parseTimeline("0:00 Random Stuff");
-    expect(entries[0].time).toBe("0:00");
-    expect(entries[0].keyword).toBeUndefined();
-    expect(entries[0].rawLabel).toBe("Random Stuff");
+    expect(entries[0]!.time).toBe("0:00");
+    expect(entries[0]!.keyword).toBeUndefined();
+    expect(entries[0]!.rawLabel).toBe("Random Stuff");
   });
 
   it("preserves lines without a time prefix", () => {
     const entries = parseTimeline("Just a note");
-    expect(entries[0].time).toBe("");
-    expect(entries[0].rawLabel).toBe("Just a note");
+    expect(entries[0]!.time).toBe("");
+    expect(entries[0]!.rawLabel).toBe("Just a note");
   });
 
   it("skips blank lines", () => {
@@ -110,29 +110,29 @@ describe("parseTimeline", () => {
   // structured `endings[]` rows can be matched to timeline markers.
   it("captures the ending ordinal when present", () => {
     const entries = parseTimeline("1:00:00 Ending 1\n2:00:00 Ending 3");
-    expect(entries[0].keyword).toBe("ending");
-    expect(entries[0].number).toBe(1);
-    expect(entries[1].keyword).toBe("ending");
-    expect(entries[1].number).toBe(3);
+    expect(entries[0]!.keyword).toBe("ending");
+    expect(entries[0]!.number).toBe(1);
+    expect(entries[1]!.keyword).toBe("ending");
+    expect(entries[1]!.number).toBe(3);
   });
 
   it("recognises a bare 'Ending' line as ending without a number", () => {
     const entries = parseTimeline("1:00:00 Ending");
-    expect(entries[0].keyword).toBe("ending");
-    expect(entries[0].number).toBeUndefined();
+    expect(entries[0]!.keyword).toBe("ending");
+    expect(entries[0]!.number).toBeUndefined();
   });
 
   it("captures the trailing label after 'Ending N: ...' as `rest`", () => {
     const entries = parseTimeline("1:00:00 Ending 3: Best End");
-    expect(entries[0].keyword).toBe("ending");
-    expect(entries[0].number).toBe(3);
-    expect(entries[0].rest).toBe(": Best End");
+    expect(entries[0]!.keyword).toBe("ending");
+    expect(entries[0]!.number).toBe(3);
+    expect(entries[0]!.rest).toBe(": Best End");
   });
 
   it("recognises Vietnamese 'Kết thúc 2'", () => {
     const entries = parseTimeline("1:30:00 Kết thúc 2");
-    expect(entries[0].keyword).toBe("ending");
-    expect(entries[0].number).toBe(2);
+    expect(entries[0]!.keyword).toBe("ending");
+    expect(entries[0]!.number).toBe(2);
   });
 });
 

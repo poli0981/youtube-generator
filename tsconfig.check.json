@@ -1,0 +1,18 @@
+{
+  // `tsconfig.json` deliberately covers only `src` — that is what `vite build`
+  // compiles, and widening it would drag test-only globals into the app build.
+  // But it also meant `tests/` and `scripts/` were never type-checked at all: a
+  // test could reference a deleted export and only fail at runtime, and a
+  // script could not fail at all until someone ran it.
+  //
+  // This config type-checks everything. Run it via `npm run typecheck:all`.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // vitest's `globals: true` (see vitest.config.ts) puts describe/it/expect on
+    // the global scope; without this they are undeclared identifiers here.
+    // `node` covers the `fs`/`path`/`process` use in scripts/ — the app bundle
+    // never sees these, which is why the base config leaves them out.
+    "types": ["vitest/globals", "node"]
+  },
+  "include": ["src", "tests", "scripts"]
+}

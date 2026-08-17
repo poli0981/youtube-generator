@@ -35,6 +35,55 @@ and **Facebook Group** moved in from the generic Social list.
 - Nine i18n keys per locale added, one (`social.fb_group`) removed, across all six locales (validator **975 ui / 559 templates**). typecheck, lint, locale validation, and **613 tests** (583 + 30: three new validators, v17 migration incl. the fb_group lift, community render/order/all-language cases, mapping parity) pass; verified live — Vietnamese output shows all five lines in order with a localized heading, English output drops the Zalo line while keeping the rest, and a malformed Signal link surfaces an inline hard-reject error.
 - Five manifests bumped 0.32.1 → 0.33.0.
 
+## v0.32.1 — 2026-07-12
+
+A **hotfix** to v0.32.0. The Messenger Community field accepted the wrong link
+shape: `https://m.me/[id]` is a personal-page link, while a community/channel
+invite is `https://m.me/ch/[id]` (e.g. `https://m.me/ch/Abb1hmBhU_97UMCF/`).
+Creators following the in-app example published a link that did not open the
+community.
+
+### Fixed
+
+- **Messenger community link format** ([src/utils/validation.ts](src/utils/validation.ts)) — `MESSENGER_URL_REGEX` now requires the `/ch/` segment (trailing slash optional) and hard-rejects the old bare form, so a wrong link can no longer reach the description. The shown example (`MESSENGER_URL_EXPECTED`) and the placeholder in all six locales moved to `https://m.me/ch/yourid`; stale doc comments were refreshed alongside.
+
+### Under the hood
+
+- Engine and store are untouched — the link is printed verbatim and the field's type and persist shape are unchanged, so no migration was needed. Validation, engine, and migration tests updated, with new trailing-slash-accept and bare-form-reject cases.
+- Five manifests bumped 0.32.0 → 0.32.1.
+
+## v0.32.0 — 2026-07-08
+
+A **feature** release adding the first two "join the chat" community links, in a
+single `💬 COMMUNITY` description block — the block that v0.33.0 later grew to
+five entries.
+
+### Added
+
+- **Messenger community + Zalo group** ([src/components/editor/CommunityEditor.tsx](src/components/editor/CommunityEditor.tsx), [src/utils/validation.ts](src/utils/validation.ts)) — a new **Community** section feeding a localized `💬 COMMUNITY` block. Messenger renders for **every** output language. Zalo is a Vietnam-audience app, so its input only appears — and its line only renders — when the output language is Vietnamese, mirroring the existing VN donate block; a value entered while in Vietnamese survives a language switch. Both links are hard-validated (`validateMessengerUrl` / `validateZaloGroupUrl`) so a malformed URL never reaches the output.
+
+### Under the hood
+
+- Two editor fields (`messengerCommunityLink`, `zaloGroupLink`) thread through defaults, the store (persist **v15 → v16**, an additive back-fill), `GeneratorInput`, the editor → engine mapping, and template snapshots — guarded by the existing parity test.
+- i18n across all six locales (validator **967 ui / 559 templates**). typecheck, lint, locale validation, and **581 tests** (560 + 21: two new validators, the v16 migration, and community render/language-gating cases) pass.
+- Five manifests bumped 0.31.0 → 0.32.0.
+
+## v0.31.0 — 2026-06-28
+
+A **feature** release for the Playlist Generator: the pinned comment a series
+needs on its latest video, and an honest answer to "why did this playlist stop?"
+
+### Added
+
+- **Status-adaptive playlist pinned comment** ([src/engine/playlist-builder.ts](src/engine/playlist-builder.ts)) — a new `buildPlaylistComment` engine function produces a pinned comment for the series' latest video whose wording follows the playlist status (completed / dropped / incomplete / in progress), rather than one generic template for all four.
+- **Dropped reasons** ([src/config/dropped-reasons.ts](src/config/dropped-reasons.ts), [src/pages/PlaylistPage.tsx](src/pages/PlaylistPage.tsx)) — when a series is marked **dropped**, a multi-select of six predefined reasons (`😴 boring`, `🐌 performance`, `🐛 bugs`, `🗑️ delisted`, `📉 low views`, `⏳ time`) plus a free-text "other reason" field. Selected reasons render in **both** the playlist description and the pinned comment. Reason labels are localized in both namespaces — `ui` for the selection chips, `templates` for the rendered output — the same split content warnings use.
+
+### Under the hood
+
+- Playlist state stays local to the page; nothing was added to the editor store, so there is no migration in this release.
+- i18n across all six locales (validator **959 ui / 558 templates**). `playlist-builder` gained its first test file — **197 lines** covering comment generation per status and dropped-reason rendering.
+- Five manifests bumped 0.30.0 → 0.31.0.
+
 ## v0.30.0 — 2026-06-27
 
 A **feature** release adding two things creators kept doing by hand: advertising a

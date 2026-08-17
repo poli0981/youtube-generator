@@ -6,6 +6,20 @@ on:
   pull_request:
     branches: [main]
 
+# Least privilege. The job only reads the repo — it publishes nothing, comments
+# nowhere. Declaring it explicitly also silences CodeQL's
+# `actions/missing-workflow-permissions`, which otherwise flags the implicit
+# (and much wider) default token scope.
+permissions:
+  contents: read
+
+# A force-push or a quick follow-up commit makes the older run worthless. Cancel
+# it instead of paying for both — except on `main`, where every commit's result
+# is a historical record the release process reads back.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -16,8 +30,40 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run typecheck
-      - run: npm run lint
-      - run: npm run validate:locales
-      - run: npm run test:run
-      - run: npm run build
+
+      # --- correctness ------------------------------------------------------
+      # `typecheck` covers src/ (what Vite actually builds); `typecheck:all`
+      # adds tests/ and scripts/, which went unchecked until v0.35.0 and were
+      # hiding three silently-stale fixture fields.
+      - name: Type check (src)
+        run: npm run typecheck
+      - name: Type check (tests + scripts)
+        run: npm run typecheck:all
+      - name: Lint
+        run: npm run lint
+      - name: Validate locales
+        run: npm run validate:locales
+      - name: Test
+        run: npm run test:run
+
+      # --- consistency ------------------------------------------------------
+      - name: Check formatting
+        run: npm run format:check
+      - name: Check dead code
+        run: npm run knip
+      # The release ritual bumps SIX version fields by hand. This is the only
+      # thing that notices when one is missed — see scripts/check-version-sync.ts.
+      - name: Check version sync
+        run: npm run check:version
+
+      # --- security ---------------------------------------------------------
+      # Advisory-only: a fresh high-severity advisory in a transitive dep must
+      # not turn every unrelated PR red before Dependabot has had a chance to
+      # open its fix PR. The Dependabot alerts tab is the source of truth.
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+        continue-on-error: true
+
+      # --- build ------------------------------------------------------------
+      - name: Build
+        run: npm run build

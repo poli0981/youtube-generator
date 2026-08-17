@@ -20,7 +20,7 @@ import {
   type PlaylistContentType,
   type PlaylistInput,
 } from "@engine/playlist-builder";
-import { DROPPED_REASONS } from "@config/dropped-reasons";
+import { DROPPED_REASONS, type DroppedReasonId } from "@config/dropped-reasons";
 import type { SupportedLanguage } from "@engine/types";
 
 const STATUS_OPTIONS = [
@@ -50,7 +50,7 @@ export function PlaylistPage() {
   const [contentType, setContentType] = useState<PlaylistContentType>("full_gameplay");
   const [totalVideos, setTotalVideos] = useState("");
   const [customNote, setCustomNote] = useState("");
-  const [droppedReasons, setDroppedReasons] = useState<string[]>([]);
+  const [droppedReasons, setDroppedReasons] = useState<DroppedReasonId[]>([]);
   const [droppedReasonCustom, setDroppedReasonCustom] = useState("");
   const [language, setLanguage] = useState<SupportedLanguage>(editor.language);
 
@@ -78,9 +78,7 @@ export function PlaylistPage() {
       status,
       contentType,
       totalVideos:
-        totalVideosValidation.valid && totalVideos.trim()
-          ? parseInt(totalVideos)
-          : undefined,
+        totalVideosValidation.valid && totalVideos.trim() ? parseInt(totalVideos) : undefined,
       storeLinks: editor.storeLinks,
       playlistNote: customNote,
       droppedReasons,
@@ -147,7 +145,10 @@ export function PlaylistPage() {
                 icon: r.icon,
               }))}
               value={droppedReasons}
-              onChange={setDroppedReasons}
+              // ChipGroup is id-agnostic (`string[]`); the options come straight
+              // from DROPPED_REASONS, so every id it hands back is a
+              // DroppedReasonId. Narrowing here keeps the state typed.
+              onChange={(v) => setDroppedReasons(v as DroppedReasonId[])}
             />
             <Textarea
               label={t("playlist.droppedReasonCustomLabel")}
