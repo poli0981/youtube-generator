@@ -79,11 +79,30 @@ jobs:
           NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.3.13750724
         run: cargo tauri android build --apk
 
-      - name: Upload APK to draft release
-        uses: softprops/action-gh-release@v3
+      # Keep the APK regardless of whether the release upload works, so a
+      # broken upload never costs a 20-minute rebuild.
+      - name: Upload APK as workflow artifact
+        uses: actions/upload-artifact@v6
         with:
-          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
-          draft: true
-          files: src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk
+          name: ytdescgen-android-apk
+          path: src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk
+          if-no-files-found: error
+
+      # Uses `gh` (pre-installed on every runner) rather than a third-party
+      # action. `softprops/action-gh-release@v3` resolved the target release
+      # from GITHUB_REF instead of the `tag_name` it was given, so on a tag push
+      # it looked for a release tagged `refs/tags/v0.35.0` and on a
+      # workflow_dispatch it looked for one tagged `refs/heads/main` — neither
+      # exists, so it tried to CREATE a release on a branch ref and got
+      # "Resource not accessible by integration". The v0.35.0 APK was built
+      # three times before this was pinned down.
+      #
+      # `gh release upload` takes the tag as a positional argument and cannot
+      # make that mistake. `--clobber` makes a re-run idempotent.
+      - name: Upload APK to draft release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          APK: src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk
+        run: |
+          gh release upload "$TAG" "$APK" --clobber --repo "${{ github.repository }}"
