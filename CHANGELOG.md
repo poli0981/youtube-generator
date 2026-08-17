@@ -2,6 +2,34 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v0.35.0 — 2026-08-17
+
+A **guardrails** release. Four things the app quietly let you do wrong — publish
+a Batch description missing its contact block, copy output YouTube would reject,
+paste a novel into a field, and export a file without being asked where to put
+it — now can't happen.
+
+### Fixed
+
+- **Split contact emails now render in Batch** ([src/hooks/use-render-options.ts](src/hooks/use-render-options.ts), [src/pages/BatchPage.tsx](src/pages/BatchPage.tsx)) — with **Settings → Split contact email** on, the Batch tab showed only the legacy single `📧 Business inquiries:` line while the Output tab correctly showed the grouped `📧 BUSINESS / CONTACT` block. The engine was never at fault: `renderAll` had three call sites each hand-copying the same twelve settings fields, and BatchPage's copy was missing `splitContactEmail` and `showThirdPartyAds`. An absent flag defaults to `false`, so the wrong branch ran silently. The mapping now lives in one hook, guarded from both sides — a missing key is a compile error (`Required<SettingsRenderOptions>`) *and* a named test failure. **The SPONSORS & PARTNERS block was being dropped in Batch for the same reason and now renders too, so Batch descriptions get longer if you had either toggle on.**
+- **Exports ask where to save** ([src/utils/file-ops.ts](src/utils/file-ops.ts)) — every JSON export (Settings, Profiles, Presets, Templates, Social, Log) bypassed the one writer that branched per platform and dumped straight into `Downloads`, even on desktop where a native Save As dialog was available the whole time. One writer now serves all seven: native **Save As** on Tauri desktop, the **file picker** on Chromium browsers, and the download fallback on Android / Firefox / Safari. Cancelling is silent — dismissing a dialog is a decision, not a failure. Settings Import/Export is also no longer desktop-only.
+- **`ValidatedInput` no longer destroys good input** ([src/components/ui/ValidatedInput.tsx](src/components/ui/ValidatedInput.tsx)) — on an invalid value it called `onChange("")`, wiping the stored value while the box still showed your text. Backspacing one character out of a complete URL silently emptied the field, and autosave persisted the empty. It now simply doesn't commit, keeping the last valid value. Separately, the box never re-synced when the value changed underneath it, so applying a profile or preset left stale text on screen disagreeing with the store.
+
+### Added
+
+- **Over-limit output can't be copied** ([src/engine/limits.ts](src/engine/limits.ts)) — if any one of title / description / tags is over its YouTube limit, none of them can be copied, on **Output and Batch**. The engine has returned `warnings` since v0.5 and nothing ever read it; three ad-hoc checks had grown up instead, and the one in `CopyAllBar` skipped every check whenever more than one output language was selected. Batch also gained the description and tag counters it never had. Scoped sensibly: one over-limit part blocks itself and Copy All Batch, not the other 99.
+- **Strict Mode** ([src/utils/editor-issues.ts](src/utils/editor-issues.ts)) — a **Settings → Guardrails** toggle, off by default. When on, Generate / Copy / Export are blocked while any field has a hard error, with a banner naming each one. Errors only: a working link that merely doesn't match a platform's usual prefix stays a warning, because blocking it would strand anyone on a vanity domain. Derived from state rather than from mounted inputs, so it works from any page and also catches bad data that arrived by import. The log export stays ungated — a debugging export shouldn't be held hostage by an unrelated bad URL.
+- **Field length caps** ([src/config/field-limits.ts](src/config/field-limits.ts)) — `maxLength` appeared nowhere in the codebase before this release. Caps are grouped by what a field holds (URL 200, email 320, short name 100, label 300, long text 2000, timestamps 5000) and wired at 53 call sites. Imports are clamped too, since `maxLength` only constrains typing.
+- **Emails hard-stop at three per field** ([src/utils/validation.ts](src/utils/validation.ts)) — typing a fourth is refused outright instead of wiping the field. Enforced on the *increase*, so a field that already holds four (from an older profile) stays editable down to three, and a half-typed `a@b.com,c@` is never punished.
+- **Collapsible Settings sections** ([src/pages/settings/GenrePlaylistsSection.tsx](src/pages/settings/GenrePlaylistsSection.tsx)) — **Genre Playlists** renders one input per genre (42 of them) and was the tallest block on the page. It now ships collapsed with a filled-count badge. The other eight sections became accordions too, defaulting open.
+
+### Under the hood
+
+- Settings persist **v11 → v12** (`strictMode`, `settingsAccordionState`), with `SCHEMA_VERSIONS.settings` bumped in lockstep. Both are *coerced*, not merely back-filled — a hand-edited `"strictMode": "yes"` is truthy in JS, and switching a seatbelt on by accident is the opposite of an opt-in. `SCHEMA_VERSIONS.profile` corrected 1 → 2, left behind when profile-store bumped in v0.34.0.
+- `SettingsPage` split 544 → 347 lines, extracting the import/export IO and the Genre Playlists section.
+- 16 i18n keys per locale across all six locales (validator **999 ui / 563 templates**). typecheck, lint, locale validation, dead-code, formatting, version-sync and **692 tests** (621 + 71) pass; verified live in the browser — Batch renders all three contact lines, a bad Steam URL disables Batch generation and names the field, a fourth email is refused with the three intact, and Genre Playlists opens to 42 inputs behind a `0/42` badge.
+- Six manifests bumped 0.34.0 → 0.35.0.
+
 ## v0.34.0 — 2026-07-20
 
 A **feature** release that lets creators publish a different email per purpose instead of a

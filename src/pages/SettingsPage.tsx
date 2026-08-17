@@ -1,166 +1,21 @@
 import { useTranslation } from "react-i18next";
-import type { TFunction } from "i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import { Save, Upload } from "lucide-react";
 import { Toggle } from "@components/ui/Toggle";
 import { Select } from "@components/ui/Select";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
-import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Accordion } from "@components/ui/Accordion";
-import { FIELD_LIMITS } from "@config/field-limits";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
-import { GENRES } from "@config/genres";
-import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
-import { validatePlaylistUrl } from "@utils/validation";
-import { exportTypedToJsonFile, importParsedFromJsonFile } from "@utils/import-export";
-import { resolveForType } from "@utils/file-schema";
+import { useSettingsStore } from "@store/settings-store";
+import { exportSettingsToFile, importSettingsFromFile } from "./settings/settings-io";
+import { GenrePlaylistsSection } from "./settings/GenrePlaylistsSection";
 import {
   type SupportedLanguage,
   type TitleBadgePosition,
   type TitleSeparatorId,
   type TitleBadgeCase,
 } from "@engine/types";
-import toast from "react-hot-toast";
-import { logger } from "@utils/logger";
-
-const SETTINGS_STORE_KEY = "ytdescgen-settings";
-
-/**
- * Identifier-fingerprint check: pre-v0.18.0 exports were a raw dump of
- * the entire on-disk `settings.json`, keyed by every store's
- * localStorage name (`ytdescgen-settings`, `ytdescgen-profiles`, …).
- * v0.18.0 narrowed Export Settings to write only the Settings store,
- * wrapped in the typed envelope used by the rest of the Profiles tab.
- * Detect the legacy shape so we can refuse the import with a friendly
- * message instead of silently injecting profiles / templates / history
- * into the Settings store.
- */
-function isLegacyMultiStoreDump(parsed: unknown): boolean {
-  if (!parsed || typeof parsed !== "object") return false;
-  const asRecord = parsed as Record<string, unknown>;
-  if ("_type" in asRecord) return false; // already an envelope
-  return SETTINGS_STORE_KEY in asRecord;
-}
-
-/**
- * Write the Settings store to disk as a typed envelope JSON file.
- * v0.18.0 replaced the old "dump the entire on-disk settings.json"
- * approach (which leaked Profiles / Templates / History into the
- * exported file). The envelope wrapper matches what the Profiles tab
- * produces, so users can swap export files between machines without
- * worrying about which tab they're using.
- */
-async function exportSettingsToFile(t: TFunction<"ui">) {
-  // `extractData` is synchronous, so the export call is the first await — the
-  // web file picker needs the click's transient user activation.
-  const data = extractData(useSettingsStore.getState());
-  const outcome = await exportTypedToJsonFile("settings", data, "ytdescgen-settings.json");
-  // Dismissing the save dialog is a decision, not a failure — stay silent.
-  if (outcome === "cancelled") return;
-  if (outcome === "failed") {
-    toast.error(t("common.exportFailed"));
-    logger.error("settings", "Failed to export settings");
-    return;
-  }
-  toast.success(t("common.exported"));
-}
-
-/**
- * Import settings from a user-picked `.json` file. Accepts the
- * v0.18.0 envelope shape (`{ _type: "settings", data: {...} }`) and a
- * bare `SettingsData` object (hand-edited / shared partial files).
- * Pre-v0.18.0 multi-store dumps are rejected with a friendly toast —
- * see {@link isLegacyMultiStoreDump} for the rationale.
- *
- * `healSettings()` back-fills any missing keys, so a partial import
- * never leaves the store in an incomplete state. The healed payload is
- * dispatched via `setState`, which both updates React and triggers the
- * persist `subscribe` → `saveSettings`, syncing localStorage *and* the
- * on-disk `settings.json` (so re-opening the app doesn't undo the
- * import).
- */
-async function importSettingsFromFile() {
-  const read = await importParsedFromJsonFile();
-  if (!read.ok) {
-    // `importParsedFromJsonFile` only emits these four failure kinds —
-    // `wrong-shape` / `newer-schema` come from `importTypedFromJsonFile`
-    // (which layers `resolveForType` on top). The `default` keeps TS
-    // happy with the wider `ImportFailure` union without being reachable
-    // at runtime.
-    switch (read.failure.kind) {
-      case "cancelled":
-        return; // silent
-      case "read-failed":
-        toast.error(`Could not read file: ${read.failure.message}`);
-        logger.error("settings", "read-failed during settings import", read.failure.message);
-        return;
-      case "empty":
-        toast.error("File is empty");
-        logger.warn("settings", "Import file is empty");
-        return;
-      case "parse-error":
-        toast.error(`Invalid JSON syntax: ${read.failure.message}`);
-        logger.error("settings", "JSON parse failed during settings import", read.failure.message);
-        return;
-      default:
-        toast.error("Import failed");
-        logger.error("settings", "Unexpected import failure", JSON.stringify(read.failure));
-        return;
-    }
-  }
-
-  const { shape } = read;
-
-  // Pre-v0.18.0 multi-store dump → refuse with a targeted message so
-  // the user knows to re-export from v0.18.0+ rather than silently
-  // accept a file that would pollute the settings store with profile /
-  // template / history data.
-  if (isLegacyMultiStoreDump(shape.data)) {
-    toast.error(
-      "Legacy export format from v0.17.x or earlier is no longer supported. Please re-export from v0.18.0+.",
-    );
-    logger.warn("settings", "Refused legacy multi-store dump on import");
-    return;
-  }
-
-  const resolved = resolveForType(shape, "settings");
-  if (!resolved.ok) {
-    switch (resolved.reason.kind) {
-      case "wrong-type":
-        toast.error(`This file looks like a ${resolved.reason.actual} export, not settings.`);
-        logger.warn(
-          "settings",
-          `Refused wrong-type file on settings import (got ${resolved.reason.actual})`,
-        );
-        return;
-      case "unknown-shape":
-        toast.error("File shape is not recognised — choose a YTDescGen settings export.");
-        logger.warn("settings", "Refused unknown-shape file on settings import");
-        return;
-      case "newer-schema":
-        toast.error(
-          `File was exported by a newer version (schema v${resolved.reason.actual}; this build supports up to v${resolved.reason.supported}). Update YTDescGen.`,
-        );
-        logger.warn(
-          "settings",
-          `Refused newer-schema settings file (file=v${resolved.reason.actual} supported=v${resolved.reason.supported})`,
-        );
-        return;
-    }
-  }
-
-  const healed = healSettings(resolved.data);
-  useSettingsStore.setState(healed);
-  // Re-apply the theme class on <html> — `setTheme` does this in the
-  // store action, but `setState` bypasses actions, so the class can
-  // get out of sync if the imported theme differs from the current.
-  document.documentElement.classList.toggle("dark", healed.theme === "dark");
-  document.documentElement.classList.toggle("light", healed.theme === "light");
-
-  toast.success("Settings imported");
-  logger.info("settings", "Imported settings from file");
-}
 
 export function SettingsPage() {
   const { t, i18n } = useTranslation("ui");
@@ -173,9 +28,6 @@ export function SettingsPage() {
   // persisted map predates it. Only Genre Playlists ships collapsed, because
   // it renders one input per genre.
   const isOpen = (id: string): boolean => accordion[id] ?? true;
-  const filledGenrePlaylists = Object.values(settings.genrePlaylists).filter((v) =>
-    v?.trim(),
-  ).length;
 
   const langOptions = SUPPORTED_LANGUAGES.map((l) => ({
     value: l.id,
@@ -445,56 +297,7 @@ export function SettingsPage() {
           />
         </Accordion>
 
-        {/* 6.5 Genre Playlists — per-genre YouTube playlist URLs that the
-            pinned-comment template can auto-suggest based on the video's
-            primary genre. v0.8 phase 2. */}
-        <Accordion
-          id="genrePlaylists"
-          icon="🎵"
-          title={t("settings.genrePlaylistsTitle")}
-          open={isOpen("genrePlaylists")}
-          onToggle={() => toggleAccordion("genrePlaylists")}
-          badge={
-            <span className="rounded bg-surface-2 px-1.5 py-0.5 text-xs text-text-muted">
-              {t("settings.genrePlaylistsBadge", {
-                filled: filledGenrePlaylists,
-                total: GENRES.length,
-              })}
-            </span>
-          }
-        >
-          <p className="text-xs text-text-muted">{t("settings.genrePlaylistsHelp")}</p>
-          <p className="text-xs text-text-muted">{t("settings.genrePlaylistsEmptyHint")}</p>
-          <div className="flex flex-col gap-2">
-            {GENRES.map((g) => (
-              <ValidatedInput
-                key={g.id}
-                label={`${g.icon} ${t(g.labelKey)}`}
-                maxLength={FIELD_LIMITS.URL}
-                placeholder="https://www.youtube.com/playlist?list=..."
-                value={settings.genrePlaylists[g.id] ?? ""}
-                onChange={(v) => {
-                  const trimmed = v.trim();
-                  if (trimmed) {
-                    settings.setSetting("genrePlaylists", {
-                      ...settings.genrePlaylists,
-                      [g.id]: trimmed,
-                    });
-                  } else {
-                    // Empty input → drop this genre's entry entirely so the
-                    // map stays sparse. Filter pattern instead of `delete`
-                    // satisfies @typescript-eslint/no-dynamic-delete.
-                    const next = Object.fromEntries(
-                      Object.entries(settings.genrePlaylists).filter(([k]) => k !== g.id),
-                    );
-                    settings.setSetting("genrePlaylists", next);
-                  }
-                }}
-                validate={validatePlaylistUrl}
-              />
-            ))}
-          </div>
-        </Accordion>
+        <GenrePlaylistsSection />
 
         {/* 7. History. */}
         <Accordion
