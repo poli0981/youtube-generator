@@ -323,12 +323,39 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run typecheck
+
+      # correctness
+      - run: npm run typecheck        # src/
+      - run: npm run typecheck:all    # + tests/ and scripts/
       - run: npm run lint
       - run: npm run validate:locales
       - run: npm run test:run
+
+      # consistency
+      - run: npm run format:check
+      - run: npm run knip
+      - run: npm run check:version
+
+      # security (advisory — a fresh transitive advisory must not redden
+      # every unrelated PR before Dependabot opens its fix)
+      - run: npm audit --audit-level=high
+        continue-on-error: true
+
       - run: npm run build
 ```
+
+The workflow also declares `permissions: contents: read` (least privilege, and
+it clears CodeQL's `actions/missing-workflow-permissions` alert) and a
+`concurrency` group that cancels superseded runs everywhere except `main`, where
+each commit's result is a historical record the release process reads back.
+
+**Why these gates exist.** Every one of them was already installed and
+configured before v0.35.0, and none of them ran. `knip` was in `package.json`
+with a `knip.json` beside it. Prettier had a config and a `format` script.
+Turning them on found real problems immediately — most notably that
+`tsconfig.json` covers only `src/`, so `tests/` and `scripts/` had **never** been
+type-checked, which was hiding three fields silently missing from the
+editor→engine parity fixture whose entire job is catching that class of drift.
 
 ```yaml
 # .github/workflows/deploy-web.yml
@@ -418,3 +445,42 @@ describe("buildTitle", () => {
 | Single Tag | 30 chars | YouTube rejects that tag |
 | Hashtags in description | 60 max, 3 shown | First 3 shown above title |
 | Playlist title | 150 chars | Truncated |
+
+### Enforcement (v0.35.0)
+
+`renderAll` has always returned `warnings: CharLimitWarning[]`; until v0.35.0
+nothing in the UI read it. `src/engine/limits.ts` is now the single derivation,
+consumed by `useOutputLimits` on Output and precomputed per row in Batch.
+
+The rule is **all-or-nothing per output**: one over-limit field disables every
+copy button for that output. `checkTitleWarning` / `checkDescriptionWarning`
+only fire when a field is *strictly over*, never at the 80 % counter threshold,
+so a non-empty `warnings` array is an exact "YouTube will reject this" signal.
+
+Deliberately not gated by `YT_LIMITS`: thumbnail text and the pinned comment
+(different surfaces), the Playlist tab (150-char title, not 100), and social
+captions (per-platform caps in `SOCIAL_PLATFORMS`).
+
+## 7. Field Limits (v0.35.0)
+
+`src/config/field-limits.ts` — caps on what can be *typed*, distinct from
+YouTube's caps on what is *generated*.
+
+```typescript
+export const FIELD_LIMITS = {
+  URL: 200,
+  EMAIL_FIELD: 320,        // 3 addresses; RFC 5321 caps a single one at 254
+  SHORT_NAME: 100,
+  LABEL: 300,
+  LONG_TEXT: 2000,
+  TIMESTAMPS: YT_LIMITS.DESCRIPTION_MAX,
+  NUMERIC: 10,
+} as const;
+```
+
+Values are UTF-16 code units, matching the DOM `maxLength` attribute — an emoji
+costs 2. Grapheme counting would be more correct but cannot be enforced by the
+browser, and these are ceilings against absurd input, not a character budget.
+
+`maxLength` only constrains typing and pasting, so `clampField` is applied in
+`normalizeEditorPatch` to cover profile / preset / template imports.

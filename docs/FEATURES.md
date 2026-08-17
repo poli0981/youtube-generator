@@ -227,16 +227,42 @@ interface HistoryEntry {
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
 | Theme | dark / light | dark | App color theme |
-| Default UI Language | SupportedLanguage | en | Language for app interface |
-| Default Output Language | SupportedLanguage | en | Default language for generated output |
-| Default Genre | Genre | action | Pre-selected genre on new session |
-| Auto-save Draft | boolean | true | Auto-save form state to localStorage |
-| Show Character Count | boolean | true | Display char counters on output |
+| App Language | SupportedLanguage | browser-detected | Language of the interface |
+| Default Output Language | SupportedLanguage | en | Pre-selected for new drafts |
+| Show Character Count | boolean | true | Display char counters on output. **Does not** affect copy blocking |
 | Compact Tag Display | boolean | false | Tags as comma list vs chip display |
+| **Strict Mode** | boolean | **false** | v0.35.0. Blocks Generate / Copy / Export while any field has a hard error |
 | History Limit | number | 100 | Max history entries to keep |
-| Include Multilingual Tags | boolean | true | Add JA/VI tags to tag output |
+| Log Retention | 1–90 days | 7 | Log files older than this are deleted at boot |
+| Include Multilingual Tags | boolean | true | Add per-language tags to tag output |
 | Include Trending Tags | boolean | true | Add year-based trending tags |
 | Hashtag Count | 1-3 | 3 | Number of hashtags to generate |
+| Genre Playlists | map | `{}` | One playlist URL per genre (42), collapsed by default |
+
+`Default Genre` and `Auto-save Draft` were removed in v0.22.0 and v0.3
+respectively — the draft autosaves unconditionally, so the toggle was dead.
+
+### Description toggles
+
+`showCopyright` · `showUsagePolicy` · `showSponsorCredit` · `showGameCopyright`
+· `showThirdPartyAds` · `showTranslationQuality` · `splitContactEmail` ·
+`showPinnedCommentTemplate` · `pinnedCommentIncludeAskNextGame` ·
+`pinnedCommentIncludeGenrePlaylist`
+
+## 🛡 Guardrails (v0.35.0)
+
+Three independent mechanisms. The first two are always on.
+
+| Mechanism | Scope |
+|---|---|
+| **Character limits** | Title 100 / description 5,000 / tags 500. If **any one** is over, **no** field can be copied — on Output and Batch. Batch scopes per part; Copy All Batch blocks if any part is over |
+| **Field limits** | Hard `maxLength` per category: URL 200, email 320, short name 100, label 300, long text 2,000, timestamps 5,000, numeric 10. Imported values are clamped too |
+| **Strict Mode** | Opt-in. Blocks Generate / Copy / Export on hard errors only; warnings (e.g. a working link on a non-standard prefix) never block. Log export is exempt |
+
+Emails are capped at **three per field**, enforced on the increase so an
+over-cap legacy value stays editable. Invalid input is never committed to the
+store, so a malformed URL cannot reach the generated description whether Strict
+Mode is on or off.
 
 ## 🖥 Desktop App Features (Tauri)
 
