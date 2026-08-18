@@ -82,7 +82,7 @@ jobs:
       # Keep the APK regardless of whether the release upload works, so a
       # broken upload never costs a 20-minute rebuild.
       - name: Upload APK as workflow artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: ytdescgen-android-apk
           path: src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk
