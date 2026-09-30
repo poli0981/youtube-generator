@@ -20,16 +20,18 @@ Xem thêm: [`THIRD_PARTY_NOTICES.md`](../../../THIRD_PARTY_NOTICES.md) § "AI-As
 
 ## Chất lượng bản dịch
 
-UI ứng dụng hỗ trợ sáu ngôn ngữ. Chất lượng tác giả khác nhau:
+Ứng dụng có tám ngôn ngữ. Chất lượng tác giả khác nhau:
 
-| Locale                   | Tác giả                      | Ghi chú                                                                               |
-| ------------------------ | ---------------------------- | ------------------------------------------------------------------------------------- |
-| Tiếng Anh (`en`)         | Người duy trì + AI           | Locale làm việc chính. Chuỗi được review trước khi commit.                            |
-| Tiếng Việt (`vi`)        | Người duy trì (bản ngữ) + AI | Review bởi người duy trì là người bản ngữ tiếng Việt.                                 |
-| Tiếng Nhật (`ja`)        | AI dịch                      | Không có review bản ngữ. Ngữ pháp và văn phong có thể chưa chuẩn.                     |
-| Tiếng Tây Ban Nha (`es`) | AI dịch                      | Không có review bản ngữ. Không nhắm cụ thể vào giọng vùng miền (LatAm vs. Castilian). |
-| Tiếng Hàn (`ko`)         | AI dịch                      | Không có review bản ngữ. Honorific register chọn ở mức trung tính.                    |
-| Tiếng Trung (`zh`)       | AI dịch                      | Giản thể. Không có review bản ngữ.                                                    |
+| Locale                             | Tác giả                      | Ghi chú                                                                                                    |
+| ---------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Tiếng Anh (`en`)                   | Người duy trì + AI           | Locale làm việc chính. Chuỗi được review trước khi commit.                                                 |
+| Tiếng Việt (`vi`)                  | Người duy trì (bản ngữ) + AI | Review bởi người duy trì là người bản ngữ tiếng Việt.                                                      |
+| Tiếng Nhật (`ja`)                  | AI dịch                      | Không có review bản ngữ. Ngữ pháp và văn phong có thể chưa chuẩn.                                          |
+| Tiếng Tây Ban Nha (`es`)           | AI dịch                      | Không có review bản ngữ. Không nhắm cụ thể vào giọng vùng miền (LatAm vs. Castilian).                      |
+| Tiếng Hàn (`ko`)                   | AI dịch                      | Không có review bản ngữ. Honorific register chọn ở mức trung tính.                                         |
+| Tiếng Trung (`zh`)                 | AI dịch                      | Giản thể. Không có review bản ngữ.                                                                         |
+| Tiếng Bồ Đào Nha, Brazil (`pt-BR`) | AI dịch                      | Không có review bản ngữ. Nhắm riêng tiếng Bồ Đào Nha Brazil, không nhắm bản châu Âu.                       |
+| Tiếng Indonesia (`id`)             | AI dịch                      | Không có review bản ngữ. Tiếng Indonesia chuẩn; thuật ngữ game giữ tiếng Anh khi đó là cách dùng phổ biến. |
 
 Nếu bạn là người bản ngữ và phát hiện dịch sai, vui lòng mở issue hoặc PR — xem [CONTRIBUTING.md](../../../CONTRIBUTING.md) § "i18n Contributions".
 

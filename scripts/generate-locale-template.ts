@@ -121,11 +121,14 @@ function main(): void {
 
   console.log(`\n${total} strings to translate. Remaining steps to register "${lang}":
 
-  1. src/i18n/index.ts          — add to SUPPORTED_LANGUAGES (flag + nativeName)
-  2. src/engine/types.ts        — add to the SupportedLanguage union
-  3. src/store/settings-heal.ts — add to detectBrowserLanguage's supported list
-  4. src/engine/tag-generator.ts— add a MULTILINGUAL_TAGS entry (TS enforces this)
-  5. npm run validate:locales   — must pass before committing
+  1. src/i18n/index.ts           — add to SUPPORTED_LANGUAGES (flag + nativeName)
+  2. src/engine/types.ts         — add to the SupportedLanguage union
+  3. src/store/settings-heal.ts  — add to detectBrowserLanguage's supported list (fails silently)
+  4. src/engine/tag-generator.ts — add CORE_TAGS_BY_LANG and MULTILINGUAL_TAGS entries (TS enforces)
+  5. src/engine/channel-phrase.ts— add DROP patterns and a FALLBACK noun (TS enforces)
+  6. worker/gate-i18n.ts         — add GateLang, GATE_STRINGS and PREFIX_TO_LANG (fails silently:
+                                   the check page would show in English)
+  7. npm run validate:locales    — must pass before committing
 
 See docs/I18N.md for the full checklist.`);
 }
