@@ -5,7 +5,7 @@
 # below add scheduled VERSION updates so the tree does not silently rot between
 # advisories, and carry the ignore rules that keep unfixable alerts quiet.
 #
-# `cooldown` holds version updates back for a few days after a release is
+# `cooldown` holds version updates back for a week after a release is
 # published. Most npm supply-chain compromises are caught and yanked within
 # that window; security updates ignore the cooldown and still arrive at once.
 #
@@ -34,7 +34,7 @@ updates:
     schedule:
       interval: "weekly"
     cooldown:
-      default-days: 3
+      default-days: 7
     open-pull-requests-limit: 5
     commit-message:
       prefix: "chore(deps)"
@@ -101,6 +101,8 @@ updates:
     # No version-update PRs; this entry only feeds ignore rules to security
     # updates. The Rust side moves with tauri (see the note at the top).
     open-pull-requests-limit: 0
+    cooldown:
+      default-days: 7
     ignore:
       - dependency-name: "glib"
 
@@ -109,7 +111,7 @@ updates:
     schedule:
       interval: "weekly"
     cooldown:
-      default-days: 3
+      default-days: 7
     open-pull-requests-limit: 3
     commit-message:
       prefix: "ci"

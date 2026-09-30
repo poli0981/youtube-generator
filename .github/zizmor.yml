@@ -9,3 +9,12 @@ rules:
         "poli0981/*": any
         # Everything else must be pinned to a full commit SHA.
         "*": hash-pin
+  dangerous-triggers:
+    ignore:
+      # Both run on `workflow_run` so a failure (or a release build) anywhere
+      # can be reported to Discord. Neither checks out the triggering run's
+      # code nor downloads its artifacts: the shared workflows only read run
+      # metadata, and pass every untrusted field (branch, commit message,
+      # actor) to the notifier script through `env:`, never by interpolation.
+      - notify-ci-failure.yml
+      - notify-release-pipeline.yml
