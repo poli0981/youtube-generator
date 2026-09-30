@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { getOutputLimitStatus } from "@engine/limits";
+import { getOutputLimitStatus, isCopyAllBlocked, isFieldOver } from "@engine/limits";
 import { YT_LIMITS } from "@engine/types";
 import { useEditorStore } from "@store/editor-store";
 import { useGeneratedOutput } from "./use-generated-output";
@@ -13,9 +13,9 @@ export type OutputCopyTarget = "title" | "description" | "tags" | "all";
 /**
  * Copy part of the current output from outside the Output page — the command
  * palette and Ctrl/⌘+Shift+C — under the same rules as the Output page's own
- * buttons: nothing is copied while Strict Mode is blocking or while any field
- * is over its YouTube limit. (The shortcut used to copy title + description
- * past both gates.)
+ * buttons: nothing while Strict Mode is blocking, and not a field that is
+ * over its YouTube limit (Copy All: title or description). The shortcut used
+ * to copy title + description past both gates.
  */
 export function useOutputCopy(): (target: OutputCopyTarget) => Promise<boolean> {
   const { t } = useTranslation("ui");
@@ -34,7 +34,9 @@ export function useOutputCopy(): (target: OutputCopyTarget) => Promise<boolean> 
         toast.error(t("strict.copyBlocked"));
         return false;
       }
-      if (getOutputLimitStatus(output).blocked) {
+      const status = getOutputLimitStatus(output);
+      const blocked = target === "all" ? isCopyAllBlocked(status) : isFieldOver(status, target);
+      if (blocked) {
         toast.error(t("output.limits.bannerTitle"));
         return false;
       }
@@ -47,10 +49,9 @@ export function useOutputCopy(): (target: OutputCopyTarget) => Promise<boolean> 
             fieldLabel: t("output.description"),
           });
         case "tags":
-          return copy(output.tagString, {
-            limit: YT_LIMITS.TAGS_MAX,
-            fieldLabel: t("output.tags"),
-          });
+          // No raw-length backstop: YouTube counts tags differently from the
+          // joined string, and the check above already used its count.
+          return copy(output.tagString);
         case "all":
           return copy(`${output.title}\n\n${output.description}`);
       }

@@ -570,6 +570,18 @@
     "livestream": {
       "scheduledLine": "🔴 LIVE vào {{time}}",
       "watchLine": "Xem / xem lại: {{link}}"
+    },
+    "rigLabels": {
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "motherboard": "Bo mạch chủ",
+      "storage": "Ổ cứng",
+      "os": "Hệ điều hành",
+      "monitor": "Màn hình",
+      "capture": "Phần mềm quay",
+      "controller": "Tay cầm",
+      "video_editor": "Phần mềm dựng video"
     }
   },
   "pinnedComment": {

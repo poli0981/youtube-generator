@@ -1,39 +1,32 @@
-import { GPU_CATALOG, GPU_CUSTOM_BRAND_ID, findGpuBrand, type GpuCatalog } from "./gpu-catalog";
+import { formatGpuValue, migrateGpuValue } from "./gpu-catalog";
 
 /**
  * Supported rig field input types.
  *
- * - `text`: plain text input (existing behaviour).
+ * - `text`: plain text input, optionally with suggestions.
  * - `dropdown_with_version`: a dropdown of preset options paired with a
  *   free-form version text input. The stored value is
  *   `"<option_value>|<version>"` so we don't break the flat
  *   `Partial<Record<string, string>>` rig shape in the editor store.
- * - `cascading_dropdown` (v0.13): three-level Brand → Series → Model
- *   dropdown for GPU. Stored as `"<brand>|<series>|<model>"`. When
- *   brand = `"custom"`, the UI swaps to a single free-text input and
- *   stores `"custom||<freeText>"` (the model is the verbatim text the
- *   user typed). Pre-v0.13 free-text values lack pipes — they pass
- *   through `formatRigValue` unchanged so old profiles render the same
- *   string they did before.
- * - `composite_dropdown` (v0.13): two-or-more dropdowns combined into
- *   one logical field. Used by RAM (size + DDR generation). Each part
- *   may opt into a free-text "Custom" override; the stored format is
+ * - `gpu` (v1.0.0): the searchable GPU catalog (`@config/gpu-catalog`).
+ *   Stores `gpu:<model id>`, or the user's own text for anything else.
+ * - `composite_dropdown`: two-or-more dropdowns combined into one logical
+ *   field (RAM: size + type + speed; OS: name + version + edition). Each
+ *   part may opt into a free-text "Custom" override; the stored format is
  *   pipe-delimited in the order parts are declared.
  */
-type RigFieldType = "text" | "dropdown_with_version" | "cascading_dropdown" | "composite_dropdown";
+type RigFieldType = "text" | "dropdown_with_version" | "gpu" | "composite_dropdown";
 
 interface RigFieldOption {
   readonly value: string;
-  /** Display label (not translated — software names are brand-preserved). */
+  /** Display label (not translated — product names are brand-preserved). */
   readonly label: string;
 }
 
 /**
- * v0.23.0: a composite part's options can now either be a static array
- * (the original RAM-style shape) OR a function that resolves the option
- * list based on previously-selected parts (the OS cascading shape, where
- * version-or-distro depends on OS name and the third slot depends on
- * both). Existing static-array call sites continue to work unchanged.
+ * A composite part's options are either a static array or a function of
+ * the previously-selected parts (the OS cascade, where the version list
+ * depends on the OS name).
  */
 type RigFieldOptionResolver =
   readonly RigFieldOption[] | ((previousParts: readonly string[]) => readonly RigFieldOption[]);
@@ -45,21 +38,18 @@ export interface CompositePart {
   readonly options: RigFieldOptionResolver;
   /** When true, the part renders an extra free-text input when value === `"custom"`. */
   readonly allowCustom?: boolean;
-  /** Suffix shown after the custom numeric input (e.g. " GB"). */
+  /** Suffix shown after the custom input (e.g. " GB"). */
   readonly customSuffix?: string;
   /** Optional placeholder for the custom input. */
   readonly customPlaceholder?: string;
   /**
-   * v0.23.0: dynamic label key override. Lets a single part show
-   * "Distro" when OS = Linux but "Version" when OS = Windows / macOS.
-   * Receives previously-selected parts; returns an i18n key.
+   * Dynamic label key override. Lets a single part show "Distro" when
+   * OS = Linux but "Version" when OS = Windows / macOS.
    */
   readonly labelKeyResolver?: (previousParts: readonly string[]) => string;
   /**
-   * v0.23.0: hide this part entirely when the resolver returns `true`
-   * (e.g. macOS has no Edition slot). `formatRigValue` also skips the
-   * hidden part so it doesn't leak an empty token into the joined
-   * output, and the editor doesn't render the dropdown.
+   * Hide this part entirely when the resolver returns `true` (macOS has no
+   * edition slot). `formatRigValue` skips hidden parts too.
    */
   readonly hiddenWhen?: (previousParts: readonly string[]) => boolean;
 }
@@ -67,7 +57,7 @@ export interface CompositePart {
 /**
  * Helper for {@link CompositePart.options} — call sites get a plain
  * `RigFieldOption[]` whether the part declares a static array or a
- * function-of-previous-parts resolver. Pure; exported for {@link RigEditor}.
+ * function-of-previous-parts resolver.
  */
 export function resolveCompositeOptions(
   opts: RigFieldOptionResolver,
@@ -76,11 +66,7 @@ export function resolveCompositeOptions(
   return typeof opts === "function" ? opts(previousParts) : opts;
 }
 
-/**
- * Helper for {@link CompositePart.labelKey} / {@link CompositePart.labelKeyResolver}.
- * Returns the dynamic label when present, falling back to the static
- * key on the part. Pure; exported for {@link RigEditor}.
- */
+/** The part's label key — dynamic when it declares a resolver. */
 export function resolveCompositeLabelKey(
   part: CompositePart,
   previousParts: readonly string[],
@@ -91,9 +77,16 @@ export function resolveCompositeLabelKey(
 interface CompositeFieldSpec {
   readonly parts: readonly CompositePart[];
   /**
+   * Whether changing a part clears the parts after it. True where later
+   * option lists depend on earlier choices (OS: Windows → macOS must drop
+   * "Pro"); false where parts are independent (RAM: picking 32 GB must
+   * not wipe the DDR5 already chosen).
+   */
+  readonly cascade: boolean;
+  /**
    * Format the stored parts into the description-output string. Receives
    * resolved labels (not raw ids) — for `custom` parts the resolved value
-   * is the free-text the user typed.
+   * is the free text the user typed.
    */
   readonly format: (resolvedParts: readonly string[]) => string;
 }
@@ -105,10 +98,10 @@ export interface RigField {
   readonly placeholder?: string;
   readonly options?: readonly RigFieldOption[];
   readonly versionPlaceholder?: string;
-  /** Set when {@link type} is `"cascading_dropdown"`. */
-  readonly catalog?: GpuCatalog;
   /** Set when {@link type} is `"composite_dropdown"`. */
   readonly composite?: CompositeFieldSpec;
+  /** `text` fields: values offered while typing (the user may type anything). */
+  readonly suggestions?: readonly string[];
 }
 
 /**
@@ -132,7 +125,7 @@ const VIDEO_EDITOR_OPTIONS: readonly RigFieldOption[] = [
   { value: "other", label: "Other" },
 ];
 
-/** RAM size options in GB. `custom` opens a numeric free-text input. */
+/** RAM size options in GB. `custom` opens a free-text input. */
 const RAM_SIZE_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
   { value: "4", label: "4 GB" },
@@ -140,28 +133,64 @@ const RAM_SIZE_OPTIONS: readonly RigFieldOption[] = [
   { value: "8", label: "8 GB" },
   { value: "12", label: "12 GB" },
   { value: "16", label: "16 GB" },
+  { value: "24", label: "24 GB" },
   { value: "32", label: "32 GB" },
+  { value: "48", label: "48 GB" },
   { value: "64", label: "64 GB" },
   { value: "96", label: "96 GB" },
   { value: "128", label: "128 GB" },
+  { value: "192", label: "192 GB" },
   { value: "256", label: "256 GB" },
   { value: "custom", label: "Custom…" },
 ];
 
-/** DDR generation. DDR1 stays in the list for legacy gear; users with
- *  unusual rigs (DDR6/DDR7) can pick early-spec options. */
-const RAM_DDR_OPTIONS: readonly RigFieldOption[] = [
+/**
+ * Memory type. Desktop DDR plus the LPDDR generations laptops, handhelds
+ * and Macs use. There is no DDR6/DDR7 system memory (GDDR7 is graphics
+ * memory), so those entries are gone; the first generation is plain "DDR"
+ * (value kept as "DDR1" so old drafts still resolve).
+ */
+const RAM_TYPE_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
-  { value: "DDR1", label: "DDR1" },
-  { value: "DDR2", label: "DDR2" },
-  { value: "DDR3", label: "DDR3" },
-  { value: "DDR4", label: "DDR4" },
   { value: "DDR5", label: "DDR5" },
-  { value: "DDR6", label: "DDR6" },
-  { value: "DDR7", label: "DDR7" },
+  { value: "DDR4", label: "DDR4" },
+  { value: "DDR3", label: "DDR3" },
+  { value: "DDR2", label: "DDR2" },
+  { value: "DDR1", label: "DDR" },
+  { value: "LPDDR5X", label: "LPDDR5X" },
+  { value: "LPDDR5", label: "LPDDR5" },
+  { value: "LPDDR4X", label: "LPDDR4X" },
+  { value: "LPDDR4", label: "LPDDR4" },
+];
+
+/** Data rate in MT/s (what the "DDR5-6000" number means). */
+const RAM_SPEED_OPTIONS: readonly RigFieldOption[] = [
+  { value: "", label: "—" },
+  ...[
+    "2133",
+    "2400",
+    "2666",
+    "3000",
+    "3200",
+    "3600",
+    "4000",
+    "4266",
+    "4800",
+    "5200",
+    "5600",
+    "6000",
+    "6400",
+    "6800",
+    "7200",
+    "7500",
+    "8000",
+    "8533",
+  ].map((v) => ({ value: v, label: v })),
+  { value: "custom", label: "Custom…" },
 ];
 
 const RAM_COMPOSITE: CompositeFieldSpec = {
+  cascade: false,
   parts: [
     {
       id: "size",
@@ -169,35 +198,31 @@ const RAM_COMPOSITE: CompositeFieldSpec = {
       options: RAM_SIZE_OPTIONS,
       allowCustom: true,
       customSuffix: " GB",
-      customPlaceholder: "48",
+      customPlaceholder: "40",
     },
+    { id: "ddr", labelKey: "editor.ram_ddr", options: RAM_TYPE_OPTIONS },
     {
-      id: "ddr",
-      labelKey: "editor.ram_ddr",
-      options: RAM_DDR_OPTIONS,
+      id: "speed",
+      labelKey: "editor.ram_speed",
+      options: RAM_SPEED_OPTIONS,
+      allowCustom: true,
+      customPlaceholder: "6200",
     },
   ],
-  format: ([size = "", ddr = ""]) => {
-    if (!size && !ddr) return "";
-    if (!size) return ddr;
-    if (!ddr) return size;
-    return `${size} ${ddr}`;
+  // "32 GB DDR5-6000" — the way RAM kits are named. Without a type the
+  // speed gets its unit: "32 GB 6000 MT/s".
+  format: ([size = "", type = "", speed = ""]) => {
+    const memory = type && speed ? `${type}-${speed}` : type || (speed ? `${speed} MT/s` : "");
+    return [size, memory].filter(Boolean).join(" ");
   },
 };
 
 /**
- * OS composite (v0.22.0, extended v0.23.0). Three dropdowns combined
- * into one logical field. The slot semantics now adapt to the chosen
- * OS family:
+ * OS composite. The slot semantics adapt to the chosen OS family:
  *
  * - Windows: name → version (10/11) → edition (Home/Pro/…)
- * - macOS: name → version (10/11/12/13/14/15/26) → (hidden — Apple has no editions)
- * - Linux: name → distro (Ubuntu/Fedora/…) → version (per-distro)
- *
- * Stored pipe-delimited; format function joins all non-empty parts
- * with single spaces. v0.22.0 stored values like `"windows|11|pro"`
- * round-trip unchanged through the new resolver because the static
- * Windows path remains the default for `name === "windows"`.
+ * - macOS: name → version → (hidden — Apple has no editions)
+ * - Linux: name → distro → version (per distro)
  */
 const OS_NAME_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
@@ -208,80 +233,109 @@ const OS_NAME_OPTIONS: readonly RigFieldOption[] = [
 
 const WINDOWS_VERSION_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
-  { value: "10", label: "10" },
   { value: "11", label: "11" },
+  { value: "10", label: "10" },
 ];
 
 /**
- * macOS major versions. Apple jumped from 15 (Sequoia, 2024) to 26
- * (Tahoe, 2025) to year-align the marketing number, so the list is
- * intentionally non-contiguous.
+ * macOS versions. Apple jumped from 15 (Sequoia, 2024) to 26 (Tahoe, 2025)
+ * to year-align the number, so the list is intentionally non-contiguous.
+ * "10" is the pre-v1.0 catch-all for the 10.x era, kept so old drafts
+ * still resolve.
  */
 const MACOS_VERSION_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
-  { value: "10", label: "10 (Mojave era)" },
-  { value: "11 Big Sur", label: "11 Big Sur" },
-  { value: "12 Monterey", label: "12 Monterey" },
-  { value: "13 Ventura", label: "13 Ventura" },
-  { value: "14 Sonoma", label: "14 Sonoma" },
-  { value: "15 Sequoia", label: "15 Sequoia" },
   { value: "26 Tahoe", label: "26 Tahoe" },
+  { value: "15 Sequoia", label: "15 Sequoia" },
+  { value: "14 Sonoma", label: "14 Sonoma" },
+  { value: "13 Ventura", label: "13 Ventura" },
+  { value: "12 Monterey", label: "12 Monterey" },
+  { value: "11 Big Sur", label: "11 Big Sur" },
+  { value: "10.15 Catalina", label: "10.15 Catalina" },
+  { value: "10", label: "10.x" },
 ];
 
-/** Linux distros gameplay creators actually use via Proton. */
+/** Linux distros gameplay creators actually use (Proton, handhelds). */
 const LINUX_DISTRO_OPTIONS: readonly RigFieldOption[] = [
   { value: "", label: "—" },
+  { value: "steamos", label: "SteamOS" },
+  { value: "bazzite", label: "Bazzite" },
+  { value: "cachyos", label: "CachyOS" },
+  { value: "nobara", label: "Nobara" },
   { value: "ubuntu", label: "Ubuntu" },
   { value: "fedora", label: "Fedora" },
   { value: "debian", label: "Debian" },
-  { value: "arch", label: "Arch" },
+  { value: "arch", label: "Arch Linux" },
   { value: "manjaro", label: "Manjaro" },
   { value: "popos", label: "Pop!_OS" },
   { value: "mint", label: "Linux Mint" },
+  { value: "opensuse", label: "openSUSE" },
 ];
+
+const ROLLING = [
+  { value: "", label: "—" },
+  { value: "rolling", label: "rolling" },
+] as const;
+
+const LATEST = [
+  { value: "", label: "—" },
+  { value: "latest", label: "latest stable" },
+] as const;
 
 /**
  * Per-distro version lists. The map key matches the distro id from
- * {@link LINUX_DISTRO_OPTIONS}; values are stored verbatim (e.g. the
- * stored Ubuntu version is "22.04 LTS"). Rolling distros surface a
- * single "rolling" / "latest" placeholder so the dropdown isn't empty.
+ * {@link LINUX_DISTRO_OPTIONS}; values are stored verbatim. Rolling or
+ * image-based distros get a single placeholder so the dropdown isn't empty.
  */
 const LINUX_VERSION_BY_DISTRO: Record<string, readonly RigFieldOption[]> = {
+  steamos: [
+    { value: "", label: "—" },
+    { value: "3", label: "3" },
+  ],
+  bazzite: LATEST,
+  cachyos: ROLLING,
+  nobara: [
+    { value: "", label: "—" },
+    { value: "42", label: "42" },
+    { value: "41", label: "41" },
+  ],
   ubuntu: [
     { value: "", label: "—" },
-    { value: "20.04 LTS", label: "20.04 LTS" },
-    { value: "22.04 LTS", label: "22.04 LTS" },
-    { value: "24.04 LTS", label: "24.04 LTS" },
     { value: "26.04 LTS", label: "26.04 LTS" },
+    { value: "24.04 LTS", label: "24.04 LTS" },
+    { value: "22.04 LTS", label: "22.04 LTS" },
+    { value: "20.04 LTS", label: "20.04 LTS" },
   ],
   fedora: [
     { value: "", label: "—" },
-    { value: "40", label: "40" },
-    { value: "41", label: "41" },
+    { value: "44", label: "44" },
+    { value: "43", label: "43" },
     { value: "42", label: "42" },
+    { value: "41", label: "41" },
+    { value: "40", label: "40" },
   ],
   debian: [
     { value: "", label: "—" },
-    { value: "12 Bookworm", label: "12 Bookworm" },
     { value: "13 Trixie", label: "13 Trixie" },
+    { value: "12 Bookworm", label: "12 Bookworm" },
   ],
-  arch: [
-    { value: "", label: "—" },
-    { value: "rolling", label: "rolling" },
-  ],
-  manjaro: [
-    { value: "", label: "—" },
-    { value: "latest", label: "latest stable" },
-  ],
+  arch: ROLLING,
+  manjaro: LATEST,
   popos: [
     { value: "", label: "—" },
-    { value: "22.04 LTS", label: "22.04 LTS" },
     { value: "24.04 LTS", label: "24.04 LTS" },
+    { value: "22.04 LTS", label: "22.04 LTS" },
   ],
   mint: [
     { value: "", label: "—" },
-    { value: "21", label: "21" },
     { value: "22", label: "22" },
+    { value: "21", label: "21" },
+  ],
+  opensuse: [
+    { value: "", label: "—" },
+    { value: "Tumbleweed", label: "Tumbleweed" },
+    { value: "Leap 16", label: "Leap 16" },
+    { value: "Leap 15.6", label: "Leap 15.6" },
   ],
 };
 
@@ -297,12 +351,12 @@ const OS_EDITION_OPTIONS: readonly RigFieldOption[] = [
 const EMPTY_OPTIONS: readonly RigFieldOption[] = [{ value: "", label: "—" }];
 
 const OS_COMPOSITE: CompositeFieldSpec = {
+  cascade: true,
   parts: [
     { id: "name", labelKey: "editor.os_name", options: OS_NAME_OPTIONS },
     {
       // Slot 2: Windows/macOS use this as "Version", Linux re-purposes it
-      // as "Distro". The labelKeyResolver swaps the label so the editor
-      // form reads naturally for each OS family.
+      // as "Distro".
       id: "version_or_distro",
       labelKey: "editor.os_version",
       labelKeyResolver: ([name = ""]) =>
@@ -316,7 +370,7 @@ const OS_COMPOSITE: CompositeFieldSpec = {
     },
     {
       // Slot 3: Windows uses "Edition"; Linux re-purposes it as "Version"
-      // (per-distro). macOS doesn't have a third slot at all — hidden.
+      // (per distro). macOS doesn't have a third slot at all — hidden.
       id: "edition_or_linux_version",
       labelKey: "editor.os_edition",
       labelKeyResolver: ([name = ""]) =>
@@ -329,72 +383,147 @@ const OS_COMPOSITE: CompositeFieldSpec = {
       },
     },
   ],
-  format: (parts) => parts.filter((p) => p.trim() !== "").join(" "),
+  // "Windows 11 Pro", "macOS 26 Tahoe" — and for Linux just the distro,
+  // the way people name it: "Ubuntu 24.04 LTS", "Arch Linux (rolling)".
+  format: ([name = "", second = "", third = ""]) => {
+    if (name === "Linux" && second) {
+      if (third === "rolling" || third === "latest stable") return `${second} (${third})`;
+      return [second, third].filter(Boolean).join(" ");
+    }
+    return [name, second, third].filter((p) => p.trim() !== "").join(" ");
+  },
 };
 
+/** Suggestions for the CPU field; any other text is accepted as typed. */
+export const CPU_SUGGESTIONS: readonly string[] = [
+  "AMD Ryzen 7 9800X3D",
+  "AMD Ryzen 9 9950X3D",
+  "AMD Ryzen 9 9950X",
+  "AMD Ryzen 9 9900X",
+  "AMD Ryzen 7 9700X",
+  "AMD Ryzen 5 9600X",
+  "AMD Ryzen 7 7800X3D",
+  "AMD Ryzen 9 7950X3D",
+  "AMD Ryzen 9 7950X",
+  "AMD Ryzen 9 7900X",
+  "AMD Ryzen 7 7700X",
+  "AMD Ryzen 5 7600X",
+  "AMD Ryzen 5 7600",
+  "AMD Ryzen 7 5800X3D",
+  "AMD Ryzen 7 5700X3D",
+  "AMD Ryzen 9 5950X",
+  "AMD Ryzen 9 5900X",
+  "AMD Ryzen 7 5800X",
+  "AMD Ryzen 7 5700X",
+  "AMD Ryzen 5 5600X",
+  "AMD Ryzen 5 5600",
+  "AMD Ryzen 7 3700X",
+  "AMD Ryzen 5 3600",
+  "AMD Ryzen AI 9 HX 370",
+  "AMD Ryzen AI Max+ 395",
+  "AMD Ryzen 7 8845HS",
+  "AMD Ryzen 7 7840HS",
+  "Intel Core Ultra 9 285K",
+  "Intel Core Ultra 7 265K",
+  "Intel Core Ultra 5 245K",
+  "Intel Core i9-14900K",
+  "Intel Core i7-14700K",
+  "Intel Core i5-14600K",
+  "Intel Core i5-14400F",
+  "Intel Core i9-13900K",
+  "Intel Core i7-13700K",
+  "Intel Core i5-13600K",
+  "Intel Core i5-13400F",
+  "Intel Core i9-12900K",
+  "Intel Core i7-12700K",
+  "Intel Core i5-12600K",
+  "Intel Core i5-12400F",
+  "Intel Core i7-11700K",
+  "Intel Core i5-11400F",
+  "Intel Core i9-10900K",
+  "Intel Core i7-10700K",
+  "Intel Core i5-10400F",
+  "Intel Core i9-9900K",
+  "Intel Core i7-9700K",
+  "Intel Core i7-8700K",
+  "Intel Core Ultra 7 258V",
+  "Intel Core Ultra 7 155H",
+  "Apple M5",
+  "Apple M4 Pro",
+  "Apple M4",
+];
+
+/**
+ * Tidy a CPU name pasted from Windows or a spec sheet:
+ * `"12th Gen Intel(R) Core(TM) i7-12700K"` → `"Intel Core i7-12700K"`,
+ * `"AMD Ryzen 7 7800X3D 8-Core Processor"` → `"AMD Ryzen 7 7800X3D"`,
+ * `"Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz"` → `"Intel Core i9-9900K"`.
+ * Text it doesn't recognise is only trimmed and de-duplicated of spaces.
+ */
+export function cleanCpuName(raw: string): string {
+  return raw
+    .replace(/\((?:R|TM|C)\)|[®™©]/gi, "")
+    .replace(/^\s*\d{1,2}(?:st|nd|rd|th)\s+Gen\s+/i, "")
+    .replace(/\s+CPU\s*@\s*[\d.]+\s*[GM]Hz\b/i, "")
+    .replace(/\s+@\s*[\d.]+\s*[GM]Hz\b/i, "")
+    .replace(/\s+\d{1,3}-Core\s+Processor\b/i, "")
+    .replace(/\s+(?:with\s+Radeon(?:\s+\w+)?\s+Graphics|Processor)\s*$/i, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+/**
+ * The rig fields, in the order both the editor and the description show
+ * them: the parts a viewer compares first (CPU, GPU, RAM), then the rest.
+ */
 export const RIG_FIELDS: readonly RigField[] = [
-  { id: "os", labelKey: "rig.os", type: "composite_dropdown", composite: OS_COMPOSITE },
   {
     id: "cpu",
     labelKey: "rig.cpu",
     type: "text",
-    placeholder: "Intel i9-14900K / AMD Ryzen 9 7950X",
+    placeholder: "AMD Ryzen 7 9800X3D",
+    suggestions: CPU_SUGGESTIONS,
   },
-  {
-    id: "gpu",
-    labelKey: "rig.gpu",
-    type: "cascading_dropdown",
-    catalog: GPU_CATALOG,
-  },
-  {
-    id: "ram",
-    labelKey: "rig.ram",
-    type: "composite_dropdown",
-    composite: RAM_COMPOSITE,
-  },
-  { id: "storage", labelKey: "rig.storage", type: "text", placeholder: "2TB Samsung 990 PRO NVMe" },
-  { id: "monitor", labelKey: "rig.monitor", type: "text", placeholder: 'LG 27GP950 27" 4K 144Hz' },
-  { id: "capture", labelKey: "rig.capture", type: "text", placeholder: "OBS Studio 30.x" },
+  { id: "gpu", labelKey: "rig.gpu", type: "gpu" },
+  { id: "ram", labelKey: "rig.ram", type: "composite_dropdown", composite: RAM_COMPOSITE },
   {
     id: "motherboard",
     labelKey: "rig.motherboard",
     type: "text",
-    placeholder: "ASUS ROG Maximus Z790 Hero",
+    placeholder: "ASUS ROG Strix X870E-E Gaming",
   },
+  { id: "storage", labelKey: "rig.storage", type: "text", placeholder: "2TB Samsung 990 PRO NVMe" },
+  { id: "os", labelKey: "rig.os", type: "composite_dropdown", composite: OS_COMPOSITE },
+  { id: "monitor", labelKey: "rig.monitor", type: "text", placeholder: 'LG 27GP950 27" 4K 144Hz' },
+  { id: "capture", labelKey: "rig.capture", type: "text", placeholder: "OBS Studio 31" },
   {
     id: "controller",
     labelKey: "rig.controller",
     type: "text",
-    placeholder: "DualSense / Xbox Elite Series 2",
+    placeholder: "DualSense / Xbox Wireless Controller",
   },
   {
     id: "video_editor",
     labelKey: "rig.video_editor",
     type: "dropdown_with_version",
     options: VIDEO_EDITOR_OPTIONS,
-    versionPlaceholder: "19.1 / 2024 / v5.0",
+    versionPlaceholder: "20 / 2026 / v25",
   },
 ];
 
 /**
- * Parse a cascading-dropdown stored value into its three segments.
- * Empty segments stay as empty strings. Pipeless legacy values are
- * returned as `["", "", raw]` so the caller can render them under the
- * Custom brand without losing the original text.
+ * A stored rig object brought up to date: string values only (an imported
+ * profile may carry `rig: null` or numbers) and the GPU in the v1.0
+ * catalog format. Idempotent — used by the store migrations and imports.
  */
-export function parseCascadingValue(raw: string): {
-  brand: string;
-  series: string;
-  model: string;
-  isLegacy: boolean;
-} {
-  if (!raw) return { brand: "", series: "", model: "", isLegacy: false };
-  if (!raw.includes("|")) {
-    // Pre-v0.13 free-text. Treat as Custom + verbatim model.
-    return { brand: GPU_CUSTOM_BRAND_ID, series: "", model: raw, isLegacy: true };
+export function migrateRig(rig: unknown): Record<string, string> {
+  if (!rig || typeof rig !== "object") return {};
+  const out: Record<string, string> = {};
+  for (const [key, value] of Object.entries(rig as Record<string, unknown>)) {
+    if (typeof value !== "string") continue;
+    out[key] = key === "gpu" ? migrateGpuValue(value) : value;
   }
-  const [brand = "", series = "", model = ""] = raw.split("|");
-  return { brand, series, model, isLegacy: false };
+  return out;
 }
 
 /**
@@ -412,23 +541,34 @@ export function parseCompositeValue(raw: string): {
   return { parts: raw.split("|"), isLegacy: false };
 }
 
+const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** Custom text plus the part's unit, unless the user typed it ("48GB" → "48 GB"). */
+function withSuffix(text: string, suffix: string): string {
+  const unit = suffix.trim();
+  if (!unit) return text;
+  const bare = text.replace(new RegExp(`\\s*${escapeRegExp(unit)}$`, "i"), "");
+  return bare ? `${bare}${suffix}` : "";
+}
+
 /**
  * Format a stored rig value for display in the description output.
  *
+ * - `gpu` ("gpu:nvidia-rtx-5080") → "NVIDIA GeForce RTX 5080"; the
+ *   pre-v1.0 `brand|series|model` values are converted on the fly; free
+ *   text passes through.
  * - `dropdown_with_version` ("davinci_resolve_studio|19.1") →
- *   `"DaVinci Resolve Studio 19.1"`.
- * - `cascading_dropdown` ("nvidia|rtx_40|RTX 4090") →
- *   `"NVIDIA RTX 4090"` (series label dropped — the model string is
- *   already verbose enough). Custom brand returns the verbatim model.
- *   Legacy pipeless values pass through unchanged.
- * - `composite_dropdown` ("16|DDR5", "custom:48|DDR5") →
- *   `"16 GB DDR5"` / `"48 GB DDR5"` via the field's
+ *   "DaVinci Resolve Studio 19.1".
+ * - `composite_dropdown` ("32|DDR5|6000", "custom:48|DDR5|") →
+ *   "32 GB DDR5-6000" / "48 GB DDR5" via the field's
  *   {@link CompositeFieldSpec.format}.
  * - All other field types pass the raw value through.
  */
 export function formatRigValue(fieldId: string, raw: string): string {
   const field = RIG_FIELDS.find((f) => f.id === fieldId);
   if (!field) return raw;
+
+  if (field.type === "gpu") return formatGpuValue(raw);
 
   if (field.type === "dropdown_with_version") {
     const [value = "", version = ""] = raw.split("|");
@@ -445,43 +585,25 @@ export function formatRigValue(fieldId: string, raw: string): string {
     return trimmedVersion ? `${label} ${trimmedVersion}` : label;
   }
 
-  if (field.type === "cascading_dropdown") {
-    const { brand, model, isLegacy } = parseCascadingValue(raw);
-    if (isLegacy) return raw;
-    if (!brand && !model) return "";
-    if (brand === GPU_CUSTOM_BRAND_ID) return model.trim();
-    const brandLabel = findGpuBrand(brand)?.label ?? brand;
-    if (!model.trim()) return brandLabel;
-    return `${brandLabel} ${model.trim()}`;
-  }
-
   if (field.type === "composite_dropdown" && field.composite) {
     const { parts, isLegacy } = parseCompositeValue(raw);
     if (isLegacy) return raw;
     if (parts.length === 0) return "";
 
-    // Resolve each declared part. v0.23.0: parts may declare a dynamic
-    // option resolver and/or a `hiddenWhen` predicate (used by the OS
-    // composite where macOS has no third slot). We walk parts in order
-    // so each resolver sees the previously-stored values, and we skip
-    // hidden parts entirely so they don't leak an empty token into the
-    // `composite.format` join. `custom:<value>` segments still collapse
-    // to the free-text payload (without the `custom:` prefix).
+    // Walk parts in order so each resolver sees the previously-stored
+    // values; hidden parts contribute nothing; `custom:<text>` collapses to
+    // the text (plus the part's unit).
     const previousStored: string[] = [];
     const resolved = field.composite.parts.map((spec, i) => {
       const stored = (parts[i] ?? "").trim();
-      if (spec.hiddenWhen?.(previousStored)) {
-        previousStored.push("");
-        return "";
-      }
-      if (!stored) {
+      if (!stored || spec.hiddenWhen?.(previousStored)) {
         previousStored.push("");
         return "";
       }
       if (spec.allowCustom && stored.startsWith("custom:")) {
         const txt = stored.slice("custom:".length).trim();
         previousStored.push(stored);
-        return txt ? `${txt}${spec.customSuffix ?? ""}` : "";
+        return txt ? withSuffix(txt, spec.customSuffix ?? "") : "";
       }
       const opts = resolveCompositeOptions(spec.options, previousStored);
       const opt = opts.find((o) => o.value === stored);

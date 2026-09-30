@@ -570,6 +570,18 @@
     "livestream": {
       "scheduledLine": "🔴 直播时间: {{time}}",
       "watchLine": "观看 / 回放: {{link}}"
+    },
+    "rigLabels": {
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "内存",
+      "motherboard": "主板",
+      "storage": "存储",
+      "os": "操作系统",
+      "monitor": "显示器",
+      "capture": "录制软件",
+      "controller": "手柄",
+      "video_editor": "视频编辑软件"
     }
   },
   "pinnedComment": {

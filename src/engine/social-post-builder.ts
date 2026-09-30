@@ -2,7 +2,7 @@ import type { GeneratorInput, TranslationFn } from "./types";
 import type { SocialPlatform } from "@config/social-platforms";
 import { buildTitle } from "./title-builder";
 import { buildBilingualBulletSection } from "./description-builder";
-import { formatRigValue } from "@config/rig-fields";
+import { buildRigLines } from "./rig-block";
 import { sanitizeHashtag } from "@utils/sanitize";
 
 /**
@@ -11,7 +11,7 @@ import { sanitizeHashtag } from "@utils/sanitize";
  * short-form caption for TikTok / Instagram Reels / Facebook Reels.
  *
  * Reuses leaf engine pieces rather than the full description renderer:
- * {@link buildTitle} (badge suppressed), {@link formatRigValue}, the
+ * {@link buildTitle} (badge suppressed), {@link buildRigLines}, the
  * shared {@link buildBilingualBulletSection} (content warnings), the
  * `description.sections.*` copyright / sponsor templates, and
  * {@link sanitizeHashtag}. The YouTube description output is therefore
@@ -32,6 +32,8 @@ export interface SocialPostOptions {
   showSponsorCredit?: boolean;
   /** English-fixed `t` for the bilingual content-warnings block. */
   tEn?: TranslationFn;
+  /** Year for the copyright line; the current year when omitted. */
+  year?: number;
 }
 
 export interface SocialPostOutput {
@@ -53,14 +55,9 @@ type BlockId = (typeof DISPLAY_ORDER)[number];
 const DROP_ORDER: readonly BlockId[] = ["warnings", "copyright", "thanks", "rig"];
 
 function buildRigBlock(input: GeneratorInput, t: TranslationFn): string {
-  // Mirrors the description-builder rig block: id → formatted value,
-  // skipping empties, `KEY: value` per line under the localized header.
-  const rigLines = Object.entries(input.rig ?? {})
-    .map(([k, v]) => [k, formatRigValue(k, v ?? "")] as const)
-    .filter(([, v]) => v && v.trim() !== "")
-    .map(([k, v]) => `${k.replace(/_/g, " ").toUpperCase()}: ${v}`)
-    .join("\n");
-  return rigLines ? `${t("description.sections.rig")}\n${rigLines}` : "";
+  // The same lines as the description's rig block.
+  const rigLines = buildRigLines(input.rig, t);
+  return rigLines.length > 0 ? `${t("description.sections.rig")}\n${rigLines.join("\n")}` : "";
 }
 
 function dedupeHashtags(tags: readonly string[]): string[] {
@@ -82,7 +79,7 @@ function buildHashtagLine(input: GeneratorInput, popular: readonly string[]): st
     `#${sanitizeHashtag(gameName)}`,
     "#GameplayNoCommentary",
     ...(primaryGenre ? [`#${sanitizeHashtag(primaryGenre)}`] : []),
-  ];
+  ].filter((tag) => tag.length > 1);
   return dedupeHashtags([...derived, ...popular]).join(" ");
 }
 
@@ -91,7 +88,14 @@ export function buildSocialPost(
   t: TranslationFn,
   options: SocialPostOptions,
 ): SocialPostOutput {
-  const { charLimit, popularHashtags, showCopyright, showSponsorCredit, tEn } = options;
+  const {
+    charLimit,
+    popularHashtags,
+    showCopyright,
+    showSponsorCredit,
+    tEn,
+    year = new Date().getFullYear(),
+  } = options;
 
   // Title — short-form, so the `[2K 60FPS]` badge is suppressed.
   const title = buildTitle(input, t, { showQualityBadge: false });
@@ -116,7 +120,7 @@ export function buildSocialPost(
     copyright:
       showCopyright && input.channelName.trim()
         ? t("description.sections.copyright", {
-            year: String(new Date().getFullYear()),
+            year: String(year),
             channelName: input.channelName.trim(),
           })
         : "",
@@ -169,6 +173,7 @@ export function buildAllSocialPosts(
     showCopyright?: boolean;
     showSponsorCredit?: boolean;
     tEn?: TranslationFn;
+    year?: number;
   },
 ): Record<string, SocialPostOutput> {
   const out: Record<string, SocialPostOutput> = {};
@@ -179,6 +184,7 @@ export function buildAllSocialPosts(
       showCopyright: shared.showCopyright,
       showSponsorCredit: shared.showSponsorCredit,
       tEn: shared.tEn,
+      year: shared.year,
     });
   }
   return out;

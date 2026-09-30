@@ -710,14 +710,46 @@ describe("buildDescription", () => {
     expect(result).toContain("GPU: RTX 4090");
   });
 
-  it("humanises snake_case rig keys (e.g. video_editor → VIDEO EDITOR)", () => {
+  it("labels rig lines in the output language, not as capitalised keys", () => {
+    const rig = { video_editor: "davinci_resolve_studio|19.1", storage: "2TB NVMe" };
+    const en = buildDescription(makeInput({ rig }), createMockT("en"));
+    expect(en).toContain("Video Editor: DaVinci Resolve Studio 19.1");
+    expect(en).not.toContain("VIDEO EDITOR");
+    expect(en).not.toContain("VIDEO_EDITOR");
+
+    const vi = buildDescription(makeInput({ language: "vi", rig }), createMockT("vi"));
+    expect(vi).toContain("Phần mềm dựng video: DaVinci Resolve Studio 19.1");
+    expect(vi).toContain("Ổ cứng: 2TB NVMe");
+  });
+
+  it("prints rig lines in a fixed order, whatever order they were filled in", () => {
     const t = createMockT("en");
     const result = buildDescription(
-      makeInput({ rig: { video_editor: "davinci_resolve_studio|19.1" } }),
+      makeInput({
+        rig: {
+          os: "windows|11|pro",
+          ram: "32|DDR5|6000",
+          gpu: "gpu:nvidia-rtx-5080",
+          cpu: "AMD Ryzen 7 9800X3D",
+        },
+      }),
       t,
     );
-    expect(result).toContain("VIDEO EDITOR: DaVinci Resolve Studio 19.1");
-    expect(result).not.toContain("VIDEO_EDITOR");
+    const block = result.slice(result.indexOf("MY RIG"));
+    const order = ["CPU:", "GPU:", "RAM:", "Operating System:"].map((label) =>
+      block.indexOf(label),
+    );
+    expect(order.every((i) => i > 0)).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
+    expect(block).toContain("GPU: NVIDIA GeForce RTX 5080");
+    expect(block).toContain("RAM: 32 GB DDR5-6000");
+  });
+
+  it("names a pre-v1.0 GPU value properly", () => {
+    const t = createMockT("en");
+    const result = buildDescription(makeInput({ rig: { gpu: "amd|rx_9000|RX 9070 XT" } }), t);
+    expect(result).toContain("GPU: AMD Radeon RX 9070 XT");
+    expect(result).not.toContain("GPU: AMD RX");
   });
 
   it("legacy spoilerWarning boolean no longer renders a standalone block (v0.11 deprecation)", () => {

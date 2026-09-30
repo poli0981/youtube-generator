@@ -1,4 +1,4 @@
-import type { EndingEntry, EndingVideoRange, GeneratorInput } from "./types";
+import type { EndingEntry, EndingVideoRange, GeneratorInput, TranslationFn } from "./types";
 
 /**
  * Render a single {@link EndingEntry} into its display string.
@@ -8,22 +8,24 @@ import type { EndingEntry, EndingVideoRange, GeneratorInput } from "./types";
  *   - name only         → `"{{name}}"`
  *   - neither           → `null` (entry should be dropped)
  *
- * The English literal "Ending" is hard-coded here intentionally: the
- * label feeds into both the description bullet *and* the
- * preview-in-editor live formatter, where localising "Ending" would
- * require routing through i18next from a pure module. Templates can
- * still override the surrounding bullet label via
- * `description.playthroughNotes.labels.endings` — only the per-entry
- * "Ending N" prefix stays in English.
+ * With `t` (the output language), "Ending N" comes from
+ * `timeline.keywords.ending` — the same word the timestamps use — so a
+ * Vietnamese description says "Kết thúc 3". Without it (the editor's live
+ * preview) the English form is used.
  *
  * Pure — exported for unit tests + direct use from React components.
  */
-export function formatEndingEntry(entry: EndingEntry): string | null {
+export function formatEndingEntry(entry: EndingEntry, t?: TranslationFn): string | null {
   const num =
     typeof entry.number === "number" && Number.isFinite(entry.number) ? entry.number : null;
   const name = (entry.name ?? "").trim();
-  if (num !== null && name) return `Ending ${num}: ${name}`;
-  if (num !== null) return `Ending ${num}`;
+  const label = (n: number): string => {
+    const key = "timeline.keywords.ending";
+    const localized = t?.(key, { n: String(n) }).trim();
+    return localized && localized !== key ? localized : `Ending ${n}`;
+  };
+  if (num !== null && name) return `${label(num)}: ${name}`;
+  if (num !== null) return label(num);
   if (name) return name;
   return null;
 }

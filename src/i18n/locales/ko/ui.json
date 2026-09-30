@@ -147,12 +147,8 @@
     "anniversaryYearOption": "{{count}}주년",
     "gachaVersion": "게임 버전",
     "gachaVersionPlaceholder": "예: 1.2, 2.4",
-    "gpu_brand": "제조사",
-    "gpu_series": "시리즈",
-    "gpu_model": "모델",
-    "gpu_custom": "사용자 GPU",
     "ram_size": "RAM 용량",
-    "ram_ddr": "DDR 세대",
+    "ram_ddr": "메모리 규격",
     "os_name": "OS",
     "os_version": "버전",
     "os_edition": "에디션",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 인트로\n5:30 챕터 1\n15:00 보스전",
     "storeLinks": "스토어 링크",
     "storeLinkType": "유형",
-    "rig": "내 장비",
     "social": "소셜 및 후원 링크",
     "warnings": "콘텐츠 경고",
     "playlistLink": "재생목록 링크",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "장르 검색",
     "genreSearchNoResults": "일치하는 장르 없음",
     "validation": {
-      "gpuMissingSeries": "GPU 시리즈를 선택하세요.",
-      "gpuMissingModel": "GPU 모델을 선택하세요.",
-      "gpuCustomEmpty": "GPU 이름을 입력하거나 목록에서 선택하세요.",
-      "ramMissingDdr": "DDR 세대를 선택하세요.",
+      "ramMissingDdr": "메모리 규격을 선택하세요.",
       "ramMissingSize": "RAM 용량을 선택하세요.",
       "ramCustomEmpty": "RAM 용량(GB)을 입력하세요."
     },
@@ -751,7 +743,23 @@
     "genreAdd": "추가",
     "genreQuickSets": "빠른 세트",
     "genreRemove": "{{genre}} 제거",
-    "selectedCount": "{{n}}개 선택됨"
+    "selectedCount": "{{n}}개 선택됨",
+    "ram_speed": "속도 (MT/s)",
+    "gpuPick": "그래픽카드 선택…",
+    "gpuSearch": "검색 — 예: 5080, 9070 XT, M4 Pro, ROG Ally",
+    "gpuNoMatch": "목록에 없습니다 — “직접 입력”을 사용하세요.",
+    "gpuCustom": "직접 입력",
+    "gpuNone": "지정 안 함",
+    "gpuCustomLabel": "GPU (표시될 이름)",
+    "gpuCustomChosen": "직접 입력",
+    "timestampsNormalize": "정리",
+    "chapters": {
+      "ok": "YouTube에서 챕터 {{n}}개로 표시됩니다.",
+      "firstNotZero": "첫 타임스탬프가 0:00이어야 YouTube에 챕터가 표시됩니다.",
+      "tooFew": "챕터를 만들려면 타임스탬프가 3개 이상 필요합니다(현재 {{n}}개).",
+      "tooShort": "{{time}}: 각 챕터는 10초 이상이어야 합니다.",
+      "outOfOrder": "{{time}}이(가) 위 타임스탬프보다 앞입니다."
+    }
   },
   "output": {
     "title": "제목",
@@ -789,7 +797,6 @@
       "bannerTitle": "복사 차단됨 — YouTube 제한 초과",
       "fieldLine": "{{field}}: {{count}} / {{limit}}자",
       "bannerHint": "위 항목을 줄인 뒤 다시 복사하세요.",
-      "copyBlocked": "차단됨: 다른 항목이 YouTube 제한을 초과했습니다",
       "batchRowBlocked": "이 파트가 제한을 초과했습니다 — 복사할 수 없습니다.",
       "batchAllBlocked": "전체 복사 차단됨 — 제한을 초과한 파트가 있습니다"
     },
@@ -801,7 +808,8 @@
       "more": "…더보기",
       "titleCut": "검색 결과와 추천 영상에서는 제목이 약 {{chars}}자에서 잘립니다 — 핵심 단어를 앞에 두세요.",
       "foldHint": "시청자는 “…더보기” 전에 설명의 처음 약 {{chars}}자만 봅니다."
-    }
+    },
+    "forbiddenChars": "{{field}}: YouTube는 < 와 > 문자를 허용하지 않습니다. 업로드 전에 지우세요."
   },
   "common": {
     "save": "저장",

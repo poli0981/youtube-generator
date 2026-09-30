@@ -87,10 +87,7 @@
       "anniversaryYearOption",
       "gachaVersion",
       "gachaVersionPlaceholder",
-      "gpu_brand",
-      "gpu_series",
-      "gpu_model",
-      "gpu_custom",
+
       "ram_size",
       "ram_ddr",
       "os_name",
@@ -138,7 +135,7 @@
       "timestampsPlaceholder",
       "storeLinks",
       "storeLinkType",
-      "rig",
+      
       "social",
       "warnings",
       "playlistLink",
@@ -202,7 +199,16 @@
       "genreAdd",
       "genreQuickSets",
       "genreRemove",
-      "selectedCount"
+      "selectedCount",
+      "ram_speed",
+      "gpuPick",
+      "gpuSearch",
+      "gpuNoMatch",
+      "gpuCustom",
+      "gpuNone",
+      "gpuCustomLabel",
+      "gpuCustomChosen",
+      "timestampsNormalize"
     ],
     "editor.genreGroups": ["rpg", "shooter", "horror"],
     "editor.graphicsPresetOptions": [
@@ -269,14 +275,7 @@
     ],
     "editor.toast": ["urlAutoFilled"],
     "editor.warning": ["linkNameMismatch"],
-    "editor.validation": [
-      "gpuMissingSeries",
-      "gpuMissingModel",
-      "gpuCustomEmpty",
-      "ramMissingDdr",
-      "ramMissingSize",
-      "ramCustomEmpty"
-    ],
+    "editor.validation": ["ramMissingDdr", "ramMissingSize", "ramCustomEmpty"],
     "editor.playtest": ["heading", "linkLabel", "platformLabel", "invitesLabel", "invitesHelp"],
     "editor.playthroughOptions": ["none", "blind", "replay", "newgame_plus", "postgame"],
     "editor.difficultyOptions": ["none", "easy", "normal", "hard", "nightmare", "custom"],
@@ -695,7 +694,8 @@
       "saveAsTemplate",
       "previewingVideo",
       "emptyTitle",
-      "emptyHint"
+      "emptyHint",
+      "forbiddenChars"
     ],
     "output.variants": ["default", "typeFirst", "qualityFirst"],
     "output.copy": ["overLimit", "fieldGeneric", "failed", "empty"],
@@ -703,7 +703,7 @@
       "bannerTitle",
       "fieldLine",
       "bannerHint",
-      "copyBlocked",
+
       "batchRowBlocked",
       "batchAllBlocked"
     ],
@@ -1108,7 +1108,8 @@
       "copyright",
       "code",
       "sponsor"
-    ]
+    ],
+    "editor.chapters": ["ok", "firstNotZero", "tooFew", "tooShort", "outOfOrder"]
   },
   "templates": {
     "title": ["separator", "suffix"],
@@ -1669,6 +1670,18 @@
       "ending",
       "tutorial",
       "credits"
+    ],
+    "description.rigLabels": [
+      "cpu",
+      "gpu",
+      "ram",
+      "motherboard",
+      "storage",
+      "os",
+      "monitor",
+      "capture",
+      "controller",
+      "video_editor"
     ]
   }
 }

@@ -214,7 +214,7 @@ function buildStructuredEndingLabel(input: GeneratorInput, t: TranslationFn): st
 
   if (usable.length === 1) {
     const only = usable[0];
-    return only ? formatEndingEntry(only) : null;
+    return only ? formatEndingEntry(only, t) : null;
   }
 
   // Multi-entry: prefer named comma-join when every entry has a name.

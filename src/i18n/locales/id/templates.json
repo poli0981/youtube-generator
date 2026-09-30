@@ -570,6 +570,18 @@
     "livestream": {
       "scheduledLine": "🔴 LIVE pada {{time}}",
       "watchLine": "Tonton / ulang: {{link}}"
+    },
+    "rigLabels": {
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "motherboard": "Motherboard",
+      "storage": "Penyimpanan",
+      "os": "Sistem Operasi",
+      "monitor": "Monitor",
+      "capture": "Software Perekam",
+      "controller": "Kontroler",
+      "video_editor": "Editor Video"
     }
   },
   "pinnedComment": {

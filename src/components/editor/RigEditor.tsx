@@ -1,35 +1,158 @@
+import { lazy, Suspense, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, ChevronsUpDown } from "lucide-react";
+import clsx from "clsx";
 import { Input } from "@components/ui/Input";
 import { Select } from "@components/ui/Select";
+import { Field, controlClasses } from "@components/ui/Field";
+import { PopoverContent, PopoverRoot, PopoverTrigger } from "@components/ui/Popover";
+import { Spinner } from "@components/icons/animated";
 import {
   RIG_FIELDS,
-  parseCascadingValue,
+  cleanCpuName,
   parseCompositeValue,
   resolveCompositeOptions,
   resolveCompositeLabelKey,
   type RigField,
   type CompositePart,
 } from "@config/rig-fields";
-import { GPU_CUSTOM_BRAND_ID, findGpuBrand } from "@config/gpu-catalog";
+import { gpuValue, migrateGpuValue, modelForGpuValue } from "@config/gpu-catalog";
 import { useEditorStore } from "@store/editor-store";
 import { FIELD_LIMITS } from "@config/field-limits";
-import {
-  validateGpuValue,
-  validateCompositeField,
-  type RigValidationIssue,
-} from "@utils/rig-validation";
+import { validateCompositeField, type RigValidationIssue } from "@utils/rig-validation";
+
+const GpuList = lazy(() => import("./GpuList"));
 
 const CUSTOM_PREFIX = "custom:";
-
-function joinCascading(brand: string, series: string, model: string): string {
-  if (!brand && !series && !model) return "";
-  return `${brand}|${series}|${model}`;
-}
 
 function joinComposite(parts: readonly string[]): string {
   if (parts.every((p) => !p)) return "";
   return parts.join("|");
+}
+
+/**
+ * GPU: one searchable picker over the catalog, printing the official name
+ * ("NVIDIA GeForce RTX 5080"), plus a free-text fallback for anything not
+ * listed. Replaces three dependent dropdowns (Brand › Series › Model).
+ */
+function GpuPicker({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (next: string) => void;
+}) {
+  const { t } = useTranslation("ui");
+  const [open, setOpen] = useState(false);
+  const [customMode, setCustomMode] = useState(false);
+  const normalized = migrateGpuValue(value);
+  const model = modelForGpuValue(normalized);
+  const isOwnText = !model && normalized !== "";
+  const showCustom = customMode || isOwnText;
+
+  return (
+    <div className="flex flex-col gap-2 sm:col-span-2">
+      <Field label={label}>
+        {(control) => (
+          <PopoverRoot open={open} onOpenChange={setOpen}>
+            <PopoverTrigger
+              {...control}
+              className={clsx(
+                controlClasses(false),
+                "h-control flex cursor-pointer items-center gap-2 text-left text-base sm:text-sm",
+              )}
+            >
+              <span className={clsx("min-w-0 flex-1 truncate", !model && "text-text-muted")}>
+                {model?.name ?? (showCustom ? t("editor.gpuCustomChosen") : t("editor.gpuPick"))}
+              </span>
+              <ChevronsUpDown className="text-text-muted size-4 shrink-0" aria-hidden="true" />
+            </PopoverTrigger>
+            <PopoverContent ariaLabel={label} className="w-[min(28rem,calc(100vw-2rem))]">
+              <Suspense
+                fallback={
+                  <div className="text-text-muted flex justify-center py-8">
+                    <Spinner className="size-4" />
+                  </div>
+                }
+              >
+                <GpuList
+                  selectedId={model?.id}
+                  hasValue={normalized !== ""}
+                  onSelect={(next) => {
+                    onChange(gpuValue(next));
+                    setCustomMode(false);
+                    setOpen(false);
+                  }}
+                  onCustom={() => {
+                    // Start from the current card's name so "RTX 5080" can
+                    // become "RTX 5080 (overclocked)" without retyping.
+                    onChange(model ? model.name : normalized);
+                    setCustomMode(true);
+                    setOpen(false);
+                  }}
+                  onClear={() => {
+                    onChange("");
+                    setCustomMode(false);
+                    setOpen(false);
+                  }}
+                />
+              </Suspense>
+            </PopoverContent>
+          </PopoverRoot>
+        )}
+      </Field>
+      {showCustom && (
+        <Input
+          label={t("editor.gpuCustomLabel")}
+          maxLength={FIELD_LIMITS.SHORT_NAME}
+          placeholder="NVIDIA GeForce RTX 3060 12GB"
+          value={isOwnText ? normalized : ""}
+          onChange={(e) => onChange(e.target.value)}
+          autoComplete="off"
+        />
+      )}
+    </div>
+  );
+}
+
+/** CPU (and any other suggested text field): type freely or pick a suggestion. */
+function SuggestedTextField({
+  field,
+  value,
+  onChange,
+}: {
+  field: RigField;
+  value: string;
+  onChange: (next: string) => void;
+}) {
+  const { t } = useTranslation("ui");
+  const listId = useId();
+  return (
+    <>
+      <Input
+        label={t(field.labelKey)}
+        maxLength={FIELD_LIMITS.SHORT_NAME}
+        placeholder={field.placeholder}
+        value={value}
+        list={listId}
+        autoComplete="off"
+        onChange={(e) => onChange(e.target.value)}
+        // "Intel(R) Core(TM) i7-12700K CPU @ 3.60GHz", as Windows shows it,
+        // becomes "Intel Core i7-12700K" once the user leaves the field.
+        onBlur={(e) => {
+          const cleaned = field.id === "cpu" ? cleanCpuName(e.target.value) : e.target.value.trim();
+          if (cleaned !== e.target.value) onChange(cleaned);
+        }}
+      />
+      <datalist id={listId}>
+        {field.suggestions?.map((s) => (
+          <option key={s} value={s} />
+        ))}
+      </datalist>
+    </>
+  );
 }
 
 export function RigEditor() {
@@ -41,186 +164,58 @@ export function RigEditor() {
     if (!issue) return null;
     return (
       <div className="text-warning flex items-center gap-1 text-xs">
-        <AlertTriangle className="h-3 w-3" />
+        <AlertTriangle className="size-3" aria-hidden="true" />
         <span>{t(issue.messageKey)}</span>
-      </div>
-    );
-  };
-
-  const renderCascading = (field: RigField) => {
-    const raw = rig[field.id] ?? "";
-    const { brand, series, model } = parseCascadingValue(raw);
-    const isCustom = brand === GPU_CUSTOM_BRAND_ID;
-    const issue = validateGpuValue(raw);
-    const catalog = field.catalog ?? [];
-
-    const brandOptions = [
-      { value: "", label: "—" },
-      ...catalog.map((b) => ({ value: b.id, label: b.label })),
-    ];
-    const currentBrand = findGpuBrand(brand);
-    const seriesOptions = currentBrand
-      ? [
-          { value: "", label: "—" },
-          ...currentBrand.series.map((s) => ({ value: s.id, label: s.label })),
-        ]
-      : [{ value: "", label: "—" }];
-    const currentSeries = currentBrand?.series.find((s) => s.id === series);
-    const modelOptions = currentSeries
-      ? [{ value: "", label: "—" }, ...currentSeries.models.map((m) => ({ value: m, label: m }))]
-      : [{ value: "", label: "—" }];
-
-    const setBrand = (next: string) => {
-      // Switching brand resets series + model so the user can't end up
-      // with mismatched cascading values (NVIDIA brand + AMD series).
-      setNested("rig", field.id, next ? joinCascading(next, "", "") : "");
-    };
-    const setSeries = (next: string) => {
-      setNested("rig", field.id, joinCascading(brand, next, ""));
-    };
-    const setModel = (next: string) => {
-      setNested("rig", field.id, joinCascading(brand, series, next));
-    };
-    const setCustomText = (text: string) => {
-      setNested("rig", field.id, text ? joinCascading(GPU_CUSTOM_BRAND_ID, "", text) : "");
-    };
-
-    return (
-      <div key={field.id} className="flex flex-col gap-2 sm:col-span-2">
-        <span className="text-text-secondary text-xs font-medium">{t(field.labelKey)}</span>
-        <div className="grid gap-2 sm:grid-cols-3">
-          <Select
-            label={t("editor.gpu_brand")}
-            value={brand}
-            options={brandOptions}
-            onChange={setBrand}
-          />
-          {isCustom ? (
-            <div className="sm:col-span-2">
-              <Input
-                label={t("editor.gpu_custom")}
-                maxLength={FIELD_LIMITS.SHORT_NAME}
-                placeholder="e.g. RTX 4090 (custom OC)"
-                value={model}
-                onChange={(e) => setCustomText(e.target.value)}
-              />
-            </div>
-          ) : (
-            <>
-              <Select
-                label={t("editor.gpu_series")}
-                value={series}
-                options={seriesOptions}
-                onChange={setSeries}
-                disabled={!brand}
-              />
-              <Select
-                label={t("editor.gpu_model")}
-                value={model}
-                options={modelOptions}
-                onChange={setModel}
-                disabled={!series}
-              />
-            </>
-          )}
-        </div>
-        {renderValidationBadge(issue)}
       </div>
     );
   };
 
   const renderComposite = (field: RigField) => {
     if (!field.composite) return null;
+    const composite = field.composite;
     const raw = rig[field.id] ?? "";
     const { parts: storedParts } = parseCompositeValue(raw);
-    // Validate per field — only RAM has size/DDR semantics. Running the
-    // RAM validator on the OS composite mis-fired "Pick a DDR generation."
     const issue = validateCompositeField(field.id, raw);
-    const partValues = field.composite.parts.map((_p, i) => storedParts[i] ?? "");
+    const partValues = composite.parts.map((_p, i) => storedParts[i] ?? "");
 
-    // v0.23.0: setting a part also resets all downstream parts to "" so
-    // a cascading parent change can't leave the form with a stale child
-    // value that no longer exists in the new option list (e.g. switching
-    // OS name from Windows to macOS clears any leftover "11" / "Pro").
+    // Cascading composites (OS) clear the parts after the one that changed,
+    // so switching Windows → macOS can't leave "Pro" behind. Independent
+    // ones (RAM) keep them: picking 32 GB must not wipe the DDR5 already set.
     const setPart = (index: number, next: string) => {
       const updated = [...partValues];
       updated[index] = next;
-      for (let j = index + 1; j < updated.length; j++) {
-        updated[j] = "";
+      if (composite.cascade) {
+        for (let j = index + 1; j < updated.length; j++) updated[j] = "";
       }
       setNested("rig", field.id, joinComposite(updated));
     };
 
-    // Walk parts in declaration order; each part's resolvers see the
-    // previously-rendered values so cascading option lists / dynamic
-    // labels / hidden-when predicates work cleanly.
-    const previousValues: string[] = [];
-    const renderedParts: React.ReactNode[] = [];
-
-    field.composite.parts.forEach((part, index) => {
-      const stored = partValues[index] ?? "";
-      // hiddenWhen short-circuits BEFORE we render — and we still push
-      // the stored value into previousValues so a later visible part
-      // sees the full history (though in practice, parts after a
-      // hidden one are rare).
-      if (part.hiddenWhen?.(previousValues)) {
-        previousValues.push(stored);
-        return;
-      }
-      renderedParts.push(renderPart(part, index, previousValues, setPart));
-      previousValues.push(stored);
-    });
-
-    return (
-      <div key={field.id} className="flex flex-col gap-2 sm:col-span-2">
-        <span className="text-text-secondary text-xs font-medium">{t(field.labelKey)}</span>
-        <div className="grid gap-3 sm:grid-cols-2">{renderedParts}</div>
-        {renderValidationBadge(issue)}
-      </div>
-    );
-
-    // Inner closure — needs access to `t`, `partValues`, and the part-
-    // local mutators. Defined as a function so the forEach above stays
-    // readable; not hoisted out because it captures lexical state.
-    function renderPart(
-      part: CompositePart,
-      index: number,
-      previousValues: readonly string[],
-      setPart: (index: number, next: string) => void,
-    ) {
+    const renderPart = (part: CompositePart, index: number, previous: readonly string[]) => {
       const stored = partValues[index] ?? "";
       const isCustom = part.allowCustom && stored.startsWith(CUSTOM_PREFIX);
       const customText = isCustom ? stored.slice(CUSTOM_PREFIX.length) : "";
       const selectValue = isCustom ? "custom" : stored;
-      const options = resolveCompositeOptions(part.options, previousValues);
-      const labelKey = resolveCompositeLabelKey(part, previousValues);
-
-      const onSelectChange = (next: string) => {
-        if (next === "custom" && part.allowCustom) {
-          setPart(index, `${CUSTOM_PREFIX}`);
-        } else {
-          setPart(index, next);
-        }
-      };
-      const onCustomChange = (next: string) => {
-        setPart(index, `${CUSTOM_PREFIX}${next}`);
-      };
+      const options = resolveCompositeOptions(part.options, previous);
+      const labelKey = resolveCompositeLabelKey(part, previous);
 
       return (
-        <div key={part.id} className="flex flex-col gap-1">
+        <div key={part.id} className="flex flex-col gap-1.5">
           <Select
             label={t(labelKey)}
             value={selectValue}
             options={options}
-            onChange={onSelectChange}
+            onChange={(next) =>
+              setPart(index, next === "custom" && part.allowCustom ? CUSTOM_PREFIX : next)
+            }
           />
-          {isCustom && part.allowCustom && (
+          {isCustom && (
             <div className="flex items-center gap-2">
               <Input
+                aria-label={t(labelKey)}
                 placeholder={part.customPlaceholder}
                 value={customText}
-                inputMode="numeric"
-                onChange={(e) => onCustomChange(e.target.value)}
+                inputMode="decimal"
+                onChange={(e) => setPart(index, `${CUSTOM_PREFIX}${e.target.value}`)}
               />
               {part.customSuffix && (
                 <span className="text-text-muted text-sm">{part.customSuffix.trim()}</span>
@@ -229,7 +224,30 @@ export function RigEditor() {
           )}
         </div>
       );
-    }
+    };
+
+    // Walk parts in declaration order; each part's resolvers see the values
+    // before it, so cascading option lists, dynamic labels and hidden-when
+    // predicates line up.
+    const previousValues: string[] = [];
+    const renderedParts: React.ReactNode[] = [];
+    composite.parts.forEach((part, index) => {
+      const stored = partValues[index] ?? "";
+      if (!part.hiddenWhen?.(previousValues)) {
+        renderedParts.push(renderPart(part, index, [...previousValues]));
+      }
+      previousValues.push(stored);
+    });
+
+    return (
+      <fieldset key={field.id} className="flex min-w-0 flex-col gap-2 sm:col-span-2">
+        <legend className="text-text-secondary mb-1.5 text-xs font-medium">
+          {t(field.labelKey)}
+        </legend>
+        <div className="grid gap-3 sm:grid-cols-3">{renderedParts}</div>
+        {renderValidationBadge(issue)}
+      </fieldset>
+    );
   };
 
   const renderDropdownWithVersion = (field: RigField) => {
@@ -243,7 +261,7 @@ export function RigEditor() {
     };
 
     return (
-      <div key={field.id} className="grid grid-cols-[1fr_auto] gap-2 sm:col-span-2">
+      <div key={field.id} className="grid grid-cols-[1fr_8rem] gap-2 sm:col-span-2">
         <Select
           label={t(field.labelKey)}
           value={value}
@@ -262,21 +280,30 @@ export function RigEditor() {
   };
 
   return (
+    // The section header ("My Rig") already names this block.
     <div className="flex flex-col gap-3">
-      <span className="text-text-primary text-sm font-semibold">{t("editor.rig")}</span>
       <div className="grid gap-3 sm:grid-cols-2">
         {RIG_FIELDS.map((field) => {
-          if (field.type === "cascading_dropdown") return renderCascading(field);
+          const value = rig[field.id] ?? "";
+          const set = (next: string) => setNested("rig", field.id, next);
+          if (field.type === "gpu") {
+            return (
+              <GpuPicker key={field.id} label={t(field.labelKey)} value={value} onChange={set} />
+            );
+          }
           if (field.type === "composite_dropdown") return renderComposite(field);
           if (field.type === "dropdown_with_version") return renderDropdownWithVersion(field);
+          if (field.suggestions) {
+            return <SuggestedTextField key={field.id} field={field} value={value} onChange={set} />;
+          }
           return (
             <Input
               key={field.id}
               label={t(field.labelKey)}
               maxLength={FIELD_LIMITS.SHORT_NAME}
               placeholder={field.placeholder}
-              value={rig[field.id] ?? ""}
-              onChange={(e) => setNested("rig", field.id, e.target.value)}
+              value={value}
+              onChange={(e) => set(e.target.value)}
             />
           );
         })}

@@ -570,6 +570,18 @@
     "livestream": {
       "scheduledLine": "🔴 LIVE 방송 일시: {{time}}",
       "watchLine": "시청 / 다시보기: {{link}}"
+    },
+    "rigLabels": {
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "motherboard": "메인보드",
+      "storage": "저장장치",
+      "os": "운영체제",
+      "monitor": "모니터",
+      "capture": "캡처 소프트웨어",
+      "controller": "컨트롤러",
+      "video_editor": "영상 편집 프로그램"
     }
   },
   "pinnedComment": {

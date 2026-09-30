@@ -147,12 +147,8 @@
     "anniversaryYearOption": "Tahun {{count}}",
     "gachaVersion": "Versi Game",
     "gachaVersionPlaceholder": "mis. 1.2, 2.4",
-    "gpu_brand": "Merek",
-    "gpu_series": "Seri",
-    "gpu_model": "Model",
-    "gpu_custom": "GPU Kustom",
     "ram_size": "Kapasitas RAM",
-    "ram_ddr": "Generasi DDR",
+    "ram_ddr": "Jenis memori",
     "os_name": "OS",
     "os_version": "Versi",
     "os_edition": "Edisi",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 Intro\n5:30 Bab 1\n15:00 Pertarungan Boss",
     "storeLinks": "Tautan Toko",
     "storeLinkType": "Jenis",
-    "rig": "Spek PC Saya",
     "social": "Tautan Sosial & Donasi",
     "warnings": "Peringatan konten",
     "playlistLink": "Tautan Playlist",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "Cari genre",
     "genreSearchNoResults": "Tidak ada genre yang cocok",
     "validation": {
-      "gpuMissingSeries": "Pilih seri untuk melengkapi GPU.",
-      "gpuMissingModel": "Pilih model untuk melengkapi GPU.",
-      "gpuCustomEmpty": "Masukkan nama GPU atau pilih dari katalog.",
-      "ramMissingDdr": "Pilih generasi DDR.",
+      "ramMissingDdr": "Pilih jenis memori.",
       "ramMissingSize": "Pilih kapasitas RAM.",
       "ramCustomEmpty": "Masukkan kapasitas RAM dalam GB."
     },
@@ -751,7 +743,23 @@
     "genreAdd": "Tambah",
     "genreQuickSets": "Set cepat",
     "genreRemove": "Hapus {{genre}}",
-    "selectedCount": "{{n}} dipilih"
+    "selectedCount": "{{n}} dipilih",
+    "ram_speed": "Kecepatan (MT/s)",
+    "gpuPick": "Pilih kartu grafis…",
+    "gpuSearch": "Cari — mis. 5080, 9070 XT, M4 Pro, ROG Ally",
+    "gpuNoMatch": "Tidak ada di daftar — gunakan “Ketik sendiri”.",
+    "gpuCustom": "Ketik sendiri",
+    "gpuNone": "Kosongkan",
+    "gpuCustomLabel": "GPU (sesuai yang ditampilkan)",
+    "gpuCustomChosen": "Isian sendiri",
+    "timestampsNormalize": "Rapikan",
+    "chapters": {
+      "ok": "YouTube akan menampilkannya sebagai {{n}} bab.",
+      "firstNotZero": "YouTube hanya menampilkan bab jika stempel waktu pertama adalah 0:00.",
+      "tooFew": "YouTube memerlukan minimal 3 stempel waktu untuk bab (saat ini {{n}}).",
+      "tooShort": "{{time}}: setiap bab harus berdurasi minimal 10 detik.",
+      "outOfOrder": "{{time}} lebih awal dari stempel waktu di atasnya."
+    }
   },
   "output": {
     "title": "Judul",
@@ -789,7 +797,6 @@
       "bannerTitle": "Penyalinan diblokir — melebihi batas YouTube",
       "fieldLine": "{{field}}: {{count}} / {{limit}} karakter",
       "bannerHint": "Persingkat kolom di atas, lalu salin lagi.",
-      "copyBlocked": "Diblokir: kolom lain melebihi batas YouTube",
       "batchRowBlocked": "Part ini melebihi batas — penyalinan diblokir.",
       "batchAllBlocked": "Salin Semua diblokir — setidaknya ada satu part yang melebihi batas"
     },
@@ -801,7 +808,8 @@
       "more": "…selengkapnya",
       "titleCut": "Hasil pencarian dan saran memotong judul di sekitar {{chars}} karakter — taruh kata kunci penting di depan.",
       "foldHint": "Penonton hanya melihat sekitar {{chars}} karakter pertama deskripsi sebelum “…selengkapnya”."
-    }
+    },
+    "forbiddenChars": "{{field}}: YouTube tidak menerima karakter < dan > — hapus sebelum mengunggah."
   },
   "common": {
     "save": "Simpan",

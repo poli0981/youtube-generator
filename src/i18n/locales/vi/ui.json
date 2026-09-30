@@ -147,12 +147,8 @@
     "anniversaryYearOption": "Năm {{count}}",
     "gachaVersion": "Phiên bản game",
     "gachaVersionPlaceholder": "vd: 1.2, 2.4",
-    "gpu_brand": "Hãng",
-    "gpu_series": "Dòng",
-    "gpu_model": "Model",
-    "gpu_custom": "GPU tự nhập",
     "ram_size": "Dung lượng RAM",
-    "ram_ddr": "Thế hệ DDR",
+    "ram_ddr": "Loại RAM",
     "os_name": "Hệ điều hành",
     "os_version": "Phiên bản",
     "os_edition": "Bản",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 Giới thiệu\n5:30 Chương 1\n15:00 Đánh Boss",
     "storeLinks": "Link mua game",
     "storeLinkType": "Loại",
-    "rig": "Cấu hình máy",
     "social": "Mạng xã hội & Donate",
     "warnings": "Cảnh báo nội dung",
     "playlistLink": "Link Playlist",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "Tìm thể loại",
     "genreSearchNoResults": "Không có thể loại phù hợp",
     "validation": {
-      "gpuMissingSeries": "Chọn dòng để hoàn tất GPU.",
-      "gpuMissingModel": "Chọn model để hoàn tất GPU.",
-      "gpuCustomEmpty": "Nhập tên GPU hoặc chọn từ danh sách.",
-      "ramMissingDdr": "Chọn thế hệ DDR.",
+      "ramMissingDdr": "Chọn loại RAM.",
       "ramMissingSize": "Chọn dung lượng RAM.",
       "ramCustomEmpty": "Nhập dung lượng RAM (GB)."
     },
@@ -751,7 +743,23 @@
     "genreAdd": "Thêm",
     "genreQuickSets": "Bộ chọn nhanh",
     "genreRemove": "Bỏ {{genre}}",
-    "selectedCount": "Đã chọn {{n}}"
+    "selectedCount": "Đã chọn {{n}}",
+    "ram_speed": "Bus (MT/s)",
+    "gpuPick": "Chọn card đồ họa…",
+    "gpuSearch": "Tìm — vd: 5080, 9070 XT, M4 Pro, ROG Ally",
+    "gpuNoMatch": "Không có trong danh sách — chọn “Tự nhập”.",
+    "gpuCustom": "Tự nhập",
+    "gpuNone": "Bỏ trống",
+    "gpuCustomLabel": "GPU (hiển thị đúng như bạn nhập)",
+    "gpuCustomChosen": "Tự nhập",
+    "timestampsNormalize": "Chuẩn hóa",
+    "chapters": {
+      "ok": "YouTube sẽ hiển thị thành {{n}} chương.",
+      "firstNotZero": "YouTube chỉ hiện chương khi mốc đầu tiên là 0:00.",
+      "tooFew": "YouTube cần ít nhất 3 mốc để tạo chương (hiện có {{n}}).",
+      "tooShort": "{{time}}: mỗi chương phải dài ít nhất 10 giây.",
+      "outOfOrder": "{{time}} đứng trước mốc ở dòng trên."
+    }
   },
   "output": {
     "title": "Tiêu đề",
@@ -789,7 +797,6 @@
       "bannerTitle": "Không thể sao chép — vượt giới hạn của YouTube",
       "fieldLine": "{{field}}: {{count}} / {{limit}} ký tự",
       "bannerHint": "Hãy rút ngắn trường ở trên rồi sao chép lại.",
-      "copyBlocked": "Bị chặn: một trường khác vượt giới hạn của YouTube",
       "batchRowBlocked": "Phần này vượt giới hạn — không thể sao chép.",
       "batchAllBlocked": "Không thể sao chép tất cả — có ít nhất một phần vượt giới hạn"
     },
@@ -801,7 +808,8 @@
       "more": "…thêm",
       "titleCut": "Kết quả tìm kiếm và đề xuất cắt tiêu đề ở khoảng {{chars}} ký tự — hãy đặt từ khóa quan trọng lên đầu.",
       "foldHint": "Người xem chỉ thấy khoảng {{chars}} ký tự đầu của mô tả trước nút “…thêm”."
-    }
+    },
+    "forbiddenChars": "{{field}}: YouTube không chấp nhận ký tự < và > — hãy xóa chúng trước khi tải lên."
   },
   "common": {
     "save": "Lưu",

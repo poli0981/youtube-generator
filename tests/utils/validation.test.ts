@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   validateUrlWithPattern,
   validatePlaylistUrl,
+  normalizePlaylistUrl,
+  validateUrlWithPrefix,
   validateMessengerUrl,
   validateZaloGroupUrl,
   validateSignalGroupUrl,
@@ -176,10 +178,29 @@ describe("validatePlaylistUrl", () => {
     expect(result.errorParams?.expected).toBe("https://www.youtube.com/playlist?list=[id]");
   });
 
-  it("rejects a watch URL with both v= and list= params", () => {
-    expect(
-      validatePlaylistUrl("https://www.youtube.com/watch?v=abc&list=PLrAXtmRdnEQy6nuLMHj").valid,
-    ).toBe(false);
+  it("accepts a video-in-playlist URL and normalises it to the playlist page (v1.0.0)", () => {
+    const url = "https://www.youtube.com/watch?v=abc&list=PLrAXtmRdnEQy6nuLMHj";
+    expect(validatePlaylistUrl(url).valid).toBe(true);
+    expect(normalizePlaylistUrl(url)).toBe(
+      "https://www.youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHj",
+    );
+  });
+
+  it("accepts phone and YouTube Music playlist links (v1.0.0)", () => {
+    for (const url of [
+      "https://m.youtube.com/playlist?list=PLabc",
+      "https://music.youtube.com/playlist?list=PLabc",
+    ]) {
+      expect(validatePlaylistUrl(url).valid, url).toBe(true);
+      expect(normalizePlaylistUrl(url)).toBe("https://www.youtube.com/playlist?list=PLabc");
+    }
+  });
+
+  it("still rejects a watch URL without a list", () => {
+    expect(validatePlaylistUrl("https://www.youtube.com/watch?v=abc").valid).toBe(false);
+    expect(normalizePlaylistUrl("https://www.youtube.com/watch?v=abc")).toBe(
+      "https://www.youtube.com/watch?v=abc",
+    );
   });
 
   it("rejects a youtu.be short URL", () => {
@@ -557,5 +578,27 @@ describe("validateEmails — the cap still applies to imported values", () => {
     const result = validateEmails("a@b.com,c@d.com,nope");
     expect(result.valid).toBe(false);
     expect(result.error).toBe("validation.emailInvalid");
+  });
+});
+
+describe("v1.0.0 validation changes", () => {
+  it("requires a dot and a real TLD in email domains", () => {
+    expect(validateEmails("me@gmail").valid).toBe(false);
+    expect(validateEmails("me@localhost").valid).toBe(false);
+    expect(validateEmails("me@gmail.com").valid).toBe(true);
+    expect(validateEmails("me@mail.co.uk").valid).toBe(true);
+  });
+
+  it("does not warn about www., m. or twitter.com against a social prefix", () => {
+    expect(
+      validateUrlWithPrefix("https://www.instagram.com/me", "https://instagram.com/").error,
+    ).toBeUndefined();
+    expect(
+      validateUrlWithPrefix("https://m.facebook.com/me", "https://facebook.com/").error,
+    ).toBeUndefined();
+    expect(validateUrlWithPrefix("https://twitter.com/me", "https://x.com/").error).toBeUndefined();
+    expect(validateUrlWithPrefix("https://example.com/me", "https://x.com/").error).toBe(
+      "validation.urlPrefixMismatch",
+    );
   });
 });

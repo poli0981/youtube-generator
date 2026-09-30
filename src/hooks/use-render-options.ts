@@ -118,6 +118,8 @@ export function useRenderOptions(
     if (bilingualContentBlocks !== undefined) {
       overrides.bilingualContentBlocks = bilingualContentBlocks;
     }
+    // The engine doesn't read the clock; the UI hands it the year.
+    overrides.year = new Date().getFullYear();
     return buildRenderOptions(
       {
         includeMultilingualTags,

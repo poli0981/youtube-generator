@@ -570,6 +570,18 @@
     "livestream": {
       "scheduledLine": "🔴 EN VIVO el {{time}}",
       "watchLine": "Ver / repetir: {{link}}"
+    },
+    "rigLabels": {
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "motherboard": "Placa Base",
+      "storage": "Almacenamiento",
+      "os": "Sistema Operativo",
+      "monitor": "Monitor",
+      "capture": "Software de Captura",
+      "controller": "Mando",
+      "video_editor": "Editor de Video"
     }
   },
   "pinnedComment": {

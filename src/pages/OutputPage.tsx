@@ -23,6 +23,7 @@ import { useSettingsStore } from "@store/settings-store";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useOutputLimits } from "@hooks/use-output-limits";
+import { fieldsWithForbiddenChars, isCopyAllBlocked } from "@engine/limits";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import { useClipboard } from "@hooks/use-clipboard";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
@@ -77,17 +78,10 @@ export function OutputPage() {
   const tabStatus = useOutputLimits(shownOutputs);
   const allStatus = useOutputLimits(everyOutput);
 
-  // Strict Mode folds into the same "blocked" signal the char-limit gate
-  // uses, so a copy button has one reason to be disabled, not two.
+  // Strict Mode blocks every copy; the limits block only the field that is
+  // over (Copy All = title + description, so not the tags).
   const strictBlocked = useStrictBlock();
-  const tabBlocked = useMemo(
-    () => (strictBlocked ? { ...tabStatus, blocked: true } : tabStatus),
-    [strictBlocked, tabStatus],
-  );
-  const allBlocked = useMemo(
-    () => (strictBlocked ? { ...allStatus, blocked: true } : allStatus),
-    [strictBlocked, allStatus],
-  );
+  const copyAllBlocked = strictBlocked || isCopyAllBlocked(allStatus);
 
   // At least one language stays selected; the active tab follows a removal.
   const changeLangs = (next: SupportedLanguage[]) => {
@@ -96,9 +90,19 @@ export function OutputPage() {
     if (!next.includes(activeTab)) setActiveTab(next[0] as SupportedLanguage);
   };
 
+  // Record what was generated. The store updates an existing entry for the
+  // same video instead of adding another, so this may run on every visit and
+  // whenever the description changes (a setting toggled while here).
   useEffect(() => {
     if (!gameName || !defaultOutput.title) return;
-    const key = `${gameName}-${videoType}-${language}-${defaultOutput.title}`;
+    const key = [
+      gameName,
+      videoType,
+      language,
+      defaultOutput.title,
+      defaultOutput.description,
+      defaultOutput.tagString,
+    ].join("\n");
     if (savedRef.current === key) return;
     savedRef.current = key;
     addEntry(
@@ -142,7 +146,7 @@ export function OutputPage() {
 
 ${defaultOutput.description}`;
   const copyAll = () => void copy(copyAllText);
-  const copyAllDisabled = allBlocked.blocked || !gameName;
+  const copyAllDisabled = copyAllBlocked || !gameName;
 
   const shownOutput = currentOutput ?? defaultOutput;
 
@@ -183,6 +187,11 @@ ${defaultOutput.description}`;
 
       <StrictModeBanner />
       <LimitBlockBanner status={allStatus} />
+      {fieldsWithForbiddenChars(shownOutput).map((field) => (
+        <Banner key={field} tone="warning">
+          {t("output.forbiddenChars", { field: t(`output.${field}`) })}
+        </Banner>
+      ))}
 
       {!gameName ? (
         <EmptyState
@@ -233,13 +242,17 @@ ${defaultOutput.description}`;
               {selectedLangs.map((lang) => (
                 <TabPanel key={lang} value={lang} className="flex flex-col gap-4 pt-4">
                   {multilangOutputs[lang] && (
-                    <OutputPreview output={multilangOutputs[lang]} status={tabBlocked} />
+                    <OutputPreview
+                      output={multilangOutputs[lang]}
+                      status={tabStatus}
+                      strictBlocked={strictBlocked}
+                    />
                   )}
                 </TabPanel>
               ))}
             </Tabs>
           ) : (
-            <OutputPreview status={tabBlocked} />
+            <OutputPreview status={tabStatus} strictBlocked={strictBlocked} />
           )}
 
           <YouTubePreview

@@ -404,3 +404,25 @@ describe("migrateEditorState — v17 → v18 (v0.34.0 Email split)", () => {
     expect(result.contactEmail).toBe("hello@channel.com");
   });
 });
+
+describe("migrateEditorState — v18 → v19 (v1.0.0 GPU catalog)", () => {
+  it("converts a v0.13 GPU tuple to the catalog id", () => {
+    const result = migrateEditorState({ rig: { gpu: "nvidia|rtx_50|RTX 5080", cpu: "x" } }, 18);
+    expect(result.rig).toEqual({ gpu: "gpu:nvidia-rtx-5080", cpu: "x" });
+  });
+
+  it("keeps a card the catalog doesn't know as its full name", () => {
+    const result = migrateEditorState({ rig: { gpu: "amd|rx_9000|RX 9090 XT" } }, 18);
+    expect(result.rig.gpu).toBe("AMD Radeon RX 9090 XT");
+  });
+
+  it("survives a missing or malformed rig", () => {
+    expect(migrateEditorState({ rig: null }, 18).rig).toEqual({});
+    expect(migrateEditorState({}, 18).rig).toEqual({});
+  });
+
+  it("does not touch the rig of a v19 draft", () => {
+    const rig = { gpu: "gpu:amd-rx-7800-xt" };
+    expect(migrateEditorState({ rig }, 19).rig).toEqual(rig);
+  });
+});

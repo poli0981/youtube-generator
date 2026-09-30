@@ -6,6 +6,7 @@ import { SOCIAL_FIELDS } from "@config/social-fields";
 import { formatRigValue } from "@config/rig-fields";
 import { DEFAULT_GACHA_QUEST_TYPE } from "@config/gacha-quest-types";
 import { ordinalSuffix } from "./title-builder";
+import { buildRigLines } from "./rig-block";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
 import { formatEndingEntry, sliceEndingsForVideo } from "./endings-format";
 import { sanitizeHashtag } from "@utils/sanitize";
@@ -257,6 +258,8 @@ export interface BuildDescriptionOptions {
    *  each (single-language) tab doesn't show `EN · LOCAL` content blocks.
    *  Defaults to true. v0.29.3. */
   bilingualContentBlocks?: boolean;
+  /** Year for the copyright line; the current year when omitted. */
+  year?: number;
 }
 
 export function buildDescription(
@@ -275,6 +278,7 @@ export function buildDescription(
     showTranslationQuality = false,
     tEn,
     bilingualContentBlocks = true,
+    year = new Date().getFullYear(),
   } = options;
   // Multi-language Output tabs set this false: each tab is one target
   // language, so the v0.11/v0.12 content blocks must NOT render `EN · LOCAL`.
@@ -490,16 +494,10 @@ export function buildDescription(
   // above (slot 1.5) in v0.12. Kept here as a no-op placeholder so the
   // numbering of subsequent comments stays stable.
 
-  // 6. Rig
-  if (hasEntries(input.rig)) {
-    const rigLines = Object.entries(input.rig)
-      .map(([k, v]) => [k, formatRigValue(k, v ?? "")] as const)
-      .filter(([, v]) => v && v.trim() !== "")
-      .map(([k, v]) => `${k.replace(/_/g, " ").toUpperCase()}: ${v}`)
-      .join("\n");
-    if (rigLines) {
-      sections.push(`${t("description.sections.rig")}\n${rigLines}`);
-    }
+  // 6. Rig — translated labels in a fixed order (see buildRigLines).
+  const rigLines = buildRigLines(input.rig, t);
+  if (rigLines.length > 0) {
+    sections.push(`${t("description.sections.rig")}\n${rigLines.join("\n")}`);
   }
 
   // 6.5 Mod list — only meaningful for the `mods` videoType. Free-form
@@ -695,7 +693,6 @@ export function buildDescription(
   // 13.5 Copyright line — auto-generated from channelName + current year.
   // Skipped when the creator hasn't set a channel name (nothing to claim).
   if (showCopyright && input.channelName.trim()) {
-    const year = new Date().getFullYear();
     sections.push(
       t("description.sections.copyright", {
         year: String(year),
@@ -718,7 +715,8 @@ export function buildDescription(
     `#${sanitizeHashtag(gameName)}`,
     "#GameplayNoCommentary",
     ...(primaryGenre ? [`#${sanitizeHashtag(primaryGenre)}`] : []),
-  ];
+    // A name made only of symbols (or no name yet) leaves a bare "#".
+  ].filter((tag) => tag.length > 1);
   sections.push(allHashtags.slice(0, hashtagCount).join(" "));
 
   return sections.join("\n\n");
@@ -844,7 +842,9 @@ function buildPlaythroughNotesSection(
   const structured = Array.isArray(input.endings) ? input.endings : [];
   const sliced = sliceEndingsForVideo(structured, input);
   if (sliced.length > 0) {
-    const formatted = sliced.map(formatEndingEntry).filter((s): s is string => !!s);
+    const formatted = sliced
+      .map((entry) => formatEndingEntry(entry, t))
+      .filter((s): s is string => !!s);
     if (formatted.length > 0) {
       const joined = formatted.join(", ");
       const b = bullet("description.playthroughNotes.labels.endings", joined, joined);

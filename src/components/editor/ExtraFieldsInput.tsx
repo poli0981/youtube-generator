@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { Input } from "@components/ui/Input";
 import { Textarea } from "@components/ui/Textarea";
 import { Field, controlClasses } from "@components/ui/Field";
+import { ValidatedInput } from "@components/ui/ValidatedInput";
+import { validateUrl } from "@utils/validation";
 import { VIDEO_TYPES } from "@config/video-types";
 import {
   GACHA_QUEST_TYPE_GROUPS,
@@ -194,12 +196,19 @@ export function ExtraFieldsInput() {
         </>
       )}
       {extraFields.includes("liveUrl") && (
-        <Input
+        // Validated like every other link (it wasn't): a typo here goes
+        // straight into the description as a dead "Watch / replay" line.
+        <ValidatedInput
+          fieldId="liveUrl"
+          labelKey="editor.liveUrl"
           label={t("editor.liveUrl")}
           maxLength={FIELD_LIMITS.URL}
           placeholder={t("editor.liveUrlPlaceholder")}
           value={store.liveUrl ?? ""}
-          onChange={(e) => store.set("liveUrl", e.target.value)}
+          onChange={(v) => store.set("liveUrl", v)}
+          validate={validateUrl}
+          inputMode="url"
+          autoComplete="off"
         />
       )}
       {extraFields.includes("scheduledTime") && (

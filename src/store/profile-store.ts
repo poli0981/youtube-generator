@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
 import { saveSettings } from "@utils/storage-adapter";
+import { migrateRig } from "@config/rig-fields";
 import type { GraphicsPreset } from "@config/graphics-settings";
 
 /**
@@ -110,7 +111,8 @@ export const useProfileStore = create<ProfileState>()(
       // as "pre-v0.11" and gets the empty-string back-fill.
       // v1 → v2: v0.34.0 added `adEmail` / `gameKeyEmail` (email split).
       // Additive — pre-v0.34 profiles get a `""` back-fill.
-      version: 2,
+      // v2 → v3: v1.0.0 GPU catalog (`brand|series|model` → `gpu:<id>`).
+      version: 3,
       migrate: (persistedState: unknown, version: number) => {
         if (!persistedState || typeof persistedState !== "object") return persistedState;
         const state = persistedState as { profiles?: Array<Record<string, unknown>> };
@@ -125,6 +127,9 @@ export const useProfileStore = create<ProfileState>()(
             adEmail: typeof p.adEmail === "string" ? p.adEmail : "",
             gameKeyEmail: typeof p.gameKeyEmail === "string" ? p.gameKeyEmail : "",
           }));
+        }
+        if (version < 3 && Array.isArray(state.profiles)) {
+          state.profiles = state.profiles.map((p) => ({ ...p, rig: migrateRig(p.rig) }));
         }
         return persistedState as { profiles: Profile[] };
       },

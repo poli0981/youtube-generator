@@ -147,12 +147,8 @@
     "anniversaryYearOption": "Year {{count}}",
     "gachaVersion": "Game Version",
     "gachaVersionPlaceholder": "e.g. 1.2, 2.4",
-    "gpu_brand": "Brand",
-    "gpu_series": "Series",
-    "gpu_model": "Model",
-    "gpu_custom": "Custom GPU",
     "ram_size": "RAM Size",
-    "ram_ddr": "DDR Generation",
+    "ram_ddr": "Memory type",
     "os_name": "OS",
     "os_version": "Version",
     "os_edition": "Edition",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 Intro\n5:30 Chapter 1\n15:00 Boss Fight",
     "storeLinks": "Store Links",
     "storeLinkType": "Type",
-    "rig": "My Rig",
     "social": "Social & Donate Links",
     "warnings": "Content warnings",
     "playlistLink": "Playlist Link",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "Search genres",
     "genreSearchNoResults": "No matching genres",
     "validation": {
-      "gpuMissingSeries": "Pick a series to complete the GPU.",
-      "gpuMissingModel": "Pick a model to complete the GPU.",
-      "gpuCustomEmpty": "Enter a GPU name or pick from the catalog.",
-      "ramMissingDdr": "Pick a DDR generation.",
+      "ramMissingDdr": "Pick the memory type.",
       "ramMissingSize": "Pick a RAM size.",
       "ramCustomEmpty": "Enter a RAM size in GB."
     },
@@ -751,7 +743,23 @@
     "genreAdd": "Add",
     "genreQuickSets": "Quick sets",
     "genreRemove": "Remove {{genre}}",
-    "selectedCount": "{{n}} selected"
+    "selectedCount": "{{n}} selected",
+    "ram_speed": "Speed (MT/s)",
+    "gpuPick": "Choose a graphics card…",
+    "gpuSearch": "Search — e.g. 5080, 9070 XT, M4 Pro, ROG Ally",
+    "gpuNoMatch": "Not in the list — use “Type my own”.",
+    "gpuCustom": "Type my own",
+    "gpuNone": "No GPU",
+    "gpuCustomLabel": "GPU, as it should appear",
+    "gpuCustomChosen": "Own entry",
+    "timestampsNormalize": "Tidy up",
+    "chapters": {
+      "ok": "YouTube will show these as {{n}} chapters.",
+      "firstNotZero": "YouTube only shows chapters when the first timestamp is 0:00.",
+      "tooFew": "YouTube needs at least 3 timestamps for chapters ({{n}} so far).",
+      "tooShort": "{{time}}: each chapter must be at least 10 seconds long.",
+      "outOfOrder": "{{time}} comes before the timestamp above it."
+    }
   },
   "output": {
     "title": "Title",
@@ -789,7 +797,6 @@
       "bannerTitle": "Copying is blocked — over the YouTube limit",
       "fieldLine": "{{field}}: {{count}} / {{limit}} characters",
       "bannerHint": "Shorten the field above, then copy again.",
-      "copyBlocked": "Blocked: another field is over the YouTube limit",
       "batchRowBlocked": "This part is over the limit — copying is blocked.",
       "batchAllBlocked": "Copy All is blocked — at least one part is over the limit"
     },
@@ -801,7 +808,8 @@
       "more": "…more",
       "titleCut": "Search results and suggestions cut titles at about {{chars}} characters — keep the key words at the front.",
       "foldHint": "Viewers see only the first ~{{chars}} characters of the description before “…more”."
-    }
+    },
+    "forbiddenChars": "{{field}}: YouTube doesn't accept the characters < and > — remove them before uploading."
   },
   "common": {
     "save": "Save",
