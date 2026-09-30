@@ -2,9 +2,10 @@ name: Notify CI Failures
 
 on:
   workflow_run:
-    # Match the exact `name:` of the CI workflow (.github/workflows/ci.yml).
-    # Renaming CI silently breaks this filter — keep them in sync.
-    workflows: ["CI"]
+    # Match the exact `name:` of each watched workflow (ci.yml, security.yml,
+    # compliance.yml, rust.yml). Renaming one silently breaks this filter —
+    # keep them in sync.
+    workflows: ["CI", "Security", "Compliance", "Rust"]
     types: [completed]
 
 # REQUIRED: declare permissions matching the reusable workflow's needs.
@@ -16,4 +17,6 @@ permissions:
 jobs:
   notify:
     uses: poli0981/.github/.github/workflows/notify-ci-failure.yml@main
-    secrets: inherit
+    # Only the webhook the shared workflow declares — not `inherit`.
+    secrets:
+      DISCORD_CI_WEBHOOK: ${{ secrets.DISCORD_CI_WEBHOOK }}
