@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import {
@@ -24,7 +25,9 @@ import { SegmentedControl } from "@components/ui/SegmentedControl";
 import { PageContainer, PageHeader } from "@components/ui/PageHeader";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { useSettingsStore } from "@store/settings-store";
-import { exportSettingsToFile, importSettingsFromFile } from "./settings/settings-io";
+import { BackupSection } from "@components/backup/BackupSection";
+import { ExportBackupDialog } from "@components/backup/ExportBackupDialog";
+import { pickFileToRestore } from "@utils/backup/restore-flow";
 import { GenrePlaylistsSection } from "./settings/GenrePlaylistsSection";
 import {
   type SupportedLanguage,
@@ -37,6 +40,7 @@ export function SettingsPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.settings"));
   const settings = useSettingsStore();
+  const [exportOpen, setExportOpen] = useState(false);
   const accordion = useSettingsStore((s) => s.settingsAccordionState);
   const toggleAccordion = useSettingsStore((s) => s.toggleSettingsAccordion);
   // Unknown ids default OPEN here — the opposite of EditorPage. A section
@@ -85,13 +89,13 @@ export function SettingsPage() {
         title={t("settings.title")}
         actions={
           <>
-            <Button variant="ghost" size="sm" onClick={() => void importSettingsFromFile()}>
+            <Button variant="ghost" size="sm" onClick={() => void pickFileToRestore()}>
               <Upload />
-              {t("common.import")}
+              {t("backup.restore")}
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => void exportSettingsToFile(t)}>
+            <Button variant="ghost" size="sm" onClick={() => setExportOpen(true)}>
               <Download />
-              {t("common.export")}
+              {t("backup.export")}
             </Button>
           </>
         }
@@ -314,7 +318,11 @@ export function SettingsPage() {
             help={t("settings.logRetentionHint")}
           />
         </Accordion>
+
+        <BackupSection {...section("backup")} />
       </div>
+
+      <ExportBackupDialog open={exportOpen} onClose={() => setExportOpen(false)} />
     </PageContainer>
   );
 }

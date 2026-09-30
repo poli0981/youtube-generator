@@ -1,158 +1,76 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
-import { saveSettings } from "@utils/storage-adapter";
-import type {
-  VideoType,
-  Genre,
-  SupportedLanguage,
-  StoreLinkType,
-  PlaythroughStatus,
-  DifficultyLevel,
-  ContentWarning,
-  LanguagePatch,
-  GameVersion,
-  TechNote,
-  EndingEntry,
-  EndingVideoRange,
-} from "@engine/types";
-import type {
-  GraphicsPreset,
-  RTMode,
-  FrameGenVendor,
-  FrameGenMultiplier,
-  UpscaleQuality,
-  ArtStyle,
-} from "@config/graphics-settings";
+import type { EditorData } from "@store/editor-store";
+import type { FrameGenVendor, FrameGenMultiplier, UpscaleQuality } from "@config/graphics-settings";
 import { coerceUpscaleQuality, coerceFrameGenMultiplier } from "@engine/graphics-vendor";
-import type { GachaQuestType } from "@config/gacha-quest-types";
 import { migrateRig } from "@config/rig-fields";
 
 /**
- * Full snapshot of the editor form. Matches the `partialize` output of
- * editor-store so a template can be applied back via `loadProfile` /
- * `loadPreset` (both accept `Partial<EditorData>`) and restore every
- * field the creator had set.
- *
- * Pre-v0.8 snapshots persisted `graphicsPreset` as free-form text. The
- * type here uses the v0.8 enum — TS believes legacy strings like "Ultra"
- * are `GraphicsPreset`, but `editor-store.normalizeEditorPatch` runs on
- * `loadProfile` / `loadPreset` and maps them through the same logic as
- * the persist v4→v5 migration, so behaviour is correct at runtime.
+ * A snapshot of the editor form. Since v1.0.0 a template saves every editor
+ * field (`editorDataOf`); templates saved before that carry a subset, and
+ * applying one leaves the missing fields alone. Legacy values (free-text
+ * `graphicsPreset`, `spoilerWarning`…) are mapped by
+ * `editor-store.normalizeEditorPatch` when the template is applied.
  */
-export interface TemplateSnapshot {
-  videoType: VideoType;
-  language: SupportedLanguage;
-  genres: Genre[];
-  gameName: string;
-  gameNameLocalized: Record<string, string>;
-  channelName: string;
-  platform: string;
-  partNumber: string;
-  bossName: string;
-  dlcName: string;
-  challengeName: string;
-  modName: string;
-  /** Long-form mod credit list (v0.8 polish). Optional for back-compat. */
-  modList?: string;
-  /** Livestream-only (v0.8 phase 2). Optional for back-compat. */
-  liveUrl?: string;
-  scheduledTime?: string;
-  /** Gacha-quest extras (v0.9 phase 1). Optional for back-compat. */
-  gachaQuestType?: GachaQuestType;
-  chapterName?: string;
-  questName?: string;
-  resolution: string;
-  fps: string;
-  graphicsPreset: GraphicsPreset;
-  /** v0.8 phase 2 fields — optional for back-compat with pre-v0.8 templates. */
-  graphicsPresetCustom?: string;
-  skipGraphicsSettings?: boolean;
-  rayTracingModes?: RTMode[];
-  frameGenVendor?: FrameGenVendor;
-  frameGenMultiplier?: FrameGenMultiplier;
-  upscaleQuality?: UpscaleQuality;
-  artStyle?: ArtStyle;
-  versionInfo?: string;
-  timestamps: string;
-  playlistLink: string;
-  contactEmail: string;
-  /** v0.34.0 email-split fields. Optional for back-compat with pre-v0.34
-   *  templates — `loadTemplate` spreads `...snapshot` onto editor state, so
-   *  a missing key keeps the editor's existing value. */
-  adEmail?: string;
-  gameKeyEmail?: string;
-  musicAttribution: string;
-  thumbnailText: string;
-  pinnedComment: string;
-  spoilerWarning: boolean;
-  matureWarning: boolean;
-  /**
-   * v0.7 phase 2 fields. Marked optional because templates saved before
-   * v0.8 polish don't carry them; `loadProfile` spreads `...patch` onto
-   * the editor state, so missing keys keep the editor's existing values.
-   */
-  playthroughStatus?: PlaythroughStatus;
-  difficulty?: DifficultyLevel;
-  difficultyCustomLabel?: string;
-  contentWarnings?: ContentWarning[];
-  /** v0.12 Playthrough Notes structured fields. Optional for back-compat
-   *  with pre-v0.12 templates — `loadProfile` spreads `...patch` so
-   *  missing keys keep the editor's existing values.
-   *  @deprecated v0.16.0 — superseded by structured `endings` array. */
-  endingsShown?: string;
-  /** v0.16.0 structured ending list — optional for back-compat with
-   *  pre-v0.16 templates. The editor's `normalizeEditorPatch` will run
-   *  `liftLegacyEndingString` on `endingsShown` if `endings` is absent. */
-  endings?: EndingEntry[];
-  endingVideoCount?: number;
-  endingVideoRanges?: EndingVideoRange[];
-  languagePatch?: LanguagePatch;
-  languagePatchCustom?: string;
-  gameVersion?: GameVersion;
-  gameVersionCustom?: string;
-  /** v0.12 Tech Notes checklist. Optional for back-compat. */
-  techNotes?: TechNote[];
-  storeLinks: Record<string, string>;
-  storeLinkTypes: Record<string, StoreLinkType>;
-  social: Record<string, string>;
-  rig: Record<string, string>;
-  /** Vietnam donate (v0.8 polish). Optional for back-compat. */
-  vnBankName?: string;
-  vnBankAccount?: string;
-  vnBankHolder?: string;
-  vnMomo?: string;
-  vnZalopay?: string;
-  /** Community invite links (v0.32.0). Optional for back-compat. */
-  messengerCommunityLink?: string;
-  zaloGroupLink?: string;
-  /** More community invite links (v0.33.0) — Signal, Instagram group chat,
-   *  and Facebook Group (moved from Social). Optional for back-compat. */
-  signalGroupLink?: string;
-  instagramGroupLink?: string;
-  facebookGroupLink?: string;
-  /** Channel-level third-party advertising copy (v0.11). Optional for
-   *  back-compat with pre-v0.11 templates. */
-  thirdPartyAdText?: string;
-}
+export type TemplateSnapshot = Partial<EditorData>;
 
 export interface EditorTemplate {
   id: string;
   name: string;
   createdAt: string;
+  /** v1.0.0. Missing on older templates — treat `createdAt` as the last change. */
+  updatedAt?: string;
   snapshot: TemplateSnapshot;
 }
 
 interface TemplateState {
   templates: EditorTemplate[];
   addTemplate: (name: string, snapshot: TemplateSnapshot) => string;
+  updateTemplate: (id: string, data: { name?: string; snapshot?: TemplateSnapshot }) => void;
   deleteTemplate: (id: string) => void;
-  renameTemplate: (id: string, name: string) => void;
   getTemplate: (id: string) => EditorTemplate | undefined;
-  importTemplates: (templates: EditorTemplate[]) => void;
 }
 
 const STORE_KEY = "ytdescgen-templates";
+
+/**
+ * v0 (unversioned) → v1: v0.11 added vendor-specific filtering on
+ * upscaleQuality / frameGenMultiplier. A snapshot saved before v0.11 may
+ * carry e.g. `frameGenVendor: "nvidia"` + `upscaleQuality: "native_aa"`
+ * (no longer a valid combo since DLSS uses `dlaa`); coerce invalid pairs to
+ * "none" so applying it doesn't push a stale value into the editor's Select.
+ * v1 → v2: v1.0.0 GPU catalog (`brand|series|model` → `gpu:<id>`).
+ */
+export const TEMPLATE_STORE_VERSION = 2;
+
+/** The persist migration, shared with backup import. Every step is idempotent. */
+export function migrateTemplatesState(persistedState: unknown, version: number): unknown {
+  if (!persistedState || typeof persistedState !== "object") return persistedState;
+  const state = persistedState as { templates?: Array<{ snapshot?: unknown }> };
+  if (!Array.isArray(state.templates)) return persistedState;
+  for (const tpl of state.templates) {
+    const snap = tpl?.snapshot;
+    if (!snap || typeof snap !== "object") continue;
+    const s = snap as Record<string, unknown>;
+    if (version < 1) {
+      const vendor = (
+        typeof s.frameGenVendor === "string" ? s.frameGenVendor : "none"
+      ) as FrameGenVendor;
+      if (typeof s.upscaleQuality === "string") {
+        s.upscaleQuality = coerceUpscaleQuality(vendor, s.upscaleQuality as UpscaleQuality);
+      }
+      if (typeof s.frameGenMultiplier === "string") {
+        s.frameGenMultiplier = coerceFrameGenMultiplier(
+          vendor,
+          s.frameGenMultiplier as FrameGenMultiplier,
+        );
+      }
+    }
+    if (version < 2) s.rig = migrateRig(s.rig);
+  }
+  return persistedState;
+}
 
 export const useTemplateStore = create<TemplateState>()(
   persist(
@@ -161,101 +79,46 @@ export const useTemplateStore = create<TemplateState>()(
 
       addTemplate: (name, snapshot) => {
         const id = generateId();
+        const now = new Date().toISOString();
         const template: EditorTemplate = {
           id,
           name: name.trim() || "Untitled",
-          createdAt: new Date().toISOString(),
+          createdAt: now,
+          updatedAt: now,
           snapshot,
         };
         set((state) => ({ templates: [...state.templates, template] }));
         return id;
       },
 
-      deleteTemplate: (id) => {
-        set((state) => ({ templates: state.templates.filter((tpl) => tpl.id !== id) }));
-      },
-
-      renameTemplate: (id, name) => {
+      updateTemplate: (id, { name, snapshot }) => {
         set((state) => ({
           templates: state.templates.map((tpl) =>
-            tpl.id === id ? { ...tpl, name: name.trim() || tpl.name } : tpl,
+            tpl.id === id
+              ? {
+                  ...tpl,
+                  name: name?.trim() || tpl.name,
+                  snapshot: snapshot ?? tpl.snapshot,
+                  updatedAt: new Date().toISOString(),
+                }
+              : tpl,
           ),
         }));
       },
 
-      getTemplate: (id) => get().templates.find((tpl) => tpl.id === id),
-
-      importTemplates: (templates) => {
-        // v0.15.0: shape-check rows + require `snapshot` to be a
-        // non-null object. Previously a template with `snapshot:
-        // null` made it into the store, and clicking "Apply" on the
-        // resulting card crashed the editor on the next render via
-        // `Object.values(null)`. The boundary now catches that, but
-        // it's a worse UX than rejecting the bad row up front.
-        if (!Array.isArray(templates)) return;
-        set((state) => {
-          const existing = new Set(state.templates.map((tpl) => tpl.id));
-          const incoming = templates.filter(
-            (tpl): tpl is EditorTemplate =>
-              !!tpl &&
-              typeof tpl === "object" &&
-              typeof tpl.id === "string" &&
-              tpl.id.length > 0 &&
-              !!tpl.snapshot &&
-              typeof tpl.snapshot === "object" &&
-              !existing.has(tpl.id),
-          );
-          return { templates: [...state.templates, ...incoming] };
-        });
+      deleteTemplate: (id) => {
+        set((state) => ({ templates: state.templates.filter((tpl) => tpl.id !== id) }));
       },
+
+      getTemplate: (id) => get().templates.find((tpl) => tpl.id === id),
     }),
     {
       name: STORE_KEY,
       storage: createJSONStorage(() => localStorage),
-      // v0 (unversioned) → v1: v0.11 added vendor-specific filtering on
-      // upscaleQuality / frameGenMultiplier. A snapshot saved before
-      // v0.11 may carry e.g. `frameGenVendor: "nvidia"` +
-      // `upscaleQuality: "native_aa"` (no longer a valid combo since
-      // DLSS uses `dlaa`). Coerce invalid pairs to "none" so loadPreset
-      // doesn't push a stale value into the editor's Select. The
-      // editor's own normalizeEditorPatch repeats this coercion as a
-      // belt-and-suspenders measure.
-      // v1 → v2: v1.0.0 GPU catalog (`brand|series|model` → `gpu:<id>`).
-      version: 2,
-      migrate: (persistedState: unknown, version: number) => {
-        if (!persistedState || typeof persistedState !== "object") return persistedState;
-        if (version < 2) {
-          const state = persistedState as { templates?: EditorTemplate[] };
-          if (Array.isArray(state.templates)) {
-            for (const tpl of state.templates) {
-              if (tpl?.snapshot && typeof tpl.snapshot === "object") {
-                tpl.snapshot.rig = migrateRig(tpl.snapshot.rig);
-              }
-            }
-          }
-        }
-        if (version < 1) {
-          const state = persistedState as { templates?: EditorTemplate[] };
-          if (Array.isArray(state.templates)) {
-            for (const tpl of state.templates) {
-              const snap = tpl.snapshot as TemplateSnapshot;
-              const vendor = (snap.frameGenVendor ?? "none") as FrameGenVendor;
-              if (snap.upscaleQuality) {
-                snap.upscaleQuality = coerceUpscaleQuality(vendor, snap.upscaleQuality);
-              }
-              if (snap.frameGenMultiplier) {
-                snap.frameGenMultiplier = coerceFrameGenMultiplier(vendor, snap.frameGenMultiplier);
-              }
-            }
-          }
-        }
-        return persistedState as { templates: EditorTemplate[] };
-      },
+      version: TEMPLATE_STORE_VERSION,
+      migrate: (persistedState, version) =>
+        migrateTemplatesState(persistedState, version) as { templates: EditorTemplate[] },
       partialize: (state) => ({ templates: state.templates }),
     },
   ),
 );
-
-useTemplateStore.subscribe((state) => {
-  saveSettings(STORE_KEY, { templates: state.templates });
-});

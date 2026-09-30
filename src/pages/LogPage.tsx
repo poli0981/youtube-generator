@@ -13,7 +13,7 @@ import { PageContainer, PageHeader } from "@components/ui/PageHeader";
 import { SegmentedControl } from "@components/ui/SegmentedControl";
 import { LogEntryCard } from "@components/logs/LogEntry";
 import { useLogStore, type LogEntry, type LogLevel } from "@store/log-store";
-import { exportTypedToJsonFile } from "@utils/import-export";
+import { datedFileName, makeEnvelope } from "@utils/backup/format";
 import { saveTextFile } from "@utils/file-ops";
 import { useFileExport } from "@hooks/use-file-export";
 import clsx from "clsx";
@@ -103,7 +103,10 @@ export function LogPage() {
   const totalWarnCount = entries.filter((e) => e.level === "warn").length;
 
   const handleExportJson = async () => {
-    report(await exportTypedToJsonFile("history", entries, `ytdescgen-logs-${todayStamp()}.json`));
+    // Labelled "logs" since v1.0.0 (it said "history" before, which an
+    // import then mistook for the History list).
+    const content = JSON.stringify(makeEnvelope("logs", 1, entries), null, 2);
+    report(await saveTextFile({ content, filename: datedFileName("logs", "json") }));
   };
 
   const handleExportTxt = async () => {
@@ -118,7 +121,7 @@ export function LogPage() {
     report(
       await saveTextFile({
         content: text,
-        filename: `ytdescgen-logs-${todayStamp()}.txt`,
+        filename: datedFileName("logs", "txt"),
         mimeType: "text/plain",
       }),
     );
@@ -284,15 +287,6 @@ function formatRange(firstIso: string, lastIso: string): string {
   if (!first) return last;
   if (!last || first === last) return first;
   return `${first} → ${last}`;
-}
-
-/** Build today's date stamp for export filenames. */
-function todayStamp(): string {
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = String(now.getMonth() + 1).padStart(2, "0");
-  const d = String(now.getDate()).padStart(2, "0");
-  return `${y}${m}${d}`;
 }
 
 /** One-line text formatter for the plaintext export. */

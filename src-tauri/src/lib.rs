@@ -14,94 +14,34 @@ use tauri::{
     Manager, RunEvent, WindowEvent,
 };
 
-#[tauri::command]
-fn save_to_file(path: String, content: String) -> Result<(), String> {
-    if let Some(parent) = std::path::Path::new(&path).parent() {
-        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
-    }
-    std::fs::write(&path, &content).map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-fn read_from_file(path: String) -> Result<String, String> {
-    std::fs::read_to_string(&path).map_err(|e| e.to_string())
-}
-
-/// Append `content` to the file at `path`, creating the file (and any
-/// missing parent directories) if necessary. Used by the v0.17.0 log
-/// persistence pipeline to write JSONL entries one line at a time,
-/// rather than rewriting the whole file on every log call. Cheap
-/// enough that we can call it on every `addEntry` without batching.
-/// The caller is responsible for newline termination — this is a raw
-/// byte append, not a line writer.
-#[tauri::command]
-fn append_to_file(path: String, content: String) -> Result<(), String> {
-    use std::fs::OpenOptions;
-    use std::io::Write;
-    if let Some(parent) = std::path::Path::new(&path).parent() {
-        std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
-    }
-    let mut file = OpenOptions::new()
-        .append(true)
-        .create(true)
-        .open(&path)
-        .map_err(|e| e.to_string())?;
-    file.write_all(content.as_bytes())
-        .map_err(|e| e.to_string())
-}
-
-/// List entries in a directory, returning their file names (not full
-/// paths). Used by the v0.17.0 log retention sweep to find
-/// `ytdescgen-*.jsonl` files older than the configured retention
-/// window. Returns an empty vec if the directory doesn't exist
-/// (i.e. no logs have been written yet) — first-run safe.
-#[tauri::command]
-fn list_dir(path: String) -> Result<Vec<String>, String> {
-    let dir = std::path::Path::new(&path);
-    if !dir.exists() {
-        return Ok(Vec::new());
-    }
-    let entries = std::fs::read_dir(dir).map_err(|e| e.to_string())?;
-    let mut names = Vec::new();
-    for entry in entries.flatten() {
-        if let Some(name) = entry.file_name().to_str() {
-            names.push(name.to_string());
-        }
-    }
-    Ok(names)
-}
-
-/// Delete a file at `path` if it exists. No-op when the file is
-/// missing (used by log retention sweep — racing with another sweep
-/// or a manual cleanup shouldn't error). Returns the OS error string
-/// on permission failures.
-#[tauri::command]
-fn delete_file(path: String) -> Result<(), String> {
-    let p = std::path::Path::new(&path);
-    if !p.exists() {
-        return Ok(());
-    }
-    std::fs::remove_file(p).map_err(|e| e.to_string())
-}
+mod file_dialog;
+mod storage;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    // Plugins and commands shared by every platform (desktop + Android). The
-    // dialog/fs/opener/shell plugins all support mobile, and the six file
-    // commands use std::fs which works against the app's private data dir on
-    // Android. Desktop-only pieces (single-instance, tray, hide-to-tray,
+    // Plugins and commands shared by every platform (desktop + Android).
+    // Desktop-only pieces (single-instance, tray, hide-to-tray,
     // exit-prevention) are layered on below behind #[cfg(desktop)].
+    //
+    // No command takes a path: `storage` resolves file *names* under the app
+    // data directory, and `file_dialog` writes or reads only the file the
+    // user picks in a native dialog. The fs and shell plugins, which exposed
+    // arbitrary paths and processes to the webview, are gone.
     let builder = tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
-            save_to_file,
-            read_from_file,
-            append_to_file,
-            list_dir,
-            delete_file
+            storage::backup_list,
+            storage::backup_read,
+            storage::backup_write,
+            storage::backup_delete,
+            storage::log_append,
+            storage::log_list,
+            storage::log_read,
+            storage::log_delete,
+            storage::recover_legacy_data,
+            file_dialog::export_text_file,
+            file_dialog::import_text_file,
         ]);
 
     #[cfg(desktop)]
@@ -133,7 +73,13 @@ pub fn run() {
                 let quit = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
                 let menu = Menu::with_items(app, &[&show, &quit])?;
 
-                let _tray = TrayIconBuilder::with_id("ytdescgen-tray")
+                // The one tray icon: built here with the app icon (there is no
+                // `trayIcon` in tauri.conf.json, which would add a second).
+                let mut tray = TrayIconBuilder::with_id("ytdescgen-tray");
+                if let Some(icon) = app.default_window_icon() {
+                    tray = tray.icon(icon.clone());
+                }
+                let _tray = tray
                     .tooltip("YTDescGen — YouTube Description Generator")
                     .menu(&menu)
                     .on_menu_event(move |app, event| match event.id.as_ref() {

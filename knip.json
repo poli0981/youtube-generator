@@ -1,9 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "entry": [
-    "scripts/*.ts",
-    "tests/**/*.test.ts"
-  ],
+  "entry": ["scripts/*.ts", "tests/**/*.test.ts"],
   "project": [
     "src/**/*.{ts,tsx}",
     "scripts/**/*.ts",
@@ -12,11 +9,5 @@
     "build-plugins/**/*.ts"
   ],
   "ignoreExportsUsedInFile": true,
-  "ignoreDependencies": [
-    "@tauri-apps/plugin-fs",
-    "@tauri-apps/plugin-shell",
-    "tailwindcss",
-    "@testing-library/jest-dom",
-    "@testing-library/react"
-  ]
+  "ignoreDependencies": ["tailwindcss", "@testing-library/jest-dom", "@testing-library/react"]
 }

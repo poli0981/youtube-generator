@@ -1002,7 +1002,12 @@
     "hint": "频道信息 — 名称、联系方式、社交账号和电脑配置。应用后会填入编辑器中的对应字段。",
     "noChannel": "未填写频道名称",
     "socialLinks": "{{n}} 个社交链接",
-    "rigFields": "{{n}} 项配置"
+    "rigFields": "{{n}} 项配置",
+    "saveHint": "保存编辑器中的频道字段：频道名称、联系邮箱、社交链接、配置、视频设置、捐助和社群链接。",
+    "updateFromEditor": "同时用当前编辑器内容更新",
+    "saved": "已保存配置“{{name}}”",
+    "updated": "已更新配置“{{name}}”",
+    "unnamed": "未命名配置"
   },
   "templates": {
     "title": "模板",
@@ -1018,7 +1023,11 @@
     "appliedToast": "已应用 '{{name}}'",
     "exportTemplates": "导出模板",
     "importTemplates": "导入模板",
-    "applyFailed": "此模板已损坏，无法应用。"
+    "applyFailed": "此模板已损坏，无法应用。",
+    "editTemplate": "编辑模板",
+    "updateFromEditor": "用当前编辑器内容替换已保存的表单",
+    "updated": "已更新模板“{{name}}”",
+    "unnamed": "未命名模板"
   },
   "presets": {
     "title": "游戏预设",
@@ -1031,7 +1040,12 @@
     "noPresets": "无预设",
     "exportPresets": "导出预设",
     "importPresets": "导入预设",
-    "hint": "游戏名称、类型、平台和商店链接 — 在该游戏的每一集中复用。"
+    "hint": "游戏名称、类型、平台和商店链接 — 在该游戏的每一集中复用。",
+    "saveHint": "保存编辑器中的游戏字段：名称、类型、平台、商店链接、发行商、警告、游玩说明和系列播放列表。",
+    "updateFromEditor": "同时用当前编辑器内容更新",
+    "saved": "已保存预设“{{name}}”",
+    "updated": "已更新预设“{{name}}”",
+    "unnamed": "未命名游戏"
   },
   "history": {
     "title": "历史记录",
@@ -1039,7 +1053,9 @@
     "clearAll": "全部清除",
     "clearConfirm": "确定要清除所有历史记录吗？",
     "searchPlaceholder": "搜索历史记录...",
-    "noResults": "没有符合搜索的记录。"
+    "noResults": "没有符合搜索的记录。",
+    "exportCsv": "CSV（电子表格）",
+    "exportJson": "JSON（用于恢复）"
   },
   "settings": {
     "title": "设置",
@@ -1296,5 +1312,86 @@
   "library": {
     "profileApplied": "已应用配置“{{name}}”",
     "presetApplied": "已应用预设“{{name}}”"
+  },
+  "backup": {
+    "sectionTitle": "备份与恢复",
+    "intro": "一个文件包含你保存的全部内容：配置文件、预设、模板、历史、设置和当前草稿。使用本页顶部的“备份”和“恢复”，或将备份文件拖放到下方。",
+    "export": "备份",
+    "restore": "恢复",
+    "exportTitle": "备份你的数据",
+    "exportHint": "选择要包含的内容。设置中不会包含你对条款的同意，也不会包含哪些面板处于展开状态。",
+    "dropHint": "将备份文件拖放到这里进行恢复",
+    "dropActive": "松开以恢复",
+    "legacyFound": "发现了旧版 YTDescGen 保存的数据。请查看并恢复缺失的内容。",
+    "review": "查看",
+    "sections": {
+      "profiles": "配置文件",
+      "presets": "游戏预设",
+      "templates": "模板",
+      "history": "历史",
+      "settings": "设置",
+      "draft": "当前草稿"
+    },
+    "auto": {
+      "title": "自动备份",
+      "hint": "桌面应用会在你的资料库变化后自动备份，并在其专用文件夹中保留最近 10 份。",
+      "empty": "还没有自动备份。",
+      "backupNow": "立即备份",
+      "done": "备份已保存",
+      "failed": "无法保存备份",
+      "legacy": "来自旧版本",
+      "beforeRestore": "恢复之前",
+      "restore": "恢复…",
+      "loadFailed": "无法读取此备份"
+    }
+  },
+  "restore": {
+    "title": "恢复数据",
+    "meta": "由 YTDescGen {{version}} 于 {{date}} 保存",
+    "metaUnknown": "由旧版 YTDescGen 创建",
+    "mode": "恢复方式",
+    "merge": "合并",
+    "mergeHint": "添加新内容，并保留你现有的全部内容。",
+    "replace": "替换",
+    "replaceHint": "让所选的每一部分与文件保持一致——文件中没有的条目会被删除。",
+    "conflicts": "两边都有但内容不同的条目",
+    "newer": "保留较新的",
+    "newerHint": "只有文件中的副本修改时间更新时，才会更新该条目。",
+    "both": "两者都保留",
+    "bothHint": "文件中的副本会添加在你的条目旁边，名称后附加编号。",
+    "counts": "新增 {{new}} · 不同 {{changed}} · 已有 {{same}}",
+    "sameAsHere": "与你现有的相同",
+    "settingsNote": "与你现有的不同。你对条款的同意和已展开的面板保持不变。",
+    "draftNote": "会替换编辑器中当前的内容。",
+    "dropped": "已跳过 {{n}} 个损坏的条目",
+    "showItems": "显示条目",
+    "hideItems": "隐藏条目",
+    "status": {
+      "new": "新增",
+      "same": "已有",
+      "changed": "不同"
+    },
+    "tooNewTitle": "由更新的版本创建",
+    "tooNew": "请更新 YTDescGen 以恢复：{{sections}}。",
+    "empty": "这个文件里没有可恢复的内容。",
+    "replaceRemoves": "替换会删除文件中没有的 {{n}} 个条目。完成后可以立即撤销。",
+    "apply": "恢复",
+    "nothing": "没有需要恢复的内容——文件中的一切都已存在。",
+    "done": "恢复完成",
+    "doneDetail": "新增 {{added}} · 更新 {{updated}} · 删除 {{removed}}",
+    "undone": "已撤销恢复"
+  },
+  "import": {
+    "errors": {
+      "empty": "文件为空。",
+      "notJson": "该文件不是有效的 JSON。",
+      "unknown": "这不是 YTDescGen 的文件。",
+      "newer": "该文件由更新版本的 YTDescGen 创建。请更新应用后再打开。",
+      "tooLarge": "文件太大，无法导入。",
+      "wrongType": "请选择由 YTDescGen 导出的 .json 文件。",
+      "unreadable": "无法读取该文件。"
+    },
+    "logsFile": "这是日志导出文件——日志无法恢复。",
+    "socialFile": "这是社媒文案导出文件——请在“社交”页面打开。"
   }
 }

@@ -16,10 +16,7 @@ const ROOT = resolve(import.meta.dirname, "..");
 const PAIRS: ReadonlyArray<[npm: string, crate: string]> = [
   ["@tauri-apps/api", "tauri"],
   ["@tauri-apps/cli", "tauri"],
-  ["@tauri-apps/plugin-dialog", "tauri-plugin-dialog"],
-  ["@tauri-apps/plugin-fs", "tauri-plugin-fs"],
   ["@tauri-apps/plugin-opener", "tauri-plugin-opener"],
-  ["@tauri-apps/plugin-shell", "tauri-plugin-shell"],
 ];
 
 function npmVersion(name: string): string | null {

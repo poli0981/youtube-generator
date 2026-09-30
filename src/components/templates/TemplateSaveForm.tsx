@@ -1,115 +1,71 @@
-import { useState } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { Modal } from "@components/ui/Modal";
 import { Button } from "@components/ui/Button";
 import { Input } from "@components/ui/Input";
-import { useEditorStore } from "@store/editor-store";
-import { useTemplateStore, type TemplateSnapshot } from "@store/template-store";
-import { toast } from "sonner";
+import { Checkbox } from "@components/ui/Checkbox";
+import { editorDataOf, useEditorStore } from "@store/editor-store";
+import { useTemplateStore, type EditorTemplate } from "@store/template-store";
 import { FIELD_LIMITS } from "@config/field-limits";
 
 interface TemplateSaveFormProps {
   open: boolean;
   onClose: () => void;
+  editTemplate?: EditorTemplate;
 }
 
 /**
- * Prompts for a template name, then saves the entire editor form as a
- * reusable snapshot. Leaves the editor state untouched.
+ * Save the whole editor form as a template (every field — templates saved
+ * before v1.0.0 kept only part of it), or rename / refresh one. Mounted only
+ * while open, so it always starts from the template as it is now.
  */
-export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
-  const { t } = useTranslation("ui");
-  const editor = useEditorStore();
-  const addTemplate = useTemplateStore((s) => s.addTemplate);
-  const [name, setName] = useState("");
+export function TemplateSaveForm(props: TemplateSaveFormProps) {
+  return props.open ? <TemplateSaveFormBody {...props} /> : null;
+}
 
-  const handleSave = () => {
-    const snapshot: TemplateSnapshot = {
-      videoType: editor.videoType,
-      language: editor.language,
-      genres: [...editor.genres],
-      gameName: editor.gameName,
-      gameNameLocalized: { ...editor.gameNameLocalized },
-      channelName: editor.channelName,
-      platform: editor.platform,
-      partNumber: editor.partNumber,
-      bossName: editor.bossName,
-      dlcName: editor.dlcName,
-      challengeName: editor.challengeName,
-      modName: editor.modName,
-      modList: editor.modList,
-      liveUrl: editor.liveUrl,
-      scheduledTime: editor.scheduledTime,
-      gachaQuestType: editor.gachaQuestType,
-      chapterName: editor.chapterName,
-      questName: editor.questName,
-      resolution: editor.resolution,
-      fps: editor.fps,
-      graphicsPreset: editor.graphicsPreset,
-      graphicsPresetCustom: editor.graphicsPresetCustom,
-      skipGraphicsSettings: editor.skipGraphicsSettings,
-      rayTracingModes: [...editor.rayTracingModes],
-      frameGenVendor: editor.frameGenVendor,
-      frameGenMultiplier: editor.frameGenMultiplier,
-      upscaleQuality: editor.upscaleQuality,
-      artStyle: editor.artStyle,
-      versionInfo: editor.versionInfo,
-      timestamps: editor.timestamps,
-      playlistLink: editor.playlistLink,
-      contactEmail: editor.contactEmail,
-      adEmail: editor.adEmail,
-      gameKeyEmail: editor.gameKeyEmail,
-      musicAttribution: editor.musicAttribution,
-      thumbnailText: editor.thumbnailText,
-      pinnedComment: editor.pinnedComment,
-      spoilerWarning: editor.spoilerWarning,
-      matureWarning: editor.matureWarning,
-      playthroughStatus: editor.playthroughStatus,
-      difficulty: editor.difficulty,
-      difficultyCustomLabel: editor.difficultyCustomLabel,
-      endingsShown: editor.endingsShown,
-      languagePatch: editor.languagePatch,
-      languagePatchCustom: editor.languagePatchCustom,
-      gameVersion: editor.gameVersion,
-      gameVersionCustom: editor.gameVersionCustom,
-      contentWarnings: [...editor.contentWarnings],
-      techNotes: [...editor.techNotes],
-      storeLinks: { ...editor.storeLinks },
-      storeLinkTypes: { ...editor.storeLinkTypes },
-      social: { ...editor.social },
-      rig: { ...editor.rig },
-      vnBankName: editor.vnBankName,
-      vnBankAccount: editor.vnBankAccount,
-      vnBankHolder: editor.vnBankHolder,
-      vnMomo: editor.vnMomo,
-      vnZalopay: editor.vnZalopay,
-      messengerCommunityLink: editor.messengerCommunityLink,
-      zaloGroupLink: editor.zaloGroupLink,
-      signalGroupLink: editor.signalGroupLink,
-      instagramGroupLink: editor.instagramGroupLink,
-      facebookGroupLink: editor.facebookGroupLink,
-    };
-    addTemplate(name, snapshot);
-    toast.success(t("templates.savedAs", { name: name.trim() || "Untitled" }));
-    setName("");
+function TemplateSaveFormBody({ onClose, editTemplate }: TemplateSaveFormProps) {
+  const { t } = useTranslation("ui");
+  const formId = useId();
+  const addTemplate = useTemplateStore((s) => s.addTemplate);
+  const updateTemplate = useTemplateStore((s) => s.updateTemplate);
+  const [name, setName] = useState(editTemplate?.name ?? "");
+  const [fromEditor, setFromEditor] = useState(false);
+
+  const save = (e: FormEvent) => {
+    e.preventDefault();
+    const snapshot = structuredClone(editorDataOf(useEditorStore.getState()));
+    const finalName = name.trim() || snapshot.gameName.trim() || t("templates.unnamed");
+    if (editTemplate) {
+      updateTemplate(editTemplate.id, {
+        name: finalName,
+        snapshot: fromEditor ? snapshot : undefined,
+      });
+      toast.success(t("templates.updated", { name: finalName }));
+    } else {
+      addTemplate(finalName, snapshot);
+      toast.success(t("templates.savedAs", { name: finalName }));
+    }
     onClose();
   };
 
   return (
     <Modal
-      open={open}
+      open
       onClose={onClose}
-      title={t("templates.saveAsTemplate")}
+      title={editTemplate ? t("templates.editTemplate") : t("templates.saveAsTemplate")}
       footer={
         <>
           <Button variant="ghost" onClick={onClose}>
             {t("common.cancel")}
           </Button>
-          <Button onClick={handleSave}>{t("common.save")}</Button>
+          <Button type="submit" form={formId}>
+            {t("common.save")}
+          </Button>
         </>
       }
     >
-      <div className="flex flex-col gap-3">
+      <form id={formId} onSubmit={save} className="flex flex-col gap-3">
         <Input
           label={t("templates.templateName")}
           maxLength={FIELD_LIMITS.SHORT_NAME}
@@ -118,8 +74,21 @@ export function TemplateSaveForm({ open, onClose }: TemplateSaveFormProps) {
           onChange={(e) => setName(e.target.value)}
           autoFocus
         />
-        <p className="text-text-muted text-xs">{t("templates.saveHint")}</p>
-      </div>
+        {editTemplate ? (
+          <Checkbox
+            checked={fromEditor}
+            onChange={setFromEditor}
+            label={
+              <span className="flex flex-col gap-0.5">
+                <span className="text-text-primary text-sm">{t("templates.updateFromEditor")}</span>
+                <span className="text-text-muted text-xs">{t("templates.saveHint")}</span>
+              </span>
+            }
+          />
+        ) : (
+          <p className="text-text-muted text-xs">{t("templates.saveHint")}</p>
+        )}
+      </form>
     </Modal>
   );
 }

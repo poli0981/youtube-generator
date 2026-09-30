@@ -1002,7 +1002,12 @@
     "hint": "Identitas kanal Anda — nama, kontak, media sosial, dan spesifikasi PC. Terapkan untuk mengisi kolom tersebut di Editor.",
     "noChannel": "Belum ada nama kanal",
     "socialLinks": "{{n}} tautan sosial",
-    "rigFields": "{{n}} item spesifikasi"
+    "rigFields": "{{n}} item spesifikasi",
+    "saveHint": "Menyimpan kolom kanal di editor: nama kanal, email kontak, tautan sosial, spesifikasi PC, pengaturan video, donasi, dan tautan komunitas.",
+    "updateFromEditor": "Perbarui juga dari editor saat ini",
+    "saved": "Profil “{{name}}” disimpan",
+    "updated": "Profil “{{name}}” diperbarui",
+    "unnamed": "Profil tanpa nama"
   },
   "presets": {
     "title": "Preset Game",
@@ -1015,7 +1020,12 @@
     "noPresets": "Tidak ada preset",
     "exportPresets": "Ekspor Preset",
     "importPresets": "Impor Preset",
-    "hint": "Nama, genre, platform, dan tautan toko sebuah game — dipakai ulang di semua part-nya."
+    "hint": "Nama, genre, platform, dan tautan toko sebuah game — dipakai ulang di semua part-nya.",
+    "saveHint": "Menyimpan kolom game di editor: nama, genre, platform, tautan toko, penerbit, peringatan, catatan playthrough, dan playlist seri.",
+    "updateFromEditor": "Perbarui juga dari editor saat ini",
+    "saved": "Preset “{{name}}” disimpan",
+    "updated": "Preset “{{name}}” diperbarui",
+    "unnamed": "Game tanpa nama"
   },
   "templates": {
     "title": "Template",
@@ -1031,7 +1041,11 @@
     "appliedToast": "'{{name}}' diterapkan",
     "exportTemplates": "Ekspor Template",
     "importTemplates": "Impor Template",
-    "applyFailed": "Template ini rusak dan tidak dapat diterapkan."
+    "applyFailed": "Template ini rusak dan tidak dapat diterapkan.",
+    "editTemplate": "Edit template",
+    "updateFromEditor": "Ganti formulir tersimpan dengan editor saat ini",
+    "updated": "Template “{{name}}” diperbarui",
+    "unnamed": "Template tanpa judul"
   },
   "history": {
     "title": "Riwayat",
@@ -1039,7 +1053,9 @@
     "clearAll": "Hapus Semua",
     "clearConfirm": "Yakin ingin menghapus seluruh riwayat?",
     "searchPlaceholder": "Cari berdasarkan nama game...",
-    "noResults": "Tidak ada entri yang cocok dengan pencarian."
+    "noResults": "Tidak ada entri yang cocok dengan pencarian.",
+    "exportCsv": "CSV (lembar kerja)",
+    "exportJson": "JSON (untuk pemulihan)"
   },
   "settings": {
     "title": "Pengaturan",
@@ -1296,5 +1312,86 @@
   "library": {
     "profileApplied": "Profil “{{name}}” diterapkan",
     "presetApplied": "Preset “{{name}}” diterapkan"
+  },
+  "backup": {
+    "sectionTitle": "Cadangkan & pulihkan",
+    "intro": "Satu berkas berisi semua yang Anda simpan — profil, preset, template, riwayat, pengaturan, dan draf saat ini. Gunakan Cadangkan dan Pulihkan di bagian atas halaman ini, atau letakkan berkas cadangan di bawah.",
+    "export": "Cadangkan",
+    "restore": "Pulihkan",
+    "exportTitle": "Cadangkan data Anda",
+    "exportHint": "Pilih yang ingin disertakan. Pengaturan tidak pernah membawa persetujuan hukum Anda atau panel mana yang sedang terbuka.",
+    "dropHint": "Letakkan berkas cadangan di sini untuk memulihkannya",
+    "dropActive": "Lepaskan untuk memulihkan",
+    "legacyFound": "Ditemukan data yang disimpan oleh versi YTDescGen yang lebih lama. Tinjau untuk memulihkan apa pun yang hilang.",
+    "review": "Tinjau",
+    "sections": {
+      "profiles": "Profil",
+      "presets": "Preset game",
+      "templates": "Template",
+      "history": "Riwayat",
+      "settings": "Pengaturan",
+      "draft": "Draf saat ini"
+    },
+    "auto": {
+      "title": "Cadangan otomatis",
+      "hint": "Aplikasi desktop menyimpan 10 cadangan terakhir di foldernya sendiri, dibuat setelah pustaka Anda berubah.",
+      "empty": "Belum ada cadangan otomatis.",
+      "backupNow": "Cadangkan sekarang",
+      "done": "Cadangan tersimpan",
+      "failed": "Tidak dapat menyimpan cadangan",
+      "legacy": "Dari versi lama",
+      "beforeRestore": "Sebelum pemulihan",
+      "restore": "Pulihkan…",
+      "loadFailed": "Tidak dapat membaca cadangan ini"
+    }
+  },
+  "restore": {
+    "title": "Pulihkan data",
+    "meta": "disimpan {{date}} oleh YTDescGen {{version}}",
+    "metaUnknown": "dibuat oleh versi YTDescGen yang lebih lama",
+    "mode": "Cara memulihkan",
+    "merge": "Gabungkan",
+    "mergeHint": "Menambahkan yang baru dan mempertahankan semua yang sudah Anda miliki.",
+    "replace": "Ganti",
+    "replaceHint": "Menyamakan setiap bagian yang dipilih dengan berkas — item yang tidak ada di dalamnya akan dihapus.",
+    "conflicts": "Item yang ada di kedua tempat tetapi berbeda",
+    "newer": "Pertahankan yang lebih baru",
+    "newerHint": "Item hanya diperbarui jika salinan di berkas diubah lebih baru.",
+    "both": "Pertahankan keduanya",
+    "bothHint": "Salinan dari berkas ditambahkan di samping milik Anda, dengan angka setelah namanya.",
+    "counts": "{{new}} baru · {{changed}} berbeda · {{same}} sudah ada",
+    "sameAsHere": "Sama dengan milik Anda",
+    "settingsNote": "Berbeda dari milik Anda. Persetujuan hukum dan panel yang terbuka tetap seperti sekarang.",
+    "draftNote": "Mengganti isi editor saat ini.",
+    "dropped": "{{n}} item rusak dilewati",
+    "showItems": "Tampilkan item",
+    "hideItems": "Sembunyikan item",
+    "status": {
+      "new": "Baru",
+      "same": "Sudah ada",
+      "changed": "Berbeda"
+    },
+    "tooNewTitle": "Dibuat oleh versi yang lebih baru",
+    "tooNew": "Perbarui YTDescGen untuk memulihkan: {{sections}}.",
+    "empty": "Tidak ada yang bisa dipulihkan dari berkas ini.",
+    "replaceRemoves": "Ganti akan menghapus {{n}} item yang tidak ada di berkas. Anda bisa membatalkannya segera setelahnya.",
+    "apply": "Pulihkan",
+    "nothing": "Tidak ada yang perlu dipulihkan — semua isi berkas sudah ada.",
+    "done": "Pemulihan selesai",
+    "doneDetail": "{{added}} ditambahkan · {{updated}} diperbarui · {{removed}} dihapus",
+    "undone": "Pemulihan dibatalkan"
+  },
+  "import": {
+    "errors": {
+      "empty": "Berkas kosong.",
+      "notJson": "Berkas ini bukan JSON yang valid.",
+      "unknown": "Ini bukan berkas YTDescGen.",
+      "newer": "Berkas ini dibuat oleh versi YTDescGen yang lebih baru. Perbarui aplikasi untuk membukanya.",
+      "tooLarge": "Berkas terlalu besar untuk diimpor.",
+      "wrongType": "Pilih berkas .json yang diekspor oleh YTDescGen.",
+      "unreadable": "Berkas tidak dapat dibaca."
+    },
+    "logsFile": "Ini berkas ekspor log — log tidak dapat dipulihkan.",
+    "socialFile": "Ini berkas ekspor keterangan — buka di halaman Sosial."
   }
 }

@@ -1002,7 +1002,12 @@
     "hint": "Thông tin kênh — tên, liên hệ, mạng xã hội và cấu hình máy. Áp dụng để điền các trường này trong trang Chỉnh sửa.",
     "noChannel": "Chưa có tên kênh",
     "socialLinks": "{{n}} liên kết MXH",
-    "rigFields": "{{n}} mục cấu hình"
+    "rigFields": "{{n}} mục cấu hình",
+    "saveHint": "Lưu các trường kênh trong editor: tên kênh, email liên hệ, mạng xã hội, cấu hình máy, thiết lập video, ủng hộ và liên kết cộng đồng.",
+    "updateFromEditor": "Cập nhật luôn từ editor hiện tại",
+    "saved": "Đã lưu hồ sơ “{{name}}”",
+    "updated": "Đã cập nhật hồ sơ “{{name}}”",
+    "unnamed": "Hồ sơ chưa đặt tên"
   },
   "templates": {
     "title": "Template",
@@ -1018,7 +1023,11 @@
     "appliedToast": "Đã áp dụng '{{name}}'",
     "exportTemplates": "Xuất template",
     "importTemplates": "Nhập template",
-    "applyFailed": "Template này bị hỏng, không thể áp dụng."
+    "applyFailed": "Template này bị hỏng, không thể áp dụng.",
+    "editTemplate": "Sửa template",
+    "updateFromEditor": "Thay nội dung đã lưu bằng editor hiện tại",
+    "updated": "Đã cập nhật template “{{name}}”",
+    "unnamed": "Template chưa đặt tên"
   },
   "presets": {
     "title": "Cài đặt Game",
@@ -1031,7 +1040,12 @@
     "noPresets": "Chưa có preset",
     "exportPresets": "Xuất presets",
     "importPresets": "Nhập presets",
-    "hint": "Tên game, thể loại, nền tảng và link cửa hàng — dùng lại cho mọi tập."
+    "hint": "Tên game, thể loại, nền tảng và link cửa hàng — dùng lại cho mọi tập.",
+    "saveHint": "Lưu các trường game trong editor: tên, thể loại, nền tảng, link cửa hàng, nhà phát hành, cảnh báo, ghi chú playthrough và playlist series.",
+    "updateFromEditor": "Cập nhật luôn từ editor hiện tại",
+    "saved": "Đã lưu preset “{{name}}”",
+    "updated": "Đã cập nhật preset “{{name}}”",
+    "unnamed": "Game chưa đặt tên"
   },
   "history": {
     "title": "Lịch sử",
@@ -1039,7 +1053,9 @@
     "clearAll": "Xóa tất cả",
     "clearConfirm": "Bạn có chắc muốn xóa toàn bộ lịch sử?",
     "searchPlaceholder": "Tìm theo tên game...",
-    "noResults": "Không có mục nào khớp với tìm kiếm."
+    "noResults": "Không có mục nào khớp với tìm kiếm.",
+    "exportCsv": "CSV (bảng tính)",
+    "exportJson": "JSON (để khôi phục)"
   },
   "settings": {
     "title": "Cài đặt",
@@ -1296,5 +1312,86 @@
   "library": {
     "profileApplied": "Đã áp dụng hồ sơ “{{name}}”",
     "presetApplied": "Đã áp dụng preset “{{name}}”"
+  },
+  "backup": {
+    "sectionTitle": "Sao lưu & khôi phục",
+    "intro": "Một tệp chứa mọi thứ bạn đã lưu — hồ sơ, preset, template, lịch sử, cài đặt và bản nháp hiện tại. Dùng nút Sao lưu và Khôi phục ở đầu trang, hoặc thả tệp sao lưu vào ô bên dưới.",
+    "export": "Sao lưu",
+    "restore": "Khôi phục",
+    "exportTitle": "Sao lưu dữ liệu",
+    "exportHint": "Chọn những gì cần đưa vào. Phần cài đặt không bao giờ kèm việc bạn đã đồng ý điều khoản hay mục nào đang mở.",
+    "dropHint": "Thả tệp sao lưu vào đây để khôi phục",
+    "dropActive": "Thả để khôi phục",
+    "legacyFound": "Đã tìm thấy dữ liệu do phiên bản YTDescGen cũ lưu. Hãy xem lại để khôi phục những gì còn thiếu.",
+    "review": "Xem lại",
+    "sections": {
+      "profiles": "Hồ sơ",
+      "presets": "Cài đặt game",
+      "templates": "Template",
+      "history": "Lịch sử",
+      "settings": "Cài đặt",
+      "draft": "Bản nháp hiện tại"
+    },
+    "auto": {
+      "title": "Sao lưu tự động",
+      "hint": "Ứng dụng desktop giữ 10 bản sao lưu gần nhất trong thư mục riêng của nó, được lưu sau khi thư viện của bạn thay đổi.",
+      "empty": "Chưa có bản sao lưu tự động nào.",
+      "backupNow": "Sao lưu ngay",
+      "done": "Đã lưu bản sao lưu",
+      "failed": "Không lưu được bản sao lưu",
+      "legacy": "Từ phiên bản cũ",
+      "beforeRestore": "Trước khi khôi phục",
+      "restore": "Khôi phục…",
+      "loadFailed": "Không đọc được bản sao lưu này"
+    }
+  },
+  "restore": {
+    "title": "Khôi phục dữ liệu",
+    "meta": "lưu lúc {{date}} bằng YTDescGen {{version}}",
+    "metaUnknown": "do phiên bản YTDescGen cũ tạo",
+    "mode": "Cách khôi phục",
+    "merge": "Gộp",
+    "mergeHint": "Thêm những mục mới và giữ nguyên mọi thứ bạn đang có.",
+    "replace": "Thay thế",
+    "replaceHint": "Làm cho từng mục đã chọn giống hệt tệp — những gì không có trong tệp sẽ bị xoá.",
+    "conflicts": "Mục có ở cả hai nơi nhưng khác nhau",
+    "newer": "Giữ bản mới hơn",
+    "newerHint": "Một mục chỉ được cập nhật nếu bản trong tệp được sửa gần đây hơn.",
+    "both": "Giữ cả hai",
+    "bothHint": "Bản trong tệp được thêm bên cạnh bản của bạn, kèm số sau tên.",
+    "counts": "{{new}} mới · {{changed}} khác · {{same}} đã có",
+    "sameAsHere": "Giống bản của bạn",
+    "settingsNote": "Khác với của bạn. Việc đồng ý điều khoản và các mục đang mở vẫn giữ nguyên.",
+    "draftNote": "Thay thế nội dung đang có trong editor.",
+    "dropped": "Đã bỏ qua {{n}} mục bị hỏng",
+    "showItems": "Xem các mục",
+    "hideItems": "Ẩn các mục",
+    "status": {
+      "new": "Mới",
+      "same": "Đã có",
+      "changed": "Khác"
+    },
+    "tooNewTitle": "Do phiên bản mới hơn tạo",
+    "tooNew": "Hãy cập nhật YTDescGen để khôi phục: {{sections}}.",
+    "empty": "Tệp này không có gì để khôi phục.",
+    "replaceRemoves": "Thay thế sẽ xoá {{n}} mục không có trong tệp. Bạn có thể hoàn tác ngay sau đó.",
+    "apply": "Khôi phục",
+    "nothing": "Không có gì để khôi phục — mọi thứ trong tệp đều đã có.",
+    "done": "Đã khôi phục xong",
+    "doneDetail": "Thêm {{added}} · cập nhật {{updated}} · xoá {{removed}}",
+    "undone": "Đã hoàn tác khôi phục"
+  },
+  "import": {
+    "errors": {
+      "empty": "Tệp trống.",
+      "notJson": "Tệp này không phải JSON hợp lệ.",
+      "unknown": "Đây không phải tệp của YTDescGen.",
+      "newer": "Tệp này do phiên bản YTDescGen mới hơn tạo. Hãy cập nhật ứng dụng để mở.",
+      "tooLarge": "Tệp quá lớn để nhập.",
+      "wrongType": "Hãy chọn tệp .json xuất từ YTDescGen.",
+      "unreadable": "Không đọc được tệp."
+    },
+    "logsFile": "Đây là tệp xuất nhật ký — nhật ký không khôi phục được.",
+    "socialFile": "Đây là tệp xuất caption — hãy mở ở trang Mạng xã hội."
   }
 }

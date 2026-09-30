@@ -219,7 +219,9 @@ export function legacyGraphicsPresetToEnum(legacy: string): {
  * accepts via structural compatibility — we sniff the runtime value here
  * via an `unknown` cast.
  */
-function normalizeEditorPatch(patch: Partial<EditorData> | null | undefined): Partial<EditorData> {
+export function normalizeEditorPatch(
+  patch: Partial<EditorData> | null | undefined,
+): Partial<EditorData> {
   // v0.15.0: guard against malformed input. Previously a `null` patch
   // — typically from an imported template whose `snapshot` field was
   // null/undefined — reached the spread on the next line and threw
@@ -307,7 +309,7 @@ function normalizeEditorPatch(patch: Partial<EditorData> | null | undefined): Pa
 }
 
 /** Field-name → cap, for values that arrive without passing through an input. */
-const PATCH_FIELD_LIMITS: Partial<Record<keyof EditorData, number>> = {
+export const PATCH_FIELD_LIMITS: Partial<Record<keyof EditorData, number>> = {
   gameName: FIELD_LIMITS.SHORT_NAME,
   channelName: FIELD_LIMITS.SHORT_NAME,
   pubDevName: FIELD_LIMITS.SHORT_NAME,
@@ -451,6 +453,30 @@ const initialState: EditorData = {
   facebookGroupLink: DEFAULTS.editor.facebookGroupLink,
 };
 
+/** A fresh copy of the empty form. */
+export function initialEditorData(): EditorData {
+  return structuredClone(initialState);
+}
+
+/** Every editor data field, in schema order. */
+export const EDITOR_DATA_KEYS = Object.keys(initialState) as (keyof EditorData)[];
+
+/**
+ * Just the data of an editor state — no actions. What the store persists,
+ * what a template saves and what a backup carries as the draft.
+ */
+export function editorDataOf(state: EditorData): EditorData {
+  return Object.fromEntries(
+    EDITOR_DATA_KEYS.map((key) => [key, state[key]]),
+  ) as unknown as EditorData;
+}
+
+/**
+ * Bump together with a new step in {@link migrateEditorState}; backups
+ * record this number so an import can run the steps a draft still needs.
+ */
+export const EDITOR_STORE_VERSION = 19;
+
 export const useEditorStore = create<EditorState>()(
   persist(
     (set) => ({
@@ -592,88 +618,9 @@ export const useEditorStore = create<EditorState>()(
       //         settings toggle is on. Additive: both back-fill to "".
       //         Non-string values coerce to "". The existing `contactEmail`
       //         is reused as the general-contact line, so no data moves.
-      version: 19,
+      version: EDITOR_STORE_VERSION,
       migrate: (persistedState, version) => migrateEditorState(persistedState, version),
-      partialize: (state) => ({
-        videoType: state.videoType,
-        language: state.language,
-        genres: state.genres,
-        gameName: state.gameName,
-        gameNameLocalized: state.gameNameLocalized,
-        channelName: state.channelName,
-        platform: state.platform,
-        partNumber: state.partNumber,
-        bossName: state.bossName,
-        dlcName: state.dlcName,
-        challengeName: state.challengeName,
-        modName: state.modName,
-        modList: state.modList,
-        liveUrl: state.liveUrl,
-        scheduledTime: state.scheduledTime,
-        gachaQuestType: state.gachaQuestType,
-        chapterName: state.chapterName,
-        questName: state.questName,
-        characterName: state.characterName,
-        anniversaryYear: state.anniversaryYear,
-        gachaVersion: state.gachaVersion,
-        resolution: state.resolution,
-        fps: state.fps,
-        graphicsPreset: state.graphicsPreset,
-        graphicsPresetCustom: state.graphicsPresetCustom,
-        skipGraphicsSettings: state.skipGraphicsSettings,
-        rayTracingModes: state.rayTracingModes,
-        frameGenVendor: state.frameGenVendor,
-        frameGenMultiplier: state.frameGenMultiplier,
-        upscaleQuality: state.upscaleQuality,
-        artStyle: state.artStyle,
-        videoStyleEra: state.videoStyleEra,
-        versionInfo: state.versionInfo,
-        timestamps: state.timestamps,
-        playlistLink: state.playlistLink,
-        contactEmail: state.contactEmail,
-        adEmail: state.adEmail,
-        gameKeyEmail: state.gameKeyEmail,
-        musicAttribution: state.musicAttribution,
-        sponsorName: state.sponsorName,
-        sponsorPlatform: state.sponsorPlatform,
-        pubDevName: state.pubDevName,
-        thirdPartyAdText: state.thirdPartyAdText,
-        thumbnailText: state.thumbnailText,
-        pinnedComment: state.pinnedComment,
-        spoilerWarning: state.spoilerWarning,
-        matureWarning: state.matureWarning,
-        playthroughStatus: state.playthroughStatus,
-        difficulty: state.difficulty,
-        difficultyCustomLabel: state.difficultyCustomLabel,
-        endingsShown: state.endingsShown,
-        endings: state.endings,
-        endingVideoCount: state.endingVideoCount,
-        endingVideoRanges: state.endingVideoRanges,
-        endingVideoIndex: state.endingVideoIndex,
-        languagePatch: state.languagePatch,
-        languagePatchCustom: state.languagePatchCustom,
-        gameVersion: state.gameVersion,
-        gameVersionCustom: state.gameVersionCustom,
-        contentWarnings: state.contentWarnings,
-        techNotes: state.techNotes,
-        storeLinks: state.storeLinks,
-        storeLinkTypes: state.storeLinkTypes,
-        social: state.social,
-        rig: state.rig,
-        vnBankName: state.vnBankName,
-        vnBankAccount: state.vnBankAccount,
-        vnBankHolder: state.vnBankHolder,
-        vnMomo: state.vnMomo,
-        vnZalopay: state.vnZalopay,
-        playtestLink: state.playtestLink,
-        playtestPlatform: state.playtestPlatform,
-        playtestInvites: state.playtestInvites,
-        messengerCommunityLink: state.messengerCommunityLink,
-        zaloGroupLink: state.zaloGroupLink,
-        signalGroupLink: state.signalGroupLink,
-        instagramGroupLink: state.instagramGroupLink,
-        facebookGroupLink: state.facebookGroupLink,
-      }),
+      partialize: (state) => editorDataOf(state),
     },
   ),
 );
