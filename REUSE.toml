@@ -1,0 +1,14 @@
+# REUSE (https://reuse.software) licensing information for the whole
+# repository, checked in CI by .github/workflows/compliance.yml.
+#
+# Everything here is original work released under Apache-2.0 unless a more
+# specific annotation below says otherwise. Add one whenever a file under
+# another license lands (a font, a vendored icon set, …) — CI fails until it
+# is declared.
+version = 1
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 poli0981 (SkullMute) and YTDescGen contributors"
+SPDX-License-Identifier = "Apache-2.0"

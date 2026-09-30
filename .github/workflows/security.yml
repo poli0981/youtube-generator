@@ -1,0 +1,87 @@
+name: Security
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    # Mondays 04:17 UTC — new advisories and Scorecard drift surface weekly
+    # even when nothing is being merged.
+    - cron: "17 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  # Blocks a PR that ADDS a dependency with a known high/critical advisory.
+  # Licenses are checked by `npm run check:licenses` (ci.yml) instead: the
+  # dependency graph's license data is patchy for npm and would flag noise.
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+          license-check: false
+
+  # Lint the workflows themselves: syntax/expressions (actionlint) and
+  # security smells — template injection, over-broad permissions, credential
+  # persistence, unpinned actions (zizmor, config in .github/zizmor.yml).
+  workflow-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: actionlint
+        uses: docker://rhysd/actionlint:1.7.12
+        with:
+          args: -color
+      - name: zizmor
+        uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
+        with:
+          # Report in the log and fail the job; no SARIF upload, so findings
+          # are fixed in the PR instead of piling up as code-scanning alerts.
+          advanced-security: false
+          min-severity: medium
+
+  # OpenSSF Scorecard: supply-chain posture (pinned deps, token permissions,
+  # branch protection …). Informational — results go to the job summary and
+  # scorecard.dev, not to code scanning.
+  scorecard:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # publish_results: signs the result for scorecard.dev
+      actions: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc # v2.4.4
+        with:
+          results_file: scorecard.json
+          results_format: json
+          publish_results: true
+      - name: Summarise
+        run: |
+          {
+            echo "### OpenSSF Scorecard"
+            echo
+            echo "| Check | Score |"
+            echo "| --- | --- |"
+            jq -r '.checks[] | "| \(.name) | \(.score) |"' scorecard.json
+            echo
+            echo "Aggregate: **$(jq -r '.score' scorecard.json) / 10**"
+          } >> "$GITHUB_STEP_SUMMARY"

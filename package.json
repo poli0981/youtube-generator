@@ -27,7 +27,10 @@
     "generate:brand": "tsx scripts/generate-brand-assets.ts",
     "cf:dev": "wrangler dev",
     "cf:check": "wrangler deploy --dry-run --outdir .wrangler/dry-run",
-    "check:tauri": "tsx scripts/check-tauri-versions.ts"
+    "check:tauri": "tsx scripts/check-tauri-versions.ts",
+    "check:bundle": "tsx scripts/check-bundle-size.ts",
+    "check:licenses": "tsx scripts/third-party.ts",
+    "generate:third-party": "tsx scripts/third-party.ts --write"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.12.0",
@@ -57,6 +60,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/coverage-v8": "^4.1.11",
     "autoprefixer": "^10.6.1",
     "eslint": "^10.11.0",
     "eslint-plugin-react-hooks": "^7.1.1",

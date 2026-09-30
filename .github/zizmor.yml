@@ -1,0 +1,11 @@
+# zizmor (workflow security linter) configuration — see security.yml.
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        # The shared notification / announcement workflows live in the
+        # maintainer's own `poli0981/.github` repository and are deliberately
+        # tracked at `main`, so a fix there reaches every repo at once.
+        "poli0981/*": any
+        # Everything else must be pinned to a full commit SHA.
+        "*": hash-pin

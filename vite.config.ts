@@ -44,6 +44,9 @@ export default defineConfig({
     // Never inline assets as data: URIs — the Tauri CSP only allows 'self'
     // for images and fonts, so an inlined icon would silently fail there.
     assetsInlineLimit: 0,
+    // The full license text of every bundled package, for the "Third-party
+    // notices" page to link to (Apache-2.0 / MIT / ISC all ask for it).
+    license: { fileName: "licenses/third-party.md" },
     rollupOptions: {
       output: {
         // Vite 8 bundles with Rolldown, which only accepts the function form of

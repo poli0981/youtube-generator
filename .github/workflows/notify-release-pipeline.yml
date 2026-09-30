@@ -15,4 +15,6 @@ permissions:
 jobs:
   notify:
     uses: poli0981/.github/.github/workflows/notify-release-pipeline.yml@main
-    secrets: inherit
+    # Only the webhook the shared workflow declares — not `inherit`.
+    secrets:
+      DISCORD_RELEASE_PIPELINE_WEBHOOK: ${{ secrets.DISCORD_RELEASE_PIPELINE_WEBHOOK }}

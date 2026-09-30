@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -21,30 +21,36 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  # `check` is the required status on `main` (ruleset "main-protection") — keep
+  # the job id stable.
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      # Actions are pinned by commit SHA (a tag can be moved; a SHA cannot).
+      # Dependabot keeps the SHA and the version comment up to date.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          node-version: 22
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .node-version
           cache: npm
       - run: npm ci
 
       # --- correctness ------------------------------------------------------
-      # `typecheck` covers src/ (what Vite actually builds); `typecheck:all`
-      # adds tests/ and scripts/, which went unchecked until v0.35.0 and were
-      # hiding three silently-stale fixture fields.
+      # `typecheck` covers src/ (what Vite builds); `typecheck:all` adds tests/,
+      # scripts/, worker/ and build-plugins/.
       - name: Type check (src)
         run: npm run typecheck
-      - name: Type check (tests + scripts)
+      - name: Type check (tests, scripts, worker, build plugins)
         run: npm run typecheck:all
       - name: Lint
         run: npm run lint
       - name: Validate locales
         run: npm run validate:locales
-      - name: Test
-        run: npm run test:run
+      # Coverage thresholds for src/engine and worker live in vitest.config.ts.
+      - name: Test (with coverage thresholds)
+        run: npm run test:coverage
 
       # --- consistency ------------------------------------------------------
       - name: Check formatting
@@ -59,10 +65,17 @@ jobs:
       - name: Check Tauri npm/crate alignment
         run: npm run check:tauri
 
+      # --- licensing --------------------------------------------------------
+      # Every package bundled into the app has an allowed license, and
+      # THIRD_PARTY_NOTICES.md matches what is actually installed.
+      - name: Check licenses and third-party notices
+        run: npm run check:licenses
+
       # --- security ---------------------------------------------------------
       # Advisory-only: a fresh high-severity advisory in a transitive dep must
       # not turn every unrelated PR red before Dependabot has had a chance to
-      # open its fix PR. The Dependabot alerts tab is the source of truth.
+      # open its fix PR. The Dependabot alerts tab is the source of truth, and
+      # dependency-review (security.yml) blocks PRs that *introduce* one.
       - name: Audit dependencies
         run: npm audit --audit-level=high
         continue-on-error: true
@@ -70,3 +83,9 @@ jobs:
       # --- build ------------------------------------------------------------
       - name: Build
         run: npm run build
+      - name: Check bundle budget
+        run: npm run check:bundle
+      # Validates wrangler.jsonc and bundles the Worker exactly as Workers
+      # Builds will — without deploying anything.
+      - name: Dry-run the Cloudflare deploy
+        run: npx wrangler deploy --dry-run --outdir .wrangler/dry-run

@@ -46,7 +46,8 @@ fn append_to_file(path: String, content: String) -> Result<(), String> {
         .create(true)
         .open(&path)
         .map_err(|e| e.to_string())?;
-    file.write_all(content.as_bytes()).map_err(|e| e.to_string())
+    file.write_all(content.as_bytes())
+        .map_err(|e| e.to_string())
 }
 
 /// List entries in a directory, returning their file names (not full
