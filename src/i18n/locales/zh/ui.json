@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "赞助",
-    "toggleTheme": "切换主题"
+    "outputLanguage": "输出语言",
+    "interfaceLanguage": "界面语言",
+    "switchToLight": "切换到浅色主题",
+    "switchToDark": "切换到深色主题"
   },
   "about": {
     "tagline": "为游戏实况无解说频道生成 YouTube 标题、描述和标签的工具。",
     "repoHeading": "仓库与许可",
     "repoLabel": "GitHub 仓库",
-    "issuesLabel": "报告问题",
     "reportBugLabel": "报告 Bug",
     "discussionsLabel": "讨论区",
     "authorLabel": "作者",
-    "licenseLabel": "许可证",
     "donateHeading": "赞助 / 支持",
     "donateHelp": "如果 YTDescGen 帮你省下了时间，欢迎请我喝一杯咖啡。每份支持都让项目走得更远。",
     "legalHeading": "法律",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — 仓库 / 综合",
-      "discordGame": "Discord — 游戏频道",
+      "discord": "Discord",
       "steam": "Steam 个人主页",
       "telegramBot": "Telegram 机器人",
-      "telegramUser": "Telegram",
-      "email": "邮箱"
+      "telegramUser": "Telegram"
+    },
+    "websiteLabel": "网站",
+    "wikiLabel": "Wiki 与指南",
+    "contactHeading": "联系方式",
+    "contactHelp": "按主题选择邮箱，邮件会直达负责的人。",
+    "authorWebsite": "个人网站",
+    "authorLinks": "全部链接",
+    "contacts": {
+      "general": "一般问题",
+      "security": "安全漏洞",
+      "privacy": "隐私与数据请求",
+      "legal": "条款与法律事务",
+      "dmca": "DMCA / 下架通知",
+      "copyright": "许可与署名",
+      "code": "源代码与行为准则",
+      "sponsor": "赞助与广告"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "支持开发者",
       "online_connectivity_issues": "联机连线问题"
     },
-    "videoSettings": "视频设置",
     "quickPreview": "快速预览",
     "version": "版本",
     "clearDraft": "清除草稿",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "请检查链接并重新添加 — 「{{host}}」 看起来是「{{suggestedName}}」，但游戏名称是「{{gameName}}」。"
-    }
+    },
+    "collapseAll": "全部收起",
+    "expandAll": "全部展开",
+    "viewOutput": "查看输出",
+    "previewEmpty": "输入游戏名称即可预览。",
+    "genrePick": "选择类型",
+    "genreAdd": "添加",
+    "genreQuickSets": "快速组合",
+    "genreRemove": "移除 {{genre}}",
+    "selectedCount": "已选 {{n}} 项"
   },
   "output": {
     "title": "标题",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}}过长：{{count}}/{{limit}} 字符。复制前请精简。",
       "fieldGeneric": "文本",
-      "failed": "复制失败"
+      "failed": "复制失败",
+      "empty": "还没有可复制的内容 — 请先在编辑器中输入游戏名称。"
     },
     "limits": {
       "bannerTitle": "已阻止复制 — 超出 YouTube 上限",
@@ -768,6 +792,15 @@
       "copyBlocked": "已阻止：另一个字段超出 YouTube 上限",
       "batchRowBlocked": "该部分超出上限 — 已阻止复制。",
       "batchAllBlocked": "已阻止复制全部 — 至少有一个部分超出上限"
+    },
+    "emptyTitle": "暂无内容",
+    "emptyHint": "在编辑器中输入游戏名称后，标题、描述和标签会显示在这里。",
+    "youtubePreview": {
+      "heading": "在 YouTube 上",
+      "channelPlaceholder": "你的频道",
+      "more": "…更多",
+      "titleCut": "搜索结果和推荐中的标题约在 {{chars}} 个字符处被截断 — 请把关键词放在前面。",
+      "foldHint": "观众在“…更多”之前只能看到描述的前约 {{chars}} 个字符。"
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "关闭",
     "scrollToTop": "回到顶部",
     "exported": "已导出",
-    "exportFailed": "导出失败"
+    "exportFailed": "导出失败",
+    "close": "关闭",
+    "edit": "编辑",
+    "loading": "加载中…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "导入配置",
     "thirdPartyAdText": "第三方广告文案",
     "thirdPartyAdTextPlaceholder": "例如：在 GameStore.com 使用代码 SAVE10 享受全部游戏 9 折优惠\n赞助商：ChairCo — 链接见描述",
-    "thirdPartyAdTextHelp": "可选的赞助商 / 合作伙伴 / 联盟营销文案。在设置中开启「第三方广告」时显示。"
+    "thirdPartyAdTextHelp": "可选的赞助商 / 合作伙伴 / 联盟营销文案。在设置中开启「第三方广告」时显示。",
+    "intro": "可重复使用的频道配置、游戏预设和完整编辑器模板。",
+    "hint": "频道信息 — 名称、联系方式、社交账号和电脑配置。应用后会填入编辑器中的对应字段。",
+    "noChannel": "未填写频道名称",
+    "socialLinks": "{{n}} 个社交链接",
+    "rigFields": "{{n}} 项配置"
   },
   "templates": {
     "title": "模板",
@@ -968,7 +1009,8 @@
     "savedAs": "已保存为 '{{name}}'",
     "appliedToast": "已应用 '{{name}}'",
     "exportTemplates": "导出模板",
-    "importTemplates": "导入模板"
+    "importTemplates": "导入模板",
+    "applyFailed": "此模板已损坏，无法应用。"
   },
   "presets": {
     "title": "游戏预设",
@@ -980,14 +1022,16 @@
     "selectPreset": "加载游戏预设",
     "noPresets": "无预设",
     "exportPresets": "导出预设",
-    "importPresets": "导入预设"
+    "importPresets": "导入预设",
+    "hint": "游戏名称、类型、平台和商店链接 — 在该游戏的每一集中复用。"
   },
   "history": {
     "title": "历史记录",
     "emptyState": "暂无历史记录。生成一条描述即可开始。",
     "clearAll": "全部清除",
     "clearConfirm": "确定要清除所有历史记录吗？",
-    "searchPlaceholder": "搜索历史记录..."
+    "searchPlaceholder": "搜索历史记录...",
+    "noResults": "没有符合搜索的记录。"
   },
   "settings": {
     "title": "设置",
@@ -1043,7 +1087,10 @@
     "guardrails": "防护",
     "strictMode": "严格模式",
     "strictModeHint": "只要有字段存在错误，就阻止生成、复制和导出。轻微警告仍可通过。",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "范围 {{min}}–{{max}}。",
+    "themeDark": "深色",
+    "themeLight": "浅色"
   },
   "socialPost": {
     "title": "跨平台文案",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "{{captions}} 条文案"
   },
   "batch": {
     "title": "批量生成",
@@ -1070,7 +1118,10 @@
     "endPart": "结束分集",
     "generateBatch": "批量生成",
     "copyAllBatch": "复制全部批量",
-    "emptyState": "设置分集范围并批量生成描述。"
+    "emptyState": "设置分集范围并批量生成描述。",
+    "intro": "为编辑器中的游戏一次生成连续多集，可选一种或多种语言。",
+    "partLabel": "第 {{n}} 集",
+    "summary": "{{parts}} 集 × {{languages}} 种语言"
   },
   "shortcuts": {
     "title": "键盘快捷键",
@@ -1126,6 +1177,25 @@
       "delisted": "已从商店下架 / 停售",
       "low_views": "播放量 / 互动太低",
       "time": "没时间 / 优先级改变"
+    },
+    "intro": "根据编辑器中的游戏，生成系列播放列表的标题、描述和置顶评论。",
+    "totalVideosPlaceholder": "例如 25",
+    "customNotePlaceholder": "备注（可选）…",
+    "statuses": {
+      "completed": "已完结",
+      "dropped": "已弃坑",
+      "incomplete": "未完成",
+      "in_progress": "进行中"
+    },
+    "contentTypes": {
+      "full_gameplay": "完整流程",
+      "boss_fights": "Boss 战",
+      "speedrun": "速通",
+      "all_endings": "全结局",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "攻略",
+      "highlights": "精彩片段"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "导出 TXT",
     "sessionCurrent": "当前会话",
     "sessionLabel": "会话 {{n}}",
-    "entriesShort": "条"
+    "entriesShort": "条",
+    "copyEntry": "复制条目",
+    "deleteEntry": "删除条目",
+    "errorCount": "{{n}} 个错误",
+    "warnCount": "{{n}} 个警告",
+    "summary": "{{entries}} 条 · {{sessions}} 个会话",
+    "levels": {
+      "all": "全部",
+      "error": "错误",
+      "warn": "警告",
+      "info": "信息",
+      "debug": "调试"
+    }
   },
   "strict": {
     "blockedTitle": "严格模式：{{count}} 个字段需要修正",
-    "fixHint": "请在编辑器中修正，或在设置中关闭严格模式。"
+    "fixHint": "请在编辑器中修正，或在设置中关闭严格模式。",
+    "copyBlocked": "严格模式：请先修正标出的字段再复制。"
   },
   "legal": {
     "title": "法律信息",
@@ -1175,5 +1258,35 @@
       "notice": "包含版权与署名信息的 Apache-2.0 NOTICE 文件。",
       "conduct": "适用于项目社区空间的 Contributor Covenant 规则。"
     }
+  },
+  "nav": {
+    "create": "创作",
+    "library": "资料库",
+    "system": "系统",
+    "main": "主导航",
+    "more": "更多",
+    "skipToContent": "跳到主要内容"
+  },
+  "command": {
+    "open": "搜索或执行命令…",
+    "title": "命令面板",
+    "placeholder": "输入命令或搜索…",
+    "empty": "没有结果。",
+    "groups": {
+      "navigate": "前往",
+      "copy": "复制",
+      "profiles": "应用配置",
+      "presets": "应用游戏预设",
+      "templates": "应用模板",
+      "preferences": "偏好设置",
+      "help": "帮助"
+    },
+    "interfaceIn": "界面语言：{{language}}",
+    "outputIn": "输出语言：{{language}}",
+    "wiki": "打开 Wiki"
+  },
+  "library": {
+    "profileApplied": "已应用配置“{{name}}”",
+    "presetApplied": "已应用预设“{{name}}”"
   }
 }

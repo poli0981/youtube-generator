@@ -1,9 +1,10 @@
 import clsx from "clsx";
+import type { IconComponent } from "@components/icons/brand";
 
 interface ChipOption {
   id: string;
   label: string;
-  icon?: string;
+  icon?: IconComponent;
 }
 
 interface BaseProps {
@@ -29,13 +30,12 @@ type MultiProps = BaseProps & {
 
 export type ChipGroupProps = SingleProps | MultiProps;
 
+/** Pill toggles for picking one or several options from a short list. */
 export function ChipGroup(props: ChipGroupProps) {
   const { label, options, className } = props;
 
-  const isSelected = (id: string): boolean => {
-    if (props.multiple) return props.value.includes(id);
-    return props.value === id;
-  };
+  const isSelected = (id: string): boolean =>
+    props.multiple ? props.value.includes(id) : props.value === id;
 
   const atCapacity = props.multiple && props.max != null && props.value.length >= props.max;
 
@@ -58,30 +58,33 @@ export function ChipGroup(props: ChipGroupProps) {
     <div className={clsx("flex flex-col gap-2", className)}>
       {(label || counter) && (
         <div className="flex items-center justify-between">
-          {label && <span className="text-text-secondary text-sm font-medium">{label}</span>}
-          {counter && <span className="text-text-muted text-xs">{counter}</span>}
+          {label && <span className="text-text-secondary text-xs font-medium">{label}</span>}
+          {counter && <span className="text-text-muted tabular text-xs">{counter}</span>}
         </div>
       )}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5" role="group" aria-label={label}>
         {options.map((option) => {
           const selected = isSelected(option.id);
           const disabled = !selected && atCapacity;
+          const Icon = option.icon;
           return (
             <button
               key={option.id}
               type="button"
               disabled={disabled}
+              aria-pressed={selected}
               onClick={() => handleClick(option.id)}
               className={clsx(
-                "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+                "h-control-sm inline-flex items-center gap-1.5 rounded-full border px-3 text-xs font-medium",
+                "transition-[background-color,border-color,color,transform] duration-150 active:scale-95",
                 selected
-                  ? "bg-accent text-white"
+                  ? "border-accent bg-accent-muted text-accent"
                   : disabled
-                    ? "bg-surface-2 text-text-muted cursor-not-allowed opacity-40"
-                    : "bg-surface-2 text-text-secondary hover:bg-surface-3 hover:text-text-primary",
+                    ? "border-border text-text-muted cursor-not-allowed opacity-45"
+                    : "border-border bg-surface-1 text-text-secondary hover:border-border-strong hover:text-text-primary",
               )}
             >
-              {option.icon && <span>{option.icon}</span>}
+              {Icon && <Icon className="size-3.5 shrink-0" aria-hidden />}
               {option.label}
             </button>
           );

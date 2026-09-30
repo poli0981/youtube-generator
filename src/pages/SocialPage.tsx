@@ -1,10 +1,18 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
-import { Download, Upload } from "lucide-react";
+import { Download, Layers, Play, Share2, Upload } from "lucide-react";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import { Button } from "@components/ui/Button";
 import { Input } from "@components/ui/Input";
+import { Badge } from "@components/ui/Badge";
+import { Banner } from "@components/ui/Banner";
+import { Card, CardHeader } from "@components/ui/Card";
+import { ChipGroup } from "@components/ui/ChipGroup";
+import { EmptyState } from "@components/ui/EmptyState";
+import { PageContainer, PageHeader } from "@components/ui/PageHeader";
+import { SegmentedControl } from "@components/ui/SegmentedControl";
+import { OutputField, OutputText } from "@components/output/OutputField";
 import { CopyButton } from "@components/output/CopyButton";
 import { CharCounter } from "@components/output/CharCounter";
 import { useEditorStore } from "@store/editor-store";
@@ -19,9 +27,8 @@ import { useStrictBlock } from "@hooks/use-strict-block";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import { exportTypedToJsonFile, importTypedFromJsonFile } from "@utils/import-export";
 import type { SupportedLanguage } from "@engine/types";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { logger } from "@utils/logger";
-import clsx from "clsx";
 
 /** One platform's caption inside an exported bundle. */
 interface SocialPostExport {
@@ -142,15 +149,6 @@ export function SocialPage() {
     toast.success(t("socialPost.imported"));
   };
 
-  const toggleLang = (lang: SupportedLanguage) => {
-    setSelectedLangs((prev) => {
-      if (prev.includes(lang)) {
-        return prev.length <= 1 ? prev : prev.filter((l) => l !== lang);
-      }
-      return [...prev, lang];
-    });
-  };
-
   const bulkGenerate = () => {
     const start = parseInt(startPart) || 1;
     const end = parseInt(endPart) || start;
@@ -223,79 +221,71 @@ export function SocialPage() {
   const ActiveIcon = activeConfig.icon;
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-text-primary text-lg font-bold">{t("socialPost.title")}</h1>
-        <div className="bg-surface-1 flex gap-1 rounded-lg p-1">
-          {(["single", "bulk"] as const).map((m) => (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              className={clsx(
-                "rounded-md px-3 py-1 text-sm font-medium transition-colors",
-                mode === m ? "bg-accent text-white" : "text-text-muted hover:text-text-primary",
-              )}
+    <PageContainer>
+      <PageHeader
+        title={t("socialPost.title")}
+        actions={
+          <>
+            <Button variant="ghost" size="sm" onClick={() => void handleImport()}>
+              <Upload />
+              {t("common.import")}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => void handleExport()}
+              disabled={!gameName}
             >
-              {t(`socialPost.${m}`)}
-            </button>
-          ))}
-        </div>
-      </div>
+              <Download />
+              {t("common.export")}
+            </Button>
+            <SegmentedControl
+              ariaLabel={t("socialPost.title")}
+              layoutId="social-mode"
+              size="sm"
+              value={mode}
+              onChange={setMode}
+              options={[
+                { value: "single", label: t("socialPost.single") },
+                { value: "bulk", label: t("socialPost.bulk") },
+              ]}
+            />
+          </>
+        }
+      />
+
+      <StrictModeBanner />
 
       {mode === "single" ? (
         <>
-          {/* Platform switcher */}
-          <div className="bg-surface-1 mb-4 flex flex-wrap gap-1 rounded-lg p-1">
-            {SOCIAL_PLATFORMS.map((p) => {
+          <SegmentedControl
+            ariaLabel={t("socialPost.title")}
+            layoutId="social-platform"
+            value={activePlatform}
+            onChange={setActivePlatform}
+            options={SOCIAL_PLATFORMS.map((p) => {
               const Icon = p.icon;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => setActivePlatform(p.id)}
-                  className={clsx(
-                    "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                    activePlatform === p.id
-                      ? "bg-accent text-white"
-                      : "text-text-muted hover:text-text-primary",
-                  )}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                  {t(p.labelKey)}
-                </button>
-              );
+              return {
+                value: p.id,
+                label: (
+                  <>
+                    <Icon className="size-3.5" aria-hidden />
+                    {t(p.labelKey)}
+                  </>
+                ),
+              };
             })}
-            <div className="ml-auto flex gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => void handleExport()}
-                disabled={!gameName}
-              >
-                <Download className="h-3.5 w-3.5" />
-                {t("common.export")}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleImport}>
-                <Upload className="h-3.5 w-3.5" />
-                {t("common.import")}
-              </Button>
-            </div>
-          </div>
+          />
 
           {!gameName ? (
-            <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
-              {t("socialPost.emptyState")}
-            </p>
+            <EmptyState icon={Share2} title={t("socialPost.emptyState")} />
           ) : (
             activePost && (
-              <div className="border-border bg-surface-1 rounded-lg border p-4">
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <ActiveIcon className="text-accent h-4 w-4" />
-                    <span className="text-text-primary text-sm font-semibold">
-                      {t(activeConfig.labelKey)}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
+              <OutputField
+                title={t(activeConfig.labelKey)}
+                icon={ActiveIcon}
+                actions={
+                  <>
                     <CharCounter text={activePost.text} limit={activeConfig.charLimit} />
                     <CopyButton
                       text={activePost.text}
@@ -303,47 +293,45 @@ export function SocialPage() {
                       limit={activeConfig.charLimit}
                       fieldLabel={t(activeConfig.labelKey)}
                     />
-                  </div>
+                  </>
+                }
+              >
+                <div className="flex flex-col gap-2">
+                  {activePost.isOver && (
+                    <Banner tone="danger">
+                      {t("socialPost.overLimitHint", { platform: t(activeConfig.labelKey) })}
+                    </Banner>
+                  )}
+                  {activePost.droppedBlocks.length > 0 && (
+                    <Banner tone="warning">
+                      {t("socialPost.trimmedHint", { count: activePost.droppedBlocks.length })}
+                    </Banner>
+                  )}
+                  <OutputText>{activePost.text}</OutputText>
                 </div>
-                {activePost.isOver && (
-                  <p className="text-danger mb-2 text-xs">
-                    {t("socialPost.overLimitHint", {
-                      platform: t(activeConfig.labelKey),
-                    })}
-                  </p>
-                )}
-                {activePost.droppedBlocks.length > 0 && (
-                  <p className="text-warning mb-2 text-xs">
-                    {t("socialPost.trimmedHint", {
-                      count: activePost.droppedBlocks.length,
-                    })}
-                  </p>
-                )}
-                <pre className="text-text-secondary font-sans text-sm break-words whitespace-pre-wrap">
-                  {activePost.text}
-                </pre>
-              </div>
+              </OutputField>
             )
           )}
 
           {imported && (
-            <div className="border-accent/40 bg-accent/5 mt-6 rounded-lg border p-4">
-              <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-text-primary text-sm font-semibold">
-                  {t("socialPost.importedHeading")}
-                  {imported.gameName ? ` — ${imported.gameName}` : ""}
-                </h2>
-                <Button variant="ghost" size="sm" onClick={() => setImported(null)}>
-                  {t("common.dismiss")}
-                </Button>
-              </div>
-              <div className="flex flex-col gap-3">
+            <Card className="border-accent/40">
+              <CardHeader
+                title={`${t("socialPost.importedHeading")}${imported.gameName ? ` — ${imported.gameName}` : ""}`}
+                icon={<Upload aria-hidden="true" />}
+                actions={
+                  <Button variant="ghost" size="sm" onClick={() => setImported(null)}>
+                    {t("common.dismiss")}
+                  </Button>
+                }
+              />
+              <div className="flex flex-col gap-3 p-4">
                 {imported.posts.map((p) => (
-                  <div key={p.platform} className="bg-surface-2 rounded-lg p-3">
-                    <div className="mb-1 flex items-center justify-between">
-                      <span className="text-text-muted text-xs font-medium uppercase">
-                        {platformLabel(p.platform)}
-                      </span>
+                  <div
+                    key={p.platform}
+                    className="bg-surface-0 border-border rounded-lg border p-3"
+                  >
+                    <div className="mb-1 flex items-center justify-between gap-2">
+                      <Badge>{platformLabel(p.platform)}</Badge>
                       <CopyButton
                         text={p.text}
                         label={t("socialPost.copyCaption")}
@@ -356,81 +344,71 @@ export function SocialPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
           )}
         </>
       ) : (
-        <div className="flex flex-col gap-4">
-          {/* Language selector */}
-          <div>
-            <span className="text-text-secondary mb-2 block text-sm font-medium">
-              {t("output.selectLanguages")}
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <button
-                  key={lang.id}
-                  onClick={() => toggleLang(lang.id as SupportedLanguage)}
-                  className={clsx(
-                    "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-                    selectedLangs.includes(lang.id as SupportedLanguage)
-                      ? "bg-accent text-white"
-                      : "bg-surface-2 text-text-muted hover:text-text-primary",
-                  )}
-                >
-                  {lang.flag} {lang.nativeName}
-                </button>
-              ))}
+        <>
+          <Card className="flex flex-col gap-4 p-4 sm:p-5">
+            <ChipGroup
+              label={t("output.selectLanguages")}
+              multiple
+              options={SUPPORTED_LANGUAGES.map((lang) => ({
+                id: lang.id,
+                label: `${lang.nativeName} (${lang.id})`,
+              }))}
+              value={selectedLangs}
+              onChange={(next) => {
+                if (next.length > 0) setSelectedLangs(next as SupportedLanguage[]);
+              }}
+            />
+            <div className="grid gap-3 sm:grid-cols-[8rem_8rem_auto] sm:items-end">
+              <Input
+                label={t("batch.startPart")}
+                type="number"
+                min={1}
+                step={1}
+                inputMode="numeric"
+                error={!rangeResult.valid}
+                value={startPart}
+                onChange={(e) => setStartPart(e.target.value)}
+              />
+              <Input
+                label={t("batch.endPart")}
+                type="number"
+                min={1}
+                step={1}
+                inputMode="numeric"
+                error={!rangeResult.valid}
+                value={endPart}
+                onChange={(e) => setEndPart(e.target.value)}
+              />
+              <Button
+                className="sm:justify-self-start"
+                onClick={() => void handleBulkGenerate()}
+                loading={generating}
+                disabled={!gameName || !rangeResult.valid || strictBlocked}
+              >
+                <Play />
+                {t("common.generate")}
+              </Button>
             </div>
-          </div>
-
-          <div className="flex items-end gap-4">
-            <Input
-              label={t("batch.startPart")}
-              type="number"
-              min={1}
-              step={1}
-              inputMode="numeric"
-              error={!rangeResult.valid}
-              value={startPart}
-              onChange={(e) => setStartPart(e.target.value)}
-            />
-            <Input
-              label={t("batch.endPart")}
-              type="number"
-              min={1}
-              step={1}
-              inputMode="numeric"
-              error={!rangeResult.valid}
-              value={endPart}
-              onChange={(e) => setEndPart(e.target.value)}
-            />
-            <Button
-              onClick={() => void handleBulkGenerate()}
-              disabled={!gameName || generating || !rangeResult.valid || strictBlocked}
-            >
-              {t("common.generate")}
-            </Button>
-          </div>
-          {rangeError && (
-            <p
-              role="alert"
-              className="border-warning/40 bg-warning/10 text-warning rounded-lg border px-3 py-2 text-xs"
-            >
-              {rangeError}
-            </p>
-          )}
-          <StrictModeBanner />
+            {rangeError && (
+              <Banner tone="warning" alert>
+                {rangeError}
+              </Banner>
+            )}
+          </Card>
 
           {bulkResults.length === 0 ? (
-            <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
-              {t("batch.emptyState")}
-            </p>
+            <EmptyState icon={Layers} title={t("batch.emptyState")} />
           ) : (
             <>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="text-text-secondary text-sm">
-                  {bulkResults.length} × {SOCIAL_PLATFORMS.length}
+                  {t("socialPost.bulkSummary", {
+                    captions: bulkResults.length * SOCIAL_PLATFORMS.length,
+                  })}
                 </span>
                 <CopyButton
                   text={bulkCombined}
@@ -440,21 +418,24 @@ export function SocialPage() {
               </div>
               <div className="flex flex-col gap-4">
                 {bulkResults.map((row) => (
-                  <div
-                    key={`${row.partNumber}-${row.language}`}
-                    className="border-border bg-surface-1 rounded-lg border p-4"
-                  >
-                    <h3 className="text-text-primary mb-3 text-sm font-semibold">
-                      {row.partNumber} · {row.language.toUpperCase()}
-                    </h3>
+                  <Card key={`${row.partNumber}-${row.language}`} className="p-4">
+                    <h2 className="text-text-primary mb-3 flex items-center gap-2 text-sm font-semibold">
+                      {t("batch.partLabel", { n: row.partNumber })}
+                      <Badge>{row.language.toUpperCase()}</Badge>
+                    </h2>
                     <div className="flex flex-col gap-3">
                       {SOCIAL_PLATFORMS.map((p) => {
                         const post = row.posts[p.id];
                         if (!post) return null;
+                        const Icon = p.icon;
                         return (
-                          <div key={p.id} className="bg-surface-2 rounded-lg p-3">
-                            <div className="mb-1 flex items-center justify-between">
-                              <span className="text-text-muted text-xs font-medium uppercase">
+                          <div
+                            key={p.id}
+                            className="bg-surface-0 border-border rounded-lg border p-3"
+                          >
+                            <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                              <span className="text-text-secondary inline-flex items-center gap-1.5 text-xs font-medium">
+                                <Icon className="size-3.5" aria-hidden />
                                 {t(p.labelKey)}
                               </span>
                               <div className="flex items-center gap-2">
@@ -466,20 +447,20 @@ export function SocialPage() {
                                 />
                               </div>
                             </div>
-                            <pre className="text-text-secondary max-h-24 overflow-y-auto font-sans text-xs break-words whitespace-pre-wrap">
+                            <pre className="text-text-secondary max-h-24 scrollbar-thin overflow-y-auto font-sans text-xs break-words whitespace-pre-wrap">
                               {post.text}
                             </pre>
                           </div>
                         );
                       })}
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </>
           )}
-        </div>
+        </>
       )}
-    </div>
+    </PageContainer>
   );
 }

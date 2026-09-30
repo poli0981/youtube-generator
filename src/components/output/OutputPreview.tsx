@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
+import { FileText, Tags, Type } from "lucide-react";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
 import { useSettingsStore } from "@store/settings-store";
 import { CopyButton } from "./CopyButton";
 import { CharCounter } from "./CharCounter";
+import { OutputField, OutputText } from "./OutputField";
 import { YT_LIMITS } from "@engine/types";
 import type { GeneratorOutput } from "@engine/types";
 import type { OutputLimitStatus } from "@engine/limits";
@@ -20,16 +22,17 @@ interface OutputPreviewProps {
 export function OutputPreview({ output: outputProp, status }: OutputPreviewProps) {
   const { t } = useTranslation("ui");
   const defaultOutput = useGeneratedOutput();
-  const { showCharCount, compactTagDisplay } = useSettingsStore();
+  const showCharCount = useSettingsStore((s) => s.showCharCount);
+  const compactTagDisplay = useSettingsStore((s) => s.compactTagDisplay);
   const output = outputProp ?? defaultOutput;
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Title */}
-      <section className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-text-primary text-sm font-semibold">{t("output.title")}</h3>
-          <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-4">
+      <OutputField
+        title={t("output.title")}
+        icon={Type}
+        actions={
+          <>
             {showCharCount && <CharCounter text={output.title} limit={YT_LIMITS.TITLE_MAX} />}
             <CopyButton
               text={output.title}
@@ -38,18 +41,19 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
               fieldLabel={t("output.title")}
               blocked={status.blocked}
             />
-          </div>
-        </div>
-        <div className="border-border bg-surface-1 rounded-lg border p-3">
-          <p className="text-text-primary text-sm font-medium">{output.title}</p>
-        </div>
-      </section>
+          </>
+        }
+      >
+        <p className="bg-surface-0 border-border text-text-primary rounded-lg border p-3 text-[0.9375rem] font-medium">
+          {output.title || "…"}
+        </p>
+      </OutputField>
 
-      {/* Description */}
-      <section className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-text-primary text-sm font-semibold">{t("output.description")}</h3>
-          <div className="flex items-center gap-3">
+      <OutputField
+        title={t("output.description")}
+        icon={FileText}
+        actions={
+          <>
             {showCharCount && (
               <CharCounter text={output.description} limit={YT_LIMITS.DESCRIPTION_MAX} />
             )}
@@ -60,22 +64,17 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
               fieldLabel={t("output.description")}
               blocked={status.blocked}
             />
-          </div>
-        </div>
-        <div className="border-border bg-surface-1 max-h-[60vh] overflow-y-auto rounded-lg border p-3 sm:max-h-[400px]">
-          <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
-            {output.description}
-          </pre>
-        </div>
-      </section>
+          </>
+        }
+      >
+        <OutputText tall>{output.description || "…"}</OutputText>
+      </OutputField>
 
-      {/* Tags */}
-      <section className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <h3 className="text-text-primary text-sm font-semibold">
-            {t("output.tags")} ({output.tags.length})
-          </h3>
-          <div className="flex items-center gap-3">
+      <OutputField
+        title={`${t("output.tags")} · ${output.tags.length}`}
+        icon={Tags}
+        actions={
+          <>
             {showCharCount && <CharCounter text={output.tagString} limit={YT_LIMITS.TAGS_MAX} />}
             <CopyButton
               text={output.tagString}
@@ -84,25 +83,26 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
               fieldLabel={t("output.tags")}
               blocked={status.blocked}
             />
+          </>
+        }
+      >
+        {compactTagDisplay ? (
+          <p className="bg-surface-0 border-border text-text-secondary rounded-lg border p-3 text-xs leading-relaxed">
+            {output.tagString}
+          </p>
+        ) : (
+          <div className="flex flex-wrap gap-1.5">
+            {output.tags.map((tag, i) => (
+              <span
+                key={i}
+                className="border-border bg-surface-2 text-text-secondary rounded-md border px-2 py-0.5 text-xs"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
-        </div>
-        <div className="border-border bg-surface-1 rounded-lg border p-3">
-          {compactTagDisplay ? (
-            <p className="text-text-secondary text-xs">{output.tagString}</p>
-          ) : (
-            <div className="flex flex-wrap gap-1.5">
-              {output.tags.map((tag, i) => (
-                <span
-                  key={i}
-                  className="bg-surface-2 text-text-secondary rounded-md px-2 py-0.5 text-xs"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+        )}
+      </OutputField>
     </div>
   );
 }

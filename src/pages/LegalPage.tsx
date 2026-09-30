@@ -6,6 +6,8 @@ import clsx from "clsx";
 import { LEGAL_CONTENT } from "virtual:legal-docs";
 import { LEGAL_DOCS, isLegalDocId, legalDocPath, type LegalDoc } from "@config/legal";
 import { useDocumentTitle } from "@hooks/use-document-title";
+import { Logo } from "@components/brand/Logo";
+import { SegmentedControl } from "@components/ui/SegmentedControl";
 
 /** `legal.docs.thirdParty` → `legal.summaries.thirdParty`. */
 function summaryKey(doc: LegalDoc): string {
@@ -91,7 +93,11 @@ export function LegalPage() {
           <ArrowLeft className="h-4 w-4" aria-hidden />
           {t("legal.back")}
         </button>
-        <Link to="/legal" className="text-text-primary text-sm font-semibold">
+        <Link
+          to="/legal"
+          className="text-text-primary flex items-center gap-2 text-sm font-semibold"
+        >
+          <Logo className="size-6" />
           {t("legal.title")}
         </Link>
       </header>
@@ -151,34 +157,24 @@ export function LegalPage() {
               )}
               <div className="mb-4 flex flex-wrap items-center gap-3">
                 {content.html.vi && (
-                  <div
-                    role="group"
-                    aria-label={t("legal.language")}
-                    className="border-border ml-auto flex rounded-lg border p-0.5"
-                  >
-                    {(["en", "vi"] as const).map((code) => (
-                      <button
-                        key={code}
-                        type="button"
-                        aria-pressed={lang === code}
-                        onClick={() => setLang(code)}
-                        className={clsx(
-                          "rounded-md px-2.5 py-1 text-xs font-medium",
-                          lang === code
-                            ? "bg-accent text-white"
-                            : "text-text-secondary hover:text-text-primary",
-                        )}
-                      >
-                        {code === "en" ? "English" : "Tiếng Việt"}
-                      </button>
-                    ))}
-                  </div>
+                  <SegmentedControl
+                    ariaLabel={t("legal.language")}
+                    layoutId="legal-language"
+                    size="sm"
+                    className="ml-auto"
+                    value={lang}
+                    onChange={setLang}
+                    options={[
+                      { value: "en", label: "English" },
+                      { value: "vi", label: "Tiếng Việt" },
+                    ]}
+                  />
                 )}
               </div>
               <article
                 lang={lang}
                 onClick={onArticleClick}
-                className="legal-prose border-border bg-surface-1 rounded-2xl border px-5 py-6 sm:px-8"
+                className="legal-prose border-border bg-surface-1 shadow-card rounded-card border px-5 py-6 sm:px-8"
                 // Build-time HTML rendered from the repo's own Markdown files
                 // (build-plugins/legal-docs.ts) — never user input.
                 dangerouslySetInnerHTML={{ __html: html }}

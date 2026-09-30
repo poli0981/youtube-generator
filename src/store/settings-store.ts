@@ -20,6 +20,8 @@ interface SettingsState extends SettingsData {
   setSetting: <K extends keyof SettingsData>(key: K, value: SettingsData[K]) => void;
   setTitleFormat: (patch: Partial<TitleFormatConfig>) => void;
   toggleEditorAccordion: (id: string) => void;
+  /** Open or close several editor sections at once (Expand / Collapse all). */
+  setEditorAccordions: (ids: readonly string[], open: boolean) => void;
   toggleSettingsAccordion: (id: string) => void;
   /** Record acceptance of the current legal terms (dismisses the consent gate). */
   acceptLegalConsent: () => void;
@@ -35,6 +37,8 @@ export const useSettingsStore = create<SettingsState>()(
       setTheme: (theme) => {
         document.documentElement.classList.toggle("dark", theme === "dark");
         document.documentElement.classList.toggle("light", theme === "light");
+        // Native controls, scrollbars and autofill follow the page theme.
+        document.documentElement.style.colorScheme = theme;
         set({ theme });
       },
 
@@ -52,6 +56,14 @@ export const useSettingsStore = create<SettingsState>()(
           editorAccordionState: {
             ...state.editorAccordionState,
             [id]: !state.editorAccordionState[id],
+          },
+        })),
+
+      setEditorAccordions: (ids, open) =>
+        set((state) => ({
+          editorAccordionState: {
+            ...state.editorAccordionState,
+            ...Object.fromEntries(ids.map((id) => [id, open])),
           },
         })),
 

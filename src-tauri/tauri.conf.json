@@ -13,14 +13,12 @@
     "windows": [
       {
         "title": "YTDescGen",
-        "width": 1100,
-        "height": 750,
-        "minWidth": 1100,
-        "minHeight": 750,
-        "maxWidth": 1100,
-        "maxHeight": 750,
-        "resizable": false,
-        "maximizable": false,
+        "width": 1280,
+        "height": 820,
+        "minWidth": 960,
+        "minHeight": 640,
+        "resizable": true,
+        "maximizable": true,
         "fullscreen": false,
         "center": true
       }

@@ -2,8 +2,15 @@ import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import i18n from "i18next";
+import { Layers, Play } from "lucide-react";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
+import { Badge } from "@components/ui/Badge";
+import { Banner } from "@components/ui/Banner";
+import { Card } from "@components/ui/Card";
+import { ChipGroup } from "@components/ui/ChipGroup";
+import { EmptyState } from "@components/ui/EmptyState";
+import { PageContainer, PageHeader } from "@components/ui/PageHeader";
 import { CopyButton } from "@components/output/CopyButton";
 import { CharCounter } from "@components/output/CharCounter";
 import { LimitBlockBanner } from "@components/output/LimitBlockBanner";
@@ -20,7 +27,6 @@ import { validateBatchRange } from "@utils/validation";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import { getOutputLimitStatus, mergeLimitStatus, type OutputLimitStatus } from "@engine/limits";
-import clsx from "clsx";
 
 interface BatchLanguageRow {
   language: SupportedLanguage;
@@ -75,15 +81,6 @@ export function BatchPage() {
     ? undefined
     : t(rangeResult.error ?? "", rangeResult.errorParams);
 
-  const toggleLang = (lang: SupportedLanguage) => {
-    setSelectedLangs((prev) => {
-      if (prev.includes(lang)) {
-        return prev.length <= 1 ? prev : prev.filter((l) => l !== lang);
-      }
-      return [...prev, lang];
-    });
-  };
-
   const generate = () => {
     const start = parseInt(startPart) || 1;
     const end = parseInt(endPart) || start;
@@ -137,14 +134,14 @@ export function BatchPage() {
           r.languages
             .map((l) => {
               const pinnedBlock = l.pinnedComment
-                ? `\n\n📌 PINNED COMMENT\n${l.pinnedComment}`
+                ? `\n\n📌 ${t("output.pinnedCommentTemplate")}\n${l.pinnedComment}`
                 : "";
               return `[${l.language.toUpperCase()}]\n${l.output.title}\n\n${l.output.description}${pinnedBlock}`;
             })
             .join("\n\n---\n\n"),
         )
         .join("\n\n===\n\n"),
-    [results],
+    [results, t],
   );
 
   // Copy All Batch concatenates every row, so one over-limit part poisons the
@@ -157,84 +154,71 @@ export function BatchPage() {
   );
 
   return (
-    <div className="mx-auto max-w-4xl p-4 sm:p-6">
-      <h1 className="text-text-primary mb-4 text-lg font-bold">{t("batch.title")}</h1>
+    <PageContainer>
+      <PageHeader title={t("batch.title")} description={t("batch.intro")} />
 
-      {/* Language selector */}
-      <div className="mb-4">
-        <span className="text-text-secondary mb-2 block text-sm font-medium">
-          {t("output.selectLanguages")}
-        </span>
-        <div className="flex flex-wrap gap-2">
-          {SUPPORTED_LANGUAGES.map((lang) => (
-            <button
-              key={lang.id}
-              onClick={() => toggleLang(lang.id as SupportedLanguage)}
-              className={clsx(
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-                selectedLangs.includes(lang.id as SupportedLanguage)
-                  ? "bg-accent text-white"
-                  : "bg-surface-2 text-text-muted hover:text-text-primary",
-              )}
-            >
-              {lang.flag} {lang.nativeName}
-            </button>
-          ))}
+      <Card className="flex flex-col gap-4 p-4 sm:p-5">
+        <ChipGroup
+          label={t("output.selectLanguages")}
+          multiple
+          options={SUPPORTED_LANGUAGES.map((lang) => ({
+            id: lang.id,
+            label: `${lang.nativeName} (${lang.id})`,
+          }))}
+          value={selectedLangs}
+          onChange={(next) => {
+            if (next.length > 0) setSelectedLangs(next as SupportedLanguage[]);
+          }}
+        />
+        <div className="grid gap-3 sm:grid-cols-[8rem_8rem_auto] sm:items-end">
+          <Input
+            label={t("batch.startPart")}
+            type="number"
+            min={1}
+            step={1}
+            inputMode="numeric"
+            error={!rangeResult.valid}
+            value={startPart}
+            onChange={(e) => setStartPart(e.target.value)}
+          />
+          <Input
+            label={t("batch.endPart")}
+            type="number"
+            min={1}
+            step={1}
+            inputMode="numeric"
+            error={!rangeResult.valid}
+            value={endPart}
+            onChange={(e) => setEndPart(e.target.value)}
+          />
+          <Button
+            className="sm:justify-self-start"
+            onClick={() => void handleGenerate()}
+            loading={generating}
+            disabled={!state.gameName || !rangeResult.valid || strictBlocked}
+          >
+            <Play />
+            {t("batch.generateBatch")}
+          </Button>
         </div>
-      </div>
+        {rangeError && (
+          <Banner tone="warning" alert>
+            {rangeError}
+          </Banner>
+        )}
+      </Card>
 
-      <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-end sm:gap-4">
-        <Input
-          label={t("batch.startPart")}
-          type="number"
-          min={1}
-          step={1}
-          inputMode="numeric"
-          error={!rangeResult.valid}
-          value={startPart}
-          onChange={(e) => setStartPart(e.target.value)}
-        />
-        <Input
-          label={t("batch.endPart")}
-          type="number"
-          min={1}
-          step={1}
-          inputMode="numeric"
-          error={!rangeResult.valid}
-          value={endPart}
-          onChange={(e) => setEndPart(e.target.value)}
-        />
-        <Button
-          className="w-full sm:w-auto"
-          onClick={() => void handleGenerate()}
-          disabled={!state.gameName || generating || !rangeResult.valid || strictBlocked}
-        >
-          {t("batch.generateBatch")}
-        </Button>
-      </div>
-      {rangeError && (
-        <p
-          role="alert"
-          className="border-warning/40 bg-warning/10 text-warning mb-6 rounded-lg border px-3 py-2 text-xs"
-        >
-          {rangeError}
-        </p>
-      )}
-      <div className="mb-6 empty:mb-0">
-        <StrictModeBanner />
-      </div>
+      <StrictModeBanner />
 
       {results.length === 0 ? (
-        <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
-          {t("batch.emptyState")}
-        </p>
+        <EmptyState icon={Layers} title={t("batch.emptyState")} />
       ) : (
         <>
-          <div className="mb-4 flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <LimitBlockBanner status={batchStatus} titleKey="output.limits.batchAllBlocked" />
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="text-text-secondary text-sm">
-                {results.length} parts x {selectedLangs.length} languages
+                {t("batch.summary", { parts: results.length, languages: selectedLangs.length })}
               </span>
               <CopyButton
                 text={allCombined}
@@ -245,20 +229,18 @@ export function BatchPage() {
           </div>
           <div className="flex flex-col gap-4">
             {results.map((result) => (
-              <div
-                key={result.partNumber}
-                className="border-border bg-surface-1 rounded-lg border p-4"
-              >
-                <h3 className="text-text-primary mb-3 text-sm font-semibold">
-                  Part {result.partNumber}
-                </h3>
+              <Card key={result.partNumber} className="p-4">
+                <h2 className="text-text-primary mb-3 text-sm font-semibold">
+                  {t("batch.partLabel", { n: result.partNumber })}
+                </h2>
                 <div className="flex flex-col gap-3">
                   {result.languages.map((lang) => (
-                    <div key={lang.language} className="bg-surface-2 rounded-lg p-3">
-                      <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
-                        <span className="text-text-muted text-xs font-medium uppercase">
-                          {lang.language.toUpperCase()}
-                        </span>
+                    <div
+                      key={lang.language}
+                      className="bg-surface-0 border-border rounded-lg border p-3"
+                    >
+                      <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                        <Badge>{lang.language.toUpperCase()}</Badge>
                         <div className="flex items-center gap-2">
                           <CharCounter text={lang.output.title} limit={YT_LIMITS.TITLE_MAX} />
                           <CopyButton
@@ -273,8 +255,8 @@ export function BatchPage() {
                       <p className="text-text-primary mb-2 text-sm font-medium">
                         {lang.output.title}
                       </p>
-                      <pre className="text-text-secondary mb-2 max-h-20 overflow-y-auto font-sans text-xs whitespace-pre-wrap">
-                        {lang.output.description.slice(0, 200)}...
+                      <pre className="text-text-secondary mb-2 line-clamp-3 font-sans text-xs whitespace-pre-wrap">
+                        {lang.output.description}
                       </pre>
                       {/* Batch showed a counter for the title only, so a row
                           could be 1500 characters over on the description with
@@ -293,7 +275,7 @@ export function BatchPage() {
                           {t("output.limits.batchRowBlocked")}
                         </p>
                       )}
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1">
                         <CopyButton
                           text={lang.output.description}
                           label={t("output.copyDescription")}
@@ -318,11 +300,11 @@ export function BatchPage() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </>
       )}
-    </div>
+    </PageContainer>
   );
 }

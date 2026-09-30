@@ -8,6 +8,10 @@ import { useEditorStore } from "@store/editor-store";
 import { installExternalLinkHandler } from "@utils/open-external";
 import { IS_TAURI } from "@utils/platform";
 import { CURRENT_TERMS_VERSION, needsConsent, termsVersionFromCookie } from "@config/legal";
+// Self-hosted variable fonts; each subset (latin, latin-ext, vietnamese, …)
+// is a separate file the browser only fetches when a page uses it.
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
 import "./styles/globals.css";
 
 const root = document.getElementById("root");

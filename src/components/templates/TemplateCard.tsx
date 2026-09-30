@@ -1,74 +1,23 @@
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Upload, Trash2 } from "lucide-react";
-import { Button } from "@components/ui/Button";
-import { ConfirmDialog } from "@components/ui/ConfirmDialog";
-import { useEditorStore } from "@store/editor-store";
+import { LayoutTemplate } from "lucide-react";
+import { LibraryCard } from "@components/library/LibraryCard";
 import { useTemplateStore, type EditorTemplate } from "@store/template-store";
-import toast from "react-hot-toast";
+import { applyTemplate } from "@utils/library-apply";
 
-interface TemplateCardProps {
-  template: EditorTemplate;
-}
-
-export function TemplateCard({ template }: TemplateCardProps) {
-  const { t } = useTranslation("ui");
-  const loadProfile = useEditorStore((s) => s.loadProfile);
+export function TemplateCard({ template }: { template: EditorTemplate }) {
+  const { t, i18n } = useTranslation("ui");
   const deleteTemplate = useTemplateStore((s) => s.deleteTemplate);
-  const [showDelete, setShowDelete] = useState(false);
-
-  const handleApply = () => {
-    // v0.15.0: defend against a template whose `snapshot` field is
-    // null/undefined — most commonly when the template was imported
-    // from a malformed JSON. `loadProfile` itself now ignores a null
-    // patch via `normalizeEditorPatch`, but checking here lets us
-    // surface a clearer toast and skip the no-op success message.
-    if (!template.snapshot || typeof template.snapshot !== "object") {
-      toast.error(
-        t("templates.applyFailed", { defaultValue: "Template is corrupt — cannot apply" }),
-      );
-      return;
-    }
-    loadProfile(template.snapshot);
-    toast.success(t("templates.appliedToast", { name: template.name }));
-  };
-
-  const date = new Date(template.createdAt).toLocaleDateString();
+  const date = new Date(template.createdAt).toLocaleDateString(i18n.language);
 
   return (
-    <>
-      <div className="hover:border-accent/30 border-border-strong bg-surface-2 flex flex-col gap-3 rounded-lg border p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0 flex-1">
-          <h3 className="text-text-primary text-sm font-semibold">{template.name}</h3>
-          <div className="text-text-muted mt-1.5 flex flex-wrap items-center gap-2 text-xs">
-            <span>{template.snapshot.gameName || "—"}</span>
-            <span>·</span>
-            <span>{date}</span>
-          </div>
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          <Button variant="primary" size="sm" onClick={handleApply}>
-            <Upload className="h-3.5 w-3.5" />
-            {t("templates.loadTemplate")}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="text-danger h-3.5 w-3.5" />
-          </Button>
-        </div>
-      </div>
-
-      <ConfirmDialog
-        open={showDelete}
-        onConfirm={() => {
-          deleteTemplate(template.id);
-          setShowDelete(false);
-        }}
-        onCancel={() => setShowDelete(false)}
-        title={t("common.delete")}
-        message={t("templates.deleteConfirm")}
-        confirmLabel={t("common.delete")}
-        variant="danger"
-      />
-    </>
+    <LibraryCard
+      icon={LayoutTemplate}
+      title={template.name}
+      meta={`${template.snapshot?.gameName || "—"} · ${date}`}
+      applyLabel={t("templates.loadTemplate")}
+      onApply={() => void applyTemplate(template)}
+      onDelete={() => deleteTemplate(template.id)}
+      deleteMessage={t("templates.deleteConfirm")}
+    />
   );
 }

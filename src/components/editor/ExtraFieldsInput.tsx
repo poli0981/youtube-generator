@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 import { Input } from "@components/ui/Input";
 import { Textarea } from "@components/ui/Textarea";
+import { Field, controlClasses } from "@components/ui/Field";
 import { VIDEO_TYPES } from "@config/video-types";
 import {
   GACHA_QUEST_TYPE_GROUPS,
@@ -13,6 +15,9 @@ import { useEditorStore } from "@store/editor-store";
 import { FIELD_LIMITS } from "@config/field-limits";
 
 const ANNIVERSARY_YEARS = Array.from({ length: 20 }, (_, i) => i + 1);
+
+/** Native selects here need <optgroup>, which the shared Select doesn't take. */
+const SELECT_CLASS = "h-control cursor-pointer text-base sm:text-sm";
 
 /**
  * Renders inputs for the extra fields required by the currently selected
@@ -55,27 +60,26 @@ export function ExtraFieldsInput() {
   return (
     <div className="flex flex-col gap-3">
       {extraFields.includes("gachaQuestType") && (
-        <div className="flex flex-col gap-1">
-          <label htmlFor="gacha-quest-type" className="text-text-secondary text-sm font-medium">
-            {t("editor.gachaQuestType")}
-          </label>
-          <select
-            id="gacha-quest-type"
-            value={store.gachaQuestType ?? "main_story"}
-            onChange={(e) => store.set("gachaQuestType", e.target.value as GachaQuestType)}
-            className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
-          >
-            {GACHA_QUEST_TYPE_GROUPS.map((g) => (
-              <optgroup key={g.group} label={t(`editor.gachaQuestTypeGroups.${g.group}`)}>
-                {g.members.map((m) => (
-                  <option key={m} value={m}>
-                    {t(`editor.gachaQuestTypeOptions.${m}`)}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </div>
+        <Field label={t("editor.gachaQuestType")}>
+          {(control) => (
+            <select
+              {...control}
+              value={store.gachaQuestType ?? "main_story"}
+              onChange={(e) => store.set("gachaQuestType", e.target.value as GachaQuestType)}
+              className={clsx(controlClasses(false), SELECT_CLASS)}
+            >
+              {GACHA_QUEST_TYPE_GROUPS.map((g) => (
+                <optgroup key={g.group} label={t(`editor.gachaQuestTypeGroups.${g.group}`)}>
+                  {g.members.map((m) => (
+                    <option key={m} value={m}>
+                      {t(`editor.gachaQuestTypeOptions.${m}`)}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          )}
+        </Field>
       )}
       {isGacha && visibility.characterName && (
         <Input
@@ -87,26 +91,25 @@ export function ExtraFieldsInput() {
         />
       )}
       {isGacha && visibility.anniversaryYear && (
-        <div className="flex flex-col gap-1">
-          <label htmlFor="anniversary-year" className="text-text-secondary text-sm font-medium">
-            {t("editor.anniversaryYear")}
-          </label>
-          <select
-            id="anniversary-year"
-            value={store.anniversaryYear ?? ""}
-            onChange={(e) =>
-              store.set("anniversaryYear", e.target.value === "" ? null : Number(e.target.value))
-            }
-            className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
-          >
-            <option value="">—</option>
-            {ANNIVERSARY_YEARS.map((y) => (
-              <option key={y} value={y}>
-                {t("editor.anniversaryYearOption", { count: y })}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Field label={t("editor.anniversaryYear")}>
+          {(control) => (
+            <select
+              {...control}
+              value={store.anniversaryYear ?? ""}
+              onChange={(e) =>
+                store.set("anniversaryYear", e.target.value === "" ? null : Number(e.target.value))
+              }
+              className={clsx(controlClasses(false), SELECT_CLASS)}
+            >
+              <option value="">—</option>
+              {ANNIVERSARY_YEARS.map((y) => (
+                <option key={y} value={y}>
+                  {t("editor.anniversaryYearOption", { count: y })}
+                </option>
+              ))}
+            </select>
+          )}
+        </Field>
       )}
       {showField("chapterName") && (
         <Input
@@ -200,17 +203,12 @@ export function ExtraFieldsInput() {
         />
       )}
       {extraFields.includes("scheduledTime") && (
-        <div className="flex flex-col gap-1">
-          <label className="text-text-secondary text-sm font-medium">
-            {t("editor.scheduledTime")}
-          </label>
-          <input
-            type="datetime-local"
-            value={store.scheduledTime ?? ""}
-            onChange={(e) => store.set("scheduledTime", e.target.value)}
-            className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary placeholder:text-text-muted focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
-          />
-        </div>
+        <Input
+          label={t("editor.scheduledTime")}
+          type="datetime-local"
+          value={store.scheduledTime ?? ""}
+          onChange={(e) => store.set("scheduledTime", e.target.value)}
+        />
       )}
     </div>
   );

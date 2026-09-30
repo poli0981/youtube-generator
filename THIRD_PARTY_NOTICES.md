@@ -12,20 +12,26 @@ Bundled into the web app and the desktop / Android apps.
 
 | Package | Version | License | Project |
 | --- | --- | --- | --- |
+| `@fontsource-variable/inter` | 5.3.0 | OFL-1.1 | <https://github.com/fontsource/font-files> |
+| `@fontsource-variable/jetbrains-mono` | 5.3.0 | OFL-1.1 | <https://github.com/fontsource/font-files> |
 | `@tauri-apps/api` | 2.12.0 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `@tauri-apps/plugin-dialog` | 2.8.0 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `@tauri-apps/plugin-fs` | 2.6.0 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `@tauri-apps/plugin-opener` | 2.7.0 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `@tauri-apps/plugin-shell` | 2.4.0 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `clsx` | 2.1.1 | MIT | <https://github.com/lukeed/clsx> |
+| `cmdk` | 1.1.1 | MIT | <https://github.com/pacocoursey/cmdk> |
 | `i18next` | 26.4.2 | MIT | <https://github.com/i18next/i18next> |
 | `i18next-resources-to-backend` | 1.2.3 | MIT | <https://github.com/i18next/i18next-resources-to-backend> |
-| `lucide-react` | 0.577.0 | ISC | <https://github.com/lucide-icons/lucide> |
+| `lucide-react` | 1.49.0 | ISC | <https://github.com/lucide-icons/lucide> |
+| `motion` | 13.4.6 | MIT | <https://github.com/motiondivision/motion> |
+| `radix-ui` | 1.6.7 | MIT | <https://github.com/radix-ui/primitives> |
 | `react` | 19.3.0 | MIT | <https://github.com/react/react> |
 | `react-dom` | 19.3.0 | MIT | <https://github.com/react/react> |
-| `react-hot-toast` | 2.6.1 | MIT | <https://github.com/timolins/react-hot-toast> |
 | `react-i18next` | 17.0.15 | MIT | <https://github.com/i18next/react-i18next> |
 | `react-router-dom` | 7.18.4 | MIT | <https://github.com/remix-run/react-router> |
+| `simple-icons` | 16.33.0 | CC0-1.0 | <https://simpleicons.org> |
+| `sonner` | 2.0.8 | MIT | <https://github.com/emilkowalski/sonner> |
 | `zustand` | 5.0.15 | MIT | <https://github.com/pmndrs/zustand> |
 
 ## Build and development tools

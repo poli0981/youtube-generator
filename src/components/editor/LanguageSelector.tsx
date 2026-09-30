@@ -10,7 +10,7 @@ export function LanguageSelector() {
 
   const options = SUPPORTED_LANGUAGES.map((lang) => ({
     value: lang.id,
-    label: `${lang.flag} ${lang.nativeName}`,
+    label: `${lang.nativeName} (${lang.id})`,
   }));
 
   return (

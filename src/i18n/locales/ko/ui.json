@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "후원",
-    "toggleTheme": "테마 전환"
+    "outputLanguage": "출력 언어",
+    "interfaceLanguage": "인터페이스 언어",
+    "switchToLight": "라이트 테마로 전환",
+    "switchToDark": "다크 테마로 전환"
   },
   "about": {
     "tagline": "게임플레이 무편집 채널을 위한 YouTube 제목, 설명, 태그 생성기.",
     "repoHeading": "저장소 및 라이선스",
     "repoLabel": "GitHub 저장소",
-    "issuesLabel": "문제 보고",
     "reportBugLabel": "버그 신고",
     "discussionsLabel": "디스커션",
     "authorLabel": "저자",
-    "licenseLabel": "라이선스",
     "donateHeading": "후원 / 지원",
     "donateHelp": "YTDescGen이 시간을 아껴드렸다면 커피 한 잔으로 응원 부탁드립니다.",
     "legalHeading": "법적 고지",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — 저장소 / 일반",
-      "discordGame": "Discord — 게임 로비",
+      "discord": "Discord",
       "steam": "Steam 프로필",
       "telegramBot": "텔레그램 봇",
-      "telegramUser": "텔레그램",
-      "email": "이메일"
+      "telegramUser": "텔레그램"
+    },
+    "websiteLabel": "웹사이트",
+    "wikiLabel": "위키 및 가이드",
+    "contactHeading": "연락처",
+    "contactHelp": "주제에 맞는 주소를 선택하면 담당자에게 바로 전달됩니다.",
+    "authorWebsite": "개인 웹사이트",
+    "authorLinks": "모든 링크",
+    "contacts": {
+      "general": "일반 문의",
+      "security": "보안 취약점",
+      "privacy": "개인정보 및 데이터 요청",
+      "legal": "약관 및 법무",
+      "dmca": "DMCA / 삭제 요청",
+      "copyright": "라이선스 및 저작자 표시",
+      "code": "소스 코드 및 행동 강령",
+      "sponsor": "스폰서십 및 광고"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "개발자 응원",
       "online_connectivity_issues": "온라인 연결 문제"
     },
-    "videoSettings": "영상 설정",
     "quickPreview": "빠른 미리보기",
     "version": "버전",
     "clearDraft": "초안 지우기",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "링크를 확인하고 다시 추가하세요 — '{{host}}'은(는) '{{suggestedName}}'을(를) 가리키지만, 게임 이름은 '{{gameName}}'입니다."
-    }
+    },
+    "collapseAll": "모두 접기",
+    "expandAll": "모두 펼치기",
+    "viewOutput": "출력 보기",
+    "previewEmpty": "게임 이름을 입력하면 미리보기가 표시됩니다.",
+    "genrePick": "장르 선택",
+    "genreAdd": "추가",
+    "genreQuickSets": "빠른 세트",
+    "genreRemove": "{{genre}} 제거",
+    "selectedCount": "{{n}}개 선택됨"
   },
   "output": {
     "title": "제목",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}}이(가) 너무 깁니다: {{count}}/{{limit}}자. 복사 전에 줄여주세요.",
       "fieldGeneric": "텍스트",
-      "failed": "복사 실패"
+      "failed": "복사 실패",
+      "empty": "아직 복사할 내용이 없습니다 — 에디터에서 게임 이름을 입력하세요."
     },
     "limits": {
       "bannerTitle": "복사 차단됨 — YouTube 제한 초과",
@@ -768,6 +792,15 @@
       "copyBlocked": "차단됨: 다른 항목이 YouTube 제한을 초과했습니다",
       "batchRowBlocked": "이 파트가 제한을 초과했습니다 — 복사할 수 없습니다.",
       "batchAllBlocked": "전체 복사 차단됨 — 제한을 초과한 파트가 있습니다"
+    },
+    "emptyTitle": "아직 표시할 내용이 없습니다",
+    "emptyHint": "에디터에서 게임 이름을 입력하면 제목, 설명, 태그가 여기에 표시됩니다.",
+    "youtubePreview": {
+      "heading": "YouTube에서",
+      "channelPlaceholder": "내 채널",
+      "more": "…더보기",
+      "titleCut": "검색 결과와 추천 영상에서는 제목이 약 {{chars}}자에서 잘립니다 — 핵심 단어를 앞에 두세요.",
+      "foldHint": "시청자는 “…더보기” 전에 설명의 처음 약 {{chars}}자만 봅니다."
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "닫기",
     "scrollToTop": "맨 위로",
     "exported": "내보냈습니다",
-    "exportFailed": "내보내기 실패"
+    "exportFailed": "내보내기 실패",
+    "close": "닫기",
+    "edit": "편집",
+    "loading": "불러오는 중…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "프로필 가져오기",
     "thirdPartyAdText": "써드파티 광고 문구",
     "thirdPartyAdTextPlaceholder": "예: 코드 SAVE10 입력 시 GameStore.com 전 타이틀 10% 할인\n스폰서: ChairCo — 링크는 설명란에",
-    "thirdPartyAdTextHelp": "선택적 스폰서 / 파트너 / 제휴 문구. 설정에서 '써드파티 광고'가 활성화되면 표시됩니다."
+    "thirdPartyAdTextHelp": "선택적 스폰서 / 파트너 / 제휴 문구. 설정에서 '써드파티 광고'가 활성화되면 표시됩니다.",
+    "intro": "다시 쓸 수 있는 채널 프로필, 게임 프리셋, 에디터 템플릿.",
+    "hint": "채널 정보 — 이름, 연락처, SNS, PC 사양. 적용하면 에디터의 해당 항목이 채워집니다.",
+    "noChannel": "채널 이름 없음",
+    "socialLinks": "SNS 링크 {{n}}개",
+    "rigFields": "PC 사양 {{n}}개"
   },
   "templates": {
     "title": "템플릿",
@@ -968,7 +1009,8 @@
     "savedAs": "'{{name}}'(으)로 저장됨",
     "appliedToast": "'{{name}}' 적용됨",
     "exportTemplates": "템플릿 내보내기",
-    "importTemplates": "템플릿 가져오기"
+    "importTemplates": "템플릿 가져오기",
+    "applyFailed": "이 템플릿은 손상되어 적용할 수 없습니다."
   },
   "presets": {
     "title": "게임 프리셋",
@@ -980,14 +1022,16 @@
     "selectPreset": "게임 프리셋 불러오기",
     "noPresets": "프리셋 없음",
     "exportPresets": "프리셋 내보내기",
-    "importPresets": "프리셋 가져오기"
+    "importPresets": "프리셋 가져오기",
+    "hint": "게임 이름, 장르, 플랫폼, 스토어 링크 — 모든 파트에서 재사용됩니다."
   },
   "history": {
     "title": "기록",
     "emptyState": "기록이 없습니다. 설명을 생성하면 여기에 표시됩니다.",
     "clearAll": "전체 삭제",
     "clearConfirm": "모든 기록을 삭제하시겠습니까?",
-    "searchPlaceholder": "기록 검색..."
+    "searchPlaceholder": "기록 검색...",
+    "noResults": "검색과 일치하는 기록이 없습니다."
   },
   "settings": {
     "title": "설정",
@@ -1043,7 +1087,10 @@
     "guardrails": "안전장치",
     "strictMode": "엄격 모드",
     "strictModeHint": "오류가 있는 항목이 남아 있는 동안 생성·복사·내보내기를 차단합니다. 가벼운 경고는 통과합니다.",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "{{min}}~{{max}} 사이의 값.",
+    "themeDark": "다크",
+    "themeLight": "라이트"
   },
   "socialPost": {
     "title": "크로스포스트 캡션",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "캡션 {{captions}}개"
   },
   "batch": {
     "title": "일괄 생성",
@@ -1070,7 +1118,10 @@
     "endPart": "끝 파트",
     "generateBatch": "일괄 생성",
     "copyAllBatch": "전체 일괄 복사",
-    "emptyState": "파트 범위를 설정하고 일괄 설명을 생성하세요."
+    "emptyState": "파트 범위를 설정하고 일괄 설명을 생성하세요.",
+    "intro": "에디터의 게임에 대해 연속된 파트를 하나 이상의 언어로 한 번에 생성합니다.",
+    "partLabel": "파트 {{n}}",
+    "summary": "파트 {{parts}}개 × 언어 {{languages}}개"
   },
   "shortcuts": {
     "title": "키보드 단축키",
@@ -1126,6 +1177,25 @@
       "delisted": "스토어에서 삭제 / 판매 종료",
       "low_views": "조회수 / 반응 저조",
       "time": "시간 부족 / 우선순위 변경"
+    },
+    "intro": "에디터의 게임으로 시리즈 재생목록의 제목, 설명, 고정 댓글을 만듭니다.",
+    "totalVideosPlaceholder": "예: 25",
+    "customNotePlaceholder": "메모 (선택)…",
+    "statuses": {
+      "completed": "완결",
+      "dropped": "중단",
+      "incomplete": "미완",
+      "in_progress": "진행 중"
+    },
+    "contentTypes": {
+      "full_gameplay": "풀 플레이",
+      "boss_fights": "보스전",
+      "speedrun": "스피드런",
+      "all_endings": "모든 엔딩",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "공략",
+      "highlights": "하이라이트"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "TXT 내보내기",
     "sessionCurrent": "현재 세션",
     "sessionLabel": "세션 {{n}}",
-    "entriesShort": "건"
+    "entriesShort": "건",
+    "copyEntry": "항목 복사",
+    "deleteEntry": "항목 삭제",
+    "errorCount": "오류 {{n}}개",
+    "warnCount": "경고 {{n}}개",
+    "summary": "항목 {{entries}}개 · 세션 {{sessions}}개",
+    "levels": {
+      "all": "전체",
+      "error": "오류",
+      "warn": "경고",
+      "info": "정보",
+      "debug": "디버그"
+    }
   },
   "strict": {
     "blockedTitle": "엄격 모드: {{count}}개 항목을 수정해야 합니다",
-    "fixHint": "편집기에서 수정하거나 설정에서 엄격 모드를 끄세요."
+    "fixHint": "편집기에서 수정하거나 설정에서 엄격 모드를 끄세요.",
+    "copyBlocked": "Strict Mode: 복사하기 전에 표시된 항목을 수정하세요."
   },
   "legal": {
     "title": "법적 고지",
@@ -1175,5 +1258,35 @@
       "notice": "저작권과 출처 표시를 담은 Apache-2.0 NOTICE 파일.",
       "conduct": "프로젝트 커뮤니티 공간에 적용되는 Contributor Covenant 규칙."
     }
+  },
+  "nav": {
+    "create": "만들기",
+    "library": "라이브러리",
+    "system": "시스템",
+    "main": "주 메뉴",
+    "more": "더보기",
+    "skipToContent": "본문으로 건너뛰기"
+  },
+  "command": {
+    "open": "검색 또는 명령 실행…",
+    "title": "명령 팔레트",
+    "placeholder": "명령을 입력하거나 검색…",
+    "empty": "결과가 없습니다.",
+    "groups": {
+      "navigate": "이동",
+      "copy": "복사",
+      "profiles": "프로필 적용",
+      "presets": "게임 프리셋 적용",
+      "templates": "템플릿 적용",
+      "preferences": "환경설정",
+      "help": "도움말"
+    },
+    "interfaceIn": "인터페이스 언어: {{language}}",
+    "outputIn": "출력 언어: {{language}}",
+    "wiki": "위키 열기"
+  },
+  "library": {
+    "profileApplied": "프로필 “{{name}}” 적용됨",
+    "presetApplied": "프리셋 “{{name}}” 적용됨"
   }
 }

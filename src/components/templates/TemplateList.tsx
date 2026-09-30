@@ -1,4 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { LayoutTemplate } from "lucide-react";
+import { EmptyState } from "@components/ui/EmptyState";
+import { LibraryList } from "@components/library/LibraryCard";
 import { useTemplateStore } from "@store/template-store";
 import { TemplateCard } from "./TemplateCard";
 
@@ -6,19 +9,18 @@ export function TemplateList() {
   const { t } = useTranslation("ui");
   const templates = useTemplateStore((s) => s.templates);
 
-  if (templates.length === 0) {
-    return (
-      <p className="border-border text-text-muted rounded-lg border border-dashed py-8 text-center text-sm">
-        {t("templates.emptyState")}
-      </p>
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-2">
+    <LibraryList
+      hint={t("templates.saveHint")}
+      empty={
+        templates.length === 0 ? (
+          <EmptyState icon={LayoutTemplate} title={t("templates.emptyState")} />
+        ) : undefined
+      }
+    >
       {templates.map((template) => (
         <TemplateCard key={template.id} template={template} />
       ))}
-    </div>
+    </LibraryList>
   );
 }

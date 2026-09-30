@@ -9,3 +9,10 @@ export const IS_TAURI = typeof window !== "undefined" && "__TAURI_INTERNALS__" i
 // download instead. Desktop and web both report false here, so existing
 // branches are unaffected. iOS is out of scope (we only ship Android).
 export const IS_MOBILE = typeof navigator !== "undefined" && /Android/i.test(navigator.userAgent);
+
+// Apple keyboards label the modifier ⌘ where everyone else says Ctrl, and the
+// shortcuts listen for `metaKey || ctrlKey` either way — this only decides
+// how a shortcut is SPELLED in the UI.
+export const IS_MAC =
+  typeof navigator !== "undefined" &&
+  /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent);

@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { House, ArrowLeft, RotateCw, RotateCcw, Bug } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "@components/ui/Button";
+import { Card } from "@components/ui/Card";
+import { Logo } from "@components/brand/Logo";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import { ABOUT } from "@config/about";
 import { IS_TAURI } from "@utils/platform";
@@ -60,35 +62,42 @@ function FullscreenError({ kind }: ErrorPageProps) {
   useDocumentTitle(title);
 
   return (
-    <div className="bg-surface-0 flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-12 text-center">
-      <Icon className={clsx("h-16 w-16", colour)} aria-hidden />
-      {meta.code !== null && (
-        <p className={clsx("font-mono text-6xl leading-none font-bold tabular-nums", colour)}>
-          {meta.code}
-        </p>
-      )}
-      <div className="max-w-md space-y-2">
-        <h1 className="text-text-primary text-2xl font-semibold">{title}</h1>
+    <main className="bg-surface-0 relative flex min-h-dvh flex-col items-center justify-center gap-6 overflow-hidden px-6 py-12 text-center">
+      <div
+        className="bg-brand-gradient pointer-events-none absolute top-0 left-1/2 h-64 w-[36rem] max-w-full -translate-x-1/2 rounded-full opacity-10 blur-3xl"
+        aria-hidden="true"
+      />
+      <Logo className="relative size-10" />
+      <div className="relative flex flex-col items-center gap-3">
+        <Icon className={clsx("size-12", colour)} aria-hidden />
+        {meta.code !== null && (
+          <p className={clsx("font-mono text-6xl leading-none font-bold tabular-nums", colour)}>
+            {meta.code}
+          </p>
+        )}
+      </div>
+      <div className="relative max-w-md space-y-2">
+        <h1 className="text-text-primary text-2xl font-semibold tracking-tight">{title}</h1>
         <p className="text-text-secondary text-sm">{description}</p>
       </div>
-      <div className="flex flex-wrap items-center justify-center gap-3">
+      <div className="relative flex flex-wrap items-center justify-center gap-2">
         <Button variant="primary" onClick={goHome}>
-          <House className="h-4 w-4" />
+          <House />
           {t("errorPages.actions.home")}
         </Button>
         <Button variant="secondary" onClick={() => window.history.back()}>
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft />
           {t("errorPages.actions.back")}
         </Button>
         {canReload && (
           <Button variant="secondary" onClick={() => window.location.reload()}>
-            <RotateCw className="h-4 w-4" />
+            <RotateCw />
             {t("errorPages.actions.reload")}
           </Button>
         )}
         <ReportBugLink />
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -102,53 +111,44 @@ function ContainedError({ kind, onReset, detail }: ErrorPageProps) {
 
   return (
     <div className="flex min-h-[200px] items-center justify-center p-6">
-      <div className="border-danger/40 bg-surface-2 w-full max-w-md rounded-lg border p-5 shadow-md shadow-black/10">
+      <Card className="border-danger/40 w-full max-w-md p-5">
         <div className={clsx("mb-3 flex items-center gap-2", colour)}>
-          <Icon className="h-4 w-4" />
+          <Icon className="size-4" aria-hidden />
           <h2 className="text-sm font-semibold">{title}</h2>
         </div>
         <p className="text-text-secondary mb-3 text-xs">{description}</p>
         {detail && (
-          <pre className="bg-surface-3 text-text-muted mb-4 max-h-32 overflow-auto rounded p-2 text-[11px] whitespace-pre-wrap">
+          <pre className="bg-surface-0 border-border text-text-muted mb-4 max-h-32 scrollbar-thin overflow-auto rounded-lg border p-2 font-mono text-[11px] whitespace-pre-wrap">
             {detail}
           </pre>
         )}
         <div className="flex flex-wrap items-center gap-2">
           {onReset && (
             <Button variant="primary" size="sm" onClick={onReset}>
-              <RotateCcw className="h-3.5 w-3.5" />
+              <RotateCcw />
               {t("errorPages.actions.retry")}
             </Button>
           )}
           <Button variant="secondary" size="sm" onClick={() => window.location.reload()}>
-            <RotateCw className="h-3.5 w-3.5" />
+            <RotateCw />
             {t("errorPages.actions.reload")}
           </Button>
           <ReportBugLink size="sm" />
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
 
-/** External "report a bug" link, styled to match the `ghost` Button. */
+/** External "report a bug" link, styled as a ghost button. */
 function ReportBugLink({ size = "md" }: { size?: "sm" | "md" }) {
   const { t } = useTranslation("ui");
-  const sizeClass =
-    size === "sm" ? "min-h-[36px] px-2.5 py-1 text-xs" : "min-h-touch px-4 py-2 text-sm";
-  const iconClass = size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4";
   return (
-    <a
-      href={ABOUT.bugReportUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={clsx(
-        "focus:ring-accent/50 text-text-secondary hover:bg-surface-2 hover:text-text-primary inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus:ring-2 focus:outline-none",
-        sizeClass,
-      )}
-    >
-      <Bug className={iconClass} />
-      {t("errorPages.actions.reportBug")}
-    </a>
+    <Button asChild variant="ghost" size={size}>
+      <a href={ABOUT.bugReportUrl} target="_blank" rel="noopener noreferrer">
+        <Bug aria-hidden="true" />
+        {t("errorPages.actions.reportBug")}
+      </a>
+    </Button>
   );
 }

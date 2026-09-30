@@ -8,7 +8,9 @@ import { useLanguagesReady } from "@hooks/use-languages-ready";
 import { buildPinnedComment } from "@engine/pinned-comment-builder";
 import { GENRES } from "@config/genres";
 import type { Genre } from "@engine/types";
+import { Image, MessageSquareText, Pin } from "lucide-react";
 import { CopyButton } from "./CopyButton";
+import { OutputField, OutputText } from "./OutputField";
 
 /**
  * Renders the non-description artefacts on the Output page:
@@ -69,49 +71,35 @@ export function OutputExtras() {
   if (!hasThumbnail && !hasPinned && !hasTemplate) return null;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
       {hasThumbnail && (
-        <section className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <h3 className="text-text-primary text-sm font-semibold">{t("output.thumbnailText")}</h3>
-            <CopyButton text={thumbnailText} label={t("output.copyThumbnailText")} />
-          </div>
-          <div className="border-border bg-surface-1 rounded-lg border p-3">
-            <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
-              {thumbnailText}
-            </pre>
-          </div>
-        </section>
+        <OutputField
+          title={t("output.thumbnailText")}
+          icon={Image}
+          actions={<CopyButton text={thumbnailText} label={t("output.copyThumbnailText")} />}
+        >
+          <OutputText>{thumbnailText}</OutputText>
+        </OutputField>
       )}
 
       {hasPinned && (
-        <section className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <h3 className="text-text-primary text-sm font-semibold">{t("output.pinnedComment")}</h3>
-            <CopyButton text={pinnedComment} label={t("output.copyPinnedComment")} />
-          </div>
-          <div className="border-border bg-surface-1 rounded-lg border p-3">
-            <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
-              {pinnedComment}
-            </pre>
-          </div>
-        </section>
+        <OutputField
+          title={t("output.pinnedComment")}
+          icon={Pin}
+          actions={<CopyButton text={pinnedComment} label={t("output.copyPinnedComment")} />}
+        >
+          <OutputText>{pinnedComment}</OutputText>
+        </OutputField>
       )}
 
       {hasTemplate && (
-        <section className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <h3 className="text-text-primary text-sm font-semibold">
-              {t("output.pinnedCommentTemplate")}
-            </h3>
-            <CopyButton text={templateText} label={t("output.copyPinnedCommentTemplate")} />
-          </div>
-          <div className="border-border bg-surface-1 rounded-lg border p-3">
-            <pre className="text-text-secondary font-sans text-sm whitespace-pre-wrap">
-              {templateText}
-            </pre>
-          </div>
-        </section>
+        <OutputField
+          title={t("output.pinnedCommentTemplate")}
+          icon={MessageSquareText}
+          actions={<CopyButton text={templateText} label={t("output.copyPinnedCommentTemplate")} />}
+        >
+          <OutputText>{templateText}</OutputText>
+        </OutputField>
       )}
     </div>
   );

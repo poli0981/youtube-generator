@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
-import { Shuffle, Bookmark, Film } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Bookmark, ClipboardCopy, Film, PenLine, Shuffle } from "lucide-react";
 import { Button } from "@components/ui/Button";
+import { Banner } from "@components/ui/Banner";
+import { ChipGroup } from "@components/ui/ChipGroup";
+import { EmptyState } from "@components/ui/EmptyState";
+import { PageContainer, PageHeader } from "@components/ui/PageHeader";
+import { TabPanel, Tabs } from "@components/ui/Tabs";
 import { OutputPreview } from "@components/output/OutputPreview";
 import { OutputExtras } from "@components/output/OutputExtras";
-import { CopyAllBar } from "@components/output/CopyAllBar";
+import { LimitBlockBanner } from "@components/output/LimitBlockBanner";
+import { YouTubePreview } from "@components/output/YouTubePreview";
 import { VariantPicker } from "@components/output/VariantPicker";
 import { TemplateSaveForm } from "@components/templates/TemplateSaveForm";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
@@ -17,14 +24,15 @@ import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useOutputLimits } from "@hooks/use-output-limits";
 import { useStrictBlock } from "@hooks/use-strict-block";
+import { useClipboard } from "@hooks/use-clipboard";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
-import clsx from "clsx";
 
 export function OutputPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.output"));
   const defaultOutput = useGeneratedOutput();
-  const { gameName, videoType, language, genres } = useEditorStore();
+  const { gameName, videoType, language, genres, channelName } = useEditorStore();
+  const { copy } = useClipboard();
   // v0.17.1: surface the per-video preview state so the page can
   // render a "Showing: Video N of M" banner — without it, a creator
   // who flipped the EndingsEditor selector wouldn't see which video
@@ -81,16 +89,11 @@ export function OutputPage() {
     [strictBlocked, allStatus],
   );
 
-  const toggleLang = (lang: SupportedLanguage) => {
-    setSelectedLangs((prev) => {
-      if (prev.includes(lang)) {
-        if (prev.length <= 1) return prev;
-        const next = prev.filter((l) => l !== lang);
-        if (activeTab === lang && next.length > 0) setActiveTab(next[0] as SupportedLanguage);
-        return next;
-      }
-      return [...prev, lang];
-    });
+  // At least one language stays selected; the active tab follows a removal.
+  const changeLangs = (next: SupportedLanguage[]) => {
+    if (next.length === 0) return;
+    setSelectedLangs(next);
+    if (!next.includes(activeTab)) setActiveTab(next[0] as SupportedLanguage);
   };
 
   useEffect(() => {
@@ -133,42 +136,29 @@ export function OutputPage() {
       .join("\n\n===\n\n");
   }, [isMultiLang, selectedLangs, multilangOutputs]);
 
+  const copyAllText = isMultiLang
+    ? allLangsCombined
+    : `${defaultOutput.title}
+
+${defaultOutput.description}`;
+  const copyAll = () => void copy(copyAllText);
+  const copyAllDisabled = allBlocked.blocked || !gameName;
+
+  const shownOutput = currentOutput ?? defaultOutput;
+
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="mx-auto w-full max-w-4xl flex-1 p-6">
-        <div className="mb-4">
-          <StrictModeBanner />
-        </div>
-        <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
-          <div className="flex-1">
-            <span className="text-text-secondary mb-2 block text-sm font-medium">
-              {t("output.selectLanguages")}
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <button
-                  key={lang.id}
-                  onClick={() => toggleLang(lang.id as SupportedLanguage)}
-                  className={clsx(
-                    "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
-                    selectedLangs.includes(lang.id as SupportedLanguage)
-                      ? "bg-accent text-white"
-                      : "bg-surface-2 text-text-muted hover:text-text-primary",
-                  )}
-                >
-                  {lang.flag} {lang.nativeName}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
+    <PageContainer className="pb-24 md:pb-6 lg:pb-8">
+      <PageHeader
+        title={t("tabs.output")}
+        actions={
+          <>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setShowVariants(true)}
               disabled={!gameName}
             >
-              <Shuffle className="h-3.5 w-3.5" />
+              <Shuffle />
               {t("output.generateAlternatives")}
             </Button>
             <Button
@@ -177,64 +167,105 @@ export function OutputPage() {
               onClick={() => setShowSaveTemplate(true)}
               disabled={!gameName}
             >
-              <Bookmark className="h-3.5 w-3.5" />
+              <Bookmark />
               {t("output.saveAsTemplate")}
             </Button>
-          </div>
-        </div>
-
-        {isMultiLang && (
-          <div className="bg-surface-1 mb-4 flex gap-1 rounded-lg p-1">
-            {selectedLangs.map((lang) => (
-              <button
-                key={lang}
-                onClick={() => setActiveTab(lang)}
-                className={clsx(
-                  "rounded-md px-3 py-1 text-sm font-medium transition-colors",
-                  activeTab === lang
-                    ? "bg-accent text-white"
-                    : "text-text-muted hover:text-text-primary",
-                )}
-              >
-                {lang.toUpperCase()}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {isMultiVideoEnding && (
-          <div className="border-accent/40 bg-accent/10 text-text-secondary mb-4 flex items-center gap-2 rounded-lg border px-3 py-2 text-xs">
-            <Film className="text-accent h-3.5 w-3.5 shrink-0" />
-            <span>
-              {t("output.previewingVideo", {
-                index: Math.min(endingVideoIndex, endingVideoCount),
-                total: endingVideoCount,
-                from: currentRange?.from ?? 1,
-                to: currentRange?.to ?? 1,
-              })}
-            </span>
-          </div>
-        )}
-        {currentOutput && (
-          <OutputPreview output={isMultiLang ? currentOutput : undefined} status={tabBlocked} />
-        )}
-        <div className="mt-6">
-          <OutputExtras />
-        </div>
-      </div>
-      <CopyAllBar
-        text={
-          isMultiLang
-            ? allLangsCombined
-            : `${defaultOutput.title}
-
-${defaultOutput.description}`
+            {/* md+ only — phones get the floating button below. */}
+            <div className="hidden md:block">
+              <Button size="sm" onClick={copyAll} disabled={copyAllDisabled}>
+                <ClipboardCopy />
+                {t("output.copyAll")}
+              </Button>
+            </div>
+          </>
         }
-        status={allBlocked}
       />
+
+      <StrictModeBanner />
+      <LimitBlockBanner status={allStatus} />
+
+      {!gameName ? (
+        <EmptyState
+          icon={PenLine}
+          title={t("output.emptyTitle")}
+          description={t("output.emptyHint")}
+          action={
+            <Button asChild size="sm">
+              <Link to="/">{t("tabs.editor")}</Link>
+            </Button>
+          }
+        />
+      ) : (
+        <>
+          <ChipGroup
+            label={t("output.selectLanguages")}
+            multiple
+            options={SUPPORTED_LANGUAGES.map((lang) => ({
+              id: lang.id,
+              label: `${lang.nativeName} (${lang.id})`,
+            }))}
+            value={selectedLangs}
+            onChange={(next) => changeLangs(next as SupportedLanguage[])}
+          />
+
+          {isMultiVideoEnding && (
+            <Banner tone="accent">
+              <span className="inline-flex items-center gap-1.5">
+                <Film className="size-3.5 shrink-0" aria-hidden="true" />
+                {t("output.previewingVideo", {
+                  index: Math.min(endingVideoIndex, endingVideoCount),
+                  total: endingVideoCount,
+                  from: currentRange?.from ?? 1,
+                  to: currentRange?.to ?? 1,
+                })}
+              </span>
+            </Banner>
+          )}
+
+          {isMultiLang ? (
+            <Tabs
+              value={activeTab}
+              onChange={setActiveTab}
+              ariaLabel={t("output.selectLanguages")}
+              layoutId="output-language-tab"
+              items={selectedLangs.map((lang) => ({ value: lang, label: lang.toUpperCase() }))}
+            >
+              {selectedLangs.map((lang) => (
+                <TabPanel key={lang} value={lang} className="flex flex-col gap-4 pt-4">
+                  {multilangOutputs[lang] && (
+                    <OutputPreview output={multilangOutputs[lang]} status={tabBlocked} />
+                  )}
+                </TabPanel>
+              ))}
+            </Tabs>
+          ) : (
+            <OutputPreview status={tabBlocked} />
+          )}
+
+          <YouTubePreview
+            title={shownOutput.title}
+            description={shownOutput.description}
+            channelName={channelName}
+            gameName={gameName}
+          />
+          <OutputExtras />
+        </>
+      )}
+
+      {/* Phones: Copy All as a floating button (the header one is md+). */}
+      {gameName && (
+        <Button
+          onClick={copyAll}
+          disabled={copyAllDisabled}
+          className="shadow-pop fixed right-4 bottom-[calc(4.5rem_+_env(safe-area-inset-bottom))] z-30 rounded-full md:hidden"
+        >
+          <ClipboardCopy />
+          {t("output.copyAll")}
+        </Button>
+      )}
 
       <VariantPicker open={showVariants} onClose={() => setShowVariants(false)} />
       <TemplateSaveForm open={showSaveTemplate} onClose={() => setShowSaveTemplate(false)} />
-    </div>
+    </PageContainer>
   );
 }

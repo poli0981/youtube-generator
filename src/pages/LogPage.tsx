@@ -1,10 +1,16 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
-import { Trash2, ChevronDown, ChevronRight, FileJson, FileText } from "lucide-react";
+import { ChevronRight, FileJson, FileText, ScrollText, Search, Trash2 } from "lucide-react";
 import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
+import { Badge } from "@components/ui/Badge";
+import { Card } from "@components/ui/Card";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
+import { EmptyState } from "@components/ui/EmptyState";
+import { IconButton } from "@components/ui/IconButton";
+import { PageContainer, PageHeader } from "@components/ui/PageHeader";
+import { SegmentedControl } from "@components/ui/SegmentedControl";
 import { LogEntryCard } from "@components/logs/LogEntry";
 import { useLogStore, type LogEntry, type LogLevel } from "@store/log-store";
 import { exportTypedToJsonFile } from "@utils/import-export";
@@ -12,13 +18,7 @@ import { saveTextFile } from "@utils/file-ops";
 import { useFileExport } from "@hooks/use-file-export";
 import clsx from "clsx";
 
-const LEVEL_FILTERS: Array<{ value: LogLevel | "all"; label: string; color: string }> = [
-  { value: "all", label: "All", color: "" },
-  { value: "error", label: "Error", color: "text-red-400" },
-  { value: "warn", label: "Warn", color: "text-yellow-400" },
-  { value: "info", label: "Info", color: "text-blue-400" },
-  { value: "debug", label: "Debug", color: "text-gray-400" },
-];
+const LEVEL_FILTERS: ReadonlyArray<LogLevel | "all"> = ["all", "error", "warn", "info", "debug"];
 
 /**
  * v0.17.0 LogPage. Three new concerns over the v0.16.x version:
@@ -125,74 +125,68 @@ export function LogPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <h1 className="text-text-primary text-lg font-bold">{t("logs.title")}</h1>
-          <span className="text-text-muted text-xs">
-            {entries.length} entries · {sessions.length} sessions
+    <PageContainer>
+      <PageHeader
+        title={t("logs.title")}
+        description={
+          <span className="inline-flex flex-wrap items-center gap-x-2 gap-y-1">
+            {t("logs.summary", { entries: entries.length, sessions: sessions.length })}
             {totalErrorCount > 0 && (
-              <span className="ml-1 text-red-400">({totalErrorCount} errors)</span>
+              <Badge tone="danger">{t("logs.errorCount", { n: totalErrorCount })}</Badge>
             )}
             {totalWarnCount > 0 && (
-              <span className="ml-1 text-yellow-400">({totalWarnCount} warnings)</span>
+              <Badge tone="warning">{t("logs.warnCount", { n: totalWarnCount })}</Badge>
             )}
           </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {entries.length > 0 && (
+        }
+        actions={
+          entries.length > 0 && (
             <>
               <Button variant="ghost" size="sm" onClick={() => void handleExportJson()}>
-                <FileJson className="h-3.5 w-3.5" />
+                <FileJson />
                 {t("logs.exportJson")}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => void handleExportTxt()}>
-                <FileText className="h-3.5 w-3.5" />
+                <FileText />
                 {t("logs.exportTxt")}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => setShowClearAll(true)}>
-                <Trash2 className="h-3.5 w-3.5" />
+                <Trash2 />
                 {t("logs.clearAll")}
               </Button>
             </>
-          )}
-        </div>
-      </div>
+          )
+        }
+      />
 
-      {/* Filters */}
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="bg-surface-1 flex gap-1 rounded-lg p-1">
-          {LEVEL_FILTERS.map((f) => (
-            <button
-              key={f.value}
-              onClick={() => setLevelFilter(f.value)}
-              className={clsx(
-                "rounded-md px-3 py-1 text-xs font-medium transition-colors",
-                levelFilter === f.value
-                  ? "bg-accent text-white"
-                  : clsx("text-text-muted hover:text-text-primary", f.color),
-              )}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <SegmentedControl
+          ariaLabel={t("logs.levels.all")}
+          layoutId="log-level"
+          size="sm"
+          value={levelFilter}
+          onChange={setLevelFilter}
+          options={LEVEL_FILTERS.map((level) => ({
+            value: level,
+            label: t(`logs.levels.${level}`),
+          }))}
+        />
         <div className="flex-1">
           <Input
+            type="search"
+            aria-label={t("logs.searchPlaceholder")}
             placeholder={t("logs.searchPlaceholder")}
+            leading={<Search />}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
 
-      {/* Session-grouped entries */}
       {sessions.length === 0 ? (
-        <p className="border-border text-text-muted rounded-lg border border-dashed py-12 text-center text-sm">
-          {t("logs.emptyState")}
-        </p>
+        <EmptyState icon={ScrollText} title={t("logs.emptyState")} />
       ) : (
-        <div className="flex max-h-[65vh] flex-col gap-2 overflow-y-auto">
+        <div className="flex flex-col gap-2">
           {sessions.map((session, idx) => {
             const isCollapsed = collapsedSessions.has(session.id);
             // Auto-collapse non-current sessions on first render — we
@@ -203,55 +197,56 @@ export function LogPage() {
               : !collapsedSessions.has(`__expanded__${session.id}`);
 
             return (
-              <div key={session.id} className="border-border bg-surface-1 rounded-lg border">
-                <div
-                  className="flex cursor-pointer items-center gap-2 px-3 py-2"
-                  onClick={() => {
-                    // Two different toggle keys depending on default
-                    // state — keeps the "current expanded, others
-                    // collapsed" semantic from leaking into the set.
-                    setCollapsedSessions((prev) => {
-                      const next = new Set(prev);
-                      const key = session.isCurrent ? session.id : `__expanded__${session.id}`;
-                      if (next.has(key)) next.delete(key);
-                      else next.add(key);
-                      return next;
-                    });
-                  }}
-                >
-                  {effectivelyCollapsed ? (
-                    <ChevronRight className="text-text-muted h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="text-text-muted h-4 w-4" />
-                  )}
-                  <span className="text-text-primary text-sm font-semibold">
-                    {session.isCurrent
-                      ? t("logs.sessionCurrent")
-                      : t("logs.sessionLabel", { n: sessions.length - idx })}
-                  </span>
-                  <span className="text-text-muted text-xs">
-                    {formatRange(session.firstAt, session.lastAt)}
-                  </span>
-                  <span className="text-text-muted text-xs">
-                    · {session.entries.length} {t("logs.entriesShort")}
-                  </span>
-                  {session.errorCount > 0 && (
-                    <span className="text-xs text-red-400">· {session.errorCount} errors</span>
-                  )}
-                  {session.warnCount > 0 && (
-                    <span className="text-xs text-yellow-400">· {session.warnCount} warnings</span>
-                  )}
-                  <div className="flex-1" />
+              <Card key={session.id} className="overflow-hidden">
+                <div className="flex items-center gap-1 pr-2">
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      clearSession(session.id);
+                    type="button"
+                    aria-expanded={!effectivelyCollapsed}
+                    onClick={() => {
+                      // Two different toggle keys depending on default
+                      // state — keeps the "current expanded, others
+                      // collapsed" semantic from leaking into the set.
+                      setCollapsedSessions((prev) => {
+                        const next = new Set(prev);
+                        const key = session.isCurrent ? session.id : `__expanded__${session.id}`;
+                        if (next.has(key)) next.delete(key);
+                        else next.add(key);
+                        return next;
+                      });
                     }}
-                    className="text-text-muted hover:bg-surface-3 hover:text-danger rounded p-1"
-                    title={t("logs.clearSession")}
+                    className="hover:bg-surface-2/60 flex min-w-0 flex-1 cursor-pointer flex-wrap items-center gap-x-2 gap-y-1 px-3 py-2.5 text-left"
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <ChevronRight
+                      className={clsx(
+                        "text-text-muted size-4 shrink-0 transition-transform",
+                        !effectivelyCollapsed && "rotate-90",
+                      )}
+                      aria-hidden="true"
+                    />
+                    <span className="text-text-primary text-sm font-semibold">
+                      {session.isCurrent
+                        ? t("logs.sessionCurrent")
+                        : t("logs.sessionLabel", { n: sessions.length - idx })}
+                    </span>
+                    <span className="text-text-muted tabular text-xs">
+                      {formatRange(session.firstAt, session.lastAt)} · {session.entries.length}{" "}
+                      {t("logs.entriesShort")}
+                    </span>
+                    {session.errorCount > 0 && (
+                      <Badge tone="danger">{t("logs.errorCount", { n: session.errorCount })}</Badge>
+                    )}
+                    {session.warnCount > 0 && (
+                      <Badge tone="warning">{t("logs.warnCount", { n: session.warnCount })}</Badge>
+                    )}
                   </button>
+                  <IconButton
+                    label={t("logs.clearSession")}
+                    size="icon-sm"
+                    className="hover:text-danger"
+                    onClick={() => clearSession(session.id)}
+                  >
+                    <Trash2 />
+                  </IconButton>
                 </div>
                 {!effectivelyCollapsed && (
                   <div className="border-border flex flex-col gap-1 border-t p-2">
@@ -260,7 +255,7 @@ export function LogPage() {
                     ))}
                   </div>
                 )}
-              </div>
+              </Card>
             );
           })}
         </div>
@@ -277,7 +272,7 @@ export function LogPage() {
         message={t("logs.clearPersistedConfirm")}
         variant="danger"
       />
-    </div>
+    </PageContainer>
   );
 }
 

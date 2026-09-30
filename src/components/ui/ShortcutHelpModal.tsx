@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Search } from "lucide-react";
 import { Modal } from "./Modal";
+import { ShortcutKeys, keyName } from "./Badge";
 
 interface ShortcutHelpModalProps {
   open: boolean;
@@ -8,14 +10,15 @@ interface ShortcutHelpModalProps {
 }
 
 const SHORTCUTS = [
-  { keys: "Ctrl + G", labelKey: "shortcuts.generate" },
-  { keys: "Ctrl + Enter", labelKey: "shortcuts.generate" },
-  { keys: "Ctrl + Shift + C", labelKey: "shortcuts.copyAll" },
-  { keys: "Ctrl + S", labelKey: "shortcuts.saveDraft" },
-  { keys: "Ctrl + B", labelKey: "shortcuts.toggleSidebar" },
-  { keys: "Ctrl + /", labelKey: "shortcuts.help" },
-  { keys: "?", labelKey: "shortcuts.help" },
-  { keys: "Escape", labelKey: "shortcuts.close" },
+  { keys: ["mod", "K"], labelKey: "command.open" },
+  { keys: ["mod", "G"], labelKey: "shortcuts.generate" },
+  { keys: ["mod", "enter"], labelKey: "shortcuts.generate" },
+  { keys: ["mod", "shift", "C"], labelKey: "shortcuts.copyAll" },
+  { keys: ["mod", "S"], labelKey: "shortcuts.saveDraft" },
+  { keys: ["mod", "B"], labelKey: "shortcuts.toggleSidebar" },
+  { keys: ["mod", "/"], labelKey: "shortcuts.help" },
+  { keys: ["?"], labelKey: "shortcuts.help" },
+  { keys: ["esc"], labelKey: "shortcuts.close" },
 ] as const;
 
 export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
@@ -32,37 +35,37 @@ export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
     if (!trimmed) return SHORTCUTS;
     return SHORTCUTS.filter((s) => {
       const label = t(s.labelKey).toLowerCase();
-      return label.includes(trimmed) || s.keys.toLowerCase().includes(trimmed);
+      const keys = s.keys.map(keyName).join(" ").toLowerCase();
+      return label.includes(trimmed) || keys.includes(trimmed);
     });
   }, [activeQuery, t]);
 
   return (
-    <Modal open={open} onClose={onClose} title={t("shortcuts.title")}>
+    <Modal open={open} onClose={onClose} title={t("shortcuts.title")} size="sm">
       <div className="flex flex-col gap-3">
-        <input
-          type="text"
-          value={activeQuery}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("shortcuts.searchPlaceholder")}
-          className="focus:ring-accent/50 border-border bg-surface-1 text-text-primary placeholder:text-text-muted focus:border-accent rounded-lg border px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none"
-          autoFocus
-        />
+        <label className="border-border bg-surface-0 focus-within:border-accent focus-within:ring-accent/25 h-control rounded-control flex items-center gap-2 border px-3 transition-colors focus-within:ring-2">
+          <Search className="text-text-muted size-4 shrink-0" aria-hidden="true" />
+          <input
+            type="search"
+            value={activeQuery}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("shortcuts.searchPlaceholder")}
+            aria-label={t("shortcuts.searchPlaceholder")}
+            className="text-text-primary placeholder:text-text-muted w-full bg-transparent text-sm outline-none"
+            autoFocus
+          />
+        </label>
         {filtered.length === 0 ? (
-          <p className="text-text-muted py-2 text-sm">{t("shortcuts.noResults")}</p>
+          <p className="text-text-muted py-4 text-center text-sm">{t("shortcuts.noResults")}</p>
         ) : (
-          <div className="flex flex-col gap-2">
+          <ul className="divide-border flex flex-col divide-y">
             {filtered.map((s) => (
-              <div
-                key={`${s.keys}-${s.labelKey}`}
-                className="flex items-center justify-between py-1"
-              >
+              <li key={s.keys.join("+")} className="flex items-center justify-between gap-4 py-2">
                 <span className="text-text-secondary text-sm">{t(s.labelKey)}</span>
-                <kbd className="bg-surface-2 text-text-primary rounded px-2 py-0.5 font-mono text-xs">
-                  {s.keys}
-                </kbd>
-              </div>
+                <ShortcutKeys keys={s.keys} />
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </Modal>

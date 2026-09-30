@@ -1,5 +1,6 @@
-import { forwardRef, type InputHTMLAttributes } from "react";
+import { forwardRef, type InputHTMLAttributes, type ReactNode } from "react";
 import clsx from "clsx";
+import { Field, controlClasses } from "./Field";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -8,34 +9,39 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   errorText?: string;
   /** Inline hint shown below the input when there is no error. */
   helpText?: string;
+  /** Right side of the label row — e.g. a character counter. */
+  labelExtra?: ReactNode;
+  /** Icon or text inside the field, before the value. */
+  leading?: ReactNode;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, errorText, helpText, className, id, ...props }, ref) => {
-    const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
-    const isError = error || Boolean(errorText);
-
+  ({ label, error, errorText, helpText, labelExtra, leading, className, id, ...props }, ref) => {
+    const isError = Boolean(error) || Boolean(errorText);
     return (
-      <div className="flex flex-col gap-1">
-        {label && (
-          <label htmlFor={inputId} className="text-text-secondary text-sm font-medium">
-            {label}
-          </label>
+      <Field label={label} error={errorText} help={helpText} labelExtra={labelExtra} id={id}>
+        {(control) => (
+          <div className="relative">
+            {leading && (
+              <span className="text-text-muted pointer-events-none absolute inset-y-0 left-3 flex items-center [&_svg]:size-4">
+                {leading}
+              </span>
+            )}
+            <input
+              ref={ref}
+              {...control}
+              aria-invalid={isError || undefined}
+              className={clsx(
+                controlClasses(isError),
+                "h-control text-base sm:text-sm",
+                leading ? "pl-9" : undefined,
+                className,
+              )}
+              {...props}
+            />
+          </div>
         )}
-        <input
-          ref={ref}
-          id={inputId}
-          aria-invalid={isError || undefined}
-          className={clsx(
-            "focus:ring-accent/50 min-h-touch bg-surface-1 text-text-primary placeholder:text-text-muted rounded-lg border px-3 py-2.5 text-base transition-colors focus:ring-2 focus:outline-none sm:text-sm",
-            isError ? "border-danger" : "border-border focus:border-accent",
-            className,
-          )}
-          {...props}
-        />
-        {errorText && <p className="text-danger text-xs">{errorText}</p>}
-        {helpText && !errorText && <p className="text-text-muted text-xs">{helpText}</p>}
-      </div>
+      </Field>
     );
   },
 );
