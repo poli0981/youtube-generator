@@ -55,6 +55,9 @@ jobs:
       # thing that notices when one is missed — see scripts/check-version-sync.ts.
       - name: Check version sync
         run: npm run check:version
+      # tauri build refuses mismatched npm/crate minors, and CI never runs it.
+      - name: Check Tauri npm/crate alignment
+        run: npm run check:tauri
 
       # --- security ---------------------------------------------------------
       # Advisory-only: a fresh high-severity advisory in a transitive dep must
