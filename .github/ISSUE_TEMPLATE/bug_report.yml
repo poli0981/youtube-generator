@@ -21,10 +21,11 @@ body:
     attributes:
       label: Where are you running YTDescGen?
       options:
-        - Web (GitHub Pages)
+        - Web (ytgenerator.stream)
         - Desktop — Windows (Tauri)
         - Desktop — macOS (Tauri)
         - Desktop — Linux (Tauri)
+        - Android (APK)
         - Local dev (npm run dev)
     validations:
       required: true

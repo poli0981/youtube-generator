@@ -6,7 +6,11 @@ const isTauri = !!process.env.TAURI_ENV_PLATFORM;
 
 export default defineConfig({
   plugins: [react()],
-  base: isTauri ? "/" : "/youtube-generator/",
+  // Both builds are served from the root: the web build from
+  // https://ytgenerator.stream (Cloudflare Workers static assets, see
+  // wrangler.jsonc) and the Tauri build from its own asset protocol. The old
+  // GitHub Pages sub-path `/youtube-generator/` is gone as of v1.0.0.
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "./src"),
@@ -25,8 +29,8 @@ export default defineConfig({
     // Chromium (e.g. some emulator system images sit at ~91 until the user
     // updates Android System WebView), which chokes on Vite's modern default
     // target and renders a blank/black screen. Downlevel the bundle for Tauri
-    // builds so it runs on those older WebViews; the web (GitHub Pages) build
-    // keeps Vite's modern default. Desktop WebViews are evergreen, so a lower
+    // builds so it runs on those older WebViews; the web build keeps Vite's
+    // modern default. Desktop WebViews are evergreen, so a lower
     // target is a harmless no-op there.
     target: isTauri ? "es2020" : undefined,
     rollupOptions: {

@@ -2,37 +2,40 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" content="#0b0b12" />
 
     <title>YTDescGen — YouTube Title, Description & Tag Generator for Gameplay Channels</title>
-    <meta name="description" content="Generate YouTube titles, descriptions, and tags for Gameplay No Commentary channels — multilingual templates, profile presets, and a Tauri-based desktop build." />
-    <meta name="keywords" content="youtube, gameplay, no commentary, description generator, tags generator, video title, vietnamese, japanese, korean, spanish, chinese, multilingual, tauri, desktop" />
+    <meta name="description" content="Generate YouTube titles, descriptions, and tags for Gameplay No Commentary channels — eight languages, reusable profiles and presets, on the web or as a desktop and Android app." />
+    <meta name="keywords" content="youtube, gameplay, no commentary, description generator, tags generator, video title, vietnamese, japanese, korean, spanish, chinese, portuguese, indonesian, multilingual, desktop, android" />
     <meta name="author" content="SkullMute (poli0981)" />
     <meta name="robots" content="index, follow" />
-    <meta name="generator" content="Vite + React" />
 
-    <link rel="canonical" href="https://poli0981.github.io/youtube-generator/" />
-    <link rel="icon" type="image/svg+xml" href="/youtube-generator/favicon.svg" />
-    <link rel="apple-touch-icon" href="/youtube-generator/apple-touch-icon.png" />
-    <link rel="manifest" href="/youtube-generator/manifest.webmanifest" />
+    <link rel="canonical" href="https://ytgenerator.stream/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="YTDescGen" />
     <meta property="og:title" content="YTDescGen — YouTube Title, Description & Tag Generator" />
     <meta property="og:description" content="Multilingual title, description, and tag generator for Gameplay No Commentary channels." />
-    <meta property="og:url" content="https://poli0981.github.io/youtube-generator/" />
-    <meta property="og:image" content="https://poli0981.github.io/youtube-generator/og-image.png" />
+    <meta property="og:url" content="https://ytgenerator.stream/" />
+    <meta property="og:image" content="https://ytgenerator.stream/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="YTDescGen — titles, descriptions and tags for gameplay videos" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="vi_VN" />
     <meta property="og:locale:alternate" content="ja_JP" />
     <meta property="og:locale:alternate" content="es_ES" />
     <meta property="og:locale:alternate" content="ko_KR" />
     <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:locale:alternate" content="id_ID" />
 
     <!-- Twitter / X card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -40,7 +43,7 @@
     <meta name="twitter:creator" content="@SkullMute0011" />
     <meta name="twitter:title" content="YTDescGen — YouTube Title, Description & Tag Generator" />
     <meta name="twitter:description" content="Multilingual title, description, and tag generator for Gameplay No Commentary channels." />
-    <meta name="twitter:image" content="https://poli0981.github.io/youtube-generator/og-image.png" />
+    <meta name="twitter:image" content="https://ytgenerator.stream/og-image.png" />
 
     <!-- Structured data -->
     <script type="application/ld+json">
@@ -49,11 +52,11 @@
         "@type": "WebApplication",
         "name": "YTDescGen",
         "alternateName": "YouTube Description Generator",
-        "url": "https://poli0981.github.io/youtube-generator/",
+        "url": "https://ytgenerator.stream/",
         "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Web, Windows, macOS, Linux",
-        "description": "Generate YouTube titles, descriptions, and tags for Gameplay No Commentary channels — multilingual templates, profile presets, and a Tauri-based desktop build.",
-        "inLanguage": ["en", "vi", "ja", "es", "ko", "zh"],
+        "operatingSystem": "Web, Windows, macOS, Linux, Android",
+        "description": "Generate YouTube titles, descriptions, and tags for Gameplay No Commentary channels — eight languages, reusable profiles and presets, on the web or as a desktop and Android app.",
+        "inLanguage": ["en", "vi", "ja", "es", "ko", "zh", "pt-BR", "id"],
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -62,7 +65,7 @@
         "author": {
           "@type": "Person",
           "name": "SkullMute",
-          "url": "https://github.com/poli0981"
+          "url": "https://poli0981.dev/"
         },
         "license": "https://github.com/poli0981/youtube-generator/blob/main/LICENSE"
       }
