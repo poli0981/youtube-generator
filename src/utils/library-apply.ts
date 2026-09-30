@@ -1,10 +1,16 @@
 import { toast } from "sonner";
 import i18n from "@i18n/index";
-import { useEditorStore } from "@store/editor-store";
+import { useEditorStore, type EditorData } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import type { Profile } from "@store/profile-store";
 import type { GamePreset } from "@store/preset-store";
 import type { EditorTemplate } from "@store/template-store";
+import {
+  PRESET_FIELDS,
+  PROFILE_FIELDS,
+  type PresetField,
+  type ProfileField,
+} from "@config/library-fields";
 
 /**
  * Applying a saved profile / preset / template to the editor, in one place.
@@ -35,36 +41,46 @@ function withUndo(message: string, apply: () => void): void {
   });
 }
 
-/** Channel identity fields a profile carries. */
-export function profilePatch(profile: Profile) {
-  // `?? {}` / `?? ""`: an imported profile may carry nulls, and spreading
-  // null throws ("Cannot convert undefined or null to object").
-  return {
-    channelName: profile.channelName,
-    contactEmail: profile.contactEmail,
-    adEmail: profile.adEmail ?? "",
-    gameKeyEmail: profile.gameKeyEmail ?? "",
-    social: { ...(profile.social ?? {}) },
-    rig: { ...(profile.rig ?? {}) },
-    resolution: profile.resolution,
-    fps: profile.fps,
-    graphicsPreset: profile.graphicsPreset,
-    thirdPartyAdText: profile.thirdPartyAdText ?? "",
-  };
+/** Copies of the listed fields that are set (arrays and maps copied too). */
+function pickFields(source: object, fields: readonly (keyof EditorData)[]): Partial<EditorData> {
+  const from = source as Record<string, unknown>;
+  const out: Record<string, unknown> = {};
+  for (const key of fields) {
+    const value = from[key];
+    // An imported item may carry nulls, and spreading null throws.
+    if (value === undefined || value === null) continue;
+    out[key] = Array.isArray(value)
+      ? [...(value as unknown[])]
+      : typeof value === "object"
+        ? { ...(value as object) }
+        : value;
+  }
+  return out as Partial<EditorData>;
 }
 
-/** Game identity fields a preset carries. */
-export function presetPatch(preset: GamePreset) {
-  return {
-    gameName: preset.gameName,
-    gameNameLocalized: preset.gameNameLocalized ? { ...preset.gameNameLocalized } : {},
-    genres: [...preset.genres],
-    platform: preset.platform,
-    storeLinks: { ...(preset.storeLinks ?? {}) },
-    spoilerWarning: preset.spoilerWarning,
-    matureWarning: preset.matureWarning,
-    pubDevName: preset.pubDevName ?? "",
-  };
+/** The editor fields a profile fills in. */
+export function profilePatch(profile: Profile): Partial<EditorData> {
+  return pickFields(profile, PROFILE_FIELDS);
+}
+
+/** The editor fields a preset fills in. */
+export function presetPatch(preset: GamePreset): Partial<EditorData> {
+  const patch = pickFields(preset, PRESET_FIELDS);
+  // Presets saved before v0.11 carry the old warning toggles instead of
+  // `contentWarnings`; the editor folds them into the checklist.
+  if (preset.spoilerWarning) patch.spoilerWarning = true;
+  if (preset.matureWarning) patch.matureWarning = true;
+  return patch;
+}
+
+/** A profile's fields, taken from the editor (for Save / Update). */
+export function profileFieldsFromEditor(editor: EditorData) {
+  return pickFields(editor, PROFILE_FIELDS) as Pick<EditorData, ProfileField>;
+}
+
+/** A preset's fields, taken from the editor (for Save / Update). */
+export function presetFieldsFromEditor(editor: EditorData) {
+  return pickFields(editor, PRESET_FIELDS) as Pick<EditorData, PresetField>;
 }
 
 export function applyProfile(profile: Profile): void {

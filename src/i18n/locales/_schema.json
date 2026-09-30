@@ -853,7 +853,7 @@
       "hint",
       "noChannel",
       "socialLinks",
-      "rigFields"
+      "rigFields", "saveHint", "updateFromEditor", "saved", "updated", "unnamed"
     ],
     "presets": [
       "title",
@@ -866,7 +866,7 @@
       "noPresets",
       "exportPresets",
       "importPresets",
-      "hint"
+      "hint", "saveHint", "updateFromEditor", "saved", "updated", "unnamed"
     ],
     "templates": [
       "title",
@@ -882,7 +882,7 @@
       "appliedToast",
       "exportTemplates",
       "importTemplates",
-      "applyFailed"
+      "applyFailed", "editTemplate", "updateFromEditor", "updated", "unnamed"
     ],
     "history": [
       "title",
@@ -890,7 +890,7 @@
       "clearAll",
       "clearConfirm",
       "searchPlaceholder",
-      "noResults"
+      "noResults", "exportCsv", "exportJson"
     ],
     "settings": [
       "title",
@@ -1109,7 +1109,14 @@
       "code",
       "sponsor"
     ],
-    "editor.chapters": ["ok", "firstNotZero", "tooFew", "tooShort", "outOfOrder"]
+    "editor.chapters": ["ok", "firstNotZero", "tooFew", "tooShort", "outOfOrder"],
+    "backup": ["sectionTitle", "intro", "export", "restore", "exportTitle", "exportHint", "dropHint", "dropActive", "legacyFound", "review"],
+    "backup.sections": ["profiles", "presets", "templates", "history", "settings", "draft"],
+    "backup.auto": ["title", "hint", "empty", "backupNow", "done", "failed", "legacy", "beforeRestore", "restore", "loadFailed"],
+    "restore": ["title", "meta", "metaUnknown", "mode", "merge", "mergeHint", "replace", "replaceHint", "conflicts", "newer", "newerHint", "both", "bothHint", "counts", "sameAsHere", "settingsNote", "draftNote", "dropped", "showItems", "hideItems", "tooNewTitle", "tooNew", "empty", "replaceRemoves", "apply", "nothing", "done", "doneDetail", "undone"],
+    "restore.status": ["new", "same", "changed"],
+    "import.errors": ["empty", "notJson", "unknown", "newer", "tooLarge", "wrongType", "unreadable"],
+    "import": ["logsFile", "socialFile"]
   },
   "templates": {
     "title": ["separator", "suffix"],

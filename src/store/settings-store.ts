@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { SupportedLanguage } from "@engine/types";
 import { CURRENT_TERMS_VERSION } from "@config/legal";
-import { saveSettings, loadSettings } from "@utils/storage-adapter";
 import {
   healSettings,
   initialSettings,
@@ -11,7 +10,6 @@ import {
 } from "./settings-heal";
 
 export type { SettingsData } from "./settings-heal";
-export { healSettings } from "./settings-heal";
 
 interface SettingsState extends SettingsData {
   setTheme: (theme: "dark" | "light") => void;
@@ -28,6 +26,9 @@ interface SettingsState extends SettingsData {
 }
 
 const STORE_KEY = "ytdescgen-settings";
+
+/** Backups record this so an import knows which settings shape a file has. */
+export const SETTINGS_STORE_VERSION = 12;
 
 export const useSettingsStore = create<SettingsState>()(
   persist(
@@ -102,9 +103,7 @@ export const useSettingsStore = create<SettingsState>()(
       // strictMode falls back to false (an opt-in seatbelt must not be turned
       // on by a truthy string), and the accordion map is merged rather than
       // replaced so sections added later still get their default.
-      // NOTE: bump `SCHEMA_VERSIONS.settings` in utils/file-schema.ts in
-      // lockstep — nothing enforces that mechanically.
-      version: 12,
+      version: SETTINGS_STORE_VERSION,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       // Heal on EVERY load, not only on a version change (which is all
       // `migrate` covers): a hand-edited value must never reach the app.
@@ -113,18 +112,6 @@ export const useSettingsStore = create<SettingsState>()(
         ...healSettings(persistedState),
       }),
       partialize: (state) => extractData(state),
-      onRehydrateStorage: () => {
-        return () => {
-          // Fall back to the (already-healed) zustand state so the file read
-          // never downgrades the store if the on-disk copy is missing keys.
-          const fallback = extractData(useSettingsStore.getState());
-          loadSettings<Partial<SettingsData>>(STORE_KEY, fallback).then((data) => {
-            if (data) {
-              useSettingsStore.setState(healSettings(data));
-            }
-          });
-        };
-      },
     },
   ),
 );
@@ -172,10 +159,3 @@ export function extractData(state: SettingsData): SettingsData {
     settingsAccordionState: { ...state.settingsAccordionState },
   };
 }
-
-// Dual-write: also save to file on every change. Guarantees the
-// `settings.json` on disk always contains the full schema after the first
-// rehydrate, even on a fresh install with no prior localStorage.
-useSettingsStore.subscribe((state) => {
-  saveSettings(STORE_KEY, extractData(state));
-});

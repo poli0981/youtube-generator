@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { Modal } from "@components/ui/Modal";
 import { Button } from "@components/ui/Button";
 import { Input } from "@components/ui/Input";
 import { Textarea } from "@components/ui/Textarea";
-import { useEditorStore } from "@store/editor-store";
+import { Checkbox } from "@components/ui/Checkbox";
+import { editorDataOf, useEditorStore } from "@store/editor-store";
 import { useProfileStore, type Profile } from "@store/profile-store";
+import { profileFieldsFromEditor } from "@utils/library-apply";
 import { FIELD_LIMITS } from "@config/field-limits";
 
 interface ProfileSaveFormProps {
@@ -14,48 +17,48 @@ interface ProfileSaveFormProps {
   editProfile?: Profile;
 }
 
-export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormProps) {
+/**
+ * Create a profile from the editor's channel fields, or rename / update one.
+ * Mounted only while open, so it always starts from the profile as it is now.
+ */
+export function ProfileSaveForm(props: ProfileSaveFormProps) {
+  return props.open ? <ProfileSaveFormBody {...props} /> : null;
+}
+
+function ProfileSaveFormBody({ onClose, editProfile }: ProfileSaveFormProps) {
   const { t } = useTranslation("ui");
-  const editor = useEditorStore();
-  const { addProfile, updateProfile } = useProfileStore();
-
+  const formId = useId();
+  const addProfile = useProfileStore((s) => s.addProfile);
+  const updateProfile = useProfileStore((s) => s.updateProfile);
   const [name, setName] = useState(editProfile?.name ?? "");
-  // v0.11: third-party ad copy is the only Profile field that doesn't
-  // round-trip through the editor. Edit it inline here so the user can
-  // set it once per channel without round-tripping through the editor
-  // form. New profiles inherit from `editor.thirdPartyAdText` (so a
-  // fresh profile picks up whatever the user typed in the editor); edit
-  // mode reads the existing value.
+  // Third-party ad copy is the one profile field edited here rather than in
+  // the editor, so it can be set once per channel.
   const [adText, setAdText] = useState(
-    editProfile?.thirdPartyAdText ?? editor.thirdPartyAdText ?? "",
+    editProfile?.thirdPartyAdText ?? useEditorStore.getState().thirdPartyAdText,
   );
+  const [fromEditor, setFromEditor] = useState(false);
 
-  const handleSave = () => {
-    const data = {
-      name: name.trim() || "Unnamed Profile",
-      channelName: editProfile?.channelName ?? editor.channelName,
-      contactEmail: editProfile?.contactEmail ?? editor.contactEmail,
-      adEmail: editProfile?.adEmail ?? editor.adEmail,
-      gameKeyEmail: editProfile?.gameKeyEmail ?? editor.gameKeyEmail,
-      social: editProfile?.social ?? { ...editor.social },
-      rig: editProfile?.rig ?? { ...editor.rig },
-      resolution: editProfile?.resolution ?? editor.resolution,
-      fps: editProfile?.fps ?? editor.fps,
-      graphicsPreset: editProfile?.graphicsPreset ?? editor.graphicsPreset,
-      thirdPartyAdText: adText,
-    };
-
+  const save = (e: FormEvent) => {
+    e.preventDefault();
+    const fields = profileFieldsFromEditor(editorDataOf(useEditorStore.getState()));
+    const finalName = name.trim() || fields.channelName.trim() || t("profiles.unnamed");
     if (editProfile) {
-      updateProfile(editProfile.id, { ...data });
+      updateProfile(editProfile.id, {
+        ...(fromEditor ? fields : {}),
+        name: finalName,
+        thirdPartyAdText: adText,
+      });
+      toast.success(t("profiles.updated", { name: finalName }));
     } else {
-      addProfile(data);
+      addProfile({ ...fields, name: finalName, thirdPartyAdText: adText });
+      toast.success(t("profiles.saved", { name: finalName }));
     }
     onClose();
   };
 
   return (
     <Modal
-      open={open}
+      open
       onClose={onClose}
       title={editProfile ? t("profiles.editProfile") : t("profiles.createNew")}
       footer={
@@ -63,11 +66,13 @@ export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormP
           <Button variant="ghost" onClick={onClose}>
             {t("common.cancel")}
           </Button>
-          <Button onClick={handleSave}>{t("common.save")}</Button>
+          <Button type="submit" form={formId}>
+            {t("common.save")}
+          </Button>
         </>
       }
     >
-      <div className="flex flex-col gap-3">
+      <form id={formId} onSubmit={save} className="flex flex-col gap-3">
         <Input
           label={t("profiles.profileName")}
           maxLength={FIELD_LIMITS.SHORT_NAME}
@@ -83,14 +88,23 @@ export function ProfileSaveForm({ open, onClose, editProfile }: ProfileSaveFormP
           value={adText}
           onChange={(e) => setAdText(e.target.value)}
           rows={4}
+          helpText={t("profiles.thirdPartyAdTextHelp")}
         />
-        <p className="text-text-muted text-xs">{t("profiles.thirdPartyAdTextHelp")}</p>
-        <p className="text-text-muted text-xs">
-          {editProfile
-            ? "Update this profile's name and ad copy. Other fields are saved from the editor."
-            : "Profile will save your current channel name, social links, rig info, and video settings."}
-        </p>
-      </div>
+        {editProfile ? (
+          <Checkbox
+            checked={fromEditor}
+            onChange={setFromEditor}
+            label={
+              <span className="flex flex-col gap-0.5">
+                <span className="text-text-primary text-sm">{t("profiles.updateFromEditor")}</span>
+                <span className="text-text-muted text-xs">{t("profiles.saveHint")}</span>
+              </span>
+            }
+          />
+        ) : (
+          <p className="text-text-muted text-xs">{t("profiles.saveHint")}</p>
+        )}
+      </form>
     </Modal>
   );
 }

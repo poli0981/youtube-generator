@@ -1,9 +1,19 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
-import { saveSettings } from "@utils/storage-adapter";
-import type { Genre } from "@engine/types";
+import type {
+  ContentWarning,
+  GameVersion,
+  Genre,
+  LanguagePatch,
+  StoreLinkType,
+} from "@engine/types";
+import type { ArtStyle } from "@config/graphics-settings";
 
+/**
+ * A game preset — the editor's per-game fields (`PRESET_FIELDS` in
+ * `@config/library-fields`), reused across every part of one game.
+ */
 export interface GamePreset {
   id: string;
   gameName: string;
@@ -11,34 +21,48 @@ export interface GamePreset {
   genres: Genre[];
   platform: string;
   storeLinks: Record<string, string>;
-  spoilerWarning: boolean;
-  matureWarning: boolean;
+  /** Paid / free / demo per store link (v1.0.0). */
+  storeLinkTypes?: Record<string, StoreLinkType>;
+  /** @deprecated v0.11 — folded into `contentWarnings` when applied. */
+  spoilerWarning?: boolean;
+  /** @deprecated v0.11 — folded into `contentWarnings` when applied. */
+  matureWarning?: boolean;
   /**
    * Game's dev/publisher name. v0.21.0 lifted this from a side-label on
    * the publisher store link to a first-class field so it survives across
-   * preset reloads — useful when a creator covers a series spanning many
-   * episodes and doesn't want to re-type the studio name each session.
-   * Optional so older presets (pre-v0.21) hydrate without breaking.
+   * preset reloads. Optional so older presets (pre-v0.21) hydrate without
+   * breaking.
    */
   pubDevName?: string;
   /**
-   * Per-preset toggle that mirrors `settings.showGameCopyright`. v0.21.0
-   * added this so a preset can carry the credit obligation alongside the
-   * publisher name — applying the preset hydrates both fields together,
-   * which is the common case for games whose dev requires attribution in
-   * the description. Optional; missing means "don't touch the setting".
+   * Per-preset toggle that mirrors `settings.showGameCopyright` (v0.21.0),
+   * so a preset can carry the credit obligation alongside the publisher
+   * name. Missing means "don't touch the setting".
    */
   showGameCopyright?: boolean;
+  /** v1.0.0: the rest of the per-game fields. Optional — older presets
+   *  don't have them, and applying one leaves those editor fields alone. */
+  contentWarnings?: ContentWarning[];
+  languagePatch?: LanguagePatch;
+  languagePatchCustom?: string;
+  gameVersion?: GameVersion;
+  gameVersionCustom?: string;
+  artStyle?: ArtStyle;
+  skipGraphicsSettings?: boolean;
+  playlistLink?: string;
   createdAt: string;
+  /** v1.0.0. Missing on older presets — treat `createdAt` as the last change. */
+  updatedAt?: string;
 }
+
+export type GamePresetData = Omit<GamePreset, "id" | "createdAt" | "updatedAt">;
 
 interface PresetState {
   presets: GamePreset[];
-  addPreset: (data: Omit<GamePreset, "id" | "createdAt">) => string;
-  updatePreset: (id: string, data: Partial<Omit<GamePreset, "id" | "createdAt">>) => void;
+  addPreset: (data: GamePresetData) => string;
+  updatePreset: (id: string, data: Partial<GamePresetData>) => void;
   deletePreset: (id: string) => void;
   getPreset: (id: string) => GamePreset | undefined;
-  importPresets: (presets: GamePreset[]) => void;
 }
 
 type LegacyPreset = Omit<GamePreset, "genres"> & { genre?: Genre; genres?: Genre[] };
@@ -52,6 +76,22 @@ function normalisePreset(p: LegacyPreset): GamePreset {
   return { ...rest, genres: [fallback] } as GamePreset;
 }
 
+/** v1 → v2: GamePreset.genre (single) became genres[] in v0.5. */
+export const PRESET_STORE_VERSION = 2;
+
+/** The persist migration, shared with backup import. Every step is idempotent. */
+export function migratePresetsState(persistedState: unknown, version: number): unknown {
+  if (version < 2 && persistedState && typeof persistedState === "object") {
+    const state = persistedState as { presets?: LegacyPreset[] };
+    if (Array.isArray(state.presets)) {
+      state.presets = state.presets.map((p) =>
+        p && typeof p === "object" ? normalisePreset(p) : p,
+      );
+    }
+  }
+  return persistedState;
+}
+
 export const usePresetStore = create<PresetState>()(
   persist(
     (set, get) => ({
@@ -59,14 +99,17 @@ export const usePresetStore = create<PresetState>()(
 
       addPreset: (data) => {
         const id = generateId();
-        const preset: GamePreset = { ...data, id, createdAt: new Date().toISOString() };
+        const now = new Date().toISOString();
+        const preset: GamePreset = { ...data, id, createdAt: now, updatedAt: now };
         set((state) => ({ presets: [...state.presets, preset] }));
         return id;
       },
 
       updatePreset: (id, data) => {
         set((state) => ({
-          presets: state.presets.map((p) => (p.id === id ? { ...p, ...data } : p)),
+          presets: state.presets.map((p) =>
+            p.id === id ? { ...p, ...data, updatedAt: new Date().toISOString() } : p,
+          ),
         }));
       },
 
@@ -77,44 +120,14 @@ export const usePresetStore = create<PresetState>()(
       getPreset: (id) => {
         return get().presets.find((p) => p.id === id);
       },
-
-      importPresets: (presets) => {
-        // v0.15.0: shape-check incoming rows before they hit the
-        // store. See profile-store.importProfiles for the rationale —
-        // a hand-edited / malformed file used to slip in rows with
-        // missing fields that then crashed downstream consumers.
-        if (!Array.isArray(presets)) return;
-        const valid = presets.filter(
-          (p): p is GamePreset =>
-            !!p && typeof p === "object" && typeof (p as GamePreset).id === "string",
-        );
-        set((state) => {
-          const existingIds = new Set(state.presets.map((p) => p.id));
-          const normalised = valid.map((p) => normalisePreset(p as LegacyPreset));
-          const newPresets = normalised.filter((p) => !existingIds.has(p.id));
-          return { presets: [...state.presets, ...newPresets] };
-        });
-      },
     }),
     {
       name: "ytdescgen-presets",
       storage: createJSONStorage(() => localStorage),
-      // v1 → v2 upgrade: GamePreset.genre (single) became genres[] in v0.5.
-      version: 2,
-      migrate: (persistedState: unknown, version: number) => {
-        if (version < 2 && persistedState && typeof persistedState === "object") {
-          const state = persistedState as { presets?: LegacyPreset[] };
-          if (Array.isArray(state.presets)) {
-            state.presets = state.presets.map(normalisePreset);
-          }
-        }
-        return persistedState as { presets: GamePreset[] };
-      },
+      version: PRESET_STORE_VERSION,
+      migrate: (persistedState, version) =>
+        migratePresetsState(persistedState, version) as { presets: GamePreset[] },
       partialize: (state) => ({ presets: state.presets }),
     },
   ),
 );
-
-usePresetStore.subscribe((state) => {
-  saveSettings("ytdescgen-presets", { presets: state.presets });
-});

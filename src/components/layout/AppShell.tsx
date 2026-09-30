@@ -9,6 +9,7 @@ import { Drawer } from "@components/ui/Drawer";
 import { useKeyboardShortcuts, type ShortcutHandlers } from "@hooks/use-keyboard-shortcuts";
 import { useGlobalErrorHandler } from "@hooks/use-global-error-handler";
 import { useSettingsStore } from "@store/settings-store";
+import { useRestoreDialog } from "@utils/backup/restore-request";
 
 // Both download on first use — neither is needed to render a page.
 const CommandPalette = lazy(() =>
@@ -16,6 +17,9 @@ const CommandPalette = lazy(() =>
 );
 const ShortcutHelpModal = lazy(() =>
   import("@components/ui/ShortcutHelpModal").then((m) => ({ default: m.ShortcutHelpModal })),
+);
+const RestoreDialog = lazy(() =>
+  import("@components/backup/RestoreDialog").then((m) => ({ default: m.RestoreDialog })),
 );
 
 /**
@@ -38,6 +42,7 @@ export function AppShell() {
   const [paletteUsed, setPaletteUsed] = useState(false);
   const [shortcutsUsed, setShortcutsUsed] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+  const restorePending = useRestoreDialog((s) => s.request !== null);
   useGlobalErrorHandler();
 
   // The same <main> scrolls every page, so a new page would otherwise open
@@ -127,6 +132,7 @@ export function AppShell() {
         {shortcutsUsed && (
           <ShortcutHelpModal open={showShortcuts} onClose={() => setShowShortcuts(false)} />
         )}
+        {restorePending && <RestoreDialog />}
       </Suspense>
       <GlobalShortcuts
         onToggleHelp={toggleHelp}

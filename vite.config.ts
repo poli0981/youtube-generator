@@ -32,6 +32,13 @@ export default defineConfig({
       "@i18n": path.resolve(import.meta.dirname, "./src/i18n"),
     },
   },
+  server: {
+    // `tauri dev` loads this server while cargo rewrites files under
+    // src-tauri/target, and watching those crashed Vite on Windows (EBUSY on
+    // the locked .dll). Nothing under src-tauri or .wrangler is part of the
+    // web app.
+    watch: { ignored: ["**/src-tauri/**", "**/.wrangler/**"] },
+  },
   build: {
     // Tauri ships the *system* WebView. On Android that can be an old, frozen
     // Chromium (e.g. some emulator system images sit at ~91 until the user
@@ -55,8 +62,7 @@ export default defineConfig({
         // react-router* and react-i18next must not fall into the "react" chunk.
         manualChunks(id) {
           if (/[\\/]node_modules[\\/]react(-dom)?[\\/]/.test(id)) return "react";
-          if (/[\\/]node_modules[\\/]react-router(-dom)?[\\/]/.test(id))
-            return "router";
+          if (/[\\/]node_modules[\\/]react-router(-dom)?[\\/]/.test(id)) return "router";
           if (
             /[\\/]node_modules[\\/](i18next|react-i18next|i18next-resources-to-backend)[\\/]/.test(
               id,

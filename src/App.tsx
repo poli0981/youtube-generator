@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { BrowserRouter, HashRouter, Outlet, Routes, Route } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { AppShell } from "@components/layout/AppShell";
 import { MotionProvider } from "@components/motion/MotionProvider";
 import { TooltipProvider } from "@components/ui/Tooltip";
@@ -13,7 +12,6 @@ import { OfflineBanner } from "@components/errors/OfflineBanner";
 import { ConsentGate } from "@components/ConsentGate";
 import { needsConsent } from "@config/legal";
 import { EditorPage } from "@pages/EditorPage";
-import { checkDataFileHealth } from "@utils/storage-adapter";
 import { hydrateLogStore } from "@store/log-store";
 import { useSettingsStore } from "@store/settings-store";
 import i18n from "@i18n/index";
@@ -92,43 +90,55 @@ function ConsentGuard() {
 
 export default function App() {
   useEffect(() => {
-    checkDataFileHealth().then((msg) => {
-      if (msg) toast.warning(msg, { duration: 5000 });
-    });
-    // v0.17.0: hydrate the log store from persisted JSONL files /
-    // localStorage so prior-session entries surface in the Logs tab
-    // accordion. Uses the current `logRetentionDays` setting — read
-    // directly off the store at mount time so we don't rerun on
-    // every settings tweak.
+    // Tauri: move data files older versions misplaced, start automatic
+    // backups (desktop) — then load the logs, which that may have moved.
+    // v0.17.0: the log store is hydrated from persisted JSONL files /
+    // localStorage so prior-session entries surface in the Logs tab,
+    // using the retention setting as it is at start-up.
+    let stopAppData: (() => void) | undefined;
+    let unmounted = false;
     const retentionDays = useSettingsStore.getState().logRetentionDays;
-    void hydrateLogStore(retentionDays);
+    const appData = IS_TAURI
+      ? import("@utils/backup/startup").then((m) => m.startAppData())
+      : Promise.resolve(undefined);
+    void appData
+      .then((stop) => {
+        if (unmounted) stop?.();
+        else stopAppData = stop;
+      })
+      .catch(() => undefined)
+      .finally(() => void hydrateLogStore(retentionDays));
 
     const prefetch = () => void loadOutputPage().catch(() => undefined);
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(prefetch, { timeout: 4000 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const timer = setTimeout(prefetch, 1500);
-    return () => clearTimeout(timer);
+    const cancelPrefetch =
+      "requestIdleCallback" in window
+        ? (() => {
+            const id = window.requestIdleCallback(prefetch, { timeout: 4000 });
+            return () => window.cancelIdleCallback(id);
+          })()
+        : (() => {
+            const timer = setTimeout(prefetch, 1500);
+            return () => clearTimeout(timer);
+          })();
+    return () => {
+      unmounted = true;
+      stopAppData?.();
+      cancelPrefetch();
+    };
   }, []);
 
   // v0.18.0: bridge the persisted `appLanguage` setting back to i18next.
   //
   // i18n is initialised synchronously at module load with `fallbackLng:
   // "en"` and no `lng` field — so on a fresh app boot the UI renders in
-  // English even when localStorage / settings.json contain a non-English
-  // preference. Zustand's persist middleware rehydrates the store
-  // synchronously from localStorage *before* React mounts, and the
-  // storage-adapter then *asynchronously* reads the Tauri `settings.json`
-  // and may overwrite the value again. We cover both paths:
+  // English even when the saved settings hold another language. Zustand's
+  // persist middleware rehydrates the store synchronously from localStorage
+  // *before* React mounts, so:
   //
   //   1. Read the current `appLanguage` at mount time and push it into
-  //      i18n — handles the synchronous localStorage hydrate.
-  //   2. Subscribe to subsequent changes so the async Tauri rehydrate
-  //      (and any future user-driven switch via Header / SettingsPage)
-  //      also propagates. The Header/SettingsPage callsites still call
-  //      `i18n.changeLanguage` directly, which is now redundant but
-  //      harmless — the subscribe is the single source of truth.
+  //      i18n — handles the hydrate.
+  //   2. Subscribe to later changes so a restored backup (and any
+  //      user-driven switch via Header / SettingsPage) also propagates.
   useEffect(() => {
     const initialLang = useSettingsStore.getState().appLanguage;
     if (initialLang && i18n.language !== initialLang) {

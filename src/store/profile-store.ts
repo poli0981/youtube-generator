@@ -1,26 +1,24 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
-import { saveSettings } from "@utils/storage-adapter";
 import { migrateRig } from "@config/rig-fields";
 import type { GraphicsPreset } from "@config/graphics-settings";
 
 /**
+ * A channel profile — the editor's channel-stable fields
+ * (`PROFILE_FIELDS` in `@config/library-fields`) under a name.
+ *
  * `graphicsPreset` was free-form text pre-v0.8. The type uses the v0.8
  * enum so call sites pass the value cleanly into `loadProfile` — TS
  * believes legacy strings like "Ultra" are valid enum values, but
  * `editor-store.normalizeEditorPatch` runs on load and maps them
  * through the same v4→v5 logic as the persist migration.
  *
- * v0.11: `thirdPartyAdText` joined the schema. Optional only on
- * persisted shapes — pre-v0.11 profiles get a `""` back-fill via the
- * profile-store v0→v1 migrate fn. Held on the profile (not per-video)
- * because partner / affiliate copy is channel-stable.
- *
- * v0.34.0: `adEmail` / `gameKeyEmail` joined the schema (the email-split
- * fields). Channel-stable business addresses, so persisted on the profile
- * like `contactEmail`. Pre-v0.34 profiles get a `""` back-fill via the
- * v1→v2 migrate fn.
+ * v0.11 added `thirdPartyAdText`, v0.34.0 `adEmail` / `gameKeyEmail`
+ * (back-filled by the migrations below). v1.0.0 added the Vietnamese
+ * donate fields, the community invite links and `graphicsPresetCustom` —
+ * optional, because profiles saved before then don't have them and
+ * applying one must leave those editor fields alone.
  */
 export interface Profile {
   id: string;
@@ -34,21 +32,63 @@ export interface Profile {
   resolution: string;
   fps: string;
   graphicsPreset: GraphicsPreset;
+  graphicsPresetCustom?: string;
   thirdPartyAdText: string;
+  vnBankName?: string;
+  vnBankAccount?: string;
+  vnBankHolder?: string;
+  vnMomo?: string;
+  vnZalopay?: string;
+  messengerCommunityLink?: string;
+  zaloGroupLink?: string;
+  signalGroupLink?: string;
+  instagramGroupLink?: string;
+  facebookGroupLink?: string;
   createdAt: string;
   updatedAt: string;
 }
 
+export type ProfileData = Omit<Profile, "id" | "createdAt" | "updatedAt">;
+
 interface ProfileState {
   profiles: Profile[];
-  addProfile: (data: Omit<Profile, "id" | "createdAt" | "updatedAt">) => string;
-  updateProfile: (
-    id: string,
-    data: Partial<Omit<Profile, "id" | "createdAt" | "updatedAt">>,
-  ) => void;
+  addProfile: (data: ProfileData) => string;
+  updateProfile: (id: string, data: Partial<ProfileData>) => void;
   deleteProfile: (id: string) => void;
   getProfile: (id: string) => Profile | undefined;
-  importProfiles: (profiles: Profile[]) => void;
+}
+
+/**
+ * v0 (unversioned) → v1: v0.11 added `thirdPartyAdText`.
+ * v1 → v2: v0.34.0 added `adEmail` / `gameKeyEmail` (email split).
+ * v2 → v3: v1.0.0 GPU catalog (`brand|series|model` → `gpu:<id>`).
+ * Bump together with a new step in {@link migrateProfilesState}; backups
+ * record this number so an import can run the steps a file still needs.
+ */
+export const PROFILE_STORE_VERSION = 3;
+
+/** The persist migration, shared with backup import. Every step is idempotent. */
+export function migrateProfilesState(persistedState: unknown, version: number): unknown {
+  if (!persistedState || typeof persistedState !== "object") return persistedState;
+  const state = persistedState as { profiles?: Array<Record<string, unknown>> };
+  if (!Array.isArray(state.profiles)) return persistedState;
+  state.profiles = state.profiles.map((p) => {
+    if (!p || typeof p !== "object") return p;
+    let next = p;
+    if (version < 1 && typeof next.thirdPartyAdText !== "string") {
+      next = { ...next, thirdPartyAdText: "" };
+    }
+    if (version < 2) {
+      next = {
+        ...next,
+        adEmail: typeof next.adEmail === "string" ? next.adEmail : "",
+        gameKeyEmail: typeof next.gameKeyEmail === "string" ? next.gameKeyEmail : "",
+      };
+    }
+    if (version < 3) next = { ...next, rig: migrateRig(next.rig) };
+    return next;
+  });
+  return persistedState;
 }
 
 export const useProfileStore = create<ProfileState>()(
@@ -79,65 +119,14 @@ export const useProfileStore = create<ProfileState>()(
       getProfile: (id) => {
         return get().profiles.find((p) => p.id === id);
       },
-
-      importProfiles: (profiles) => {
-        // v0.15.0: defensive shape check on each incoming row. A
-        // malformed import previously silently injected entries with
-        // `id: null` / `social: null` etc.; the next render then
-        // exploded on `Object.values(null)` and black-screened the
-        // app. Filter to objects with a non-empty string `id` before
-        // merging — anything that fails the check is dropped and
-        // logged via the caller's toast (ProfilesPage).
-        if (!Array.isArray(profiles)) return;
-        set((state) => {
-          const existingIds = new Set(state.profiles.map((p) => p.id));
-          const newProfiles = profiles.filter(
-            (p): p is Profile =>
-              !!p &&
-              typeof p === "object" &&
-              typeof p.id === "string" &&
-              p.id.length > 0 &&
-              !existingIds.has(p.id),
-          );
-          return { profiles: [...state.profiles, ...newProfiles] };
-        });
-      },
     }),
     {
       name: "ytdescgen-profiles",
       storage: createJSONStorage(() => localStorage),
-      // v0 (unversioned) → v1: v0.11 added `thirdPartyAdText`. The store
-      // had no version field before — anything `version < 1` is treated
-      // as "pre-v0.11" and gets the empty-string back-fill.
-      // v1 → v2: v0.34.0 added `adEmail` / `gameKeyEmail` (email split).
-      // Additive — pre-v0.34 profiles get a `""` back-fill.
-      // v2 → v3: v1.0.0 GPU catalog (`brand|series|model` → `gpu:<id>`).
-      version: 3,
-      migrate: (persistedState: unknown, version: number) => {
-        if (!persistedState || typeof persistedState !== "object") return persistedState;
-        const state = persistedState as { profiles?: Array<Record<string, unknown>> };
-        if (version < 1 && Array.isArray(state.profiles)) {
-          state.profiles = state.profiles.map((p) =>
-            typeof p.thirdPartyAdText === "string" ? p : { ...p, thirdPartyAdText: "" },
-          );
-        }
-        if (version < 2 && Array.isArray(state.profiles)) {
-          state.profiles = state.profiles.map((p) => ({
-            ...p,
-            adEmail: typeof p.adEmail === "string" ? p.adEmail : "",
-            gameKeyEmail: typeof p.gameKeyEmail === "string" ? p.gameKeyEmail : "",
-          }));
-        }
-        if (version < 3 && Array.isArray(state.profiles)) {
-          state.profiles = state.profiles.map((p) => ({ ...p, rig: migrateRig(p.rig) }));
-        }
-        return persistedState as { profiles: Profile[] };
-      },
+      version: PROFILE_STORE_VERSION,
+      migrate: (persistedState, version) =>
+        migrateProfilesState(persistedState, version) as { profiles: Profile[] },
       partialize: (state) => ({ profiles: state.profiles }),
     },
   ),
 );
-
-useProfileStore.subscribe((state) => {
-  saveSettings("ytdescgen-profiles", { profiles: state.profiles });
-});

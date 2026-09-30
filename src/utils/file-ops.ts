@@ -1,4 +1,5 @@
-import { IS_TAURI, IS_MOBILE } from "./platform";
+import { IS_TAURI } from "./platform";
+import { HAS_NATIVE_DIALOGS, nativeOpenTextFile, nativeSaveTextFile } from "./native";
 import { logger } from "./logger";
 
 /**
@@ -11,7 +12,7 @@ export interface SaveTextFileOptions {
   content: string;
   /** Suggested filename, extension included. */
   filename: string;
-  /** Defaults to JSON — every caller but the log .txt export writes JSON. */
+  /** Defaults to JSON — every caller but the plain-text exports writes JSON. */
   mimeType?: string;
   /** Human-readable file-type label shown in the picker's filter dropdown. */
   description?: string;
@@ -20,13 +21,13 @@ export interface SaveTextFileOptions {
 /** `.json` → `json`. Empty string when the name has no extension. */
 function extensionOf(filename: string): string {
   const dot = filename.lastIndexOf(".");
-  return dot > 0 ? filename.slice(dot + 1) : "";
+  return dot > 0 ? filename.slice(dot + 1).toLowerCase() : "";
 }
 
 /**
  * Last-resort writer: an anchor with `download`. No dialog — the file lands
- * wherever the browser puts downloads. Used on Android (scoped storage makes
- * a native path write unreliable) and in browsers without the File System
+ * wherever the browser puts downloads. Used on Android (a picked location is
+ * a content URI there, not a path) and in browsers without the File System
  * Access API.
  */
 function blobDownload(content: string, filename: string, mimeType: string): SaveOutcome {
@@ -43,17 +44,8 @@ function blobDownload(content: string, filename: string, mimeType: string): Save
 /**
  * Write text to a file the user chooses, on every platform we ship.
  *
- * Before v0.35.0 there were two writers that disagreed. `saveFile` branched
- * correctly but had exactly one caller (the log .txt export), while every JSON
- * export went through a separate blob-download helper with no platform branch
- * at all — so "Export" on Settings, Profiles, Presets, Templates, Social and
- * the log JSON silently dumped into the Downloads folder even on desktop,
- * where a native Save As dialog was available the whole time.
- *
- * Three branches, in order of how good the experience is:
- *
- *  1. **Tauri desktop** — native "Save As" via the dialog plugin, then the
- *     `save_to_file` Rust command. Capabilities already permit both.
+ *  1. **Tauri desktop** — the native Save dialog, opened and written from
+ *     Rust (`export_text_file`): the path never passes through the webview.
  *  2. **Web with the File System Access API** (Chromium) — a real picker.
  *     Must be the FIRST await in the click handler: the API requires transient
  *     user activation, and an earlier await spends it. A `NotAllowedError` from
@@ -68,29 +60,21 @@ export async function saveTextFile({
 }: SaveTextFileOptions): Promise<SaveOutcome> {
   const ext = extensionOf(filename);
 
-  // 1. Tauri desktop. On Android `IS_TAURI` is also true, but the native save
-  // dialog + std::fs path write doesn't work under scoped storage, so mobile
-  // deliberately falls through to the blob download.
-  if (IS_TAURI && !IS_MOBILE) {
+  if (HAS_NATIVE_DIALOGS) {
     try {
-      const { save } = await import("@tauri-apps/plugin-dialog");
-      const { invoke } = await import("@tauri-apps/api/core");
-      const path = await save({
-        defaultPath: filename,
-        ...(ext
-          ? { filters: [{ name: description ?? ext.toUpperCase(), extensions: [ext] }] }
-          : {}),
+      const saved = await nativeSaveTextFile({
+        suggestedName: filename,
+        content,
+        filterName: description ?? ext.toUpperCase(),
+        extensions: [ext || "txt"],
       });
-      if (!path) return "cancelled";
-      await invoke("save_to_file", { path, content });
-      return "saved";
+      return saved === null ? "cancelled" : "saved";
     } catch (e) {
       logger.error("file-ops", `Native save failed for ${filename}`, String(e));
       return "failed";
     }
   }
 
-  // 2. Web with a real picker.
   if (!IS_TAURI && typeof window.showSaveFilePicker === "function") {
     try {
       const handle = await window.showSaveFilePicker({
@@ -124,6 +108,86 @@ export async function saveTextFile({
     }
   }
 
-  // 3. Blob download.
   return blobDownload(content, filename, mimeType);
+}
+
+/** No export the app writes comes close; same ceiling as the Rust side. */
+export const MAX_IMPORT_BYTES = 20 * 1024 * 1024;
+
+export type OpenOutcome =
+  | { kind: "picked"; name: string; text: string }
+  | { kind: "cancelled" }
+  | { kind: "failed"; reason: "too-large" | "wrong-type" | "unreadable"; message?: string };
+
+export interface OpenTextFileOptions {
+  /** Without dots, e.g. `["json"]`. */
+  extensions: string[];
+  /** Filter label for the native dialog. */
+  description?: string;
+}
+
+/** Read a `File` from a file input or a drop, with the same checks as the dialog. */
+export async function readTextFile(file: File, extensions: string[]): Promise<OpenOutcome> {
+  if (!extensions.includes(extensionOf(file.name))) {
+    return { kind: "failed", reason: "wrong-type", message: file.name };
+  }
+  if (file.size > MAX_IMPORT_BYTES) return { kind: "failed", reason: "too-large" };
+  try {
+    const text = await file.text();
+    return { kind: "picked", name: file.name, text: text.replace(/^\uFEFF/, "") };
+  } catch (e) {
+    return { kind: "failed", reason: "unreadable", message: String(e) };
+  }
+}
+
+/**
+ * Let the user pick a text file and read it.
+ *
+ * Desktop uses the native Open dialog (run from Rust, which checks the type
+ * and size). Elsewhere a hidden file input: its `cancel` event reports a
+ * dismissed picker, so there is no guessing from window focus — before
+ * v1.0.0 a 250 ms timer decided the user had cancelled, which dropped files
+ * that took longer than that to arrive.
+ */
+export async function openTextFile({
+  extensions,
+  description,
+}: OpenTextFileOptions): Promise<OpenOutcome> {
+  if (HAS_NATIVE_DIALOGS) {
+    try {
+      const picked = await nativeOpenTextFile({
+        filterName: description ?? extensions[0]?.toUpperCase() ?? "",
+        extensions,
+      });
+      return picked ? { kind: "picked", ...picked } : { kind: "cancelled" };
+    } catch (e) {
+      const message = String(e);
+      return {
+        kind: "failed",
+        reason: message.includes("too large")
+          ? "too-large"
+          : message.includes("unsupported file type")
+            ? "wrong-type"
+            : "unreadable",
+        message,
+      };
+    }
+  }
+
+  return new Promise((resolve) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = extensions.map((ext) => `.${ext}`).join(",");
+    input.addEventListener("cancel", () => resolve({ kind: "cancelled" }), { once: true });
+    input.addEventListener(
+      "change",
+      () => {
+        const file = input.files?.[0];
+        if (!file) resolve({ kind: "cancelled" });
+        else void readTextFile(file, extensions).then(resolve);
+      },
+      { once: true },
+    );
+    input.click();
+  });
 }

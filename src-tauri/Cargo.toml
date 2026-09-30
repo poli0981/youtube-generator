@@ -16,9 +16,8 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = ["tray-icon"] }
 tauri-plugin-dialog = "2"
-tauri-plugin-fs = "2"
 tauri-plugin-opener = "2"
-tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
 
 # Desktop-only: single-instance is unsupported on mobile and must not be
 # compiled into the Android/iOS library. cfg(not(any(android, ios))) is the

@@ -25,7 +25,9 @@ import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import { validateBatchRange } from "@utils/validation";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
-import { exportTypedToJsonFile, importTypedFromJsonFile } from "@utils/import-export";
+import { openTextFile, saveTextFile } from "@utils/file-ops";
+import { makeEnvelope } from "@utils/backup/format";
+import { readBackupText } from "@utils/backup/detect";
 import type { SupportedLanguage } from "@engine/types";
 import { toast } from "sonner";
 import { logger } from "@utils/logger";
@@ -95,8 +97,8 @@ export function SocialPage() {
     t(SOCIAL_PLATFORMS.find((p) => p.id === id)?.labelKey ?? id);
 
   const handleExport = async () => {
-    // The bundle is built synchronously and `exportTypedToJsonFile` is the
-    // first await — the web file picker needs the click's transient user
+    // The bundle is built synchronously and `saveTextFile` is the first
+    // await — the web file picker needs the click's transient user
     // activation, which any earlier await would spend.
     const bundle: SocialExportBundle = {
       gameName: baseInput.gameName,
@@ -112,11 +114,10 @@ export function SocialPage() {
     const safeName = (baseInput.gameName || "captions")
       .replace(/[^\p{L}\p{N}]+/gu, "-")
       .toLowerCase();
-    const outcome = await exportTypedToJsonFile(
-      "social",
-      bundle,
-      `ytdescgen-social-${safeName}.json`,
-    );
+    const outcome = await saveTextFile({
+      content: JSON.stringify(makeEnvelope("social", 1, bundle), null, 2),
+      filename: `ytdescgen-social-${safeName}.json`,
+    });
     // Dismissing the save dialog is a decision, not a failure — stay silent.
     if (outcome === "cancelled") return;
     if (outcome === "failed") {
@@ -128,14 +129,18 @@ export function SocialPage() {
   };
 
   const handleImport = async () => {
-    const result = await importTypedFromJsonFile("social");
-    if (!result.ok) {
-      if (result.failure.kind === "cancelled") return;
+    const picked = await openTextFile({ extensions: ["json"], description: "JSON" });
+    if (picked.kind === "cancelled") return;
+    const detected = picked.kind === "picked" ? readBackupText(picked.text) : null;
+    if (!detected?.ok || detected.file.kind !== "social") {
       toast.error(t("socialPost.importFailed"));
-      logger.warn("social", `Import failed: ${result.failure.kind}`);
+      logger.warn(
+        "social",
+        `Import failed: ${picked.kind === "failed" ? picked.reason : "not a captions file"}`,
+      );
       return;
     }
-    const data = result.data as Partial<SocialExportBundle> | null;
+    const data = detected.file.data as Partial<SocialExportBundle> | null;
     if (!data || !Array.isArray(data.posts)) {
       toast.error(t("socialPost.importFailed"));
       return;

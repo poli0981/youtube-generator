@@ -228,8 +228,8 @@ export const initialSettings: SettingsData = {
 /**
  * Normalise persisted settings so missing keys are back-filled with the
  * current defaults, legacy shapes are upgraded, and removed keys are
- * stripped. Runs on every rehydrate so a hand-edited or partially-written
- * `settings.json` can never leave the store in an incomplete state.
+ * stripped. Runs on every rehydrate and on every import, so a hand-edited
+ * or partially-written file can never leave the store in an incomplete state.
  *
  * Pure — safe to call from unit tests.
  */

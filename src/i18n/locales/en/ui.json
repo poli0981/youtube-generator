@@ -1002,7 +1002,12 @@
     "hint": "Your channel identity — name, contact, socials and rig. Apply one to fill those fields in the Editor.",
     "noChannel": "No channel name",
     "socialLinks": "{{n}} social links",
-    "rigFields": "{{n}} rig fields"
+    "rigFields": "{{n}} rig fields",
+    "saveHint": "Saves the editor's channel fields: channel name, contact emails, social links, rig, video settings, donate and community links.",
+    "updateFromEditor": "Also update it from the current editor",
+    "saved": "Profile “{{name}}” saved",
+    "updated": "Profile “{{name}}” updated",
+    "unnamed": "Unnamed profile"
   },
   "presets": {
     "title": "Game Presets",
@@ -1015,7 +1020,12 @@
     "noPresets": "No presets",
     "exportPresets": "Export Presets",
     "importPresets": "Import Presets",
-    "hint": "A game's name, genres, platform and store links — reused across all its parts."
+    "hint": "A game's name, genres, platform and store links — reused across all its parts.",
+    "saveHint": "Saves the editor's game fields: names, genres, platform, store links, publisher, warnings, playthrough notes and series playlist.",
+    "updateFromEditor": "Also update it from the current editor",
+    "saved": "Preset “{{name}}” saved",
+    "updated": "Preset “{{name}}” updated",
+    "unnamed": "Unnamed game"
   },
   "templates": {
     "title": "Templates",
@@ -1031,7 +1041,11 @@
     "appliedToast": "Applied '{{name}}'",
     "exportTemplates": "Export Templates",
     "importTemplates": "Import Templates",
-    "applyFailed": "This template is damaged and can't be applied."
+    "applyFailed": "This template is damaged and can't be applied.",
+    "editTemplate": "Edit Template",
+    "updateFromEditor": "Replace its saved form with the current editor",
+    "updated": "Template “{{name}}” updated",
+    "unnamed": "Untitled template"
   },
   "history": {
     "title": "History",
@@ -1039,7 +1053,9 @@
     "clearAll": "Clear All",
     "clearConfirm": "Are you sure you want to clear all history?",
     "searchPlaceholder": "Search by game name...",
-    "noResults": "No entries match your search."
+    "noResults": "No entries match your search.",
+    "exportCsv": "CSV (spreadsheet)",
+    "exportJson": "JSON (for restoring)"
   },
   "settings": {
     "title": "Settings",
@@ -1296,5 +1312,86 @@
   "library": {
     "profileApplied": "Profile “{{name}}” applied",
     "presetApplied": "Preset “{{name}}” applied"
+  },
+  "backup": {
+    "sectionTitle": "Backup & restore",
+    "intro": "One file with everything you've saved — profiles, presets, templates, history, settings and the current draft. Use Back up and Restore at the top of this page, or drop a backup file below.",
+    "export": "Back up",
+    "restore": "Restore",
+    "exportTitle": "Back up your data",
+    "exportHint": "Choose what to include. Settings never carry your legal consent or which panels are open.",
+    "dropHint": "Drop a backup file here to restore it",
+    "dropActive": "Drop to restore",
+    "legacyFound": "Found data saved by an older version of YTDescGen. Review it to restore anything that's missing.",
+    "review": "Review",
+    "sections": {
+      "profiles": "Profiles",
+      "presets": "Game presets",
+      "templates": "Templates",
+      "history": "History",
+      "settings": "Settings",
+      "draft": "Current draft"
+    },
+    "auto": {
+      "title": "Automatic backups",
+      "hint": "The desktop app keeps the last 10 backups in its own folder, saved after your library changes.",
+      "empty": "No automatic backups yet.",
+      "backupNow": "Back up now",
+      "done": "Backup saved",
+      "failed": "Couldn't save the backup",
+      "legacy": "From an older version",
+      "beforeRestore": "Before a restore",
+      "restore": "Restore…",
+      "loadFailed": "Couldn't read this backup"
+    }
+  },
+  "restore": {
+    "title": "Restore data",
+    "meta": "saved {{date}} by YTDescGen {{version}}",
+    "metaUnknown": "made by an older version of YTDescGen",
+    "mode": "How to restore",
+    "merge": "Merge",
+    "mergeHint": "Adds what's new and keeps everything you already have.",
+    "replace": "Replace",
+    "replaceHint": "Makes each chosen section match the file — items that aren't in it are removed.",
+    "conflicts": "Items in both places that differ",
+    "newer": "Keep the newer one",
+    "newerHint": "An item is updated only if the file's copy was changed more recently.",
+    "both": "Keep both",
+    "bothHint": "The file's copy is added next to yours, with a number after its name.",
+    "counts": "{{new}} new · {{changed}} different · {{same}} already here",
+    "sameAsHere": "Same as yours",
+    "settingsNote": "Different from yours. Your legal consent and open panels stay as they are.",
+    "draftNote": "Replaces what's in the editor now.",
+    "dropped": "{{n}} damaged item(s) skipped",
+    "showItems": "Show items",
+    "hideItems": "Hide items",
+    "status": {
+      "new": "New",
+      "same": "Already here",
+      "changed": "Different"
+    },
+    "tooNewTitle": "Made by a newer version",
+    "tooNew": "Update YTDescGen to restore: {{sections}}.",
+    "empty": "There's nothing in this file to restore.",
+    "replaceRemoves": "Replace will remove {{n}} item(s) that aren't in the file. You can undo it right after.",
+    "apply": "Restore",
+    "nothing": "Nothing to restore — everything in this file is already here.",
+    "done": "Restore complete",
+    "doneDetail": "{{added}} added · {{updated}} updated · {{removed}} removed",
+    "undone": "Restore undone"
+  },
+  "import": {
+    "errors": {
+      "empty": "The file is empty.",
+      "notJson": "This file isn't valid JSON.",
+      "unknown": "This isn't a YTDescGen file.",
+      "newer": "This file was made by a newer version of YTDescGen. Update the app to open it.",
+      "tooLarge": "The file is too large to import.",
+      "wrongType": "Choose a .json file exported by YTDescGen.",
+      "unreadable": "The file couldn't be read."
+    },
+    "logsFile": "This is a log export — logs can't be restored.",
+    "socialFile": "This is a captions export — open it on the Social page."
   }
 }

@@ -42,7 +42,7 @@ interface ErrorBoundaryState {
  *
  * Does NOT catch: async errors (Promise rejections), event-handler
  * errors, SSR errors. For those use try/catch + the in-app logger
- * directly (see `SettingsPage.importSettingsFromFile`).
+ * directly (see `utils/backup/restore-flow.ts`).
  */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   state: ErrorBoundaryState = { error: null };

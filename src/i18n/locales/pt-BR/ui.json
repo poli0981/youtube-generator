@@ -1002,7 +1002,12 @@
     "hint": "A identidade do seu canal — nome, contato, redes e setup. Aplique um para preencher esses campos no Editor.",
     "noChannel": "Sem nome de canal",
     "socialLinks": "{{n}} links sociais",
-    "rigFields": "{{n}} itens do setup"
+    "rigFields": "{{n}} itens do setup",
+    "saveHint": "Salva os campos do canal no editor: nome do canal, e-mails de contato, redes sociais, setup, configurações de vídeo, doações e links de comunidade.",
+    "updateFromEditor": "Atualizar também com o editor atual",
+    "saved": "Perfil “{{name}}” salvo",
+    "updated": "Perfil “{{name}}” atualizado",
+    "unnamed": "Perfil sem nome"
   },
   "presets": {
     "title": "Presets de jogo",
@@ -1015,7 +1020,12 @@
     "noPresets": "Nenhum preset",
     "exportPresets": "Exportar presets",
     "importPresets": "Importar presets",
-    "hint": "Nome, gêneros, plataforma e links de loja de um jogo — reutilizados em todas as partes."
+    "hint": "Nome, gêneros, plataforma e links de loja de um jogo — reutilizados em todas as partes.",
+    "saveHint": "Salva os campos do jogo no editor: nomes, gêneros, plataforma, links de loja, publicadora, avisos, notas da jogatina e playlist da série.",
+    "updateFromEditor": "Atualizar também com o editor atual",
+    "saved": "Preset “{{name}}” salvo",
+    "updated": "Preset “{{name}}” atualizado",
+    "unnamed": "Jogo sem nome"
   },
   "templates": {
     "title": "Modelos",
@@ -1031,7 +1041,11 @@
     "appliedToast": "'{{name}}' aplicado",
     "exportTemplates": "Exportar modelos",
     "importTemplates": "Importar modelos",
-    "applyFailed": "Este modelo está corrompido e não pode ser aplicado."
+    "applyFailed": "Este modelo está corrompido e não pode ser aplicado.",
+    "editTemplate": "Editar modelo",
+    "updateFromEditor": "Substituir o formulário salvo pelo editor atual",
+    "updated": "Modelo “{{name}}” atualizado",
+    "unnamed": "Modelo sem título"
   },
   "history": {
     "title": "Histórico",
@@ -1039,7 +1053,9 @@
     "clearAll": "Limpar tudo",
     "clearConfirm": "Tem certeza de que quer limpar todo o histórico?",
     "searchPlaceholder": "Buscar pelo nome do jogo...",
-    "noResults": "Nenhuma entrada corresponde à busca."
+    "noResults": "Nenhuma entrada corresponde à busca.",
+    "exportCsv": "CSV (planilha)",
+    "exportJson": "JSON (para restaurar)"
   },
   "settings": {
     "title": "Configurações",
@@ -1296,5 +1312,86 @@
   "library": {
     "profileApplied": "Perfil “{{name}}” aplicado",
     "presetApplied": "Preset “{{name}}” aplicado"
+  },
+  "backup": {
+    "sectionTitle": "Backup e restauração",
+    "intro": "Um arquivo com tudo o que você salvou — perfis, presets, modelos, histórico, configurações e o rascunho atual. Use Backup e Restaurar no topo desta página ou solte um arquivo de backup abaixo.",
+    "export": "Backup",
+    "restore": "Restaurar",
+    "exportTitle": "Fazer backup dos seus dados",
+    "exportHint": "Escolha o que incluir. As configurações nunca levam o seu aceite dos termos nem quais painéis estão abertos.",
+    "dropHint": "Solte um arquivo de backup aqui para restaurá-lo",
+    "dropActive": "Solte para restaurar",
+    "legacyFound": "Encontramos dados salvos por uma versão antiga do YTDescGen. Revise-os para restaurar o que estiver faltando.",
+    "review": "Revisar",
+    "sections": {
+      "profiles": "Perfis",
+      "presets": "Presets de jogo",
+      "templates": "Modelos",
+      "history": "Histórico",
+      "settings": "Configurações",
+      "draft": "Rascunho atual"
+    },
+    "auto": {
+      "title": "Backups automáticos",
+      "hint": "O app para desktop guarda os 10 backups mais recentes na própria pasta, salvos depois que sua biblioteca muda.",
+      "empty": "Ainda não há backups automáticos.",
+      "backupNow": "Fazer backup agora",
+      "done": "Backup salvo",
+      "failed": "Não foi possível salvar o backup",
+      "legacy": "De uma versão antiga",
+      "beforeRestore": "Antes de uma restauração",
+      "restore": "Restaurar…",
+      "loadFailed": "Não foi possível ler este backup"
+    }
+  },
+  "restore": {
+    "title": "Restaurar dados",
+    "meta": "salvo em {{date}} pelo YTDescGen {{version}}",
+    "metaUnknown": "criado por uma versão antiga do YTDescGen",
+    "mode": "Como restaurar",
+    "merge": "Mesclar",
+    "mergeHint": "Adiciona o que é novo e mantém tudo o que você já tem.",
+    "replace": "Substituir",
+    "replaceHint": "Faz cada seção escolhida ficar igual ao arquivo — itens que não estão nele são removidos.",
+    "conflicts": "Itens que estão nos dois lugares, mas diferem",
+    "newer": "Manter o mais recente",
+    "newerHint": "Um item só é atualizado se a cópia do arquivo foi alterada mais recentemente.",
+    "both": "Manter os dois",
+    "bothHint": "A cópia do arquivo é adicionada ao lado da sua, com um número depois do nome.",
+    "counts": "{{new}} novos · {{changed}} diferentes · {{same}} já existem",
+    "sameAsHere": "Igual ao seu",
+    "settingsNote": "Diferentes das suas. Seu aceite dos termos e os painéis abertos continuam como estão.",
+    "draftNote": "Substitui o que está no editor agora.",
+    "dropped": "{{n}} item(ns) danificado(s) ignorado(s)",
+    "showItems": "Mostrar itens",
+    "hideItems": "Ocultar itens",
+    "status": {
+      "new": "Novo",
+      "same": "Já existe",
+      "changed": "Diferente"
+    },
+    "tooNewTitle": "Criado por uma versão mais nova",
+    "tooNew": "Atualize o YTDescGen para restaurar: {{sections}}.",
+    "empty": "Não há nada neste arquivo para restaurar.",
+    "replaceRemoves": "Substituir vai remover {{n}} item(ns) que não estão no arquivo. Dá para desfazer logo em seguida.",
+    "apply": "Restaurar",
+    "nothing": "Nada para restaurar — tudo o que está no arquivo já existe aqui.",
+    "done": "Restauração concluída",
+    "doneDetail": "{{added}} adicionados · {{updated}} atualizados · {{removed}} removidos",
+    "undone": "Restauração desfeita"
+  },
+  "import": {
+    "errors": {
+      "empty": "O arquivo está vazio.",
+      "notJson": "Este arquivo não é um JSON válido.",
+      "unknown": "Este não é um arquivo do YTDescGen.",
+      "newer": "Este arquivo foi criado por uma versão mais nova do YTDescGen. Atualize o app para abri-lo.",
+      "tooLarge": "O arquivo é grande demais para importar.",
+      "wrongType": "Escolha um arquivo .json exportado pelo YTDescGen.",
+      "unreadable": "Não foi possível ler o arquivo."
+    },
+    "logsFile": "Este é um arquivo de logs — logs não podem ser restaurados.",
+    "socialFile": "Este é um arquivo de legendas — abra-o na página Social."
   }
 }

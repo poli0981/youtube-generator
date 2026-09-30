@@ -1,4 +1,5 @@
 import { IS_TAURI } from "./platform";
+import { appLogs } from "./native";
 import type { LogEntry } from "@store/log-store";
 
 /**
@@ -15,23 +16,26 @@ import type { LogEntry } from "@store/log-store";
  * - **Daily file rotation** (`ytdescgen-YYYYMMDD.jsonl`). Cleanup
  *   sweeps just delete whole files older than `logRetentionDays`,
  *   which is dramatically faster than scanning every line.
+ * - **Name-only commands** (v1.0.0). The Rust side resolves each file
+ *   name under the app's own `logs` folder; before v1.0.0 the frontend
+ *   built the path itself and glued it onto the data directory without
+ *   a separator, so the files landed next to it instead of inside it.
  * - **localStorage cap on web** (5000 entries). When the cap is
  *   exceeded, oldest entries drop. Roughly matches a week of
  *   moderate use; users who need more should use the desktop build.
  * - **Best-effort writes**: persistence failures never throw — the
  *   in-memory store stays the source of truth even if disk writes
- *   fail. Errors get logged to the *previous* log entry's source so
- *   we don't recurse into an infinite write loop.
+ *   fail, and a failure is never logged (that would recurse here).
  */
 
-const LOG_DIR_SUBPATH = "logs";
 const FILE_PREFIX = "ytdescgen-";
 const FILE_SUFFIX = ".jsonl";
 const WEB_STORAGE_KEY = "ytdescgen-logs";
 const WEB_MAX_ENTRIES = 5000;
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Build today's log file name (`ytdescgen-YYYYMMDD.jsonl`). */
-function todayFileName(now = new Date()): string {
+/** Build a day's log file name (`ytdescgen-YYYYMMDD.jsonl`). */
+function dayFileName(now = new Date()): string {
   const y = now.getFullYear();
   const m = String(now.getMonth() + 1).padStart(2, "0");
   const d = String(now.getDate()).padStart(2, "0");
@@ -39,8 +43,7 @@ function todayFileName(now = new Date()): string {
 }
 
 /** Extract the YYYYMMDD date from a log file name. Returns null when
- *  the name doesn't match the prefix/suffix shape — defensive against
- *  hand-edited files in the same directory. */
+ *  the name doesn't match the prefix/suffix shape. */
 function parseFileDate(name: string): Date | null {
   if (!name.startsWith(FILE_PREFIX) || !name.endsWith(FILE_SUFFIX)) {
     return null;
@@ -53,19 +56,6 @@ function parseFileDate(name: string): Date | null {
   return new Date(y, m, d);
 }
 
-/** Compute the absolute path to today's log file on the Tauri side. */
-async function getTodayLogPath(): Promise<string> {
-  const { appDataDir } = await import("@tauri-apps/api/path");
-  const dir = await appDataDir();
-  return `${dir}${LOG_DIR_SUBPATH}/${todayFileName()}`;
-}
-
-async function getLogDirPath(): Promise<string> {
-  const { appDataDir } = await import("@tauri-apps/api/path");
-  const dir = await appDataDir();
-  return `${dir}${LOG_DIR_SUBPATH}`;
-}
-
 /**
  * Append a single {@link LogEntry} to durable storage. On Tauri this
  * writes one JSONL line to the daily file; on web it appends to the
@@ -76,10 +66,7 @@ async function getLogDirPath(): Promise<string> {
 export async function persistLogEntry(entry: LogEntry): Promise<void> {
   try {
     if (IS_TAURI) {
-      const { invoke } = await import("@tauri-apps/api/core");
-      const path = await getTodayLogPath();
-      const line = `${JSON.stringify(entry)}\n`;
-      await invoke("append_to_file", { path, content: line });
+      await appLogs.append(dayFileName(), `${JSON.stringify(entry)}\n`);
     } else {
       const raw = localStorage.getItem(WEB_STORAGE_KEY);
       const existing: LogEntry[] = raw ? safeParseArray(raw) : [];
@@ -91,9 +78,7 @@ export async function persistLogEntry(entry: LogEntry): Promise<void> {
       localStorage.setItem(WEB_STORAGE_KEY, JSON.stringify(trimmed));
     }
   } catch {
-    // Swallow — see top-of-file comment. We can't even log the failure
-    // because that would recurse here. The in-memory store still has
-    // the entry, so the user sees it for the current session.
+    // Swallow — see top-of-file comment.
   }
 }
 
@@ -101,16 +86,9 @@ export async function persistLogEntry(entry: LogEntry): Promise<void> {
  * Load persisted log entries from durable storage, filtered to the
  * last `maxAgeDays` days. Used at app boot to seed the in-memory
  * store with prior-session history.
- *
- * Web: one localStorage read + filter by `timestamp`.
- *
- * Tauri: lists files in `{appData}/logs/`, picks each `ytdescgen-*.jsonl`
- * with a parsed date within the retention window, reads + parses
- * JSONL line-by-line. Corrupt lines are skipped silently so a single
- * bad write can't poison the whole tail.
  */
 export async function loadRecentLogs(maxAgeDays: number): Promise<LogEntry[]> {
-  const cutoff = Date.now() - maxAgeDays * 24 * 60 * 60 * 1000;
+  const cutoff = Date.now() - maxAgeDays * DAY_MS;
   try {
     if (IS_TAURI) {
       return await loadRecentTauriLogs(cutoff);
@@ -124,30 +102,21 @@ export async function loadRecentLogs(maxAgeDays: number): Promise<LogEntry[]> {
 }
 
 async function loadRecentTauriLogs(cutoffMs: number): Promise<LogEntry[]> {
-  const { invoke } = await import("@tauri-apps/api/core");
-  const dirPath = await getLogDirPath();
-  const names = await invoke<string[]>("list_dir", { path: dirPath });
-  // Only consider files whose parsed date is within the window. Saves
-  // a full read of files we'd just throw away.
-  const candidates = names
-    .map((name) => ({ name, date: parseFileDate(name) }))
-    .filter(
-      (x): x is { name: string; date: Date } =>
-        x.date !== null && x.date.getTime() >= cutoffMs - 24 * 60 * 60 * 1000,
-    );
+  // Only read files whose date is inside the window (plus the day the
+  // window starts in).
+  const names = (await appLogs.list()).filter((name) => {
+    const date = parseFileDate(name);
+    return date !== null && date.getTime() >= cutoffMs - DAY_MS;
+  });
   const entries: LogEntry[] = [];
-  for (const { name } of candidates) {
+  for (const name of names) {
     try {
-      const content: string = await invoke("read_from_file", {
-        path: `${dirPath}/${name}`,
-      });
+      const content = await appLogs.read(name);
       for (const line of content.split("\n")) {
         if (!line.trim()) continue;
         try {
           const parsed = JSON.parse(line) as LogEntry;
-          if (Date.parse(parsed.timestamp) >= cutoffMs) {
-            entries.push(parsed);
-          }
+          if (Date.parse(parsed.timestamp) >= cutoffMs) entries.push(parsed);
         } catch {
           // Corrupt line — skip without failing the whole sweep.
         }
@@ -161,29 +130,21 @@ async function loadRecentTauriLogs(cutoffMs: number): Promise<LogEntry[]> {
 
 /**
  * Delete log files older than `maxAgeDays`. Runs at app boot after
- * `loadRecentLogs` so a long-idle install doesn't keep months of old
- * JSONL around. Web path is a no-op — the localStorage cap already
+ * `loadRecentLogs`. Web path is a no-op — the localStorage cap already
  * handles eviction by FIFO.
  */
 export async function pruneOldLogs(maxAgeDays: number): Promise<void> {
   if (!IS_TAURI) return;
-  const cutoff = Date.now() - maxAgeDays * 24 * 60 * 60 * 1000;
+  const cutoff = Date.now() - maxAgeDays * DAY_MS;
   try {
-    const { invoke } = await import("@tauri-apps/api/core");
-    const dirPath = await getLogDirPath();
-    const names = await invoke<string[]>("list_dir", { path: dirPath });
-    for (const name of names) {
+    for (const name of await appLogs.list()) {
       const date = parseFileDate(name);
       if (date && date.getTime() < cutoff) {
-        try {
-          await invoke("delete_file", { path: `${dirPath}/${name}` });
-        } catch {
-          // Permission denied / already gone → skip.
-        }
+        await appLogs.remove(name).catch(() => undefined);
       }
     }
   } catch {
-    // Directory listing failed — non-fatal.
+    // Listing failed — non-fatal.
   }
 }
 
@@ -195,13 +156,8 @@ export async function pruneOldLogs(maxAgeDays: number): Promise<void> {
 export async function clearAllPersistedLogs(): Promise<void> {
   try {
     if (IS_TAURI) {
-      const { invoke } = await import("@tauri-apps/api/core");
-      const dirPath = await getLogDirPath();
-      const names = await invoke<string[]>("list_dir", { path: dirPath });
-      for (const name of names) {
-        if (name.startsWith(FILE_PREFIX) && name.endsWith(FILE_SUFFIX)) {
-          await invoke("delete_file", { path: `${dirPath}/${name}` });
-        }
+      for (const name of await appLogs.list()) {
+        await appLogs.remove(name);
       }
     } else {
       localStorage.removeItem(WEB_STORAGE_KEY);

@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
-import { saveSettings } from "@utils/storage-adapter";
 import type { VideoType, Genre, SupportedLanguage } from "@engine/types";
 
 export interface HistoryEntry {
@@ -46,11 +45,14 @@ const LIMIT_MAX = 500;
 export function historyKey(
   entry: Pick<HistoryEntry, "gameName" | "videoType" | "language" | "title">,
 ): string {
+  // `String(…)`: this also runs on imported and legacy rows before they are checked.
   return [
-    entry.gameName.trim().toLowerCase(),
+    String(entry.gameName ?? "")
+      .trim()
+      .toLowerCase(),
     entry.videoType,
     entry.language,
-    entry.title.trim(),
+    String(entry.title ?? "").trim(),
   ].join("\n");
 }
 
@@ -63,6 +65,25 @@ export function dedupeHistory(entries: readonly HistoryEntry[]): HistoryEntry[] 
     seen.add(key);
     return true;
   });
+}
+
+/**
+ * v1 → v2: HistoryEntry.genre (single) became genres[] in v0.5.
+ * v2 → v3: v1.0.0 folds the duplicates earlier versions piled up (one per
+ * Output visit) into one entry per video, keeping the newest.
+ */
+export const HISTORY_STORE_VERSION = 3;
+
+/** The persist migration, shared with backup import. Every step is idempotent. */
+export function migrateHistoryState(persistedState: unknown, version: number): unknown {
+  if (!persistedState || typeof persistedState !== "object") return persistedState;
+  const state = persistedState as { entries?: LegacyEntry[] };
+  if (!Array.isArray(state.entries)) return persistedState;
+  let entries = state.entries.filter((e) => !!e && typeof e === "object");
+  if (version < 2) entries = entries.map(normaliseEntry);
+  if (version < 3) entries = dedupeHistory(entries as HistoryEntry[]);
+  state.entries = entries;
+  return persistedState;
 }
 
 export const useHistoryStore = create<HistoryState>()(
@@ -101,25 +122,10 @@ export const useHistoryStore = create<HistoryState>()(
     {
       name: "ytdescgen-history",
       storage: createJSONStorage(() => localStorage),
-      // v1 → v2: HistoryEntry.genre (single) became genres[] in v0.5.
-      // v2 → v3: v1.0.0 folds the duplicates earlier versions piled up (one
-      // per Output visit) into one entry per video, keeping the newest.
-      version: 3,
-      migrate: (persistedState: unknown, version: number) => {
-        if (!persistedState || typeof persistedState !== "object") return persistedState;
-        const state = persistedState as { entries?: LegacyEntry[] };
-        if (!Array.isArray(state.entries)) return persistedState;
-        let entries = state.entries;
-        if (version < 2) entries = entries.map(normaliseEntry);
-        if (version < 3) entries = dedupeHistory(entries as HistoryEntry[]);
-        state.entries = entries;
-        return persistedState as { entries: HistoryEntry[] };
-      },
+      version: HISTORY_STORE_VERSION,
+      migrate: (persistedState, version) =>
+        migrateHistoryState(persistedState, version) as { entries: HistoryEntry[] },
       partialize: (state) => ({ entries: state.entries }),
     },
   ),
 );
-
-useHistoryStore.subscribe((state) => {
-  saveSettings("ytdescgen-history", { entries: state.entries });
-});

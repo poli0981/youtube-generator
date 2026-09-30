@@ -1,16 +1,11 @@
 {
   "identifier": "default",
-  "description": "Default capabilities for YTDescGen",
-  "windows": ["main"],
+  "description": "Default capabilities for YTDescGen. File access goes through the app's own name-only commands and native dialogs run from Rust, so the webview gets no dialog, fs or shell permissions.",
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "core:default",
-    "dialog:default",
-    "dialog:allow-save",
-    "dialog:allow-open",
-    "fs:default",
-    "fs:allow-read-text-file",
-    "fs:allow-write-text-file",
-    "shell:default",
     "opener:default"
   ]
 }
