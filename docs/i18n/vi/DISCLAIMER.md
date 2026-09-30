@@ -6,7 +6,7 @@
 
 YTDescGen là dự án cá nhân do một người duy trì (`@poli0981`) để dùng cho kênh YouTube [`@SkullMute`](https://www.youtube.com/@SkullMute), và chia sẻ công khai dưới dạng mã nguồn mở. Đây **không phải sản phẩm thương mại** và không có nghĩa vụ hỗ trợ.
 
-Mã nguồn, tài liệu, bản dịch locale, và các quyết định thiết kế trong repo này được **đồng tác giả với sự hỗ trợ của Anthropic's Claude Code (model 4.7 Opus, cửa sổ context 1M)**. Tất cả commit, release, và quyết định kiến trúc được người duy trì xem xét và phê duyệt trước khi merge.
+Mã nguồn, tài liệu, bản dịch locale, và các quyết định thiết kế trong repo này được **đồng tác giả với sự hỗ trợ của Anthropic's Claude Code (các model Claude Opus; bản v1.0.0 dùng Claude Opus 5.5)**. Tất cả commit, release, và quyết định kiến trúc được người duy trì xem xét và phê duyệt trước khi merge.
 
 Tuyên bố này áp dụng cho:
 
@@ -14,21 +14,24 @@ Tuyên bố này áp dụng cho:
 - Tài liệu trong `docs/` và các file markdown ở root.
 - File locale trong `src/i18n/locales/`.
 - Workflow CI/CD trong `.github/workflows/`.
+- Cloudflare Worker trong `worker/` và các build plugin trong `build-plugins/`.
 
 Xem thêm: [`THIRD_PARTY_NOTICES.md`](../../../THIRD_PARTY_NOTICES.md) § "AI-Assisted Development Disclosure".
 
 ## Chất lượng bản dịch
 
-UI ứng dụng hỗ trợ sáu ngôn ngữ. Chất lượng tác giả khác nhau:
+Ứng dụng có tám ngôn ngữ. Chất lượng tác giả khác nhau:
 
-| Locale | Tác giả | Ghi chú |
-| --- | --- | --- |
-| Tiếng Anh (`en`) | Người duy trì + AI | Locale làm việc chính. Chuỗi được review trước khi commit. |
-| Tiếng Việt (`vi`) | Người duy trì (bản ngữ) + AI | Review bởi người duy trì là người bản ngữ tiếng Việt. |
-| Tiếng Nhật (`ja`) | AI dịch | Không có review bản ngữ. Ngữ pháp và văn phong có thể chưa chuẩn. |
-| Tiếng Tây Ban Nha (`es`) | AI dịch | Không có review bản ngữ. Không nhắm cụ thể vào giọng vùng miền (LatAm vs. Castilian). |
-| Tiếng Hàn (`ko`) | AI dịch | Không có review bản ngữ. Honorific register chọn ở mức trung tính. |
-| Tiếng Trung (`zh`) | AI dịch | Giản thể. Không có review bản ngữ. |
+| Locale                             | Tác giả                      | Ghi chú                                                                                                    |
+| ---------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Tiếng Anh (`en`)                   | Người duy trì + AI           | Locale làm việc chính. Chuỗi được review trước khi commit.                                                 |
+| Tiếng Việt (`vi`)                  | Người duy trì (bản ngữ) + AI | Review bởi người duy trì là người bản ngữ tiếng Việt.                                                      |
+| Tiếng Nhật (`ja`)                  | AI dịch                      | Không có review bản ngữ. Ngữ pháp và văn phong có thể chưa chuẩn.                                          |
+| Tiếng Tây Ban Nha (`es`)           | AI dịch                      | Không có review bản ngữ. Không nhắm cụ thể vào giọng vùng miền (LatAm vs. Castilian).                      |
+| Tiếng Hàn (`ko`)                   | AI dịch                      | Không có review bản ngữ. Honorific register chọn ở mức trung tính.                                         |
+| Tiếng Trung (`zh`)                 | AI dịch                      | Giản thể. Không có review bản ngữ.                                                                         |
+| Tiếng Bồ Đào Nha, Brazil (`pt-BR`) | AI dịch                      | Không có review bản ngữ. Nhắm riêng tiếng Bồ Đào Nha Brazil, không nhắm bản châu Âu.                       |
+| Tiếng Indonesia (`id`)             | AI dịch                      | Không có review bản ngữ. Tiếng Indonesia chuẩn; thuật ngữ game giữ tiếng Anh khi đó là cách dùng phổ biến. |
 
 Nếu bạn là người bản ngữ và phát hiện dịch sai, vui lòng mở issue hoặc PR — xem [CONTRIBUTING.md](../../../CONTRIBUTING.md) § "i18n Contributions".
 
@@ -53,3 +56,7 @@ Việc dùng Claude Code trong quá trình phát triển **không** biến đây
 ## Không phải tư vấn pháp lý hay tài chính
 
 Bất kỳ đề cập nào đến GDPR, CCPA, luật bản quyền, chính sách monetization của YouTube, hay các chủ đề tương tự trong tài liệu repo này chỉ để định hướng — **không phải tư vấn pháp lý**. Tham vấn luật sư có chuyên môn ở khu vực của bạn nếu cần câu trả lời chính thống.
+
+## Liên hệ
+
+Thông báo bản quyền / DMCA: **dmca@poli0981.dev** (xem [TERMS.md](../../../TERMS.md)). Giấy phép và ghi công: **copyright@poli0981.dev**. Việc khác: **contact@poli0981.dev** · [poli0981.dev/links](https://poli0981.dev/links/).

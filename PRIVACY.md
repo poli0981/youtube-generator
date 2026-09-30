@@ -17,15 +17,15 @@ This policy covers YTDescGen — the web app at **https://ytgenerator.stream** a
 
 Your work is saved in your browser's **`localStorage`** for `ytgenerator.stream`:
 
-| Key | Contents |
-| --- | --- |
-| `ytdescgen-settings` | Theme, languages, editor preferences, the version of these terms you accepted and when |
-| `ytdescgen-profiles` | Saved channel profiles (channel name, social links, contact emails, PC rig) |
-| `ytdescgen-presets` | Saved game presets (game name, genres, store links) |
-| `ytdescgen-templates` | Saved full-form templates |
-| `ytdescgen-history` | Recently generated titles, descriptions and tags |
-| `ytdescgen-editor-draft` | The draft currently open in the editor |
-| `ytdescgen-logs` | The app's own event log (errors, imports, exports) |
+| Key                      | Contents                                                                               |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| `ytdescgen-settings`     | Theme, languages, editor preferences, the version of these terms you accepted and when |
+| `ytdescgen-profiles`     | Saved channel profiles (channel name, social links, contact emails, PC rig)            |
+| `ytdescgen-presets`      | Saved game presets (game name, genres, store links)                                    |
+| `ytdescgen-templates`    | Saved full-form templates                                                              |
+| `ytdescgen-history`      | Recently generated titles, descriptions and tags                                       |
+| `ytdescgen-editor-draft` | The draft currently open in the editor                                                 |
+| `ytdescgen-logs`         | The app's own event log (errors, imports, exports)                                     |
 
 This data never leaves your browser unless **you** export it. Clearing site data, using a private window, or a "clear cookies and site data on exit" setting erases it.
 
@@ -38,7 +38,11 @@ The apps keep the same data in the app's own WebView storage and application-dat
 - **Linux:** `~/.local/share/com.skullmute.ytdescgen`
 - **Android:** the app's private storage (removed when you uninstall the app or clear its data)
 
-Uninstalling the app or deleting those folders removes everything. The apps make no network requests of their own; links you choose to open (store pages, donation pages, this policy on the web) open in your browser.
+The desktop app keeps its automatic backups (the newest ten, plus one made before each restore) in the `backups` folder inside the application-data folder, and its event log in `logs`. Uninstalling the app or deleting those folders removes everything. The apps make no network requests of their own; links you choose to open (store pages, donation pages, this policy on the web) open in your browser.
+
+### The old address
+
+Until 29 November 2026, `poli0981.github.io/youtube-generator` — where the web app used to live — shows a moving notice hosted by **GitHub Pages**. Browser storage belongs to a site, so data saved there can't move on its own: the notice reads what your browser saved on that address and lets you download it as a file. Nothing is uploaded; GitHub, as the host, receives the usual request data (see the [GitHub Privacy Statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)).
 
 ## 2. What the web app's hosting provider processes
 
@@ -54,10 +58,10 @@ Cloudflare operates a global network, so this data may be processed outside your
 
 The web app sets exactly two cookies, both first-party and both needed for the bot check:
 
-| Cookie | Purpose | Lifetime |
-| --- | --- | --- |
+| Cookie            | Purpose                                                                                                                                                                                                   | Lifetime |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | `__Host-ytg_gate` | Remembers that this browser passed the Turnstile check. Contains only an expiry time, a shortened one-way hash of your browser's user-agent string and a signature — no identifier. `HttpOnly`, `Secure`. | 24 hours |
-| `ytg_terms` | Records which version of these Terms and this Privacy Policy you agreed to on the check page, so the app does not ask twice. | 1 year |
+| `ytg_terms`       | Records which version of these Terms and this Privacy Policy you agreed to on the check page, so the app does not ask twice.                                                                              | 1 year   |
 
 There are no advertising, tracking or third-party analytics cookies. Cloudflare's own security systems may set strictly necessary cookies of their own as described in Cloudflare's [cookie policy](https://www.cloudflare.com/cookie-policy/).
 
@@ -75,7 +79,7 @@ There are no advertising, tracking or third-party analytics cookies. Cloudflare'
 
 ## 6. Your rights
 
-- **Access and portability:** your content is already on your device; use the export buttons in **Settings** and **Profiles** to save it as a file.
+- **Access and portability:** your content is already on your device; **Settings › Backup & restore** saves all of it (or the parts you choose) as one file, and the library and History pages export their own lists.
 - **Erasure:** clear site data (web) or uninstall the app / delete its folders (desktop, Android).
 - **Data processed by Cloudflare:** write to **privacy@poli0981.dev**. Because YTDescGen has no accounts, it holds no data that can be looked up by your name or email; requests about Cloudflare's own processing can also go to Cloudflare directly.
 - You may also complain to your local data-protection authority.

@@ -2,13 +2,20 @@
 
 ## YTDescGen — Phased Development Plan
 
+> **Status (2026-09-30): v1.0.0 has shipped.** Phases 1–4 are the original
+> plan, kept as a record; notes added beside or under an item say what has
+> changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
+> What's next: Phase 5 and the backlog at the end of this page.
+
 ---
 
 ## Phase 1 — MVP Core (Priority: P0) ✅ COMPLETED 2026-04-07
+
 **Goal**: Ứng dụng web chạy được, generate title + description + tags, copy to clipboard.
 **Estimated**: 3-4 days | **Actual**: 1 day
 
 ### Tasks
+
 ```
 1.1  Project scaffold
      - [x] Vite + React 18 + TypeScript setup
@@ -57,6 +64,7 @@
      - [x] EditorPage (form + quick preview)
      - [x] OutputPage (title + desc + tags + copy)
      - [x] React Router setup (HashRouter)
+           (v1.0.0: real paths on the web; hash routes only in the desktop/Android apps)
 
 1.8  Testing
      - [x] Vitest config
@@ -66,6 +74,8 @@
 1.9  CI/CD
      - [x] GitHub Actions: lint + typecheck + test
      - [x] GitHub Actions: deploy to GitHub Pages
+           (retired in v1.0.0 — Cloudflare Workers Builds deploys ytgenerator.stream
+           from main; see HOSTING.md)
 
 ### Definition of Done
 - [x] User can select video type, language, genre
@@ -73,16 +83,18 @@
 - [x] Title, description, and tags generate correctly in EN/VI/JA
 - [x] Copy buttons work for title, description, tags, and all
 - [x] Character counts displayed (5000 desc, 500 tags)
-- [x] CI passes, deploys to GitHub Pages
+- [x] CI passes, deploys to GitHub Pages (ytgenerator.stream since v1.0.0)
 ```
 
 ---
 
 ## Phase 2 — Profiles & Presets (Priority: P1) ✅ COMPLETED 2026-04-07
+
 **Goal**: Lưu thông tin tái sử dụng, không phải nhập lại mỗi lần.
 **Estimated**: 2-3 days | **Actual**: 1 day
 
 ### Tasks
+
 ```
 2.1  Profile system
      - [x] profile-store.ts (Zustand + persist)
@@ -133,10 +145,12 @@
 ---
 
 ## Phase 3 — Polish & Advanced Features (Priority: P1-P2) ✅ COMPLETED 2026-04-07
+
 **Goal**: Batch mode, history, keyboard shortcuts, theme.
 **Estimated**: 2-3 days | **Actual**: 1 day
 
 ### Tasks
+
 ```
 3.1  History system
      - [x] history-store.ts (max entries, auto-prune, configurable limit)
@@ -145,6 +159,7 @@
      - [x] Delete history entries
      - [x] Search/filter history by game name or title
      - [x] Auto-save to history on OutputPage view
+           (v1.0.0: one entry per video, updated in place)
 
 3.2  Batch mode
      - [x] BatchPage UI
@@ -168,10 +183,12 @@
 3.5  Keyboard shortcuts
      - [x] Global keyboard listener (useKeyboardShortcuts hook)
      - [x] Ctrl+Enter (go to output), Ctrl+Shift+C (copy all), Ctrl+S (save draft)
+           (v1.0.0: Ctrl/⌘+S saves the output to History — the draft saves itself;
+           Ctrl/⌘+K opens the command palette)
      - [x] Ctrl+/ shortcut help modal
 
 3.6  UX Polish
-     - [x] Toast notifications for copy/save/delete (react-hot-toast)
+     - [x] Toast notifications for copy/save/delete (react-hot-toast; sonner since v1.0.0)
      - [x] Responsive layout (mobile-first, lg breakpoint for sidebar)
      - [x] Scrollable tab bar for mobile
      - [x] Empty states for all list pages
@@ -199,10 +216,12 @@
 ---
 
 ## Phase 4 — Desktop App (Priority: P2) ✅ COMPLETED 2026-04-08
+
 **Goal**: Đóng gói thành ứng dụng desktop bằng Tauri.
 **Estimated**: 2-3 days | **Actual**: 1 day
 
 ### Tasks
+
 ```
 4.1  Tauri setup
      - [x] Install Tauri CLI v2 + dependencies (@tauri-apps/api, plugins)
@@ -210,9 +229,12 @@
      - [x] tauri.conf.json configuration (Tauri v2 format)
      - [x] App icons (all sizes via cargo tauri icon)
      - [x] Capabilities (default.json with dialog, fs, shell permissions)
+           (v1.0.0: only core + opener; the fs and shell plugins are removed)
 
 4.2  Desktop features
      - [x] Native file save/load via Tauri commands (save_to_file, read_from_file)
+           (v1.0.0: replaced by name-only commands under the app's data folder
+           and Save / Open dialogs run from Rust)
      - [x] Platform detection (IS_TAURI flag)
      - [x] File ops with web fallback (src/utils/file-ops.ts)
      - [x] System tray with Show/Quit menu
@@ -225,14 +247,16 @@
 
 4.4  Build pipeline
      - [x] GitHub Actions: release-desktop.yml (Windows + macOS cross-compile)
+           (now Windows, macOS and Linux; Android via release-android.yml)
      - [x] Tag-triggered release (v* tags)
      - [x] Verified local build: MSI 4.1MB, NSIS 2.7MB, EXE 14MB
 
 4.5  Platform-specific
      - [x] Windows: MSI + NSIS installers built successfully
-     - [ ] macOS: requires macOS runner (CI handles this)
+     - [x] macOS: built on the macos-14 CI runner (Apple Silicon .app)
      - [x] Offline functionality verified (all bundled, no API calls)
      - [x] Vite base URL conditional (/ for Tauri, /yt-desc-gen/ for web)
+           (v1.0.0: / for both)
 
 ### Definition of Done
 - [x] Windows installer < 15MB (4.1MB MSI), installs and runs
@@ -244,11 +268,50 @@
 
 ---
 
+## v1.0.0 — Stable Release ✅ SHIPPED 2026-09-30
+
+**Goal**: A stable 1.0 on its own domain, with data that is right. Web, desktop
+and Android all ship as 1.0.0 — the full list is in
+[CHANGELOG.md](../CHANGELOG.md#v100--2026-09-30).
+
+### Contents
+
+```
+- [x] Web app at ytgenerator.stream — Cloudflare Worker, deployed by Workers
+      Builds from main; GitHub Pages retired (moving notice until 2026-11-29)
+- [x] Turnstile check before the web app; cookieless Web Analytics (web only);
+      legal pages served in-site; terms version 2
+- [x] New interface — design system, app shell with a bottom bar on phones,
+      command palette (Ctrl/⌘+K), live preview, YouTube preview
+- [x] Backup & restore — preview (new / already here / different), merge or
+      replace, undo, drag-and-drop, automatic desktop backups, History as CSV
+- [x] Quick start — profile + preset pickers, Next part, New video same game,
+      Start over keeps the channel
+- [x] Faster entry — store links pasted anywhere, game-name suggestions,
+      title shapes + Title order, Copy All with tags, Batch Part / Demo part,
+      Ctrl/⌘+S saves to History
+- [x] Data that is right — GPU catalog and hardware names, tags counted the way
+      YouTube counts them, chapter check + Tidy up, one History entry per
+      video, per-field copy gating
+- [x] Catalogs — EA app, Ubisoft, Battle.net, Google Play, App Store, Meta
+      Quest; YouTube, Threads, Kick, Reddit, Bilibili links; YouTube Shorts,
+      X, Threads, Bluesky captions; five Vietnamese banks
+- [x] Desktop hardening — the webview never names a path, Save / Open dialogs
+      run from Rust, fs and shell plugins removed, one tray icon
+- [x] CI — dependency review, workflow lint, OpenSSF Scorecard, REUSE, PR
+      titles, Rust checks, coverage thresholds, bundle budget, licence
+      allow-list, Cloudflare dry-run; every action pinned by SHA
+```
+
+---
+
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
+
 **Goal**: IDE extension, CLI, community features.
 **Estimated**: Ongoing
 
 ### Tasks
+
 ```
 5.1  CLI tool
      - [ ] Standalone Node.js CLI using engine/
@@ -263,14 +326,21 @@
      - [ ] Settings sync with VS Code settings
 
 5.3  Additional languages
-     - [ ] French, German, Portuguese, Russian, Thai, Arabic
-     - [ ] Community contribution guide for translations
-     - [ ] Locale validation CI check
+     - [x] Portuguese — shipped as Brazilian Portuguese (pt-BR) in v0.38.0,
+           together with Indonesian (id)
+     - [ ] French, German, Russian, Thai, Arabic
+     - [x] Community contribution guide for translations (docs/I18N.md,
+           CONTRIBUTING.md)
+     - [x] Locale validation CI check (npm run validate:locales in the
+           required `check` job)
 
 5.4  Template customization
      - [ ] Custom template editor in app
      - [ ] Template import/export
      - [ ] Template sharing (JSON format)
+           (Full-form templates — every editor field — already export and
+           import as JSON on Profiles › Templates; these items are about
+           editing the description templates themselves.)
 
 5.5  Quality of life
      - [ ] YouTube API integration (auto-apply description)
@@ -280,14 +350,31 @@
 
 ---
 
+## Backlog (after v1.0.0)
+
+Ideas carried over from the v1.0.0 planning — not scheduled.
+
+```
+- [ ] Auto-fill game info from Steam through the Worker — needs rate limiting
+      and a decision for the desktop app
+- [ ] More genres: Sports, Point & Click, MOBA, Party — the taxonomy is still
+      to decide
+- [ ] PWA offline for the web — conflicts with the Turnstile gate in front of
+      the app
+- [ ] PGP signature for security.txt
+```
+
+---
+
 ## Timeline Summary
 
-| Phase | Scope | Days | Cumulative |
-|-------|-------|------|------------|
-| Phase 1 | MVP Core | 3-4 | 3-4 days |
-| Phase 2 | Profiles & Presets | 2-3 | 5-7 days |
-| Phase 3 | Polish & Advanced | 2-3 | 7-10 days |
-| Phase 4 | Desktop App | 2-3 | 9-13 days |
-| Phase 5 | Extensions | Ongoing | — |
+| Phase   | Scope              | Days    | Cumulative |
+| ------- | ------------------ | ------- | ---------- |
+| Phase 1 | MVP Core           | 3-4     | 3-4 days   |
+| Phase 2 | Profiles & Presets | 2-3     | 5-7 days   |
+| Phase 3 | Polish & Advanced  | 2-3     | 7-10 days  |
+| Phase 4 | Desktop App        | 2-3     | 9-13 days  |
+| Phase 5 | Extensions         | Ongoing | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
+**v1.0.0 shipped on 2026-09-30.**

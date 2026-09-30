@@ -11,13 +11,16 @@ Participation is governed by the [Code of Conduct](./CODE_OF_CONDUCT.md). By con
 1. Read the [Development Guide](./docs/DEVELOPMENT.md) — also available in [Vietnamese](./docs/i18n/vi/DEVELOPMENT.md).
 2. Install dependencies: `npm install`.
 3. Start the dev server: `npm run dev`.
-4. Before opening a PR run all gates:
+4. Before opening a PR, run the same gates CI runs (the required `check` job):
    ```bash
-   npm run typecheck
-   npm run lint
+   npm run typecheck && npm run typecheck:all
+   npm run lint && npm run format:check
    npm run validate:locales
    npm run test:run
+   npm run knip
+   npm run build && npm run check:bundle
    ```
+   Touched `src-tauri/`? Also `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings` and `cargo test` in `src-tauri/`. Touched `worker/` or `wrangler.jsonc`? `npm run cf:check` dry-runs the Cloudflare deploy.
 
 ## How to Contribute
 
@@ -30,8 +33,9 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 
 ### Pull Requests
 
-- Branch from `dev`, not `main`.
-- Commit format: `type(scope): message` — e.g. `feat(engine): add Spanish template support`. Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`.
+- Branch from `main` (`feat/…`, `fix/…`, `docs/…`) and open the PR against `main`. Every merge to `main` deploys the web app, so `main` stays releasable.
+- Commit format and **PR title**: `type(scope): message` — e.g. `feat(engine): add Spanish template support`. Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`. CI checks the PR title.
+- Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title` (plus `lint-and-test` and `cargo-deny` when `src-tauri/` changes). Commits on `main` are signed.
 - One logical change per PR. Don't bundle unrelated refactors.
 - All locale files must stay in lock-step — see the i18n section below.
 - AI-assisted contributions are welcome but **must be disclosed** in the PR description.
@@ -44,7 +48,7 @@ If your change adds or removes any user-facing string:
 2. Add the key to **all 8 locales** (`en` / `vi` / `ja` / `es` / `ko` / `zh` / `pt-BR` / `id`).
 3. `npm run validate:locales` must pass.
 
-Native-speaker corrections to AI-translated locales (JA / ES / KO / ZH) are especially welcome — see [DISCLAIMER.md](./DISCLAIMER.md) for the current translation-quality status.
+Native-speaker corrections to AI-translated locales (JA / ES / KO / ZH / PT-BR / ID) are especially welcome — see [DISCLAIMER.md](./DISCLAIMER.md) for the current translation-quality status.
 
 ## Auto-ignored Contributions
 
@@ -53,7 +57,7 @@ The following are closed without review and may result in a contributor ban — 
 - **Suspected malicious code.** If a PR contains code we suspect may be a supply-chain attack, obfuscation, credential harvesting, cryptominer, or any form of malware — even if CodeQL and Dependabot don't flag it, the maintainer may investigate manually. **Detection equals ban.**
 - **Unverified or suspicious links** in issues, PRs, or comments (pastebin scrapers, redirect chains, unfamiliar shortlinks, link-shortener URLs without context).
 - **Behavior or language violating** [GitHub's Acceptable Use Policies](https://docs.github.com/en/site-policy/acceptable-use-policies).
-- **Off-topic / rambling reports** that don't get to the point. Example of what gets ignored: *"Good morning, today is a beautiful day, I was just wondering if maybe…"* — get straight to the problem.
+- **Off-topic / rambling reports** that don't get to the point. Example of what gets ignored: _"Good morning, today is a beautiful day, I was just wondering if maybe…"_ — get straight to the problem.
 - **PRs that touch hundreds of files for a one-line fix** (typical sign of an auto-formatter run on unrelated files).
 - **Tests deleted, or `--no-verify` used to bypass pre-commit hooks.**
 - **"AI rewrote my entire codebase in a different style" PRs.** AI-assisted edits are welcome (disclosed); whole-repo rewrites are not.
@@ -63,7 +67,7 @@ The following are closed without review and may result in a contributor ban — 
 
 - Bug fixes with a reproduction case and a regression test.
 - Locale corrections from native speakers.
-- New content-warning IDs with all 6 translations and a clear rationale (especially horror-genre vocabulary).
+- New content-warning IDs with all 8 translations and a clear rationale (especially horror-genre vocabulary).
 - New video types or genres that fit the gameplay no-commentary use case.
 - Accessibility and mobile-responsive improvements.
 - Performance fixes with a `before/after` measurement.
@@ -74,6 +78,10 @@ The following are closed without review and may result in a contributor ban — 
 - Adding new runtime dependencies without first opening an issue to discuss the tradeoff.
 - Renaming files without coordinating with open PRs.
 - Changes to the LICENSE or NOTICE files (these are governance, not contributions).
+
+## Contact
+
+Questions about contributing or conduct: `code@poli0981.dev`. Security issues go through [SECURITY.md](./SECURITY.md), never a public issue.
 
 ## License
 

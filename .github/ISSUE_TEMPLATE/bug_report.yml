@@ -12,8 +12,8 @@ body:
     id: version
     attributes:
       label: App version
-      description: From the About page or the title bar. Example `v0.13.0`.
-      placeholder: v0.13.0
+      description: From the About page. Example `v1.0.0`.
+      placeholder: v1.0.0
     validations:
       required: true
   - type: dropdown
@@ -33,14 +33,14 @@ body:
     id: os
     attributes:
       label: Operating system
-      description: e.g. Windows 11 25H2, macOS 14.6, Ubuntu 24.04
+      description: e.g. Windows 11 25H2, macOS 26, Ubuntu 24.04, Android 15
     validations:
       required: true
   - type: input
     id: browser
     attributes:
       label: Browser (web only)
-      description: e.g. Chrome 131, Brave 1.70, Safari 17. Leave blank for desktop.
+      description: e.g. Chrome 141, Firefox 144, Safari 26. Leave blank for the desktop and Android apps.
   - type: dropdown
     id: language
     attributes:
@@ -51,7 +51,9 @@ body:
         - 日本語 (ja)
         - Español (es)
         - 한국어 (ko)
-        - 中文 (zh)
+        - 简体中文 (zh)
+        - Português (BR) (pt-BR)
+        - Bahasa Indonesia (id)
     validations:
       required: true
   - type: textarea
@@ -82,7 +84,7 @@ body:
     id: console
     attributes:
       label: Console / log output
-      description: Open DevTools (web) or the log panel (desktop) and paste any errors. Rendered as code.
+      description: Paste errors from the app's Logs page (all platforms) or the browser's DevTools console (web). Rendered as code.
       render: shell
   - type: textarea
     id: screenshots

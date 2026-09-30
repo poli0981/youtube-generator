@@ -4,7 +4,7 @@
 
 YTDescGen is a personal project built by a single maintainer (`@poli0981`) for use with the [`@SkullMute`](https://www.youtube.com/@SkullMute) YouTube channel and shared publicly as open source. It is **not a commercial product** and there is no support obligation.
 
-Code, documentation, locale translations, and design decisions in this repository were **co-authored with the assistance of Anthropic's Claude Code (model 4.7 Opus, 1M-context variant)**. All commits, releases, and architectural decisions are reviewed and approved by the maintainer before merging.
+Code, documentation, locale translations, and design decisions in this repository were **co-authored with the assistance of Anthropic's Claude Code (Claude Opus models; v1.0.0 with Claude Opus 5.5)**. All commits, releases, and architectural decisions are reviewed and approved by the maintainer before merging.
 
 This disclosure applies to:
 
@@ -12,6 +12,7 @@ This disclosure applies to:
 - Documentation in `docs/` and all root markdown files.
 - Locale files in `src/i18n/locales/`.
 - CI/CD workflows in `.github/workflows/`.
+- The Cloudflare Worker in `worker/` and the build plugins in `build-plugins/`.
 
 See also: [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) § "AI-Assisted Development Disclosure".
 
@@ -19,16 +20,16 @@ See also: [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) § "AI-Assisted D
 
 The application UI ships in eight languages. Authoring quality varies:
 
-| Locale | Authoring | Notes |
-| --- | --- | --- |
-| English (`en`) | Maintainer + AI | Primary working locale. Strings reviewed before commit. |
-| Vietnamese (`vi`) | Maintainer (native) + AI | Reviewed by the maintainer, who is a native Vietnamese speaker. |
-| Japanese (`ja`) | AI-translated | Not native-reviewed. Grammar and tone may be imperfect. |
-| Spanish (`es`) | AI-translated | Not native-reviewed. Regional voice (LatAm vs. Castilian) not specifically targeted. |
-| Korean (`ko`) | AI-translated | Not native-reviewed. Honorific register chosen for neutrality, not specific cultural fit. |
-| Chinese (`zh`) | AI-translated | Simplified Chinese only. Not native-reviewed. |
-| Portuguese, Brazil (`pt-BR`) | AI-translated | Not native-reviewed. Brazilian Portuguese specifically — European Portuguese is not separately targeted. |
-| Indonesian (`id`) | AI-translated | Not native-reviewed. Standard Indonesian; gaming loanwords kept in English where that is the common usage. |
+| Locale                       | Authoring                | Notes                                                                                                      |
+| ---------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| English (`en`)               | Maintainer + AI          | Primary working locale. Strings reviewed before commit.                                                    |
+| Vietnamese (`vi`)            | Maintainer (native) + AI | Reviewed by the maintainer, who is a native Vietnamese speaker.                                            |
+| Japanese (`ja`)              | AI-translated            | Not native-reviewed. Grammar and tone may be imperfect.                                                    |
+| Spanish (`es`)               | AI-translated            | Not native-reviewed. Regional voice (LatAm vs. Castilian) not specifically targeted.                       |
+| Korean (`ko`)                | AI-translated            | Not native-reviewed. Honorific register chosen for neutrality, not specific cultural fit.                  |
+| Chinese (`zh`)               | AI-translated            | Simplified Chinese only. Not native-reviewed.                                                              |
+| Portuguese, Brazil (`pt-BR`) | AI-translated            | Not native-reviewed. Brazilian Portuguese specifically — European Portuguese is not separately targeted.   |
+| Indonesian (`id`)            | AI-translated            | Not native-reviewed. Standard Indonesian; gaming loanwords kept in English where that is the common usage. |
 
 If you're a native speaker and spot mistranslations, please open an issue or PR — see [CONTRIBUTING.md](./CONTRIBUTING.md) § "i18n Contributions".
 
@@ -53,3 +54,7 @@ Use of Claude Code during development does **not** make this an Anthropic produc
 ## Not legal or financial advice
 
 Any mention of GDPR, CCPA, copyright law, YouTube's monetization policies, or similar topics in this repository's documentation is provided for orientation only and is **not legal advice**. Consult a qualified lawyer in your jurisdiction if you need an authoritative answer.
+
+## Contact
+
+Copyright or DMCA notices: **dmca@poli0981.dev** (see [TERMS.md](./TERMS.md)). Licensing and attribution: **copyright@poli0981.dev**. Anything else: **contact@poli0981.dev** · [poli0981.dev/links](https://poli0981.dev/links/).

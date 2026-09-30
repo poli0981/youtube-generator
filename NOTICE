@@ -8,8 +8,10 @@ see LICENSE for the full terms, or visit:
     http://www.apache.org/licenses/LICENSE-2.0
 
 This product was co-developed with the assistance of Anthropic's
-Claude Code 4.7 Opus (1M context). See DISCLAIMER.md and
-THIRD_PARTY_NOTICES.md for details.
+Claude Code (Claude Opus models; most recently Claude Opus 5.5).
+See DISCLAIMER.md and THIRD_PARTY_NOTICES.md for details.
+
+Licensing and attribution questions: copyright@poli0981.dev
 
 Third-party dependencies retain their respective licenses; see
 THIRD_PARTY_NOTICES.md for the complete attribution list.

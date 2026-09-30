@@ -2,6 +2,75 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.0.0 — 2026-09-30
+
+**YTDescGen moves to [ytgenerator.stream](https://ytgenerator.stream)**, gets a new interface, and the data it writes is right: hardware names, YouTube's own tag count, chapters, history. Backups you can preview and undo, a quick start for the next video, and a hardened desktop app. Web, desktop and Android all ship as 1.0.0.
+
+### Moving house
+
+- **The web app lives at [ytgenerator.stream](https://ytgenerator.stream)**, served by a Cloudflare Worker that Cloudflare builds and deploys from `main` (`wrangler.jsonc` is the only Cloudflare file). GitHub Pages is retired: until **2026-11-29** the old address shows a moving notice that **downloads the data your browser saved there as a backup file** — restore it on the new site in Settings › Backup & restore. See [Moving from GitHub Pages](https://github.com/poli0981/youtube-generator/wiki/Moving-from-GitHub-Pages).
+- **A Cloudflare Turnstile check** (usually invisible) runs once a day before the web app loads. The token is verified server-side; a signed, `HttpOnly` `__Host-` cookie remembers the pass for 24 hours. Agreeing to the terms on that page counts, so web visitors see one screen, not two.
+- **Legal pages in the site**: Terms, Privacy, Disclaimer (+ Vietnamese), Security, License, Notice, Code of Conduct and third-party notices are rendered at build time — public and crawlable at `/legal/*`, and offline in the app's Legal Center. The Privacy Policy was rewritten for Cloudflare hosting, Turnstile and Web Analytics, so everyone accepts the terms once more (**terms version 2**).
+- **Cloudflare Web Analytics** (cookieless) in the web build only; the desktop and Android apps have no analytics.
+- Security headers on everything (CSP per page type, COOP/CORP, frame and referrer policies), `/.well-known/security.txt`, HSTS preload at the edge, clean URLs on the web (old `/#/…` links still work).
+- **New contacts** by purpose: contact@, security@, privacy@, legal@, dmca@, copyright@, code@ and sponsor@ poli0981.dev, plus [poli0981.dev](https://poli0981.dev/) and [poli0981.dev/links](https://poli0981.dev/links/). The dead Discord invite is gone.
+- **Brand**: one logo drives the favicon, PWA icons, link-preview card and every desktop/Android icon — the apps used to ship a plain purple square.
+
+### New interface
+
+- **Design system** on Radix primitives, Motion and sonner: consistent dark and light themes, self-hosted Inter/JetBrains Mono (with Vietnamese), compact controls (larger on touch screens), animated icons that respect _reduce motion_, real focus handling in dialogs, labelled controls.
+- **App shell**: collapsible sidebar, a top bar with the output and interface languages, a **bottom bar on phones**, and a **⌘/Ctrl + K command palette** (navigate, copy, apply profile/preset/template, theme, languages, help).
+- **Editor**: a **sticky live preview** beside the form (a sheet on phones), sections in the order a video is filled in, a searchable genre picker, collapsed sections that show a summary.
+- **Output**: a **YouTube preview** — the title where search results cut it and the description above "…more".
+- Every page restyled; hard-coded English translated; flag emoji (which Windows shows as letters) replaced by language names.
+- Desktop window resizable (1280×820 by default).
+
+### Data that is right
+
+- **Hardware names**: _NVIDIA GeForce RTX 5080_ (was "NVIDIA RTX 5080"), _AMD Radeon RX 9070 XT_, _Apple M4 Pro_, laptop GPUs named as such. One **searchable GPU picker** replaces Brand › Series › Model; cards that never shipped are gone; laptop, integrated, handheld and Apple M5 chips added. RAM gains 24/48/192 GB, LPDDR and speeds ("32 GB DDR5-6000"); OS lists SteamOS, Bazzite, CachyOS and current Fedora/macOS; pasted Windows CPU names are tidied. Old saved values are migrated. The rig block is labelled in the output language, in a fixed order.
+- **Tags counted the way YouTube counts them** (quotes around multi-word tags, commas between them): 15 of 51 real tag sets were over 500 while showing as under. Trimming keeps trying shorter tags; platform names read "Steam", "itch.io".
+- **Chapters**: "Final Fantasy VII" no longer turns into "Ending Fantasy VII"; `[0:00]` and frame-accurate times are read; a live check shows whether YouTube will show chapters (0:00 first, at least 3, ≥ 10 s apart) and **Tidy up** rewrites pasted lists.
+- **History** keeps one entry per video (every Output visit used to add one).
+- **Copy** is blocked only for the field that is over its limit; Ctrl/⌘+Shift+C follows the same rules as the Output page.
+- Warnings for `<` and `>` (YouTube rejects them); validation accepts real variants (Steam `/sub/` and `s.team`, regional Nintendo sites, `m.`/`www.` links, playlist links from phones) and rejects email domains without a TLD.
+- **An empty channel name** no longer leaves "…of Hades on ." — the phrase is dropped in all eight languages.
+
+### Backup & restore
+
+- **Settings › Backup & restore**: back up everything (or chosen parts) to one file, restore from a file or by dropping it. Files from every earlier version are read — v0.15–v0.38 exports, pre-v0.15 arrays, the old desktop data file — and run through the same migrations the app uses, then a strict whitelist.
+- **Preview before anything changes**: new / already here / different, per item; **Merge** (keep the newer one, or both) or **Replace**; one step, with **Undo**. Settings never carry your consent or panel state.
+- **Automatic backups on desktop**: the newest ten, written after your library changes (and before every restore); restore them from Settings.
+- History exports as **CSV** or JSON; exports carry the date in their names.
+- Templates save **every** editor field; presets save store link types and all per-game fields; profiles save donate and community links. Edit forms can update from the current editor and save on Enter.
+
+### Faster data entry
+
+- **Quick start** at the top of the editor: pick the **channel profile** and the **game preset** (remembered); replacing filled-in fields asks first; "Update profile/preset" appears when the editor drifts from them.
+- **Next part** and **New video, same game** clear what belonged to the last video; applying a preset for another game does too. **Start over** keeps your channel; a new draft starts in your **Default Output Language** (it always started in English).
+- **Paste a store link anywhere** — it lands in the right store field, sets the platform and names the game ("Final Fantasy VII Remake", "Baldur's Gate 3"). Game-name suggestions from presets and history.
+- **Title shapes**: the alternatives dialog can apply one; new **Title order** setting (game first / video first).
+- **Copy All can include the tags**; **Batch** chooses Part or Demo part and continues from your part number; **Ctrl/⌘+S** saves the output to History.
+
+### Catalogs
+
+- Stores: EA app, Ubisoft, Battle.net, Google Play, App Store, Meta Quest.
+- Social links: YouTube, Threads, Kick, Reddit, Bilibili; "X (Twitter)" with the X mark.
+- Cross-posting: **YouTube Shorts, X** (counted the way X counts), **Threads, Bluesky**.
+- Vietnamese banks: MBV, VCBNeo, Vikki Bank (formerly OceanBank, CBBank, DongA Bank — saved old names get a one-click switch), Cake by VPBank, Timo.
+
+### Desktop
+
+- **The webview can no longer name a path.** The five commands that read, wrote, listed and deleted any path it sent are replaced by name-only commands under the app's data folder and by Save/Open dialogs run from Rust (text formats only, size-capped). The fs and shell plugins are removed.
+- **The settings "mirror" file never worked**: it was written next to the data folder and never read back. It is gone; on first start the old file becomes a restorable backup (never applied on its own) and stray log files are moved into place.
+- One tray icon, with the app icon.
+
+### Under the hood
+
+- CI: dependency review, actionlint + zizmor, OpenSSF Scorecard, REUSE, Conventional-Commit titles, rustfmt/clippy/cargo test/cargo-deny, coverage thresholds, a measured bundle budget (initial load ≤ 280 KB gzip), licence allow-list and generated third-party notices, `wrangler deploy --dry-run`; every action pinned by SHA; release builds verify first.
+- Dependencies current (React 19.3, Vite 8.3, Tauri 2.12); `npm audit` clean; Tauri 2.12 dropped the `rand` advisory; cargo-deny caught and fixed two `quick-xml` advisories.
+- New strings in all eight locales (Japanese, Spanish, Korean, Chinese, Portuguese and Indonesian are AI-translated — see the Disclaimer).
+- 930+ tests (was 698).
+
 ## v0.38.0 — 2026-08-17
 
 Two new languages: **Portuguese (Brazil)** and **Indonesian**. Brazil is a

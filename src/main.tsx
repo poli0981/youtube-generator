@@ -78,9 +78,10 @@ i18n.on("languageChanged", (lng) => {
  * Lazy-loaded locales (v0.26): fetch the persisted UI + output languages
  * before first paint so a non-English user never sees an English flash
  * (and the Output page never renders a placeholder on cold start).
- * zustand persist hydrates synchronously from localStorage, so these
- * reads already hold the user's values; Tauri's async settings-file
- * rehydrate is bridged later by App's store subscription.
+ * zustand persist hydrates synchronously from localStorage — the only
+ * store on every platform — so these reads already hold the user's values;
+ * a later change (a restored backup, the language picker) reaches i18n
+ * through App's store subscription.
  *
  * `en` resolves from the eagerly-bundled resources, so English users pay
  * zero extra latency. The 2 s race cap means a dead network can delay —
