@@ -5,19 +5,27 @@
 # below add scheduled VERSION updates so the tree does not silently rot between
 # advisories, and carry the ignore rules that keep unfixable alerts quiet.
 #
-# Why the cargo ignores: `rand` and `glib` are transitive dependencies of tauri,
-# and their security fixes require semver-major bumps that the dependency
-# tree does not allow, so every Dependabot security-update job for them
-# fails with `security_update_not_possible` (runs 27387346373, 27387346324):
+# `cooldown` holds version updates back for a few days after a release is
+# published. Most npm supply-chain compromises are caught and yanked within
+# that window; security updates ignore the cooldown and still arrive at once.
 #
-#   rand 0.7.3 (fix: 0.8.6) pinned by
-#     tauri -> tauri-utils -> kuchikiki -> selectors -> phf_codegen 0.8
-#     -> phf_generator 0.8 (requires rand ^0.7)
+# Why the cargo ignore: `glib` is a transitive dependency of tauri's Linux
+# stack, and its security fix requires a semver-major bump the tree does not
+# allow, so every Dependabot security-update job for it fails with
+# `security_update_not_possible`:
+#
 #   glib 0.18.5 (fix: 0.20.0) pinned by
 #     tauri's gtk-rs 0.18 Linux stack (gtk/gdk/gio 0.18 require glib 0.18)
 #
-# Remove these ignores once tauri updates kuchikiki / the gtk-rs bindings
-# (re-check with: cargo update -p rand@0.7.3 --precise 0.8.6 --dry-run).
+# Remove the ignore once tauri moves to gtk-rs >= 0.20. (`rand` 0.7.3, the
+# other long-standing one, left the tree in v1.0.0 when tauri 2.12 dropped
+# kuchikiki.)
+#
+# Tauri moves in lockstep: the tauri CLI refuses to build when the
+# @tauri-apps/* npm packages and the tauri crates differ in major.minor. When
+# the `tauri` npm group arrives, run `cargo update -p tauri` (and the plugin
+# crates) in src-tauri/ on the same branch — `npm run check:tauri` in CI says
+# which ones.
 
 version: 2
 updates:
@@ -25,6 +33,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 5
     commit-message:
       prefix: "chore(deps)"
@@ -32,21 +42,55 @@ updates:
     groups:
       # One PR per family instead of one per package. A split React or
       # typescript-eslint bump is never independently mergeable anyway, and
-      # CI has to run for each PR.
+      # CI has to run for each PR. A package joins the FIRST group it matches,
+      # so the specific families come before the catch-alls.
       react:
         patterns: ["react", "react-dom", "@types/react", "@types/react-dom"]
       i18n:
         patterns: ["i18next*", "react-i18next"]
       tauri:
         patterns: ["@tauri-apps/*"]
+      ui:
+        patterns:
+          [
+            "radix-ui",
+            "@radix-ui/*",
+            "motion",
+            "cmdk",
+            "sonner",
+            "lucide-react",
+            "clsx",
+            "@fontsource*",
+            "react-router*",
+            "zustand",
+          ]
+      cloudflare:
+        patterns: ["wrangler", "@cloudflare/*"]
       lint-and-format:
         patterns: ["eslint*", "@eslint/*", "typescript-eslint", "prettier*", "knip"]
       build-tooling:
-        patterns: ["vite", "vitest", "@vitejs/*", "tailwindcss", "postcss", "autoprefixer", "tsx"]
+        patterns:
+          [
+            "vite",
+            "vitest",
+            "@vitest/*",
+            "@vitejs/*",
+            "tailwindcss",
+            "@tailwindcss/*",
+            "postcss",
+            "autoprefixer",
+            "tsx",
+            "marked",
+            "@resvg/*",
+          ]
+      testing:
+        patterns: ["@testing-library/*"]
+      types:
+        patterns: ["@types/*"]
     ignore:
-      # Majors land in their own planned release (see docs/ROADMAP.md) because
-      # each one needs a real migration — React 19, Tailwind 4 and ESLint 10 all
-      # change APIs the app uses directly. Dependabot handles minor + patch.
+      # Majors land in their own planned release because each one needs a real
+      # migration (TypeScript 7, Vitest 5 and lucide-react 1 are the current
+      # examples). Dependabot handles minor + patch.
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
@@ -55,16 +99,17 @@ updates:
     schedule:
       interval: "weekly"
     # No version-update PRs; this entry only feeds ignore rules to security
-    # updates. The Rust side is pinned to whatever tauri's tree allows.
+    # updates. The Rust side moves with tauri (see the note at the top).
     open-pull-requests-limit: 0
     ignore:
-      - dependency-name: "rand"
       - dependency-name: "glib"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 3
     commit-message:
       prefix: "ci"
