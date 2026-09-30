@@ -1,300 +1,163 @@
-# CLAUDE.md — YouTube Description Generator (YTDescGen)
+# CLAUDE.md — YTDescGen
 
 ## Project Overview
 
-**YTDescGen** is a desktop-capable web application that generates YouTube video titles, descriptions, and tags for Gameplay No Commentary channels. It supports multiple languages, game genres, and video types with a profile/preset system to eliminate repetitive data entry.
+**YTDescGen** generates YouTube titles, descriptions and tags for Gameplay No Commentary channels, in eight languages, with profiles (channel), presets (game) and templates (whole form) to skip repeated data entry.
 
-- **Repository**: `github.com/poli0981/youtube-generator`
-- **License**: Apache-2.0 (see `LICENSE` + `NOTICE`)
-- **Primary Language**: TypeScript
-- **Stack**: React 18 + Vite 8 + Tailwind CSS 3 + Zustand + Tauri 2 (desktop)
-- **Target Platforms**: Web (GitHub Pages), Desktop (Windows/macOS/Linux via Tauri)
+- **Web app**: <https://ytgenerator.stream> — a Cloudflare Worker (Turnstile gate + static build), deployed by Cloudflare Workers Builds on every push to `main`. See [docs/HOSTING.md](docs/HOSTING.md).
+- **Desktop** (Windows / macOS / Linux) and **Android** apps: Tauri 2, released from signed tags.
+- **Repository**: `github.com/poli0981/youtube-generator` · **License**: Apache-2.0 (`LICENSE`, `NOTICE`, REUSE-compliant).
+- **Maintainer**: poli0981 (SkullMute). Contacts by purpose: see `src/config/about.ts` and README.
 
 ## Tech Stack
 
-| Layer | Technology | Why |
-|-------|-----------|-----|
-| Framework | React 18 | Familiar from F2P tracker dashboard |
-| Build | Vite 8 | Fast HMR, Rolldown bundler |
-| Language | TypeScript (strict) | Type safety for template engine |
-| Styling | Tailwind CSS 3 | Utility-first, fast iteration |
-| State | Zustand + persist middleware | Simple, localStorage/file persistence |
-| Router | React Router 6 (HashRouter) | GitHub Pages compatible |
-| i18n | i18next + react-i18next | Industry standard, lazy-load locales |
-| Desktop | Tauri 2 | Lightweight Rust-based, ~5MB binary |
-| Testing | Vitest + React Testing Library | Vite-native, fast |
-| Lint | ESLint + Prettier | Consistent code style |
-| CI/CD | GitHub Actions | Familiar workflow |
+| Layer             | Technology                                                                                                                      |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| UI                | React 19, TypeScript (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons    |
+| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions                                                                         |
+| Styling           | Tailwind CSS 4, CSS-first `@theme` tokens in `src/styles/globals.css`                                                           |
+| State             | Zustand 5 + `persist` (localStorage) — the only store on every platform                                                         |
+| Routing           | React Router 7 — `BrowserRouter` on the web, `HashRouter` in Tauri                                                              |
+| i18n              | i18next + react-i18next, 8 locales (en, vi, ja, es, ko, zh, pt-BR, id); `en` bundled, others lazy                               |
+| Desktop / Android | Tauri 2 (Rust) — see `src-tauri/`                                                                                               |
+| Web hosting       | Cloudflare Workers (`worker/`, `wrangler.jsonc`), Turnstile, Web Analytics                                                      |
+| Tests             | Vitest (node environment; Worker tests included)                                                                                |
+| Quality           | ESLint, Prettier, knip, coverage thresholds, bundle budget, licence allow-list, REUSE, actionlint/zizmor, cargo fmt/clippy/deny |
 
 ## Project Structure
 
 ```
-yt-desc-gen/
-├── CLAUDE.md                    # ← You are here
-├── README.md
-├── LICENSE
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── tailwind.config.ts
-├── index.html
-│
-├── docs/                        # Project documentation
-│   ├── DEVELOPMENT.md           # Toolchain / IDE / build commands (EN)
-│   ├── ARCHITECTURE.md          # Technical architecture
-│   ├── FEATURES.md              # Complete feature list
-│   ├── ROADMAP.md               # Development phases
-│   ├── TECH-SPEC.md             # Technical specifications
-│   ├── I18N.md                  # Internationalization guide
-│   ├── PACKAGING.md             # Desktop packaging guide
-│   └── i18n/vi/                 # Vietnamese mirrors (DEVELOPMENT, DISCLAIMER)
-│
-├── src/
-│   ├── main.tsx                 # Entry point
-│   ├── App.tsx                  # Root component + router
-│   ├── vite-env.d.ts
-│   │
-│   ├── config/                  # Static data & constants
-│   │   ├── video-types.ts       # VIDEO_TYPES array
-│   │   ├── genres.ts            # GENRES array (extensible)
-│   │   ├── platforms.ts         # Store platforms (Steam, Epic, etc.)
-│   │   ├── rig-fields.ts        # Hardware field definitions
-│   │   ├── social-fields.ts     # Social/donate link definitions
-│   │   └── defaults.ts          # Default state values
-│   │
-│   ├── i18n/                    # Internationalization
-│   │   ├── index.ts             # i18next setup
-│   │   └── locales/
-│   │       ├── en/
-│   │       │   ├── ui.json      # UI strings (buttons, labels)
-│   │       │   └── templates.json # Description templates
-│   │       ├── vi/
-│   │       ├── ja/
-│   │       ├── es/              # Spanish (example extension)
-│   │       ├── ko/              # Korean (future)
-│   │       ├── zh/              # Chinese (future)
-│   │       └── _schema.json     # JSON schema for locale validation
-│   │
-│   ├── engine/                  # Core template engine (pure functions, no React)
-│   │   ├── title-builder.ts     # Title generation + quality-badge helper
-│   │   ├── title-variants.ts    # A/B variant title generator (v0.5)
-│   │   ├── description-builder.ts # Description generation logic
-│   │   ├── tag-generator.ts     # Tag generation + dedup + char limit
-│   │   ├── template-renderer.ts # Orchestrator: combines title + desc + tags
-│   │   └── types.ts             # Shared types for engine
-│   │
-│   ├── store/                   # State management (Zustand)
-│   │   ├── editor-store.ts      # Current editor form state
-│   │   ├── profile-store.ts     # Saved profiles (social, rig, channel)
-│   │   ├── preset-store.ts      # Game presets (name + store links)
-│   │   ├── template-store.ts    # Full-form snapshots (v0.5)
-│   │   ├── history-store.ts     # Generated output history
-│   │   └── settings-store.ts    # App settings (theme, default language, description toggles)
-│   │
-│   ├── hooks/                   # Custom React hooks
-│   │   ├── use-generated-output.ts  # Memoized template rendering
-│   │   ├── use-clipboard.ts     # Copy-to-clipboard with feedback
-│   │   ├── use-char-count.ts    # Character count with limit warning
-│   │   └── use-debounce.ts      # Input debouncing
-│   │
-│   ├── components/              # Reusable UI components
-│   │   ├── ui/                  # Primitives
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Textarea.tsx
-│   │   │   ├── Toggle.tsx
-│   │   │   ├── ChipGroup.tsx
-│   │   │   ├── Select.tsx
-│   │   │   ├── Badge.tsx
-│   │   │   ├── Tooltip.tsx
-│   │   │   ├── Modal.tsx
-│   │   │   └── Toast.tsx
-│   │   │
-│   │   ├── editor/              # Editor-specific components
-│   │   │   ├── VideoTypeSelector.tsx
-│   │   │   ├── LanguageSelector.tsx
-│   │   │   ├── GenreSelector.tsx
-│   │   │   ├── GameInfoForm.tsx
-│   │   │   ├── VideoSettingsForm.tsx
-│   │   │   ├── TimestampEditor.tsx
-│   │   │   ├── StoreLinkEditor.tsx
-│   │   │   ├── RigEditor.tsx
-│   │   │   ├── SocialEditor.tsx
-│   │   │   ├── WarningToggles.tsx
-│   │   │   └── QuickPreview.tsx
-│   │   │
-│   │   ├── output/              # Output display components
-│   │   │   ├── OutputPreview.tsx
-│   │   │   ├── TitleOutput.tsx
-│   │   │   ├── DescriptionOutput.tsx
-│   │   │   ├── TagOutput.tsx
-│   │   │   ├── CharCounter.tsx
-│   │   │   ├── CopyButton.tsx
-│   │   │   └── CopyAllBar.tsx
-│   │   │
-│   │   ├── profiles/            # Profile management
-│   │   │   ├── ProfileList.tsx
-│   │   │   ├── ProfileCard.tsx
-│   │   │   ├── ProfileSaveForm.tsx
-│   │   │   └── GamePresetManager.tsx
-│   │   │
-│   │   └── layout/              # App shell
-│   │       ├── AppShell.tsx
-│   │       ├── Sidebar.tsx
-│   │       ├── Header.tsx
-│   │       └── TabBar.tsx
-│   │
-│   ├── pages/                   # Route pages
-│   │   ├── EditorPage.tsx
-│   │   ├── OutputPage.tsx
-│   │   ├── ProfilesPage.tsx
-│   │   ├── HistoryPage.tsx
-│   │   ├── SettingsPage.tsx
-│   │   └── BatchPage.tsx
-│   │
-│   ├── utils/                   # Shared utilities
-│   │   ├── clipboard.ts
-│   │   ├── char-count.ts
-│   │   ├── sanitize.ts
-│   │   ├── export.ts            # JSON/CSV export
-│   │   └── import.ts            # JSON import
-│   │
-│   └── styles/
-│       └── globals.css          # Tailwind directives + custom vars
-│
-├── src-tauri/                   # Tauri desktop shell (Phase 4)
-│   ├── Cargo.toml
-│   ├── tauri.conf.json
-│   ├── src/
-│   │   └── main.rs
-│   └── icons/
-│
-├── tests/
-│   ├── engine/                  # Unit tests for template engine
-│   │   ├── title-builder.test.ts
-│   │   ├── description-builder.test.ts
-│   │   └── tag-generator.test.ts
-│   ├── store/                   # Store tests
-│   └── components/              # Component tests
-│
-├── scripts/                     # Build/dev scripts
-│   ├── validate-locales.ts      # Validate all locale files have same keys
-│   └── generate-locale-template.ts # Generate empty locale from schema
-│
-└── .github/
-    └── workflows/
-        ├── ci.yml               # Lint + test + build
-        ├── deploy-web.yml       # Deploy to GitHub Pages
-        └── release-desktop.yml  # Build Tauri binaries
+src/
+  App.tsx, main.tsx            # router, providers, start-up effects
+  engine/                      # pure template engine — no React, no DOM
+    template-renderer.ts       # renderAll(): title + description + tags
+    title-builder.ts           # titles (badge position, separator, case, order)
+    title-variants.ts          # alternative title shapes
+    description-builder.ts     # the description, block by block
+    tag-generator.ts           # tag pools, YouTube's tag length count, trimming
+    timeline-parser.ts         # timestamps → chapters, YouTube's chapter rules
+    channel-phrase.ts          # drops "on {{channel}}" when there is no channel name
+    rig-block.ts, limits.ts, social-post-builder.ts, pinned-comment-builder.ts, playlist-builder.ts, types.ts
+  config/                      # static data: video types, genres, platforms (stores),
+                               # social fields/platforms, GPU catalog, rig fields,
+                               # library-fields (profile/preset/per-video field lists),
+                               # legal, about, field limits, Vietnamese banks, …
+  store/                       # Zustand stores; each exports its version + migrate fn
+    editor-store.ts            # the draft (EditorData, migrateEditorState, editorDataOf)
+    profile-store.ts, preset-store.ts, template-store.ts, history-store.ts
+    settings-store.ts + settings-heal.ts   # settings; healed on every load
+    log-store.ts
+  utils/
+    backup/                    # backup format v2, detect, sanitize, restore (+undo),
+                               # collect, desktop auto-backups, start-up recovery
+    library-apply.ts           # apply profile/preset/template, next part, start over
+    store-paste.ts             # store links pasted anywhere
+    native.ts                  # typed bridge to the Tauri commands
+    file-ops.ts                # save/open text files on every platform
+    validation.ts, url-extractors.ts, log-storage.ts, …
+  hooks/, components/, pages/, i18n/, styles/
+worker/                        # Cloudflare Worker: gate, cookies, headers, routing
+build-plugins/                 # legal pages at build time; web-only extras
+src-tauri/src/                 # lib.rs (plugins, tray), storage.rs (name-only file
+                               # commands), file_dialog.rs (native Save/Open)
+migration-page/                # moving notice for the old GitHub Pages address (until 2026-11-29)
+tests/                         # engine, store, utils, worker, build, i18n, config
+scripts/                       # locale validation, version sync, bundle budget,
+                               # licences/third-party notices, brand assets
+docs/                          # DEVELOPMENT, HOSTING, ARCHITECTURE, FEATURES, ROADMAP,
+                               # TECH-SPEC, I18N, PACKAGING, CONTENT-INVENTORY (+ vi/)
 ```
 
 ## Coding Conventions
 
 ### TypeScript
-- Strict mode enabled (`strict: true` in tsconfig)
-- Prefer `interface` over `type` for object shapes
-- Use `const` assertions for static config arrays
-- No `any` — use `unknown` + type guards
-- Barrel exports via `index.ts` per directory
+
+- Strict mode; no `any` — use `unknown` + type guards.
+- Prefer `interface` for object shapes; `as const` for static config arrays.
 
 ### React
-- Functional components only, no class components
-- Custom hooks for shared logic — prefix with `use`
-- Memoize expensive computations with `useMemo`
-- Use `React.lazy()` for page-level code splitting
-- No prop drilling beyond 2 levels — use Zustand store
+
+- Function components only; shared logic in `use*` hooks.
+- Pages are lazy-loaded; keep the Editor (landing page) light — the **initial load budget is 280 KB gzip** (`npm run check:bundle`), no chunk over 500 KB raw.
+- Read store slices with selectors; avoid prop drilling beyond two levels.
 
 ### Naming
-- Files: `kebab-case.ts` / `PascalCase.tsx` for components
-- Variables/functions: `camelCase`
-- Types/interfaces: `PascalCase`
-- Constants: `UPPER_SNAKE_CASE`
-- Store slices: `use[Name]Store`
+
+- Files: `kebab-case.ts`, components `PascalCase.tsx`; stores `use[Name]Store`; constants `UPPER_SNAKE_CASE`.
 
 ### Styling
-- Tailwind utility classes — no inline styles, no CSS modules
-- Custom colors defined in `tailwind.config.ts`
-- Dark theme by default, optional light theme via class toggle
-- Responsive: mobile-first, breakpoints at `sm`, `md`, `lg`
+
+- Tailwind utilities and the design tokens (`bg-surface-1`, `text-text-muted`, `accent`, …) — no hard-coded colours, no inline styles.
+- Dark by default, light via class; touch targets grow on coarse pointers.
+- Watch Tailwind 4 specificity: a base `inline-flex` beats a plain `hidden` — wrap responsive visibility in an element.
 
 ### i18n
-- All user-facing strings go through `t()` function
-- Template strings (description/title) use dedicated locale file
-- UI strings and template strings are separate namespace files
-- Never hardcode user-visible text in components
 
-### State Management
-- Zustand stores with `persist` middleware for localStorage
-- Separate stores by domain (editor, profiles, presets, settings)
-- Keep stores flat — no deep nesting
-- Actions defined inside the store, not externally
+- Every user-visible string goes through `t()`; UI strings in `ui.json`, generated text in `templates.json`.
+- New keys go into **all 8 locales** and `_schema.json`; `npm run validate:locales` must pass.
+- No plural suffixes (`_one`/`_other`) — the key sets must match across locales; write count-neutral text.
 
-### Engine (template logic)
-- Pure functions only — no React dependencies
-- 100% unit test coverage for engine/
-- Each function takes typed input, returns string
-- No side effects — no clipboard, no storage, no DOM
+### State
+
+- Stores are persisted with Zustand `persist`; a shape change bumps the store's exported version and adds a step to its exported migrate function (backups replay the same steps). Steps must be idempotent.
+- Settings are healed on every load (`healSettings`); consent and UI-state fields are device-local and never exported.
+
+### Engine
+
+- Pure functions only: typed input → string. No React, clipboard, storage or DOM; the year and other environment values come from the caller.
 
 ## Key Design Decisions
 
-1. **Engine is framework-agnostic**: `src/engine/` has zero React imports. This allows reuse if migrating to another framework, CLI tool, or VS Code extension.
-
-2. **i18n covers both UI and templates**: UI labels (`ui.json`) and generated content (`templates.json`) are separate. Adding a language means adding 2 JSON files + registering in config.
-
-3. **Profiles vs Presets**: Profile = user identity (channel, social, rig — rarely changes). Preset = game identity (name, store links — reused across parts). These are separate stores.
-
-4. **Tags are generated, not hand-written**: Tag engine combines genre pool + core pool + platform + quality + multilingual + trending. User can edit the final output but doesn't build tags manually.
-
-5. **Tauri for desktop**: Chosen over Electron for ~5MB binary vs ~150MB. Familiar Rust toolchain. Web version works independently without Tauri.
+1. **The engine is framework-agnostic** (`src/engine/` has no React imports).
+2. **i18n covers the UI and the generated text**, as separate namespaces.
+3. **Profiles vs presets vs templates**: profile = channel (rarely changes), preset = game (reused across parts), template = the whole form. The field lists live in `src/config/library-fields.ts`.
+4. **Tags are generated**, then trimmed to YouTube's own length count.
+5. **Your data stays on your device.** localStorage is the only store; backups are files the user controls (plus automatic backups in the desktop app's data folder).
+6. **The desktop webview never names a path**: Rust commands take file names under the app data folder or open the native dialog themselves.
+7. **The web app is gated** by Turnstile, verified server-side in the Worker; the gate fails open if its secret is missing.
 
 ## Development Commands
 
 ```bash
-# Install dependencies
 npm install
-
-# Development server
-npm run dev
-
-# Build for web
-npm run build
-
-# Preview production build
-npm run preview
-
-# Run tests
-npm run test
-
-# Lint
-npm run lint
-
-# Type check
-npm run typecheck
-
-# Validate locale files
+npm run dev                 # Vite dev server (http://localhost:5173)
+npm run build               # typecheck + production build
+npm run test:run            # all tests (npm test = watch mode)
+npm run test:coverage       # with coverage thresholds
+npm run typecheck           # src
+npm run typecheck:all       # src + tests + scripts + worker + build plugins
+npm run lint && npm run format:check
+npm run knip                # unused files/exports/dependencies
 npm run validate:locales
-
-# Desktop dev (requires Tauri CLI)
-npm run tauri dev
-
-# Desktop build
-npm run tauri build
+npm run check:bundle        # after build: initial load / chunk budget
+npm run check:licenses      # licence allow-list + THIRD_PARTY_NOTICES in sync
+npm run check:version       # the six version fields agree
+npm run check:tauri         # @tauri-apps/* and tauri crates on the same major.minor
+npm run cf:dev              # wrangler dev (copy .dev.vars.example to .dev.vars — test keys only)
+npm run cf:check            # wrangler deploy --dry-run
+npm run tauri:dev           # desktop app against the dev server
+npm run tauri:build         # desktop installers
+# src-tauri/: cargo fmt --check · cargo clippy --all-targets -- -D warnings · cargo test
 ```
 
 ## Git Workflow
 
-- `main` — stable releases
-- `dev` — integration branch
-- Feature branches: `feat/feature-name`
-- Commit format: `type(scope): message`
-  - Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`
-  - Example: `feat(engine): add Spanish template support`
+- `main` only: feature branches (`feat/…`, `fix/…`, `docs/…`, `chore/…`) → PR → `main`. Every merge to `main` deploys the web app.
+- Commit and PR-title format: `type(scope): message` (`feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`) — CI checks PR titles.
+- Commits and release tags are GPG-signed; never bypass signing or hooks.
+- Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title`.
+
+## Releases
+
+- Bump the version in all six places: `package.json`, `package-lock.json` (×2), `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml`, `src-tauri/Cargo.lock` (`npm run check:version`), and add a `CHANGELOG.md` entry.
+- Push a signed tag `vX.Y.Z` → the release workflows verify, build the desktop and Android artifacts and create a **draft** release. The maintainer publishes it.
 
 ## Important Notes for Claude Code
 
-- Always run `npm run typecheck` before committing
-- When adding a new language: follow docs/I18N.md checklist
-- When adding a new genre: add to `src/config/genres.ts` + tag pool in `src/engine/tag-generator.ts`
-- When adding a new video type: add to `src/config/video-types.ts` + update all template files in `src/i18n/locales/*/templates.json`
-- Engine tests must pass before any PR merge
-- Keep bundle size under 500KB (excluding Tauri)
+- Run the gates before committing: `typecheck`, `typecheck:all`, `lint`, `format:check`, `test:run`, `knip`, `validate:locales`, `build` + `check:bundle`; `cargo fmt/clippy/test` when `src-tauri/` changes.
+- New language: follow `docs/I18N.md` (register it, both namespaces, tag pools, `channel-phrase.ts` patterns, browser detection).
+- New genre: `src/config/genres.ts` + its tag pool in `src/engine/tag-generator.ts` (a test keeps them in sync).
+- New video type: `src/config/video-types.ts` + every `templates.json` (titles, intros, pinned-comment greetings).
+- New store platform: `src/config/platforms.ts` (URL pattern, `tagName`), optionally a name extractor in `src/utils/url-extractors.ts`.
+- Never commit `note.txt`, `warning.txt` or `__pycache__/`; never put real secrets in files (`.dev.vars` holds Cloudflare's public Turnstile test keys only).
+- The Cloudflare dashboard, publishing releases and repository settings are the maintainer's; ask before touching them.

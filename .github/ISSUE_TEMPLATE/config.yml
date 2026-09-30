@@ -1,8 +1,17 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Discord — General chat
-    url: https://discord.gg/2aNR3aVt
+  - name: Report a security vulnerability
+    url: https://github.com/poli0981/youtube-generator/security/advisories/new
+    about: Privately, please — never in a public issue. See SECURITY.md.
+  - name: User guide (wiki)
+    url: https://github.com/poli0981/youtube-generator/wiki
+    about: How-tos, backup & restore, troubleshooting and the FAQ.
+  - name: Discord
+    url: https://discord.gg/kDM9GMu5vm
     about: For casual questions, gameplay chat, or quick help. Use a bug report or feature request for anything actionable.
+  - name: All channels and contacts
+    url: https://poli0981.dev/links/
+    about: Email addresses by purpose and every other way to reach the maintainer.
   - name: GitHub Discussions
     url: https://github.com/poli0981/youtube-generator/discussions
     about: Ideas, Q&A, and release announcements live here.
