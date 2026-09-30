@@ -14,5 +14,5 @@
     // never sees these, which is why the base config leaves them out.
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src", "tests", "scripts"]
+  "include": ["src", "tests", "scripts", "worker", "build-plugins"]
 }

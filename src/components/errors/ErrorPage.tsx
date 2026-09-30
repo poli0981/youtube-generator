@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Button } from "@components/ui/Button";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import { ABOUT } from "@config/about";
+import { IS_TAURI } from "@utils/platform";
 import { resolveErrorMeta, severityTextClass, type ErrorKind } from "@config/error-pages";
 
 interface ErrorPageProps {
@@ -24,10 +25,11 @@ interface ErrorPageProps {
  * the contained boundary card.
  *
  * Intentionally **router-agnostic**: the root ErrorBoundary in `main.tsx`
- * mounts *outside* `<HashRouter>`, so calling `useNavigate()` here would throw
+ * mounts *outside* the router, so calling `useNavigate()` here would throw
  * "useNavigate may be used only in the context of a Router" inside the very
- * crash path it is meant to handle. Navigation is therefore plain hash anchors
- * (`#/`) + `history.back()`, which work whether or not a Router is above.
+ * crash path it is meant to handle. Navigation is therefore a plain location
+ * change ({@link goHome}) + `history.back()`, which work whether or not a
+ * Router is above.
  *
  * The dispatcher itself calls no hooks, so each variant component owns its own
  * unconditional hook calls (no hook-order hazard across the branch).
@@ -38,6 +40,12 @@ export function ErrorPage(props: ErrorPageProps) {
   ) : (
     <FullscreenError {...props} />
   );
+}
+
+/** Home without a router: hash routing in Tauri, real paths on the web. */
+function goHome(): void {
+  if (IS_TAURI) window.location.hash = "#/";
+  else window.location.assign("/");
 }
 
 function FullscreenError({ kind }: ErrorPageProps) {
@@ -64,12 +72,7 @@ function FullscreenError({ kind }: ErrorPageProps) {
         <p className="text-text-secondary text-sm">{description}</p>
       </div>
       <div className="flex flex-wrap items-center justify-center gap-3">
-        <Button
-          variant="primary"
-          onClick={() => {
-            window.location.hash = "#/";
-          }}
-        >
+        <Button variant="primary" onClick={goHome}>
           <House className="h-4 w-4" />
           {t("errorPages.actions.home")}
         </Button>

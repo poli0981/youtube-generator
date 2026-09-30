@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, HashRouter, Outlet, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import { AppShell } from "@components/layout/AppShell";
@@ -14,6 +14,7 @@ import { checkDataFileHealth } from "@utils/storage-adapter";
 import { hydrateLogStore } from "@store/log-store";
 import { useSettingsStore } from "@store/settings-store";
 import i18n from "@i18n/index";
+import { IS_TAURI } from "@utils/platform";
 
 const ProfilesPage = lazy(() =>
   import("@pages/ProfilesPage").then((m) => ({ default: m.ProfilesPage })),
@@ -31,6 +32,15 @@ const PlaylistPage = lazy(() =>
 );
 const LogPage = lazy(() => import("@pages/LogPage").then((m) => ({ default: m.LogPage })));
 const AboutPage = lazy(() => import("@pages/AboutPage").then((m) => ({ default: m.AboutPage })));
+// Lazy on purpose: the rendered legal HTML travels with this chunk only.
+const LegalPage = lazy(() => import("@pages/LegalPage").then((m) => ({ default: m.LegalPage })));
+
+/**
+ * Real paths on the web (ytgenerator.stream serves the shell for every route,
+ * and Cloudflare Web Analytics counts page views by path); hash routing inside
+ * Tauri, whose asset protocol has no server-side fallback to rely on.
+ */
+const Router = IS_TAURI ? HashRouter : BrowserRouter;
 
 function PageLoader() {
   return <div className="text-text-muted flex items-center justify-center p-12">Loading...</div>;
@@ -52,6 +62,25 @@ function PageBoundary({ label, children }: { label: string; children: ReactNode 
     </ErrorBoundary>
   );
 }
+
+/**
+ * v0.28.0 first-run legal consent gate, as a layout route: until the user
+ * accepts the current terms version, every app route renders the gate instead.
+ * The Legal Center routes sit outside this guard so the gate can open each
+ * document in place.
+ */
+function ConsentGuard() {
+  const legalConsentVersion = useSettingsStore((s) => s.legalConsentVersion);
+  return needsConsent(legalConsentVersion) ? <ConsentGate /> : <Outlet />;
+}
+
+const TOASTER_OPTIONS = {
+  style: {
+    background: "var(--surface-2)",
+    color: "var(--text-primary)",
+    border: "1px solid var(--border)",
+  },
+};
 
 export default function App() {
   useEffect(() => {
@@ -97,138 +126,123 @@ export default function App() {
     return () => unsub();
   }, []);
 
-  // v0.28.0: first-run legal consent gate. Until the user accepts the current
-  // terms version, render the gate INSTEAD of the router so nothing in the app
-  // is reachable. The whole tree stays inside the root ErrorBoundary
-  // (main.tsx), so a gate render error still degrades to the error page.
-  const legalConsentVersion = useSettingsStore((s) => s.legalConsentVersion);
-
-  if (needsConsent(legalConsentVersion)) {
-    return (
-      <>
-        <ConsentGate />
-        <Toaster
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: "var(--surface-2)",
-              color: "var(--text-primary)",
-              border: "1px solid var(--border)",
-            },
-          }}
-        />
-      </>
-    );
-  }
-
   return (
     <>
-      <HashRouter>
+      <Router>
         <Routes>
-          <Route element={<AppShell />}>
-            <Route
-              index
-              element={
-                <ErrorBoundary label="Editor">
-                  <EditorPage />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="output"
-              element={
-                <ErrorBoundary label="Output">
-                  <OutputPage />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="profiles"
-              element={
-                <PageBoundary label="Profiles">
-                  <ProfilesPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="history"
-              element={
-                <PageBoundary label="History">
-                  <HistoryPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="settings"
-              element={
-                <PageBoundary label="Settings">
-                  <SettingsPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="batch"
-              element={
-                <PageBoundary label="Batch">
-                  <BatchPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="social"
-              element={
-                <PageBoundary label="Social">
-                  <SocialPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="playlist"
-              element={
-                <PageBoundary label="Playlist">
-                  <PlaylistPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="logs"
-              element={
-                <PageBoundary label="Logs">
-                  <LogPage />
-                </PageBoundary>
-              }
-            />
-            <Route
-              path="about"
-              element={
-                <PageBoundary label="About">
-                  <AboutPage />
-                </PageBoundary>
-              }
-            />
-          </Route>
-          {/* Designed error pages — siblings of the AppShell group so they
+          <Route
+            path="/legal"
+            element={
+              <PageBoundary label="Legal">
+                <LegalPage />
+              </PageBoundary>
+            }
+          />
+          <Route
+            path="/legal/:docId"
+            element={
+              <PageBoundary label="Legal">
+                <LegalPage />
+              </PageBoundary>
+            }
+          />
+          <Route element={<ConsentGuard />}>
+            <Route element={<AppShell />}>
+              <Route
+                index
+                element={
+                  <ErrorBoundary label="Editor">
+                    <EditorPage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="output"
+                element={
+                  <ErrorBoundary label="Output">
+                    <OutputPage />
+                  </ErrorBoundary>
+                }
+              />
+              <Route
+                path="profiles"
+                element={
+                  <PageBoundary label="Profiles">
+                    <ProfilesPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="history"
+                element={
+                  <PageBoundary label="History">
+                    <HistoryPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="settings"
+                element={
+                  <PageBoundary label="Settings">
+                    <SettingsPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="batch"
+                element={
+                  <PageBoundary label="Batch">
+                    <BatchPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="social"
+                element={
+                  <PageBoundary label="Social">
+                    <SocialPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="playlist"
+                element={
+                  <PageBoundary label="Playlist">
+                    <PlaylistPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="logs"
+                element={
+                  <PageBoundary label="Logs">
+                    <LogPage />
+                  </PageBoundary>
+                }
+              />
+              <Route
+                path="about"
+                element={
+                  <PageBoundary label="About">
+                    <AboutPage />
+                  </PageBoundary>
+                }
+              />
+            </Route>
+            {/* Designed error pages — siblings of the AppShell group so they
               render full-screen with no Sidebar/Header. `403/419/500` are
               route-reachable for future triggers; `*` is the live 404 for
-              any mistyped hash path. */}
-          <Route path="/403" element={<ErrorPage kind="forbidden" />} />
-          <Route path="/419" element={<ErrorPage kind="expired" />} />
-          <Route path="/500" element={<ErrorPage kind="serverError" />} />
-          <Route path="/offline" element={<ErrorPage kind="offline" />} />
-          <Route path="*" element={<ErrorPage kind="notFound" />} />
+              any mistyped path. */}
+            <Route path="/403" element={<ErrorPage kind="forbidden" />} />
+            <Route path="/419" element={<ErrorPage kind="expired" />} />
+            <Route path="/500" element={<ErrorPage kind="serverError" />} />
+            <Route path="/offline" element={<ErrorPage kind="offline" />} />
+            <Route path="*" element={<ErrorPage kind="notFound" />} />
+          </Route>
         </Routes>
         <OfflineBanner />
-      </HashRouter>
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          style: {
-            background: "var(--surface-2)",
-            color: "var(--text-primary)",
-            border: "1px solid var(--border)",
-          },
-        }}
-      />
+      </Router>
+      <Toaster position="bottom-right" toastOptions={TOASTER_OPTIONS} />
     </>
   );
 }

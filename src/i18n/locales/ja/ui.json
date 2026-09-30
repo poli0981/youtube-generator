@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "始める前に",
-    "intro": "YTDescGen は無料・オフライン優先のツールです。下記の文書をご確認ください。続行すると、これらを読み同意したことになります。",
+    "intro": "YTDescGen は無料のオープンソースツールです。以下の文書をご確認ください（このアプリ内で開けます）。続行すると、内容を読み同意したものとみなされます。",
     "agreeLabel": "利用規約、プライバシーポリシー、免責事項、およびライセンスを読み、同意します。",
     "continue": "続行",
-    "mustAgree": "続行するにはチェックを入れてください。",
-    "docTerms": "利用規約",
-    "docPrivacy": "プライバシーポリシー",
-    "docDisclaimer": "免責事項",
-    "docLicense": "ライセンス (Apache-2.0)"
+    "mustAgree": "続行するにはチェックを入れてください。"
   },
   "videoTypes": {
     "full": "フルゲームプレイ",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "厳格モード: {{count}} 件の項目に修正が必要です",
     "fixHint": "エディタで修正するか、設定で厳格モードをオフにしてください。"
+  },
+  "legal": {
+    "title": "法的情報",
+    "intro": "YTDescGen の利用規約、プライバシー、ライセンス、セキュリティ。ytgenerator.stream/legal で公開しているものと同じ文書です。",
+    "englishOnly": "文書は英語で公開しています（免責事項のみベトナム語版もあります）。",
+    "back": "戻る",
+    "allDocuments": "すべての文書",
+    "loading": "文書を読み込んでいます…",
+    "notFound": "その文書は存在しません。",
+    "language": "文書の言語",
+    "docs": {
+      "terms": "利用規約",
+      "privacy": "プライバシーポリシー",
+      "disclaimer": "免責事項",
+      "license": "ライセンス（Apache-2.0）",
+      "thirdParty": "サードパーティ通知",
+      "security": "セキュリティポリシー",
+      "notice": "NOTICE",
+      "conduct": "行動規範"
+    },
+    "summaries": {
+      "terms": "YTDescGen と生成された内容について、できること・できないこと。",
+      "privacy": "端末に残るデータと、Web 版で Cloudflare が処理するデータ。",
+      "disclaimer": "無保証、AI 支援による開発と翻訳、提携関係なし。",
+      "license": "ソースコードに適用される Apache License 2.0。",
+      "thirdParty": "YTDescGen が利用しているオープンソースライブラリ、フォント、サービス。",
+      "security": "脆弱性を非公開で報告する方法と対象範囲。",
+      "notice": "著作権と帰属を記した Apache-2.0 の NOTICE ファイル。",
+      "conduct": "プロジェクトのコミュニティに適用される Contributor Covenant の規則。"
+    }
   }
 }

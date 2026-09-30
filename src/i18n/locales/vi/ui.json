@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "Trước khi bắt đầu",
-    "intro": "YTDescGen là công cụ miễn phí, ưu tiên hoạt động ngoại tuyến. Vui lòng xem các tài liệu bên dưới. Khi tiếp tục, bạn xác nhận đã đọc và đồng ý với chúng.",
+    "intro": "YTDescGen miễn phí và mã nguồn mở. Hãy xem các văn bản bên dưới — mỗi văn bản đều mở ngay tại đây. Khi tiếp tục, bạn xác nhận đã đọc và đồng ý với chúng.",
     "agreeLabel": "Tôi đã đọc và đồng ý với Điều khoản Sử dụng, Chính sách Bảo mật, Tuyên bố Miễn trừ và Giấy phép.",
     "continue": "Tiếp tục",
-    "mustAgree": "Vui lòng tích vào ô để tiếp tục.",
-    "docTerms": "Điều khoản Sử dụng",
-    "docPrivacy": "Chính sách Bảo mật",
-    "docDisclaimer": "Tuyên bố Miễn trừ",
-    "docLicense": "Giấy phép (Apache-2.0)"
+    "mustAgree": "Vui lòng tích vào ô để tiếp tục."
   },
   "videoTypes": {
     "full": "Full Gameplay",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "Strict Mode: {{count}} trường cần sửa",
     "fixHint": "Hãy sửa trong tab Editor, hoặc tắt Strict Mode trong Cài đặt."
+  },
+  "legal": {
+    "title": "Pháp lý",
+    "intro": "Điều khoản, quyền riêng tư, giấy phép và bảo mật của YTDescGen — cùng nội dung được đăng tại ytgenerator.stream/legal.",
+    "englishOnly": "Các văn bản được công bố bằng tiếng Anh; riêng Tuyên bố miễn trừ có thêm bản tiếng Việt.",
+    "back": "Quay lại",
+    "allDocuments": "Tất cả văn bản",
+    "loading": "Đang tải văn bản…",
+    "notFound": "Văn bản này không tồn tại.",
+    "language": "Ngôn ngữ văn bản",
+    "docs": {
+      "terms": "Điều khoản sử dụng",
+      "privacy": "Chính sách quyền riêng tư",
+      "disclaimer": "Tuyên bố miễn trừ trách nhiệm",
+      "license": "Giấy phép (Apache-2.0)",
+      "thirdParty": "Thông báo bên thứ ba",
+      "security": "Chính sách bảo mật",
+      "notice": "NOTICE",
+      "conduct": "Quy tắc ứng xử"
+    },
+    "summaries": {
+      "terms": "Những gì bạn được và không được làm với YTDescGen và nội dung nó tạo ra.",
+      "privacy": "Dữ liệu nào ở lại trên thiết bị của bạn, và Cloudflare xử lý gì trên bản web.",
+      "disclaimer": "Không bảo hành, phát triển và dịch thuật có hỗ trợ AI, không liên kết với bên nào.",
+      "license": "Giấy phép Apache 2.0 áp dụng cho mã nguồn.",
+      "thirdParty": "Thư viện mã nguồn mở, phông chữ và dịch vụ mà YTDescGen sử dụng.",
+      "security": "Cách báo cáo lỗ hổng một cách riêng tư và phạm vi áp dụng.",
+      "notice": "Tệp NOTICE theo Apache-2.0 với thông tin bản quyền và ghi công.",
+      "conduct": "Quy tắc Contributor Covenant cho các không gian cộng đồng của dự án."
+    }
   }
 }

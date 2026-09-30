@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "开始之前",
-    "intro": "YTDescGen 是一款免费、离线优先的工具。请查看以下文档。继续即表示您已阅读并同意这些文档。",
+    "intro": "YTDescGen 免费且开源。请查看下方文档——每份文档都可以直接在这里打开。继续即表示你已阅读并同意这些文档。",
     "agreeLabel": "我已阅读并同意《使用条款》《隐私政策》《免责声明》和《许可证》。",
     "continue": "继续",
-    "mustAgree": "请勾选复选框以继续。",
-    "docTerms": "使用条款",
-    "docPrivacy": "隐私政策",
-    "docDisclaimer": "免责声明",
-    "docLicense": "许可证 (Apache-2.0)"
+    "mustAgree": "请勾选复选框以继续。"
   },
   "videoTypes": {
     "full": "完整游戏实况",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "严格模式：{{count}} 个字段需要修正",
     "fixHint": "请在编辑器中修正，或在设置中关闭严格模式。"
+  },
+  "legal": {
+    "title": "法律信息",
+    "intro": "YTDescGen 的条款、隐私、许可与安全文档——与 ytgenerator.stream/legal 上发布的内容相同。",
+    "englishOnly": "文档以英文发布；免责声明另有越南语版本。",
+    "back": "返回",
+    "allDocuments": "全部文档",
+    "loading": "正在加载文档…",
+    "notFound": "该文档不存在。",
+    "language": "文档语言",
+    "docs": {
+      "terms": "使用条款",
+      "privacy": "隐私政策",
+      "disclaimer": "免责声明",
+      "license": "许可证（Apache-2.0）",
+      "thirdParty": "第三方声明",
+      "security": "安全政策",
+      "notice": "NOTICE",
+      "conduct": "行为准则"
+    },
+    "summaries": {
+      "terms": "使用 YTDescGen 及其生成内容时可以做和不可以做的事。",
+      "privacy": "哪些数据留在你的设备上，以及网页版中 Cloudflare 会处理哪些数据。",
+      "disclaimer": "不提供担保、由 AI 协助开发与翻译、与任何方无关联。",
+      "license": "源代码所采用的 Apache License 2.0。",
+      "thirdParty": "YTDescGen 所依赖的开源库、字体和服务。",
+      "security": "如何私下报告漏洞，以及适用范围。",
+      "notice": "包含版权与署名信息的 Apache-2.0 NOTICE 文件。",
+      "conduct": "适用于项目社区空间的 Contributor Covenant 规则。"
+    }
   }
 }

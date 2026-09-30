@@ -6,7 +6,7 @@ By participating in this project — opening issues, submitting pull requests, c
 
 ## Reporting
 
-Report violations privately to the maintainer: `lopop05905@proton.me`.
+Report violations privately to the maintainer: `code@poli0981.dev`.
 
 All reports are reviewed and investigated promptly and fairly. The maintainer is obligated to respect the privacy and security of the reporter.
 

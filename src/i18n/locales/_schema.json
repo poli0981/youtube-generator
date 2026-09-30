@@ -181,7 +181,7 @@
     "errorPages.serverError": ["title", "description"],
     "errorPages.offline": ["title", "description"],
     "errorPages.runtime": ["title", "description"],
-    "consentGate": ["title", "intro", "agreeLabel", "continue", "mustAgree", "docTerms", "docPrivacy", "docDisclaimer", "docLicense"],
+    "consentGate": ["title", "intro", "agreeLabel", "continue", "mustAgree"],
     "videoTypes": ["full", "part", "full_demo", "demo_part", "boss", "boss_nohit", "ending", "speedrun", "100percent", "dlc", "newgame_plus", "challenge", "side_quest", "secret", "comparison", "guide", "mods", "collectibles", "livestream", "gacha_quest"],
     "genres": ["action", "hack_slash", "beatemup", "platformer", "horror", "survival_horror", "psychological_horror", "rpg", "jrpg", "action_rpg", "crpg", "fps", "arena_shooter", "tactical_fps", "boomer_shooter", "extraction_shooter", "shmup", "openworld", "indie", "soulslike", "racing", "story", "simulation", "city_builder", "fighting", "stealth", "survival_craft", "roguelike", "metroidvania", "mmo", "rhythm", "puzzle", "tower_defense", "card_game", "deck_builder", "auto_battler", "battle_royale", "tactical", "space", "farming", "fmv", "visual_novel"],
     "rig": ["os", "cpu", "gpu", "ram", "storage", "monitor", "capture", "motherboard", "controller", "video_editor"],
@@ -200,7 +200,10 @@
     "validation": ["emailInvalid", "emailMaxExceeded", "urlInvalid", "urlPrefixMismatch", "playlistUrlInvalid", "messengerUrlInvalid", "zaloUrlInvalid", "signalUrlInvalid", "instagramInviteUrlInvalid", "facebookGroupUrlInvalid", "numberRequired", "numberInvalid", "numberNotInteger", "numberOutOfRange", "rangeEndBeforeStart", "rangeTooLarge", "emailMaxReached", "fieldTooLong"],
     "logs": ["title", "emptyState", "clearAll", "clearConfirm", "clearPersistedConfirm", "clearSession", "searchPlaceholder", "exportJson", "exportTxt", "sessionCurrent", "sessionLabel", "entriesShort"],
     "playlist": ["title", "status", "contentType", "totalVideos", "customNote", "generatePlaylist", "droppedReasonsLabel", "droppedReasonCustomLabel", "droppedReasonCustomPlaceholder", "pinnedComment"],
-    "playlist.droppedReasons": ["boring", "performance", "bugs", "delisted", "low_views", "time"]
+    "playlist.droppedReasons": ["boring", "performance", "bugs", "delisted", "low_views", "time"],
+    "legal": ["title", "intro", "englishOnly", "back", "allDocuments", "loading", "notFound", "language"],
+    "legal.docs": ["terms", "privacy", "disclaimer", "license", "thirdParty", "security", "notice", "conduct"],
+    "legal.summaries": ["terms", "privacy", "disclaimer", "license", "thirdParty", "security", "notice", "conduct"]
   },
   "templates": {
     "title": ["separator", "suffix"],

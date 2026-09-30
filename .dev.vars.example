@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `npm run cf:dev`. These are Cloudflare's public
+# Turnstile TEST keys: the widget always passes and the secret accepts only the
+# dummy token it produces. Never put the real secret in a file.
+TURNSTILE_SITE_KEY=1x00000000000000000000AA
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA

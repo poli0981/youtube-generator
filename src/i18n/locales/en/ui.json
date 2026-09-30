@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "Before you start",
-    "intro": "YTDescGen is a free, offline-first tool. Please review the documents below. By continuing, you confirm you have read and agree to them.",
+    "intro": "YTDescGen is free and open source. Please review the documents below — each one opens right here. By continuing, you confirm you have read and agree to them.",
     "agreeLabel": "I have read and agree to the Terms of Use, Privacy Policy, Disclaimer, and License.",
     "continue": "Continue",
-    "mustAgree": "Please check the box to continue.",
-    "docTerms": "Terms of Use",
-    "docPrivacy": "Privacy Policy",
-    "docDisclaimer": "Disclaimer",
-    "docLicense": "License (Apache-2.0)"
+    "mustAgree": "Please check the box to continue."
   },
   "videoTypes": {
     "full": "Full Gameplay",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "Strict Mode: {{count}} field(s) need fixing",
     "fixHint": "Fix these in the Editor, or turn Strict Mode off in Settings."
+  },
+  "legal": {
+    "title": "Legal",
+    "intro": "Terms, privacy, licensing and security for YTDescGen — the same documents published at ytgenerator.stream/legal.",
+    "englishOnly": "Documents are published in English; the Disclaimer also has a Vietnamese version.",
+    "back": "Back",
+    "allDocuments": "All documents",
+    "loading": "Loading document…",
+    "notFound": "That document doesn't exist.",
+    "language": "Document language",
+    "docs": {
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy",
+      "disclaimer": "Disclaimer",
+      "license": "License (Apache-2.0)",
+      "thirdParty": "Third-party notices",
+      "security": "Security policy",
+      "notice": "NOTICE",
+      "conduct": "Code of Conduct"
+    },
+    "summaries": {
+      "terms": "What you may and may not do with YTDescGen and what it generates.",
+      "privacy": "What stays on your device, and what Cloudflare processes on the web.",
+      "disclaimer": "No warranty, AI-assisted development and translations, no affiliation.",
+      "license": "The Apache License 2.0 the source code is released under.",
+      "thirdParty": "Open-source libraries, fonts and services YTDescGen relies on.",
+      "security": "How to report a vulnerability privately, and what is in scope.",
+      "notice": "The Apache-2.0 NOTICE file with copyright and attribution.",
+      "conduct": "Contributor Covenant rules for the project's community spaces."
+    }
   }
 }
