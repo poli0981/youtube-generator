@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "Sebelum mulai",
-    "intro": "YTDescGen adalah alat gratis yang mengutamakan mode offline. Silakan baca dokumen di bawah. Dengan melanjutkan, kamu menyatakan telah membaca dan menyetujuinya.",
+    "intro": "YTDescGen gratis dan bersumber terbuka. Silakan tinjau dokumen di bawah — setiap dokumen dapat dibuka di sini. Dengan melanjutkan, Anda menyatakan telah membaca dan menyetujuinya.",
     "agreeLabel": "Saya telah membaca dan menyetujui Ketentuan Penggunaan, Kebijakan Privasi, Disclaimer, dan Lisensi.",
     "continue": "Lanjutkan",
-    "mustAgree": "Centang kotaknya untuk melanjutkan.",
-    "docTerms": "Ketentuan Penggunaan",
-    "docPrivacy": "Kebijakan Privasi",
-    "docDisclaimer": "Disclaimer",
-    "docLicense": "Lisensi (Apache-2.0)"
+    "mustAgree": "Centang kotaknya untuk melanjutkan."
   },
   "videoTypes": {
     "full": "Gameplay Lengkap",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "Mode Ketat: {{count}} kolom perlu diperbaiki",
     "fixHint": "Perbaiki di Editor, atau matikan Mode Ketat di Pengaturan."
+  },
+  "legal": {
+    "title": "Informasi hukum",
+    "intro": "Ketentuan, privasi, lisensi, dan keamanan YTDescGen — dokumen yang sama dengan yang diterbitkan di ytgenerator.stream/legal.",
+    "englishOnly": "Dokumen diterbitkan dalam bahasa Inggris; Penafian juga tersedia dalam bahasa Vietnam.",
+    "back": "Kembali",
+    "allDocuments": "Semua dokumen",
+    "loading": "Memuat dokumen…",
+    "notFound": "Dokumen itu tidak ada.",
+    "language": "Bahasa dokumen",
+    "docs": {
+      "terms": "Ketentuan Penggunaan",
+      "privacy": "Kebijakan Privasi",
+      "disclaimer": "Penafian",
+      "license": "Lisensi (Apache-2.0)",
+      "thirdParty": "Pemberitahuan pihak ketiga",
+      "security": "Kebijakan keamanan",
+      "notice": "NOTICE",
+      "conduct": "Kode Etik"
+    },
+    "summaries": {
+      "terms": "Apa yang boleh dan tidak boleh Anda lakukan dengan YTDescGen dan hasilnya.",
+      "privacy": "Apa yang tetap di perangkat Anda, dan apa yang diproses Cloudflare di versi web.",
+      "disclaimer": "Tanpa jaminan, pengembangan dan terjemahan dibantu AI, tanpa afiliasi.",
+      "license": "Lisensi Apache 2.0 yang berlaku untuk kode sumber.",
+      "thirdParty": "Pustaka sumber terbuka, font, dan layanan yang digunakan YTDescGen.",
+      "security": "Cara melaporkan kerentanan secara pribadi, dan cakupannya.",
+      "notice": "Berkas NOTICE Apache-2.0 berisi hak cipta dan atribusi.",
+      "conduct": "Aturan Contributor Covenant untuk ruang komunitas proyek."
+    }
   }
 }

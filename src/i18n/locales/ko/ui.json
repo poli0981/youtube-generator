@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "시작하기 전에",
-    "intro": "YTDescGen은 무료이며 오프라인을 우선하는 도구입니다. 아래 문서를 검토해 주세요. 계속하면 문서를 읽고 동의한 것으로 간주됩니다.",
+    "intro": "YTDescGen은 무료 오픈 소스 도구입니다. 아래 문서를 확인해 주세요. 각 문서는 바로 여기에서 열립니다. 계속하면 문서를 읽고 동의한 것으로 간주됩니다.",
     "agreeLabel": "이용약관, 개인정보 처리방침, 면책 조항 및 라이선스를 읽고 동의합니다.",
     "continue": "계속",
-    "mustAgree": "계속하려면 체크박스를 선택하세요.",
-    "docTerms": "이용약관",
-    "docPrivacy": "개인정보 처리방침",
-    "docDisclaimer": "면책 조항",
-    "docLicense": "라이선스 (Apache-2.0)"
+    "mustAgree": "계속하려면 체크박스를 선택하세요."
   },
   "videoTypes": {
     "full": "전체 게임플레이",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "엄격 모드: {{count}}개 항목을 수정해야 합니다",
     "fixHint": "편집기에서 수정하거나 설정에서 엄격 모드를 끄세요."
+  },
+  "legal": {
+    "title": "법적 고지",
+    "intro": "YTDescGen의 약관, 개인정보, 라이선스, 보안 문서입니다. ytgenerator.stream/legal에 게시된 것과 같은 내용입니다.",
+    "englishOnly": "문서는 영어로 게시됩니다. 면책 조항은 베트남어 버전도 있습니다.",
+    "back": "뒤로",
+    "allDocuments": "모든 문서",
+    "loading": "문서를 불러오는 중…",
+    "notFound": "해당 문서가 없습니다.",
+    "language": "문서 언어",
+    "docs": {
+      "terms": "이용약관",
+      "privacy": "개인정보 처리방침",
+      "disclaimer": "면책 조항",
+      "license": "라이선스(Apache-2.0)",
+      "thirdParty": "타사 고지",
+      "security": "보안 정책",
+      "notice": "NOTICE",
+      "conduct": "행동 강령"
+    },
+    "summaries": {
+      "terms": "YTDescGen과 생성된 결과물로 할 수 있는 일과 할 수 없는 일.",
+      "privacy": "기기에 남는 데이터와 웹 버전에서 Cloudflare가 처리하는 데이터.",
+      "disclaimer": "보증 없음, AI 지원 개발 및 번역, 제휴 관계 없음.",
+      "license": "소스 코드에 적용되는 Apache License 2.0.",
+      "thirdParty": "YTDescGen이 사용하는 오픈 소스 라이브러리, 글꼴, 서비스.",
+      "security": "취약점을 비공개로 제보하는 방법과 적용 범위.",
+      "notice": "저작권과 출처 표시를 담은 Apache-2.0 NOTICE 파일.",
+      "conduct": "프로젝트 커뮤니티 공간에 적용되는 Contributor Covenant 규칙."
+    }
   }
 }

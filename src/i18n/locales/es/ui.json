@@ -826,14 +826,10 @@
   },
   "consentGate": {
     "title": "Antes de empezar",
-    "intro": "YTDescGen es una herramienta gratuita y con prioridad sin conexión. Revisa los documentos siguientes. Al continuar, confirmas que los has leído y los aceptas.",
+    "intro": "YTDescGen es gratuito y de código abierto. Revisa los documentos de abajo: cada uno se abre aquí mismo. Al continuar, confirmas que los has leído y los aceptas.",
     "agreeLabel": "He leído y acepto los Términos de Uso, la Política de Privacidad, el Aviso Legal y la Licencia.",
     "continue": "Continuar",
-    "mustAgree": "Marca la casilla para continuar.",
-    "docTerms": "Términos de Uso",
-    "docPrivacy": "Política de Privacidad",
-    "docDisclaimer": "Aviso Legal",
-    "docLicense": "Licencia (Apache-2.0)"
+    "mustAgree": "Marca la casilla para continuar."
   },
   "videoTypes": {
     "full": "Gameplay Completo",
@@ -1149,5 +1145,35 @@
   "strict": {
     "blockedTitle": "Modo estricto: {{count}} campo(s) por corregir",
     "fixHint": "Corrígelos en el Editor o desactiva el Modo estricto en Ajustes."
+  },
+  "legal": {
+    "title": "Información legal",
+    "intro": "Términos, privacidad, licencias y seguridad de YTDescGen: los mismos documentos publicados en ytgenerator.stream/legal.",
+    "englishOnly": "Los documentos se publican en inglés; el Descargo de responsabilidad también tiene versión en vietnamita.",
+    "back": "Volver",
+    "allDocuments": "Todos los documentos",
+    "loading": "Cargando documento…",
+    "notFound": "Ese documento no existe.",
+    "language": "Idioma del documento",
+    "docs": {
+      "terms": "Términos de uso",
+      "privacy": "Política de privacidad",
+      "disclaimer": "Descargo de responsabilidad",
+      "license": "Licencia (Apache-2.0)",
+      "thirdParty": "Avisos de terceros",
+      "security": "Política de seguridad",
+      "notice": "NOTICE",
+      "conduct": "Código de conducta"
+    },
+    "summaries": {
+      "terms": "Lo que puedes y no puedes hacer con YTDescGen y con lo que genera.",
+      "privacy": "Qué se queda en tu dispositivo y qué procesa Cloudflare en la versión web.",
+      "disclaimer": "Sin garantía, desarrollo y traducciones asistidos por IA, sin afiliación.",
+      "license": "La Licencia Apache 2.0 bajo la que se publica el código fuente.",
+      "thirdParty": "Bibliotecas de código abierto, fuentes y servicios en los que se basa YTDescGen.",
+      "security": "Cómo informar de una vulnerabilidad en privado y qué está dentro del alcance.",
+      "notice": "El archivo NOTICE de Apache-2.0 con derechos de autor y atribución.",
+      "conduct": "Normas del Contributor Covenant para los espacios comunitarios del proyecto."
+    }
   }
 }

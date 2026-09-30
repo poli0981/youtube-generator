@@ -7,7 +7,9 @@
   "project": [
     "src/**/*.{ts,tsx}",
     "scripts/**/*.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "worker/**/*.ts",
+    "build-plugins/**/*.ts"
   ],
   "ignoreExportsUsedInFile": true,
   "ignoreDependencies": [

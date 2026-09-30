@@ -13,10 +13,10 @@ import {
  *
  * YTDescGen is a pure-client SPA (HashRouter, no backend), so `forbidden` /
  * `expired` / `serverError` never arise from the app's own logic today — they
- * exist as designed, route-reachable pages (`/#/403`, `/#/419`, `/#/500`)
+ * exist as designed, route-reachable pages (`/403`, `/419`, `/500`)
  * ready to be wired to future triggers (a Tauri command failure, a future
  * sync backend). The kinds that *do* fire:
- *   - `notFound` — the catch-all `*` route (a mistyped hash path)
+ *   - `notFound` — the catch-all `*` route (a mistyped path)
  *   - `offline`  — `navigator.onLine` flips false (see use-online-status)
  *   - `runtime`  — a render crash caught by ErrorBoundary
  */

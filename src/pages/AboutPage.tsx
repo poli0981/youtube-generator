@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import {
   ExternalLink,
   Github,
@@ -15,12 +16,13 @@ import {
   Heart,
   Sparkles,
   DollarSign,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 import { ABOUT, type AboutSocialId } from "@config/about";
 import { DONATE, type DonateId } from "@config/donate";
 import { THIRD_PARTY } from "@config/third-party";
-import { LEGAL_DOCS } from "@config/legal";
+import { LEGAL_DOCS, legalDocPath } from "@config/legal";
 import { useDocumentTitle } from "@hooks/use-document-title";
 
 interface SocialLinkConfig {
@@ -126,11 +128,6 @@ export function AboutPage() {
             label={t("about.discussionsLabel")}
           />
           <ExternalLinkRow href={ABOUT.githubAuthor} icon={Github} label={t("about.authorLabel")} />
-          <ExternalLinkRow
-            href={ABOUT.licenseUrl}
-            icon={ExternalLink}
-            label={`${t("about.licenseLabel")} · ${ABOUT.license}`}
-          />
         </div>
       </section>
 
@@ -140,12 +137,14 @@ export function AboutPage() {
         </h2>
         <div className="grid gap-2 sm:grid-cols-2">
           {LEGAL_DOCS.map((doc) => (
-            <ExternalLinkRow
+            <Link
               key={doc.id}
-              href={doc.url}
-              icon={ExternalLink}
-              label={t(doc.labelKey)}
-            />
+              to={legalDocPath(doc.id)}
+              className="border-border bg-surface-1 text-text-primary hover:border-accent hover:bg-surface-2 flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm transition-colors"
+            >
+              <FileText className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
+              <span className="flex-1 truncate">{t(doc.labelKey)}</span>
+            </Link>
           ))}
         </div>
       </section>

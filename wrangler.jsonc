@@ -8,6 +8,8 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   // Must match the Worker the repository is connected to in the dashboard.
   "name": "youtube-generator",
+  // The Turnstile gate + security headers in front of the static build.
+  "main": "worker/index.ts",
   // Keep at or below the date the pinned wrangler's local runtime supports.
   "compatibility_date": "2026-09-25",
 
@@ -21,9 +23,37 @@
 
   "assets": {
     "directory": "./dist",
-    // The app uses hash routing, so every navigation lands on `/`; unknown
-    // paths fall back to the app shell, which renders its own 404 page.
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    // NOT the SPA fallback: any path excluded from the Worker below would then
+    // get index.html without passing the gate. The Worker serves the app shell
+    // itself for gated routes; misses on public paths get dist/404.html.
+    "not_found_handling": "404-page",
+    // Everything goes through the Worker first, except content-hashed build
+    // output and the public files crawlers, browsers and the manifest fetch
+    // without cookies. Negative patterns win.
+    "run_worker_first": [
+      "/*",
+      "!/assets/*",
+      "!/icons/*",
+      "!/.well-known/*",
+      "!/favicon.svg",
+      "!/favicon.ico",
+      "!/apple-touch-icon.png",
+      "!/og-image.png",
+      "!/manifest.webmanifest",
+      "!/robots.txt",
+      "!/sitemap.xml",
+      "!/theme-init.js",
+      "!/404.html"
+    ]
+  },
+
+  "vars": {
+    // Public by design — the widget embeds it in the page. The matching
+    // secret is the dashboard Secret TURNSTILE_SECRET (never committed).
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFKFAMUx9rQ5H6bQ",
+    // How long a passed check lasts before the gate shows again.
+    "GATE_TTL_SECONDS": "86400"
   },
 
   "observability": { "enabled": true }

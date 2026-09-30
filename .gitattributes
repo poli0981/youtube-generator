@@ -1,0 +1,13 @@
+# LF in the repository and in every checkout, on every OS. Prettier enforces
+# `endOfLine: "lf"`, and a Windows checkout with core.autocrlf=true otherwise
+# turns every file it touches (checkout, stash, rebase) into a formatting
+# failure that CI never sees.
+* text=auto eol=lf
+
+# Binary assets — never touch.
+*.png binary
+*.ico binary
+*.icns binary
+*.jks binary
+*.keystore binary
+*.woff2 binary

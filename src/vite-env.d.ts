@@ -22,3 +22,19 @@ interface SaveFilePickerOptions {
 interface Window {
   showSaveFilePicker?: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>;
 }
+
+/**
+ * Build-time rendered legal documents (build-plugins/legal-docs.ts). Imported
+ * lazily by the Legal Center so the HTML never lands in the main chunk.
+ */
+declare module "virtual:legal-docs" {
+  import type { LegalDocId } from "@config/legal";
+
+  export interface RenderedLegalDoc {
+    title: string;
+    effective: string | null;
+    html: { en?: string; vi?: string };
+  }
+
+  export const LEGAL_CONTENT: Record<LegalDocId, RenderedLegalDoc>;
+}

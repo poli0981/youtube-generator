@@ -1,11 +1,19 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { legalDocsPlugin } from "./build-plugins/legal-docs.ts";
+import { cloudflareWebAnalytics, securityTxt } from "./build-plugins/web-only.ts";
 
 const isTauri = !!process.env.TAURI_ENV_PLATFORM;
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // In-app Legal Center content for every build; the static /legal pages,
+    // security.txt and the analytics beacon only for the web deployment.
+    legalDocsPlugin({ emitStaticPages: !isTauri }),
+    ...(isTauri ? [] : [securityTxt(), cloudflareWebAnalytics()]),
+  ],
   // Both builds are served from the root: the web build from
   // https://ytgenerator.stream (Cloudflare Workers static assets, see
   // wrangler.jsonc) and the Tauri build from its own asset protocol. The old
@@ -33,6 +41,9 @@ export default defineConfig({
     // modern default. Desktop WebViews are evergreen, so a lower
     // target is a harmless no-op there.
     target: isTauri ? "es2020" : undefined,
+    // Never inline assets as data: URIs — the Tauri CSP only allows 'self'
+    // for images and fonts, so an inlined icon would silently fail there.
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         // Vite 8 bundles with Rolldown, which only accepts the function form of
