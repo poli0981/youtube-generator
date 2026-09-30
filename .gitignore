@@ -22,3 +22,9 @@ src-tauri/gen/android/.gradle/
 src-tauri/gen/android/.idea/
 src-tauri/gen/android/build/
 src-tauri/gen/android/app/build/
+
+# Cloudflare (wrangler dev / dry runs)
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example

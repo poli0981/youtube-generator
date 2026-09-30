@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://poli0981.github.io/youtube-generator/sitemap.xml
+
+Sitemap: https://ytgenerator.stream/sitemap.xml

@@ -1,32 +1,39 @@
 {
+  "id": "/",
   "name": "YTDescGen",
   "short_name": "YTDescGen",
   "description": "YouTube title, description, and tag generator for Gameplay No Commentary channels.",
-  "start_url": "/youtube-generator/",
-  "scope": "/youtube-generator/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "background_color": "#0b0b12",
+  "theme_color": "#0b0b12",
   "lang": "en",
   "categories": ["productivity", "utilities", "multimedia"],
   "icons": [
     {
-      "src": "favicon.svg",
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "icon-192.png",
+      "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

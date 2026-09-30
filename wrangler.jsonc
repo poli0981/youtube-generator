@@ -1,0 +1,30 @@
+// Cloudflare Workers configuration for https://ytgenerator.stream.
+//
+// This is the only deployment file in the repo: Workers Builds (connected to
+// this GitHub repository in the Cloudflare dashboard) runs `npx wrangler
+// deploy` on every push to `main`, and `build.command` below produces `dist/`.
+// There is no GitHub Actions deploy workflow. See docs/HOSTING.md.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker the repository is connected to in the dashboard.
+  "name": "youtube-generator",
+  // Keep at or below the date the pinned wrangler's local runtime supports.
+  "compatibility_date": "2026-09-25",
+
+  // Serve the site only on the custom domain. `wrangler deploy` detaches any
+  // custom domain that is not listed here, so this entry is load-bearing.
+  "workers_dev": false,
+  "preview_urls": true,
+  "routes": [{ "pattern": "ytgenerator.stream", "custom_domain": true }],
+
+  "build": { "command": "npm run build" },
+
+  "assets": {
+    "directory": "./dist",
+    // The app uses hash routing, so every navigation lands on `/`; unknown
+    // paths fall back to the app shell, which renders its own 404 page.
+    "not_found_handling": "single-page-application"
+  },
+
+  "observability": { "enabled": true }
+}

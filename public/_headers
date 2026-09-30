@@ -1,0 +1,30 @@
+# Response headers for files Cloudflare serves straight out of dist/.
+#
+# Rules are additive: a path matching several blocks gets every header, and a
+# header set twice is joined with a comma — so each header name appears in
+# exactly one block per path. HSTS is intentionally absent: the zone edge
+# already sends `max-age=31536000; includeSubDomains; preload`.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+
+# Content-hashed build output: safe to cache forever.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  Cross-Origin-Resource-Policy: same-origin
+
+/icons/*
+  Cache-Control: public, max-age=604800
+
+# Link-preview crawlers and chat apps embed this from other origins.
+/og-image.png
+  Cache-Control: public, max-age=86400
+  Cross-Origin-Resource-Policy: cross-origin
+
+/manifest.webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
