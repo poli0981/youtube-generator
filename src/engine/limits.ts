@@ -105,6 +105,23 @@ export function isFieldOver(status: OutputLimitStatus, field: LimitedField): boo
  * Copy All is title + description, so it is blocked by either of those —
  * but not by the tags, which it doesn't include.
  */
-export function isCopyAllBlocked(status: OutputLimitStatus): boolean {
-  return isFieldOver(status, "title") || isFieldOver(status, "description");
+export function isCopyAllBlocked(status: OutputLimitStatus, withTags = false): boolean {
+  return (
+    isFieldOver(status, "title") ||
+    isFieldOver(status, "description") ||
+    (withTags && isFieldOver(status, "tags"))
+  );
+}
+
+/**
+ * What Copy All copies: the title and description, and the tags when the
+ * "Copy All includes tags" setting is on — each separated by a blank line.
+ */
+export function copyAllText(
+  output: { title: string; description: string; tagString: string },
+  withTags: boolean,
+): string {
+  const parts = [output.title, output.description];
+  if (withTags && output.tagString) parts.push(output.tagString);
+  return parts.join("\n\n");
 }

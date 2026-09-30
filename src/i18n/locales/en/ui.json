@@ -713,9 +713,7 @@
     },
     "quickPreview": "Quick Preview",
     "version": "Version",
-    "clearDraft": "Clear Draft",
     "draftSaved": "Draft saved",
-    "clearDraftConfirm": "Are you sure you want to clear all form data?",
     "genreSearchPlaceholder": "Search genres",
     "genreSearchNoResults": "No matching genres",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "YouTube needs at least 3 timestamps for chapters ({{n}} so far).",
       "tooShort": "{{time}}: each chapter must be at least 10 seconds long.",
       "outOfOrder": "{{time}} comes before the timestamp above it."
-    }
+    },
+    "quick": {
+      "profile": "Channel profile",
+      "preset": "Game preset",
+      "chooseProfile": "Choose a profile…",
+      "choosePreset": "Choose a game…",
+      "emptyLibrary": "Save your channel as a profile and each game as a preset to fill them here in one click:",
+      "profileChanged": "Channel fields differ from profile “{{name}}”.",
+      "presetChanged": "Game fields differ from preset “{{name}}”.",
+      "updateProfile": "Update profile",
+      "updatePreset": "Update preset",
+      "nextPart": "Next part ({{n}})",
+      "nextPartPlain": "Next part",
+      "newVideo": "New video, same game",
+      "nextPartDone": "Ready for part {{n}} — the last video's details are cleared",
+      "newVideoDone": "Ready for a new video — the last video's details are cleared",
+      "startOver": "Start over",
+      "startOverConfirm": "Clears the game and video fields. Your channel — name, contact, social links, rig, donate and community links — stays.",
+      "startOverDone": "Started over — your channel details are kept",
+      "applyProfileTitle": "Apply profile “{{name}}”?",
+      "applyPresetTitle": "Apply preset “{{name}}”?",
+      "overwrite": "{{n}} field(s) you've filled in will be replaced. You can undo it right after.",
+      "replace": "Replace"
+    },
+    "paste": {
+      "link": "{{store}} link added",
+      "linkAndName": "{{store}} link added — game name set to “{{name}}”"
+    },
+    "socialGroups": {
+      "donate": "Donate",
+      "social": "Social"
+    },
+    "mastodonHelp": "Full URL including the server, e.g. https://mastodon.social/@user",
+    "vnBankRenamed": "This bank is now called {{name}}.",
+    "vnBankUseNewName": "Use {{name}}"
   },
   "output": {
     "title": "Title",
@@ -809,7 +841,11 @@
       "titleCut": "Search results and suggestions cut titles at about {{chars}} characters — keep the key words at the front.",
       "foldHint": "Viewers see only the first ~{{chars}} characters of the description before “…more”."
     },
-    "forbiddenChars": "{{field}}: YouTube doesn't accept the characters < and > — remove them before uploading."
+    "forbiddenChars": "{{field}}: YouTube doesn't accept the characters < and > — remove them before uploading.",
+    "variantsHint": "Title shapes with your separator and badge settings. Use one and every title is built that way.",
+    "variantApply": "Use this shape",
+    "variantCurrent": "In use",
+    "variantApplied": "Titles now use “{{name}}”"
   },
   "common": {
     "save": "Save",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "Website",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1016,8 +1057,6 @@
     "loadPreset": "Load",
     "deleteConfirm": "Are you sure you want to delete this preset?",
     "emptyState": "No game presets yet. Create one to save game info for reuse.",
-    "selectPreset": "Load Game Preset",
-    "noPresets": "No presets",
     "exportPresets": "Export Presets",
     "importPresets": "Import Presets",
     "hint": "A game's name, genres, platform and store links — reused across all its parts.",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "Search by game name...",
     "noResults": "No entries match your search.",
     "exportCsv": "CSV (spreadsheet)",
-    "exportJson": "JSON (for restoring)"
+    "exportJson": "JSON (for restoring)",
+    "savedSnapshot": "Saved to History"
   },
   "settings": {
     "title": "Settings",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "Between {{min}} and {{max}}.",
     "themeDark": "Dark",
-    "themeLight": "Light"
+    "themeLight": "Light",
+    "titleOrder": "Title order",
+    "titleOrderGameFirst": "Game first (Hades — Part 3)",
+    "titleOrderTypeFirst": "Video first (Part 3 — Hades)",
+    "copyAllIncludesTags": "Copy All includes the tags",
+    "copyAllIncludesTagsHint": "Title, description, then the tags — for pasting everything into a notes app in one go."
   },
   "socialPost": {
     "title": "Cross-Post Captions",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "{{captions}} captions"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "Configure batch range and generate.",
     "intro": "Generate a run of parts for the game in the Editor, in one or more languages.",
     "partLabel": "Part {{n}}",
-    "summary": "{{parts}} parts × {{languages}} languages"
+    "summary": "{{parts}} parts × {{languages}} languages",
+    "videoType": "Video type"
   },
   "shortcuts": {
     "title": "Keyboard Shortcuts",
     "generate": "Generate (switch to Output)",
     "copyAll": "Copy All",
-    "saveDraft": "Save Draft",
     "toggleSidebar": "Toggle Sidebar",
     "help": "Show Shortcuts",
     "close": "Close Modal",
     "searchPlaceholder": "Search shortcuts",
-    "noResults": "No matching shortcuts"
+    "noResults": "No matching shortcuts",
+    "saveToHistory": "Save to History"
   },
   "validation": {
     "numberRequired": "Enter a number.",

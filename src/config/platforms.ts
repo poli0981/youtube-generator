@@ -22,17 +22,19 @@ export interface PlatformConfig {
 /**
  * Normaliser for Steam store URLs.
  *
- * Valid shape: `https://store.steampowered.com/app/<id>` with an optional
- * trailing slug such as `/ELDEN_RING/`. This strips everything after the
- * numeric id, yielding the canonical `.../app/<id>` form.
+ * Keeps `https://store.steampowered.com/app/<id>/<Slug>/` — the slug makes
+ * the link readable in a description and is where the game's name is read
+ * from — and drops what follows it (tracking `?snr=` parameters, extra
+ * path segments). An `s.team/a/<id>` short link becomes the `/app/<id>` form.
  */
 function normalizeSteamUrl(url: string): string {
   const short = url.match(/^https:\/\/s\.team\/a\/(\d+)\/?$/i);
   if (short) return `https://store.steampowered.com/app/${short[1]}`;
   const match = url.match(
-    /^(https:\/\/store\.steampowered\.com\/(?:app|sub|bundle)\/\d+)(?:\/.*)?$/i,
+    /^(https:\/\/store\.steampowered\.com\/(?:app|sub|bundle)\/\d+)(\/[^/?#\s]+)?/i,
   );
-  return match?.[1] ?? url;
+  if (!match) return url;
+  return match[2] ? `${match[1]}${match[2]}/` : (match[1] ?? url);
 }
 
 export const PLATFORMS: readonly PlatformConfig[] = [
@@ -110,6 +112,51 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     urlPrefix: "https://luna.amazon.com/game/",
     // Luna's own site, or the game's page on any Amazon storefront.
     urlPattern: /^https:\/\/(?:luna\.amazon\.com|(?:www\.)?amazon\.[a-z.]{2,6})\/[^\s]+$/i,
+  },
+  {
+    id: "ea",
+    tagName: "EA app",
+    label: "EA app",
+    urlPrefix: "https://www.ea.com/games/",
+    urlPattern: /^https:\/\/(?:www\.)?ea\.com\/[^\s]+$/i,
+  },
+  {
+    id: "ubisoft",
+    tagName: "Ubisoft Connect",
+    label: "Ubisoft Store",
+    urlPrefix: "https://store.ubisoft.com/",
+    urlPattern: /^https:\/\/(?:store\.ubisoft\.com|(?:www\.)?ubisoft\.com)\/[^\s]+$/i,
+  },
+  {
+    id: "battlenet",
+    tagName: "Battle.net",
+    label: "Battle.net",
+    urlPrefix: "https://shop.battle.net/",
+    // shop.battle.net and its regional hosts (us.shop.battle.net …).
+    urlPattern: /^https:\/\/(?:[a-z0-9-]+\.)*battle\.net\/[^\s]+$/i,
+  },
+  {
+    id: "googleplay",
+    tagName: "Android",
+    label: "Google Play",
+    urlPrefix: "https://play.google.com/store/apps/details?id=",
+    // `id=` first or after other parameters (`?hl=en&id=…`).
+    urlPattern: /^https:\/\/play\.google\.com\/store\/apps\/details\?(?:[^\s]*&)?id=[\w.]+[^\s]*$/i,
+  },
+  {
+    id: "appstore",
+    tagName: "iOS",
+    label: "App Store",
+    urlPrefix: "https://apps.apple.com/app/",
+    urlPattern: /^https:\/\/apps\.apple\.com\/[^\s]+$/i,
+  },
+  {
+    id: "meta",
+    tagName: "Meta Quest",
+    label: "Meta Quest Store",
+    urlPrefix: "https://www.meta.com/experiences/",
+    // meta.com, and oculus.com links that still circulate.
+    urlPattern: /^https:\/\/(?:www\.)?(?:meta|oculus)\.com\/[^\s]+$/i,
   },
   {
     // Catch-all for indie / niche releases distributed only from a

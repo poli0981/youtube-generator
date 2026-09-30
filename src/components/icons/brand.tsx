@@ -12,6 +12,7 @@ import {
   siPaypal,
   siSteam,
   siTelegram,
+  siThreads,
   siTiktok,
   siX,
   siYoutube,
@@ -60,3 +61,4 @@ export const PaypalIcon = brandIcon(siPaypal);
 export const FacebookIcon = brandIcon(siFacebook);
 export const InstagramIcon = brandIcon(siInstagram);
 export const TiktokIcon = brandIcon(siTiktok);
+export const ThreadsIcon = brandIcon(siThreads);

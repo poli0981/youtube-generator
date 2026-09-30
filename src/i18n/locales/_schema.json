@@ -186,9 +186,9 @@
 
       "quickPreview",
       "version",
-      "clearDraft",
+      
       "draftSaved",
-      "clearDraftConfirm",
+      
       "genreSearchPlaceholder",
       "genreSearchNoResults",
       "collapseAll",
@@ -208,7 +208,7 @@
       "gpuNone",
       "gpuCustomLabel",
       "gpuCustomChosen",
-      "timestampsNormalize"
+      "timestampsNormalize", "mastodonHelp", "vnBankRenamed", "vnBankUseNewName"
     ],
     "editor.genreGroups": ["rpg", "shooter", "horror"],
     "editor.graphicsPresetOptions": [
@@ -695,7 +695,7 @@
       "previewingVideo",
       "emptyTitle",
       "emptyHint",
-      "forbiddenChars"
+      "forbiddenChars", "variantsHint", "variantApply", "variantCurrent", "variantApplied"
     ],
     "output.variants": ["default", "typeFirst", "qualityFirst"],
     "output.copy": ["overLimit", "fieldGeneric", "failed", "empty"],
@@ -831,7 +831,7 @@
       "mastodon",
       "facebook",
       "fb_page",
-      "telegram"
+      "telegram", "youtube", "threads", "kick", "reddit", "bilibili"
     ],
     "resolutions": ["720p", "1080p", "1440p", "4K"],
     "fpsOptions": ["30", "60", "120", "144"],
@@ -862,8 +862,8 @@
       "loadPreset",
       "deleteConfirm",
       "emptyState",
-      "selectPreset",
-      "noPresets",
+      
+      
       "exportPresets",
       "importPresets",
       "hint", "saveHint", "updateFromEditor", "saved", "updated", "unnamed"
@@ -890,7 +890,7 @@
       "clearAll",
       "clearConfirm",
       "searchPlaceholder",
-      "noResults", "exportCsv", "exportJson"
+      "noResults", "exportCsv", "exportJson", "savedSnapshot"
     ],
     "settings": [
       "title",
@@ -949,7 +949,7 @@
       "genrePlaylistsBadge",
       "numberRange",
       "themeDark",
-      "themeLight"
+      "themeLight", "titleOrder", "titleOrderGameFirst", "titleOrderTypeFirst", "copyAllIncludesTags", "copyAllIncludesTagsHint"
     ],
     "batch": [
       "title",
@@ -960,7 +960,7 @@
       "emptyState",
       "intro",
       "partLabel",
-      "summary"
+      "summary", "videoType"
     ],
     "socialPost": [
       "title",
@@ -977,17 +977,17 @@
       "importedHeading",
       "bulkSummary"
     ],
-    "socialPost.platforms": ["tiktok", "instagram_reels", "facebook_reels"],
+    "socialPost.platforms": ["tiktok", "instagram_reels", "facebook_reels", "youtube_shorts", "x", "threads", "bluesky"],
     "shortcuts": [
       "title",
       "generate",
       "copyAll",
-      "saveDraft",
+      
       "toggleSidebar",
       "help",
       "close",
       "searchPlaceholder",
-      "noResults"
+      "noResults", "saveToHistory"
     ],
     "validation": [
       "emailInvalid",
@@ -1116,7 +1116,10 @@
     "restore": ["title", "meta", "metaUnknown", "mode", "merge", "mergeHint", "replace", "replaceHint", "conflicts", "newer", "newerHint", "both", "bothHint", "counts", "sameAsHere", "settingsNote", "draftNote", "dropped", "showItems", "hideItems", "tooNewTitle", "tooNew", "empty", "replaceRemoves", "apply", "nothing", "done", "doneDetail", "undone"],
     "restore.status": ["new", "same", "changed"],
     "import.errors": ["empty", "notJson", "unknown", "newer", "tooLarge", "wrongType", "unreadable"],
-    "import": ["logsFile", "socialFile"]
+    "import": ["logsFile", "socialFile"],
+    "editor.quick": ["profile", "preset", "chooseProfile", "choosePreset", "emptyLibrary", "profileChanged", "presetChanged", "updateProfile", "updatePreset", "nextPart", "nextPartPlain", "newVideo", "nextPartDone", "newVideoDone", "startOver", "startOverConfirm", "startOverDone", "applyProfileTitle", "applyPresetTitle", "overwrite", "replace"],
+    "editor.paste": ["link", "linkAndName"],
+    "editor.socialGroups": ["donate", "social"]
   },
   "templates": {
     "title": ["separator", "suffix"],

@@ -34,6 +34,10 @@ export interface SocialPostOptions {
   tEn?: TranslationFn;
   /** Year for the copyright line; the current year when omitted. */
   year?: number;
+  /** Most hashtags to keep (derived ones first). */
+  maxHashtags?: number;
+  /** How the platform counts characters; plain length when omitted. */
+  countMode?: "x";
 }
 
 export interface SocialPostOutput {
@@ -43,6 +47,51 @@ export interface SocialPostOutput {
   /** Ids of optional blocks dropped to fit the limit, in the order
    *  dropped (empty when everything fit). */
   droppedBlocks: string[];
+}
+
+/** Code points X counts once; everything else counts twice (twitter-text v3). */
+function xCountsOnce(codePoint: number): boolean {
+  return (
+    codePoint <= 0x10ff ||
+    (codePoint >= 0x2000 && codePoint <= 0x200d) ||
+    (codePoint >= 0x2010 && codePoint <= 0x201f) ||
+    (codePoint >= 0x2032 && codePoint <= 0x2037)
+  );
+}
+
+const PICTOGRAPHIC = /\p{Extended_Pictographic}/u;
+
+/** `Intl.Segmenter` (ES2022; the project's TS lib predates it). */
+type GraphemeSegmenter = new (
+  locale: undefined,
+  options: { granularity: "grapheme" },
+) => { segment(input: string): Iterable<{ segment: string }> };
+const Segmenter = (globalThis.Intl as unknown as { Segmenter?: GraphemeSegmenter } | undefined)
+  ?.Segmenter;
+
+/**
+ * Length the way X counts it against 280: Latin, Cyrillic, Greek… count
+ * once; CJK, Hangul, Vietnamese letters with diacritics (Latin Extended
+ * Additional) count twice; an emoji — however many code points — counts
+ * twice.
+ */
+export function xWeightedLength(text: string): number {
+  const normalized = text.normalize("NFC");
+  const graphemes = Segmenter
+    ? Array.from(
+        new Segmenter(undefined, { granularity: "grapheme" }).segment(normalized),
+        (part) => part.segment,
+      )
+    : Array.from(normalized);
+  let total = 0;
+  for (const grapheme of graphemes) {
+    if (PICTOGRAPHIC.test(grapheme)) {
+      total += 2;
+      continue;
+    }
+    for (const char of grapheme) total += xCountsOnce(char.codePointAt(0) ?? 0) ? 1 : 2;
+  }
+  return total;
 }
 
 /** Optional blocks listed in display order (Title is always first,
@@ -72,7 +121,11 @@ function dedupeHashtags(tags: readonly string[]): string[] {
   return out;
 }
 
-function buildHashtagLine(input: GeneratorInput, popular: readonly string[]): string {
+function buildHashtagLine(
+  input: GeneratorInput,
+  popular: readonly string[],
+  max = Number.POSITIVE_INFINITY,
+): string {
   const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
   const primaryGenre = input.genres[0];
   const derived = [
@@ -80,7 +133,9 @@ function buildHashtagLine(input: GeneratorInput, popular: readonly string[]): st
     "#GameplayNoCommentary",
     ...(primaryGenre ? [`#${sanitizeHashtag(primaryGenre)}`] : []),
   ].filter((tag) => tag.length > 1);
-  return dedupeHashtags([...derived, ...popular]).join(" ");
+  return dedupeHashtags([...derived, ...popular])
+    .slice(0, max)
+    .join(" ");
 }
 
 export function buildSocialPost(
@@ -95,7 +150,10 @@ export function buildSocialPost(
     showSponsorCredit,
     tEn,
     year = new Date().getFullYear(),
+    maxHashtags,
+    countMode,
   } = options;
+  const count = countMode === "x" ? xWeightedLength : (text: string) => text.length;
 
   // Title — short-form, so the `[2K 60FPS]` badge is suppressed.
   const title = buildTitle(input, t, { showQualityBadge: false });
@@ -126,7 +184,7 @@ export function buildSocialPost(
         : "",
   };
 
-  const hashtags = buildHashtagLine(input, popularHashtags);
+  const hashtags = buildHashtagLine(input, popularHashtags, maxHashtags);
 
   // Track which optional blocks are still present; drop in priority order
   // until the caption fits. Title + hashtags are always kept.
@@ -144,7 +202,7 @@ export function buildSocialPost(
   const droppedBlocks: string[] = [];
   let text = assemble();
   for (const id of DROP_ORDER) {
-    if (text.length <= charLimit) break;
+    if (count(text) <= charLimit) break;
     if (present.has(id)) {
       present.delete(id);
       droppedBlocks.push(id);
@@ -152,10 +210,11 @@ export function buildSocialPost(
     }
   }
 
+  const charCount = count(text);
   return {
     text,
-    charCount: text.length,
-    isOver: text.length > charLimit,
+    charCount,
+    isOver: charCount > charLimit,
     droppedBlocks,
   };
 }
@@ -185,6 +244,8 @@ export function buildAllSocialPosts(
       showSponsorCredit: shared.showSponsorCredit,
       tEn: shared.tEn,
       year: shared.year,
+      maxHashtags: p.maxHashtags,
+      countMode: p.countMode,
     });
   }
   return out;

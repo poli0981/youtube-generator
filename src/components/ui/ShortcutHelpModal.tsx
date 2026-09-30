@@ -14,7 +14,7 @@ const SHORTCUTS = [
   { keys: ["mod", "G"], labelKey: "shortcuts.generate" },
   { keys: ["mod", "enter"], labelKey: "shortcuts.generate" },
   { keys: ["mod", "shift", "C"], labelKey: "shortcuts.copyAll" },
-  { keys: ["mod", "S"], labelKey: "shortcuts.saveDraft" },
+  { keys: ["mod", "S"], labelKey: "shortcuts.saveToHistory" },
   { keys: ["mod", "B"], labelKey: "shortcuts.toggleSidebar" },
   { keys: ["mod", "/"], labelKey: "shortcuts.help" },
   { keys: ["?"], labelKey: "shortcuts.help" },

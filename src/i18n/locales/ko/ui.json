@@ -713,9 +713,7 @@
     },
     "quickPreview": "빠른 미리보기",
     "version": "버전",
-    "clearDraft": "초안 지우기",
     "draftSaved": "초안 저장됨",
-    "clearDraftConfirm": "모든 양식 데이터를 지우시겠습니까?",
     "genreSearchPlaceholder": "장르 검색",
     "genreSearchNoResults": "일치하는 장르 없음",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "챕터를 만들려면 타임스탬프가 3개 이상 필요합니다(현재 {{n}}개).",
       "tooShort": "{{time}}: 각 챕터는 10초 이상이어야 합니다.",
       "outOfOrder": "{{time}}이(가) 위 타임스탬프보다 앞입니다."
-    }
+    },
+    "quick": {
+      "profile": "채널 프로필",
+      "preset": "게임 프리셋",
+      "chooseProfile": "프로필 선택…",
+      "choosePreset": "게임 선택…",
+      "emptyLibrary": "채널을 프로필로, 게임을 프리셋으로 저장하면 여기서 한 번에 채울 수 있습니다:",
+      "profileChanged": "채널 항목이 프로필 “{{name}}”과(와) 다릅니다.",
+      "presetChanged": "게임 항목이 프리셋 “{{name}}”과(와) 다릅니다.",
+      "updateProfile": "프로필 업데이트",
+      "updatePreset": "프리셋 업데이트",
+      "nextPart": "다음 파트 ({{n}})",
+      "nextPartPlain": "다음 파트",
+      "newVideo": "같은 게임의 새 영상",
+      "nextPartDone": "{{n}}편 준비 완료 — 이전 영상의 세부 정보를 지웠습니다",
+      "newVideoDone": "새 영상 준비 완료 — 이전 영상의 세부 정보를 지웠습니다",
+      "startOver": "처음부터 다시",
+      "startOverConfirm": "게임과 영상 항목을 지웁니다. 채널 정보(이름, 연락처, 소셜, PC 사양, 후원·커뮤니티)는 유지됩니다.",
+      "startOverDone": "처음부터 다시 시작했습니다 — 채널 정보는 유지됩니다",
+      "applyProfileTitle": "프로필 “{{name}}”을(를) 적용할까요?",
+      "applyPresetTitle": "프리셋 “{{name}}”을(를) 적용할까요?",
+      "overwrite": "입력한 항목 {{n}}개가 바뀝니다. 바로 직후에는 되돌릴 수 있습니다.",
+      "replace": "바꾸기"
+    },
+    "paste": {
+      "link": "{{store}} 링크를 추가했습니다",
+      "linkAndName": "{{store}} 링크를 추가하고 게임 이름을 “{{name}}”(으)로 정했습니다"
+    },
+    "socialGroups": {
+      "donate": "후원",
+      "social": "소셜"
+    },
+    "mastodonHelp": "서버를 포함한 전체 URL, 예: https://mastodon.social/@user",
+    "vnBankRenamed": "이 은행의 현재 이름은 {{name}}입니다.",
+    "vnBankUseNewName": "{{name}}(으)로 변경"
   },
   "output": {
     "title": "제목",
@@ -809,7 +841,11 @@
       "titleCut": "검색 결과와 추천 영상에서는 제목이 약 {{chars}}자에서 잘립니다 — 핵심 단어를 앞에 두세요.",
       "foldHint": "시청자는 “…더보기” 전에 설명의 처음 약 {{chars}}자만 봅니다."
     },
-    "forbiddenChars": "{{field}}: YouTube는 < 와 > 문자를 허용하지 않습니다. 업로드 전에 지우세요."
+    "forbiddenChars": "{{field}}: YouTube는 < 와 > 문자를 허용하지 않습니다. 업로드 전에 지우세요.",
+    "variantsHint": "구분자와 배지 설정을 반영한 제목 형식입니다. 하나를 고르면 모든 제목이 그 형식으로 만들어집니다.",
+    "variantApply": "이 형식 사용",
+    "variantCurrent": "사용 중",
+    "variantApplied": "이제 제목은 “{{name}}” 형식을 씁니다"
   },
   "common": {
     "save": "저장",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "웹사이트",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook 페이지",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1036,8 +1077,6 @@
     "loadPreset": "불러오기",
     "deleteConfirm": "이 프리셋을 삭제하시겠습니까?",
     "emptyState": "게임 프리셋이 없습니다. 게임 정보를 재사용하려면 프리셋을 만드세요.",
-    "selectPreset": "게임 프리셋 불러오기",
-    "noPresets": "프리셋 없음",
     "exportPresets": "프리셋 내보내기",
     "importPresets": "프리셋 가져오기",
     "hint": "게임 이름, 장르, 플랫폼, 스토어 링크 — 모든 파트에서 재사용됩니다.",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "기록 검색...",
     "noResults": "검색과 일치하는 기록이 없습니다.",
     "exportCsv": "CSV (스프레드시트)",
-    "exportJson": "JSON (복원용)"
+    "exportJson": "JSON (복원용)",
+    "savedSnapshot": "기록에 저장했습니다"
   },
   "settings": {
     "title": "설정",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "{{min}}~{{max}} 사이의 값.",
     "themeDark": "다크",
-    "themeLight": "라이트"
+    "themeLight": "라이트",
+    "titleOrder": "제목 순서",
+    "titleOrderGameFirst": "게임 먼저 (Hades — Part 3)",
+    "titleOrderTypeFirst": "영상 먼저 (Part 3 — Hades)",
+    "copyAllIncludesTags": "모두 복사에 태그 포함",
+    "copyAllIncludesTagsHint": "제목, 설명, 태그 순서로 — 메모 앱에 한 번에 붙여넣을 때 좋습니다."
   },
   "socialPost": {
     "title": "크로스포스트 캡션",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "캡션 {{captions}}개"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "파트 범위를 설정하고 일괄 설명을 생성하세요.",
     "intro": "에디터의 게임에 대해 연속된 파트를 하나 이상의 언어로 한 번에 생성합니다.",
     "partLabel": "파트 {{n}}",
-    "summary": "파트 {{parts}}개 × 언어 {{languages}}개"
+    "summary": "파트 {{parts}}개 × 언어 {{languages}}개",
+    "videoType": "영상 유형"
   },
   "shortcuts": {
     "title": "키보드 단축키",
     "generate": "생성",
     "copyAll": "전체 복사",
-    "saveDraft": "초안 저장",
     "toggleSidebar": "사이드바 토글",
     "help": "도움말",
     "close": "닫기",
     "searchPlaceholder": "단축키 검색",
-    "noResults": "일치하는 단축키 없음"
+    "noResults": "일치하는 단축키 없음",
+    "saveToHistory": "기록에 저장"
   },
   "validation": {
     "numberRequired": "숫자를 입력하세요.",

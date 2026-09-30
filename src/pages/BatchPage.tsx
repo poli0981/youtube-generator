@@ -10,6 +10,7 @@ import { Banner } from "@components/ui/Banner";
 import { Card } from "@components/ui/Card";
 import { ChipGroup } from "@components/ui/ChipGroup";
 import { EmptyState } from "@components/ui/EmptyState";
+import { SegmentedControl } from "@components/ui/SegmentedControl";
 import { PageContainer, PageHeader } from "@components/ui/PageHeader";
 import { CopyButton } from "@components/output/CopyButton";
 import { CharCounter } from "@components/output/CharCounter";
@@ -27,6 +28,7 @@ import { validateBatchRange } from "@utils/validation";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import {
+  copyAllText,
   getOutputLimitStatus,
   isCopyAllBlocked,
   isFieldOver,
@@ -51,6 +53,10 @@ interface BatchResult {
   languages: BatchLanguageRow[];
 }
 
+/** The numbered video types a batch can produce. */
+const BATCH_TYPES = ["part", "demo_part"] as const;
+type BatchVideoType = (typeof BATCH_TYPES)[number];
+
 export function BatchPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.batch"));
@@ -71,8 +77,15 @@ export function BatchPage() {
   // Strict Mode: refuse to spin out 100 parts from a form that already has a
   // known-bad field. No-op unless the user opted in.
   const strictBlocked = useStrictBlock();
-  const [startPart, setStartPart] = useState("1");
-  const [endPart, setEndPart] = useState("5");
+  // A series continues from where the editor is: its part number and, for a
+  // demo, demo parts.
+  const [batchType, setBatchType] = useState<BatchVideoType>(() =>
+    state.videoType === "demo_part" || state.videoType === "full_demo" ? "demo_part" : "part",
+  );
+  const editorPart = /^\d+$/.test(state.partNumber.trim()) ? Number(state.partNumber) : 1;
+  const [startPart, setStartPart] = useState(String(Math.max(1, editorPart)));
+  const [endPart, setEndPart] = useState(String(Math.max(1, editorPart) + 4));
+  const copyAllWithTags = useSettingsStore((s) => s.copyAllIncludesTags);
   const [selectedLangs, setSelectedLangs] = useState<SupportedLanguage[]>([state.language]);
   const [results, setResults] = useState<BatchResult[]>([]);
   const [generating, setGenerating] = useState(false);
@@ -95,12 +108,11 @@ export function BatchPage() {
     for (let i = start; i <= Math.min(end, start + 99); i++) {
       const languages: BatchLanguageRow[] = selectedLangs.map((lang) => {
         const tFn = i18n.getFixedT(lang, "templates");
-        // Batch generates "part" entries regardless of the editor's
-        // currently-selected video type — the page exists to spin out a
-        // series, not to batch-duplicate whatever the user last picked.
+        // Batch spins out a numbered series — parts, or parts of a demo —
+        // whatever single-video type the editor is on.
         const input = {
           ...baseInput,
-          videoType: "part" as const,
+          videoType: batchType,
           language: lang,
           partNumber: String(i),
           // Batch intentionally leaves the per-part timeline empty; the
@@ -142,12 +154,12 @@ export function BatchPage() {
               const pinnedBlock = l.pinnedComment
                 ? `\n\n📌 ${t("output.pinnedCommentTemplate")}\n${l.pinnedComment}`
                 : "";
-              return `[${l.language.toUpperCase()}]\n${l.output.title}\n\n${l.output.description}${pinnedBlock}`;
+              return `[${l.language.toUpperCase()}]\n${copyAllText(l.output, copyAllWithTags)}${pinnedBlock}`;
             })
             .join("\n\n---\n\n"),
         )
         .join("\n\n===\n\n"),
-    [results, t],
+    [results, t, copyAllWithTags],
   );
 
   // Copy All Batch concatenates every row's title and description, so one
@@ -175,6 +187,16 @@ export function BatchPage() {
             if (next.length > 0) setSelectedLangs(next as SupportedLanguage[]);
           }}
         />
+        <div className="flex flex-col gap-1.5">
+          <span className="text-text-secondary text-xs font-medium">{t("batch.videoType")}</span>
+          <SegmentedControl
+            ariaLabel={t("batch.videoType")}
+            layoutId="batch-type"
+            value={batchType}
+            onChange={setBatchType}
+            options={BATCH_TYPES.map((type) => ({ value: type, label: t(`videoTypes.${type}`) }))}
+          />
+        </div>
         <div className="grid gap-3 sm:grid-cols-[8rem_8rem_auto] sm:items-end">
           <Input
             label={t("batch.startPart")}
@@ -228,7 +250,7 @@ export function BatchPage() {
               <CopyButton
                 text={allCombined}
                 label={t("batch.copyAllBatch")}
-                blocked={isCopyAllBlocked(batchStatus)}
+                blocked={isCopyAllBlocked(batchStatus, copyAllWithTags)}
               />
             </div>
           </div>

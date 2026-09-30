@@ -6,6 +6,7 @@ import { useEditorStore } from "@store/editor-store";
 import { FIELD_LIMITS } from "@config/field-limits";
 import {
   VIETNAMESE_BANKS,
+  renamedVietnameseBank,
   VIETNAMESE_BANK_OTHER,
   isCustomVietnameseBank,
 } from "@config/vietnamese-banks";
@@ -50,6 +51,8 @@ export function VietnameseDonateEditor() {
   );
 
   const customMode = isVi && (otherSticky || isCustomVietnameseBank(vnBankName ?? ""));
+  // OceanBank, CBBank and DongA Bank were renamed in 2025.
+  const renamedTo = isVi ? renamedVietnameseBank(vnBankName ?? "") : null;
   const selectValue = customMode ? VIETNAMESE_BANK_OTHER : (vnBankName ?? "");
 
   const bankOptions = [
@@ -89,6 +92,21 @@ export function VietnameseDonateEditor() {
                 value={vnBankName ?? ""}
                 onChange={(e) => store.set("vnBankName", e.target.value)}
               />
+            )}
+            {renamedTo && (
+              <p className="text-text-muted text-xs">
+                {t("editor.vnBankRenamed", { name: renamedTo })}{" "}
+                <button
+                  type="button"
+                  className="text-accent font-medium hover:underline"
+                  onClick={() => {
+                    setOtherSticky(false);
+                    store.set("vnBankName", renamedTo);
+                  }}
+                >
+                  {t("editor.vnBankUseNewName", { name: renamedTo })}
+                </button>
+              </p>
             )}
           </div>
         ) : (

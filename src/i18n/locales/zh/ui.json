@@ -713,9 +713,7 @@
     },
     "quickPreview": "快速预览",
     "version": "版本",
-    "clearDraft": "清除草稿",
     "draftSaved": "草稿已保存",
-    "clearDraftConfirm": "确定要清除所有表单数据吗？",
     "genreSearchPlaceholder": "搜索类型",
     "genreSearchNoResults": "未找到类型",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "YouTube 至少需要 3 个时间戳才能生成章节（当前 {{n}} 个）。",
       "tooShort": "{{time}}：每个章节至少要 10 秒。",
       "outOfOrder": "{{time}} 早于上一行的时间戳。"
-    }
+    },
+    "quick": {
+      "profile": "频道配置",
+      "preset": "游戏预设",
+      "chooseProfile": "选择配置…",
+      "choosePreset": "选择游戏…",
+      "emptyLibrary": "把频道保存为配置、每个游戏保存为预设，即可在这里一键填写：",
+      "profileChanged": "频道字段与配置“{{name}}”不同。",
+      "presetChanged": "游戏字段与预设“{{name}}”不同。",
+      "updateProfile": "更新配置",
+      "updatePreset": "更新预设",
+      "nextPart": "下一部分（{{n}}）",
+      "nextPartPlain": "下一部分",
+      "newVideo": "同一游戏的新视频",
+      "nextPartDone": "已准备好第 {{n}} 部分 — 上一个视频的细节已清除",
+      "newVideoDone": "已准备好新视频 — 上一个视频的细节已清除",
+      "startOver": "重新开始",
+      "startOverConfirm": "清除游戏和视频字段。频道信息（名称、联系方式、社交链接、配置、捐助和社群）会保留。",
+      "startOverDone": "已重新开始 — 频道信息已保留",
+      "applyProfileTitle": "应用配置“{{name}}”？",
+      "applyPresetTitle": "应用预设“{{name}}”？",
+      "overwrite": "你已填写的 {{n}} 个字段将被替换。完成后可以立即撤销。",
+      "replace": "替换"
+    },
+    "paste": {
+      "link": "已添加 {{store}} 链接",
+      "linkAndName": "已添加 {{store}} 链接 — 游戏名称设为“{{name}}”"
+    },
+    "socialGroups": {
+      "donate": "捐助",
+      "social": "社交"
+    },
+    "mastodonHelp": "包含服务器的完整 URL，例如 https://mastodon.social/@user",
+    "vnBankRenamed": "该银行现已更名为 {{name}}。",
+    "vnBankUseNewName": "改用 {{name}}"
   },
   "output": {
     "title": "标题",
@@ -809,7 +841,11 @@
       "titleCut": "搜索结果和推荐中的标题约在 {{chars}} 个字符处被截断 — 请把关键词放在前面。",
       "foldHint": "观众在“…更多”之前只能看到描述的前约 {{chars}} 个字符。"
     },
-    "forbiddenChars": "{{field}}：YouTube 不接受 < 和 > 字符，请在上传前删除。"
+    "forbiddenChars": "{{field}}：YouTube 不接受 < 和 > 字符，请在上传前删除。",
+    "variantsHint": "按你的分隔符和徽章设置生成的标题样式。选用一种后，所有标题都会按此生成。",
+    "variantApply": "使用此样式",
+    "variantCurrent": "当前使用",
+    "variantApplied": "标题现在使用“{{name}}”样式"
   },
   "common": {
     "save": "保存",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "网站",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook主页",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "哔哩哔哩"
   },
   "resolutions": {
     "720p": "720p",
@@ -1036,8 +1077,6 @@
     "loadPreset": "加载",
     "deleteConfirm": "确定要删除此预设吗？",
     "emptyState": "暂无游戏预设。创建一个以复用游戏信息。",
-    "selectPreset": "加载游戏预设",
-    "noPresets": "无预设",
     "exportPresets": "导出预设",
     "importPresets": "导入预设",
     "hint": "游戏名称、类型、平台和商店链接 — 在该游戏的每一集中复用。",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "搜索历史记录...",
     "noResults": "没有符合搜索的记录。",
     "exportCsv": "CSV（电子表格）",
-    "exportJson": "JSON（用于恢复）"
+    "exportJson": "JSON（用于恢复）",
+    "savedSnapshot": "已保存到历史"
   },
   "settings": {
     "title": "设置",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "范围 {{min}}–{{max}}。",
     "themeDark": "深色",
-    "themeLight": "浅色"
+    "themeLight": "浅色",
+    "titleOrder": "标题顺序",
+    "titleOrderGameFirst": "游戏在前（Hades — Part 3）",
+    "titleOrderTypeFirst": "视频在前（Part 3 — Hades）",
+    "copyAllIncludesTags": "“全部复制”包含标签",
+    "copyAllIncludesTagsHint": "依次为标题、描述、标签 —— 方便一次性粘贴到笔记应用。"
   },
   "socialPost": {
     "title": "跨平台文案",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "{{captions}} 条文案"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "设置分集范围并批量生成描述。",
     "intro": "为编辑器中的游戏一次生成连续多集，可选一种或多种语言。",
     "partLabel": "第 {{n}} 集",
-    "summary": "{{parts}} 集 × {{languages}} 种语言"
+    "summary": "{{parts}} 集 × {{languages}} 种语言",
+    "videoType": "视频类型"
   },
   "shortcuts": {
     "title": "键盘快捷键",
     "generate": "生成",
     "copyAll": "复制全部",
-    "saveDraft": "保存草稿",
     "toggleSidebar": "切换侧边栏",
     "help": "帮助",
     "close": "关闭",
     "searchPlaceholder": "搜索快捷键",
-    "noResults": "未找到快捷键"
+    "noResults": "未找到快捷键",
+    "saveToHistory": "保存到历史"
   },
   "validation": {
     "numberRequired": "请输入一个数字。",

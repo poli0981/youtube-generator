@@ -1,4 +1,5 @@
 import type { GeneratorInput, TranslationFn, CharLimitWarning } from "./types";
+import { channelOrSlot, withoutEmptyChannel } from "./channel-phrase";
 import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
 import { PLAYTEST_PLATFORMS } from "@config/playtest-platforms";
@@ -18,15 +19,20 @@ const SOCIAL_ICONS: Record<string, string> = {
   paypal: "💸",
   streamlabs: "🎬",
   github: "🐙",
-  twitter: "🐦",
+  youtube: "▶️",
+  twitter: "𝕏",
   discord: "💬",
   twitch: "📺",
+  kick: "🟢",
   tiktok: "🎵",
   instagram: "📸",
+  threads: "🧵",
   bluesky: "🦋",
   mastodon: "🐘",
   facebook: "👤",
   fb_page: "📄",
+  reddit: "👽",
+  bilibili: "📼",
   telegram: "✈️",
   website: "🌐",
 };
@@ -302,7 +308,7 @@ export function buildDescription(
     : "";
   const intro = t(introKey, {
     gameName,
-    channelName: input.channelName,
+    channelName: channelOrSlot(input.channelName),
     partNumber: input.partNumber ?? "",
     bossName: input.bossName ?? "",
     dlcName: input.dlcName ?? "",
@@ -316,7 +322,7 @@ export function buildDescription(
     gachaVersion: input.gachaVersion ?? "",
     versionLabel,
   });
-  sections.push(intro);
+  sections.push(withoutEmptyChannel(intro, input.language));
 
   // 1.25 Livestream metadata — only emitted for livestream-type videos
   // when at least one of `liveUrl` / `scheduledTime` is set. Sits right

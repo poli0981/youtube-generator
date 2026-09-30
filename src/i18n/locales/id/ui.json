@@ -713,9 +713,7 @@
     },
     "quickPreview": "Pratinjau Cepat",
     "version": "Versi",
-    "clearDraft": "Hapus Draf",
     "draftSaved": "Draf tersimpan",
-    "clearDraftConfirm": "Yakin ingin menghapus seluruh isi formulir?",
     "genreSearchPlaceholder": "Cari genre",
     "genreSearchNoResults": "Tidak ada genre yang cocok",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "YouTube memerlukan minimal 3 stempel waktu untuk bab (saat ini {{n}}).",
       "tooShort": "{{time}}: setiap bab harus berdurasi minimal 10 detik.",
       "outOfOrder": "{{time}} lebih awal dari stempel waktu di atasnya."
-    }
+    },
+    "quick": {
+      "profile": "Profil kanal",
+      "preset": "Preset game",
+      "chooseProfile": "Pilih profil…",
+      "choosePreset": "Pilih game…",
+      "emptyLibrary": "Simpan kanal Anda sebagai profil dan setiap game sebagai preset untuk mengisinya di sini dengan sekali klik:",
+      "profileChanged": "Kolom kanal berbeda dari profil “{{name}}”.",
+      "presetChanged": "Kolom game berbeda dari preset “{{name}}”.",
+      "updateProfile": "Perbarui profil",
+      "updatePreset": "Perbarui preset",
+      "nextPart": "Bagian berikutnya ({{n}})",
+      "nextPartPlain": "Bagian berikutnya",
+      "newVideo": "Video baru, game yang sama",
+      "nextPartDone": "Siap untuk bagian {{n}} — detail video sebelumnya dihapus",
+      "newVideoDone": "Siap untuk video baru — detail video sebelumnya dihapus",
+      "startOver": "Mulai ulang",
+      "startOverConfirm": "Mengosongkan kolom game dan video. Kanal Anda — nama, kontak, tautan sosial, spesifikasi PC, donasi dan komunitas — tetap ada.",
+      "startOverDone": "Dimulai ulang — detail kanal tetap disimpan",
+      "applyProfileTitle": "Terapkan profil “{{name}}”?",
+      "applyPresetTitle": "Terapkan preset “{{name}}”?",
+      "overwrite": "{{n}} kolom yang sudah Anda isi akan diganti. Anda bisa membatalkannya segera setelahnya.",
+      "replace": "Ganti"
+    },
+    "paste": {
+      "link": "Tautan {{store}} ditambahkan",
+      "linkAndName": "Tautan {{store}} ditambahkan — nama game diisi “{{name}}”"
+    },
+    "socialGroups": {
+      "donate": "Donasi",
+      "social": "Sosial"
+    },
+    "mastodonHelp": "URL lengkap termasuk server, mis. https://mastodon.social/@user",
+    "vnBankRenamed": "Bank ini sekarang bernama {{name}}.",
+    "vnBankUseNewName": "Gunakan {{name}}"
   },
   "output": {
     "title": "Judul",
@@ -809,7 +841,11 @@
       "titleCut": "Hasil pencarian dan saran memotong judul di sekitar {{chars}} karakter — taruh kata kunci penting di depan.",
       "foldHint": "Penonton hanya melihat sekitar {{chars}} karakter pertama deskripsi sebelum “…selengkapnya”."
     },
-    "forbiddenChars": "{{field}}: YouTube tidak menerima karakter < dan > — hapus sebelum mengunggah."
+    "forbiddenChars": "{{field}}: YouTube tidak menerima karakter < dan > — hapus sebelum mengunggah.",
+    "variantsHint": "Bentuk judul dengan pemisah dan lencana Anda. Pakai satu dan semua judul dibuat seperti itu.",
+    "variantApply": "Pakai bentuk ini",
+    "variantCurrent": "Dipakai",
+    "variantApplied": "Judul sekarang memakai “{{name}}”"
   },
   "common": {
     "save": "Simpan",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "Website",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1016,8 +1057,6 @@
     "loadPreset": "Muat",
     "deleteConfirm": "Yakin ingin menghapus preset ini?",
     "emptyState": "Belum ada preset game. Buat satu untuk menyimpan info game agar bisa dipakai lagi.",
-    "selectPreset": "Muat Preset Game",
-    "noPresets": "Tidak ada preset",
     "exportPresets": "Ekspor Preset",
     "importPresets": "Impor Preset",
     "hint": "Nama, genre, platform, dan tautan toko sebuah game — dipakai ulang di semua part-nya.",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "Cari berdasarkan nama game...",
     "noResults": "Tidak ada entri yang cocok dengan pencarian.",
     "exportCsv": "CSV (lembar kerja)",
-    "exportJson": "JSON (untuk pemulihan)"
+    "exportJson": "JSON (untuk pemulihan)",
+    "savedSnapshot": "Disimpan ke Riwayat"
   },
   "settings": {
     "title": "Pengaturan",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "Antara {{min}} dan {{max}}.",
     "themeDark": "Gelap",
-    "themeLight": "Terang"
+    "themeLight": "Terang",
+    "titleOrder": "Urutan judul",
+    "titleOrderGameFirst": "Game dulu (Hades — Part 3)",
+    "titleOrderTypeFirst": "Video dulu (Part 3 — Hades)",
+    "copyAllIncludesTags": "Salin semua termasuk tag",
+    "copyAllIncludesTagsHint": "Judul, deskripsi, lalu tag — untuk menempel semuanya sekaligus ke aplikasi catatan."
   },
   "socialPost": {
     "title": "Caption Lintas Platform",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "{{captions}} caption"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "Atur rentang batch lalu buat.",
     "intro": "Buat serangkaian part untuk game di Editor, dalam satu atau beberapa bahasa.",
     "partLabel": "Part {{n}}",
-    "summary": "{{parts}} part × {{languages}} bahasa"
+    "summary": "{{parts}} part × {{languages}} bahasa",
+    "videoType": "Jenis video"
   },
   "shortcuts": {
     "title": "Pintasan Keyboard",
     "generate": "Buat (pindah ke Hasil)",
     "copyAll": "Salin Semua",
-    "saveDraft": "Simpan Draf",
     "toggleSidebar": "Buka/tutup bilah sisi",
     "help": "Tampilkan Pintasan",
     "close": "Tutup Modal",
     "searchPlaceholder": "Cari pintasan",
-    "noResults": "Tidak ada pintasan yang cocok"
+    "noResults": "Tidak ada pintasan yang cocok",
+    "saveToHistory": "Simpan ke Riwayat"
   },
   "validation": {
     "numberRequired": "Masukkan angka.",

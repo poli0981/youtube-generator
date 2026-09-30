@@ -172,7 +172,7 @@ export function PlaylistPage() {
     const tFn = i18n.getFixedT(language, "templates");
     return {
       title: buildPlaylistTitle(playlistInput, tFn),
-      description: buildPlaylistDescription(playlistInput, tFn),
+      description: buildPlaylistDescription(playlistInput, tFn, language),
       comment: buildPlaylistComment(playlistInput, tFn),
     };
   }, [ready, playlistInput, language]);

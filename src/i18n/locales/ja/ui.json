@@ -713,9 +713,7 @@
     },
     "quickPreview": "クイックプレビュー",
     "version": "バージョン",
-    "clearDraft": "下書きをクリア",
     "draftSaved": "下書き保存済み",
-    "clearDraftConfirm": "フォームデータをすべてクリアしますか？",
     "genreSearchPlaceholder": "ジャンルを検索",
     "genreSearchNoResults": "該当するジャンルはありません",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "チャプターには 3 つ以上のタイムスタンプが必要です（現在 {{n}} 個）。",
       "tooShort": "{{time}}：各チャプターは 10 秒以上必要です。",
       "outOfOrder": "{{time}} が上の行より前の時間になっています。"
-    }
+    },
+    "quick": {
+      "profile": "チャンネルのプロフィール",
+      "preset": "ゲームプリセット",
+      "chooseProfile": "プロフィールを選択…",
+      "choosePreset": "ゲームを選択…",
+      "emptyLibrary": "チャンネルをプロフィール、各ゲームをプリセットとして保存すると、ここでワンクリックで入力できます：",
+      "profileChanged": "チャンネル項目がプロフィール「{{name}}」と異なります。",
+      "presetChanged": "ゲーム項目がプリセット「{{name}}」と異なります。",
+      "updateProfile": "プロフィールを更新",
+      "updatePreset": "プリセットを更新",
+      "nextPart": "次のパート（{{n}}）",
+      "nextPartPlain": "次のパート",
+      "newVideo": "同じゲームの新しい動画",
+      "nextPartDone": "パート {{n}} の準備ができました — 前の動画の詳細は消去しました",
+      "newVideoDone": "新しい動画の準備ができました — 前の動画の詳細は消去しました",
+      "startOver": "最初からやり直す",
+      "startOverConfirm": "ゲームと動画の項目を消去します。チャンネル情報（名前、連絡先、SNS、PC 構成、寄付・コミュニティ）は残ります。",
+      "startOverDone": "やり直しました — チャンネル情報はそのままです",
+      "applyProfileTitle": "プロフィール「{{name}}」を適用しますか？",
+      "applyPresetTitle": "プリセット「{{name}}」を適用しますか？",
+      "overwrite": "入力済みの {{n}} 項目が置き換わります。直後なら元に戻せます。",
+      "replace": "置き換える"
+    },
+    "paste": {
+      "link": "{{store}} のリンクを追加しました",
+      "linkAndName": "{{store}} のリンクを追加し、ゲーム名を「{{name}}」にしました"
+    },
+    "socialGroups": {
+      "donate": "寄付",
+      "social": "SNS"
+    },
+    "mastodonHelp": "サーバーを含む完全な URL（例: https://mastodon.social/@user）",
+    "vnBankRenamed": "この銀行は現在 {{name}} という名前です。",
+    "vnBankUseNewName": "{{name}} にする"
   },
   "output": {
     "title": "タイトル",
@@ -809,7 +841,11 @@
       "titleCut": "検索結果やおすすめではタイトルが約 {{chars}} 文字で切れます — 重要な語を先頭に置きましょう。",
       "foldHint": "「…もっと見る」の前に表示されるのは説明文の最初の約 {{chars}} 文字だけです。"
     },
-    "forbiddenChars": "{{field}}：YouTube は < と > を受け付けません。アップロード前に削除してください。"
+    "forbiddenChars": "{{field}}：YouTube は < と > を受け付けません。アップロード前に削除してください。",
+    "variantsHint": "区切り文字とバッジの設定を反映したタイトルの形です。選ぶと、以降のタイトルはすべてその形になります。",
+    "variantApply": "この形にする",
+    "variantCurrent": "使用中",
+    "variantApplied": "タイトルを「{{name}}」の形にしました"
   },
   "common": {
     "save": "保存",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "ウェブサイト",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebookページ",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1036,8 +1077,6 @@
     "loadPreset": "読み込む",
     "deleteConfirm": "このプリセットを削除しますか？",
     "emptyState": "プリセットがありません。ゲーム情報を保存するために作成してください。",
-    "selectPreset": "ゲームプリセットを選択",
-    "noPresets": "プリセットなし",
     "exportPresets": "プリセットをエクスポート",
     "importPresets": "プリセットをインポート",
     "hint": "ゲーム名・ジャンル・プラットフォーム・ストアリンク — すべてのパートで使い回せます。",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "ゲーム名で検索...",
     "noResults": "検索に一致する履歴はありません。",
     "exportCsv": "CSV（表計算）",
-    "exportJson": "JSON（復元用）"
+    "exportJson": "JSON（復元用）",
+    "savedSnapshot": "履歴に保存しました"
   },
   "settings": {
     "title": "設定",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "{{min}}〜{{max}} の範囲で入力してください。",
     "themeDark": "ダーク",
-    "themeLight": "ライト"
+    "themeLight": "ライト",
+    "titleOrder": "タイトルの順序",
+    "titleOrderGameFirst": "ゲームが先（Hades — Part 3）",
+    "titleOrderTypeFirst": "動画が先（Part 3 — Hades）",
+    "copyAllIncludesTags": "「すべてコピー」にタグも含める",
+    "copyAllIncludesTagsHint": "タイトル、説明、タグの順。メモアプリにまとめて貼り付けるときに。"
   },
   "socialPost": {
     "title": "クロス投稿キャプション",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube ショート",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "キャプション {{captions}} 件"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "範囲を設定して生成してください。",
     "intro": "エディターのゲームについて、連続するパートを 1 つ以上の言語でまとめて生成します。",
     "partLabel": "パート {{n}}",
-    "summary": "{{parts}} パート × {{languages}} 言語"
+    "summary": "{{parts}} パート × {{languages}} 言語",
+    "videoType": "動画の種類"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
     "generate": "生成（出力へ切替）",
     "copyAll": "すべてコピー",
-    "saveDraft": "下書き保存",
     "toggleSidebar": "サイドバーの表示切替",
     "help": "ショートカット表示",
     "close": "モーダルを閉じる",
     "searchPlaceholder": "ショートカットを検索",
-    "noResults": "該当するショートカットはありません"
+    "noResults": "該当するショートカットはありません",
+    "saveToHistory": "履歴に保存"
   },
   "validation": {
     "numberRequired": "数値を入力してください。",

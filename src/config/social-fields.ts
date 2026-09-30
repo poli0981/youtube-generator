@@ -44,8 +44,16 @@ export const SOCIAL_FIELDS = [
     category: "social",
   },
   {
+    id: "youtube",
+    label: "YouTube",
+    labelKey: "social.youtube",
+    urlPrefix: "https://www.youtube.com/",
+    category: "social",
+  },
+  {
+    // Id kept from before the rename, so saved links still load.
     id: "twitter",
-    label: "Twitter / X",
+    label: "X (Twitter)",
     labelKey: "social.twitter",
     urlPrefix: "https://x.com/",
     category: "social",
@@ -65,6 +73,13 @@ export const SOCIAL_FIELDS = [
     category: "social",
   },
   {
+    id: "kick",
+    label: "Kick",
+    labelKey: "social.kick",
+    urlPrefix: "https://kick.com/",
+    category: "social",
+  },
+  {
     id: "tiktok",
     label: "TikTok",
     labelKey: "social.tiktok",
@@ -76,6 +91,13 @@ export const SOCIAL_FIELDS = [
     label: "Instagram",
     labelKey: "social.instagram",
     urlPrefix: "https://instagram.com/",
+    category: "social",
+  },
+  {
+    id: "threads",
+    label: "Threads",
+    labelKey: "social.threads",
+    urlPrefix: "https://www.threads.com/@",
     category: "social",
   },
   {
@@ -108,6 +130,20 @@ export const SOCIAL_FIELDS = [
   },
   // Facebook Group moved to the Community section in v0.33.0 — it's now a
   // dedicated `facebookGroupLink` editor field (see CommunityEditor).
+  {
+    id: "reddit",
+    label: "Reddit",
+    labelKey: "social.reddit",
+    urlPrefix: "https://www.reddit.com/",
+    category: "social",
+  },
+  {
+    id: "bilibili",
+    label: "Bilibili",
+    labelKey: "social.bilibili",
+    urlPrefix: "https://space.bilibili.com/",
+    category: "social",
+  },
   {
     id: "telegram",
     label: "Telegram",

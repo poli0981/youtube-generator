@@ -940,8 +940,13 @@ export type TitleBadgeCase = "upper" | "lower";
  * User-configurable title formatting. Defaults (middle / emDash / upper)
  * reproduce v0.6 output byte-for-byte.
  */
+/** Which comes first in a title: the game ("Hades — Part 3") or the video ("Part 3 — Hades"). */
+export type TitleOrder = "gameFirst" | "typeFirst";
+
 export interface TitleFormatConfig {
   badgePosition: TitleBadgePosition;
   separator: TitleSeparatorId;
   badgeCase: TitleBadgeCase;
+  /** v1.0.0. Missing on settings saved before — read as "gameFirst". */
+  order?: TitleOrder;
 }

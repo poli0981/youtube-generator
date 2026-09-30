@@ -1,4 +1,5 @@
 import type { GeneratorInput, TranslationFn, Genre } from "./types";
+import { channelOrSlot, withoutEmptyChannel } from "./channel-phrase";
 
 export interface BuildPinnedCommentOptions {
   /**
@@ -65,7 +66,7 @@ export function buildPinnedComment(
 
   const vars: Record<string, string> = {
     gameName,
-    channelName: input.channelName,
+    channelName: channelOrSlot(input.channelName),
   };
 
   // Greeting — per-video-type first, then `part` fallback, then drop.
@@ -79,7 +80,7 @@ export function buildPinnedComment(
   }
 
   const lines: string[] = [];
-  if (greeting.trim()) lines.push(greeting);
+  if (greeting.trim()) lines.push(withoutEmptyChannel(greeting, input.language));
 
   const thanks = t("pinnedComment.thanksForWatching");
   if (thanks && thanks !== "pinnedComment.thanksForWatching") lines.push(thanks);

@@ -713,9 +713,7 @@
     },
     "quickPreview": "Vista Previa Rápida",
     "version": "Versión",
-    "clearDraft": "Limpiar Borrador",
     "draftSaved": "Borrador guardado",
-    "clearDraftConfirm": "¿Estás seguro de que quieres borrar todos los datos del formulario?",
     "genreSearchPlaceholder": "Buscar géneros",
     "genreSearchNoResults": "No se encontraron géneros",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "YouTube necesita al menos 3 marcas para crear capítulos (llevas {{n}}).",
       "tooShort": "{{time}}: cada capítulo debe durar al menos 10 segundos.",
       "outOfOrder": "{{time}} es anterior a la marca de arriba."
-    }
+    },
+    "quick": {
+      "profile": "Perfil del canal",
+      "preset": "Preajuste de juego",
+      "chooseProfile": "Elige un perfil…",
+      "choosePreset": "Elige un juego…",
+      "emptyLibrary": "Guarda tu canal como perfil y cada juego como preajuste para rellenarlos aquí con un clic:",
+      "profileChanged": "Los campos del canal difieren del perfil «{{name}}».",
+      "presetChanged": "Los campos del juego difieren del preajuste «{{name}}».",
+      "updateProfile": "Actualizar perfil",
+      "updatePreset": "Actualizar preajuste",
+      "nextPart": "Siguiente parte ({{n}})",
+      "nextPartPlain": "Siguiente parte",
+      "newVideo": "Nuevo vídeo, mismo juego",
+      "nextPartDone": "Listo para la parte {{n}}: se borraron los detalles del vídeo anterior",
+      "newVideoDone": "Listo para un nuevo vídeo: se borraron los detalles del anterior",
+      "startOver": "Empezar de nuevo",
+      "startOverConfirm": "Borra los campos del juego y del vídeo. Tu canal —nombre, contacto, redes, equipo, donaciones y comunidad— se mantiene.",
+      "startOverDone": "Empezaste de nuevo: los datos del canal se mantienen",
+      "applyProfileTitle": "¿Aplicar el perfil «{{name}}»?",
+      "applyPresetTitle": "¿Aplicar el preajuste «{{name}}»?",
+      "overwrite": "Se reemplazarán {{n}} campo(s) que ya rellenaste. Podrás deshacerlo justo después.",
+      "replace": "Reemplazar"
+    },
+    "paste": {
+      "link": "Enlace de {{store}} añadido",
+      "linkAndName": "Enlace de {{store}} añadido: nombre del juego «{{name}}»"
+    },
+    "socialGroups": {
+      "donate": "Donaciones",
+      "social": "Redes sociales"
+    },
+    "mastodonHelp": "URL completa con el servidor, p. ej. https://mastodon.social/@user",
+    "vnBankRenamed": "Este banco ahora se llama {{name}}.",
+    "vnBankUseNewName": "Usar {{name}}"
   },
   "output": {
     "title": "Título",
@@ -809,7 +841,11 @@
       "titleCut": "Los resultados de búsqueda y las sugerencias cortan el título en unos {{chars}} caracteres: pon las palabras clave al principio.",
       "foldHint": "Los espectadores solo ven los primeros ~{{chars}} caracteres de la descripción antes de «…más»."
     },
-    "forbiddenChars": "{{field}}: YouTube no acepta los caracteres < y >; quítalos antes de subir el vídeo."
+    "forbiddenChars": "{{field}}: YouTube no acepta los caracteres < y >; quítalos antes de subir el vídeo.",
+    "variantsHint": "Formas de título con tu separador y tu insignia. Usa una y todos los títulos se crearán así.",
+    "variantApply": "Usar esta forma",
+    "variantCurrent": "En uso",
+    "variantApplied": "Los títulos ahora usan «{{name}}»"
   },
   "common": {
     "save": "Guardar",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "Sitio Web",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Página de Facebook",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1036,8 +1077,6 @@
     "loadPreset": "Cargar",
     "deleteConfirm": "¿Estás seguro de que quieres eliminar este preajuste?",
     "emptyState": "Aún no hay preajustes de juego. Crea uno para reutilizar información del juego.",
-    "selectPreset": "Cargar Preajuste de Juego",
-    "noPresets": "Sin preajustes",
     "exportPresets": "Exportar Preajustes",
     "importPresets": "Importar Preajustes",
     "hint": "Nombre, géneros, plataforma y enlaces de tienda de un juego, reutilizados en todas sus partes.",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "Buscar en el historial...",
     "noResults": "Ninguna entrada coincide con la búsqueda.",
     "exportCsv": "CSV (hoja de cálculo)",
-    "exportJson": "JSON (para restaurar)"
+    "exportJson": "JSON (para restaurar)",
+    "savedSnapshot": "Guardado en el historial"
   },
   "settings": {
     "title": "Ajustes",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "Entre {{min}} y {{max}}.",
     "themeDark": "Oscuro",
-    "themeLight": "Claro"
+    "themeLight": "Claro",
+    "titleOrder": "Orden del título",
+    "titleOrderGameFirst": "Juego primero (Hades — Part 3)",
+    "titleOrderTypeFirst": "Vídeo primero (Part 3 — Hades)",
+    "copyAllIncludesTags": "Copiar todo incluye las etiquetas",
+    "copyAllIncludesTagsHint": "Título, descripción y luego las etiquetas, para pegarlo todo de una vez en una app de notas."
   },
   "socialPost": {
     "title": "Publicaciones multiplataforma",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "{{captions}} textos"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "Configura el rango de partes y genera descripciones en lote.",
     "intro": "Genera una serie de partes del juego del Editor, en uno o varios idiomas.",
     "partLabel": "Parte {{n}}",
-    "summary": "{{parts}} partes × {{languages}} idiomas"
+    "summary": "{{parts}} partes × {{languages}} idiomas",
+    "videoType": "Tipo de vídeo"
   },
   "shortcuts": {
     "title": "Atajos de Teclado",
     "generate": "Generar",
     "copyAll": "Copiar Todo",
-    "saveDraft": "Guardar Borrador",
     "toggleSidebar": "Mostrar/Ocultar Barra Lateral",
     "help": "Ayuda",
     "close": "Cerrar",
     "searchPlaceholder": "Buscar atajos",
-    "noResults": "No se encontraron atajos"
+    "noResults": "No se encontraron atajos",
+    "saveToHistory": "Guardar en el historial"
   },
   "validation": {
     "numberRequired": "Introduce un número.",

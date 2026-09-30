@@ -53,12 +53,40 @@ export const VIETNAMESE_BANKS = [
   "VietABank",
   "Vietbank",
   "BVBank",
+  // Banks restructured in 2025 under new names (formerly OceanBank, CBBank,
+  // DongA Bank) and digital-first banks
+  "MBV",
+  "VCBNeo",
+  "Vikki Bank",
+  "Cake by VPBank",
+  "Timo",
   // 100% foreign-owned banks with the strongest retail presence in VN
   "HSBC Vietnam",
   "Standard Chartered",
   "Shinhan Bank",
   "UOB Vietnam",
 ] as const;
+
+/**
+ * Former names of banks that were renamed, mapped to the current one. A
+ * profile saved with an old name keeps it (it shows as a custom entry);
+ * the editor offers the new name.
+ */
+export const VIETNAMESE_BANK_RENAMES: Readonly<Record<string, (typeof VIETNAMESE_BANKS)[number]>> =
+  {
+    oceanbank: "MBV",
+    "ocean bank": "MBV",
+    cbbank: "VCBNeo",
+    "cb bank": "VCBNeo",
+    "donga bank": "Vikki Bank",
+    dongabank: "Vikki Bank",
+    "dong a bank": "Vikki Bank",
+  };
+
+/** The current name for a renamed bank, or null. */
+export function renamedVietnameseBank(value: string): string | null {
+  return VIETNAMESE_BANK_RENAMES[value.trim().toLowerCase()] ?? null;
+}
 
 /** Sentinel select-option value the editor uses to surface a fall-through
  *  text input. Kept as a non-bank-name string so a real bank could

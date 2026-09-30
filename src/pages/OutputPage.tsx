@@ -23,7 +23,7 @@ import { useSettingsStore } from "@store/settings-store";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import { useOutputLimits } from "@hooks/use-output-limits";
-import { fieldsWithForbiddenChars, isCopyAllBlocked } from "@engine/limits";
+import { copyAllText, fieldsWithForbiddenChars, isCopyAllBlocked } from "@engine/limits";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import { useClipboard } from "@hooks/use-clipboard";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
@@ -79,9 +79,11 @@ export function OutputPage() {
   const allStatus = useOutputLimits(everyOutput);
 
   // Strict Mode blocks every copy; the limits block only the field that is
-  // over (Copy All = title + description, so not the tags).
+  // over (Copy All = title + description, plus the tags when the setting
+  // includes them).
   const strictBlocked = useStrictBlock();
-  const copyAllBlocked = strictBlocked || isCopyAllBlocked(allStatus);
+  const copyAllWithTags = useSettingsStore((s) => s.copyAllIncludesTags);
+  const copyAllBlocked = strictBlocked || isCopyAllBlocked(allStatus, copyAllWithTags);
 
   // At least one language stays selected; the active tab follows a removal.
   const changeLangs = (next: SupportedLanguage[]) => {
@@ -135,17 +137,15 @@ export function OutputPage() {
       .map((lang) => {
         const o = multilangOutputs[lang];
         if (!o) return "";
-        return `[${lang.toUpperCase()}]\n${o.title}\n\n${o.description}`;
+        return `[${lang.toUpperCase()}]\n${copyAllText(o, copyAllWithTags)}`;
       })
       .join("\n\n===\n\n");
-  }, [isMultiLang, selectedLangs, multilangOutputs]);
+  }, [isMultiLang, selectedLangs, multilangOutputs, copyAllWithTags]);
 
-  const copyAllText = isMultiLang
+  const copyAllContent = isMultiLang
     ? allLangsCombined
-    : `${defaultOutput.title}
-
-${defaultOutput.description}`;
-  const copyAll = () => void copy(copyAllText);
+    : copyAllText(defaultOutput, copyAllWithTags);
+  const copyAll = () => void copy(copyAllContent);
   const copyAllDisabled = copyAllBlocked || !gameName;
 
   const shownOutput = currentOutput ?? defaultOutput;

@@ -123,6 +123,7 @@ export function renderAll(
     badgePosition: options?.titleFormat?.badgePosition,
     separator: options?.titleFormat?.separator,
     badgeCase: options?.titleFormat?.badgeCase,
+    order: options?.titleFormat?.order,
   });
   const description = buildDescription(input, t, {
     hashtagCount: options?.hashtagCount,

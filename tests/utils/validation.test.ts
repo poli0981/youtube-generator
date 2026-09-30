@@ -64,10 +64,10 @@ describe("validateUrlWithPattern — Steam", () => {
 describe("Steam normalize", () => {
   const steam = platform("steam");
 
-  it("strips trailing slug from canonical URL", () => {
-    expect(steam.normalize?.("https://store.steampowered.com/app/1245620/ELDEN_RING/")).toBe(
-      "https://store.steampowered.com/app/1245620",
-    );
+  it("keeps the name slug but drops what follows it", () => {
+    expect(
+      steam.normalize?.("https://store.steampowered.com/app/1245620/ELDEN_RING/reviews/"),
+    ).toBe("https://store.steampowered.com/app/1245620/ELDEN_RING/");
   });
 
   it("is a no-op on an already-normalized URL", () => {

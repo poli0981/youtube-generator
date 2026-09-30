@@ -102,7 +102,9 @@ function comparableUrl(url: string): string {
   return url
     .toLowerCase()
     .replace(/^(https?:\/\/)(?:www\.|m\.|mobile\.)/, "$1")
-    .replace(/^(https?:\/\/)twitter\.com\//, "$1x.com/");
+    .replace(/^(https?:\/\/)twitter\.com\//, "$1x.com/")
+    .replace(/^(https?:\/\/)threads\.net\//, "$1threads.com/")
+    .replace(/^(https?:\/\/)youtu\.be\//, "$1youtube.com/");
 }
 
 export function validateUrlWithPrefix(input: string, expectedPrefix: string): ValidationResult {
