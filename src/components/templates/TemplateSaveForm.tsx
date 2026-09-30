@@ -5,7 +5,7 @@ import { Button } from "@components/ui/Button";
 import { Input } from "@components/ui/Input";
 import { useEditorStore } from "@store/editor-store";
 import { useTemplateStore, type TemplateSnapshot } from "@store/template-store";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { FIELD_LIMITS } from "@config/field-limits";
 
 interface TemplateSaveFormProps {

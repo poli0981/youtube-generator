@@ -1,4 +1,9 @@
-import { Music2, Instagram, Facebook, type LucideIcon } from "lucide-react";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  TiktokIcon,
+  type IconComponent,
+} from "@components/icons/brand";
 
 /**
  * A short-form platform the cross-post generator targets (v0.24.0). Each
@@ -16,7 +21,7 @@ export interface SocialPlatform {
   readonly labelKey: string;
   /** Caption character ceiling enforced by the platform. */
   readonly charLimit: number;
-  readonly icon: LucideIcon;
+  readonly icon: IconComponent;
   /**
    * Platform-popular hashtags appended after the game / genre hashtags.
    * Stored with the leading `#`; deduped case-insensitively against the
@@ -30,7 +35,7 @@ export const SOCIAL_PLATFORMS: readonly SocialPlatform[] = [
     id: "tiktok",
     labelKey: "socialPost.platforms.tiktok",
     charLimit: 4000,
-    icon: Music2, // lucide has no TikTok glyph; Music2 is the established stand-in
+    icon: TiktokIcon,
     popularHashtags: [
       "#fyp",
       "#foryou",
@@ -45,7 +50,7 @@ export const SOCIAL_PLATFORMS: readonly SocialPlatform[] = [
     id: "instagram_reels",
     labelKey: "socialPost.platforms.instagram_reels",
     charLimit: 2200,
-    icon: Instagram,
+    icon: InstagramIcon,
     popularHashtags: [
       "#reels",
       "#reelsinstagram",
@@ -60,7 +65,7 @@ export const SOCIAL_PLATFORMS: readonly SocialPlatform[] = [
     id: "facebook_reels",
     labelKey: "socialPost.platforms.facebook_reels",
     charLimit: 2200,
-    icon: Facebook,
+    icon: FacebookIcon,
     popularHashtags: [
       "#reels",
       "#facebookreels",

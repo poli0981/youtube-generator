@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 /*
- * Tailwind 4 is configured in CSS, not `tailwind.config.ts` — the file is gone.
+ * YTDescGen design system (v1.0.0).
  *
- * Two things replace it:
- *   @custom-variant dark  — the project toggles a `.dark` / `.light` class on
- *                           <html> rather than following the OS, so the default
- *                           `prefers-color-scheme` variant would be wrong.
- *   @theme                — the design tokens, which now generate the utility
- *                           classes directly (bg-surface-1, text-text-muted…).
+ * Tailwind 4 is configured in CSS:
+ *   @custom-variant dark  — the app toggles a `.dark` / `.light` class on
+ *                           <html> (theme-init.js, settings-store) rather than
+ *                           following the OS.
+ *   @theme                — maps Tailwind names (bg-surface-1, text-text-muted,
+ *                           rounded-card …) onto the runtime variables below.
  *
- * The palette itself still lives in the plain `:root` / `.light` blocks below,
- * because those are what the theme *toggle* rewrites at runtime. `@theme` maps
- * Tailwind's names onto those variables; it does not own the values.
+ * The palette lives in the plain `:root` / `.light` blocks because those are
+ * what the theme toggle rewrites at runtime; @theme does not own the values.
+ * Components use tokens only — never raw colours — so both themes stay right.
  */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -21,6 +21,7 @@
   --color-surface-1: var(--surface-1);
   --color-surface-2: var(--surface-2);
   --color-surface-3: var(--surface-3);
+  --color-overlay: var(--overlay);
 
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
@@ -32,86 +33,262 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-muted: var(--accent-muted);
+  --color-accent-fg: var(--accent-fg);
+  --color-brand-from: var(--brand-from);
+  --color-brand-to: var(--brand-to);
 
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-donate: var(--donate);
 
   --font-sans: var(--font-sans-stack);
   --font-mono: var(--font-mono-stack);
 
+  --radius-control: 0.625rem;
+  --radius-card: 0.875rem;
+  --radius-panel: 1.125rem;
+
+  --shadow-card: var(--shadow-card-value);
+  --shadow-pop: var(--shadow-pop-value);
+
+  /* Controls are compact on a mouse and 44px on touch (see :root). */
+  --spacing-control: var(--control-h);
+  --spacing-control-sm: var(--control-h-sm);
   --spacing-touch: 44px;
+
+  --animate-fade-in: fade-in 160ms ease-out;
+  --animate-pop-in: pop-in 180ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --animate-slide-up: slide-up 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: -200% 0;
+    }
+    to {
+      background-position: 200% 0;
+    }
+  }
 }
 
 :root {
-  /* Dark theme (default) */
-  --surface-0: #0a0a0b;
-  --surface-1: #141416;
-  --surface-2: #1e1e22;
-  --surface-3: #28282e;
+  /* Dark theme (default) — cool neutrals, indigo→violet brand. */
+  color-scheme: dark;
 
-  --border: #2a2a30;
-  --border-strong: #3a3a42;
+  --surface-0: #0b0b10;
+  --surface-1: #121219;
+  --surface-2: #1a1a23;
+  --surface-3: #24242f;
+  --overlay: rgba(4, 4, 8, 0.66);
 
-  --text-primary: #e8e8ed;
-  --text-secondary: #a0a0ab;
-  --text-muted: #6b6b76;
+  --border: #25252f;
+  --border-strong: #363644;
 
-  --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --accent-muted: rgba(99, 102, 241, 0.15);
+  --text-primary: #ececf3;
+  --text-secondary: #a4a4b8;
+  --text-muted: #72728a;
 
-  --success: #22c55e;
-  --warning: #eab308;
-  --danger: #ef4444;
+  --accent: #7b6ef6;
+  --accent-hover: #9387f8;
+  --accent-muted: rgba(123, 110, 246, 0.16);
+  --accent-fg: #ffffff;
+  --brand-from: #6366f1;
+  --brand-to: #a855f7;
 
-  --font-sans-stack: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono-stack: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+  --donate: #f472b6;
+
+  --shadow-card-value: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+  --shadow-pop-value: 0 24px 60px -20px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.04);
+
+  --control-h: 2.25rem;
+  --control-h-sm: 1.875rem;
+
+  --font-sans-stack:
+    "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Noto Sans",
+    "Noto Sans JP", "Noto Sans KR", "Noto Sans SC", sans-serif;
+  --font-mono-stack: "JetBrains Mono Variable", ui-monospace, "Cascadia Code", Menlo, monospace;
 }
 
 .light {
-  --surface-0: #ffffff;
-  --surface-1: #f8f8fa;
-  --surface-2: #f0f0f4;
-  --surface-3: #e8e8ed;
+  color-scheme: light;
 
-  --border: #d4d4db;
-  --border-strong: #b0b0bb;
+  --surface-0: #f6f6fa;
+  --surface-1: #ffffff;
+  --surface-2: #f1f1f6;
+  --surface-3: #e6e6ee;
+  --overlay: rgba(20, 20, 32, 0.4);
 
-  --text-primary: #1a1a1f;
-  --text-secondary: #4a4a55;
-  --text-muted: #8a8a96;
+  --border: #e2e2eb;
+  --border-strong: #c8c8d6;
 
-  --accent: #4f46e5;
-  --accent-hover: #6366f1;
-  --accent-muted: rgba(79, 70, 229, 0.1);
+  --text-primary: #15151d;
+  --text-secondary: #4a4a5c;
+  --text-muted: #7c7c90;
 
-  --success: #16a34a;
-  --warning: #ca8a04;
+  --accent: #5b4fe6;
+  --accent-hover: #6d62ee;
+  --accent-muted: rgba(91, 79, 230, 0.1);
+  --accent-fg: #ffffff;
+
+  --success: #059669;
+  --warning: #b45309;
   --danger: #dc2626;
+  --info: #2563eb;
+  --donate: #db2777;
+
+  --shadow-card-value: 0 1px 2px rgba(20, 20, 40, 0.04), 0 8px 24px -18px rgba(20, 20, 40, 0.25);
+  --shadow-pop-value: 0 24px 60px -24px rgba(20, 20, 40, 0.35), 0 0 0 1px rgba(20, 20, 40, 0.06);
 }
 
-body {
-  @apply bg-surface-0 text-text-primary font-sans;
-  margin: 0;
-  min-height: 100vh;
+/* Fingers need bigger targets than cursors. */
+@media (pointer: coarse) {
+  :root {
+    --control-h: 2.75rem;
+    --control-h-sm: 2.5rem;
+  }
 }
 
-/* Scrollbar styling */
+/* Toasts clear the phone bottom bar, which shows below the md breakpoint
+   (sonner's own "mobile" switch is at 600px, so it can't be relied on). */
+:root {
+  --toast-offset-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+}
+@media (min-width: 48rem) {
+  :root {
+    --toast-offset-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-surface-0 text-text-primary font-sans antialiased;
+    margin: 0;
+    min-height: 100dvh;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    background: var(--accent-muted);
+    color: var(--text-primary);
+  }
+
+  /* One focus style everywhere, keyboard only. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+
+  /* Numbers that change (counters, sizes) should not jiggle. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .bg-brand-gradient {
+    background-image: linear-gradient(135deg, var(--brand-from), var(--brand-to));
+  }
+  .text-brand-gradient {
+    background-image: linear-gradient(135deg, var(--brand-from), var(--brand-to));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-3) transparent;
+  }
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--surface-2) 25%,
+      var(--surface-3) 37%,
+      var(--surface-2) 63%
+    );
+    background-size: 400% 100%;
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scrollbars (WebKit; Firefox uses .scrollbar-thin / its own defaults). */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  @apply bg-surface-0;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-surface-3 rounded-full;
+  background: var(--surface-3);
+  border-radius: 999px;
+  border: 3px solid var(--surface-0);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-border-strong;
+  background: var(--border-strong);
 }
 
 /*
@@ -218,4 +395,30 @@ body {
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
   color: var(--text-muted);
+}
+
+/* Sheet entrances (Drawer). */
+@keyframes drawer-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes drawer-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes drawer-in-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

@@ -63,7 +63,7 @@ export function PlaythroughNotesForm() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-baseline justify-between">
-        <span className="text-text-secondary text-sm font-medium">
+        <span className="text-text-primary text-sm font-semibold">
           {t("editor.playthroughNotes.title")}
         </span>
       </div>

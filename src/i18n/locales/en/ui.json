@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "Donate",
-    "toggleTheme": "Toggle theme"
+    "outputLanguage": "Output language",
+    "interfaceLanguage": "Interface language",
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme"
   },
   "about": {
     "tagline": "YouTube title, description, and tag generator for Gameplay No Commentary channels.",
     "repoHeading": "Repository & License",
     "repoLabel": "GitHub Repo",
-    "issuesLabel": "Report an Issue",
     "reportBugLabel": "Report a Bug",
     "discussionsLabel": "Discussions",
     "authorLabel": "Author",
-    "licenseLabel": "License",
     "donateHeading": "Donate / Support",
     "donateHelp": "If YTDescGen saves you time, consider buying me a coffee. Every bit helps keep the project going.",
     "legalHeading": "Legal",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — Repo / General",
-      "discordGame": "Discord — Game lobby",
+      "discord": "Discord",
       "steam": "Steam profile",
       "telegramBot": "Telegram bot",
-      "telegramUser": "Telegram",
-      "email": "Email"
+      "telegramUser": "Telegram"
+    },
+    "websiteLabel": "Website",
+    "wikiLabel": "Wiki & guides",
+    "contactHeading": "Contact",
+    "contactHelp": "Pick the address for your topic so it reaches the right inbox.",
+    "authorWebsite": "Personal website",
+    "authorLinks": "All links",
+    "contacts": {
+      "general": "General questions",
+      "security": "Security vulnerabilities",
+      "privacy": "Privacy & data requests",
+      "legal": "Terms & legal",
+      "dmca": "DMCA / takedown notices",
+      "copyright": "Licensing & attribution",
+      "code": "Source code & conduct",
+      "sponsor": "Sponsorship & advertising"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "Support the developers",
       "online_connectivity_issues": "Online connectivity issues"
     },
-    "videoSettings": "Video Settings",
     "quickPreview": "Quick Preview",
     "version": "Version",
     "clearDraft": "Clear Draft",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "Check link and add again — '{{host}}' suggests '{{suggestedName}}', but Game Name is '{{gameName}}'."
-    }
+    },
+    "collapseAll": "Collapse all",
+    "expandAll": "Expand all",
+    "viewOutput": "View output",
+    "previewEmpty": "Enter a game name to see the preview.",
+    "genrePick": "Pick genres",
+    "genreAdd": "Add",
+    "genreQuickSets": "Quick sets",
+    "genreRemove": "Remove {{genre}}",
+    "selectedCount": "{{n}} selected"
   },
   "output": {
     "title": "Title",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}} is too long: {{count}}/{{limit}} chars. Trim before copying.",
       "fieldGeneric": "Text",
-      "failed": "Failed to copy"
+      "failed": "Failed to copy",
+      "empty": "Nothing to copy yet — enter a game name in the Editor."
     },
     "limits": {
       "bannerTitle": "Copying is blocked — over the YouTube limit",
@@ -768,6 +792,15 @@
       "copyBlocked": "Blocked: another field is over the YouTube limit",
       "batchRowBlocked": "This part is over the limit — copying is blocked.",
       "batchAllBlocked": "Copy All is blocked — at least one part is over the limit"
+    },
+    "emptyTitle": "Nothing to show yet",
+    "emptyHint": "Enter a game name in the Editor — the title, description and tags appear here.",
+    "youtubePreview": {
+      "heading": "On YouTube",
+      "channelPlaceholder": "Your channel",
+      "more": "…more",
+      "titleCut": "Search results and suggestions cut titles at about {{chars}} characters — keep the key words at the front.",
+      "foldHint": "Viewers see only the first ~{{chars}} characters of the description before “…more”."
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "Dismiss",
     "scrollToTop": "Scroll to top",
     "exported": "Exported",
-    "exportFailed": "Export failed"
+    "exportFailed": "Export failed",
+    "close": "Close",
+    "edit": "Edit",
+    "loading": "Loading…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "Import Profiles",
     "thirdPartyAdText": "Third-party ad copy",
     "thirdPartyAdTextPlaceholder": "e.g. Use code SAVE10 at GameStore.com — 10% off all titles\nSponsored by ChairCo — link in description",
-    "thirdPartyAdTextHelp": "Optional sponsor / partner / affiliate copy. Shown when 'Third-party ads' is enabled in Settings."
+    "thirdPartyAdTextHelp": "Optional sponsor / partner / affiliate copy. Shown when 'Third-party ads' is enabled in Settings.",
+    "intro": "Reusable channel profiles, game presets and full editor templates.",
+    "hint": "Your channel identity — name, contact, socials and rig. Apply one to fill those fields in the Editor.",
+    "noChannel": "No channel name",
+    "socialLinks": "{{n}} social links",
+    "rigFields": "{{n}} rig fields"
   },
   "presets": {
     "title": "Game Presets",
@@ -965,7 +1006,8 @@
     "selectPreset": "Load Game Preset",
     "noPresets": "No presets",
     "exportPresets": "Export Presets",
-    "importPresets": "Import Presets"
+    "importPresets": "Import Presets",
+    "hint": "A game's name, genres, platform and store links — reused across all its parts."
   },
   "templates": {
     "title": "Templates",
@@ -980,14 +1022,16 @@
     "savedAs": "Saved as '{{name}}'",
     "appliedToast": "Applied '{{name}}'",
     "exportTemplates": "Export Templates",
-    "importTemplates": "Import Templates"
+    "importTemplates": "Import Templates",
+    "applyFailed": "This template is damaged and can't be applied."
   },
   "history": {
     "title": "History",
     "emptyState": "No generation history yet.",
     "clearAll": "Clear All",
     "clearConfirm": "Are you sure you want to clear all history?",
-    "searchPlaceholder": "Search by game name..."
+    "searchPlaceholder": "Search by game name...",
+    "noResults": "No entries match your search."
   },
   "settings": {
     "title": "Settings",
@@ -1043,7 +1087,10 @@
     "guardrails": "Guardrails",
     "strictMode": "Strict Mode",
     "strictModeHint": "Block Generate, Copy and Export while any field has an error. Soft warnings still let you through.",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "Between {{min}} and {{max}}.",
+    "themeDark": "Dark",
+    "themeLight": "Light"
   },
   "socialPost": {
     "title": "Cross-Post Captions",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "{{captions}} captions"
   },
   "batch": {
     "title": "Batch Mode",
@@ -1070,7 +1118,10 @@
     "endPart": "End Part",
     "generateBatch": "Generate Batch",
     "copyAllBatch": "Copy All",
-    "emptyState": "Configure batch range and generate."
+    "emptyState": "Configure batch range and generate.",
+    "intro": "Generate a run of parts for the game in the Editor, in one or more languages.",
+    "partLabel": "Part {{n}}",
+    "summary": "{{parts}} parts × {{languages}} languages"
   },
   "shortcuts": {
     "title": "Keyboard Shortcuts",
@@ -1126,6 +1177,25 @@
       "delisted": "Removed / delisted from store",
       "low_views": "Low views / engagement",
       "time": "No time / shifted priorities"
+    },
+    "intro": "Title, description and pinned comment for a series playlist, from the game in the Editor.",
+    "totalVideosPlaceholder": "e.g. 25",
+    "customNotePlaceholder": "Optional note…",
+    "statuses": {
+      "completed": "Completed",
+      "dropped": "Dropped",
+      "incomplete": "Incomplete",
+      "in_progress": "In progress"
+    },
+    "contentTypes": {
+      "full_gameplay": "Full gameplay",
+      "boss_fights": "Boss fights",
+      "speedrun": "Speedrun",
+      "all_endings": "All endings",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "Guide",
+      "highlights": "Highlights"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "Export TXT",
     "sessionCurrent": "Current session",
     "sessionLabel": "Session {{n}}",
-    "entriesShort": "entries"
+    "entriesShort": "entries",
+    "copyEntry": "Copy entry",
+    "deleteEntry": "Delete entry",
+    "errorCount": "{{n}} errors",
+    "warnCount": "{{n}} warnings",
+    "summary": "{{entries}} entries · {{sessions}} sessions",
+    "levels": {
+      "all": "All",
+      "error": "Error",
+      "warn": "Warning",
+      "info": "Info",
+      "debug": "Debug"
+    }
   },
   "strict": {
     "blockedTitle": "Strict Mode: {{count}} field(s) need fixing",
-    "fixHint": "Fix these in the Editor, or turn Strict Mode off in Settings."
+    "fixHint": "Fix these in the Editor, or turn Strict Mode off in Settings.",
+    "copyBlocked": "Strict Mode: fix the flagged fields before copying."
   },
   "legal": {
     "title": "Legal",
@@ -1175,5 +1258,35 @@
       "notice": "The Apache-2.0 NOTICE file with copyright and attribution.",
       "conduct": "Contributor Covenant rules for the project's community spaces."
     }
+  },
+  "nav": {
+    "create": "Create",
+    "library": "Library",
+    "system": "System",
+    "main": "Main navigation",
+    "more": "More",
+    "skipToContent": "Skip to content"
+  },
+  "command": {
+    "open": "Search or run a command…",
+    "title": "Command palette",
+    "placeholder": "Type a command or search…",
+    "empty": "No results.",
+    "groups": {
+      "navigate": "Go to",
+      "copy": "Copy",
+      "profiles": "Apply profile",
+      "presets": "Apply game preset",
+      "templates": "Apply template",
+      "preferences": "Preferences",
+      "help": "Help"
+    },
+    "interfaceIn": "Interface language: {{language}}",
+    "outputIn": "Output language: {{language}}",
+    "wiki": "Open the wiki"
+  },
+  "library": {
+    "profileApplied": "Profile “{{name}}” applied",
+    "presetApplied": "Preset “{{name}}” applied"
   }
 }

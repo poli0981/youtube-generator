@@ -1,234 +1,302 @@
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import {
-  ExternalLink,
-  Github,
+  BookOpen,
   Bug,
-  Youtube,
-  Twitter,
-  MessageCircle,
-  MessageSquare,
-  Cloud,
-  Gamepad2,
-  Send,
-  Mail,
-  Coffee,
-  Heart,
-  Sparkles,
-  DollarSign,
+  ChevronRight,
+  ExternalLink,
   FileText,
-  type LucideIcon,
+  Globe,
+  HandHeart,
+  Link2,
+  Mail,
+  MessagesSquare,
+  Scale,
+  Send,
+  Sparkles,
+  Users,
 } from "lucide-react";
-import { ABOUT, type AboutSocialId } from "@config/about";
+import { ABOUT, type AboutContactId, type AboutSocialId } from "@config/about";
 import { DONATE, type DonateId } from "@config/donate";
 import { THIRD_PARTY } from "@config/third-party";
 import { LEGAL_DOCS, legalDocPath } from "@config/legal";
 import { useDocumentTitle } from "@hooks/use-document-title";
+import { Logo } from "@components/brand/Logo";
+import { Badge } from "@components/ui/Badge";
+import { Button } from "@components/ui/Button";
+import { Card, CardHeader } from "@components/ui/Card";
+import { PageContainer } from "@components/ui/PageHeader";
+import {
+  BlueskyIcon,
+  BuyMeACoffeeIcon,
+  DiscordIcon,
+  GithubIcon,
+  KofiIcon,
+  MastodonIcon,
+  PatreonIcon,
+  PaypalIcon,
+  SteamIcon,
+  TelegramIcon,
+  XIcon,
+  YoutubeIcon,
+  type IconComponent,
+} from "@components/icons/brand";
 
-interface SocialLinkConfig {
-  id: AboutSocialId;
-  url: string;
-  icon: LucideIcon;
-  labelKey: string;
+const SOCIAL_ICONS: Record<AboutSocialId, IconComponent> = {
+  youtube: YoutubeIcon,
+  x: XIcon,
+  bluesky: BlueskyIcon,
+  mastodon: MastodonIcon,
+  discord: DiscordIcon,
+  steam: SteamIcon,
+  telegramBot: Send,
+  telegramUser: TelegramIcon,
+};
+
+const DONATE_ICONS: Record<DonateId, IconComponent> = {
+  githubSponsors: Sparkles,
+  kofi: KofiIcon,
+  buyMeACoffee: BuyMeACoffeeIcon,
+  patreon: PatreonIcon,
+  paypal: PaypalIcon,
+};
+
+/** The order contacts are listed in — the most common reasons first. */
+const CONTACT_ORDER: readonly AboutContactId[] = [
+  "general",
+  "security",
+  "privacy",
+  "legal",
+  "dmca",
+  "copyright",
+  "code",
+  "sponsor",
+];
+
+const rowClass =
+  "group text-text-primary hover:bg-surface-2 flex min-h-10 items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors";
+
+function ExternalRow({
+  href,
+  icon: Icon,
+  label,
+  hint,
+}: {
+  href: string;
+  icon: IconComponent;
+  label: string;
+  hint?: string;
+}) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={rowClass}>
+      <Icon
+        className="text-text-muted group-hover:text-accent size-4 shrink-0 transition-colors"
+        aria-hidden
+      />
+      <span className="min-w-0 flex-1 truncate">{label}</span>
+      {hint && <span className="text-text-muted hidden truncate text-xs sm:inline">{hint}</span>}
+      <ExternalLink
+        className="text-text-muted size-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
+        aria-hidden="true"
+      />
+    </a>
+  );
 }
 
-interface DonateLinkConfig {
-  id: DonateId;
-  url: string;
-  icon: LucideIcon;
-  labelKey: string;
+function Section({
+  title,
+  icon,
+  description,
+  children,
+}: {
+  title: string;
+  icon: ReactNode;
+  description?: string;
+  children: ReactNode;
+}) {
+  return (
+    <Card>
+      <CardHeader title={title} icon={icon} description={description} />
+      <div className="flex flex-col p-2 pt-2">{children}</div>
+    </Card>
+  );
 }
 
 export function AboutPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.about"));
 
-  // Hidden when empty so a fresh clone with no socials filled in still
-  // looks tidy on the About page. Ko-fi / Patreon were moved to the
-  // Donate section in v0.13.1 — keep them out of this list.
-  const allSocials: readonly SocialLinkConfig[] = [
-    { id: "youtube", url: ABOUT.socials.youtube, icon: Youtube, labelKey: "about.socials.youtube" },
-    { id: "x", url: ABOUT.socials.x, icon: Twitter, labelKey: "about.socials.x" },
-    { id: "bluesky", url: ABOUT.socials.bluesky, icon: Cloud, labelKey: "about.socials.bluesky" },
-    {
-      id: "mastodon",
-      url: ABOUT.socials.mastodon,
-      icon: MessageSquare,
-      labelKey: "about.socials.mastodon",
-    },
-    {
-      id: "discord",
-      url: ABOUT.socials.discord,
-      icon: MessageCircle,
-      labelKey: "about.socials.discord",
-    },
-    {
-      id: "discordGame",
-      url: ABOUT.socials.discordGame,
-      icon: Gamepad2,
-      labelKey: "about.socials.discordGame",
-    },
-    { id: "steam", url: ABOUT.socials.steam, icon: Gamepad2, labelKey: "about.socials.steam" },
-    {
-      id: "telegramBot",
-      url: ABOUT.socials.telegramBot,
-      icon: Send,
-      labelKey: "about.socials.telegramBot",
-    },
-    {
-      id: "telegramUser",
-      url: ABOUT.socials.telegramUser,
-      icon: Send,
-      labelKey: "about.socials.telegramUser",
-    },
-    { id: "email", url: ABOUT.socials.email, icon: Mail, labelKey: "about.socials.email" },
-  ];
-  const socials = allSocials.filter((s) => s.url.trim().length > 0);
-
-  const donateLinks: readonly DonateLinkConfig[] = [
-    {
-      id: "githubSponsors",
-      url: DONATE.githubSponsors,
-      icon: Sparkles,
-      labelKey: "about.donate.githubSponsors",
-    },
-    { id: "kofi", url: DONATE.kofi, icon: Coffee, labelKey: "about.donate.kofi" },
-    {
-      id: "buyMeACoffee",
-      url: DONATE.buyMeACoffee,
-      icon: Coffee,
-      labelKey: "about.donate.buyMeACoffee",
-    },
-    { id: "patreon", url: DONATE.patreon, icon: Heart, labelKey: "about.donate.patreon" },
-    { id: "paypal", url: DONATE.paypal, icon: DollarSign, labelKey: "about.donate.paypal" },
-  ];
+  const socials = (Object.keys(ABOUT.socials) as AboutSocialId[]).filter(
+    (id) => ABOUT.socials[id].trim().length > 0,
+  );
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-8 p-6">
-      <header className="flex flex-col gap-2">
-        <div className="flex items-baseline gap-3">
-          <h1 className="text-text-primary text-2xl font-bold">{ABOUT.appName}</h1>
-          <span className="bg-surface-2 text-text-secondary rounded px-2 py-0.5 font-mono text-xs">
-            v{ABOUT.version}
-          </span>
+    <PageContainer>
+      {/* Hero — this page's heading. */}
+      <Card className="relative overflow-hidden">
+        <div
+          className="bg-brand-gradient pointer-events-none absolute -top-24 -right-16 size-64 rounded-full opacity-20 blur-3xl"
+          aria-hidden="true"
+        />
+        <div className="relative flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:p-6">
+          <Logo className="size-14" />
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-text-primary text-2xl font-bold tracking-tight">
+                {ABOUT.appName}
+              </h1>
+              <Badge tone="accent">v{ABOUT.version}</Badge>
+              <Badge>{ABOUT.license}</Badge>
+            </div>
+            <p className="text-text-secondary mt-1 text-sm">{t("about.tagline")}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button asChild variant="secondary" size="sm">
+              <a href={ABOUT.repo} target="_blank" rel="noopener noreferrer">
+                <GithubIcon aria-hidden />
+                GitHub
+              </a>
+            </Button>
+            <Button asChild variant="secondary" size="sm">
+              <a href={ABOUT.bugReportUrl} target="_blank" rel="noopener noreferrer">
+                <Bug aria-hidden="true" />
+                {t("about.reportBugLabel")}
+              </a>
+            </Button>
+          </div>
         </div>
-        <p className="text-text-secondary text-sm">{t("about.tagline")}</p>
-      </header>
+      </Card>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
-          {t("about.repoHeading")}
-        </h2>
-        <div className="grid gap-2 sm:grid-cols-2">
-          <ExternalLinkRow href={ABOUT.repo} icon={Github} label={t("about.repoLabel")} />
-          <ExternalLinkRow href={ABOUT.bugReportUrl} icon={Bug} label={t("about.reportBugLabel")} />
-          <ExternalLinkRow
+      <div className="grid gap-4 md:grid-cols-2">
+        <Section title={t("about.repoHeading")} icon={<GithubIcon aria-hidden />}>
+          <ExternalRow
+            href={ABOUT.website}
+            icon={Globe}
+            label={t("about.websiteLabel")}
+            hint="ytgenerator.stream"
+          />
+          <ExternalRow href={ABOUT.repo} icon={GithubIcon} label={t("about.repoLabel")} />
+          <ExternalRow href={ABOUT.wikiUrl} icon={BookOpen} label={t("about.wikiLabel")} />
+          <ExternalRow
             href={ABOUT.discussionsUrl}
-            icon={MessageSquare}
+            icon={MessagesSquare}
             label={t("about.discussionsLabel")}
           />
-          <ExternalLinkRow href={ABOUT.githubAuthor} icon={Github} label={t("about.authorLabel")} />
-        </div>
-      </section>
+          <ExternalRow
+            href={ABOUT.author.github}
+            icon={Users}
+            label={t("about.authorLabel")}
+            hint={ABOUT.author.name}
+          />
+        </Section>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
-          {t("about.legalHeading")}
-        </h2>
-        <div className="grid gap-2 sm:grid-cols-2">
+        <Section title={t("about.legalHeading")} icon={<Scale aria-hidden="true" />}>
           {LEGAL_DOCS.map((doc) => (
-            <Link
-              key={doc.id}
-              to={legalDocPath(doc.id)}
-              className="border-border bg-surface-1 text-text-primary hover:border-accent hover:bg-surface-2 flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm transition-colors"
-            >
-              <FileText className="text-text-muted h-4 w-4 shrink-0" aria-hidden />
-              <span className="flex-1 truncate">{t(doc.labelKey)}</span>
+            <Link key={doc.id} to={legalDocPath(doc.id)} className={rowClass}>
+              <FileText
+                className="text-text-muted group-hover:text-accent size-4 shrink-0 transition-colors"
+                aria-hidden="true"
+              />
+              <span className="min-w-0 flex-1 truncate">{t(doc.labelKey)}</span>
+              <ChevronRight className="text-text-muted size-4 shrink-0" aria-hidden="true" />
             </Link>
           ))}
-        </div>
-      </section>
+        </Section>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
-          {t("about.donateHeading")}
-        </h2>
-        <p className="text-text-muted text-xs">{t("about.donateHelp")}</p>
-        <div className="grid gap-2 sm:grid-cols-2">
-          {donateLinks.map((d) => (
-            <ExternalLinkRow key={d.id} href={d.url} icon={d.icon} label={t(d.labelKey)} accent />
+        <Section
+          title={t("about.contactHeading")}
+          icon={<Mail aria-hidden="true" />}
+          description={t("about.contactHelp")}
+        >
+          {CONTACT_ORDER.map((id) => (
+            <a key={id} href={`mailto:${ABOUT.contacts[id]}`} className={rowClass}>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate">{t(`about.contacts.${id}`)}</span>
+                <span className="text-text-muted block truncate font-mono text-xs">
+                  {ABOUT.contacts[id]}
+                </span>
+              </span>
+              <Mail
+                className="text-text-muted group-hover:text-accent size-4 shrink-0 transition-colors"
+                aria-hidden="true"
+              />
+            </a>
           ))}
-        </div>
-      </section>
+        </Section>
 
-      {socials.length > 0 && (
-        <section className="flex flex-col gap-3">
-          <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
-            {t("about.connectHeading")}
-          </h2>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {socials.map((s) => (
-              <ExternalLinkRow key={s.id} href={s.url} icon={s.icon} label={t(s.labelKey)} />
+        <div className="flex flex-col gap-4">
+          <Section
+            title={t("about.donateHeading")}
+            icon={<HandHeart aria-hidden="true" />}
+            description={t("about.donateHelp")}
+          >
+            {(Object.keys(DONATE) as DonateId[]).map((id) => (
+              <ExternalRow
+                key={id}
+                href={DONATE[id]}
+                icon={DONATE_ICONS[id]}
+                label={t(`about.donate.${id}`)}
+              />
             ))}
-          </div>
-        </section>
-      )}
+          </Section>
 
-      <section className="flex flex-col gap-3">
-        <h2 className="text-text-muted text-sm font-semibold tracking-wide uppercase">
-          {t("about.thirdPartyHeading")}
-        </h2>
-        <p className="text-text-muted text-xs">{t("about.thirdPartyHelp")}</p>
-        <ul className="grid gap-1.5 sm:grid-cols-2">
+          <Section title={t("about.connectHeading")} icon={<Link2 aria-hidden="true" />}>
+            <ExternalRow
+              href={ABOUT.author.website}
+              icon={Globe}
+              label={t("about.authorWebsite")}
+              hint="poli0981.dev"
+            />
+            <ExternalRow href={ABOUT.author.links} icon={Link2} label={t("about.authorLinks")} />
+            {socials.map((id) => (
+              <ExternalRow
+                key={id}
+                href={ABOUT.socials[id]}
+                icon={SOCIAL_ICONS[id]}
+                label={t(`about.socials.${id}`)}
+              />
+            ))}
+          </Section>
+        </div>
+      </div>
+
+      <Card>
+        <CardHeader
+          title={t("about.thirdPartyHeading")}
+          description={t("about.thirdPartyHelp")}
+          icon={<Sparkles aria-hidden="true" />}
+          actions={
+            <Button asChild variant="ghost" size="sm">
+              <Link to={legalDocPath("third-party")}>
+                {t("legal.docs.thirdParty")}
+                <ChevronRight aria-hidden="true" />
+              </Link>
+            </Button>
+          }
+        />
+        <ul className="grid gap-x-4 p-4 pt-3 sm:grid-cols-2 lg:grid-cols-3">
           {THIRD_PARTY.map((entry) => (
             <li
               key={entry.name}
-              className="border-border bg-surface-1 flex items-center justify-between rounded-lg border px-3 py-2"
+              className="border-border flex items-center justify-between gap-3 border-b py-2 text-sm last:border-b-0 sm:[&:nth-last-child(-n+2)]:border-b-0 lg:[&:nth-last-child(-n+3)]:border-b-0"
             >
               <a
                 href={entry.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-text-primary hover:text-accent flex items-center gap-2 text-sm"
+                className="text-text-primary hover:text-accent min-w-0 truncate font-medium"
               >
-                <span className="font-medium">{entry.name}</span>
-                <span className="text-text-muted font-mono text-xs">{entry.version}</span>
+                {entry.name}
+                <span className="text-text-muted ml-1.5 font-mono text-xs font-normal">
+                  {entry.version}
+                </span>
               </a>
-              <span className="text-text-muted text-xs">{entry.license}</span>
+              <span className="text-text-muted shrink-0 text-xs">{entry.license}</span>
             </li>
           ))}
         </ul>
-      </section>
-    </div>
-  );
-}
-
-interface ExternalLinkRowProps {
-  href: string;
-  icon: LucideIcon;
-  label: string;
-  accent?: boolean;
-}
-
-function ExternalLinkRow({ href, icon: Icon, label, accent }: ExternalLinkRowProps) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={
-        accent
-          ? "text-text-primary flex items-center gap-3 rounded-lg border border-pink-500/30 bg-pink-500/5 px-3 py-2.5 text-sm transition-colors hover:border-pink-400/60 hover:bg-pink-500/10"
-          : "border-border bg-surface-1 text-text-primary hover:border-accent hover:bg-surface-2 flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm transition-colors"
-      }
-    >
-      <Icon
-        className={
-          accent ? "h-4 w-4 shrink-0 text-pink-300" : "text-text-secondary h-4 w-4 shrink-0"
-        }
-      />
-      <span className="flex-1 truncate">{label}</span>
-      <ExternalLink className="text-text-muted h-3.5 w-3.5 shrink-0" />
-    </a>
+      </Card>
+    </PageContainer>
   );
 }

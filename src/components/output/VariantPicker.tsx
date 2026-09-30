@@ -82,12 +82,7 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
   ]);
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      title={t("output.generateAlternatives")}
-      className="max-w-2xl"
-    >
+    <Modal open={open} onClose={onClose} title={t("output.generateAlternatives")} size="lg">
       <div className="flex flex-col gap-4">
         {variants.map((variant) => (
           <section key={variant.id} className="flex flex-col gap-2">
@@ -100,9 +95,9 @@ export function VariantPicker({ open, onClose }: VariantPickerProps) {
                 <CopyButton text={variant.title} label={t("output.copyTitle")} />
               </div>
             </div>
-            <div className="border-border bg-surface-1 rounded-lg border p-3">
-              <p className="text-text-primary text-sm font-medium">{variant.title}</p>
-            </div>
+            <p className="border-border bg-surface-0 text-text-primary rounded-lg border px-3 py-2.5 text-sm font-medium">
+              {variant.title}
+            </p>
           </section>
         ))}
       </div>

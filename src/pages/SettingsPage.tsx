@@ -1,11 +1,27 @@
 import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
-import { Save, Upload } from "lucide-react";
+import {
+  Download,
+  FileText,
+  History,
+  Languages,
+  Moon,
+  Palette,
+  PenLine,
+  ScrollText,
+  ShieldCheck,
+  Sun,
+  Tags,
+  Type,
+  Upload,
+} from "lucide-react";
 import { Toggle } from "@components/ui/Toggle";
 import { Select } from "@components/ui/Select";
-import { Input } from "@components/ui/Input";
 import { Button } from "@components/ui/Button";
 import { Accordion } from "@components/ui/Accordion";
+import { NumberField } from "@components/ui/NumberField";
+import { SegmentedControl } from "@components/ui/SegmentedControl";
+import { PageContainer, PageHeader } from "@components/ui/PageHeader";
 import { SUPPORTED_LANGUAGES } from "@i18n/index";
 import { useSettingsStore } from "@store/settings-store";
 import { exportSettingsToFile, importSettingsFromFile } from "./settings/settings-io";
@@ -18,7 +34,7 @@ import {
 } from "@engine/types";
 
 export function SettingsPage() {
-  const { t, i18n } = useTranslation("ui");
+  const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.settings"));
   const settings = useSettingsStore();
   const accordion = useSettingsStore((s) => s.settingsAccordionState);
@@ -28,10 +44,15 @@ export function SettingsPage() {
   // persisted map predates it. Only Genre Playlists ships collapsed, because
   // it renders one input per genre.
   const isOpen = (id: string): boolean => accordion[id] ?? true;
+  const section = (id: string) => ({
+    id,
+    open: isOpen(id),
+    onToggle: () => toggleAccordion(id),
+  });
 
   const langOptions = SUPPORTED_LANGUAGES.map((l) => ({
     value: l.id,
-    label: `${l.flag} ${l.nativeName}`,
+    label: `${l.nativeName} (${l.id})`,
   }));
 
   const hashtagOptions = [
@@ -59,75 +80,77 @@ export function SettingsPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-2xl p-4 sm:p-6">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
-        <h1 className="text-text-primary text-lg font-bold">{t("settings.title")}</h1>
-        {/* Ungated since v0.35.0. This pair used to be desktop-only, a leftover
-            from when "export" meant dumping the on-disk settings.json. Import
-            has always been a plain <input type="file"> that needs no Tauri, and
-            export now offers a real save dialog on the web too — so hiding both
-            on the web build was the odd one out among every other export button
-            in the app. */}
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm" onClick={() => void importSettingsFromFile()}>
-            <Upload className="h-3.5 w-3.5" />
-            {t("common.import")}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => void exportSettingsToFile(t)}>
-            <Save className="h-3.5 w-3.5" />
-            {t("common.export")}
-          </Button>
-        </div>
-      </div>
+    <PageContainer width="narrow">
+      <PageHeader
+        title={t("settings.title")}
+        actions={
+          <>
+            <Button variant="ghost" size="sm" onClick={() => void importSettingsFromFile()}>
+              <Upload />
+              {t("common.import")}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => void exportSettingsToFile(t)}>
+              <Download />
+              {t("common.export")}
+            </Button>
+          </>
+        }
+      />
 
-      <div className="flex flex-col gap-8">
-        {/* 1. Appearance — theme toggle only. */}
-        <Accordion
-          id="appearance"
-          icon="🎨"
-          title={t("settings.appearance")}
-          open={isOpen("appearance")}
-          onToggle={() => toggleAccordion("appearance")}
-        >
-          <Toggle
-            label={t("settings.theme") + (settings.theme === "dark" ? " (Dark)" : " (Light)")}
-            checked={settings.theme === "dark"}
-            onChange={(v) => settings.setTheme(v ? "dark" : "light")}
-          />
+      <div className="flex flex-col gap-3">
+        <Accordion {...section("appearance")} icon={Palette} title={t("settings.appearance")}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="text-text-secondary text-sm">{t("settings.theme")}</span>
+            <SegmentedControl
+              ariaLabel={t("settings.theme")}
+              layoutId="settings-theme"
+              value={settings.theme}
+              onChange={(v) => settings.setTheme(v)}
+              options={[
+                {
+                  value: "dark",
+                  label: (
+                    <>
+                      <Moon className="size-3.5" aria-hidden="true" />
+                      {t("settings.themeDark")}
+                    </>
+                  ),
+                },
+                {
+                  value: "light",
+                  label: (
+                    <>
+                      <Sun className="size-3.5" aria-hidden="true" />
+                      {t("settings.themeLight")}
+                    </>
+                  ),
+                },
+              ]}
+            />
+          </div>
         </Accordion>
 
-        {/* 2. Language & Defaults — app + output language. */}
-        <Accordion
-          id="defaults"
-          icon="🌐"
-          title={t("settings.defaults")}
-          open={isOpen("defaults")}
-          onToggle={() => toggleAccordion("defaults")}
-        >
-          <Select
-            label={t("settings.appLanguage")}
-            options={langOptions}
-            value={settings.appLanguage}
-            onChange={(v) => {
-              settings.setAppLanguage(v as SupportedLanguage);
-              i18n.changeLanguage(v);
-            }}
-          />
-          <Select
-            label={t("settings.defaultOutputLanguage")}
-            options={langOptions}
-            value={settings.defaultOutputLanguage}
-            onChange={(v) => settings.setDefaultOutputLanguage(v as SupportedLanguage)}
-          />
+        <Accordion {...section("defaults")} icon={Languages} title={t("settings.defaults")}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Select
+              label={t("settings.appLanguage")}
+              options={langOptions}
+              value={settings.appLanguage}
+              onChange={(v) => settings.setAppLanguage(v as SupportedLanguage)}
+            />
+            <Select
+              label={t("settings.defaultOutputLanguage")}
+              options={langOptions}
+              value={settings.defaultOutputLanguage}
+              onChange={(v) => settings.setDefaultOutputLanguage(v as SupportedLanguage)}
+            />
+          </div>
         </Accordion>
 
-        {/* 3. Editor — UI knobs that affect the editor page itself. */}
         <Accordion
-          id="editorSettings"
-          icon="✏️"
+          {...section("editorSettings")}
+          icon={PenLine}
           title={t("settings.editorSettings")}
-          open={isOpen("editorSettings")}
-          onToggle={() => toggleAccordion("editorSettings")}
         >
           <Toggle
             label={t("settings.showCharCount")}
@@ -141,65 +164,50 @@ export function SettingsPage() {
           />
         </Accordion>
 
-        {/* 3.5 Guardrails — v0.35.0 Strict Mode. Off by default: the app's
-            whole premise is getting a description out quickly, so the seatbelt
-            is opt-in for creators who publish in bulk and would rather be
-            stopped than fix it after upload. */}
-        <Accordion
-          id="guardrails"
-          icon="🛡️"
-          title={t("settings.guardrails")}
-          open={isOpen("guardrails")}
-          onToggle={() => toggleAccordion("guardrails")}
-        >
+        {/* Strict Mode is off by default: the app's whole premise is getting a
+            description out quickly, so the seatbelt is opt-in for creators who
+            publish in bulk and would rather be stopped than fix it after upload. */}
+        <Accordion {...section("guardrails")} icon={ShieldCheck} title={t("settings.guardrails")}>
           <Toggle
             label={t("settings.strictMode")}
+            description={t("settings.strictModeHint")}
             checked={settings.strictMode}
             onChange={(v) => settings.setSetting("strictMode", v)}
           />
-          <p className="text-text-muted text-xs">{t("settings.strictModeHint")}</p>
         </Accordion>
 
-        {/* 4. Title format — NEW in v0.7. Quality badge + format knobs. */}
-        <Accordion
-          id="titleFormat"
-          icon="🏷️"
-          title={t("settings.titleFormatTitle")}
-          open={isOpen("titleFormat")}
-          onToggle={() => toggleAccordion("titleFormat")}
-        >
+        <Accordion {...section("titleFormat")} icon={Type} title={t("settings.titleFormatTitle")}>
           <Toggle
             label={t("settings.showQualityBadge")}
             checked={settings.showQualityBadge}
             onChange={(v) => settings.setSetting("showQualityBadge", v)}
           />
-          <Select
-            label={t("settings.badgePosition")}
-            options={badgePositionOptions}
-            value={settings.titleFormat.badgePosition}
-            onChange={(v) => settings.setTitleFormat({ badgePosition: v as TitleBadgePosition })}
-          />
-          <Select
-            label={t("settings.titleSeparator")}
-            options={titleSeparatorOptions}
-            value={settings.titleFormat.separator}
-            onChange={(v) => settings.setTitleFormat({ separator: v as TitleSeparatorId })}
-          />
-          <Select
-            label={t("settings.badgeCase")}
-            options={badgeCaseOptions}
-            value={settings.titleFormat.badgeCase}
-            onChange={(v) => settings.setTitleFormat({ badgeCase: v as TitleBadgeCase })}
-          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Select
+              label={t("settings.badgePosition")}
+              options={badgePositionOptions}
+              value={settings.titleFormat.badgePosition}
+              onChange={(v) => settings.setTitleFormat({ badgePosition: v as TitleBadgePosition })}
+            />
+            <Select
+              label={t("settings.titleSeparator")}
+              options={titleSeparatorOptions}
+              value={settings.titleFormat.separator}
+              onChange={(v) => settings.setTitleFormat({ separator: v as TitleSeparatorId })}
+            />
+            <Select
+              label={t("settings.badgeCase")}
+              options={badgeCaseOptions}
+              value={settings.titleFormat.badgeCase}
+              onChange={(v) => settings.setTitleFormat({ badgeCase: v as TitleBadgeCase })}
+            />
+          </div>
         </Accordion>
 
-        {/* 5. Description — controls for auto-generated description blocks. */}
         <Accordion
-          id="description"
-          icon="📝"
+          {...section("description")}
+          icon={FileText}
           title={t("settings.descriptionSettingsTitle")}
-          open={isOpen("description")}
-          onToggle={() => toggleAccordion("description")}
         >
           <Toggle
             label={t("settings.showCopyright")}
@@ -208,12 +216,10 @@ export function SettingsPage() {
           />
           <Toggle
             label={t("settings.showGameCopyright")}
+            description={t("settings.showGameCopyrightHint")}
             checked={settings.showGameCopyright}
             onChange={(v) => settings.setSetting("showGameCopyright", v)}
           />
-          <p className="text-text-muted -mt-1 ml-14 text-xs">
-            {t("settings.showGameCopyrightHint")}
-          </p>
           <Toggle
             label={t("settings.showUsagePolicy")}
             checked={settings.showUsagePolicy}
@@ -226,37 +232,31 @@ export function SettingsPage() {
           />
           <Toggle
             label={t("settings.showThirdPartyAds")}
+            description={settings.showThirdPartyAds ? t("settings.thirdPartyAdsHint") : undefined}
             checked={settings.showThirdPartyAds}
             onChange={(v) => settings.setSetting("showThirdPartyAds", v)}
           />
-          {settings.showThirdPartyAds && (
-            <p className="text-text-muted -mt-1 ml-14 text-xs">{t("settings.thirdPartyAdsHint")}</p>
-          )}
           <Toggle
             label={t("settings.splitContactEmail")}
+            description={
+              settings.splitContactEmail ? t("settings.splitContactEmailHint") : undefined
+            }
             checked={settings.splitContactEmail}
             onChange={(v) => settings.setSetting("splitContactEmail", v)}
           />
-          {settings.splitContactEmail && (
-            <p className="text-text-muted -mt-1 ml-14 text-xs">
-              {t("settings.splitContactEmailHint")}
-            </p>
-          )}
           <Toggle
             label={t("settings.showTranslationQuality")}
+            description={t("settings.showTranslationQualityHint")}
             checked={settings.showTranslationQuality}
             onChange={(v) => settings.setSetting("showTranslationQuality", v)}
           />
-          <p className="text-text-muted -mt-1 ml-14 text-xs">
-            {t("settings.showTranslationQualityHint")}
-          </p>
           <Toggle
             label={t("settings.showPinnedCommentTemplate")}
             checked={settings.showPinnedCommentTemplate}
             onChange={(v) => settings.setSetting("showPinnedCommentTemplate", v)}
           />
           {settings.showPinnedCommentTemplate && (
-            <div className="border-border ml-4 flex flex-col gap-2 border-l-2 pl-4">
+            <div className="border-border ml-4 flex flex-col gap-3 border-l-2 pl-4">
               <Toggle
                 label={t("settings.pinnedCommentIncludeAskNextGame")}
                 checked={settings.pinnedCommentIncludeAskNextGame}
@@ -274,17 +274,11 @@ export function SettingsPage() {
             options={hashtagOptions}
             value={String(settings.hashtagCount)}
             onChange={(v) => settings.setSetting("hashtagCount", Number(v))}
+            className="max-w-40"
           />
         </Accordion>
 
-        {/* 6. Tags — tag-pool controls (narrowed from the old mixed section). */}
-        <Accordion
-          id="tags"
-          icon="#️⃣"
-          title={t("settings.tagSettings")}
-          open={isOpen("tags")}
-          onToggle={() => toggleAccordion("tags")}
-        >
+        <Accordion {...section("tags")} icon={Tags} title={t("settings.tagSettings")}>
           <Toggle
             label={t("settings.multilingualTags")}
             checked={settings.includeMultilingualTags}
@@ -299,49 +293,28 @@ export function SettingsPage() {
 
         <GenrePlaylistsSection />
 
-        {/* 7. History. */}
-        <Accordion
-          id="history"
-          icon="🕘"
-          title={t("settings.historySettings")}
-          open={isOpen("history")}
-          onToggle={() => toggleAccordion("history")}
-        >
-          <Input
+        <Accordion {...section("history")} icon={History} title={t("settings.historySettings")}>
+          <NumberField
             label={t("settings.historyLimit")}
-            type="number"
-            value={String(settings.historyLimit)}
-            onChange={(e) => {
-              const val = Math.max(10, Math.min(500, Number(e.target.value) || 100));
-              settings.setSetting("historyLimit", val);
-            }}
+            value={settings.historyLimit}
+            min={10}
+            max={500}
+            onCommit={(v) => settings.setSetting("historyLimit", v)}
           />
         </Accordion>
 
-        {/* 8. Logs — v0.17.0 retention. */}
-        <Accordion
-          id="logs"
-          icon="📋"
-          title={t("settings.logSettings")}
-          open={isOpen("logs")}
-          onToggle={() => toggleAccordion("logs")}
-        >
-          <Input
+        <Accordion {...section("logs")} icon={ScrollText} title={t("settings.logSettings")}>
+          {/* Same bounds as `healSettings`. */}
+          <NumberField
             label={t("settings.logRetentionDays")}
-            type="number"
+            value={settings.logRetentionDays}
             min={1}
             max={90}
-            value={String(settings.logRetentionDays)}
-            onChange={(e) => {
-              // Same clamp as `healSettings` so the in-memory value
-              // never goes out of bounds before persistence runs.
-              const val = Math.max(1, Math.min(90, Number(e.target.value) || 7));
-              settings.setSetting("logRetentionDays", val);
-            }}
+            onCommit={(v) => settings.setSetting("logRetentionDays", v)}
+            help={t("settings.logRetentionHint")}
           />
-          <p className="text-text-muted text-xs">{t("settings.logRetentionHint")}</p>
         </Accordion>
       </div>
-    </div>
+    </PageContainer>
   );
 }

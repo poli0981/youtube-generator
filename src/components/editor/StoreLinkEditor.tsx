@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import type { ClipboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Select } from "@components/ui/Select";
 import { PLATFORMS } from "@config/platforms";
@@ -75,29 +75,15 @@ export function StoreLinkEditor() {
     if (!extracted) return;
 
     setField("gameName", extracted);
-    toast.custom(
-      (item) => (
-        <div className="border-border bg-surface-2 text-text-primary flex items-center gap-3 rounded-lg border px-3 py-2 text-sm shadow">
-          <span>{t("editor.toast.urlAutoFilled", { name: extracted })}</span>
-          <button
-            type="button"
-            className="text-accent hover:bg-surface-1 rounded px-2 py-0.5 text-xs font-medium"
-            onClick={() => {
-              setField("gameName", "");
-              toast.dismiss(item.id);
-            }}
-          >
-            {t("common.undo")}
-          </button>
-        </div>
-      ),
-      { duration: 5000 },
-    );
+    toast(t("editor.toast.urlAutoFilled", { name: extracted }), {
+      duration: 5000,
+      action: { label: t("common.undo"), onClick: () => setField("gameName", "") },
+    });
   };
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-text-secondary text-sm font-medium">{t("editor.storeLinks")}</span>
+      <span className="text-text-primary text-sm font-semibold">{t("editor.storeLinks")}</span>
       {mismatch && (
         <div className="border-warning bg-surface-2 flex items-start gap-2 rounded-lg border px-3 py-2 text-sm">
           <span className="text-text-primary flex-1">

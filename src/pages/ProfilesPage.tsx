@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import { useDocumentTitle } from "@hooks/use-document-title";
 import { Download, Upload } from "lucide-react";
 import { Button } from "@components/ui/Button";
+import { Badge } from "@components/ui/Badge";
+import { PageContainer, PageHeader } from "@components/ui/PageHeader";
+import { TabPanel, Tabs } from "@components/ui/Tabs";
 import { ProfileList } from "@components/profiles/ProfileList";
 import { PresetList } from "@components/presets/PresetList";
 import { TemplateList } from "@components/templates/TemplateList";
@@ -18,8 +21,7 @@ import { useFileExport } from "@hooks/use-file-export";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import type { ExportType } from "@utils/file-schema";
 import { logger } from "@utils/logger";
-import toast from "react-hot-toast";
-import clsx from "clsx";
+import { toast } from "sonner";
 
 type Tab = "profiles" | "presets" | "templates";
 
@@ -58,7 +60,7 @@ export function ProfilesPage() {
    * (the old "Import failed" toast was almost useless for debugging).
    * "wrong-shape" with a known actual type also offers a one-click
    * fix via the toast action (`onClick` on the toast itself wouldn't
-   * work — react-hot-toast doesn't surface actions on the default
+   * work — the toast library doesn't surface actions on the default
    * `toast.error`, so we surface a follow-up `toast(`…`)` with the
    * switch hint instead).
    */
@@ -174,82 +176,83 @@ export function ProfilesPage() {
     );
   };
 
-  return (
-    <div className="mx-auto max-w-3xl p-4 sm:p-6">
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="bg-surface-1 flex gap-1 rounded-lg p-1">
-          {(["profiles", "presets", "templates"] as const).map((t2) => (
-            <button
-              key={t2}
-              onClick={() => setTab(t2)}
-              className={clsx(
-                "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
-                tab === t2 ? "bg-accent text-white" : "text-text-muted hover:text-text-primary",
-              )}
-            >
-              {t(`${t2}.title`)}
-            </button>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {tab === "profiles" && (
-            <>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => void handleExportProfiles()}
-                disabled={strictBlocked}
-              >
-                <Download className="h-3.5 w-3.5" />
-                {t("profiles.exportProfiles")}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleImportProfiles}>
-                <Upload className="h-3.5 w-3.5" />
-                {t("profiles.importProfiles")}
-              </Button>
-            </>
-          )}
-          {tab === "presets" && (
-            <>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => void handleExportPresets()}
-                disabled={strictBlocked}
-              >
-                <Download className="h-3.5 w-3.5" />
-                {t("presets.exportPresets")}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleImportPresets}>
-                <Upload className="h-3.5 w-3.5" />
-                {t("presets.importPresets")}
-              </Button>
-            </>
-          )}
-          {tab === "templates" && (
-            <>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => void handleExportTemplates()}
-                disabled={strictBlocked}
-              >
-                <Download className="h-3.5 w-3.5" />
-                {t("templates.exportTemplates")}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={handleImportTemplates}>
-                <Upload className="h-3.5 w-3.5" />
-                {t("templates.importTemplates")}
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
+  const actions: Record<
+    Tab,
+    {
+      exportLabel: string;
+      importLabel: string;
+      onExport: () => Promise<void>;
+      onImport: () => Promise<void>;
+    }
+  > = {
+    profiles: {
+      exportLabel: t("profiles.exportProfiles"),
+      importLabel: t("profiles.importProfiles"),
+      onExport: handleExportProfiles,
+      onImport: handleImportProfiles,
+    },
+    presets: {
+      exportLabel: t("presets.exportPresets"),
+      importLabel: t("presets.importPresets"),
+      onExport: handleExportPresets,
+      onImport: handleImportPresets,
+    },
+    templates: {
+      exportLabel: t("templates.exportTemplates"),
+      importLabel: t("templates.importTemplates"),
+      onExport: handleExportTemplates,
+      onImport: handleImportTemplates,
+    },
+  };
+  const current = actions[tab];
+  const count = (n: number) => (n > 0 ? <Badge>{n}</Badge> : null);
 
-      {tab === "profiles" && <ProfileList />}
-      {tab === "presets" && <PresetList />}
-      {tab === "templates" && <TemplateList />}
-    </div>
+  return (
+    <PageContainer width="narrow">
+      <PageHeader
+        title={t("tabs.profiles")}
+        description={t("profiles.intro")}
+        actions={
+          <>
+            <Button variant="ghost" size="sm" onClick={() => void current.onImport()}>
+              <Upload />
+              {current.importLabel}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => void current.onExport()}
+              disabled={strictBlocked}
+            >
+              <Download />
+              {current.exportLabel}
+            </Button>
+          </>
+        }
+      />
+
+      <Tabs
+        value={tab}
+        onChange={setTab}
+        ariaLabel={t("tabs.profiles")}
+        layoutId="library-tab"
+        items={[
+          { value: "profiles", label: t("profiles.title"), badge: count(profiles.length) },
+          { value: "presets", label: t("presets.title"), badge: count(presets.length) },
+          { value: "templates", label: t("templates.title"), badge: count(templates.length) },
+        ]}
+      >
+        <TabPanel value="profiles" className="pt-4">
+          <ProfileList />
+        </TabPanel>
+        <TabPanel value="presets" className="pt-4">
+          <PresetList />
+        </TabPanel>
+        <TabPanel value="templates" className="pt-4">
+          <TemplateList />
+        </TabPanel>
+      </Tabs>
+    </PageContainer>
   );
 }
 

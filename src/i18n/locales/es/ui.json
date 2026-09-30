@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "Donar",
-    "toggleTheme": "Cambiar tema"
+    "outputLanguage": "Idioma de salida",
+    "interfaceLanguage": "Idioma de la interfaz",
+    "switchToLight": "Cambiar al tema claro",
+    "switchToDark": "Cambiar al tema oscuro"
   },
   "about": {
     "tagline": "Generador de título, descripción y etiquetas de YouTube para canales de Gameplay sin comentarios.",
     "repoHeading": "Repositorio y Licencia",
     "repoLabel": "Repositorio en GitHub",
-    "issuesLabel": "Reportar un Problema",
     "reportBugLabel": "Reportar un bug",
     "discussionsLabel": "Discusiones",
     "authorLabel": "Autor",
-    "licenseLabel": "Licencia",
     "donateHeading": "Donar / Apoyar",
     "donateHelp": "Si YTDescGen te ahorra tiempo, considera invitarme un café. Cada aporte ayuda al proyecto.",
     "legalHeading": "Legal",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — Repo / General",
-      "discordGame": "Discord — Sala de juego",
+      "discord": "Discord",
       "steam": "Perfil de Steam",
       "telegramBot": "Bot de Telegram",
-      "telegramUser": "Telegram",
-      "email": "Email"
+      "telegramUser": "Telegram"
+    },
+    "websiteLabel": "Sitio web",
+    "wikiLabel": "Wiki y guías",
+    "contactHeading": "Contacto",
+    "contactHelp": "Elige la dirección según el tema para que llegue al buzón correcto.",
+    "authorWebsite": "Sitio personal",
+    "authorLinks": "Todos los enlaces",
+    "contacts": {
+      "general": "Consultas generales",
+      "security": "Vulnerabilidades de seguridad",
+      "privacy": "Privacidad y solicitudes de datos",
+      "legal": "Términos y asuntos legales",
+      "dmca": "DMCA / avisos de retirada",
+      "copyright": "Licencias y atribución",
+      "code": "Código fuente y conducta",
+      "sponsor": "Patrocinios y publicidad"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "Apoya a los desarrolladores",
       "online_connectivity_issues": "Problemas de conexión online"
     },
-    "videoSettings": "Ajustes de Video",
     "quickPreview": "Vista Previa Rápida",
     "version": "Versión",
     "clearDraft": "Limpiar Borrador",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "Comprueba el enlace y vuelve a añadirlo — '{{host}}' sugiere '{{suggestedName}}', pero el Nombre del juego es '{{gameName}}'."
-    }
+    },
+    "collapseAll": "Contraer todo",
+    "expandAll": "Expandir todo",
+    "viewOutput": "Ver resultado",
+    "previewEmpty": "Escribe el nombre del juego para ver la vista previa.",
+    "genrePick": "Elegir géneros",
+    "genreAdd": "Añadir",
+    "genreQuickSets": "Conjuntos rápidos",
+    "genreRemove": "Quitar {{genre}}",
+    "selectedCount": "{{n}} seleccionados"
   },
   "output": {
     "title": "Título",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}} demasiado largo: {{count}}/{{limit}} caracteres. Recórtalo antes de copiar.",
       "fieldGeneric": "Texto",
-      "failed": "Error al copiar"
+      "failed": "Error al copiar",
+      "empty": "Aún no hay nada que copiar: escribe el nombre del juego en el Editor."
     },
     "limits": {
       "bannerTitle": "Copia bloqueada: supera el límite de YouTube",
@@ -768,6 +792,15 @@
       "copyBlocked": "Bloqueado: otro campo supera el límite de YouTube",
       "batchRowBlocked": "Esta parte supera el límite: copia bloqueada.",
       "batchAllBlocked": "Copiar todo bloqueado: al menos una parte supera el límite"
+    },
+    "emptyTitle": "Aún no hay nada que mostrar",
+    "emptyHint": "Escribe el nombre del juego en el Editor y aquí aparecerán el título, la descripción y las etiquetas.",
+    "youtubePreview": {
+      "heading": "En YouTube",
+      "channelPlaceholder": "Tu canal",
+      "more": "…más",
+      "titleCut": "Los resultados de búsqueda y las sugerencias cortan el título en unos {{chars}} caracteres: pon las palabras clave al principio.",
+      "foldHint": "Los espectadores solo ven los primeros ~{{chars}} caracteres de la descripción antes de «…más»."
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "Descartar",
     "scrollToTop": "Volver arriba",
     "exported": "Exportado",
-    "exportFailed": "Error al exportar"
+    "exportFailed": "Error al exportar",
+    "close": "Cerrar",
+    "edit": "Editar",
+    "loading": "Cargando…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "Importar Perfiles",
     "thirdPartyAdText": "Texto publicitario de terceros",
     "thirdPartyAdTextPlaceholder": "ej. Usa el código SAVE10 en GameStore.com — 10% de descuento\nPatrocinado por ChairCo — enlace en la descripción",
-    "thirdPartyAdTextHelp": "Texto opcional de patrocinador / socio / afiliado. Se muestra cuando 'Anuncios de terceros' está activado en Ajustes."
+    "thirdPartyAdTextHelp": "Texto opcional de patrocinador / socio / afiliado. Se muestra cuando 'Anuncios de terceros' está activado en Ajustes.",
+    "intro": "Perfiles de canal, preajustes de juego y plantillas completas del editor, reutilizables.",
+    "hint": "La identidad de tu canal: nombre, contacto, redes y equipo. Aplica uno para rellenar esos campos en el Editor.",
+    "noChannel": "Sin nombre de canal",
+    "socialLinks": "{{n}} enlaces sociales",
+    "rigFields": "{{n}} datos del equipo"
   },
   "templates": {
     "title": "Plantillas",
@@ -968,7 +1009,8 @@
     "savedAs": "Guardado como '{{name}}'",
     "appliedToast": "Aplicado '{{name}}'",
     "exportTemplates": "Exportar Plantillas",
-    "importTemplates": "Importar Plantillas"
+    "importTemplates": "Importar Plantillas",
+    "applyFailed": "Esta plantilla está dañada y no se puede aplicar."
   },
   "presets": {
     "title": "Preajustes de Juego",
@@ -980,14 +1022,16 @@
     "selectPreset": "Cargar Preajuste de Juego",
     "noPresets": "Sin preajustes",
     "exportPresets": "Exportar Preajustes",
-    "importPresets": "Importar Preajustes"
+    "importPresets": "Importar Preajustes",
+    "hint": "Nombre, géneros, plataforma y enlaces de tienda de un juego, reutilizados en todas sus partes."
   },
   "history": {
     "title": "Historial",
     "emptyState": "Aún no hay historial. Genera una descripción para empezar.",
     "clearAll": "Borrar Todo",
     "clearConfirm": "¿Estás seguro de que quieres borrar todo el historial?",
-    "searchPlaceholder": "Buscar en el historial..."
+    "searchPlaceholder": "Buscar en el historial...",
+    "noResults": "Ninguna entrada coincide con la búsqueda."
   },
   "settings": {
     "title": "Ajustes",
@@ -1043,7 +1087,10 @@
     "guardrails": "Protecciones",
     "strictMode": "Modo estricto",
     "strictModeHint": "Bloquea Generar, Copiar y Exportar mientras algún campo tenga un error. Las advertencias leves no bloquean.",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "Entre {{min}} y {{max}}.",
+    "themeDark": "Oscuro",
+    "themeLight": "Claro"
   },
   "socialPost": {
     "title": "Publicaciones multiplataforma",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "{{captions}} textos"
   },
   "batch": {
     "title": "Generación por Lote",
@@ -1070,7 +1118,10 @@
     "endPart": "Parte Final",
     "generateBatch": "Generar Lote",
     "copyAllBatch": "Copiar Todo el Lote",
-    "emptyState": "Configura el rango de partes y genera descripciones en lote."
+    "emptyState": "Configura el rango de partes y genera descripciones en lote.",
+    "intro": "Genera una serie de partes del juego del Editor, en uno o varios idiomas.",
+    "partLabel": "Parte {{n}}",
+    "summary": "{{parts}} partes × {{languages}} idiomas"
   },
   "shortcuts": {
     "title": "Atajos de Teclado",
@@ -1126,6 +1177,25 @@
       "delisted": "Eliminado / retirado de la tienda",
       "low_views": "Pocas visitas / interacción",
       "time": "Sin tiempo / cambio de prioridades"
+    },
+    "intro": "Título, descripción y comentario fijado para la playlist de una serie, a partir del juego del Editor.",
+    "totalVideosPlaceholder": "p. ej. 25",
+    "customNotePlaceholder": "Nota opcional…",
+    "statuses": {
+      "completed": "Completada",
+      "dropped": "Abandonada",
+      "incomplete": "Incompleta",
+      "in_progress": "En curso"
+    },
+    "contentTypes": {
+      "full_gameplay": "Partida completa",
+      "boss_fights": "Jefes",
+      "speedrun": "Speedrun",
+      "all_endings": "Todos los finales",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "Guía",
+      "highlights": "Momentos destacados"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "Exportar TXT",
     "sessionCurrent": "Sesión actual",
     "sessionLabel": "Sesión {{n}}",
-    "entriesShort": "entradas"
+    "entriesShort": "entradas",
+    "copyEntry": "Copiar entrada",
+    "deleteEntry": "Eliminar entrada",
+    "errorCount": "{{n}} errores",
+    "warnCount": "{{n}} avisos",
+    "summary": "{{entries}} entradas · {{sessions}} sesiones",
+    "levels": {
+      "all": "Todos",
+      "error": "Error",
+      "warn": "Aviso",
+      "info": "Info",
+      "debug": "Depuración"
+    }
   },
   "strict": {
     "blockedTitle": "Modo estricto: {{count}} campo(s) por corregir",
-    "fixHint": "Corrígelos en el Editor o desactiva el Modo estricto en Ajustes."
+    "fixHint": "Corrígelos en el Editor o desactiva el Modo estricto en Ajustes.",
+    "copyBlocked": "Modo estricto: corrige los campos marcados antes de copiar."
   },
   "legal": {
     "title": "Información legal",
@@ -1175,5 +1258,35 @@
       "notice": "El archivo NOTICE de Apache-2.0 con derechos de autor y atribución.",
       "conduct": "Normas del Contributor Covenant para los espacios comunitarios del proyecto."
     }
+  },
+  "nav": {
+    "create": "Crear",
+    "library": "Biblioteca",
+    "system": "Sistema",
+    "main": "Navegación principal",
+    "more": "Más",
+    "skipToContent": "Saltar al contenido"
+  },
+  "command": {
+    "open": "Buscar o ejecutar un comando…",
+    "title": "Paleta de comandos",
+    "placeholder": "Escribe un comando o busca…",
+    "empty": "Sin resultados.",
+    "groups": {
+      "navigate": "Ir a",
+      "copy": "Copiar",
+      "profiles": "Aplicar perfil",
+      "presets": "Aplicar preajuste de juego",
+      "templates": "Aplicar plantilla",
+      "preferences": "Preferencias",
+      "help": "Ayuda"
+    },
+    "interfaceIn": "Idioma de la interfaz: {{language}}",
+    "outputIn": "Idioma de salida: {{language}}",
+    "wiki": "Abrir la wiki"
+  },
+  "library": {
+    "profileApplied": "Perfil «{{name}}» aplicado",
+    "presetApplied": "Preajuste «{{name}}» aplicado"
   }
 }

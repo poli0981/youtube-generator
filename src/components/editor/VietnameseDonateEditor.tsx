@@ -61,11 +61,11 @@ export function VietnameseDonateEditor() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-1">
-        <span className="text-text-secondary text-sm font-medium">{t("editor.vnDonate")}</span>
+        <span className="text-text-primary text-sm font-semibold">{t("editor.vnDonate")}</span>
         <p className="text-text-muted text-xs">{t("editor.vnDonateHelp")}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         {isVi ? (
           <div className="flex flex-col gap-2">
             <Select
@@ -117,7 +117,7 @@ export function VietnameseDonateEditor() {
         onChange={(e) => store.set("vnBankHolder", e.target.value)}
       />
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid gap-3 sm:grid-cols-2">
         <Input
           label={t("editor.vnMomo")}
           maxLength={FIELD_LIMITS.SHORT_NAME}

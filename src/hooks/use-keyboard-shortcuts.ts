@@ -1,55 +1,78 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGeneratedOutput } from "./use-generated-output";
-import { useClipboard } from "./use-clipboard";
-import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { useOutputCopy } from "./use-output-copy";
 
-interface ShortcutOptions {
+export interface ShortcutHandlers {
   onToggleHelp: () => void;
   onToggleSidebar: () => void;
+  onTogglePalette: () => void;
 }
 
-export function useKeyboardShortcuts({ onToggleHelp, onToggleSidebar }: ShortcutOptions) {
+/**
+ * App-wide keyboard shortcuts. `mod` is Ctrl, or ⌘ on a Mac — both are
+ * accepted everywhere so an external keyboard never matters.
+ *
+ * The listener is attached once and reads the latest output / handlers from a
+ * ref, instead of being torn down and re-added on every keystroke that
+ * changes the output.
+ */
+export function useKeyboardShortcuts(handlers: ShortcutHandlers) {
   const navigate = useNavigate();
-  const output = useGeneratedOutput();
-  const { copy } = useClipboard();
+  const { t } = useTranslation("ui");
+  const copyOutput = useOutputCopy();
+
+  const latest = useRef({ handlers, navigate, t, copyOutput });
+  useEffect(() => {
+    latest.current = { handlers, navigate, t, copyOutput };
+  });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const ctrl = e.ctrlKey || e.metaKey;
+      const { handlers, navigate, t, copyOutput } = latest.current;
+      const mod = e.ctrlKey || e.metaKey;
+      const key = e.key.toLowerCase();
 
-      if (ctrl && (e.key === "Enter" || e.key === "g" || e.key === "G")) {
+      if (mod && !e.shiftKey && !e.altKey && key === "k") {
+        e.preventDefault();
+        handlers.onTogglePalette();
+      } else if (mod && (e.key === "Enter" || (!e.shiftKey && key === "g"))) {
         e.preventDefault();
         navigate("/output");
-      } else if (ctrl && e.shiftKey && e.key === "C") {
+      } else if (mod && e.shiftKey && key === "c") {
         e.preventDefault();
-        copy(`${output.title}\n\n${output.description}`);
-      } else if (ctrl && !e.shiftKey && e.key === "s") {
+        // Same gates as the Output page's Copy All: over-limit or a Strict
+        // Mode error means nothing is copied.
+        void copyOutput("all");
+      } else if (mod && !e.shiftKey && key === "s") {
+        // The draft is saved on every change already; this only confirms it
+        // (and keeps the browser's "Save page" dialog out of the way).
         e.preventDefault();
-        toast.success("Draft saved");
-      } else if (ctrl && !e.shiftKey && (e.key === "b" || e.key === "B")) {
+        toast.success(t("editor.draftSaved"));
+      } else if (mod && !e.shiftKey && key === "b") {
         // VS Code convention: Ctrl/Cmd+B toggles the sidebar.
         e.preventDefault();
-        onToggleSidebar();
-      } else if (ctrl && e.key === "/") {
+        handlers.onToggleSidebar();
+      } else if (mod && e.key === "/") {
         e.preventDefault();
-        onToggleHelp();
+        handlers.onToggleHelp();
       } else if (
         // Bare `?` (Shift+/) opens the cheatsheet too. Skip when the
         // user is typing into a form field — `?` is a legitimate
         // character in titles, descriptions, and other inputs.
         e.key === "?" &&
-        !ctrl &&
+        !mod &&
         !isEditableTarget(e.target)
       ) {
         e.preventDefault();
-        onToggleHelp();
+        handlers.onToggleHelp();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [navigate, output.title, output.description, copy, onToggleHelp, onToggleSidebar]);
+  }, []);
 }
 
 /**

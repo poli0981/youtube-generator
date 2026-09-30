@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "寄付",
-    "toggleTheme": "テーマ切り替え"
+    "outputLanguage": "出力言語",
+    "interfaceLanguage": "表示言語",
+    "switchToLight": "ライトテーマに切り替え",
+    "switchToDark": "ダークテーマに切り替え"
   },
   "about": {
     "tagline": "ゲームプレイ実況なしチャンネル向けのタイトル・説明文・タグ生成ツール。",
     "repoHeading": "リポジトリ & ライセンス",
     "repoLabel": "GitHub リポジトリ",
-    "issuesLabel": "問題を報告",
     "reportBugLabel": "バグを報告",
     "discussionsLabel": "ディスカッション",
     "authorLabel": "作者",
-    "licenseLabel": "ライセンス",
     "donateHeading": "寄付 / サポート",
     "donateHelp": "YTDescGenが時短に役立ったら、コーヒー一杯分でも支援していただけると嬉しいです。",
     "legalHeading": "法的事項",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — リポジトリ / 一般",
-      "discordGame": "Discord — ゲームロビー",
+      "discord": "Discord",
       "steam": "Steamプロフィール",
       "telegramBot": "Telegram bot",
-      "telegramUser": "Telegram",
-      "email": "メール"
+      "telegramUser": "Telegram"
+    },
+    "websiteLabel": "ウェブサイト",
+    "wikiLabel": "Wiki とガイド",
+    "contactHeading": "お問い合わせ",
+    "contactHelp": "内容に合ったアドレスを選ぶと、適切な窓口に届きます。",
+    "authorWebsite": "個人サイト",
+    "authorLinks": "リンク一覧",
+    "contacts": {
+      "general": "一般的なお問い合わせ",
+      "security": "セキュリティの脆弱性",
+      "privacy": "プライバシー・データに関する請求",
+      "legal": "利用規約・法務",
+      "dmca": "DMCA / 削除申し立て",
+      "copyright": "ライセンス・クレジット表記",
+      "code": "ソースコード・行動規範",
+      "sponsor": "スポンサー・広告"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "開発者を応援",
       "online_connectivity_issues": "オンライン接続不調"
     },
-    "videoSettings": "動画設定",
     "quickPreview": "クイックプレビュー",
     "version": "バージョン",
     "clearDraft": "下書きをクリア",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "リンクを確認して再追加してください — 「{{host}}」は「{{suggestedName}}」を指していますが、ゲーム名は「{{gameName}}」です。"
-    }
+    },
+    "collapseAll": "すべて閉じる",
+    "expandAll": "すべて開く",
+    "viewOutput": "出力を見る",
+    "previewEmpty": "ゲーム名を入力するとプレビューが表示されます。",
+    "genrePick": "ジャンルを選択",
+    "genreAdd": "追加",
+    "genreQuickSets": "クイックセット",
+    "genreRemove": "{{genre}} を外す",
+    "selectedCount": "{{n}} 件選択中"
   },
   "output": {
     "title": "タイトル",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}}が長すぎます：{{count}}/{{limit}}文字。コピー前に短縮してください。",
       "fieldGeneric": "テキスト",
-      "failed": "コピーに失敗しました"
+      "failed": "コピーに失敗しました",
+      "empty": "まだコピーできる内容がありません — エディターでゲーム名を入力してください。"
     },
     "limits": {
       "bannerTitle": "コピーできません — YouTube の上限を超えています",
@@ -768,6 +792,15 @@
       "copyBlocked": "ブロック中: 他の項目が YouTube の上限を超えています",
       "batchRowBlocked": "このパートは上限を超えています — コピーできません。",
       "batchAllBlocked": "すべてコピーはできません — 上限を超えたパートがあります"
+    },
+    "emptyTitle": "まだ表示する内容がありません",
+    "emptyHint": "エディターでゲーム名を入力すると、タイトル・説明文・タグがここに表示されます。",
+    "youtubePreview": {
+      "heading": "YouTube での表示",
+      "channelPlaceholder": "あなたのチャンネル",
+      "more": "…もっと見る",
+      "titleCut": "検索結果やおすすめではタイトルが約 {{chars}} 文字で切れます — 重要な語を先頭に置きましょう。",
+      "foldHint": "「…もっと見る」の前に表示されるのは説明文の最初の約 {{chars}} 文字だけです。"
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "閉じる",
     "scrollToTop": "トップへ戻る",
     "exported": "エクスポートしました",
-    "exportFailed": "エクスポートに失敗しました"
+    "exportFailed": "エクスポートに失敗しました",
+    "close": "閉じる",
+    "edit": "編集",
+    "loading": "読み込み中…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "プロフィールをインポート",
     "thirdPartyAdText": "サードパーティ広告コピー",
     "thirdPartyAdTextPlaceholder": "例: コード SAVE10 で GameStore.com 全タイトル10%オフ\nスポンサー: ChairCo — リンクは説明欄に",
-    "thirdPartyAdTextHelp": "任意のスポンサー / パートナー / アフィリエイト文。設定で「サードパーティ広告」をオンにすると表示されます。"
+    "thirdPartyAdTextHelp": "任意のスポンサー / パートナー / アフィリエイト文。設定で「サードパーティ広告」をオンにすると表示されます。",
+    "intro": "再利用できるチャンネルプロフィール、ゲームプリセット、エディターのテンプレート。",
+    "hint": "チャンネル情報 — 名前・連絡先・SNS・PC 構成。適用するとエディターの該当項目に入力されます。",
+    "noChannel": "チャンネル名なし",
+    "socialLinks": "SNS リンク {{n}} 件",
+    "rigFields": "PC 構成 {{n}} 項目"
   },
   "templates": {
     "title": "テンプレート",
@@ -968,7 +1009,8 @@
     "savedAs": "'{{name}}' として保存しました",
     "appliedToast": "'{{name}}' を適用しました",
     "exportTemplates": "テンプレートをエクスポート",
-    "importTemplates": "テンプレートをインポート"
+    "importTemplates": "テンプレートをインポート",
+    "applyFailed": "このテンプレートは破損しているため適用できません。"
   },
   "presets": {
     "title": "ゲームプリセット",
@@ -980,14 +1022,16 @@
     "selectPreset": "ゲームプリセットを選択",
     "noPresets": "プリセットなし",
     "exportPresets": "プリセットをエクスポート",
-    "importPresets": "プリセットをインポート"
+    "importPresets": "プリセットをインポート",
+    "hint": "ゲーム名・ジャンル・プラットフォーム・ストアリンク — すべてのパートで使い回せます。"
   },
   "history": {
     "title": "履歴",
     "emptyState": "履歴がありません。",
     "clearAll": "すべて削除",
     "clearConfirm": "すべての履歴を削除しますか？",
-    "searchPlaceholder": "ゲーム名で検索..."
+    "searchPlaceholder": "ゲーム名で検索...",
+    "noResults": "検索に一致する履歴はありません。"
   },
   "settings": {
     "title": "設定",
@@ -1043,7 +1087,10 @@
     "guardrails": "ガードレール",
     "strictMode": "厳格モード",
     "strictModeHint": "エラーのある項目が残っている間、生成・コピー・エクスポートをブロックします。軽度の警告は通過できます。",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "{{min}}〜{{max}} の範囲で入力してください。",
+    "themeDark": "ダーク",
+    "themeLight": "ライト"
   },
   "socialPost": {
     "title": "クロス投稿キャプション",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "キャプション {{captions}} 件"
   },
   "batch": {
     "title": "一括モード",
@@ -1070,7 +1118,10 @@
     "endPart": "終了パート",
     "generateBatch": "一括生成",
     "copyAllBatch": "すべてコピー",
-    "emptyState": "範囲を設定して生成してください。"
+    "emptyState": "範囲を設定して生成してください。",
+    "intro": "エディターのゲームについて、連続するパートを 1 つ以上の言語でまとめて生成します。",
+    "partLabel": "パート {{n}}",
+    "summary": "{{parts}} パート × {{languages}} 言語"
   },
   "shortcuts": {
     "title": "キーボードショートカット",
@@ -1126,6 +1177,25 @@
       "delisted": "ストアから削除 / 配信終了",
       "low_views": "再生回数 / 反応が少ない",
       "time": "時間がない / 優先度の変更"
+    },
+    "intro": "エディターのゲームから、シリーズ再生リストのタイトル・説明文・固定コメントを作成します。",
+    "totalVideosPlaceholder": "例: 25",
+    "customNotePlaceholder": "メモ（任意）…",
+    "statuses": {
+      "completed": "完結",
+      "dropped": "打ち切り",
+      "incomplete": "未完",
+      "in_progress": "進行中"
+    },
+    "contentTypes": {
+      "full_gameplay": "フルプレイ",
+      "boss_fights": "ボス戦",
+      "speedrun": "スピードラン",
+      "all_endings": "全エンディング",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "攻略",
+      "highlights": "ハイライト"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "TXT でエクスポート",
     "sessionCurrent": "現在のセッション",
     "sessionLabel": "セッション {{n}}",
-    "entriesShort": "件"
+    "entriesShort": "件",
+    "copyEntry": "エントリをコピー",
+    "deleteEntry": "エントリを削除",
+    "errorCount": "エラー {{n}} 件",
+    "warnCount": "警告 {{n}} 件",
+    "summary": "{{entries}} 件 · {{sessions}} セッション",
+    "levels": {
+      "all": "すべて",
+      "error": "エラー",
+      "warn": "警告",
+      "info": "情報",
+      "debug": "デバッグ"
+    }
   },
   "strict": {
     "blockedTitle": "厳格モード: {{count}} 件の項目に修正が必要です",
-    "fixHint": "エディタで修正するか、設定で厳格モードをオフにしてください。"
+    "fixHint": "エディタで修正するか、設定で厳格モードをオフにしてください。",
+    "copyBlocked": "Strict Mode: コピーする前に指摘された項目を修正してください。"
   },
   "legal": {
     "title": "法的情報",
@@ -1175,5 +1258,35 @@
       "notice": "著作権と帰属を記した Apache-2.0 の NOTICE ファイル。",
       "conduct": "プロジェクトのコミュニティに適用される Contributor Covenant の規則。"
     }
+  },
+  "nav": {
+    "create": "作成",
+    "library": "ライブラリ",
+    "system": "システム",
+    "main": "メインナビゲーション",
+    "more": "その他",
+    "skipToContent": "本文へスキップ"
+  },
+  "command": {
+    "open": "検索またはコマンドを実行…",
+    "title": "コマンドパレット",
+    "placeholder": "コマンドを入力、または検索…",
+    "empty": "結果がありません。",
+    "groups": {
+      "navigate": "移動",
+      "copy": "コピー",
+      "profiles": "プロフィールを適用",
+      "presets": "ゲームプリセットを適用",
+      "templates": "テンプレートを適用",
+      "preferences": "設定",
+      "help": "ヘルプ"
+    },
+    "interfaceIn": "表示言語: {{language}}",
+    "outputIn": "出力言語: {{language}}",
+    "wiki": "Wiki を開く"
+  },
+  "library": {
+    "profileApplied": "プロフィール「{{name}}」を適用しました",
+    "presetApplied": "プリセット「{{name}}」を適用しました"
   }
 }

@@ -1,21 +1,28 @@
 import { lazy, Suspense, useEffect, type ReactNode } from "react";
 import { BrowserRouter, HashRouter, Outlet, Routes, Route } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
-import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { AppShell } from "@components/layout/AppShell";
+import { MotionProvider } from "@components/motion/MotionProvider";
+import { TooltipProvider } from "@components/ui/Tooltip";
+import { Toaster } from "@components/ui/Toaster";
+import { Spinner } from "@components/icons/animated";
 import { ErrorBoundary } from "@components/ErrorBoundary";
 import { ErrorPage } from "@components/errors/ErrorPage";
 import { OfflineBanner } from "@components/errors/OfflineBanner";
 import { ConsentGate } from "@components/ConsentGate";
 import { needsConsent } from "@config/legal";
 import { EditorPage } from "@pages/EditorPage";
-import { OutputPage } from "@pages/OutputPage";
 import { checkDataFileHealth } from "@utils/storage-adapter";
 import { hydrateLogStore } from "@store/log-store";
 import { useSettingsStore } from "@store/settings-store";
 import i18n from "@i18n/index";
 import { IS_TAURI } from "@utils/platform";
 
+// The Editor is the landing page and stays in the entry bundle; Output is
+// the usual next stop, so it is fetched as soon as the browser is idle.
+const loadOutputPage = () => import("@pages/OutputPage");
+const OutputPage = lazy(() => loadOutputPage().then((m) => ({ default: m.OutputPage })));
 const ProfilesPage = lazy(() =>
   import("@pages/ProfilesPage").then((m) => ({ default: m.ProfilesPage })),
 );
@@ -43,7 +50,16 @@ const LegalPage = lazy(() => import("@pages/LegalPage").then((m) => ({ default: 
 const Router = IS_TAURI ? HashRouter : BrowserRouter;
 
 function PageLoader() {
-  return <div className="text-text-muted flex items-center justify-center p-12">Loading...</div>;
+  const { t } = useTranslation("ui");
+  return (
+    <div
+      role="status"
+      className="text-text-muted flex items-center justify-center gap-2 p-16 text-sm"
+    >
+      <Spinner className="size-4" />
+      {t("common.loading")}
+    </div>
+  );
 }
 
 /**
@@ -74,18 +90,10 @@ function ConsentGuard() {
   return needsConsent(legalConsentVersion) ? <ConsentGate /> : <Outlet />;
 }
 
-const TOASTER_OPTIONS = {
-  style: {
-    background: "var(--surface-2)",
-    color: "var(--text-primary)",
-    border: "1px solid var(--border)",
-  },
-};
-
 export default function App() {
   useEffect(() => {
     checkDataFileHealth().then((msg) => {
-      if (msg) toast(msg, { icon: "⚠️", duration: 5000 });
+      if (msg) toast.warning(msg, { duration: 5000 });
     });
     // v0.17.0: hydrate the log store from persisted JSONL files /
     // localStorage so prior-session entries surface in the Logs tab
@@ -94,6 +102,14 @@ export default function App() {
     // every settings tweak.
     const retentionDays = useSettingsStore.getState().logRetentionDays;
     void hydrateLogStore(retentionDays);
+
+    const prefetch = () => void loadOutputPage().catch(() => undefined);
+    if ("requestIdleCallback" in window) {
+      const id = window.requestIdleCallback(prefetch, { timeout: 4000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const timer = setTimeout(prefetch, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   // v0.18.0: bridge the persisted `appLanguage` setting back to i18next.
@@ -127,122 +143,124 @@ export default function App() {
   }, []);
 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route
-            path="/legal"
-            element={
-              <PageBoundary label="Legal">
-                <LegalPage />
-              </PageBoundary>
-            }
-          />
-          <Route
-            path="/legal/:docId"
-            element={
-              <PageBoundary label="Legal">
-                <LegalPage />
-              </PageBoundary>
-            }
-          />
-          <Route element={<ConsentGuard />}>
-            <Route element={<AppShell />}>
-              <Route
-                index
-                element={
-                  <ErrorBoundary label="Editor">
-                    <EditorPage />
-                  </ErrorBoundary>
-                }
-              />
-              <Route
-                path="output"
-                element={
-                  <ErrorBoundary label="Output">
-                    <OutputPage />
-                  </ErrorBoundary>
-                }
-              />
-              <Route
-                path="profiles"
-                element={
-                  <PageBoundary label="Profiles">
-                    <ProfilesPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="history"
-                element={
-                  <PageBoundary label="History">
-                    <HistoryPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="settings"
-                element={
-                  <PageBoundary label="Settings">
-                    <SettingsPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="batch"
-                element={
-                  <PageBoundary label="Batch">
-                    <BatchPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="social"
-                element={
-                  <PageBoundary label="Social">
-                    <SocialPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="playlist"
-                element={
-                  <PageBoundary label="Playlist">
-                    <PlaylistPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="logs"
-                element={
-                  <PageBoundary label="Logs">
-                    <LogPage />
-                  </PageBoundary>
-                }
-              />
-              <Route
-                path="about"
-                element={
-                  <PageBoundary label="About">
-                    <AboutPage />
-                  </PageBoundary>
-                }
-              />
-            </Route>
-            {/* Designed error pages — siblings of the AppShell group so they
+    <MotionProvider>
+      <TooltipProvider>
+        <Router>
+          <Routes>
+            <Route
+              path="/legal"
+              element={
+                <PageBoundary label="Legal">
+                  <LegalPage />
+                </PageBoundary>
+              }
+            />
+            <Route
+              path="/legal/:docId"
+              element={
+                <PageBoundary label="Legal">
+                  <LegalPage />
+                </PageBoundary>
+              }
+            />
+            <Route element={<ConsentGuard />}>
+              <Route element={<AppShell />}>
+                <Route
+                  index
+                  element={
+                    <ErrorBoundary label="Editor">
+                      <EditorPage />
+                    </ErrorBoundary>
+                  }
+                />
+                <Route
+                  path="output"
+                  element={
+                    <PageBoundary label="Output">
+                      <OutputPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="profiles"
+                  element={
+                    <PageBoundary label="Profiles">
+                      <ProfilesPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="history"
+                  element={
+                    <PageBoundary label="History">
+                      <HistoryPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="settings"
+                  element={
+                    <PageBoundary label="Settings">
+                      <SettingsPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="batch"
+                  element={
+                    <PageBoundary label="Batch">
+                      <BatchPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="social"
+                  element={
+                    <PageBoundary label="Social">
+                      <SocialPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="playlist"
+                  element={
+                    <PageBoundary label="Playlist">
+                      <PlaylistPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="logs"
+                  element={
+                    <PageBoundary label="Logs">
+                      <LogPage />
+                    </PageBoundary>
+                  }
+                />
+                <Route
+                  path="about"
+                  element={
+                    <PageBoundary label="About">
+                      <AboutPage />
+                    </PageBoundary>
+                  }
+                />
+              </Route>
+              {/* Designed error pages — siblings of the AppShell group so they
               render full-screen with no Sidebar/Header. `403/419/500` are
               route-reachable for future triggers; `*` is the live 404 for
               any mistyped path. */}
-            <Route path="/403" element={<ErrorPage kind="forbidden" />} />
-            <Route path="/419" element={<ErrorPage kind="expired" />} />
-            <Route path="/500" element={<ErrorPage kind="serverError" />} />
-            <Route path="/offline" element={<ErrorPage kind="offline" />} />
-            <Route path="*" element={<ErrorPage kind="notFound" />} />
-          </Route>
-        </Routes>
-        <OfflineBanner />
-      </Router>
-      <Toaster position="bottom-right" toastOptions={TOASTER_OPTIONS} />
-    </>
+              <Route path="/403" element={<ErrorPage kind="forbidden" />} />
+              <Route path="/419" element={<ErrorPage kind="expired" />} />
+              <Route path="/500" element={<ErrorPage kind="serverError" />} />
+              <Route path="/offline" element={<ErrorPage kind="offline" />} />
+              <Route path="*" element={<ErrorPage kind="notFound" />} />
+            </Route>
+          </Routes>
+          <OfflineBanner />
+        </Router>
+        <Toaster />
+      </TooltipProvider>
+    </MotionProvider>
   );
 }

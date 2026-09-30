@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "Ủng hộ",
-    "toggleTheme": "Đổi giao diện sáng/tối"
+    "outputLanguage": "Ngôn ngữ đầu ra",
+    "interfaceLanguage": "Ngôn ngữ giao diện",
+    "switchToLight": "Chuyển sang giao diện sáng",
+    "switchToDark": "Chuyển sang giao diện tối"
   },
   "about": {
     "tagline": "Công cụ tạo title, description, tag cho kênh YouTube Gameplay No Commentary.",
     "repoHeading": "Repository & License",
     "repoLabel": "GitHub Repo",
-    "issuesLabel": "Báo lỗi / Góp ý",
     "reportBugLabel": "Báo lỗi",
     "discussionsLabel": "Thảo luận",
     "authorLabel": "Tác giả",
-    "licenseLabel": "Giấy phép",
     "donateHeading": "Ủng hộ / Donate",
     "donateHelp": "Nếu YTDescGen giúp bạn tiết kiệm thời gian, mời mình một ly cà phê nhé. Mọi ủng hộ đều giúp dự án tiếp tục.",
     "legalHeading": "Pháp lý",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — Repo / Chung",
-      "discordGame": "Discord — Game lobby",
+      "discord": "Discord",
       "steam": "Profile Steam",
       "telegramBot": "Telegram bot",
-      "telegramUser": "Telegram",
-      "email": "Email"
+      "telegramUser": "Telegram"
+    },
+    "websiteLabel": "Trang web",
+    "wikiLabel": "Wiki & hướng dẫn",
+    "contactHeading": "Liên hệ",
+    "contactHelp": "Chọn địa chỉ đúng chủ đề để thư đến đúng người.",
+    "authorWebsite": "Trang cá nhân",
+    "authorLinks": "Tất cả liên kết",
+    "contacts": {
+      "general": "Câu hỏi chung",
+      "security": "Lỗ hổng bảo mật",
+      "privacy": "Quyền riêng tư & yêu cầu dữ liệu",
+      "legal": "Điều khoản & pháp lý",
+      "dmca": "DMCA / yêu cầu gỡ bỏ",
+      "copyright": "Giấy phép & ghi công",
+      "code": "Mã nguồn & quy tắc ứng xử",
+      "sponsor": "Tài trợ & quảng cáo"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "Ủng hộ nhà phát triển",
       "online_connectivity_issues": "Lỗi kết nối online"
     },
-    "videoSettings": "Cài đặt Video",
     "quickPreview": "Xem trước nhanh",
     "version": "Phiên bản",
     "clearDraft": "Xóa bản nháp",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "Kiểm tra link và thêm lại — '{{host}}' gợi ý '{{suggestedName}}', nhưng Tên Game đang là '{{gameName}}'."
-    }
+    },
+    "collapseAll": "Thu gọn tất cả",
+    "expandAll": "Mở rộng tất cả",
+    "viewOutput": "Xem kết quả",
+    "previewEmpty": "Nhập tên game để xem trước.",
+    "genrePick": "Chọn thể loại",
+    "genreAdd": "Thêm",
+    "genreQuickSets": "Bộ chọn nhanh",
+    "genreRemove": "Bỏ {{genre}}",
+    "selectedCount": "Đã chọn {{n}}"
   },
   "output": {
     "title": "Tiêu đề",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}} quá dài: {{count}}/{{limit}} ký tự. Cắt bớt trước khi copy.",
       "fieldGeneric": "Văn bản",
-      "failed": "Copy thất bại"
+      "failed": "Copy thất bại",
+      "empty": "Chưa có gì để sao chép — hãy nhập tên game trong trang Chỉnh sửa."
     },
     "limits": {
       "bannerTitle": "Không thể sao chép — vượt giới hạn của YouTube",
@@ -768,6 +792,15 @@
       "copyBlocked": "Bị chặn: một trường khác vượt giới hạn của YouTube",
       "batchRowBlocked": "Phần này vượt giới hạn — không thể sao chép.",
       "batchAllBlocked": "Không thể sao chép tất cả — có ít nhất một phần vượt giới hạn"
+    },
+    "emptyTitle": "Chưa có gì để hiển thị",
+    "emptyHint": "Nhập tên game trong trang Chỉnh sửa — tiêu đề, mô tả và tags sẽ hiện ở đây.",
+    "youtubePreview": {
+      "heading": "Trên YouTube",
+      "channelPlaceholder": "Kênh của bạn",
+      "more": "…thêm",
+      "titleCut": "Kết quả tìm kiếm và đề xuất cắt tiêu đề ở khoảng {{chars}} ký tự — hãy đặt từ khóa quan trọng lên đầu.",
+      "foldHint": "Người xem chỉ thấy khoảng {{chars}} ký tự đầu của mô tả trước nút “…thêm”."
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "Bỏ qua",
     "scrollToTop": "Cuộn lên đầu trang",
     "exported": "Đã xuất",
-    "exportFailed": "Xuất thất bại"
+    "exportFailed": "Xuất thất bại",
+    "close": "Đóng",
+    "edit": "Sửa",
+    "loading": "Đang tải…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "Nhập hồ sơ",
     "thirdPartyAdText": "Nội dung quảng cáo bên thứ 3",
     "thirdPartyAdTextPlaceholder": "vd: Dùng code SAVE10 tại GameStore.com — giảm 10% mọi tựa game\nTài trợ bởi ChairCo — link ở phần mô tả",
-    "thirdPartyAdTextHelp": "Nội dung sponsor / partner / affiliate (tuỳ chọn). Hiện khi bật 'Quảng cáo bên thứ 3' trong Cài đặt."
+    "thirdPartyAdTextHelp": "Nội dung sponsor / partner / affiliate (tuỳ chọn). Hiện khi bật 'Quảng cáo bên thứ 3' trong Cài đặt.",
+    "intro": "Hồ sơ kênh, preset game và template editor để dùng lại.",
+    "hint": "Thông tin kênh — tên, liên hệ, mạng xã hội và cấu hình máy. Áp dụng để điền các trường này trong trang Chỉnh sửa.",
+    "noChannel": "Chưa có tên kênh",
+    "socialLinks": "{{n}} liên kết MXH",
+    "rigFields": "{{n}} mục cấu hình"
   },
   "templates": {
     "title": "Template",
@@ -968,7 +1009,8 @@
     "savedAs": "Đã lưu '{{name}}'",
     "appliedToast": "Đã áp dụng '{{name}}'",
     "exportTemplates": "Xuất template",
-    "importTemplates": "Nhập template"
+    "importTemplates": "Nhập template",
+    "applyFailed": "Template này bị hỏng, không thể áp dụng."
   },
   "presets": {
     "title": "Cài đặt Game",
@@ -980,14 +1022,16 @@
     "selectPreset": "Chọn Game Preset",
     "noPresets": "Chưa có preset",
     "exportPresets": "Xuất presets",
-    "importPresets": "Nhập presets"
+    "importPresets": "Nhập presets",
+    "hint": "Tên game, thể loại, nền tảng và link cửa hàng — dùng lại cho mọi tập."
   },
   "history": {
     "title": "Lịch sử",
     "emptyState": "Chưa có lịch sử.",
     "clearAll": "Xóa tất cả",
     "clearConfirm": "Bạn có chắc muốn xóa toàn bộ lịch sử?",
-    "searchPlaceholder": "Tìm theo tên game..."
+    "searchPlaceholder": "Tìm theo tên game...",
+    "noResults": "Không có mục nào khớp với tìm kiếm."
   },
   "settings": {
     "title": "Cài đặt",
@@ -1043,7 +1087,10 @@
     "guardrails": "Bảo vệ",
     "strictMode": "Chế độ nghiêm ngặt",
     "strictModeHint": "Chặn Generate, Copy và Export khi còn trường bị lỗi. Cảnh báo nhẹ vẫn cho qua.",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "Từ {{min}} đến {{max}}.",
+    "themeDark": "Tối",
+    "themeLight": "Sáng"
   },
   "socialPost": {
     "title": "Bài đăng đa nền tảng",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "{{captions}} caption"
   },
   "batch": {
     "title": "Chế độ hàng loạt",
@@ -1070,7 +1118,10 @@
     "endPart": "Phần kết thúc",
     "generateBatch": "Tạo hàng loạt",
     "copyAllBatch": "Sao chép tất cả",
-    "emptyState": "Cấu hình phạm vi và tạo."
+    "emptyState": "Cấu hình phạm vi và tạo.",
+    "intro": "Tạo nhiều tập liên tiếp cho game trong trang Chỉnh sửa, bằng một hoặc nhiều ngôn ngữ.",
+    "partLabel": "Tập {{n}}",
+    "summary": "{{parts}} tập × {{languages}} ngôn ngữ"
   },
   "shortcuts": {
     "title": "Phím tắt",
@@ -1126,6 +1177,25 @@
       "delisted": "Bị gỡ / khai tử khỏi store",
       "low_views": "Lượt xem / tương tác thấp",
       "time": "Không có thời gian / đổi ưu tiên"
+    },
+    "intro": "Tiêu đề, mô tả và bình luận ghim cho playlist của cả series, lấy từ game trong trang Chỉnh sửa.",
+    "totalVideosPlaceholder": "vd: 25",
+    "customNotePlaceholder": "Ghi chú (không bắt buộc)…",
+    "statuses": {
+      "completed": "Hoàn thành",
+      "dropped": "Bỏ dở",
+      "incomplete": "Chưa xong",
+      "in_progress": "Đang thực hiện"
+    },
+    "contentTypes": {
+      "full_gameplay": "Full gameplay",
+      "boss_fights": "Đánh boss",
+      "speedrun": "Speedrun",
+      "all_endings": "Tất cả kết thúc",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "Hướng dẫn",
+      "highlights": "Highlight"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "Xuất TXT",
     "sessionCurrent": "Phiên hiện tại",
     "sessionLabel": "Phiên {{n}}",
-    "entriesShort": "bản ghi"
+    "entriesShort": "bản ghi",
+    "copyEntry": "Sao chép mục",
+    "deleteEntry": "Xóa mục",
+    "errorCount": "{{n}} lỗi",
+    "warnCount": "{{n}} cảnh báo",
+    "summary": "{{entries}} mục · {{sessions}} phiên",
+    "levels": {
+      "all": "Tất cả",
+      "error": "Lỗi",
+      "warn": "Cảnh báo",
+      "info": "Thông tin",
+      "debug": "Gỡ lỗi"
+    }
   },
   "strict": {
     "blockedTitle": "Strict Mode: {{count}} trường cần sửa",
-    "fixHint": "Hãy sửa trong tab Editor, hoặc tắt Strict Mode trong Cài đặt."
+    "fixHint": "Hãy sửa trong tab Editor, hoặc tắt Strict Mode trong Cài đặt.",
+    "copyBlocked": "Strict Mode: hãy sửa các trường bị đánh dấu trước khi sao chép."
   },
   "legal": {
     "title": "Pháp lý",
@@ -1175,5 +1258,35 @@
       "notice": "Tệp NOTICE theo Apache-2.0 với thông tin bản quyền và ghi công.",
       "conduct": "Quy tắc Contributor Covenant cho các không gian cộng đồng của dự án."
     }
+  },
+  "nav": {
+    "create": "Tạo",
+    "library": "Thư viện",
+    "system": "Hệ thống",
+    "main": "Điều hướng chính",
+    "more": "Thêm",
+    "skipToContent": "Chuyển đến nội dung"
+  },
+  "command": {
+    "open": "Tìm kiếm hoặc chạy lệnh…",
+    "title": "Bảng lệnh",
+    "placeholder": "Nhập lệnh hoặc tìm kiếm…",
+    "empty": "Không có kết quả.",
+    "groups": {
+      "navigate": "Đi tới",
+      "copy": "Sao chép",
+      "profiles": "Áp dụng hồ sơ",
+      "presets": "Áp dụng preset game",
+      "templates": "Áp dụng template",
+      "preferences": "Tùy chọn",
+      "help": "Trợ giúp"
+    },
+    "interfaceIn": "Ngôn ngữ giao diện: {{language}}",
+    "outputIn": "Ngôn ngữ đầu ra: {{language}}",
+    "wiki": "Mở wiki"
+  },
+  "library": {
+    "profileApplied": "Đã áp dụng hồ sơ “{{name}}”",
+    "presetApplied": "Đã áp dụng preset “{{name}}”"
   }
 }

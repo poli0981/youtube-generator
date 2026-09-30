@@ -112,8 +112,6 @@ export function VideoSettingsForm() {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-text-secondary text-sm font-medium">{t("editor.videoSettings")}</span>
-
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Select
           label={t("editor.resolution")}
@@ -170,7 +168,7 @@ export function VideoSettingsForm() {
             onChange={(next) => store.set("rayTracingModes", next as RTMode[])}
           />
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             <Select
               label={t("editor.frameGenVendor")}
               options={vendorOptions}
@@ -185,7 +183,7 @@ export function VideoSettingsForm() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid gap-3 sm:grid-cols-2">
             <Select
               label={t("editor.upscaleQuality")}
               options={upscaleOptions}

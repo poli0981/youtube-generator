@@ -15,7 +15,7 @@ export function SocialEditor() {
 
   return (
     <div className="flex flex-col gap-4">
-      <span className="text-text-secondary text-sm font-medium">{t("editor.social")}</span>
+      <span className="text-text-primary text-sm font-semibold">{t("editor.social")}</span>
 
       <div className="flex flex-col gap-2">
         <span className="text-text-muted text-xs font-medium uppercase">Donate</span>

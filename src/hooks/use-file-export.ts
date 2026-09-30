@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import type { SaveOutcome } from "@utils/file-ops";
 

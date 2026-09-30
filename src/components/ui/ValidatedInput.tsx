@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import type { ValidationResult } from "@utils/validation";
 import { usePendingInvalidStore } from "@store/pending-invalid-store";
 import clsx from "clsx";
+import { Field, controlClasses } from "./Field";
 
 interface ValidatedInputProps {
   label: string;
@@ -162,28 +163,27 @@ export function ValidatedInput({
     // not silently clear the very thing Strict Mode is supposed to catch.
   }, [fieldId, labelKey, label, isInvalid, invalidKey, invalidParams]);
 
+  const showError = touched && Boolean(message);
+
   return (
-    <div className="flex flex-col gap-1">
-      <label className="text-text-secondary text-sm font-medium">{label}</label>
-      <input
-        type="text"
-        value={displayValue}
-        onChange={(e) => handleChange(e.target.value)}
-        onBlur={() => setTouched(true)}
-        onPaste={onPaste}
-        placeholder={placeholder}
-        inputMode={inputMode}
-        autoComplete={autoComplete}
-        enterKeyHint={enterKeyHint}
-        maxLength={maxLength}
-        aria-invalid={touched && Boolean(message) ? true : undefined}
-        className={clsx(
-          "focus:ring-accent/50 min-h-touch bg-surface-1 text-text-primary placeholder:text-text-muted rounded-lg border px-3 py-2.5 text-base transition-colors focus:ring-2 focus:outline-none sm:text-sm",
-          touched && message ? "border-danger" : "border-border focus:border-accent",
-        )}
-      />
-      {touched && message && <p className="text-danger text-xs">{message}</p>}
-      {helpText && !message && <p className="text-text-muted text-xs">{helpText}</p>}
-    </div>
+    <Field label={label} error={showError ? message : undefined} help={helpText}>
+      {(control) => (
+        <input
+          {...control}
+          type="text"
+          value={displayValue}
+          onChange={(e) => handleChange(e.target.value)}
+          onBlur={() => setTouched(true)}
+          onPaste={onPaste}
+          placeholder={placeholder}
+          inputMode={inputMode}
+          autoComplete={autoComplete}
+          enterKeyHint={enterKeyHint}
+          maxLength={maxLength}
+          aria-invalid={showError || undefined}
+          className={clsx(controlClasses(showError), "h-control text-base sm:text-sm")}
+        />
+      )}
+    </Field>
   );
 }

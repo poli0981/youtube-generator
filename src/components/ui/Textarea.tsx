@@ -1,33 +1,34 @@
-import { forwardRef, type TextareaHTMLAttributes } from "react";
+import { forwardRef, type ReactNode, type TextareaHTMLAttributes } from "react";
 import clsx from "clsx";
+import { Field, controlClasses } from "./Field";
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: boolean;
+  errorText?: string;
+  helpText?: string;
+  labelExtra?: ReactNode;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ label, error, className, id, ...props }, ref) => {
-    const inputId = id ?? label?.toLowerCase().replace(/\s+/g, "-");
-
+  ({ label, error, errorText, helpText, labelExtra, className, id, ...props }, ref) => {
+    const isError = Boolean(error) || Boolean(errorText);
     return (
-      <div className="flex flex-col gap-1">
-        {label && (
-          <label htmlFor={inputId} className="text-text-secondary text-sm font-medium">
-            {label}
-          </label>
+      <Field label={label} error={errorText} help={helpText} labelExtra={labelExtra} id={id}>
+        {(control) => (
+          <textarea
+            ref={ref}
+            {...control}
+            aria-invalid={isError || undefined}
+            className={clsx(
+              controlClasses(isError),
+              "min-h-24 resize-y py-2 text-base leading-relaxed sm:text-sm",
+              className,
+            )}
+            {...props}
+          />
         )}
-        <textarea
-          ref={ref}
-          id={inputId}
-          className={clsx(
-            "focus:ring-accent/50 bg-surface-1 text-text-primary placeholder:text-text-muted min-h-[96px] resize-y rounded-lg border px-3 py-2.5 text-base transition-colors focus:ring-2 focus:outline-none sm:text-sm",
-            error ? "border-danger" : "border-border focus:border-accent",
-            className,
-          )}
-          {...props}
-        />
-      </div>
+      </Field>
     );
   },
 );

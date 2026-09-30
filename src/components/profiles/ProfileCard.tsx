@@ -1,88 +1,40 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Upload, Pencil, Trash2 } from "lucide-react";
-import { Button } from "@components/ui/Button";
-import { ConfirmDialog } from "@components/ui/ConfirmDialog";
-import { useEditorStore } from "@store/editor-store";
+import { UserRound } from "lucide-react";
+import { LibraryCard } from "@components/library/LibraryCard";
 import { useProfileStore, type Profile } from "@store/profile-store";
+import { applyProfile } from "@utils/library-apply";
 import { ProfileSaveForm } from "./ProfileSaveForm";
 
-interface ProfileCardProps {
-  profile: Profile;
-}
-
-export function ProfileCard({ profile }: ProfileCardProps) {
+export function ProfileCard({ profile }: { profile: Profile }) {
   const { t } = useTranslation("ui");
-  const loadProfile = useEditorStore((s) => s.loadProfile);
   const deleteProfile = useProfileStore((s) => s.deleteProfile);
-  const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
-  const handleLoad = () => {
-    // v0.15.0: defensive nullish-coalesce on the two nested record
-    // fields. A malformed imported profile may carry `social: null` /
-    // `rig: null` — spreading null throws "Cannot convert undefined or
-    // null to object", which used to black-screen the app. `?? {}`
-    // turns the bad import into a partial load instead of a crash.
-    loadProfile({
-      channelName: profile.channelName,
-      contactEmail: profile.contactEmail,
-      adEmail: profile.adEmail ?? "",
-      gameKeyEmail: profile.gameKeyEmail ?? "",
-      social: { ...(profile.social ?? {}) },
-      rig: { ...(profile.rig ?? {}) },
-      resolution: profile.resolution,
-      fps: profile.fps,
-      graphicsPreset: profile.graphicsPreset,
-      thirdPartyAdText: profile.thirdPartyAdText ?? "",
-    });
-  };
-
-  // Same defence on render: `Object.values(null)` throws. With the
-  // coalesce the count falls back to 0 and the chip just hides.
+  // An imported profile may carry null for either record, and
+  // Object.values(null) throws.
   const socialCount = Object.values(profile.social ?? {}).filter((v) => v).length;
   const rigCount = Object.values(profile.rig ?? {}).filter((v) => v).length;
+  const meta = [
+    profile.channelName || t("profiles.noChannel"),
+    socialCount > 0 ? t("profiles.socialLinks", { n: socialCount }) : null,
+    rigCount > 0 ? t("profiles.rigFields", { n: rigCount }) : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <>
-      <div className="hover:border-accent/30 border-border-strong bg-surface-2 flex flex-col gap-3 rounded-lg border p-4 shadow-md shadow-black/10 transition-colors sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0 flex-1">
-          <h3 className="text-text-primary text-sm font-semibold">{profile.name}</h3>
-          <p className="text-text-secondary mt-0.5 text-xs">
-            {profile.channelName || "No channel"}
-          </p>
-          <div className="text-text-muted mt-1.5 flex flex-wrap gap-3 text-xs">
-            {socialCount > 0 && <span>{socialCount} social links</span>}
-            {rigCount > 0 && <span>{rigCount} rig fields</span>}
-          </div>
-        </div>
-        <div className="flex shrink-0 items-center gap-1.5">
-          <Button variant="primary" size="sm" onClick={handleLoad}>
-            <Upload className="h-3.5 w-3.5" />
-            {t("profiles.loadProfile")}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => setShowEdit(true)}>
-            <Pencil className="h-3.5 w-3.5" />
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => setShowDelete(true)}>
-            <Trash2 className="text-danger h-3.5 w-3.5" />
-          </Button>
-        </div>
-      </div>
-
-      <ConfirmDialog
-        open={showDelete}
-        onConfirm={() => {
-          deleteProfile(profile.id);
-          setShowDelete(false);
-        }}
-        onCancel={() => setShowDelete(false)}
-        title={t("common.delete")}
-        message={t("profiles.deleteConfirm")}
-        confirmLabel={t("common.delete")}
-        variant="danger"
+      <LibraryCard
+        icon={UserRound}
+        title={profile.name}
+        meta={meta}
+        applyLabel={t("profiles.loadProfile")}
+        onApply={() => applyProfile(profile)}
+        onEdit={() => setShowEdit(true)}
+        onDelete={() => deleteProfile(profile.id)}
+        deleteMessage={t("profiles.deleteConfirm")}
       />
-
       <ProfileSaveForm open={showEdit} onClose={() => setShowEdit(false)} editProfile={profile} />
     </>
   );

@@ -1,87 +1,101 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Trash2, Copy, Check } from "lucide-react";
-import { useLogStore, type LogEntry as LogEntryType, type LogLevel } from "@store/log-store";
+import { useTranslation } from "react-i18next";
+import { ChevronDown, Trash2 } from "lucide-react";
 import clsx from "clsx";
+import { useLogStore, type LogEntry as LogEntryType, type LogLevel } from "@store/log-store";
+import { CopyStateIcon } from "@components/icons/animated";
+import { IconButton } from "@components/ui/IconButton";
 
 const LEVEL_STYLES: Record<LogLevel, string> = {
-  error: "bg-red-500/20 text-red-400",
-  warn: "bg-yellow-500/20 text-yellow-400",
-  info: "bg-blue-500/20 text-blue-400",
-  debug: "bg-gray-500/20 text-gray-400",
+  error: "bg-danger/15 text-danger",
+  warn: "bg-warning/15 text-warning",
+  info: "bg-info/15 text-info",
+  debug: "bg-surface-3 text-text-muted",
 };
 
-interface LogEntryProps {
-  entry: LogEntryType;
-}
-
-export function LogEntryCard({ entry }: LogEntryProps) {
+export function LogEntryCard({ entry }: { entry: LogEntryType }) {
+  const { t, i18n } = useTranslation("ui");
   const deleteEntry = useLogStore((s) => s.deleteEntry);
   const [expanded, setExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const time = new Date(entry.timestamp).toLocaleTimeString();
+  const time = new Date(entry.timestamp).toLocaleTimeString(i18n.language);
+  const hasDetails = Boolean(entry.details);
 
-  const handleCopy = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleCopy = () => {
     const text = `[${entry.level.toUpperCase()}] [${entry.source}] ${entry.message}${entry.details ? `\n${entry.details}` : ""}`;
-    navigator.clipboard.writeText(text).then(() => {
+    void navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     });
   };
 
+  const summary = (
+    <>
+      <span
+        className={clsx(
+          "shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase",
+          LEVEL_STYLES[entry.level],
+        )}
+      >
+        {entry.level}
+      </span>
+      <span className="bg-surface-2 text-text-muted shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px]">
+        {entry.source}
+      </span>
+      <span className="text-text-primary min-w-0 flex-1 truncate text-xs">{entry.message}</span>
+      <span className="text-text-muted tabular shrink-0 text-[10px]">{time}</span>
+    </>
+  );
+
   return (
     <div
       className={clsx(
-        "bg-surface-2 rounded-lg border transition-colors",
-        entry.level === "error" ? "border-red-500/30" : "border-border",
+        "bg-surface-0 rounded-lg border",
+        entry.level === "error" ? "border-danger/30" : "border-border",
       )}
     >
-      <div
-        className="flex cursor-pointer items-center gap-2 px-3 py-2"
-        onClick={() => setExpanded(!expanded)}
-      >
-        <span
-          className={clsx(
-            "shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase",
-            LEVEL_STYLES[entry.level],
-          )}
+      <div className="flex items-center gap-1 pr-1">
+        {hasDetails ? (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 px-3 py-2 text-left"
+          >
+            {summary}
+            <ChevronDown
+              className={clsx(
+                "text-text-muted size-3.5 shrink-0 transition-transform",
+                expanded && "rotate-180",
+              )}
+              aria-hidden="true"
+            />
+          </button>
+        ) : (
+          <div className="flex min-w-0 flex-1 items-center gap-2 px-3 py-2">{summary}</div>
+        )}
+        <IconButton
+          label={t("logs.copyEntry")}
+          size="icon-sm"
+          onClick={handleCopy}
+          className="size-7"
         >
-          {entry.level}
-        </span>
-        <span className="bg-surface-3 text-text-muted shrink-0 rounded px-1.5 py-0.5 text-[10px]">
-          {entry.source}
-        </span>
-        <span className="text-text-primary min-w-0 flex-1 truncate text-xs">{entry.message}</span>
-        <span className="text-text-muted shrink-0 text-[10px]">{time}</span>
-        <div className="flex shrink-0 items-center gap-0.5">
-          <button
-            onClick={handleCopy}
-            className="text-text-muted hover:bg-surface-3 hover:text-text-primary rounded p-1"
-          >
-            {copied ? <Check className="text-success h-3 w-3" /> : <Copy className="h-3 w-3" />}
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              deleteEntry(entry.id);
-            }}
-            className="text-text-muted hover:bg-surface-3 hover:text-danger rounded p-1"
-          >
-            <Trash2 className="h-3 w-3" />
-          </button>
-          {entry.details &&
-            (expanded ? (
-              <ChevronUp className="text-text-muted h-3.5 w-3.5" />
-            ) : (
-              <ChevronDown className="text-text-muted h-3.5 w-3.5" />
-            ))}
-        </div>
+          <CopyStateIcon copied={copied} className="size-3.5" />
+        </IconButton>
+        <IconButton
+          label={t("logs.deleteEntry")}
+          size="icon-sm"
+          className="hover:text-danger size-7"
+          onClick={() => deleteEntry(entry.id)}
+        >
+          <Trash2 className="size-3.5" />
+        </IconButton>
       </div>
 
       {expanded && entry.details && (
         <div className="border-border border-t px-3 py-2">
-          <pre className="text-text-secondary max-h-40 overflow-auto font-mono text-[11px] whitespace-pre-wrap">
+          <pre className="text-text-secondary max-h-40 scrollbar-thin overflow-auto font-mono text-[11px] whitespace-pre-wrap">
             {entry.details}
           </pre>
         </div>

@@ -22,17 +22,18 @@
   },
   "header": {
     "donate": "Donasi",
-    "toggleTheme": "Ganti tema"
+    "outputLanguage": "Bahasa keluaran",
+    "interfaceLanguage": "Bahasa antarmuka",
+    "switchToLight": "Beralih ke tema terang",
+    "switchToDark": "Beralih ke tema gelap"
   },
   "about": {
     "tagline": "Generator judul, deskripsi, dan tag YouTube untuk channel Gameplay Tanpa Komentar.",
     "repoHeading": "Repositori & Lisensi",
     "repoLabel": "Repo GitHub",
-    "issuesLabel": "Laporkan Masalah",
     "reportBugLabel": "Laporkan Bug",
     "discussionsLabel": "Diskusi",
     "authorLabel": "Penulis",
-    "licenseLabel": "Lisensi",
     "donateHeading": "Donasi / Dukungan",
     "donateHelp": "Kalau YTDescGen menghemat waktumu, pertimbangkan traktir kopi. Setiap dukungan membantu proyek ini terus jalan.",
     "legalHeading": "Legal",
@@ -51,12 +52,26 @@
       "x": "X / Twitter",
       "bluesky": "Bluesky",
       "mastodon": "Mastodon",
-      "discord": "Discord — Repo / Umum",
-      "discordGame": "Discord — Lobi game",
+      "discord": "Discord",
       "steam": "Profil Steam",
       "telegramBot": "Bot Telegram",
-      "telegramUser": "Telegram",
-      "email": "Email"
+      "telegramUser": "Telegram"
+    },
+    "websiteLabel": "Situs web",
+    "wikiLabel": "Wiki & panduan",
+    "contactHeading": "Kontak",
+    "contactHelp": "Pilih alamat sesuai topik agar sampai ke kotak masuk yang tepat.",
+    "authorWebsite": "Situs pribadi",
+    "authorLinks": "Semua tautan",
+    "contacts": {
+      "general": "Pertanyaan umum",
+      "security": "Kerentanan keamanan",
+      "privacy": "Privasi & permintaan data",
+      "legal": "Ketentuan & hukum",
+      "dmca": "DMCA / permintaan penghapusan",
+      "copyright": "Lisensi & atribusi",
+      "code": "Kode sumber & perilaku",
+      "sponsor": "Sponsor & iklan"
     }
   },
   "editor": {
@@ -701,7 +716,6 @@
       "support_developers": "Dukung para pengembang",
       "online_connectivity_issues": "Kendala koneksi daring"
     },
-    "videoSettings": "Pengaturan Video",
     "quickPreview": "Pratinjau Cepat",
     "version": "Versi",
     "clearDraft": "Hapus Draf",
@@ -728,7 +742,16 @@
     },
     "warning": {
       "linkNameMismatch": "Periksa tautannya lalu tambahkan lagi — '{{host}}' menunjukkan '{{suggestedName}}', tetapi Nama Game-nya '{{gameName}}'."
-    }
+    },
+    "collapseAll": "Ciutkan semua",
+    "expandAll": "Buka semua",
+    "viewOutput": "Lihat hasil",
+    "previewEmpty": "Isi nama game untuk melihat pratinjau.",
+    "genrePick": "Pilih genre",
+    "genreAdd": "Tambah",
+    "genreQuickSets": "Set cepat",
+    "genreRemove": "Hapus {{genre}}",
+    "selectedCount": "{{n}} dipilih"
   },
   "output": {
     "title": "Judul",
@@ -759,7 +782,8 @@
     "copy": {
       "overLimit": "{{field}} terlalu panjang: {{count}}/{{limit}} karakter. Persingkat sebelum menyalin.",
       "fieldGeneric": "Teks",
-      "failed": "Gagal menyalin"
+      "failed": "Gagal menyalin",
+      "empty": "Belum ada yang bisa disalin — isi nama game di Editor."
     },
     "limits": {
       "bannerTitle": "Penyalinan diblokir — melebihi batas YouTube",
@@ -768,6 +792,15 @@
       "copyBlocked": "Diblokir: kolom lain melebihi batas YouTube",
       "batchRowBlocked": "Part ini melebihi batas — penyalinan diblokir.",
       "batchAllBlocked": "Salin Semua diblokir — setidaknya ada satu part yang melebihi batas"
+    },
+    "emptyTitle": "Belum ada yang ditampilkan",
+    "emptyHint": "Isi nama game di Editor — judul, deskripsi, dan tag akan muncul di sini.",
+    "youtubePreview": {
+      "heading": "Di YouTube",
+      "channelPlaceholder": "Kanal Anda",
+      "more": "…selengkapnya",
+      "titleCut": "Hasil pencarian dan saran memotong judul di sekitar {{chars}} karakter — taruh kata kunci penting di depan.",
+      "foldHint": "Penonton hanya melihat sekitar {{chars}} karakter pertama deskripsi sebelum “…selengkapnya”."
     }
   },
   "common": {
@@ -784,7 +817,10 @@
     "dismiss": "Tutup",
     "scrollToTop": "Ke atas",
     "exported": "Diekspor",
-    "exportFailed": "Ekspor gagal"
+    "exportFailed": "Ekspor gagal",
+    "close": "Tutup",
+    "edit": "Edit",
+    "loading": "Memuat…"
   },
   "errorPages": {
     "actions": {
@@ -953,7 +989,12 @@
     "importProfiles": "Impor Profil",
     "thirdPartyAdText": "Teks iklan pihak ketiga",
     "thirdPartyAdTextPlaceholder": "mis. Pakai kode SAVE10 di GameStore.com — diskon 10% semua judul\nDisponsori ChairCo — tautan di deskripsi",
-    "thirdPartyAdTextHelp": "Teks sponsor / mitra / afiliasi opsional. Muncul saat 'Iklan pihak ketiga' diaktifkan di Pengaturan."
+    "thirdPartyAdTextHelp": "Teks sponsor / mitra / afiliasi opsional. Muncul saat 'Iklan pihak ketiga' diaktifkan di Pengaturan.",
+    "intro": "Profil kanal, preset game, dan template editor lengkap yang bisa dipakai ulang.",
+    "hint": "Identitas kanal Anda — nama, kontak, media sosial, dan spesifikasi PC. Terapkan untuk mengisi kolom tersebut di Editor.",
+    "noChannel": "Belum ada nama kanal",
+    "socialLinks": "{{n}} tautan sosial",
+    "rigFields": "{{n}} item spesifikasi"
   },
   "presets": {
     "title": "Preset Game",
@@ -965,7 +1006,8 @@
     "selectPreset": "Muat Preset Game",
     "noPresets": "Tidak ada preset",
     "exportPresets": "Ekspor Preset",
-    "importPresets": "Impor Preset"
+    "importPresets": "Impor Preset",
+    "hint": "Nama, genre, platform, dan tautan toko sebuah game — dipakai ulang di semua part-nya."
   },
   "templates": {
     "title": "Template",
@@ -980,14 +1022,16 @@
     "savedAs": "Disimpan sebagai '{{name}}'",
     "appliedToast": "'{{name}}' diterapkan",
     "exportTemplates": "Ekspor Template",
-    "importTemplates": "Impor Template"
+    "importTemplates": "Impor Template",
+    "applyFailed": "Template ini rusak dan tidak dapat diterapkan."
   },
   "history": {
     "title": "Riwayat",
     "emptyState": "Belum ada riwayat pembuatan.",
     "clearAll": "Hapus Semua",
     "clearConfirm": "Yakin ingin menghapus seluruh riwayat?",
-    "searchPlaceholder": "Cari berdasarkan nama game..."
+    "searchPlaceholder": "Cari berdasarkan nama game...",
+    "noResults": "Tidak ada entri yang cocok dengan pencarian."
   },
   "settings": {
     "title": "Pengaturan",
@@ -1043,7 +1087,10 @@
     "guardrails": "Pengaman",
     "strictMode": "Mode Ketat",
     "strictModeHint": "Memblokir Buat, Salin, dan Ekspor selama ada kolom yang error. Peringatan ringan tetap lolos.",
-    "genrePlaylistsBadge": "{{filled}}/{{total}}"
+    "genrePlaylistsBadge": "{{filled}}/{{total}}",
+    "numberRange": "Antara {{min}} dan {{max}}.",
+    "themeDark": "Gelap",
+    "themeLight": "Terang"
   },
   "socialPost": {
     "title": "Caption Lintas Platform",
@@ -1062,7 +1109,8 @@
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
       "facebook_reels": "Facebook Reels"
-    }
+    },
+    "bulkSummary": "{{captions}} caption"
   },
   "batch": {
     "title": "Mode Batch",
@@ -1070,7 +1118,10 @@
     "endPart": "Part Akhir",
     "generateBatch": "Buat Batch",
     "copyAllBatch": "Salin Semua",
-    "emptyState": "Atur rentang batch lalu buat."
+    "emptyState": "Atur rentang batch lalu buat.",
+    "intro": "Buat serangkaian part untuk game di Editor, dalam satu atau beberapa bahasa.",
+    "partLabel": "Part {{n}}",
+    "summary": "{{parts}} part × {{languages}} bahasa"
   },
   "shortcuts": {
     "title": "Pintasan Keyboard",
@@ -1126,6 +1177,25 @@
       "delisted": "Dihapus / ditarik dari toko",
       "low_views": "Sedikit penonton / interaksi rendah",
       "time": "Tidak ada waktu / prioritas berubah"
+    },
+    "intro": "Judul, deskripsi, dan komentar sematan untuk playlist seri, dari game di Editor.",
+    "totalVideosPlaceholder": "mis. 25",
+    "customNotePlaceholder": "Catatan opsional…",
+    "statuses": {
+      "completed": "Selesai",
+      "dropped": "Dihentikan",
+      "incomplete": "Belum selesai",
+      "in_progress": "Sedang berjalan"
+    },
+    "contentTypes": {
+      "full_gameplay": "Gameplay penuh",
+      "boss_fights": "Pertarungan bos",
+      "speedrun": "Speedrun",
+      "all_endings": "Semua ending",
+      "dlc": "DLC",
+      "100_percent": "100%",
+      "guide": "Panduan",
+      "highlights": "Sorotan"
     }
   },
   "logs": {
@@ -1140,11 +1210,24 @@
     "exportTxt": "Ekspor TXT",
     "sessionCurrent": "Sesi saat ini",
     "sessionLabel": "Sesi {{n}}",
-    "entriesShort": "entri"
+    "entriesShort": "entri",
+    "copyEntry": "Salin entri",
+    "deleteEntry": "Hapus entri",
+    "errorCount": "{{n}} galat",
+    "warnCount": "{{n}} peringatan",
+    "summary": "{{entries}} entri · {{sessions}} sesi",
+    "levels": {
+      "all": "Semua",
+      "error": "Galat",
+      "warn": "Peringatan",
+      "info": "Info",
+      "debug": "Debug"
+    }
   },
   "strict": {
     "blockedTitle": "Mode Ketat: {{count}} kolom perlu diperbaiki",
-    "fixHint": "Perbaiki di Editor, atau matikan Mode Ketat di Pengaturan."
+    "fixHint": "Perbaiki di Editor, atau matikan Mode Ketat di Pengaturan.",
+    "copyBlocked": "Mode Ketat: perbaiki kolom yang ditandai sebelum menyalin."
   },
   "legal": {
     "title": "Informasi hukum",
@@ -1175,5 +1258,35 @@
       "notice": "Berkas NOTICE Apache-2.0 berisi hak cipta dan atribusi.",
       "conduct": "Aturan Contributor Covenant untuk ruang komunitas proyek."
     }
+  },
+  "nav": {
+    "create": "Buat",
+    "library": "Pustaka",
+    "system": "Sistem",
+    "main": "Navigasi utama",
+    "more": "Lainnya",
+    "skipToContent": "Lompat ke konten"
+  },
+  "command": {
+    "open": "Cari atau jalankan perintah…",
+    "title": "Palet perintah",
+    "placeholder": "Ketik perintah atau cari…",
+    "empty": "Tidak ada hasil.",
+    "groups": {
+      "navigate": "Buka",
+      "copy": "Salin",
+      "profiles": "Terapkan profil",
+      "presets": "Terapkan preset game",
+      "templates": "Terapkan template",
+      "preferences": "Preferensi",
+      "help": "Bantuan"
+    },
+    "interfaceIn": "Bahasa antarmuka: {{language}}",
+    "outputIn": "Bahasa keluaran: {{language}}",
+    "wiki": "Buka wiki"
+  },
+  "library": {
+    "profileApplied": "Profil “{{name}}” diterapkan",
+    "presetApplied": "Preset “{{name}}” diterapkan"
   }
 }

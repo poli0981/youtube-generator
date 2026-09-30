@@ -1,5 +1,7 @@
 import { useTranslation } from "react-i18next";
+import { ListMusic } from "lucide-react";
 import { Accordion } from "@components/ui/Accordion";
+import { Badge } from "@components/ui/Badge";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { GENRES } from "@config/genres";
 import { FIELD_LIMITS } from "@config/field-limits";
@@ -27,15 +29,11 @@ export function GenrePlaylistsSection() {
   return (
     <Accordion
       id="genrePlaylists"
-      icon="🎵"
+      icon={ListMusic}
       title={t("settings.genrePlaylistsTitle")}
       open={accordion.genrePlaylists ?? false}
       onToggle={() => toggleAccordion("genrePlaylists")}
-      badge={
-        <span className="bg-surface-2 text-text-muted rounded px-1.5 py-0.5 text-xs">
-          {t("settings.genrePlaylistsBadge", { filled, total: GENRES.length })}
-        </span>
-      }
+      badge={<Badge>{t("settings.genrePlaylistsBadge", { filled, total: GENRES.length })}</Badge>}
     >
       <p className="text-text-muted text-xs">{t("settings.genrePlaylistsHelp")}</p>
       <p className="text-text-muted text-xs">{t("settings.genrePlaylistsEmptyHint")}</p>
@@ -43,7 +41,7 @@ export function GenrePlaylistsSection() {
         {GENRES.map((g) => (
           <ValidatedInput
             key={g.id}
-            label={`${g.icon} ${t(g.labelKey)}`}
+            label={t(g.labelKey)}
             maxLength={FIELD_LIMITS.URL}
             placeholder="https://www.youtube.com/playlist?list=..."
             value={genrePlaylists[g.id] ?? ""}

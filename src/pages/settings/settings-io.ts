@@ -1,5 +1,5 @@
 import type { TFunction } from "i18next";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useSettingsStore, healSettings, extractData } from "@store/settings-store";
 import { exportTypedToJsonFile, importParsedFromJsonFile } from "@utils/import-export";
 import { resolveForType } from "@utils/file-schema";

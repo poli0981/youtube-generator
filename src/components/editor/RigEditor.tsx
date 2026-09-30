@@ -86,9 +86,9 @@ export function RigEditor() {
     };
 
     return (
-      <div key={field.id} className="col-span-2 flex flex-col gap-2">
-        <span className="text-text-secondary text-sm font-medium">{t(field.labelKey)}</span>
-        <div className="grid grid-cols-3 gap-2">
+      <div key={field.id} className="flex flex-col gap-2 sm:col-span-2">
+        <span className="text-text-secondary text-xs font-medium">{t(field.labelKey)}</span>
+        <div className="grid gap-2 sm:grid-cols-3">
           <Select
             label={t("editor.gpu_brand")}
             value={brand}
@@ -96,7 +96,7 @@ export function RigEditor() {
             onChange={setBrand}
           />
           {isCustom ? (
-            <div className="col-span-2">
+            <div className="sm:col-span-2">
               <Input
                 label={t("editor.gpu_custom")}
                 maxLength={FIELD_LIMITS.SHORT_NAME}
@@ -172,9 +172,9 @@ export function RigEditor() {
     });
 
     return (
-      <div key={field.id} className="col-span-2 flex flex-col gap-2">
-        <span className="text-text-secondary text-sm font-medium">{t(field.labelKey)}</span>
-        <div className="grid grid-cols-2 gap-2">{renderedParts}</div>
+      <div key={field.id} className="flex flex-col gap-2 sm:col-span-2">
+        <span className="text-text-secondary text-xs font-medium">{t(field.labelKey)}</span>
+        <div className="grid gap-3 sm:grid-cols-2">{renderedParts}</div>
         {renderValidationBadge(issue)}
       </div>
     );
@@ -243,7 +243,7 @@ export function RigEditor() {
     };
 
     return (
-      <div key={field.id} className="col-span-2 grid grid-cols-[1fr_auto] gap-2">
+      <div key={field.id} className="grid grid-cols-[1fr_auto] gap-2 sm:col-span-2">
         <Select
           label={t(field.labelKey)}
           value={value}
@@ -263,8 +263,8 @@ export function RigEditor() {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-text-secondary text-sm font-medium">{t("editor.rig")}</span>
-      <div className="grid grid-cols-2 gap-2">
+      <span className="text-text-primary text-sm font-semibold">{t("editor.rig")}</span>
+      <div className="grid gap-3 sm:grid-cols-2">
         {RIG_FIELDS.map((field) => {
           if (field.type === "cascading_dropdown") return renderCascading(field);
           if (field.type === "composite_dropdown") return renderComposite(field);
