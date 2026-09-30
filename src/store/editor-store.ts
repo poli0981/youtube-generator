@@ -37,6 +37,7 @@ import {
   DEFAULT_PLAYTEST_PLATFORM,
 } from "@config/playtest-platforms";
 import { DEFAULTS } from "@config/defaults";
+import { migrateRig } from "@config/rig-fields";
 import { FIELD_LIMITS, clampField } from "@config/field-limits";
 
 export interface EditorData {
@@ -228,6 +229,9 @@ function normalizeEditorPatch(patch: Partial<EditorData> | null | undefined): Pa
   // become a no-op instead of crashing.
   if (!patch || typeof patch !== "object") return {};
   const out: Partial<EditorData> = { ...patch };
+  // v1.0.0: profiles and templates saved before the GPU catalog rewrite
+  // carry `brand|series|model` (or `rig: null` when hand-edited).
+  if ("rig" in patch) out.rig = migrateRig((patch as { rig?: unknown }).rig);
   const raw: unknown = (patch as { graphicsPreset?: unknown }).graphicsPreset;
   if (typeof raw === "string" && !(GRAPHICS_PRESETS as readonly string[]).includes(raw)) {
     const { preset, custom } = legacyGraphicsPresetToEnum(raw);
@@ -588,7 +592,7 @@ export const useEditorStore = create<EditorState>()(
       //         settings toggle is on. Additive: both back-fill to "".
       //         Non-string values coerce to "". The existing `contactEmail`
       //         is reused as the general-contact line, so no data moves.
-      version: 18,
+      version: 19,
       migrate: (persistedState, version) => migrateEditorState(persistedState, version),
       partialize: (state) => ({
         videoType: state.videoType,
@@ -932,6 +936,11 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
     // there's nothing to lift — just seed the two new purpose fields.
     if (typeof state.adEmail !== "string") state.adEmail = "";
     if (typeof state.gameKeyEmail !== "string") state.gameKeyEmail = "";
+  }
+  if (version < 19) {
+    // v1.0.0 GPU catalog: `brand|series|model` → `gpu:<id>` (or the full
+    // name as the user's own text when the card isn't in the catalog).
+    state.rig = migrateRig(state.rig);
   }
   return { ...initialState, ...state } as EditorData;
 }

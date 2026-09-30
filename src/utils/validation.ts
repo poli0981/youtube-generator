@@ -1,5 +1,7 @@
+// The domain must have a dot and a letters-only TLD: "name@localhost" or
+// "name@gmail" are typos in a description, not addresses (v1.0.0).
 const EMAIL_REGEX =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,63}$/;
 
 const URL_REGEX =
   /^https?:\/\/[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)+([/?#].*)?$/;
@@ -91,6 +93,18 @@ export function validateUrl(input: string): ValidationResult {
   return { valid: true };
 }
 
+/**
+ * A URL reduced for prefix comparison: lower-case, no `www.` / `m.` /
+ * `mobile.` host prefix, and twitter.com read as x.com — so
+ * "https://www.instagram.com/me" matches the prefix "https://instagram.com/".
+ */
+function comparableUrl(url: string): string {
+  return url
+    .toLowerCase()
+    .replace(/^(https?:\/\/)(?:www\.|m\.|mobile\.)/, "$1")
+    .replace(/^(https?:\/\/)twitter\.com\//, "$1x.com/");
+}
+
 export function validateUrlWithPrefix(input: string, expectedPrefix: string): ValidationResult {
   const baseResult = validateUrl(input);
   if (!baseResult.valid) return baseResult;
@@ -98,7 +112,7 @@ export function validateUrlWithPrefix(input: string, expectedPrefix: string): Va
   const trimmed = input.trim();
   if (!trimmed) return { valid: true };
 
-  if (expectedPrefix && !trimmed.startsWith(expectedPrefix)) {
+  if (expectedPrefix && !comparableUrl(trimmed).startsWith(comparableUrl(expectedPrefix))) {
     return {
       valid: true,
       error: "validation.urlPrefixMismatch",
@@ -145,8 +159,21 @@ export function validateUrlWithPattern(input: string, pattern: RegExp): Validati
  * the path must be exactly `/playlist`.
  */
 const YT_PLAYLIST_REGEX =
-  /^https:\/\/(?:www\.)?youtube\.com\/playlist\?(?:[^#]*&)?list=[A-Za-z0-9_-]+(?:&[^#]*)?(?:#.*)?$/;
+  /^https:\/\/(?:www\.|m\.|music\.)?youtube\.com\/(?:playlist|watch)\?(?:[^#]*&)?list=[A-Za-z0-9_-]+(?:&[^#]*)?(?:#.*)?$/;
 const PLAYLIST_URL_EXPECTED = "https://www.youtube.com/playlist?list=[id]";
+
+/**
+ * The canonical playlist page for any accepted playlist URL — a phone
+ * (`m.`), YouTube Music or "video in a playlist" (`watch?v=…&list=…`)
+ * link becomes `https://www.youtube.com/playlist?list=<id>`, which is what
+ * the description should point at. Anything else is returned unchanged.
+ */
+export function normalizePlaylistUrl(input: string): string {
+  const trimmed = input.trim();
+  if (!YT_PLAYLIST_REGEX.test(trimmed)) return input;
+  const id = /[?&]list=([A-Za-z0-9_-]+)/.exec(trimmed)?.[1];
+  return id ? `https://www.youtube.com/playlist?list=${id}` : input;
+}
 
 export function validatePlaylistUrl(input: string): ValidationResult {
   const trimmed = input.trim();

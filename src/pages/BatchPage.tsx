@@ -26,7 +26,13 @@ import { useRenderOptions } from "@hooks/use-render-options";
 import { validateBatchRange } from "@utils/validation";
 import { useStrictBlock } from "@hooks/use-strict-block";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
-import { getOutputLimitStatus, mergeLimitStatus, type OutputLimitStatus } from "@engine/limits";
+import {
+  getOutputLimitStatus,
+  isCopyAllBlocked,
+  isFieldOver,
+  mergeLimitStatus,
+  type OutputLimitStatus,
+} from "@engine/limits";
 
 interface BatchLanguageRow {
   language: SupportedLanguage;
@@ -144,10 +150,9 @@ export function BatchPage() {
     [results, t],
   );
 
-  // Copy All Batch concatenates every row, so one over-limit part poisons the
-  // whole blob. Scoped deliberately: a single bad part disables Copy All and
-  // that part's own buttons, but NOT the other 99 parts' buttons — freezing an
-  // entire batch because part 7 is three characters long would be useless.
+  // Copy All Batch concatenates every row's title and description, so one
+  // part over on either poisons the whole blob. A part over the limit only
+  // disables its own offending field — never the other parts.
   const batchStatus = useMemo(
     () => mergeLimitStatus(results.flatMap((r) => r.languages.map((l) => l.status))),
     [results],
@@ -223,7 +228,7 @@ export function BatchPage() {
               <CopyButton
                 text={allCombined}
                 label={t("batch.copyAllBatch")}
-                blocked={batchStatus.blocked}
+                blocked={isCopyAllBlocked(batchStatus)}
               />
             </div>
           </div>
@@ -248,7 +253,7 @@ export function BatchPage() {
                             label={t("output.copyTitle")}
                             limit={YT_LIMITS.TITLE_MAX}
                             fieldLabel={t("output.title")}
-                            blocked={lang.status.blocked}
+                            blocked={isFieldOver(lang.status, "title")}
                           />
                         </div>
                       </div>
@@ -268,7 +273,11 @@ export function BatchPage() {
                           limit={YT_LIMITS.DESCRIPTION_MAX}
                         />
                         <span className="text-text-muted text-xs">{t("output.tags")}</span>
-                        <CharCounter text={lang.output.tagString} limit={YT_LIMITS.TAGS_MAX} />
+                        <CharCounter
+                          text={lang.output.tagString}
+                          count={lang.output.charCounts.tags}
+                          limit={YT_LIMITS.TAGS_MAX}
+                        />
                       </div>
                       {lang.status.blocked && (
                         <p role="alert" className="text-danger mb-2 text-xs font-medium">
@@ -281,14 +290,13 @@ export function BatchPage() {
                           label={t("output.copyDescription")}
                           limit={YT_LIMITS.DESCRIPTION_MAX}
                           fieldLabel={t("output.description")}
-                          blocked={lang.status.blocked}
+                          blocked={isFieldOver(lang.status, "description")}
                         />
                         <CopyButton
                           text={lang.output.tagString}
                           label={t("output.copyTags")}
-                          limit={YT_LIMITS.TAGS_MAX}
                           fieldLabel={t("output.tags")}
-                          blocked={lang.status.blocked}
+                          blocked={isFieldOver(lang.status, "tags")}
                         />
                         {lang.pinnedComment && (
                           <CopyButton

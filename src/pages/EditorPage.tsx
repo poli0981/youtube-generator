@@ -51,7 +51,7 @@ import { VIDEO_TYPES } from "@config/video-types";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useDocumentTitle } from "@hooks/use-document-title";
-import { validatePlaylistUrl } from "@utils/validation";
+import { normalizePlaylistUrl, validatePlaylistUrl } from "@utils/validation";
 
 interface Section {
   id: string;
@@ -72,7 +72,7 @@ function PlaylistLinkField() {
       maxLength={FIELD_LIMITS.URL}
       placeholder={t("editor.playlistLinkPlaceholder")}
       value={playlistLink ?? ""}
-      onChange={(v) => set("playlistLink", v)}
+      onChange={(v) => set("playlistLink", normalizePlaylistUrl(v))}
       validate={validatePlaylistUrl}
       inputMode="url"
       autoComplete="off"

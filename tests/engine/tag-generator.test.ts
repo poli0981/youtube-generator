@@ -4,7 +4,12 @@ import {
   formatTagString,
   tagFriendlyGameName,
   sanitizeForTag,
+  youtubeTagsLength,
+  trimToCharLimit,
+  GENRE_TAG_REGISTRY,
+  GENRE_SEARCH_TERMS,
 } from "@engine/tag-generator";
+import { GENRES } from "@config/genres";
 import type { GeneratorInput } from "@engine/types";
 
 function makeInput(overrides: Partial<GeneratorInput> = {}): GeneratorInput {
@@ -299,5 +304,71 @@ describe("generateTags — game names with tag-delimiter punctuation (v0.20.0)",
 describe("tagFriendlyGameName — punctuation sanitization (v0.20.0)", () => {
   it("strips a comma in addition to truncating", () => {
     expect(tagFriendlyGameName("Hello, World", 30)).toBe("Hello World");
+  });
+});
+
+describe("tag length as YouTube counts it (v1.0.0)", () => {
+  it("counts quotes around multi-word tags and one comma between tags", () => {
+    expect(youtubeTagsLength([])).toBe(0);
+    expect(youtubeTagsLength(["rpg"])).toBe(3);
+    // "rpg" (3) + "\"open world\"" (12) + one comma
+    expect(youtubeTagsLength(["rpg", "open world"])).toBe(16);
+  });
+
+  it("never produces more than 500 by YouTube's count", () => {
+    const tags = generateTags(
+      makeInput({
+        gameName: "The Legend of Heroes Trails through Daybreak",
+        genres: ["jrpg", "action_rpg", "openworld"],
+        videoType: "collectibles",
+        resolution: "4K",
+        fps: "120",
+        pubDevName: "Nihon Falcom",
+      }),
+      { year: 2026 },
+    );
+    expect(youtubeTagsLength(tags)).toBeLessThanOrEqual(500);
+  });
+
+  it("keeps trying shorter tags after one that doesn't fit", () => {
+    const long = "x".repeat(20) + " long tag";
+    const kept = trimToCharLimit(["a".repeat(10), long, "short"], 20);
+    expect(kept).toEqual(["a".repeat(10), "short"]);
+  });
+});
+
+describe("platform and trending tags (v1.0.0)", () => {
+  it("names the platform the way people search for it", () => {
+    const steam = generateTags(makeInput({ platform: "steam" }));
+    expect(steam).toContain("Elden Ring Steam");
+    expect(steam.some((t) => t.includes("STEAM"))).toBe(false);
+
+    const itch = generateTags(makeInput({ gameName: "Celeste", platform: "itchio" }));
+    expect(itch).toContain("itch.io gameplay");
+    expect(itch.some((t) => t.includes("ITCHIO"))).toBe(false);
+  });
+
+  it("adds no platform tags for a publisher's own site", () => {
+    const tags = generateTags(makeInput({ platform: "publisher" }));
+    expect(tags.some((t) => /publisher/i.test(t))).toBe(false);
+  });
+
+  it("uses search terms and the given year in trending tags", () => {
+    const tags = generateTags(makeInput({ genres: ["openworld"] }), { year: 2031 });
+    expect(tags).toContain("best open world games 2031");
+    expect(tags.some((t) => t.includes("openworld"))).toBe(false);
+  });
+
+  it("has a tag pool and a search term for every genre", () => {
+    const ids = GENRES.map((g) => g.id);
+    expect(Object.keys(GENRE_TAG_REGISTRY).sort()).toEqual([...ids].sort());
+    expect(Object.keys(GENRE_SEARCH_TERMS).sort()).toEqual([...ids].sort());
+  });
+
+  it("keeps each genre's pool on its own genre", () => {
+    const rpg = GENRE_TAG_REGISTRY.rpg?.("X") ?? [];
+    expect(rpg.some((t) => t.includes("JRPG"))).toBe(false);
+    const cards = GENRE_TAG_REGISTRY.card_game?.("X") ?? [];
+    expect(cards.some((t) => t.includes("deck builder"))).toBe(false);
   });
 });

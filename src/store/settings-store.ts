@@ -106,6 +106,12 @@ export const useSettingsStore = create<SettingsState>()(
       // lockstep — nothing enforces that mechanically.
       version: 12,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
+      // Heal on EVERY load, not only on a version change (which is all
+      // `migrate` covers): a hand-edited value must never reach the app.
+      merge: (persistedState, currentState) => ({
+        ...currentState,
+        ...healSettings(persistedState),
+      }),
       partialize: (state) => extractData(state),
       onRehydrateStorage: () => {
         return () => {

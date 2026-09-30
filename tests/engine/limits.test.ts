@@ -3,6 +3,9 @@ import {
   getOutputLimitStatus,
   mergeLimitStatus,
   EMPTY_LIMIT_STATUS,
+  fieldsWithForbiddenChars,
+  isFieldOver,
+  isCopyAllBlocked,
   type OutputLimitStatus,
 } from "@engine/limits";
 import { renderAll } from "@engine/template-renderer";
@@ -127,5 +130,35 @@ describe("integration with renderAll", () => {
     // EMPTY_GENERATOR_OUTPUT has no warnings. Copy buttons must be disabled by
     // the empty-text check, not by this one claiming a false overflow.
     expect(getOutputLimitStatus({ warnings: [] }).blocked).toBe(false);
+  });
+});
+
+describe("fieldsWithForbiddenChars", () => {
+  it("names the fields YouTube would refuse", () => {
+    expect(fieldsWithForbiddenChars({ title: "A <3 B", description: "ok" })).toEqual(["title"]);
+    expect(fieldsWithForbiddenChars({ title: "ok", description: "x > y" })).toEqual([
+      "description",
+    ]);
+    expect(fieldsWithForbiddenChars({ title: "ok", description: "ok" })).toEqual([]);
+  });
+});
+
+describe("per-field copy gating (v1.0.0)", () => {
+  const status: OutputLimitStatus = {
+    blocked: true,
+    overflows: [{ field: "tags", current: 520, limit: 500 }],
+  };
+  it("blocks only the field that is over", () => {
+    expect(isFieldOver(status, "tags")).toBe(true);
+    expect(isFieldOver(status, "title")).toBe(false);
+  });
+  it("doesn't block Copy All for tags it doesn't contain", () => {
+    expect(isCopyAllBlocked(status)).toBe(false);
+    expect(
+      isCopyAllBlocked({
+        blocked: true,
+        overflows: [{ field: "description", current: 5100, limit: 5000 }],
+      }),
+    ).toBe(true);
   });
 });

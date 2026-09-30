@@ -4,6 +4,8 @@ import { useCharCount } from "@hooks/use-char-count";
 interface CharCounterProps {
   text: string;
   limit: number;
+  /** Use instead of text.length where YouTube counts differently (tags). */
+  count?: number;
 }
 
 /**
@@ -12,8 +14,8 @@ interface CharCounterProps {
  * - ≥80 %: yellow (close enough that the user should glance).
  * - else:  muted grey.
  */
-export function CharCounter({ text, limit }: CharCounterProps) {
-  const { count, isOver, percentage } = useCharCount(text, limit);
+export function CharCounter({ text, limit, count: countOverride }: CharCounterProps) {
+  const { count, isOver, percentage } = useCharCount(text, limit, countOverride);
   const isWarning = !isOver && percentage >= 80;
 
   return (

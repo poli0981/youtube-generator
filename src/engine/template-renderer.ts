@@ -7,7 +7,7 @@ import type {
 } from "./types";
 import { buildTitle, checkTitleWarning } from "./title-builder";
 import { buildDescription, checkDescriptionWarning } from "./description-builder";
-import { generateTags, formatTagString, type TagOptions } from "./tag-generator";
+import { generateTags, formatTagString, youtubeTagsLength, type TagOptions } from "./tag-generator";
 import { YT_LIMITS } from "./types";
 
 /**
@@ -23,7 +23,7 @@ import { YT_LIMITS } from "./types";
  * which makes a forgotten key a compile error rather than a silent omission.
  * See `src/hooks/use-render-options.ts` and its parity test.
  */
-export interface SettingsRenderOptions extends TagOptions {
+export interface SettingsRenderOptions extends Omit<TagOptions, "year"> {
   hashtagCount?: number;
   /**
    * When true, buildTitle appends a `[2K 60FPS]`-style badge to the
@@ -103,6 +103,12 @@ export interface RenderOptionOverrides {
    * unaffected and stays bilingual. Defaults to true. v0.29.3.
    */
   bilingualContentBlocks?: boolean;
+  /**
+   * The year for the copyright line and the trending tags. Passed in so the
+   * engine never reads the clock itself (and tests are deterministic); the
+   * current year when omitted.
+   */
+  year?: number;
 }
 
 export interface RenderOptions extends SettingsRenderOptions, RenderOptionOverrides {}
@@ -129,14 +135,18 @@ export function renderAll(
     showTranslationQuality: options?.showTranslationQuality,
     tEn: options?.tEn,
     bilingualContentBlocks: options?.bilingualContentBlocks,
+    year: options?.year,
   });
   const tags = generateTags(input, options);
   const tagString = formatTagString(tags);
+  // YouTube's own count (quotes around multi-word tags, one comma between
+  // tags) — not the length of the ", "-joined string we hand to the clipboard.
+  const tagsLength = youtubeTagsLength(tags);
 
   const charCounts = {
     title: title.length,
     description: description.length,
-    tags: tagString.length,
+    tags: tagsLength,
   };
 
   const warnings: CharLimitWarning[] = [];
@@ -147,12 +157,12 @@ export function renderAll(
   const descWarning = checkDescriptionWarning(description);
   if (descWarning) warnings.push(descWarning);
 
-  if (tagString.length > YT_LIMITS.TAGS_MAX) {
+  if (tagsLength > YT_LIMITS.TAGS_MAX) {
     warnings.push({
       field: "tags",
-      current: tagString.length,
+      current: tagsLength,
       limit: YT_LIMITS.TAGS_MAX,
-      message: `Tags exceed ${YT_LIMITS.TAGS_MAX} characters (${tagString.length}/${YT_LIMITS.TAGS_MAX})`,
+      message: `Tags exceed ${YT_LIMITS.TAGS_MAX} characters (${tagsLength}/${YT_LIMITS.TAGS_MAX})`,
     });
   }
 

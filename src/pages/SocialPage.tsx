@@ -173,6 +173,7 @@ export function SocialPage() {
             showCopyright,
             showSponsorCredit,
             tEn,
+            year: new Date().getFullYear(),
           }),
         });
       }

@@ -570,6 +570,18 @@
     "livestream": {
       "scheduledLine": "🔴 LIVE 配信日時: {{time}}",
       "watchLine": "視聴・見逃し配信: {{link}}"
+    },
+    "rigLabels": {
+      "cpu": "CPU",
+      "gpu": "GPU",
+      "ram": "RAM",
+      "motherboard": "マザーボード",
+      "storage": "ストレージ",
+      "os": "OS",
+      "monitor": "モニター",
+      "capture": "キャプチャソフト",
+      "controller": "コントローラー",
+      "video_editor": "動画編集ソフト"
     }
   },
   "pinnedComment": {

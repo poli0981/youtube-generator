@@ -4,6 +4,7 @@ import { Eye } from "lucide-react";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
 import { useOutputLimits } from "@hooks/use-output-limits";
 import { useStrictBlock } from "@hooks/use-strict-block";
+import { useCopyGate } from "@hooks/use-copy-gate";
 import { EMPTY_GENERATOR_OUTPUT, YT_LIMITS } from "@engine/types";
 import { useEditorStore } from "@store/editor-store";
 import { Card } from "@components/ui/Card";
@@ -38,7 +39,7 @@ export function LivePreview({
   const outputs = useMemo(() => [output], [output]);
   const limitStatus = useOutputLimits(outputs);
   const strictBlocked = useStrictBlock();
-  const blocked = limitStatus.blocked || strictBlocked;
+  const gate = useCopyGate(limitStatus, strictBlocked);
 
   const over = (field: PreviewTab) => limitStatus.overflows.some((o) => o.field === field);
   const dot = (field: PreviewTab) =>
@@ -110,14 +111,20 @@ export function LivePreview({
         {tab === "description" && (
           <CharCounter text={output.description} limit={YT_LIMITS.DESCRIPTION_MAX} />
         )}
-        {tab === "tags" && <CharCounter text={output.tagString} limit={YT_LIMITS.TAGS_MAX} />}
+        {tab === "tags" && (
+          <CharCounter
+            text={output.tagString}
+            count={output.charCounts.tags}
+            limit={YT_LIMITS.TAGS_MAX}
+          />
+        )}
         {tab === "title" && (
           <CopyButton
             text={output.title}
             label={t("output.copyTitle")}
             limit={YT_LIMITS.TITLE_MAX}
             fieldLabel={t("output.title")}
-            blocked={blocked}
+            {...gate("title")}
           />
         )}
         {tab === "description" && (
@@ -126,16 +133,15 @@ export function LivePreview({
             label={t("output.copyDescription")}
             limit={YT_LIMITS.DESCRIPTION_MAX}
             fieldLabel={t("output.description")}
-            blocked={blocked}
+            {...gate("description")}
           />
         )}
         {tab === "tags" && (
           <CopyButton
             text={output.tagString}
             label={t("output.copyTags")}
-            limit={YT_LIMITS.TAGS_MAX}
             fieldLabel={t("output.tags")}
-            blocked={blocked}
+            {...gate("tags")}
           />
         )}
       </div>

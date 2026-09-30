@@ -287,3 +287,16 @@ describe("healSettings", () => {
     expect(healSettings({ legalConsentVersion: 2.9 }).legalConsentVersion).toBe(2);
   });
 });
+
+describe("healSettings — historyLimit (v1.0.0)", () => {
+  it("clamps the history limit into 10–500", () => {
+    expect(healSettings({ historyLimit: 1 }).historyLimit).toBe(10);
+    expect(healSettings({ historyLimit: 1e9 }).historyLimit).toBe(500);
+    expect(healSettings({ historyLimit: 250.7 }).historyLimit).toBe(250);
+  });
+
+  it("falls back to the default for a non-number", () => {
+    expect(healSettings({ historyLimit: "many" }).historyLimit).toBe(100);
+    expect(healSettings({ historyLimit: Number.NaN }).historyLimit).toBe(100);
+  });
+});

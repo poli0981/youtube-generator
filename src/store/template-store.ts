@@ -26,6 +26,7 @@ import type {
 } from "@config/graphics-settings";
 import { coerceUpscaleQuality, coerceFrameGenMultiplier } from "@engine/graphics-vendor";
 import type { GachaQuestType } from "@config/gacha-quest-types";
+import { migrateRig } from "@config/rig-fields";
 
 /**
  * Full snapshot of the editor form. Matches the `partialize` output of
@@ -219,9 +220,20 @@ export const useTemplateStore = create<TemplateState>()(
       // doesn't push a stale value into the editor's Select. The
       // editor's own normalizeEditorPatch repeats this coercion as a
       // belt-and-suspenders measure.
-      version: 1,
+      // v1 → v2: v1.0.0 GPU catalog (`brand|series|model` → `gpu:<id>`).
+      version: 2,
       migrate: (persistedState: unknown, version: number) => {
         if (!persistedState || typeof persistedState !== "object") return persistedState;
+        if (version < 2) {
+          const state = persistedState as { templates?: EditorTemplate[] };
+          if (Array.isArray(state.templates)) {
+            for (const tpl of state.templates) {
+              if (tpl?.snapshot && typeof tpl.snapshot === "object") {
+                tpl.snapshot.rig = migrateRig(tpl.snapshot.rig);
+              }
+            }
+          }
+        }
         if (version < 1) {
           const state = persistedState as { templates?: EditorTemplate[] };
           if (Array.isArray(state.templates)) {

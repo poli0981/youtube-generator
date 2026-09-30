@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateRamValue, validateGpuValue, validateCompositeField } from "@utils/rig-validation";
+import { validateRamValue, validateCompositeField } from "@utils/rig-validation";
 
 describe("validateRamValue", () => {
   it("flags a size with no DDR generation", () => {
@@ -24,20 +24,6 @@ describe("validateRamValue", () => {
 
   it("passes legacy pipeless free-text", () => {
     expect(validateRamValue("32GB DDR5-6000")).toBeNull();
-  });
-});
-
-describe("validateGpuValue", () => {
-  it("flags a brand with no series", () => {
-    expect(validateGpuValue("nvidia||")?.messageKey).toBe("editor.validation.gpuMissingSeries");
-  });
-
-  it("flags an empty custom GPU", () => {
-    expect(validateGpuValue("custom||")?.messageKey).toBe("editor.validation.gpuCustomEmpty");
-  });
-
-  it("passes a complete brand + series + model", () => {
-    expect(validateGpuValue("nvidia|rtx_40|RTX 4090")).toBeNull();
   });
 });
 

@@ -274,6 +274,14 @@ export function healSettings(raw: unknown): SettingsData {
     incoming.logRetentionDays = Math.max(1, Math.min(90, Math.floor(incoming.logRetentionDays)));
   }
 
+  // v1.0.0: the History Limit is clamped like the retention above — a
+  // hand-edited or imported 0 or 1e9 would otherwise reach the history store.
+  if (typeof incoming.historyLimit === "number" && Number.isFinite(incoming.historyLimit)) {
+    incoming.historyLimit = Math.max(10, Math.min(500, Math.floor(incoming.historyLimit)));
+  } else {
+    incoming.historyLimit = initialSettings.historyLimit;
+  }
+
   // v0.28.0: `legalConsentVersion` added. A non-number / non-finite / negative
   // value must fall through to "never accepted" (0) so a corrupt or
   // hand-edited file re-shows the consent gate rather than silently skipping

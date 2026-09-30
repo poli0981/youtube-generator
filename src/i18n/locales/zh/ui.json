@@ -147,12 +147,8 @@
     "anniversaryYearOption": "{{count}}周年",
     "gachaVersion": "游戏版本",
     "gachaVersionPlaceholder": "例：1.2、2.4",
-    "gpu_brand": "品牌",
-    "gpu_series": "系列",
-    "gpu_model": "型号",
-    "gpu_custom": "自定义 GPU",
     "ram_size": "内存容量",
-    "ram_ddr": "DDR 代",
+    "ram_ddr": "内存类型",
     "os_name": "系统",
     "os_version": "版本",
     "os_edition": "版本类型",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 开场\n5:30 第一章\n15:00 Boss战",
     "storeLinks": "商店链接",
     "storeLinkType": "类型",
-    "rig": "我的配置",
     "social": "社交与赞助链接",
     "warnings": "内容警告",
     "playlistLink": "播放列表链接",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "搜索类型",
     "genreSearchNoResults": "未找到类型",
     "validation": {
-      "gpuMissingSeries": "请选择 GPU 系列。",
-      "gpuMissingModel": "请选择 GPU 型号。",
-      "gpuCustomEmpty": "请输入 GPU 名称或从列表选择。",
-      "ramMissingDdr": "请选择 DDR 代。",
+      "ramMissingDdr": "请选择内存类型。",
       "ramMissingSize": "请选择内存容量。",
       "ramCustomEmpty": "请输入内存容量（GB）。"
     },
@@ -751,7 +743,23 @@
     "genreAdd": "添加",
     "genreQuickSets": "快速组合",
     "genreRemove": "移除 {{genre}}",
-    "selectedCount": "已选 {{n}} 项"
+    "selectedCount": "已选 {{n}} 项",
+    "ram_speed": "频率 (MT/s)",
+    "gpuPick": "选择显卡…",
+    "gpuSearch": "搜索 — 例如 5080、9070 XT、M4 Pro、ROG Ally",
+    "gpuNoMatch": "列表中没有 — 请使用“自行输入”。",
+    "gpuCustom": "自行输入",
+    "gpuNone": "不填写",
+    "gpuCustomLabel": "显卡（按此显示）",
+    "gpuCustomChosen": "自行输入",
+    "timestampsNormalize": "整理格式",
+    "chapters": {
+      "ok": "YouTube 会显示为 {{n}} 个章节。",
+      "firstNotZero": "第一个时间戳必须是 0:00，YouTube 才会显示章节。",
+      "tooFew": "YouTube 至少需要 3 个时间戳才能生成章节（当前 {{n}} 个）。",
+      "tooShort": "{{time}}：每个章节至少要 10 秒。",
+      "outOfOrder": "{{time}} 早于上一行的时间戳。"
+    }
   },
   "output": {
     "title": "标题",
@@ -789,7 +797,6 @@
       "bannerTitle": "已阻止复制 — 超出 YouTube 上限",
       "fieldLine": "{{field}}：{{count}} / {{limit}} 个字符",
       "bannerHint": "请缩短上述字段后再复制。",
-      "copyBlocked": "已阻止：另一个字段超出 YouTube 上限",
       "batchRowBlocked": "该部分超出上限 — 已阻止复制。",
       "batchAllBlocked": "已阻止复制全部 — 至少有一个部分超出上限"
     },
@@ -801,7 +808,8 @@
       "more": "…更多",
       "titleCut": "搜索结果和推荐中的标题约在 {{chars}} 个字符处被截断 — 请把关键词放在前面。",
       "foldHint": "观众在“…更多”之前只能看到描述的前约 {{chars}} 个字符。"
-    }
+    },
+    "forbiddenChars": "{{field}}：YouTube 不接受 < 和 > 字符，请在上传前删除。"
   },
   "common": {
     "save": "保存",

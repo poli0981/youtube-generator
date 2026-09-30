@@ -81,3 +81,30 @@ export function mergeLimitStatus(statuses: readonly OutputLimitStatus[]): Output
   if (worst.size === 0) return EMPTY_LIMIT_STATUS;
   return { blocked: true, overflows: [...worst.values()].sort(byFieldOrder) };
 }
+
+/**
+ * Fields YouTube will refuse because they contain "<" or ">" (Studio rejects
+ * both characters in titles and descriptions). A game or chapter name typed
+ * with them used to go through unremarked and fail on upload.
+ */
+export function fieldsWithForbiddenChars(
+  output: Pick<GeneratorOutput, "title" | "description">,
+): Array<"title" | "description"> {
+  const fields: Array<"title" | "description"> = [];
+  if (/[<>]/.test(output.title)) fields.push("title");
+  if (/[<>]/.test(output.description)) fields.push("description");
+  return fields;
+}
+
+/** Whether one field of an output is over its YouTube limit. */
+export function isFieldOver(status: OutputLimitStatus, field: LimitedField): boolean {
+  return status.overflows.some((o) => o.field === field);
+}
+
+/**
+ * Copy All is title + description, so it is blocked by either of those —
+ * but not by the tags, which it doesn't include.
+ */
+export function isCopyAllBlocked(status: OutputLimitStatus): boolean {
+  return isFieldOver(status, "title") || isFieldOver(status, "description");
+}

@@ -1,6 +1,21 @@
 import type { GeneratorInput, SupportedLanguage } from "./types";
 import { YT_LIMITS } from "./types";
-import { humanizeId } from "@utils/sanitize";
+import { PLATFORMS } from "@config/platforms";
+
+/**
+ * Length of a tag list as YouTube counts it against the 500-character
+ * limit: each tag, plus the quotes YouTube wraps around any tag containing
+ * a space, plus one comma between tags.
+ *
+ * The tool used to measure its own ", "-joined string instead, which
+ * ignores the quotes — 15 of 51 real tag sets it produced were over 500 by
+ * YouTube's count (up to 509) while showing as under.
+ */
+export function youtubeTagsLength(tags: readonly string[]): number {
+  if (tags.length === 0) return 0;
+  const chars = tags.reduce((sum, tag) => sum + tag.length + (/\s/.test(tag) ? 2 : 0), 0);
+  return chars + tags.length - 1;
+}
 
 /**
  * Reserve a 9-char tail for the most common composite suffix (" gameplay").
@@ -74,7 +89,7 @@ export function tagFriendlyGameName(name: string, budget: number): string {
  * all regions). Language-specific tags come from CORE_TAGS_BY_LANG and
  * MULTILINGUAL_TAGS.
  */
-const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
+export const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
   action: (g) => [
     `${g} action`,
     "action game no commentary",
@@ -87,13 +102,7 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
     "survival horror gameplay",
     `${g} scary`,
   ],
-  rpg: (g) => [
-    `${g} RPG`,
-    "RPG no commentary",
-    "RPG gameplay",
-    "JRPG no commentary",
-    `${g} role playing`,
-  ],
+  rpg: (g) => [`${g} RPG`, "RPG no commentary", "RPG gameplay", `${g} role playing`],
   fps: (g) => [`${g} FPS`, "FPS no commentary", "shooter gameplay no commentary", `${g} shooter`],
   openworld: (g) => [
     `${g} open world`,
@@ -125,7 +134,7 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
   simulation: (g) => [
     `${g} simulation`,
     "simulation game no commentary",
-    "strategy gameplay",
+    "simulation gameplay",
     `${g} sim`,
   ],
   fighting: (g) => [`${g} fighting`, "fighting game no commentary", "combo gameplay", `${g} fight`],
@@ -162,12 +171,7 @@ const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> = {
     "TD gameplay",
     `${g} strategy`,
   ],
-  card_game: (g) => [
-    `${g} card game`,
-    "deck builder no commentary",
-    "card game gameplay",
-    `${g} TCG`,
-  ],
+  card_game: (g) => [`${g} card game`, "card game no commentary", "card game gameplay", `${g} TCG`],
   battle_royale: (g) => [
     `${g} battle royale`,
     "battle royale no commentary",
@@ -420,14 +424,62 @@ export const MULTILINGUAL_TAGS: Record<SupportedLanguage, (gameName: string) => 
 };
 
 function getPlatformTags(gameName: string, platform: string): string[] {
-  if (!platform) return [];
-  const platformLabel = platform.toUpperCase();
-  return [
-    `${gameName} ${platformLabel}`,
-    `${platformLabel} gameplay`,
-    `${gameName} ${platformLabel} gameplay`,
-  ];
+  // The name people search for ("Steam", "itch.io"), not the id in capitals
+  // ("STEAM", "ITCHIO"). A publisher's own site isn't a search term at all.
+  const name = PLATFORMS.find((p) => p.id === platform)?.tagName;
+  if (!name) return [];
+  return [`${gameName} ${name}`, `${name} gameplay`, `${gameName} ${name} gameplay`];
 }
+
+/**
+ * The English search term for a genre, as used in "best … games" tags.
+ * `humanizeId` gave "best Openworld games" and "best Survival_craft
+ * games"; these are the words people actually type.
+ */
+export const GENRE_SEARCH_TERMS: Readonly<Record<string, string>> = {
+  action: "action",
+  hack_slash: "hack and slash",
+  beatemup: "beat em up",
+  platformer: "platformer",
+  horror: "horror",
+  survival_horror: "survival horror",
+  psychological_horror: "psychological horror",
+  rpg: "RPG",
+  jrpg: "JRPG",
+  action_rpg: "action RPG",
+  crpg: "CRPG",
+  fps: "FPS",
+  arena_shooter: "arena shooter",
+  tactical_fps: "tactical shooter",
+  boomer_shooter: "boomer shooter",
+  extraction_shooter: "extraction shooter",
+  shmup: "shmup",
+  openworld: "open world",
+  indie: "indie",
+  soulslike: "soulslike",
+  racing: "racing",
+  story: "story",
+  simulation: "simulation",
+  city_builder: "city builder",
+  fighting: "fighting",
+  stealth: "stealth",
+  survival_craft: "survival",
+  roguelike: "roguelike",
+  metroidvania: "metroidvania",
+  mmo: "MMO",
+  rhythm: "rhythm",
+  puzzle: "puzzle",
+  tower_defense: "tower defense",
+  card_game: "card",
+  deck_builder: "deck builder",
+  auto_battler: "auto battler",
+  battle_royale: "battle royale",
+  tactical: "tactics",
+  space: "space",
+  farming: "farming",
+  fmv: "FMV",
+  visual_novel: "visual novel",
+};
 
 function getQualityTags(gameName: string, resolution?: string, fps?: string): string[] {
   const tags: string[] = [];
@@ -443,23 +495,24 @@ function getQualityTags(gameName: string, resolution?: string, fps?: string): st
   return tags;
 }
 
-function getTrendingTags(gameName: string, genre: string): string[] {
-  const year = new Date().getFullYear().toString();
-  const genreLabel = humanizeId(genre);
-  return [
-    `${gameName} ${year}`,
-    `best ${genreLabel} games ${year}`,
-    `${genreLabel} gameplay ${year}`,
-  ];
+function getTrendingTags(gameName: string, genre: string, year: number): string[] {
+  const term = GENRE_SEARCH_TERMS[genre] ?? genre.replace(/_/g, " ");
+  return [`${gameName} ${year}`, `best ${term} games ${year}`, `${term} gameplay ${year}`];
 }
 
 export interface TagOptions {
   includeMultilingualTags?: boolean;
   includeTrendingTags?: boolean;
+  /** Year for the trending tags; the current year when omitted. */
+  year?: number;
 }
 
 export function generateTags(input: GeneratorInput, options?: TagOptions): string[] {
-  const { includeMultilingualTags = true, includeTrendingTags = true } = options ?? {};
+  const {
+    includeMultilingualTags = true,
+    includeTrendingTags = true,
+    year = new Date().getFullYear(),
+  } = options ?? {};
   const rawName = sanitizeForTag(input.gameNameLocalized?.[input.language] ?? input.gameName);
 
   // Two friendly forms of the game name:
@@ -523,7 +576,7 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
   // one headline category that searchers use.
   const primaryGenre = input.genres[0];
   if (includeTrendingTags && primaryGenre) {
-    allTags.push(...getTrendingTags(composeName, primaryGenre));
+    allTags.push(...getTrendingTags(composeName, primaryGenre, year));
   }
 
   // Publisher / Developer name (v0.10) — emitted as a bare tag only.
@@ -552,16 +605,21 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
   return trimToCharLimit(deduped, YT_LIMITS.TAGS_MAX);
 }
 
-function trimToCharLimit(tags: string[], maxChars: number): string[] {
+/**
+ * Keep tags, in priority order, while the list fits YouTube's limit as
+ * YouTube counts it ({@link youtubeTagsLength}). A tag that doesn't fit is
+ * skipped and the shorter ones after it are still tried — the old loop
+ * stopped at the first miss and left budget unused.
+ */
+export function trimToCharLimit(tags: string[], maxChars: number): string[] {
   const result: string[] = [];
   let totalLength = 0;
 
   for (const tag of tags) {
-    const separatorLength = result.length > 0 ? 2 : 0; // ", "
-    const newLength = totalLength + separatorLength + tag.length;
-    if (newLength > maxChars) break;
+    const cost = tag.length + (/\s/.test(tag) ? 2 : 0) + (result.length > 0 ? 1 : 0);
+    if (totalLength + cost > maxChars) continue;
     result.push(tag);
-    totalLength = newLength;
+    totalLength += cost;
   }
 
   return result;

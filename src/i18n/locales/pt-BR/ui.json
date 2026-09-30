@@ -147,12 +147,8 @@
     "anniversaryYearOption": "Ano {{count}}",
     "gachaVersion": "Versão do jogo",
     "gachaVersionPlaceholder": "ex.: 1.2, 2.4",
-    "gpu_brand": "Marca",
-    "gpu_series": "Série",
-    "gpu_model": "Modelo",
-    "gpu_custom": "GPU personalizada",
     "ram_size": "Tamanho da RAM",
-    "ram_ddr": "Geração DDR",
+    "ram_ddr": "Tipo de memória",
     "os_name": "SO",
     "os_version": "Versão",
     "os_edition": "Edição",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 Introdução\n5:30 Capítulo 1\n15:00 Luta contra chefe",
     "storeLinks": "Links de loja",
     "storeLinkType": "Tipo",
-    "rig": "Meu setup",
     "social": "Links sociais e de doação",
     "warnings": "Avisos de conteúdo",
     "playlistLink": "Link da playlist",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "Buscar gêneros",
     "genreSearchNoResults": "Nenhum gênero correspondente",
     "validation": {
-      "gpuMissingSeries": "Escolha uma série para completar a GPU.",
-      "gpuMissingModel": "Escolha um modelo para completar a GPU.",
-      "gpuCustomEmpty": "Digite o nome da GPU ou escolha no catálogo.",
-      "ramMissingDdr": "Escolha uma geração DDR.",
+      "ramMissingDdr": "Escolha o tipo de memória.",
       "ramMissingSize": "Escolha um tamanho de RAM.",
       "ramCustomEmpty": "Digite o tamanho da RAM em GB."
     },
@@ -751,7 +743,23 @@
     "genreAdd": "Adicionar",
     "genreQuickSets": "Conjuntos rápidos",
     "genreRemove": "Remover {{genre}}",
-    "selectedCount": "{{n}} selecionados"
+    "selectedCount": "{{n}} selecionados",
+    "ram_speed": "Velocidade (MT/s)",
+    "gpuPick": "Escolha uma placa de vídeo…",
+    "gpuSearch": "Pesquisar — ex.: 5080, 9070 XT, M4 Pro, ROG Ally",
+    "gpuNoMatch": "Não está na lista — use “Digitar o meu”.",
+    "gpuCustom": "Digitar o meu",
+    "gpuNone": "Sem GPU",
+    "gpuCustomLabel": "GPU (como deve aparecer)",
+    "gpuCustomChosen": "Entrada própria",
+    "timestampsNormalize": "Arrumar",
+    "chapters": {
+      "ok": "O YouTube vai mostrar {{n}} capítulos.",
+      "firstNotZero": "O YouTube só mostra capítulos quando a primeira marcação é 0:00.",
+      "tooFew": "O YouTube precisa de pelo menos 3 marcações para criar capítulos ({{n}} até agora).",
+      "tooShort": "{{time}}: cada capítulo precisa ter pelo menos 10 segundos.",
+      "outOfOrder": "{{time}} vem antes da marcação acima."
+    }
   },
   "output": {
     "title": "Título",
@@ -789,7 +797,6 @@
       "bannerTitle": "Cópia bloqueada — acima do limite do YouTube",
       "fieldLine": "{{field}}: {{count}} / {{limit}} caracteres",
       "bannerHint": "Reduza o campo acima e copie de novo.",
-      "copyBlocked": "Bloqueado: outro campo está acima do limite do YouTube",
       "batchRowBlocked": "Esta parte está acima do limite — a cópia está bloqueada.",
       "batchAllBlocked": "Copiar tudo está bloqueado — pelo menos uma parte está acima do limite"
     },
@@ -801,7 +808,8 @@
       "more": "…mais",
       "titleCut": "Resultados de busca e sugestões cortam o título em cerca de {{chars}} caracteres — coloque as palavras-chave no início.",
       "foldHint": "Os espectadores veem só os primeiros ~{{chars}} caracteres da descrição antes de “…mais”."
-    }
+    },
+    "forbiddenChars": "{{field}}: o YouTube não aceita os caracteres < e > — remova-os antes de enviar."
   },
   "common": {
     "save": "Salvar",

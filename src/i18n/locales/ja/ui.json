@@ -147,12 +147,8 @@
     "anniversaryYearOption": "{{count}}周年",
     "gachaVersion": "ゲームバージョン",
     "gachaVersionPlaceholder": "例：1.2、2.4",
-    "gpu_brand": "メーカー",
-    "gpu_series": "シリーズ",
-    "gpu_model": "モデル",
-    "gpu_custom": "カスタムGPU",
     "ram_size": "RAM容量",
-    "ram_ddr": "DDR世代",
+    "ram_ddr": "メモリ規格",
     "os_name": "OS",
     "os_version": "バージョン",
     "os_edition": "エディション",
@@ -302,7 +298,6 @@
     "timestampsPlaceholder": "0:00 イントロ\n5:30 チャプター1\n15:00 ボス戦",
     "storeLinks": "購入リンク",
     "storeLinkType": "種別",
-    "rig": "PC構成",
     "social": "SNS・寄付リンク",
     "warnings": "コンテンツ警告",
     "playlistLink": "プレイリストリンク",
@@ -724,10 +719,7 @@
     "genreSearchPlaceholder": "ジャンルを検索",
     "genreSearchNoResults": "該当するジャンルはありません",
     "validation": {
-      "gpuMissingSeries": "シリーズを選択してください。",
-      "gpuMissingModel": "モデルを選択してください。",
-      "gpuCustomEmpty": "GPU名を入力するか、カタログから選択してください。",
-      "ramMissingDdr": "DDR世代を選択してください。",
+      "ramMissingDdr": "メモリ規格を選んでください。",
       "ramMissingSize": "RAM容量を選択してください。",
       "ramCustomEmpty": "RAM容量（GB）を入力してください。"
     },
@@ -751,7 +743,23 @@
     "genreAdd": "追加",
     "genreQuickSets": "クイックセット",
     "genreRemove": "{{genre}} を外す",
-    "selectedCount": "{{n}} 件選択中"
+    "selectedCount": "{{n}} 件選択中",
+    "ram_speed": "速度 (MT/s)",
+    "gpuPick": "グラフィックカードを選択…",
+    "gpuSearch": "検索 — 例: 5080、9070 XT、M4 Pro、ROG Ally",
+    "gpuNoMatch": "一覧にありません —「自分で入力」を使ってください。",
+    "gpuCustom": "自分で入力",
+    "gpuNone": "指定しない",
+    "gpuCustomLabel": "GPU（表示する名前）",
+    "gpuCustomChosen": "手入力",
+    "timestampsNormalize": "整える",
+    "chapters": {
+      "ok": "YouTube で {{n}} 個のチャプターとして表示されます。",
+      "firstNotZero": "最初のタイムスタンプが 0:00 でないと、YouTube はチャプターを表示しません。",
+      "tooFew": "チャプターには 3 つ以上のタイムスタンプが必要です（現在 {{n}} 個）。",
+      "tooShort": "{{time}}：各チャプターは 10 秒以上必要です。",
+      "outOfOrder": "{{time}} が上の行より前の時間になっています。"
+    }
   },
   "output": {
     "title": "タイトル",
@@ -789,7 +797,6 @@
       "bannerTitle": "コピーできません — YouTube の上限を超えています",
       "fieldLine": "{{field}}: {{count}} / {{limit}} 文字",
       "bannerHint": "上記の項目を短くしてから、もう一度コピーしてください。",
-      "copyBlocked": "ブロック中: 他の項目が YouTube の上限を超えています",
       "batchRowBlocked": "このパートは上限を超えています — コピーできません。",
       "batchAllBlocked": "すべてコピーはできません — 上限を超えたパートがあります"
     },
@@ -801,7 +808,8 @@
       "more": "…もっと見る",
       "titleCut": "検索結果やおすすめではタイトルが約 {{chars}} 文字で切れます — 重要な語を先頭に置きましょう。",
       "foldHint": "「…もっと見る」の前に表示されるのは説明文の最初の約 {{chars}} 文字だけです。"
-    }
+    },
+    "forbiddenChars": "{{field}}：YouTube は < と > を受け付けません。アップロード前に削除してください。"
   },
   "common": {
     "save": "保存",

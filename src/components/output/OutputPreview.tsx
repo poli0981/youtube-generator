@@ -8,19 +8,23 @@ import { OutputField, OutputText } from "./OutputField";
 import { YT_LIMITS } from "@engine/types";
 import type { GeneratorOutput } from "@engine/types";
 import type { OutputLimitStatus } from "@engine/limits";
+import { useCopyGate } from "@hooks/use-copy-gate";
 
 interface OutputPreviewProps {
   output?: GeneratorOutput;
-  /**
-   * Over-limit status of the output actually shown. All three copy buttons are
-   * gated on it together — see `CopyButton.blocked` for why it is
-   * all-or-nothing rather than per field.
-   */
+  /** Over-limit status of the output actually shown; gates each copy button. */
   status: OutputLimitStatus;
+  /** Strict Mode is blocking: nothing can be copied. */
+  strictBlocked?: boolean;
 }
 
-export function OutputPreview({ output: outputProp, status }: OutputPreviewProps) {
+export function OutputPreview({
+  output: outputProp,
+  status,
+  strictBlocked = false,
+}: OutputPreviewProps) {
   const { t } = useTranslation("ui");
+  const gate = useCopyGate(status, strictBlocked);
   const defaultOutput = useGeneratedOutput();
   const showCharCount = useSettingsStore((s) => s.showCharCount);
   const compactTagDisplay = useSettingsStore((s) => s.compactTagDisplay);
@@ -39,7 +43,7 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
               label={t("output.copyTitle")}
               limit={YT_LIMITS.TITLE_MAX}
               fieldLabel={t("output.title")}
-              blocked={status.blocked}
+              {...gate("title")}
             />
           </>
         }
@@ -62,7 +66,7 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
               label={t("output.copyDescription")}
               limit={YT_LIMITS.DESCRIPTION_MAX}
               fieldLabel={t("output.description")}
-              blocked={status.blocked}
+              {...gate("description")}
             />
           </>
         }
@@ -75,13 +79,18 @@ export function OutputPreview({ output: outputProp, status }: OutputPreviewProps
         icon={Tags}
         actions={
           <>
-            {showCharCount && <CharCounter text={output.tagString} limit={YT_LIMITS.TAGS_MAX} />}
+            {showCharCount && (
+              <CharCounter
+                text={output.tagString}
+                count={output.charCounts.tags}
+                limit={YT_LIMITS.TAGS_MAX}
+              />
+            )}
             <CopyButton
               text={output.tagString}
               label={t("output.copyTags")}
-              limit={YT_LIMITS.TAGS_MAX}
               fieldLabel={t("output.tags")}
-              blocked={status.blocked}
+              {...gate("tags")}
             />
           </>
         }

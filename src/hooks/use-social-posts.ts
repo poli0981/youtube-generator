@@ -37,6 +37,7 @@ export function useSocialPosts(
             showCopyright,
             showSponsorCredit,
             tEn,
+            year: new Date().getFullYear(),
           }),
     [ready, input, t, tEn, showCopyright, showSponsorCredit],
   );
