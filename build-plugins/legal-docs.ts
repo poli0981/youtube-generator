@@ -74,12 +74,13 @@ export function rewriteHref(href: string, fromFile: string): string {
   return id ? `${legalDocPath(id)}${hash}` : `${REPO_BLOB}${resolved}${hash}`;
 }
 
+/**
+ * Heading text → anchor id. Everything that is not a letter or digit becomes a
+ * hyphen, which also rules out any markup ending up in an attribute.
+ */
 function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/<[^>]+>/g, "")
-    .replace(/[`*_~[\]()]/g, "")
-    .trim()
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "");
 }
