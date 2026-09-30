@@ -142,6 +142,14 @@ export interface SettingsData {
    * map predates it.
    */
   settingsAccordionState: Record<string, boolean>;
+  /** v1.0.0: Copy All also copies the tags (title, description, then tags). */
+  copyAllIncludesTags: boolean;
+  /**
+   * v1.0.0: the profile / preset last applied in the editor, so its picker
+   * shows it and can offer to update it. This device only — never exported.
+   */
+  lastProfileId: string | null;
+  lastPresetId: string | null;
 }
 
 function detectBrowserLanguage(): SupportedLanguage {
@@ -193,6 +201,7 @@ export const initialSettings: SettingsData = {
     badgePosition: "middle",
     separator: "emDash",
     badgeCase: "upper",
+    order: "gameFirst",
   },
   editorAccordionState: {
     gameInfo: true,
@@ -223,6 +232,9 @@ export const initialSettings: SettingsData = {
     history: true,
     logs: true,
   },
+  copyAllIncludesTags: false,
+  lastProfileId: null,
+  lastPresetId: null,
 };
 
 /**
@@ -257,6 +269,9 @@ export function healSettings(raw: unknown): SettingsData {
       ? (incoming.titleFormat as Partial<TitleFormatConfig>)
       : {};
   incoming.titleFormat = { ...initialSettings.titleFormat, ...incomingTf };
+  // v1.0.0: `order` joined the title format; anything else reads as game-first.
+  const tf = incoming.titleFormat as TitleFormatConfig;
+  if (tf.order !== "typeFirst") tf.order = "gameFirst";
 
   // v6 → v7: `genrePlaylists` map and `pinnedCommentIncludeGenrePlaylist`
   // toggle added (v0.8 phase 2). Defensive merge for the nested map so
@@ -314,6 +329,14 @@ export function healSettings(raw: unknown): SettingsData {
     ...initialSettings.settingsAccordionState,
     ...incomingSa,
   };
+
+  // v1.0.0 additions: coerced like `strictMode`.
+  if (typeof incoming.copyAllIncludesTags !== "boolean") {
+    incoming.copyAllIncludesTags = initialSettings.copyAllIncludesTags;
+  }
+  for (const key of ["lastProfileId", "lastPresetId"] as const) {
+    if (typeof incoming[key] !== "string" || incoming[key] === "") incoming[key] = null;
+  }
 
   return { ...initialSettings, ...incoming } as SettingsData;
 }

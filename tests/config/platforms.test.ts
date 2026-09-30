@@ -21,9 +21,15 @@ describe("store URL patterns (v1.0.0)", () => {
     expect(steam.urlPattern.test("https://store.steampowered.com/search/?term=elden")).toBe(false);
   });
 
-  it("normalises Steam links to the canonical page", () => {
+  it("normalises Steam links to the canonical page, keeping the name slug", () => {
     const normalize = platform("steam").normalize;
     expect(normalize?.("https://store.steampowered.com/app/1245620/ELDEN_RING/")).toBe(
+      "https://store.steampowered.com/app/1245620/ELDEN_RING/",
+    );
+    expect(
+      normalize?.("https://store.steampowered.com/app/1245620/ELDEN_RING/?snr=1_7_7_151_150"),
+    ).toBe("https://store.steampowered.com/app/1245620/ELDEN_RING/");
+    expect(normalize?.("https://store.steampowered.com/app/1245620")).toBe(
       "https://store.steampowered.com/app/1245620",
     );
     expect(normalize?.("https://s.team/a/1245620")).toBe(

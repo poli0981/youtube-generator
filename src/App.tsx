@@ -14,6 +14,7 @@ import { needsConsent } from "@config/legal";
 import { EditorPage } from "@pages/EditorPage";
 import { hydrateLogStore } from "@store/log-store";
 import { useSettingsStore } from "@store/settings-store";
+import { useEditorStore } from "@store/editor-store";
 import i18n from "@i18n/index";
 import { IS_TAURI } from "@utils/platform";
 
@@ -89,6 +90,20 @@ function ConsentGuard() {
 }
 
 export default function App() {
+  useEffect(() => {
+    // A first run has no saved draft yet: start it in the Default Output
+    // Language from Settings rather than the editor's built-in English.
+    try {
+      if (localStorage.getItem("ytdescgen-editor-draft") === null) {
+        useEditorStore.setState({
+          language: useSettingsStore.getState().defaultOutputLanguage,
+        });
+      }
+    } catch {
+      // Storage unavailable (private mode): nothing to decide.
+    }
+  }, []);
+
   useEffect(() => {
     // Tauri: move data files older versions misplaced, start automatic
     // backups (desktop) — then load the logs, which that may have moved.

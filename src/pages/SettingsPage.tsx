@@ -34,6 +34,7 @@ import {
   type TitleBadgePosition,
   type TitleSeparatorId,
   type TitleBadgeCase,
+  type TitleOrder,
 } from "@engine/types";
 
 export function SettingsPage() {
@@ -76,6 +77,11 @@ export function SettingsPage() {
     { value: "hyphen", label: t("settings.titleSeparatorHyphen") },
     { value: "colon", label: t("settings.titleSeparatorColon") },
     { value: "pipe", label: t("settings.titleSeparatorPipe") },
+  ];
+
+  const titleOrderOptions = [
+    { value: "gameFirst", label: t("settings.titleOrderGameFirst") },
+    { value: "typeFirst", label: t("settings.titleOrderTypeFirst") },
   ];
 
   const badgeCaseOptions = [
@@ -166,6 +172,12 @@ export function SettingsPage() {
             checked={settings.compactTagDisplay}
             onChange={(v) => settings.setSetting("compactTagDisplay", v)}
           />
+          <Toggle
+            label={t("settings.copyAllIncludesTags")}
+            description={t("settings.copyAllIncludesTagsHint")}
+            checked={settings.copyAllIncludesTags}
+            onChange={(v) => settings.setSetting("copyAllIncludesTags", v)}
+          />
         </Accordion>
 
         {/* Strict Mode is off by default: the app's whole premise is getting a
@@ -187,6 +199,12 @@ export function SettingsPage() {
             onChange={(v) => settings.setSetting("showQualityBadge", v)}
           />
           <div className="grid gap-4 sm:grid-cols-2">
+            <Select
+              label={t("settings.titleOrder")}
+              options={titleOrderOptions}
+              value={settings.titleFormat.order ?? "gameFirst"}
+              onChange={(v) => settings.setTitleFormat({ order: v as TitleOrder })}
+            />
             <Select
               label={t("settings.badgePosition")}
               options={badgePositionOptions}

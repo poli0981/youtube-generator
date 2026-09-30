@@ -321,6 +321,8 @@ export const LOCAL_SETTINGS_KEYS = [
   "editorAccordionState",
   "settingsAccordionState",
   "sidebarCollapsed",
+  "lastProfileId",
+  "lastPresetId",
 ] as const satisfies readonly (keyof SettingsData)[];
 
 /** Settings as they go into a file: without the local fields. */

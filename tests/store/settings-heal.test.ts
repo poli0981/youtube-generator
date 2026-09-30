@@ -20,6 +20,7 @@ describe("healSettings", () => {
         badgePosition: "middle",
         separator: "emDash",
         badgeCase: "upper",
+        order: "gameFirst",
       });
       expect(healed.showPinnedCommentTemplate).toBe(false);
       expect(healed.pinnedCommentIncludeAskNextGame).toBe(true);
@@ -83,6 +84,7 @@ describe("healSettings", () => {
         badgePosition: "prefix" as const,
         separator: "hyphen" as const,
         badgeCase: "lower" as const,
+        order: "typeFirst" as const,
       },
       showPinnedCommentTemplate: true,
       pinnedCommentIncludeAskNextGame: false,
@@ -109,6 +111,9 @@ describe("healSettings", () => {
         history: true,
         logs: true,
       },
+      copyAllIncludesTags: true,
+      lastProfileId: "profile-1",
+      lastPresetId: null,
     };
     const healed = healSettings(complete);
     expect(healed).toEqual(complete);
@@ -185,6 +190,7 @@ describe("healSettings", () => {
       badgePosition: "middle",
       separator: "emDash",
       badgeCase: "upper",
+      order: "gameFirst",
     });
   });
 
@@ -208,6 +214,7 @@ describe("healSettings", () => {
         badgePosition: "middle",
         separator: "emDash",
         badgeCase: "upper",
+        order: "gameFirst",
       });
     }
   });
@@ -221,6 +228,7 @@ describe("healSettings", () => {
         badgePosition: "middle",
         separator: "emDash",
         badgeCase: "upper",
+        order: "gameFirst",
       },
     });
     expect(healed.showPinnedCommentTemplate).toBe(false);
@@ -298,5 +306,20 @@ describe("healSettings — historyLimit (v1.0.0)", () => {
   it("falls back to the default for a non-number", () => {
     expect(healSettings({ historyLimit: "many" }).historyLimit).toBe(100);
     expect(healSettings({ historyLimit: Number.NaN }).historyLimit).toBe(100);
+  });
+});
+
+describe("healSettings — v1.0.0 fields", () => {
+  it("coerces the new fields", () => {
+    const healed = healSettings({
+      copyAllIncludesTags: "yes",
+      lastProfileId: 7,
+      lastPresetId: "",
+      titleFormat: { order: "sideways" },
+    });
+    expect(healed.copyAllIncludesTags).toBe(false);
+    expect(healed.lastProfileId).toBeNull();
+    expect(healed.lastPresetId).toBeNull();
+    expect(healed.titleFormat.order).toBe("gameFirst");
   });
 });

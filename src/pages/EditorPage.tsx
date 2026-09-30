@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -38,7 +38,7 @@ import { MusicAttributionEditor } from "@components/editor/MusicAttributionEdito
 import { SponsorCreditEditor } from "@components/editor/SponsorCreditEditor";
 import { LivePreview } from "@components/editor/LivePreview";
 import { DraftIndicator } from "@components/editor/DraftIndicator";
-import { PresetSelector } from "@components/presets/PresetSelector";
+import { QuickStart } from "@components/editor/QuickStart";
 import { ValidatedInput } from "@components/ui/ValidatedInput";
 import { Button } from "@components/ui/Button";
 import { ConfirmDialog } from "@components/ui/ConfirmDialog";
@@ -51,6 +51,8 @@ import { VIDEO_TYPES } from "@config/video-types";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useDocumentTitle } from "@hooks/use-document-title";
+import { startOver } from "@utils/library-apply";
+import { applyStoreLink, isTypingTarget, matchStoreLink } from "@utils/store-paste";
 import { normalizePlaylistUrl, validatePlaylistUrl } from "@utils/validation";
 
 interface Section {
@@ -95,7 +97,6 @@ const SECTIONS: readonly Section[] = [
       <>
         <LanguageSelector />
         <VideoTypeSelector />
-        <PresetSelector />
         <GameInfoForm />
         <ExtraFieldsInput />
         <GenreSelector />
@@ -175,7 +176,6 @@ function useSectionSummaries(): Partial<Record<string, string>> {
 export function EditorPage() {
   const { t } = useTranslation("ui");
   useDocumentTitle(t("tabs.editor"));
-  const reset = useEditorStore((s) => s.reset);
   const accordion = useSettingsStore((s) => s.editorAccordionState);
   const toggleAccordion = useSettingsStore((s) => s.toggleEditorAccordion);
   const setAccordions = useSettingsStore((s) => s.setEditorAccordions);
@@ -185,6 +185,20 @@ export function EditorPage() {
 
   const isOpen = (id: string): boolean => accordion[id] ?? false;
   const allOpen = SECTION_IDS.every(isOpen);
+
+  // A store link pasted while no field has focus still lands where it
+  // belongs (fields handle their own pastes).
+  useEffect(() => {
+    const onPaste = (e: ClipboardEvent) => {
+      if (isTypingTarget(document.activeElement)) return;
+      const match = matchStoreLink(e.clipboardData?.getData("text") ?? "");
+      if (!match) return;
+      e.preventDefault();
+      applyStoreLink(match);
+    };
+    document.addEventListener("paste", onPaste);
+    return () => document.removeEventListener("paste", onPaste);
+  }, []);
 
   return (
     <PageContainer width="wide" className="pb-24 lg:pb-8">
@@ -199,7 +213,7 @@ export function EditorPage() {
             </Button>
             <Button variant="ghost" size="sm" onClick={() => setShowClearDraft(true)}>
               <RotateCcw />
-              {t("editor.clearDraft")}
+              {t("editor.quick.startOver")}
             </Button>
             <Button asChild size="sm">
               <Link to="/output">
@@ -217,6 +231,7 @@ export function EditorPage() {
               the user comes to FIX the fields Strict Mode is blocking on, so
               disabling anything here would be exactly backwards. */}
           <StrictModeBanner />
+          <QuickStart />
           {SECTIONS.map((section) => (
             <Accordion
               key={section.id}
@@ -259,12 +274,13 @@ export function EditorPage() {
       <ConfirmDialog
         open={showClearDraft}
         onConfirm={() => {
-          reset();
+          startOver();
           setShowClearDraft(false);
         }}
         onCancel={() => setShowClearDraft(false)}
-        title={t("editor.clearDraft")}
-        message={t("editor.clearDraftConfirm")}
+        title={t("editor.quick.startOver")}
+        message={t("editor.quick.startOverConfirm")}
+        confirmLabel={t("editor.quick.startOver")}
         variant="danger"
       />
     </PageContainer>

@@ -1,8 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { useOutputCopy } from "./use-output-copy";
+import { useSaveToHistory } from "./use-save-to-history";
 
 export interface ShortcutHandlers {
   onToggleHelp: () => void;
@@ -20,17 +19,17 @@ export interface ShortcutHandlers {
  */
 export function useKeyboardShortcuts(handlers: ShortcutHandlers) {
   const navigate = useNavigate();
-  const { t } = useTranslation("ui");
   const copyOutput = useOutputCopy();
+  const saveToHistory = useSaveToHistory();
 
-  const latest = useRef({ handlers, navigate, t, copyOutput });
+  const latest = useRef({ handlers, navigate, copyOutput, saveToHistory });
   useEffect(() => {
-    latest.current = { handlers, navigate, t, copyOutput };
+    latest.current = { handlers, navigate, copyOutput, saveToHistory };
   });
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const { handlers, navigate, t, copyOutput } = latest.current;
+      const { handlers, navigate, copyOutput, saveToHistory } = latest.current;
       const mod = e.ctrlKey || e.metaKey;
       const key = e.key.toLowerCase();
 
@@ -46,10 +45,11 @@ export function useKeyboardShortcuts(handlers: ShortcutHandlers) {
         // Mode error means nothing is copied.
         void copyOutput("all");
       } else if (mod && !e.shiftKey && key === "s") {
-        // The draft is saved on every change already; this only confirms it
-        // (and keeps the browser's "Save page" dialog out of the way).
+        // The draft saves itself on every change; Ctrl/⌘+S keeps a copy of
+        // the generated output in History (and the browser's "Save page"
+        // dialog out of the way).
         e.preventDefault();
-        toast.success(t("editor.draftSaved"));
+        saveToHistory();
       } else if (mod && !e.shiftKey && key === "b") {
         // VS Code convention: Ctrl/Cmd+B toggles the sidebar.
         e.preventDefault();

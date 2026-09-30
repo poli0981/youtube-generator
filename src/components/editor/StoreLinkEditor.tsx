@@ -8,6 +8,7 @@ import { PLATFORMS } from "@config/platforms";
 import { useEditorStore } from "@store/editor-store";
 import { validateUrlWithPattern } from "@utils/validation";
 import { extractGameNameFromUrl, isLinkNameMismatch } from "@utils/url-extractors";
+import { applyStoreLink, matchStoreLink } from "@utils/store-paste";
 import type { StoreLinkType } from "@engine/types";
 import { FIELD_LIMITS } from "@config/field-limits";
 
@@ -67,10 +68,17 @@ export function StoreLinkEditor() {
   // Game Name field is still empty, auto-fill it from the URL slug. The
   // toast carries an Undo action so a wrong guess is one click away from
   // being reverted. Never overwrites a non-empty Game Name.
-  const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
-    if (gameName.trim()) return;
+  const handlePaste = (e: ClipboardEvent<HTMLInputElement>, platformId: string) => {
     const pasted = e.clipboardData.getData("text").trim();
     if (!pasted) return;
+    // A link for another store goes to that store's field.
+    const match = matchStoreLink(pasted);
+    if (match && match.platformId !== platformId) {
+      e.preventDefault();
+      applyStoreLink(match);
+      return;
+    }
+    if (gameName.trim()) return;
     const extracted = extractGameNameFromUrl(pasted);
     if (!extracted) return;
 
@@ -131,7 +139,7 @@ export function StoreLinkEditor() {
                   setNested("storeLinks", platform.id, final);
                 }}
                 validate={(v) => validateUrlWithPattern(v, platform.urlPattern)}
-                onPaste={handlePaste}
+                onPaste={(e) => handlePaste(e, platform.id)}
               />
               <Select
                 label={t("editor.storeLinkType")}

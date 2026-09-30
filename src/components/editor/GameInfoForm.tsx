@@ -1,9 +1,31 @@
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/Input";
 import { Select } from "@components/ui/Select";
 import { PLATFORMS } from "@config/platforms";
 import { useEditorStore } from "@store/editor-store";
 import { FIELD_LIMITS } from "@config/field-limits";
+import { usePresetStore } from "@store/preset-store";
+import { useHistoryStore } from "@store/history-store";
+import { applyStoreLink, matchStoreLink } from "@utils/store-paste";
+
+/** Games the user has written about before: presets, then recent history. */
+function useGameNameSuggestions(): string[] {
+  const presets = usePresetStore((s) => s.presets);
+  const entries = useHistoryStore((s) => s.entries);
+  return useMemo(() => {
+    const seen = new Set<string>();
+    const names: string[] = [];
+    for (const name of [...presets.map((p) => p.gameName), ...entries.map((e) => e.gameName)]) {
+      const key = name.trim().toLowerCase();
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      names.push(name.trim());
+      if (names.length >= 50) break;
+    }
+    return names;
+  }, [presets, entries]);
+}
 
 /**
  * Core identity fields for the video (game name, channel, platform).
@@ -15,6 +37,8 @@ export function GameInfoForm() {
   const store = useEditorStore();
 
   const platformOptions = PLATFORMS.map((p) => ({ value: p.id, label: p.label }));
+  const suggestionsId = useId();
+  const suggestions = useGameNameSuggestions();
 
   return (
     <div className="flex flex-col gap-3">
@@ -24,9 +48,23 @@ export function GameInfoForm() {
         placeholder={t("editor.gameNamePlaceholder")}
         value={store.gameName}
         onChange={(e) => store.set("gameName", e.target.value)}
+        onPaste={(e) => {
+          // A store link pasted here goes to its store field instead, and
+          // the game name is read from it.
+          const match = matchStoreLink(e.clipboardData.getData("text"));
+          if (!match) return;
+          e.preventDefault();
+          applyStoreLink(match);
+        }}
+        list={suggestionsId}
         autoComplete="off"
         enterKeyHint="next"
       />
+      <datalist id={suggestionsId}>
+        {suggestions.map((name) => (
+          <option key={name} value={name} />
+        ))}
+      </datalist>
       <Input
         label={t("editor.channelName")}
         maxLength={FIELD_LIMITS.SHORT_NAME}

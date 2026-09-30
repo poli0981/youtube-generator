@@ -1,9 +1,10 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { getOutputLimitStatus, isCopyAllBlocked, isFieldOver } from "@engine/limits";
+import { copyAllText, getOutputLimitStatus, isCopyAllBlocked, isFieldOver } from "@engine/limits";
 import { YT_LIMITS } from "@engine/types";
 import { useEditorStore } from "@store/editor-store";
+import { useSettingsStore } from "@store/settings-store";
 import { useGeneratedOutput } from "./use-generated-output";
 import { useClipboard } from "./use-clipboard";
 import { useStrictBlock } from "./use-strict-block";
@@ -22,6 +23,7 @@ export function useOutputCopy(): (target: OutputCopyTarget) => Promise<boolean> 
   const output = useGeneratedOutput();
   const hasGame = useEditorStore((s) => s.gameName.trim() !== "");
   const strictBlocked = useStrictBlock();
+  const withTags = useSettingsStore((s) => s.copyAllIncludesTags);
   const { copy } = useClipboard();
 
   return useCallback(
@@ -35,7 +37,8 @@ export function useOutputCopy(): (target: OutputCopyTarget) => Promise<boolean> 
         return false;
       }
       const status = getOutputLimitStatus(output);
-      const blocked = target === "all" ? isCopyAllBlocked(status) : isFieldOver(status, target);
+      const blocked =
+        target === "all" ? isCopyAllBlocked(status, withTags) : isFieldOver(status, target);
       if (blocked) {
         toast.error(t("output.limits.bannerTitle"));
         return false;
@@ -53,9 +56,9 @@ export function useOutputCopy(): (target: OutputCopyTarget) => Promise<boolean> 
           // joined string, and the check above already used its count.
           return copy(output.tagString);
         case "all":
-          return copy(`${output.title}\n\n${output.description}`);
+          return copy(copyAllText(output, withTags));
       }
     },
-    [output, hasGame, strictBlocked, copy, t],
+    [output, hasGame, strictBlocked, withTags, copy, t],
   );
 }

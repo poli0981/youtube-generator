@@ -5,6 +5,7 @@ import type {
   TitleBadgePosition,
   TitleSeparatorId,
   TitleBadgeCase,
+  TitleOrder,
 } from "./types";
 import { YT_LIMITS } from "./types";
 import {
@@ -52,6 +53,8 @@ export interface BuildTitleOptions {
   separator?: TitleSeparatorId;
   /** Case of the badge label. Default: "upper" (v0.6 behavior). */
   badgeCase?: TitleBadgeCase;
+  /** Game or video type first. Default: "gameFirst". */
+  order?: TitleOrder;
 }
 
 const DEFAULT_TITLE_OPTIONS: Required<BuildTitleOptions> = {
@@ -59,6 +62,7 @@ const DEFAULT_TITLE_OPTIONS: Required<BuildTitleOptions> = {
   badgePosition: "middle",
   separator: "emDash",
   badgeCase: "upper",
+  order: "gameFirst",
 };
 
 function normalizeOptions(
@@ -67,7 +71,13 @@ function normalizeOptions(
   if (typeof optsOrShow === "boolean") {
     return { ...DEFAULT_TITLE_OPTIONS, showQualityBadge: optsOrShow };
   }
-  return { ...DEFAULT_TITLE_OPTIONS, ...(optsOrShow ?? {}) };
+  const merged = { ...DEFAULT_TITLE_OPTIONS, ...(optsOrShow ?? {}) };
+  // An explicit `undefined` in the caller's object must not erase a default.
+  for (const key of Object.keys(DEFAULT_TITLE_OPTIONS) as (keyof BuildTitleOptions)[]) {
+    if (merged[key] === undefined)
+      (merged as Record<string, unknown>)[key] = DEFAULT_TITLE_OPTIONS[key];
+  }
+  return merged;
 }
 
 interface ComposeArgs {
@@ -77,6 +87,7 @@ interface ComposeArgs {
   badge: string;
   separator: string;
   position: TitleBadgePosition;
+  order: TitleOrder;
 }
 
 /**
@@ -97,29 +108,36 @@ interface ComposeArgs {
  * string — tested explicitly in title-builder.test.ts.
  */
 function composeTitle(args: ComposeArgs): string {
-  const { gameName, videoTypeLabel, suffix, badge, separator, position } = args;
+  const { gameName, videoTypeLabel, suffix, badge, separator, position, order } = args;
   const badgeTag = badge ? `[${badge}]` : "";
+  // "Part 3 — Hades" instead of "Hades — Part 3"; the badge positions
+  // below apply to whichever segment ends up first / second.
+  const [first, second] =
+    order === "typeFirst" && videoTypeLabel
+      ? [videoTypeLabel, gameName]
+      : [gameName, videoTypeLabel];
 
   if (position === "prefix") {
-    const head = badgeTag ? `${badgeTag} ${gameName}` : gameName;
+    const head = badgeTag ? `${badgeTag} ${first}` : first;
     const parts = [head];
-    if (videoTypeLabel) parts.push(videoTypeLabel);
+    if (second) parts.push(second);
     parts.push(suffix);
     return parts.join(separator);
   }
 
   if (position === "suffix") {
     const tail = badgeTag ? `${badgeTag} ${suffix}` : suffix;
-    const parts = [gameName];
-    if (videoTypeLabel) parts.push(videoTypeLabel);
+    const parts = [first];
+    if (second) parts.push(second);
     parts.push(tail);
     return parts.join(separator);
   }
 
-  // position === "middle" (default / v0.6 behavior)
-  const parts = [gameName];
-  if (videoTypeLabel) {
-    parts.push(badgeTag ? `${videoTypeLabel} ${badgeTag}` : videoTypeLabel);
+  // position === "middle" (default / v0.6 behavior): the badge follows the
+  // second segment.
+  const parts = [first];
+  if (second) {
+    parts.push(badgeTag ? `${second} ${badgeTag}` : second);
   } else if (badgeTag) {
     parts.push(badgeTag);
   }
@@ -297,6 +315,7 @@ export function buildTitle(
       badge,
       separator,
       position: opts.badgePosition,
+      order: opts.order,
     });
   }
 
@@ -327,6 +346,7 @@ export function buildTitle(
     badge,
     separator,
     position: opts.badgePosition,
+    order: opts.order,
   });
 }
 

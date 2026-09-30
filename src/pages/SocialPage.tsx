@@ -292,7 +292,11 @@ export function SocialPage() {
                 icon={ActiveIcon}
                 actions={
                   <>
-                    <CharCounter text={activePost.text} limit={activeConfig.charLimit} />
+                    <CharCounter
+                      text={activePost.text}
+                      limit={activeConfig.charLimit}
+                      count={activePost.charCount}
+                    />
                     <CopyButton
                       text={activePost.text}
                       label={t("socialPost.copyCaption")}
@@ -445,7 +449,11 @@ export function SocialPage() {
                                 {t(p.labelKey)}
                               </span>
                               <div className="flex items-center gap-2">
-                                <CharCounter text={post.text} limit={p.charLimit} />
+                                <CharCounter
+                                  text={post.text}
+                                  limit={p.charLimit}
+                                  count={post.charCount}
+                                />
                                 <CopyButton
                                   text={post.text}
                                   label={t("socialPost.copyCaption")}

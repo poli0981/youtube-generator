@@ -157,5 +157,8 @@ export function extractData(state: SettingsData): SettingsData {
     legalConsentAt: state.legalConsentAt,
     strictMode: state.strictMode,
     settingsAccordionState: { ...state.settingsAccordionState },
+    copyAllIncludesTags: state.copyAllIncludesTags,
+    lastProfileId: state.lastProfileId,
+    lastPresetId: state.lastPresetId,
   };
 }

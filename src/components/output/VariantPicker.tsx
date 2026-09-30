@@ -1,14 +1,18 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
+import { Check } from "lucide-react";
+import { toast } from "sonner";
 import { Modal } from "@components/ui/Modal";
+import { Button } from "@components/ui/Button";
+import { Badge } from "@components/ui/Badge";
 import { CopyButton } from "./CopyButton";
 import { CharCounter } from "./CharCounter";
-import { buildTitleVariants } from "@engine/title-variants";
+import { buildTitleVariants, type TitleVariant } from "@engine/title-variants";
 import { useLanguagesReady } from "@hooks/use-languages-ready";
-import { useEditorStore } from "@store/editor-store";
+import { useCurrentGeneratorInput } from "@hooks/use-current-generator-input";
 import { useSettingsStore } from "@store/settings-store";
-import { YT_LIMITS, type GeneratorInput } from "@engine/types";
+import { YT_LIMITS } from "@engine/types";
 
 interface VariantPickerProps {
   open: boolean;
@@ -16,90 +20,97 @@ interface VariantPickerProps {
 }
 
 /**
- * Modal that shows 3 A/B-testable title variants for the current editor
- * state. Generated fresh each time the modal opens — no state persists
- * here because the titles are derived from the store.
+ * Three title shapes for the current editor state, with the user's
+ * separator and badge case. "Use this shape" saves the shape to the title
+ * format, so every title — this one and the next — is built that way.
  */
 export function VariantPicker({ open, onClose }: VariantPickerProps) {
   const { t } = useTranslation("ui");
-  const state = useEditorStore();
+  const input = useCurrentGeneratorInput();
   const showQualityBadge = useSettingsStore((s) => s.showQualityBadge);
+  const titleFormat = useSettingsStore((s) => s.titleFormat);
+  const setTitleFormat = useSettingsStore((s) => s.setTitleFormat);
 
   // Lazy-loaded locales (v0.26): only request the bundle while the modal
   // is actually open; the list fills in on the ready flip.
-  const ready = useLanguagesReady(open ? [state.language] : []);
+  const ready = useLanguagesReady(open ? [input.language] : []);
 
   const variants = useMemo(() => {
     if (!open || !ready) return [];
-    const input: GeneratorInput = {
-      videoType: state.videoType,
-      language: state.language,
-      genres: state.genres,
-      gameName: state.gameName,
-      gameNameLocalized: state.gameNameLocalized,
-      channelName: state.channelName,
-      platform: state.platform,
-      partNumber: state.partNumber,
-      bossName: state.bossName,
-      dlcName: state.dlcName,
-      challengeName: state.challengeName,
-      modName: state.modName,
-      resolution: state.resolution,
-      fps: state.fps,
-      graphicsPreset: state.graphicsPreset,
-      spoilerWarning: state.spoilerWarning,
-      matureWarning: state.matureWarning,
-      storeLinks: state.storeLinks,
-      social: state.social,
-      rig: state.rig,
+    const tFn = i18n.getFixedT(input.language, "templates");
+    return buildTitleVariants(input, tFn, { ...titleFormat, showQualityBadge });
+  }, [open, ready, input, titleFormat, showQualityBadge]);
+
+  const isCurrent = (variant: TitleVariant) =>
+    (titleFormat.order ?? "gameFirst") === variant.format.order &&
+    titleFormat.badgePosition === variant.format.badgePosition;
+
+  // Without a quality badge two shapes read the same; list each title once,
+  // preferring the one in use.
+  const shown = variants.filter((variant, index) => {
+    if (isCurrent(variant)) return true;
+    const current = variants.find(isCurrent);
+    if (current && current.title === variant.title) return false;
+    return variants.findIndex((other) => other.title === variant.title) === index;
+  });
+
+  const apply = (variant: TitleVariant) => {
+    const before = {
+      order: titleFormat.order ?? "gameFirst",
+      badgePosition: titleFormat.badgePosition,
     };
-    const tFn = i18n.getFixedT(state.language, "templates");
-    return buildTitleVariants(input, tFn, showQualityBadge);
-  }, [
-    open,
-    ready,
-    showQualityBadge,
-    state.videoType,
-    state.language,
-    state.genres,
-    state.gameName,
-    state.gameNameLocalized,
-    state.channelName,
-    state.platform,
-    state.partNumber,
-    state.bossName,
-    state.dlcName,
-    state.challengeName,
-    state.modName,
-    state.resolution,
-    state.fps,
-    state.graphicsPreset,
-    state.spoilerWarning,
-    state.matureWarning,
-    state.storeLinks,
-    state.social,
-    state.rig,
-  ]);
+    setTitleFormat(variant.format);
+    toast.success(t("output.variantApplied", { name: t(variant.labelKey) }), {
+      action: { label: t("common.undo"), onClick: () => setTitleFormat(before) },
+    });
+    onClose();
+  };
 
   return (
-    <Modal open={open} onClose={onClose} title={t("output.generateAlternatives")} size="lg">
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={t("output.generateAlternatives")}
+      description={t("output.variantsHint")}
+      size="lg"
+    >
       <div className="flex flex-col gap-4">
-        {variants.map((variant) => (
-          <section key={variant.id} className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <h3 className="text-text-muted text-xs font-semibold tracking-wide uppercase">
-                {t(variant.labelKey)}
-              </h3>
-              <div className="flex items-center gap-3">
-                <CharCounter text={variant.title} limit={YT_LIMITS.TITLE_MAX} />
-                <CopyButton text={variant.title} label={t("output.copyTitle")} />
+        {shown.map((variant) => {
+          const over = variant.title.length > YT_LIMITS.TITLE_MAX;
+          const current = isCurrent(variant);
+          return (
+            <section key={variant.id} className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <h3 className="text-text-muted flex items-center gap-2 text-xs font-semibold tracking-wide uppercase">
+                  {t(variant.labelKey)}
+                  {current && <Badge tone="accent">{t("output.variantCurrent")}</Badge>}
+                </h3>
+                <div className="flex items-center gap-2">
+                  <CharCounter text={variant.title} limit={YT_LIMITS.TITLE_MAX} />
+                  <CopyButton
+                    text={variant.title}
+                    label={t("output.copyTitle")}
+                    blocked={over}
+                    blockedHint={t("output.limits.fieldLine", {
+                      field: t("output.title"),
+                      count: variant.title.length,
+                      limit: YT_LIMITS.TITLE_MAX,
+                    })}
+                  />
+                  {!current && (
+                    <Button variant="secondary" size="sm" onClick={() => apply(variant)}>
+                      <Check />
+                      {t("output.variantApply")}
+                    </Button>
+                  )}
+                </div>
               </div>
-            </div>
-            <p className="border-border bg-surface-0 text-text-primary rounded-lg border px-3 py-2.5 text-sm font-medium">
-              {variant.title}
-            </p>
-          </section>
-        ))}
+              <p className="border-border bg-surface-0 text-text-primary rounded-lg border px-3 py-2.5 text-sm font-medium break-words">
+                {variant.title}
+              </p>
+            </section>
+          );
+        })}
       </div>
     </Modal>
   );

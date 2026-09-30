@@ -994,7 +994,7 @@ describe("buildDescription", () => {
       t,
     );
     expect(result).toContain("FOLLOW ME");
-    expect(result).toContain("Twitter / X: https://x.com/test");
+    expect(result).toContain("𝕏 X (Twitter): https://x.com/test");
   });
 
   it("includes playlist link when provided", () => {

@@ -57,3 +57,33 @@ export const PRESET_FIELDS = [
 
 export type ProfileField = (typeof PROFILE_FIELDS)[number];
 export type PresetField = (typeof PRESET_FIELDS)[number];
+
+/**
+ * What belongs to one video and not the next: cleared by "Next part",
+ * "New video" and when a preset for another game is applied. The part
+ * number is handled on its own (Next part increments it).
+ */
+export const PER_VIDEO_FIELDS = [
+  "bossName",
+  "dlcName",
+  "challengeName",
+  "modName",
+  "modList",
+  "liveUrl",
+  "scheduledTime",
+  "chapterName",
+  "questName",
+  "characterName",
+  "anniversaryYear",
+  "gachaVersion",
+  "timestamps",
+  "thumbnailText",
+  "pinnedComment",
+  "sponsorName",
+  "sponsorPlatform",
+  "endingsShown",
+  "endings",
+  "endingVideoCount",
+  "endingVideoRanges",
+  "endingVideoIndex",
+] as const satisfies readonly (keyof EditorData)[];

@@ -19,7 +19,7 @@ describe("extractGameNameFromUrl — Steam", () => {
       extractGameNameFromUrl(
         "https://store.steampowered.com/app/2358720/Marvels_Spider-Man_Remastered/",
       ),
-    ).toBe("Marvels Spider-Man Remastered");
+    ).toBe("Marvel's Spider-Man Remastered");
   });
 
   it("ignores trailing query strings", () => {
@@ -64,7 +64,7 @@ describe("extractGameNameFromUrl — GOG", () => {
 
   it("supports a locale prefix", () => {
     expect(extractGameNameFromUrl("https://www.gog.com/en/game/baldurs_gate_3")).toBe(
-      "Baldurs Gate 3",
+      "Baldur's Gate 3",
     );
   });
 
@@ -172,7 +172,7 @@ describe("extractGameNameFromUrl — Humble Bundle", () => {
 
   it("extracts a hyphenated multi-word slug", () => {
     expect(extractGameNameFromUrl("https://www.humblebundle.com/store/baldurs-gate-3")).toBe(
-      "Baldurs Gate 3",
+      "Baldur's Gate 3",
     );
   });
 

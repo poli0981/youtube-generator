@@ -18,7 +18,9 @@ export function SocialEditor() {
       <span className="text-text-primary text-sm font-semibold">{t("editor.social")}</span>
 
       <div className="flex flex-col gap-2">
-        <span className="text-text-muted text-xs font-medium uppercase">Donate</span>
+        <span className="text-text-muted text-xs font-medium uppercase">
+          {t("editor.socialGroups.donate")}
+        </span>
         {donateFields.map((field) => (
           <ValidatedInput
             key={field.id}
@@ -37,7 +39,9 @@ export function SocialEditor() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-text-muted text-xs font-medium uppercase">Social</span>
+        <span className="text-text-muted text-xs font-medium uppercase">
+          {t("editor.socialGroups.social")}
+        </span>
         {socialFields.map((field) => (
           <ValidatedInput
             key={field.id}
@@ -51,11 +55,7 @@ export function SocialEditor() {
             validate={(v) =>
               field.urlPrefix ? validateUrlWithPrefix(v, field.urlPrefix) : validateUrl(v)
             }
-            helpText={
-              field.id === "mastodon"
-                ? "Full URL including instance, e.g. https://mastodon.social/@user"
-                : undefined
-            }
+            helpText={field.id === "mastodon" ? t("editor.mastodonHelp") : undefined}
           />
         ))}
       </div>

@@ -10,10 +10,17 @@
  *   • Nintendo US  — `https://www.nintendo.com/us/store/products/<slug>[-switch[-2]]/`
  *   • Nintendo EU  — `https://www.nintendo.com/<locale>/Games/<segment>/<slug>[-<id>].html`
  *   • Humble       — `https://www.humblebundle.com/store/<slug>`
+ *   • App Store    — `https://apps.apple.com/<cc>/app/<slug>/id<digits>`
+ *   • Meta Quest   — `https://www.meta.com/experiences/<slug>/<digits>`
+ *   • EA           — `https://www.ea.com/games/[<franchise>/]<slug>`
+ *   • Battle.net   — `https://shop.battle.net/<locale>/product/<slug>`
+ *
+ * Sequel numbers come back upper-case ("Final Fantasy VII") and well-known
+ * possessives get their apostrophe back ("Baldur's Gate 3").
  *
  * Returns `null` for every other URL shape — including PlayStation /
- * Xbox / Amazon Luna URLs, which rely on opaque product IDs rather than
- * stable name slugs and would emit garbled names.
+ * Xbox / Amazon Luna / Google Play URLs, which rely on opaque product IDs
+ * rather than stable name slugs and would emit garbled names.
  */
 
 interface NameExtractor {
@@ -37,13 +44,40 @@ function titleCase(s: string): string {
       if (/^\s+$/.test(chunk) || chunk === "") return chunk;
       return chunk
         .split("-")
-        .map((piece) =>
-          piece.length === 0 ? piece : piece.charAt(0).toUpperCase() + piece.slice(1),
-        )
+        .map((piece) => {
+          if (piece.length === 0) return piece;
+          if (ROMAN.test(piece)) return piece.toUpperCase();
+          const possessive = POSSESSIVES[piece];
+          if (possessive) return possessive;
+          return piece.charAt(0).toUpperCase() + piece.slice(1);
+        })
         .join("-");
     })
     .join("");
 }
+
+/**
+ * Sequel numbers II–XX, which slugs lower-case ("final-fantasy-vii").
+ * Single letters are left alone: capitalising already gives I, V and X.
+ */
+const ROMAN = /^(?:ii|iii|iv|vi|vii|viii|ix|xi|xii|xiii|xiv|xv|xvi|xvii|xviii|xix|xx)$/;
+
+/**
+ * Slugs drop apostrophes. These are the possessives that game titles
+ * actually use, restored when they appear as a whole word.
+ */
+const POSSESSIVES: Record<string, string> = {
+  baldurs: "Baldur's",
+  marvels: "Marvel's",
+  clancys: "Clancy's",
+  meiers: "Meier's",
+  garrys: "Garry's",
+  luigis: "Luigi's",
+  yoshis: "Yoshi's",
+  kirbys: "Kirby's",
+  assassins: "Assassin's",
+  playerunknowns: "PlayerUnknown's",
+};
 
 const PLATFORM_NAME_EXTRACTORS: readonly NameExtractor[] = [
   {
@@ -87,6 +121,30 @@ const PLATFORM_NAME_EXTRACTORS: readonly NameExtractor[] = [
     // Humble Bundle store. Slugs are simple hyphen-cased names.
     pattern: /^https:\/\/www\.humblebundle\.com\/store\/([^/?#\s]+)/i,
     humanize: (s) => titleCase(s.replace(/-+/g, " ")),
+  },
+  {
+    // App Store: `apps.apple.com/<cc>/app/<slug>/id<digits>`.
+    pattern: /^https:\/\/apps\.apple\.com\/(?:[a-z]{2}\/)?app\/([^/?#\s]+)\/id\d+/i,
+    humanize: (s) => titleCase(s.replace(/-+/g, " ")),
+  },
+  {
+    // Meta Quest: `meta.com/[<locale>/]experiences/<slug>/<digits>` (some
+    // links carry only the number — no name to read).
+    pattern:
+      /^https:\/\/(?:www\.)?meta\.com\/(?:[a-z]{2}-[a-z]{2}\/)?experiences\/([a-z][^/?#\s]*)\/\d+/i,
+    humanize: (s) => titleCase(s.replace(/-+/g, " ")),
+  },
+  {
+    // EA: `ea.com/[<locale>/]games/[<franchise>/]<game>` — the last segment.
+    pattern:
+      /^https:\/\/(?:www\.)?ea\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?games\/(?:[^/?#\s]+\/)?([^/?#\s]+)\/?(?:[?#]|$)/i,
+    humanize: (s) => titleCase(s.replace(/-+/g, " ")),
+  },
+  {
+    // Battle.net shop: `[<region>.]shop.battle.net/[<locale>/]product/<slug>`.
+    pattern:
+      /^https:\/\/(?:[a-z]{2}\.)?shop\.battle\.net\/(?:[a-z]{2}-[a-z]{2}\/)?product\/([^/?#\s]+)/i,
+    humanize: (s) => titleCase(s.replace(/[-_]+/g, " ")),
   },
 ] as const;
 

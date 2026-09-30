@@ -713,9 +713,7 @@
     },
     "quickPreview": "Xem trước nhanh",
     "version": "Phiên bản",
-    "clearDraft": "Xóa bản nháp",
     "draftSaved": "Đã lưu nháp",
-    "clearDraftConfirm": "Bạn có chắc muốn xóa toàn bộ dữ liệu form?",
     "genreSearchPlaceholder": "Tìm thể loại",
     "genreSearchNoResults": "Không có thể loại phù hợp",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "YouTube cần ít nhất 3 mốc để tạo chương (hiện có {{n}}).",
       "tooShort": "{{time}}: mỗi chương phải dài ít nhất 10 giây.",
       "outOfOrder": "{{time}} đứng trước mốc ở dòng trên."
-    }
+    },
+    "quick": {
+      "profile": "Hồ sơ kênh",
+      "preset": "Preset game",
+      "chooseProfile": "Chọn hồ sơ…",
+      "choosePreset": "Chọn game…",
+      "emptyLibrary": "Lưu kênh thành hồ sơ và mỗi game thành preset để điền ở đây chỉ với một lần bấm:",
+      "profileChanged": "Các trường kênh khác với hồ sơ “{{name}}”.",
+      "presetChanged": "Các trường game khác với preset “{{name}}”.",
+      "updateProfile": "Cập nhật hồ sơ",
+      "updatePreset": "Cập nhật preset",
+      "nextPart": "Tập tiếp theo ({{n}})",
+      "nextPartPlain": "Tập tiếp theo",
+      "newVideo": "Video mới, cùng game",
+      "nextPartDone": "Sẵn sàng cho tập {{n}} — đã xoá chi tiết của video trước",
+      "newVideoDone": "Sẵn sàng cho video mới — đã xoá chi tiết của video trước",
+      "startOver": "Làm lại từ đầu",
+      "startOverConfirm": "Xoá các trường game và video. Thông tin kênh — tên, liên hệ, mạng xã hội, cấu hình máy, ủng hộ và cộng đồng — vẫn giữ nguyên.",
+      "startOverDone": "Đã làm lại từ đầu — thông tin kênh vẫn giữ nguyên",
+      "applyProfileTitle": "Áp dụng hồ sơ “{{name}}”?",
+      "applyPresetTitle": "Áp dụng preset “{{name}}”?",
+      "overwrite": "{{n}} trường bạn đã điền sẽ bị thay thế. Bạn có thể hoàn tác ngay sau đó.",
+      "replace": "Thay thế"
+    },
+    "paste": {
+      "link": "Đã thêm link {{store}}",
+      "linkAndName": "Đã thêm link {{store}} — tên game là “{{name}}”"
+    },
+    "socialGroups": {
+      "donate": "Ủng hộ",
+      "social": "Mạng xã hội"
+    },
+    "mastodonHelp": "URL đầy đủ kèm máy chủ, ví dụ https://mastodon.social/@user",
+    "vnBankRenamed": "Ngân hàng này nay đã đổi tên thành {{name}}.",
+    "vnBankUseNewName": "Dùng {{name}}"
   },
   "output": {
     "title": "Tiêu đề",
@@ -809,7 +841,11 @@
       "titleCut": "Kết quả tìm kiếm và đề xuất cắt tiêu đề ở khoảng {{chars}} ký tự — hãy đặt từ khóa quan trọng lên đầu.",
       "foldHint": "Người xem chỉ thấy khoảng {{chars}} ký tự đầu của mô tả trước nút “…thêm”."
     },
-    "forbiddenChars": "{{field}}: YouTube không chấp nhận ký tự < và > — hãy xóa chúng trước khi tải lên."
+    "forbiddenChars": "{{field}}: YouTube không chấp nhận ký tự < và > — hãy xóa chúng trước khi tải lên.",
+    "variantsHint": "Các kiểu tiêu đề theo dấu phân cách và badge bạn đã chọn. Chọn một kiểu thì mọi tiêu đề sẽ dựng theo kiểu đó.",
+    "variantApply": "Dùng kiểu này",
+    "variantCurrent": "Đang dùng",
+    "variantApplied": "Tiêu đề giờ dùng kiểu “{{name}}”"
   },
   "common": {
     "save": "Lưu",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "Website",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1036,8 +1077,6 @@
     "loadPreset": "Tải",
     "deleteConfirm": "Bạn có chắc muốn xóa preset này?",
     "emptyState": "Chưa có preset. Tạo một preset để lưu thông tin game.",
-    "selectPreset": "Chọn Game Preset",
-    "noPresets": "Chưa có preset",
     "exportPresets": "Xuất presets",
     "importPresets": "Nhập presets",
     "hint": "Tên game, thể loại, nền tảng và link cửa hàng — dùng lại cho mọi tập.",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "Tìm theo tên game...",
     "noResults": "Không có mục nào khớp với tìm kiếm.",
     "exportCsv": "CSV (bảng tính)",
-    "exportJson": "JSON (để khôi phục)"
+    "exportJson": "JSON (để khôi phục)",
+    "savedSnapshot": "Đã lưu vào lịch sử"
   },
   "settings": {
     "title": "Cài đặt",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "Từ {{min}} đến {{max}}.",
     "themeDark": "Tối",
-    "themeLight": "Sáng"
+    "themeLight": "Sáng",
+    "titleOrder": "Thứ tự tiêu đề",
+    "titleOrderGameFirst": "Game trước (Hades — Part 3)",
+    "titleOrderTypeFirst": "Video trước (Part 3 — Hades)",
+    "copyAllIncludesTags": "Sao chép tất cả kèm cả tag",
+    "copyAllIncludesTagsHint": "Tiêu đề, mô tả, rồi đến tag — để dán tất cả vào ứng dụng ghi chú một lần."
   },
   "socialPost": {
     "title": "Bài đăng đa nền tảng",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "{{captions}} caption"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "Cấu hình phạm vi và tạo.",
     "intro": "Tạo nhiều tập liên tiếp cho game trong trang Chỉnh sửa, bằng một hoặc nhiều ngôn ngữ.",
     "partLabel": "Tập {{n}}",
-    "summary": "{{parts}} tập × {{languages}} ngôn ngữ"
+    "summary": "{{parts}} tập × {{languages}} ngôn ngữ",
+    "videoType": "Loại video"
   },
   "shortcuts": {
     "title": "Phím tắt",
     "generate": "Tạo (chuyển sang Output)",
     "copyAll": "Sao chép tất cả",
-    "saveDraft": "Lưu nháp",
     "toggleSidebar": "Bật/tắt Sidebar",
     "help": "Hiện phím tắt",
     "close": "Đóng",
     "searchPlaceholder": "Tìm phím tắt",
-    "noResults": "Không có phím tắt phù hợp"
+    "noResults": "Không có phím tắt phù hợp",
+    "saveToHistory": "Lưu vào lịch sử"
   },
   "validation": {
     "numberRequired": "Hãy nhập một số.",

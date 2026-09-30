@@ -713,9 +713,7 @@
     },
     "quickPreview": "Prévia rápida",
     "version": "Versão",
-    "clearDraft": "Limpar rascunho",
     "draftSaved": "Rascunho salvo",
-    "clearDraftConfirm": "Tem certeza de que quer limpar todos os dados do formulário?",
     "genreSearchPlaceholder": "Buscar gêneros",
     "genreSearchNoResults": "Nenhum gênero correspondente",
     "validation": {
@@ -759,7 +757,41 @@
       "tooFew": "O YouTube precisa de pelo menos 3 marcações para criar capítulos ({{n}} até agora).",
       "tooShort": "{{time}}: cada capítulo precisa ter pelo menos 10 segundos.",
       "outOfOrder": "{{time}} vem antes da marcação acima."
-    }
+    },
+    "quick": {
+      "profile": "Perfil do canal",
+      "preset": "Preset de jogo",
+      "chooseProfile": "Escolha um perfil…",
+      "choosePreset": "Escolha um jogo…",
+      "emptyLibrary": "Salve seu canal como perfil e cada jogo como preset para preenchê-los aqui com um clique:",
+      "profileChanged": "Os campos do canal diferem do perfil “{{name}}”.",
+      "presetChanged": "Os campos do jogo diferem do preset “{{name}}”.",
+      "updateProfile": "Atualizar perfil",
+      "updatePreset": "Atualizar preset",
+      "nextPart": "Próxima parte ({{n}})",
+      "nextPartPlain": "Próxima parte",
+      "newVideo": "Novo vídeo, mesmo jogo",
+      "nextPartDone": "Pronto para a parte {{n}} — os detalhes do vídeo anterior foram apagados",
+      "newVideoDone": "Pronto para um novo vídeo — os detalhes do anterior foram apagados",
+      "startOver": "Recomeçar",
+      "startOverConfirm": "Limpa os campos do jogo e do vídeo. Seu canal — nome, contato, redes, setup, doações e comunidade — continua.",
+      "startOverDone": "Recomeçado — os dados do canal foram mantidos",
+      "applyProfileTitle": "Aplicar o perfil “{{name}}”?",
+      "applyPresetTitle": "Aplicar o preset “{{name}}”?",
+      "overwrite": "{{n}} campo(s) já preenchido(s) será(ão) substituído(s). Dá para desfazer logo em seguida.",
+      "replace": "Substituir"
+    },
+    "paste": {
+      "link": "Link da {{store}} adicionado",
+      "linkAndName": "Link da {{store}} adicionado — nome do jogo: “{{name}}”"
+    },
+    "socialGroups": {
+      "donate": "Doações",
+      "social": "Redes sociais"
+    },
+    "mastodonHelp": "URL completa com o servidor, ex.: https://mastodon.social/@user",
+    "vnBankRenamed": "Este banco agora se chama {{name}}.",
+    "vnBankUseNewName": "Usar {{name}}"
   },
   "output": {
     "title": "Título",
@@ -809,7 +841,11 @@
       "titleCut": "Resultados de busca e sugestões cortam o título em cerca de {{chars}} caracteres — coloque as palavras-chave no início.",
       "foldHint": "Os espectadores veem só os primeiros ~{{chars}} caracteres da descrição antes de “…mais”."
     },
-    "forbiddenChars": "{{field}}: o YouTube não aceita os caracteres < e > — remova-os antes de enviar."
+    "forbiddenChars": "{{field}}: o YouTube não aceita os caracteres < e > — remova-os antes de enviar.",
+    "variantsHint": "Formatos de título com seu separador e selo. Use um e todos os títulos serão montados assim.",
+    "variantApply": "Usar este formato",
+    "variantCurrent": "Em uso",
+    "variantApplied": "Os títulos agora usam “{{name}}”"
   },
   "common": {
     "save": "Salvar",
@@ -959,7 +995,7 @@
     "buymeacoffee": "Buy Me a Coffee",
     "paypal": "PayPal",
     "github": "GitHub",
-    "twitter": "Twitter / X",
+    "twitter": "X (Twitter)",
     "discord": "Discord",
     "website": "Website",
     "twitch": "Twitch",
@@ -970,7 +1006,12 @@
     "mastodon": "Mastodon",
     "facebook": "Facebook",
     "fb_page": "Facebook Page",
-    "telegram": "Telegram"
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "threads": "Threads",
+    "kick": "Kick",
+    "reddit": "Reddit",
+    "bilibili": "Bilibili"
   },
   "resolutions": {
     "720p": "720p",
@@ -1016,8 +1057,6 @@
     "loadPreset": "Carregar",
     "deleteConfirm": "Tem certeza de que quer excluir este preset?",
     "emptyState": "Nenhum preset ainda. Crie um para reutilizar os dados do jogo.",
-    "selectPreset": "Carregar preset de jogo",
-    "noPresets": "Nenhum preset",
     "exportPresets": "Exportar presets",
     "importPresets": "Importar presets",
     "hint": "Nome, gêneros, plataforma e links de loja de um jogo — reutilizados em todas as partes.",
@@ -1055,7 +1094,8 @@
     "searchPlaceholder": "Buscar pelo nome do jogo...",
     "noResults": "Nenhuma entrada corresponde à busca.",
     "exportCsv": "CSV (planilha)",
-    "exportJson": "JSON (para restaurar)"
+    "exportJson": "JSON (para restaurar)",
+    "savedSnapshot": "Salvo no histórico"
   },
   "settings": {
     "title": "Configurações",
@@ -1114,7 +1154,12 @@
     "genrePlaylistsBadge": "{{filled}}/{{total}}",
     "numberRange": "Entre {{min}} e {{max}}.",
     "themeDark": "Escuro",
-    "themeLight": "Claro"
+    "themeLight": "Claro",
+    "titleOrder": "Ordem do título",
+    "titleOrderGameFirst": "Jogo primeiro (Hades — Part 3)",
+    "titleOrderTypeFirst": "Vídeo primeiro (Part 3 — Hades)",
+    "copyAllIncludesTags": "Copiar tudo inclui as tags",
+    "copyAllIncludesTagsHint": "Título, descrição e depois as tags — para colar tudo de uma vez num app de notas."
   },
   "socialPost": {
     "title": "Legendas para outras redes",
@@ -1132,7 +1177,11 @@
     "platforms": {
       "tiktok": "TikTok",
       "instagram_reels": "Instagram Reels",
-      "facebook_reels": "Facebook Reels"
+      "facebook_reels": "Facebook Reels",
+      "youtube_shorts": "YouTube Shorts",
+      "x": "X",
+      "threads": "Threads",
+      "bluesky": "Bluesky"
     },
     "bulkSummary": "{{captions}} legendas"
   },
@@ -1145,18 +1194,19 @@
     "emptyState": "Configure o intervalo do lote e gere.",
     "intro": "Gere uma sequência de partes do jogo do Editor, em um ou mais idiomas.",
     "partLabel": "Parte {{n}}",
-    "summary": "{{parts}} partes × {{languages}} idiomas"
+    "summary": "{{parts}} partes × {{languages}} idiomas",
+    "videoType": "Tipo de vídeo"
   },
   "shortcuts": {
     "title": "Atalhos de teclado",
     "generate": "Gerar (ir para a Saída)",
     "copyAll": "Copiar tudo",
-    "saveDraft": "Salvar rascunho",
     "toggleSidebar": "Alternar barra lateral",
     "help": "Mostrar atalhos",
     "close": "Fechar modal",
     "searchPlaceholder": "Buscar atalhos",
-    "noResults": "Nenhum atalho encontrado"
+    "noResults": "Nenhum atalho encontrado",
+    "saveToHistory": "Salvar no histórico"
   },
   "validation": {
     "numberRequired": "Digite um número.",

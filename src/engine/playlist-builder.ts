@@ -1,4 +1,5 @@
-import type { TranslationFn } from "./types";
+import type { SupportedLanguage, TranslationFn } from "./types";
+import { channelOrSlot, withoutEmptyChannel } from "./channel-phrase";
 import { PLATFORMS } from "@config/platforms";
 
 export type PlaylistStatus = "completed" | "dropped" | "incomplete" | "in_progress";
@@ -63,14 +64,21 @@ export function buildPlaylistTitle(input: PlaylistInput, t: TranslationFn): stri
   });
 }
 
-export function buildPlaylistDescription(input: PlaylistInput, t: TranslationFn): string {
+export function buildPlaylistDescription(
+  input: PlaylistInput,
+  t: TranslationFn,
+  language: SupportedLanguage = "en",
+): string {
   const lines: string[] = [];
 
   lines.push(
-    t(`playlist.description.${input.contentType}`, {
-      gameName: input.gameName,
-      channelName: input.channelName,
-    }),
+    withoutEmptyChannel(
+      t(`playlist.description.${input.contentType}`, {
+        gameName: input.gameName,
+        channelName: channelOrSlot(input.channelName),
+      }),
+      language,
+    ),
   );
 
   lines.push("");
