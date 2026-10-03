@@ -18,7 +18,8 @@ import type { GraphicsPreset } from "@config/graphics-settings";
  * (back-filled by the migrations below). v1.0.0 added the Vietnamese
  * donate fields, the community invite links and `graphicsPresetCustom` —
  * optional, because profiles saved before then don't have them and
- * applying one must leave those editor fields alone.
+ * applying one must leave those editor fields alone. v1.1.0's
+ * `copyrightEmail` is optional for the same reason.
  */
 export interface Profile {
   id: string;
@@ -27,6 +28,7 @@ export interface Profile {
   contactEmail: string;
   adEmail: string;
   gameKeyEmail: string;
+  copyrightEmail?: string;
   social: Record<string, string>;
   rig: Record<string, string>;
   resolution: string;

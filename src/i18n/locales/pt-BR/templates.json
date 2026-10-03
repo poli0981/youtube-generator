@@ -127,6 +127,7 @@
       "emailContact": "📧 Contato: {{email}}",
       "emailAd": "🤝 Publicidade: {{email}}",
       "emailGameKeys": "🎮 Chaves de jogo & playtest: {{email}}",
+      "emailCopyright": "©️ Direitos autorais / DMCA: {{email}}",
       "cta": "👍 Curte | 🔔 Inscreve-se | ↗️ Compartilha",
       "copyright": "© {{year}} {{channelName}} — Apenas o conteúdo do vídeo. O jogo, personagens, música e toda a propriedade intelectual relacionada pertencem aos seus respectivos donos. Todos os direitos reservados sobre esta gravação.",
       "usagePolicyHeader": "📋 POLÍTICA DE USO",

@@ -1066,15 +1066,52 @@ describe("buildDescription", () => {
       expect(result).not.toContain("Advertising:");
     });
 
-    it("omits the whole block when all three fields are empty", () => {
+    it("omits the whole block when all four fields are empty", () => {
       const t = createMockT("en");
       const result = buildDescription(
-        makeInput({ contactEmail: "", adEmail: "", gameKeyEmail: "" }),
+        makeInput({ contactEmail: "", adEmail: "", gameKeyEmail: "", copyrightEmail: "" }),
         t,
         { splitContactEmail: true },
       );
       expect(result).not.toContain("BUSINESS / CONTACT");
       expect(result).not.toContain("Business inquiries:");
+    });
+
+    it("adds the copyright line last in the block (v1.1.0)", () => {
+      const t = createMockT("en");
+      const result = buildDescription(
+        makeInput({
+          contactEmail: "contact@example.com",
+          adEmail: "ads@example.com",
+          gameKeyEmail: "games@example.com",
+          copyrightEmail: "dmca@example.com",
+        }),
+        t,
+        { splitContactEmail: true },
+      );
+      expect(result).toContain(
+        [
+          "📧 BUSINESS / CONTACT",
+          "📧 Contact: contact@example.com",
+          "🤝 Advertising: ads@example.com",
+          "🎮 Game keys & playtest: games@example.com",
+          "©️ Copyright / DMCA: dmca@example.com",
+        ].join("\n"),
+      );
+    });
+
+    it("renders the block for a copyright address alone", () => {
+      const t = createMockT("vi");
+      const result = buildDescription(makeInput({ copyrightEmail: "kenh+dmca@gmail.com" }), t, {
+        splitContactEmail: true,
+      });
+      expect(result).toContain("📧 LIÊN HỆ CÔNG VIỆC\n©️ Bản quyền / DMCA: kenh+dmca@gmail.com");
+    });
+
+    it("ignores the copyright address while the toggle is off", () => {
+      const t = createMockT("en");
+      const result = buildDescription(makeInput({ copyrightEmail: "dmca@example.com" }), t);
+      expect(result).not.toContain("dmca@example.com");
     });
   });
 

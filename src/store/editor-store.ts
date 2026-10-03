@@ -97,6 +97,10 @@ export interface EditorData {
    *  `sponsorName`); `gameKeyEmail` = game keys & playtest invites. */
   adEmail: string;
   gameKeyEmail: string;
+  /** v1.1.0: copyright / DMCA / takedown notices — the fourth split line.
+   *  Like the other two purpose fields, its addresses must carry a purpose
+   *  word before `@` (`PURPOSE_EMAIL_KEYWORDS`). */
+  copyrightEmail: string;
   musicAttribution: string;
   sponsorName: string;
   sponsorPlatform: string;
@@ -316,6 +320,7 @@ export const PATCH_FIELD_LIMITS: Partial<Record<keyof EditorData, number>> = {
   contactEmail: FIELD_LIMITS.EMAIL_FIELD,
   adEmail: FIELD_LIMITS.EMAIL_FIELD,
   gameKeyEmail: FIELD_LIMITS.EMAIL_FIELD,
+  copyrightEmail: FIELD_LIMITS.EMAIL_FIELD,
   playlistLink: FIELD_LIMITS.URL,
   playtestLink: FIELD_LIMITS.URL,
   messengerCommunityLink: FIELD_LIMITS.URL,
@@ -411,6 +416,7 @@ const initialState: EditorData = {
   contactEmail: DEFAULTS.editor.contactEmail,
   adEmail: DEFAULTS.editor.adEmail,
   gameKeyEmail: DEFAULTS.editor.gameKeyEmail,
+  copyrightEmail: DEFAULTS.editor.copyrightEmail,
   musicAttribution: DEFAULTS.editor.musicAttribution,
   sponsorName: DEFAULTS.editor.sponsorName,
   sponsorPlatform: DEFAULTS.editor.sponsorPlatform,
@@ -475,7 +481,7 @@ export function editorDataOf(state: EditorData): EditorData {
  * Bump together with a new step in {@link migrateEditorState}; backups
  * record this number so an import can run the steps a draft still needs.
  */
-export const EDITOR_STORE_VERSION = 19;
+export const EDITOR_STORE_VERSION = 20;
 
 export const useEditorStore = create<EditorState>()(
   persist(
@@ -618,6 +624,15 @@ export const useEditorStore = create<EditorState>()(
       //         settings toggle is on. Additive: both back-fill to "".
       //         Non-string values coerce to "". The existing `contactEmail`
       //         is reused as the general-contact line, so no data moves.
+      // v18 → v19: v1.0.0. GPU catalog — `rig.gpu` moves from
+      //         `brand|series|model` to `gpu:<id>` (or the card's full name
+      //         as the user's own text when it isn't in the catalog).
+      // v19 → v20: v1.1.0. `copyrightEmail` (copyright / DMCA notices)
+      //         joined the split contact block as its fourth line.
+      //         Additive: back-fills to "", non-string values coerce to "".
+      //         Saved `adEmail` / `gameKeyEmail` values are left as they
+      //         are even when they lack a purpose word — Strict Mode points
+      //         at them instead of a migration deleting the user's data.
       version: EDITOR_STORE_VERSION,
       migrate: (persistedState, version) => migrateEditorState(persistedState, version),
       partialize: (state) => editorDataOf(state),
@@ -888,6 +903,10 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
     // v1.0.0 GPU catalog: `brand|series|model` → `gpu:<id>` (or the full
     // name as the user's own text when the card isn't in the catalog).
     state.rig = migrateRig(state.rig);
+  }
+  if (version < 20) {
+    // v1.1.0 copyright email. Additive back-fill + defensive coercion.
+    if (typeof state.copyrightEmail !== "string") state.copyrightEmail = "";
   }
   return { ...initialState, ...state } as EditorData;
 }

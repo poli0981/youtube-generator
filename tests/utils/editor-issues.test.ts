@@ -87,6 +87,11 @@ describe("collectEditorIssues", () => {
       expect(issues.map((i) => i.id).sort()).toEqual(["adEmail", "gameKeyEmail"]);
     });
 
+    it("ignores copyrightEmail while the split toggle is off", () => {
+      const editor = makeEditor({ copyrightEmail: "me@channel.com" });
+      expect(collectEditorIssues(editor, { ...CTX, splitContactEmail: false })).toEqual([]);
+    });
+
     it("ignores the Zalo link outside Vietnamese output", () => {
       const editor = makeEditor({ zaloGroupLink: "https://wrong.example/x" });
       expect(collectEditorIssues(editor, { ...CTX, language: "en" })).toEqual([]);
@@ -98,12 +103,50 @@ describe("collectEditorIssues", () => {
       expect(issues[0]?.id).toBe("zaloGroupLink");
     });
   });
+
+  describe("purpose words (v1.1.0) — split mode only", () => {
+    const SPLIT: EditorIssueContext = { ...CTX, splitContactEmail: true };
+
+    it("errors on a purpose address without its word, naming the words", () => {
+      const editor = makeEditor({
+        adEmail: "hello@channel.com",
+        gameKeyEmail: "me@channel.com",
+        copyrightEmail: "skullmute@gmail.com",
+      });
+      const issues = collectEditorIssues(editor, SPLIT);
+      expect(issues.map((i) => i.id).sort()).toEqual(["adEmail", "copyrightEmail", "gameKeyEmail"]);
+      for (const issue of issues) {
+        expect(issue.severity).toBe("error");
+        expect(issue.messageKey).toBe("validation.emailKeywordMissing");
+        expect(issue.labelKey).toBe(`editor.${issue.id}`);
+      }
+      expect(issues.find((i) => i.id === "copyrightEmail")?.params).toMatchObject({
+        email: "skullmute@gmail.com",
+      });
+    });
+
+    it("accepts purpose addresses that carry their word", () => {
+      const editor = makeEditor({
+        adEmail: "sponsors@channel.com",
+        gameKeyEmail: "keys@channel.com",
+        copyrightEmail: "channel+dmca@gmail.com",
+      });
+      expect(collectEditorIssues(editor, SPLIT)).toEqual([]);
+    });
+
+    it("never asks the general contact address for a word", () => {
+      const editor = makeEditor({ contactEmail: "hello@channel.com" });
+      expect(collectEditorIssues(editor, SPLIT)).toEqual([]);
+    });
+  });
 });
 
 describe("isRelevantIssueId", () => {
   it("gates the split-email fields on the toggle", () => {
     expect(isRelevantIssueId("adEmail", { ...CTX, splitContactEmail: false })).toBe(false);
     expect(isRelevantIssueId("gameKeyEmail", { ...CTX, splitContactEmail: true })).toBe(true);
+    expect(isRelevantIssueId("copyrightEmail", { ...CTX, splitContactEmail: false })).toBe(false);
+    expect(isRelevantIssueId("copyrightEmail", { ...CTX, splitContactEmail: true })).toBe(true);
   });
 
   it("gates the Zalo link on the output language", () => {

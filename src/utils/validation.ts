@@ -1,3 +1,5 @@
+import { PURPOSE_EMAIL_KEYWORDS, type PurposeEmailField } from "@config/contact-emails";
+
 // The domain must have a dot and a letters-only TLD: "name@localhost" or
 // "name@gmail" are typos in a description, not addresses (v1.0.0).
 const EMAIL_REGEX =
@@ -8,6 +10,14 @@ const URL_REGEX =
 
 export const MAX_EMAILS = 3;
 
+/** The addresses in a comma-separated email field, trimmed, empties dropped. */
+function emailSegments(input: string): string[] {
+  return input
+    .split(",")
+    .map((e) => e.trim())
+    .filter(Boolean);
+}
+
 /**
  * How many addresses a comma-separated email field currently holds.
  *
@@ -17,10 +27,7 @@ export const MAX_EMAILS = 3;
  * has exactly one answer.
  */
 export function countEmailSegments(input: string): number {
-  return input
-    .split(",")
-    .map((e) => e.trim())
-    .filter(Boolean).length;
+  return emailSegments(input).length;
 }
 
 /**
@@ -50,10 +57,7 @@ export function validateEmails(input: string): ValidationResult {
   const trimmed = input.trim();
   if (!trimmed) return { valid: true };
 
-  const emails = trimmed
-    .split(",")
-    .map((e) => e.trim())
-    .filter(Boolean);
+  const emails = emailSegments(trimmed);
 
   // Still enforced here as well as at the input: `canAcceptEmailInput` guards
   // typing, but a value can also arrive from a profile / preset / template
@@ -77,6 +81,33 @@ export function validateEmails(input: string): ValidationResult {
   }
 
   return { valid: true };
+}
+
+/**
+ * {@link validateEmails}, plus the rule for the split contact fields (v1.1.0):
+ * the part before `@` of every address must contain one of the field's
+ * {@link PURPOSE_EMAIL_KEYWORDS} — case-insensitive, anywhere in it, so
+ * `name+dmca@gmail.com` counts. A missing word is an error like a malformed
+ * address: the value is not saved and Strict Mode blocks.
+ */
+export function validatePurposeEmails(field: PurposeEmailField, input: string): ValidationResult {
+  const result = validateEmails(input);
+  if (!result.valid) return result;
+
+  const keywords: readonly string[] = PURPOSE_EMAIL_KEYWORDS[field];
+  for (const email of emailSegments(input)) {
+    // Past EMAIL_REGEX, which allows no "@" in either part — so exactly one.
+    const localPart = email.slice(0, email.indexOf("@")).toLowerCase();
+    if (!keywords.some((word) => localPart.includes(word))) {
+      return {
+        valid: false,
+        error: "validation.emailKeywordMissing",
+        errorParams: { email, keywords: keywords.join(", ") },
+      };
+    }
+  }
+
+  return result;
 }
 
 export function validateUrl(input: string): ValidationResult {

@@ -14,6 +14,7 @@ export const PROFILE_FIELDS = [
   "contactEmail",
   "adEmail",
   "gameKeyEmail",
+  "copyrightEmail",
   "social",
   "rig",
   "resolution",

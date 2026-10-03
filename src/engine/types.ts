@@ -672,6 +672,8 @@ export interface GeneratorInput {
    */
   adEmail?: string;
   gameKeyEmail?: string;
+  /** v1.1.0: copyright / DMCA notices — the split block's fourth line. */
+  copyrightEmail?: string;
   /**
    * Music / sound attribution credit. Free-form multiline string.
    * When set, adds a "🎵 MUSIC / SOUND" section to the description
