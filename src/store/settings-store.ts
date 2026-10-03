@@ -103,6 +103,10 @@ export const useSettingsStore = create<SettingsState>()(
       // strictMode falls back to false (an opt-in seatbelt must not be turned
       // on by a truthy string), and the accordion map is merged rather than
       // replaced so sections added later still get their default.
+      // Later additive keys — v1.0.0's `copyAllIncludesTags`,
+      // `lastProfileId`, `lastPresetId` and v1.1.0's `hideScrollbars` — ride
+      // the same back-fill and coercion without a bump, which also keeps a
+      // backup made by the newer build readable to the one before it.
       version: SETTINGS_STORE_VERSION,
       migrate: (persistedState: unknown): SettingsData => healSettings(persistedState),
       // Heal on EVERY load, not only on a version change (which is all
@@ -131,6 +135,7 @@ export function extractData(state: SettingsData): SettingsData {
     appLanguage: state.appLanguage,
     defaultOutputLanguage: state.defaultOutputLanguage,
     theme: state.theme,
+    hideScrollbars: state.hideScrollbars,
     showCharCount: state.showCharCount,
     compactTagDisplay: state.compactTagDisplay,
     historyLimit: state.historyLimit,

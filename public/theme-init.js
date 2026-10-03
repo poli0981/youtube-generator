@@ -1,14 +1,18 @@
-// Applies the saved theme and UI language before the first paint, so a
-// light-theme user never sees the dark default flash. A separate file rather
-// than an inline <script> so the Content-Security-Policy needs no exception.
+// Applies the saved theme, scrollbar preference and UI language before the
+// first paint, so a light-theme user never sees the dark default flash. A
+// separate file rather than an inline <script> so the Content-Security-Policy
+// needs no exception.
 (function () {
   var root = document.documentElement;
   var theme = "dark";
+  var hideScrollbars = false;
   var lang = null;
   try {
     var raw = localStorage.getItem("ytdescgen-settings");
     var state = raw ? JSON.parse(raw).state : null;
     if (state && state.theme === "light") theme = "light";
+    // Unhealed raw storage, so only a real `true` counts.
+    if (state && state.hideScrollbars === true) hideScrollbars = true;
     if (state && typeof state.appLanguage === "string") lang = state.appLanguage;
   } catch (e) {
     /* storage blocked or corrupt: keep the defaults */
@@ -16,5 +20,7 @@
   root.classList.toggle("dark", theme === "dark");
   root.classList.toggle("light", theme === "light");
   root.style.colorScheme = theme;
+  // Same class as src/utils/scrollbars.ts.
+  root.classList.toggle("hide-scrollbars", hideScrollbars);
   if (lang) root.lang = lang;
 })();

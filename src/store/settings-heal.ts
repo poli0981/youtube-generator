@@ -15,6 +15,13 @@ export interface SettingsData {
   appLanguage: SupportedLanguage;
   defaultOutputLanguage: SupportedLanguage;
   theme: "dark" | "light";
+  /**
+   * v1.1.0: hide every scrollbar in the app — the wheel, touchpad, touch and
+   * keyboard still scroll. Applied as the `hide-scrollbars` class on <html>:
+   * by public/theme-init.js before first paint, by main.tsx at boot and by
+   * App's store subscription afterwards. Travels with backups, like `theme`.
+   */
+  hideScrollbars: boolean;
   showCharCount: boolean;
   compactTagDisplay: boolean;
   historyLimit: number;
@@ -177,6 +184,7 @@ export const initialSettings: SettingsData = {
   appLanguage: detectBrowserLanguage(),
   defaultOutputLanguage: detectBrowserLanguage(),
   theme: "dark",
+  hideScrollbars: false,
   showCharCount: true,
   compactTagDisplay: false,
   historyLimit: 100,
@@ -336,6 +344,12 @@ export function healSettings(raw: unknown): SettingsData {
   }
   for (const key of ["lastProfileId", "lastPresetId"] as const) {
     if (typeof incoming[key] !== "string" || incoming[key] === "") incoming[key] = null;
+  }
+
+  // v1.1.0: coerced the same way — a hand-edited `"yes"` must not hide every
+  // scrollbar in the app.
+  if (typeof incoming.hideScrollbars !== "boolean") {
+    incoming.hideScrollbars = initialSettings.hideScrollbars;
   }
 
   return { ...initialSettings, ...incoming } as SettingsData;

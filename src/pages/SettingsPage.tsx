@@ -138,6 +138,12 @@ export function SettingsPage() {
               ]}
             />
           </div>
+          <Toggle
+            label={t("settings.hideScrollbars")}
+            description={t("settings.hideScrollbarsHint")}
+            checked={settings.hideScrollbars}
+            onChange={(v) => settings.setSetting("hideScrollbars", v)}
+          />
         </Accordion>
 
         <Accordion {...section("defaults")} icon={Languages} title={t("settings.defaults")}>

@@ -7,6 +7,7 @@ import { useSettingsStore } from "@store/settings-store";
 import { useEditorStore } from "@store/editor-store";
 import { installExternalLinkHandler } from "@utils/open-external";
 import { IS_TAURI } from "@utils/platform";
+import { applyHideScrollbars } from "@utils/scrollbars";
 import { CURRENT_TERMS_VERSION, needsConsent, termsVersionFromCookie } from "@config/legal";
 // Self-hosted variable fonts; each subset (latin, latin-ext, vietnamese, …)
 // is a separate file the browser only fetches when a page uses it.
@@ -106,13 +107,15 @@ async function preloadLocales(): Promise<void> {
  * flash until they interacted. zustand persist has already hydrated from
  * localStorage at module load, so `getState().theme` is the user's value.
  * Runs before first paint so the consent gate (and AppShell) render in the
- * right theme.
+ * right theme. v1.1.0 adds the Hide scrollbars class; App's store
+ * subscription keeps it in step after this.
  */
-function applyPersistedTheme(): void {
-  const { theme } = useSettingsStore.getState();
+function applyPersistedAppearance(): void {
+  const { theme, hideScrollbars } = useSettingsStore.getState();
   document.documentElement.classList.toggle("dark", theme === "dark");
   document.documentElement.classList.toggle("light", theme === "light");
   document.documentElement.style.colorScheme = theme;
+  applyHideScrollbars(hideScrollbars);
 }
 
 // Top-level safety net. Per-route boundaries in App.tsx catch most
@@ -121,7 +124,7 @@ function applyPersistedTheme(): void {
 // rehydrate). Without it, a top-level crash still produces a black
 // page — defeating the point of per-route boundaries.
 void preloadLocales().finally(() => {
-  applyPersistedTheme();
+  applyPersistedAppearance();
   // In a Tauri webview, `<a target="_blank">` is inert — route external links
   // through the OS via the opener plugin. No-op on the web build.
   installExternalLinkHandler();

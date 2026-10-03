@@ -1162,7 +1162,9 @@
     "titleOrderGameFirst": "Game dulu (Hades — Part 3)",
     "titleOrderTypeFirst": "Video dulu (Part 3 — Hades)",
     "copyAllIncludesTags": "Salin semua termasuk tag",
-    "copyAllIncludesTagsHint": "Judul, deskripsi, lalu tag — untuk menempel semuanya sekaligus ke aplikasi catatan."
+    "copyAllIncludesTagsHint": "Judul, deskripsi, lalu tag — untuk menempel semuanya sekaligus ke aplikasi catatan.",
+    "hideScrollbars": "Sembunyikan scrollbar",
+    "hideScrollbarsHint": "Menyembunyikan semua scrollbar di aplikasi — roda mouse, touchpad, sentuhan, dan keyboard tetap bisa menggulir."
   },
   "socialPost": {
     "title": "Caption Lintas Platform",

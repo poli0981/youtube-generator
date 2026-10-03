@@ -1162,7 +1162,9 @@
     "titleOrderGameFirst": "Game first (Hades — Part 3)",
     "titleOrderTypeFirst": "Video first (Part 3 — Hades)",
     "copyAllIncludesTags": "Copy All includes the tags",
-    "copyAllIncludesTagsHint": "Title, description, then the tags — for pasting everything into a notes app in one go."
+    "copyAllIncludesTagsHint": "Title, description, then the tags — for pasting everything into a notes app in one go.",
+    "hideScrollbars": "Hide scrollbars",
+    "hideScrollbarsHint": "Removes every scrollbar in the app — the mouse wheel, touchpad, touch and keyboard still scroll."
   },
   "socialPost": {
     "title": "Cross-Post Captions",
