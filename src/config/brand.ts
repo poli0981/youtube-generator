@@ -7,6 +7,22 @@
 
 export const SITE_ORIGIN = "https://ytgenerator.stream";
 
+/** The year YTDescGen began (first commit: 2026-04-07). */
+export const COPYRIGHT_START_YEAR = 2026;
+
+/**
+ * The years a copyright notice states: `"2026"`, then `"2026-2027"` once
+ * `currentYear` moves past the start. Never a range that runs backwards, even
+ * for a clock or a commit dated before the start. NOTICE, REUSE.toml and the
+ * installers' copyright string are kept to this by `npm run check:copyright`;
+ * the legal pages' footer calls it at build time.
+ */
+export function copyrightYears(currentYear: number): string {
+  return currentYear > COPYRIGHT_START_YEAR
+    ? `${COPYRIGHT_START_YEAR}-${currentYear}`
+    : String(COPYRIGHT_START_YEAR);
+}
+
 export const BRAND_GRADIENT = { from: "#6366F1", to: "#A855F7" } as const;
 
 /** The app mark as an inline SVG string (`aria-hidden`; pair it with text). */

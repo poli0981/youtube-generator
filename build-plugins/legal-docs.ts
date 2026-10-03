@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { posix, resolve } from "path";
 import { Marked, type Tokens } from "marked";
 import type { Plugin } from "vite";
-import { LOGO_SVG, SITE_ORIGIN } from "../src/config/brand.ts";
+import { LOGO_SVG, SITE_ORIGIN, copyrightYears } from "../src/config/brand.ts";
 import { LEGAL_DOCS, legalDocPath, type LegalDoc, type LegalDocId } from "../src/config/legal.ts";
 
 /**
@@ -239,7 +239,7 @@ function pageShell(options: {
 <nav aria-label="Legal documents"><p>Legal</p><ul>${nav}</ul></nav>
 <main>${options.body}</main>
 </div>
-<footer>© ${new Date().getUTCFullYear()} poli0981 (SkullMute) · Source code under the Apache License 2.0 · <a href="https://github.com/poli0981/youtube-generator">GitHub</a> · <a href="mailto:contact@poli0981.dev">contact@poli0981.dev</a></footer>
+<footer>© ${copyrightYears(new Date().getUTCFullYear())} poli0981 (SkullMute) · Source code under the Apache License 2.0 · <a href="https://github.com/poli0981/youtube-generator">GitHub</a> · <a href="mailto:contact@poli0981.dev">contact@poli0981.dev</a></footer>
 </body>
 </html>
 `;
