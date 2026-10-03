@@ -43,7 +43,9 @@ Reflects **v1.0.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
     "check:tauri": "tsx scripts/check-tauri-versions.ts",
     "check:bundle": "tsx scripts/check-bundle-size.ts",
     "check:licenses": "tsx scripts/third-party.ts",
-    "generate:third-party": "tsx scripts/third-party.ts --write"
+    "generate:third-party": "tsx scripts/third-party.ts --write",
+    "check:copyright": "tsx scripts/check-copyright.ts",
+    "update:copyright": "tsx scripts/check-copyright.ts --write"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -250,7 +252,7 @@ There is no `tailwind.config.ts` (removed in v0.37.0). PostCSS loads `@tailwindc
 }
 ```
 
-Components use the tokens (`bg-surface-1`, `text-text-muted`, `rounded-card`, …), never raw colours. `public/theme-init.js` applies the saved theme (and sets `<html lang>` to the saved UI language) before the first paint; it is a separate file rather than an inline script so the Content-Security-Policy needs no exception.
+Components use the tokens (`bg-surface-1`, `text-text-muted`, `rounded-card`, …), never raw colours. `public/theme-init.js` applies the saved theme and the Hide scrollbars class (and sets `<html lang>` to the saved UI language) before the first paint; it is a separate file rather than an inline script so the Content-Security-Policy needs no exception.
 
 ### wrangler.jsonc
 
@@ -324,7 +326,8 @@ export interface GeneratorInput {
   // skipGraphicsSettings, rayTracingModes, frameGenVendor, frameGenMultiplier,
   // upscaleQuality, artStyle, videoStyleEra, versionInfo.
   // Content: timestamps, playlistLink, contactEmail, adEmail, gameKeyEmail,
-  // musicAttribution, sponsorName, sponsorPlatform, pubDevName, thirdPartyAdText,
+  // copyrightEmail, musicAttribution, sponsorName, sponsorPlatform, pubDevName,
+  // thirdPartyAdText,
   // playthroughStatus, difficulty, endings, languagePatch, gameVersion,
   // contentWarnings, techNotes, playtest fields, community invite links,
   // Vietnamese donate fields.
@@ -447,7 +450,7 @@ interface EditorActions {
 }
 
 /** Bump together with a new step in migrateEditorState. */
-export const EDITOR_STORE_VERSION = 19;
+export const EDITOR_STORE_VERSION = 20;
 
 export const useEditorStore = create<EditorData & EditorActions>()(
   persist(
@@ -481,7 +484,7 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
 
 | Store              | localStorage key         | Version                       | Migration (exported)                                                                           |
 | ------------------ | ------------------------ | ----------------------------- | ---------------------------------------------------------------------------------------------- |
-| `useEditorStore`   | `ytdescgen-editor-draft` | `EDITOR_STORE_VERSION` = 19   | `migrateEditorState`                                                                           |
+| `useEditorStore`   | `ytdescgen-editor-draft` | `EDITOR_STORE_VERSION` = 20   | `migrateEditorState`                                                                           |
 | `useProfileStore`  | `ytdescgen-profiles`     | `PROFILE_STORE_VERSION` = 3   | `migrateProfilesState`                                                                         |
 | `usePresetStore`   | `ytdescgen-presets`      | `PRESET_STORE_VERSION` = 2    | `migratePresetsState`                                                                          |
 | `useTemplateStore` | `ytdescgen-templates`    | `TEMPLATE_STORE_VERSION` = 2  | `migrateTemplatesState`                                                                        |
@@ -489,6 +492,8 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
 | `useSettingsStore` | `ytdescgen-settings`     | `SETTINGS_STORE_VERSION` = 12 | `healSettings` (`settings-heal.ts`), as `migrate` **and** in `merge`, so it runs on every load |
 
 v1.0.0 migration steps: editor v19, profiles v3 and templates v2 move the GPU to the catalog format (`migrateRig`: `brand|series|model` → `gpu:<id>`, or the full name as free text when the card is not in the catalog); history v3 folds the duplicates older versions piled up into one entry per video (`dedupeHistory`; a video is game name (case-insensitive) + video type + language + title), keeping the newest.
+
+v1.1.0: editor v20 back-fills `copyrightEmail` (the fourth split contact line) with `""`. `Profile.copyrightEmail` is optional, like the v1.0.0 additions, so the profile store stays at v3. The settings gain `hideScrollbars` without a version bump: `healSettings` back-fills and coerces it on every load, and the unchanged version keeps a 1.1.0 settings backup restorable on 1.0.0.
 
 Rules:
 
@@ -582,6 +587,7 @@ The `check` job, in order:
 - run: npm run check:tauri # @tauri-apps/* npm packages and tauri crates on the same major.minor
 # licensing
 - run: npm run check:licenses # allow-list + THIRD_PARTY_NOTICES.md matches what is installed
+- run: npm run check:copyright # NOTICE, REUSE.toml, installer copyright state HEAD's year
 # security (advisory: a fresh transitive advisory must not redden unrelated PRs)
 - run: npm audit --audit-level=high
   continue-on-error: true
@@ -593,6 +599,7 @@ The `check` job, in order:
 
 - **Bundle budget** (`scripts/check-bundle-size.ts`): the initial load is every script, modulepreload and stylesheet `dist/index.html` references, summed gzip — lazy chunks (pages, locales, legal documents) are excluded. The result is printed as a table and added to the job summary.
 - **Licences** (`scripts/lib/third-party.ts`): every package bundled into the app must carry an allowed licence (MIT, ISC, Apache-2.0, BSD-2/3-Clause, 0BSD, CC0-1.0, Unlicense, BlueOak-1.0.0, OFL-1.1, Zlib, MPL-2.0), and `THIRD_PARTY_NOTICES.md` is generated (`npm run generate:third-party`) and checked, not hand-written.
+- **Copyright years** (`scripts/lib/copyright.ts`, v1.1.0): NOTICE, REUSE.toml and `bundle.copyright` in `tauri.conf.json` must state `copyrightYears(<year of HEAD's commit>)` from `src/config/brand.ts` — "2026", then "2026-2027" from the first commit of 2027. The commit year rather than the clock keeps old commits green; `npm run update:copyright` rewrites the three files. The `/legal` pages' footer uses the same helper at build time.
 - **Wrangler dry run** validates `wrangler.jsonc` and bundles the Worker exactly as Workers Builds will, without deploying.
 - Every workflow declares least-privilege `permissions`, checks out with `persist-credentials: false`, and pins actions by commit SHA (Dependabot keeps the SHAs and version comments current). The exceptions are the actionlint Docker image (pinned by version tag) and the maintainer's own `poli0981/.github` reusable workflows (tracked at `main`, allowed in `.github/zizmor.yml`). CI, Security, Compliance and Rust cancel superseded runs through a `concurrency` group, except on `main`, where each commit's result is a record the release process reads back.
 

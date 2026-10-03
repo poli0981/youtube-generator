@@ -131,6 +131,7 @@ npm run knip                # unused files/exports/dependencies
 npm run validate:locales
 npm run check:bundle        # after build: initial load / chunk budget
 npm run check:licenses      # licence allow-list + THIRD_PARTY_NOTICES in sync
+npm run check:copyright     # NOTICE, REUSE.toml, installer copyright = HEAD's year (update:copyright fixes)
 npm run check:version       # the six version fields agree
 npm run check:tauri         # @tauri-apps/* and tauri crates on the same major.minor
 npm run cf:dev              # wrangler dev (copy .dev.vars.example to .dev.vars — test keys only)
@@ -154,7 +155,8 @@ npm run tauri:build         # desktop installers
 
 ## Important Notes for Claude Code
 
-- Run the gates before committing: `typecheck`, `typecheck:all`, `lint`, `format:check`, `test:run`, `knip`, `validate:locales`, `build` + `check:bundle`; `cargo fmt/clippy/test` when `src-tauri/` changes.
+- Run the gates before committing: `typecheck`, `typecheck:all`, `lint`, `format:check`, `test:run`, `knip`, `validate:locales`, `build` + `check:bundle`; `cargo fmt/clippy/test` when `src-tauri/` changes. In the first commit of a new year, `npm run update:copyright` (CI's `check:copyright` fails until then).
+- New contact-email purpose words: `src/config/contact-emails.ts` (lower-case; a test keeps every locale's example address valid).
 - New language: follow `docs/I18N.md` (register it, both namespaces, tag pools, `channel-phrase.ts` patterns, browser detection).
 - New genre: `src/config/genres.ts` + its tag pool in `src/engine/tag-generator.ts` (a test keeps them in sync).
 - New video type: `src/config/video-types.ts` + every `templates.json` (titles, intros, pinned-comment greetings).

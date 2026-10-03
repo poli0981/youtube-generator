@@ -193,7 +193,8 @@ Every block is optional and skipped when empty. In order:
 20. 🔗 Social links
 21. 💬 Community
 22. ▶️ Playlist link
-23. 📧 Contact email(s) — one line, or split by purpose
+23. 📧 Contact email(s) — one line, or split by purpose: contact, advertising,
+    game keys & playtest, copyright / DMCA (v1.1.0)
 24. CTA line (Like / Subscribe / Share)
 25. © Copyright line (on by default; needs a channel name)
 26. 📋 Usage policy (opt-in)
@@ -325,8 +326,8 @@ a pasted store link can each be undone from the toast they show.
   **Tidy up** rewrites a pasted list as one `M:SS label` per line.
 - **Pages** — Editor, Output, Batch, Social, Playlist; Profiles (profiles,
   game presets, templates), History; Settings, Logs, About; the Legal Center.
-- Dark and light themes; animated icons follow the system's _reduce motion_;
-  controls grow on touch screens.
+- Dark and light themes; scrollbars can be hidden (v1.1.0); animated icons
+  follow the system's _reduce motion_; controls grow on touch screens.
 
 ## 💾 Data Persistence
 
@@ -334,13 +335,13 @@ Everything stays on the device: the browser's storage for
 `ytgenerator.stream` on the web, the app's own storage on desktop and
 Android. There is no account and no server-side copy.
 
-| Item                          | What it holds                                                                                                                                                                                                                  | Where                   |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
-| **Profile** — the channel     | Channel name; contact emails (general, advertising, game keys); social and donate links; community links; Vietnamese bank / MoMo / ZaloPay details; rig; resolution, FPS and graphics preset; sponsors & partners text         | Profiles › Profiles     |
-| **Game preset** — the game    | Game name (+ per-language names); genres; platform; store links and their type (paid / free / demo); publisher / developer; content warnings; language patch; game version; art style; "no graphics settings"; series playlist | Profiles › Game presets |
-| **Template** — the whole form | Every editor field                                                                                                                                                                                                             | Profiles › Templates    |
-| **History**                   | One entry per video — game, video type, language, genres, title, description, tags. Saving the same video again updates its entry (v1.0.0)                                                                                     | History                 |
-| **Draft**                     | The editor form, saved as you type                                                                                                                                                                                             | —                       |
+| Item                          | What it holds                                                                                                                                                                                                                     | Where                   |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| **Profile** — the channel     | Channel name; contact emails (general, advertising, game keys, copyright); social and donate links; community links; Vietnamese bank / MoMo / ZaloPay details; rig; resolution, FPS and graphics preset; sponsors & partners text | Profiles › Profiles     |
+| **Game preset** — the game    | Game name (+ per-language names); genres; platform; store links and their type (paid / free / demo); publisher / developer; content warnings; language patch; game version; art style; "no graphics settings"; series playlist    | Profiles › Game presets |
+| **Template** — the whole form | Every editor field                                                                                                                                                                                                                | Profiles › Templates    |
+| **History**                   | One entry per video — game, video type, language, genres, title, description, tags. Saving the same video again updates its entry (v1.0.0)                                                                                        | History                 |
+| **Draft**                     | The editor form, saved as you type                                                                                                                                                                                                | —                       |
 
 The field lists live in `src/config/library-fields.ts`. Profiles, presets and
 templates export and import as JSON; History exports as **CSV** or JSON.
@@ -385,6 +386,7 @@ In **Settings › Backup & restore**:
 | Setting                    | Type                            | Default          | Description                                                                        |
 | -------------------------- | ------------------------------- | ---------------- | ---------------------------------------------------------------------------------- |
 | Theme                      | dark / light                    | dark             | App color theme                                                                    |
+| Hide scrollbars            | boolean                         | false            | v1.1.0. No scrollbar anywhere in the app; wheel, touch and keyboard still scroll   |
 | App Language               | SupportedLanguage               | browser-detected | Language of the interface                                                          |
 | Default Output Language    | SupportedLanguage               | browser-detected | Language a new draft starts in (first run, Start over)                             |
 | Show Character Count       | boolean                         | true             | Display char counters on output. **Does not** affect copy blocking                 |
@@ -428,8 +430,12 @@ On by default: `showCopyright` and `pinnedCommentIncludeAskNextGame`.
 
 Emails are capped at **three per field**, enforced on the increase so an
 over-cap legacy value stays editable, and a domain without a TLD is rejected.
-Invalid input is never committed to the store, so a malformed URL cannot
-reach the generated description whether Strict Mode is on or off.
+With the contact email split by purpose, the advertising, game-keys and
+copyright addresses also need a purpose word before `@` — `sponsors@…`,
+`keys@…`, `dmca@…` or `name+dmca@gmail.com` (v1.1.0; the words are in
+`src/config/contact-emails.ts`). Invalid input is never committed to the
+store, so a malformed URL cannot reach the generated description whether
+Strict Mode is on or off.
 
 ## 🖥 Desktop App Features (Tauri)
 

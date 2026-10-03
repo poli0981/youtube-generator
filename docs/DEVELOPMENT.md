@@ -119,6 +119,7 @@ Full rules: [CONTRIBUTING.md](../CONTRIBUTING.md).
 | `npm run check:version`    | Asserts all **six** version fields agree (`package.json`, both `package-lock.json` entries, `tauri.conf.json`, `Cargo.toml`, `Cargo.lock`). The only thing that notices a missed one.                                                                                                                                     |
 | `npm run check:tauri`      | The `@tauri-apps/*` npm packages and the Tauri crates must share major.minor. The Tauri CLI refuses to build otherwise, and CI never runs a Tauri build.                                                                                                                                                                  |
 | `npm run check:licenses`   | Every bundled package has an allowed license, and `THIRD_PARTY_NOTICES.md` matches what is installed.                                                                                                                                                                                                                     |
+| `npm run check:copyright`  | NOTICE, REUSE.toml and the installers' copyright string (`tauri.conf.json`) state the copyright years for the year of HEAD's commit — "2026", then "2026-2027" from the first commit of 2027. CI gate (v1.1.0).                                                                                                           |
 | `npm run check:bundle`     | Run after `npm run build`: the initial load must stay ≤ 280 KB gzip and no JS chunk over 500 KB raw.                                                                                                                                                                                                                      |
 | `npm run cf:check`         | `wrangler deploy --dry-run`: validates `wrangler.jsonc` and bundles the Worker the way Workers Builds will, without deploying.                                                                                                                                                                                            |
 
@@ -128,6 +129,7 @@ Full rules: [CONTRIBUTING.md](../CONTRIBUTING.md).
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `npm run generate:locale`      | Scaffold a locale from the English source. `--lang <code>`, plus optional `--copy-english` / `--force`. (Advertised since v0.1 but only actually written in v0.35.0.)                                                           |
 | `npm run generate:third-party` | Rewrite `THIRD_PARTY_NOTICES.md` from the installed packages — needed after a dependency change, or `check:licenses` fails.                                                                                                     |
+| `npm run update:copyright`     | Rewrite the copyright years in NOTICE, REUSE.toml and `tauri.conf.json` — needed with the first commit of a new year, or `check:copyright` fails.                                                                               |
 | `npm run generate:brand`       | Rasterise the brand SVGs in `assets/brand/` into the web's PNG icons and link-preview card in `public/`. The PNGs are committed. The desktop and Android icons come from the same logo: `npx tauri icon assets/brand/logo.svg`. |
 
 ## Before You Open a PR
@@ -141,6 +143,7 @@ npm run validate:locales
 npm run test:coverage
 npm run knip
 npm run check:version && npm run check:tauri && npm run check:licenses
+npm run check:copyright
 npm run build && npm run check:bundle
 npm run cf:check
 ```

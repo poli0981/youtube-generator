@@ -72,11 +72,11 @@ The same source ships two ways:
 
 **Start-up.** Before first paint:
 
-1. `public/theme-init.js` (a plain script in `index.html`) applies the saved theme and sets `<html lang>` to the saved UI language, so a light-theme user sees no dark flash.
+1. `public/theme-init.js` (a plain script in `index.html`) applies the saved theme and the Hide scrollbars class (`hide-scrollbars`, v1.1.0) and sets `<html lang>` to the saved UI language, so a light-theme user sees no dark flash.
 2. `main.tsx` rewrites old hash URLs (web), carries over a terms acceptance from the gate page's `ytg_terms` cookie (web), and registers a one-time reload for chunk files that a new deploy removed (`vite:preloadError`).
-3. It loads the saved UI and output languages (capped at 2 s), applies the theme class, installs the external-link handler (Tauri: links open in the system browser through the opener plugin), then renders.
+3. It loads the saved UI and output languages (capped at 2 s), applies the theme and scrollbar classes, installs the external-link handler (Tauri: links open in the system browser through the opener plugin), then renders.
 
-After mount, `App.tsx` starts a first-run draft in the Default Output Language, runs the Tauri data chores (`startAppData()`: legacy-file recovery, then automatic backups on desktop) before loading the persisted logs, prefetches the Output page when the browser is idle, and keeps i18next in step with the `appLanguage` setting.
+After mount, `App.tsx` starts a first-run draft in the Default Output Language, runs the Tauri data chores (`startAppData()`: legacy-file recovery, then automatic backups on desktop) before loading the persisted logs, prefetches the Output page when the browser is idle, keeps i18next in step with the `appLanguage` setting, and keeps the `hide-scrollbars` class in step with `hideScrollbars` (the Settings toggle, a restored backup and its undo).
 
 ## 2. Core Engine Design
 
@@ -256,7 +256,7 @@ export const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> 
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  EditorStore — "ytdescgen-editor-draft", v19                       │
+│  EditorStore — "ytdescgen-editor-draft", v20                       │
 │  - the draft: every form field (EditorData) + setter actions       │
 │  - persists data only (editorDataOf); migrateEditorState           │
 ├────────────────────────────────────────────────────────────────────┤
@@ -274,7 +274,7 @@ export const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> 
 │  - capped by the History Limit setting (10–500, default 100)       │
 ├────────────────────────────────────────────────────────────────────┤
 │  SettingsStore — "ytdescgen-settings", v12                         │
-│  - theme · appLanguage · defaultOutputLanguage · titleFormat       │
+│  - theme · hideScrollbars · appLanguage · titleFormat              │
 │  - description toggles · strictMode · copyAllIncludesTags · …      │
 │  - healSettings on every load; consent and UI state never exported │
 ├────────────────────────────────────────────────────────────────────┤
@@ -323,7 +323,7 @@ Two sources, unioned by `useStrictBlock`, because neither alone is sufficient:
 | `collectEditorIssues` (pure, over `EditorData`) | Saved values that fail validation                      | Bad data from imports — `ValidatedInput` refuses to commit invalid text, so imports are the main way it gets in         |
 | `PendingInvalidStore`                           | Typed text that is invalid and therefore **not** saved | Otherwise a field showing a red error is invisible to every gate, because the store behind it holds the last good value |
 
-Both are filtered through `isRelevantIssueId`, so a field that isn't currently shown (`adEmail` with split-email off, `zaloGroupLink` outside Vietnamese output) can never block on a value with no visible input to fix it. Strict Mode is opt-in; with it off, no gate blocks.
+Both are filtered through `isRelevantIssueId`, so a field that isn't currently shown (`adEmail` / `gameKeyEmail` / `copyrightEmail` with split-email off, `zaloGroupLink` outside Vietnamese output) can never block on a value with no visible input to fix it. Strict Mode is opt-in; with it off, no gate blocks.
 
 The first implementation registered issues from the inputs themselves and cleared on unmount. It typechecked and had passing tests, and did nothing: the fields live on the Editor page while the gates live on Batch / Social / Output, so navigating away cleared every issue. Deriving from state removes the mount coupling entirely.
 
