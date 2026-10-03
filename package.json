@@ -30,7 +30,9 @@
     "check:tauri": "tsx scripts/check-tauri-versions.ts",
     "check:bundle": "tsx scripts/check-bundle-size.ts",
     "check:licenses": "tsx scripts/third-party.ts",
-    "generate:third-party": "tsx scripts/third-party.ts --write"
+    "generate:third-party": "tsx scripts/third-party.ts --write",
+    "check:copyright": "tsx scripts/check-copyright.ts",
+    "update:copyright": "tsx scripts/check-copyright.ts --write"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",

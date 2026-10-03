@@ -70,6 +70,11 @@ jobs:
       # THIRD_PARTY_NOTICES.md matches what is actually installed.
       - name: Check licenses and third-party notices
         run: npm run check:licenses
+      # NOTICE, REUSE.toml and the installers' copyright string state the
+      # years ("2026", later "2026-2027"). The first commit in a new year
+      # fails here until `npm run update:copyright` extends them.
+      - name: Check copyright years
+        run: npm run check:copyright
 
       # --- security ---------------------------------------------------------
       # Advisory-only: a fresh high-severity advisory in a transitive dep must
