@@ -949,7 +949,7 @@
       "genrePlaylistsBadge",
       "numberRange",
       "themeDark",
-      "themeLight", "titleOrder", "titleOrderGameFirst", "titleOrderTypeFirst", "copyAllIncludesTags", "copyAllIncludesTagsHint"
+      "themeLight", "titleOrder", "titleOrderGameFirst", "titleOrderTypeFirst", "copyAllIncludesTags", "copyAllIncludesTagsHint", "hideScrollbars", "hideScrollbarsHint"
     ],
     "batch": [
       "title",

@@ -1159,7 +1159,9 @@
     "titleOrderGameFirst": "Jogo primeiro (Hades — Part 3)",
     "titleOrderTypeFirst": "Vídeo primeiro (Part 3 — Hades)",
     "copyAllIncludesTags": "Copiar tudo inclui as tags",
-    "copyAllIncludesTagsHint": "Título, descrição e depois as tags — para colar tudo de uma vez num app de notas."
+    "copyAllIncludesTagsHint": "Título, descrição e depois as tags — para colar tudo de uma vez num app de notas.",
+    "hideScrollbars": "Ocultar barras de rolagem",
+    "hideScrollbarsHint": "Remove todas as barras de rolagem do app — a roda do mouse, o touchpad, o toque e o teclado continuam rolando."
   },
   "socialPost": {
     "title": "Legendas para outras redes",

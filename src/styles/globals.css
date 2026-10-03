@@ -292,6 +292,22 @@
 }
 
 /*
+ * Settings › Appearance › Hide scrollbars (v1.1.0, src/utils/scrollbars.ts).
+ * Only the bars go; the wheel, touchpad, touch and keyboard still scroll.
+ * `scrollbar-width` is not inherited, hence the `*`: it covers Chromium
+ * (WebView2, Android) and Firefox, while WebKit (the macOS and Linux
+ * webviews) needs the pseudo-element. Unlayered, so it beats .scrollbar-thin.
+ */
+html.hide-scrollbars,
+html.hide-scrollbars * {
+  scrollbar-width: none;
+}
+html.hide-scrollbars::-webkit-scrollbar,
+html.hide-scrollbars *::-webkit-scrollbar {
+  display: none;
+}
+
+/*
  * Legal Center documents (src/pages/LegalPage.tsx). The HTML is rendered at
  * build time from the repo's Markdown, so it arrives as bare elements that
  * utility classes cannot reach — style them by descendant here instead.

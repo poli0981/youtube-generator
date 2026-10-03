@@ -1159,7 +1159,9 @@
     "titleOrderGameFirst": "Game trước (Hades — Part 3)",
     "titleOrderTypeFirst": "Video trước (Part 3 — Hades)",
     "copyAllIncludesTags": "Sao chép tất cả kèm cả tag",
-    "copyAllIncludesTagsHint": "Tiêu đề, mô tả, rồi đến tag — để dán tất cả vào ứng dụng ghi chú một lần."
+    "copyAllIncludesTagsHint": "Tiêu đề, mô tả, rồi đến tag — để dán tất cả vào ứng dụng ghi chú một lần.",
+    "hideScrollbars": "Ẩn thanh cuộn",
+    "hideScrollbarsHint": "Ẩn mọi thanh cuộn trong ứng dụng — vẫn cuộn được bằng con lăn chuột, touchpad, cảm ứng và bàn phím."
   },
   "socialPost": {
     "title": "Bài đăng đa nền tảng",

@@ -66,6 +66,7 @@ describe("healSettings", () => {
       appLanguage: "vi" as const,
       defaultOutputLanguage: "en" as const,
       theme: "light" as const,
+      hideScrollbars: true,
       showCharCount: false,
       compactTagDisplay: true,
       historyLimit: 50,
@@ -321,5 +322,21 @@ describe("healSettings — v1.0.0 fields", () => {
     expect(healed.lastProfileId).toBeNull();
     expect(healed.lastPresetId).toBeNull();
     expect(healed.titleFormat.order).toBe("gameFirst");
+  });
+});
+
+describe("healSettings — v1.1.0 hideScrollbars", () => {
+  it("defaults to showing scrollbars when absent", () => {
+    expect(healSettings({ theme: "dark" }).hideScrollbars).toBe(false);
+  });
+
+  it("keeps a real boolean", () => {
+    expect(healSettings({ hideScrollbars: true }).hideScrollbars).toBe(true);
+    expect(healSettings({ hideScrollbars: false }).hideScrollbars).toBe(false);
+  });
+
+  it("does not let a truthy non-boolean hide every scrollbar", () => {
+    expect(healSettings({ hideScrollbars: "yes" }).hideScrollbars).toBe(false);
+    expect(healSettings({ hideScrollbars: 1 }).hideScrollbars).toBe(false);
   });
 });

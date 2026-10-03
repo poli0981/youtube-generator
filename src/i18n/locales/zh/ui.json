@@ -1159,7 +1159,9 @@
     "titleOrderGameFirst": "游戏在前（Hades — Part 3）",
     "titleOrderTypeFirst": "视频在前（Part 3 — Hades）",
     "copyAllIncludesTags": "“全部复制”包含标签",
-    "copyAllIncludesTagsHint": "依次为标题、描述、标签 —— 方便一次性粘贴到笔记应用。"
+    "copyAllIncludesTagsHint": "依次为标题、描述、标签 —— 方便一次性粘贴到笔记应用。",
+    "hideScrollbars": "隐藏滚动条",
+    "hideScrollbarsHint": "隐藏应用中的所有滚动条 —— 鼠标滚轮、触控板、触摸和键盘仍可滚动。"
   },
   "socialPost": {
     "title": "跨平台文案",

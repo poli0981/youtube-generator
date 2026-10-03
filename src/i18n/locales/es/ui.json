@@ -1159,7 +1159,9 @@
     "titleOrderGameFirst": "Juego primero (Hades — Part 3)",
     "titleOrderTypeFirst": "Vídeo primero (Part 3 — Hades)",
     "copyAllIncludesTags": "Copiar todo incluye las etiquetas",
-    "copyAllIncludesTagsHint": "Título, descripción y luego las etiquetas, para pegarlo todo de una vez en una app de notas."
+    "copyAllIncludesTagsHint": "Título, descripción y luego las etiquetas, para pegarlo todo de una vez en una app de notas.",
+    "hideScrollbars": "Ocultar barras de desplazamiento",
+    "hideScrollbarsHint": "Quita todas las barras de desplazamiento de la app; la rueda del ratón, el touchpad, la pantalla táctil y el teclado siguen desplazando."
   },
   "socialPost": {
     "title": "Publicaciones multiplataforma",

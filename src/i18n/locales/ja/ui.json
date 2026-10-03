@@ -1159,7 +1159,9 @@
     "titleOrderGameFirst": "ゲームが先（Hades — Part 3）",
     "titleOrderTypeFirst": "動画が先（Part 3 — Hades）",
     "copyAllIncludesTags": "「すべてコピー」にタグも含める",
-    "copyAllIncludesTagsHint": "タイトル、説明、タグの順。メモアプリにまとめて貼り付けるときに。"
+    "copyAllIncludesTagsHint": "タイトル、説明、タグの順。メモアプリにまとめて貼り付けるときに。",
+    "hideScrollbars": "スクロールバーを隠す",
+    "hideScrollbarsHint": "アプリ内のすべてのスクロールバーを非表示にします。マウスホイール、タッチパッド、タッチ操作、キーボードでのスクロールはそのまま使えます。"
   },
   "socialPost": {
     "title": "クロス投稿キャプション",

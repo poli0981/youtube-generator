@@ -17,6 +17,7 @@ import { useSettingsStore } from "@store/settings-store";
 import { useEditorStore } from "@store/editor-store";
 import i18n from "@i18n/index";
 import { IS_TAURI } from "@utils/platform";
+import { applyHideScrollbars } from "@utils/scrollbars";
 
 // The Editor is the landing page and stays in the entry bundle; Output is
 // the usual next stop, so it is fetched as soon as the browser is idle.
@@ -165,6 +166,16 @@ export default function App() {
       }
     });
     return () => unsub();
+  }, []);
+
+  // v1.1.0: keep <html class="hide-scrollbars"> in step with the setting.
+  // theme-init.js and main.tsx apply it before first paint; the Settings
+  // toggle, a restored backup and its undo all arrive here.
+  useEffect(() => {
+    applyHideScrollbars(useSettingsStore.getState().hideScrollbars);
+    return useSettingsStore.subscribe((state, prev) => {
+      if (state.hideScrollbars !== prev.hideScrollbars) applyHideScrollbars(state.hideScrollbars);
+    });
   }, []);
 
   return (
