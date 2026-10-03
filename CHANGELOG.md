@@ -2,6 +2,36 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.1.0 — 2026-10-03
+
+A small release: a **copyright email** and **purpose words** for the split contact block, an option to **hide scrollbars**, and copyright years that keep themselves current. Web, desktop and Android all ship as 1.1.0.
+
+### Added
+
+- **Copyright / DMCA email.** With Settings › _Split contact email by purpose_ on, the contact block gains a fourth line, `©️ Copyright / DMCA: …`, in all eight output languages. It is saved with the channel profile.
+- **Purpose words before the @.** In split mode every purpose address has to say what it is for: the part before `@` must contain one of the field's words ([src/config/contact-emails.ts](src/config/contact-emails.ts)), in any case and anywhere, so Gmail's `name+dmca@gmail.com` works.
+  - Advertising / sponsorship: sponsor, ads, advert, business, biz, partner, collab, brand, marketing, promo
+  - Game keys & playtest: key, game, gaming, press, media, review, playtest, beta, curator
+  - Copyright / DMCA: dmca, takedown, copyright, legal, rights, claim
+
+  A missing word is an error like a malformed address: the value is not saved, and Strict Mode blocks. The help text under each field lists its words. The general Contact address has no rule.
+- **Hide scrollbars** (Settings › Appearance). No scrollbar anywhere in the app — the mouse wheel, touchpad, touch and keyboard still scroll. Off by default; it travels with backups, like the theme.
+
+### Changed
+
+- **Addresses saved before this release** in the advertising or game-keys field are left exactly as they are. If one has no purpose word, Strict Mode points at it — edit it, or use the `name+sponsor@gmail.com` form.
+- The Spanish example addresses now carry a purpose word (`sponsors@`, `games@`).
+- **The desktop installers carry a copyright string**, `Copyright 2026 poli0981 (SkullMute)`. The Windows `.exe` / NSIS copyright field, the macOS `Info.plist` and the Linux packages had none.
+
+### Under the hood
+
+- **Copyright years, checked.** 2026 is right everywhere — the first commit is from 2026-04-07, so there was no 2025 to correct. [src/config/brand.ts](src/config/brand.ts) now owns the start year and `copyrightYears()`. **`npm run check:copyright`** (in CI) holds NOTICE, REUSE.toml and the installers' copyright string to the year of HEAD's commit — "2026", then "2026-2027" from the first commit of 2027 — and **`npm run update:copyright`** rewrites them. The `/legal` pages' footer prints the same range.
+- **CI**: `dtolnay/rust-toolchain` is pinned to a commit on its master branch. Its `stable` branch is regenerated upstream, which orphaned the old pin and turned `workflow-lint` (zizmor: impostor-commit) red on every pull request.
+- Editor store v19 → v20 (`copyrightEmail`, additive), so a backup's draft made by 1.1.0 needs 1.1.0 to restore; everything else in it still restores on 1.0.0. `hideScrollbars` joins the settings without a version bump.
+- New strings in all eight locales (1,253 UI + 574 template keys each).
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:licenses, check:copyright, **968 tests** and build all pass; verified live in the browser — the purpose-word errors and Strict Mode, the copyright line in the description, and the scrollbar toggle (on, off, after a reload).
+- Six manifests bumped 1.0.0 → 1.1.0.
+
 ## v1.0.0 — 2026-09-30
 
 **YTDescGen moves to [ytgenerator.stream](https://ytgenerator.stream)**, gets a new interface, and the data it writes is right: hardware names, YouTube's own tag count, chapters, history. Backups you can preview and undo, a quick start for the next video, and a hardened desktop app. Web, desktop and Android all ship as 1.0.0.

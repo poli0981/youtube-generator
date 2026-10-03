@@ -121,6 +121,7 @@ Quy định đầy đủ: [CONTRIBUTING.md](../../../CONTRIBUTING.md).
 | `npm run check:version`    | Kiểm tra cả **sáu** trường version khớp nhau (`package.json`, hai chỗ trong `package-lock.json`, `tauri.conf.json`, `Cargo.toml`, `Cargo.lock`). Đây là thứ duy nhất phát hiện khi bỏ sót một chỗ.                                                                                                       |
 | `npm run check:tauri`      | Các package npm `@tauri-apps/*` và các crate Tauri phải cùng major.minor. Tauri CLI sẽ từ chối build nếu lệch, mà CI thì không chạy build Tauri.                                                                                                                                                         |
 | `npm run check:licenses`   | Mọi package được bundle đều có license nằm trong danh sách cho phép, và `THIRD_PARTY_NOTICES.md` khớp với những gì đang cài.                                                                                                                                                                             |
+| `npm run check:copyright`  | NOTICE, REUSE.toml và chuỗi copyright của bộ cài (`tauri.conf.json`) phải ghi đúng năm theo năm của commit HEAD — "2026", rồi "2026-2027" từ commit đầu tiên của năm 2027. Gate của CI (v1.1.0).                                                                                                         |
 | `npm run check:bundle`     | Chạy sau `npm run build`: lần tải đầu phải ≤ 280 KB gzip và không chunk JS nào vượt 500 KB (chưa nén).                                                                                                                                                                                                   |
 | `npm run cf:check`         | `wrangler deploy --dry-run`: kiểm tra `wrangler.jsonc` và bundle Worker y như Workers Builds sẽ làm, nhưng không deploy.                                                                                                                                                                                 |
 
@@ -130,6 +131,7 @@ Quy định đầy đủ: [CONTRIBUTING.md](../../../CONTRIBUTING.md).
 | ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `npm run generate:locale`      | Tạo khung locale mới từ bản tiếng Anh. `--lang <mã>`, thêm tùy chọn `--copy-english` / `--force`. (Được nhắc đến từ v0.1 nhưng đến v0.35.0 mới thật sự có script.)                                                                              |
 | `npm run generate:third-party` | Ghi lại `THIRD_PARTY_NOTICES.md` từ các package đang cài — cần chạy sau khi đổi dependency, nếu không `check:licenses` sẽ fail.                                                                                                                 |
+| `npm run update:copyright`     | Ghi lại năm bản quyền trong NOTICE, REUSE.toml và `tauri.conf.json` — cần chạy với commit đầu tiên của năm mới, nếu không `check:copyright` sẽ fail.                                                                                            |
 | `npm run generate:brand`       | Chuyển các SVG thương hiệu trong `assets/brand/` thành icon PNG và ảnh preview khi chia sẻ link của bản web, đặt trong `public/`. Các file PNG được commit. Icon desktop và Android dùng chung logo đó: `npx tauri icon assets/brand/logo.svg`. |
 
 ## Trước khi mở PR
@@ -143,6 +145,7 @@ npm run validate:locales
 npm run test:coverage
 npm run knip
 npm run check:version && npm run check:tauri && npm run check:licenses
+npm run check:copyright
 npm run build && npm run check:bundle
 npm run cf:check
 ```
