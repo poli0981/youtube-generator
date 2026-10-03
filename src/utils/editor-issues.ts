@@ -4,6 +4,7 @@ import { SOCIAL_FIELDS } from "@config/social-fields";
 import { PLAYTEST_PLATFORMS } from "@config/playtest-platforms";
 import {
   validateEmails,
+  validatePurposeEmails,
   validateUrl,
   validateUrlWithPattern,
   validateUrlWithPrefix,
@@ -58,7 +59,10 @@ export interface EditorIssue {
 
 /** Context that decides which optional fields are actually in play. */
 export interface EditorIssueContext {
-  /** When false, `adEmail` / `gameKeyEmail` are not rendered, so they cannot block. */
+  /**
+   * When false, `adEmail` / `gameKeyEmail` / `copyrightEmail` are not
+   * rendered, so they cannot block.
+   */
   splitContactEmail: boolean;
   /** Output language — Zalo is Vietnamese-only. */
   language: string;
@@ -73,7 +77,9 @@ export interface EditorIssueContext {
  * becomes an unresolvable dead end.
  */
 export function isRelevantIssueId(id: string, context: EditorIssueContext): boolean {
-  if (id === "adEmail" || id === "gameKeyEmail") return context.splitContactEmail;
+  if (id === "adEmail" || id === "gameKeyEmail" || id === "copyrightEmail") {
+    return context.splitContactEmail;
+  }
   if (id === "zaloGroupLink") return context.language === "vi";
   return true;
 }
@@ -153,14 +159,16 @@ export function collectEditorIssues(
   if (isRelevantIssueId("zaloGroupLink", context) && editor.zaloGroupLink)
     add("zaloGroupLink", "editor.zaloGroupLink", validateZaloGroupUrl(editor.zaloGroupLink));
 
-  // Contact emails. The two purpose-specific fields only exist — and only
-  // render — while the split toggle is on.
+  // Contact emails. The three purpose-specific fields only exist — and only
+  // render — while the split toggle is on, and each needs a purpose word
+  // before `@` (v1.1.0). A value saved before that rule existed is flagged
+  // here, never rewritten.
   if (editor.contactEmail)
     add("contactEmail", "editor.contactEmail", validateEmails(editor.contactEmail));
   if (splitContactEmail) {
-    if (editor.adEmail) add("adEmail", "editor.adEmail", validateEmails(editor.adEmail));
-    if (editor.gameKeyEmail)
-      add("gameKeyEmail", "editor.gameKeyEmail", validateEmails(editor.gameKeyEmail));
+    for (const field of ["adEmail", "gameKeyEmail", "copyrightEmail"] as const) {
+      if (editor[field]) add(field, `editor.${field}`, validatePurposeEmails(field, editor[field]));
+    }
   }
 
   if (editor.playlistLink)

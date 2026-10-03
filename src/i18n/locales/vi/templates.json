@@ -127,6 +127,7 @@
       "emailContact": "📧 Liên hệ: {{email}}",
       "emailAd": "🤝 Quảng cáo: {{email}}",
       "emailGameKeys": "🎮 Key game & mời playtest: {{email}}",
+      "emailCopyright": "©️ Bản quyền / DMCA: {{email}}",
       "cta": "👍 Like | 🔔 Đăng ký | ↗️ Chia sẻ",
       "copyright": "© {{year}} {{channelName}} — Bản quyền chỉ áp dụng cho nội dung video. Game, nhân vật, âm nhạc và mọi tài sản trí tuệ liên quan thuộc về chủ sở hữu tương ứng. Mọi quyền được bảo lưu với bản ghi này.",
       "usagePolicyHeader": "📋 ĐIỀU KIỆN DÙNG VIDEO",

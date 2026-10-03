@@ -127,6 +127,7 @@
       "emailContact": "📧 Kontak: {{email}}",
       "emailAd": "🤝 Iklan: {{email}}",
       "emailGameKeys": "🎮 Key game & playtest: {{email}}",
+      "emailCopyright": "©️ Hak cipta / DMCA: {{email}}",
       "cta": "👍 Like | 🔔 Subscribe | ↗️ Bagikan",
       "copyright": "© {{year}} {{channelName}} — Hanya konten video. Game, karakter, musik, dan seluruh kekayaan intelektual terkait adalah milik pemiliknya masing-masing. Seluruh hak atas rekaman ini dilindungi.",
       "usagePolicyHeader": "📋 KEBIJAKAN PENGGUNAAN",

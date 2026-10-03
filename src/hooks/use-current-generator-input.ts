@@ -60,6 +60,7 @@ export function buildGeneratorInputFromEditor(
     contactEmail: state.contactEmail,
     adEmail: state.adEmail,
     gameKeyEmail: state.gameKeyEmail,
+    copyrightEmail: state.copyrightEmail,
     musicAttribution: state.musicAttribution,
     sponsorName: state.sponsorName,
     sponsorPlatform: state.sponsorPlatform,

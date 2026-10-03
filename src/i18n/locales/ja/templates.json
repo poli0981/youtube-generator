@@ -127,6 +127,7 @@
       "emailContact": "📧 連絡先：{{email}}",
       "emailAd": "🤝 広告：{{email}}",
       "emailGameKeys": "🎮 ゲームキー・プレイテスト：{{email}}",
+      "emailCopyright": "©️ 著作権・DMCA：{{email}}",
       "cta": "👍 いいね | 🔔 チャンネル登録 | ↗️ シェア",
       "copyright": "© {{year}} {{channelName}} — 動画コンテンツのみ。ゲーム、キャラクター、音楽、関連する知的財産はすべて各権利者に帰属します。本録画物の全権利は留保されます。",
       "usagePolicyHeader": "📋 動画利用ポリシー",

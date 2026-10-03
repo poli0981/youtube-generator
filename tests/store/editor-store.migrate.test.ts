@@ -426,3 +426,41 @@ describe("migrateEditorState — v18 → v19 (v1.0.0 GPU catalog)", () => {
     expect(migrateEditorState({ rig }, 19).rig).toEqual(rig);
   });
 });
+
+describe("migrateEditorState — v19 → v20 (v1.1.0 copyright email)", () => {
+  // Route v9 through every prior migration, then strip the v20 key so the
+  // v20 block is what supplies it.
+  function makeV19Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
+    delete full.copyrightEmail;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills copyrightEmail with an empty string", () => {
+    expect(migrateEditorState(makeV19Persisted(), 19).copyrightEmail).toBe("");
+  });
+
+  it("coerces a non-string persisted value to an empty string", () => {
+    expect(migrateEditorState(makeV19Persisted({ copyrightEmail: 42 }), 19).copyrightEmail).toBe(
+      "",
+    );
+    expect(migrateEditorState(makeV19Persisted({ copyrightEmail: null }), 19).copyrightEmail).toBe(
+      "",
+    );
+  });
+
+  it("preserves a valid persisted value", () => {
+    const result = migrateEditorState(makeV19Persisted({ copyrightEmail: "dmca@example.com" }), 19);
+    expect(result.copyrightEmail).toBe("dmca@example.com");
+  });
+
+  it("leaves saved purpose emails alone, even without a purpose word", () => {
+    // Strict Mode flags these; a migration must never delete the user's data.
+    const result = migrateEditorState(
+      makeV19Persisted({ adEmail: "hello@channel.com", gameKeyEmail: "me@channel.com" }),
+      19,
+    );
+    expect(result.adEmail).toBe("hello@channel.com");
+    expect(result.gameKeyEmail).toBe("me@channel.com");
+  });
+});

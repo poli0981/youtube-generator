@@ -12,10 +12,15 @@ import {
   validateIntegerInRange,
   validateBatchRange,
   validateEmails,
+  validatePurposeEmails,
   countEmailSegments,
   canAcceptEmailInput,
 } from "@utils/validation";
 import { PLATFORMS } from "@config/platforms";
+import { PURPOSE_EMAIL_KEYWORDS, type PurposeEmailField } from "@config/contact-emails";
+import { SUPPORTED_LANGUAGES } from "@i18n/index";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 function platform(id: string) {
   const p = PLATFORMS.find((x) => x.id === id);
@@ -600,5 +605,83 @@ describe("v1.0.0 validation changes", () => {
     expect(validateUrlWithPrefix("https://example.com/me", "https://x.com/").error).toBe(
       "validation.urlPrefixMismatch",
     );
+  });
+});
+
+describe("validatePurposeEmails — v1.1.0 purpose words before @", () => {
+  it("accepts an address whose local part carries one of the field's words", () => {
+    expect(validatePurposeEmails("copyrightEmail", "dmca@skullmute.com").valid).toBe(true);
+    expect(validatePurposeEmails("copyrightEmail", "takedown@skullmute.com").valid).toBe(true);
+    expect(validatePurposeEmails("adEmail", "sponsorships@skullmute.com").valid).toBe(true);
+    expect(validatePurposeEmails("gameKeyEmail", "keys@skullmute.com").valid).toBe(true);
+  });
+
+  it("matches anywhere in the local part, ignoring case — plus-addressing included", () => {
+    expect(validatePurposeEmails("copyrightEmail", "SkullMute+DMCA@gmail.com").valid).toBe(true);
+    expect(validatePurposeEmails("adEmail", "skullmute.business@gmail.com").valid).toBe(true);
+    expect(validatePurposeEmails("gameKeyEmail", "Press-Team@studio.io").valid).toBe(true);
+  });
+
+  it("rejects an address without one, naming the address and the words", () => {
+    expect(validatePurposeEmails("copyrightEmail", "skullmute@gmail.com")).toEqual({
+      valid: false,
+      error: "validation.emailKeywordMissing",
+      errorParams: {
+        email: "skullmute@gmail.com",
+        keywords: PURPOSE_EMAIL_KEYWORDS.copyrightEmail.join(", "),
+      },
+    });
+  });
+
+  it("only reads the part before @ — a word in the domain does not count", () => {
+    expect(validatePurposeEmails("copyrightEmail", "me@dmca-desk.com").valid).toBe(false);
+  });
+
+  it("checks every address and reports the first one without a word", () => {
+    const result = validatePurposeEmails("adEmail", "ads@a.com, hello@b.com, partner@c.com");
+    expect(result.valid).toBe(false);
+    expect(result.errorParams?.email).toBe("hello@b.com");
+  });
+
+  it("keeps each field to its own words", () => {
+    expect(validatePurposeEmails("adEmail", "dmca@skullmute.com").valid).toBe(false);
+    expect(validatePurposeEmails("copyrightEmail", "sponsors@skullmute.com").valid).toBe(false);
+  });
+
+  it("reports a malformed address or the cap before the purpose rule", () => {
+    expect(validatePurposeEmails("copyrightEmail", "dmca@").error).toBe("validation.emailInvalid");
+    expect(
+      validatePurposeEmails("copyrightEmail", "dmca@a.com,dmca@b.com,dmca@c.com,dmca@d.com").error,
+    ).toBe("validation.emailMaxExceeded");
+  });
+
+  it("treats an empty field as valid", () => {
+    expect(validatePurposeEmails("gameKeyEmail", "")).toEqual({ valid: true });
+    expect(validatePurposeEmails("gameKeyEmail", "   ")).toEqual({ valid: true });
+  });
+
+  it("keeps every word lower-case and non-empty, since matching lower-cases the address", () => {
+    for (const words of Object.values(PURPOSE_EMAIL_KEYWORDS)) {
+      for (const word of words) {
+        expect(word).toBe(word.toLowerCase());
+        expect(word.trim()).not.toBe("");
+      }
+    }
+  });
+
+  it("is satisfied by every locale's own example address", () => {
+    const fields = Object.keys(PURPOSE_EMAIL_KEYWORDS) as PurposeEmailField[];
+    for (const { id } of SUPPORTED_LANGUAGES) {
+      const ui = JSON.parse(readFileSync(resolve("src/i18n/locales", id, "ui.json"), "utf8")) as {
+        editor: Record<string, string>;
+      };
+      for (const field of fields) {
+        const example = ui.editor[`${field}Placeholder`] ?? "";
+        expect(example, `${id} ${field}Placeholder`).not.toBe("");
+        expect(validatePurposeEmails(field, example), `${id} ${field}: ${example}`).toEqual({
+          valid: true,
+        });
+      }
+    }
   });
 });

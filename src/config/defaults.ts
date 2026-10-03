@@ -79,9 +79,13 @@ export interface EditorDefaults {
    * fields `sponsorName` / `sponsorPlatform`), and `gameKeyEmail` (game
    * keys & playtest invites). Each holds up to 3 comma-separated emails
    * (same `validateEmails` cap as `contactEmail`). Empty by default.
+   * v1.1.0 adds `copyrightEmail` (copyright / DMCA notices) as the fourth,
+   * and every purpose field needs a purpose word before `@`
+   * (`validatePurposeEmails`).
    */
   adEmail: string;
   gameKeyEmail: string;
+  copyrightEmail: string;
   musicAttribution: string;
   sponsorName: string;
   sponsorPlatform: string;
@@ -206,6 +210,7 @@ export const DEFAULTS = {
     contactEmail: "",
     adEmail: "",
     gameKeyEmail: "",
+    copyrightEmail: "",
     musicAttribution: "",
     sponsorName: "",
     sponsorPlatform: "",

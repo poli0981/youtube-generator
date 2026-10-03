@@ -77,6 +77,7 @@ function makeEditorData(overrides: Partial<EditorData> = {}): EditorData {
     contactEmail: DEFAULTS.editor.contactEmail,
     adEmail: DEFAULTS.editor.adEmail,
     gameKeyEmail: DEFAULTS.editor.gameKeyEmail,
+    copyrightEmail: DEFAULTS.editor.copyrightEmail,
     musicAttribution: DEFAULTS.editor.musicAttribution,
     sponsorName: DEFAULTS.editor.sponsorName,
     sponsorPlatform: DEFAULTS.editor.sponsorPlatform,

@@ -672,9 +672,11 @@ export function buildDescription(
   // 12. Contact. Two modes, gated by the `splitContactEmail` toggle:
   //   • off (default) — a single "📧 Business inquiries" line, unchanged.
   //   • on — a grouped "📧 BUSINESS / CONTACT" block with one labeled line
-  //     per non-empty purpose field. Each line is skipped when its field
-  //     is empty, and the whole block is skipped when all three are empty
-  //     (same skip logic as the Community block above).
+  //     per non-empty field: contact, advertising, game keys, copyright
+  //     (v1.1.0). Each line is skipped when its field is empty, and the
+  //     whole block is skipped when all four are empty (same skip logic as
+  //     the Community block above). The purpose-word rule is the editor's
+  //     job (`validatePurposeEmails`); this only renders.
   if (splitContactEmail) {
     const emailLines: string[] = [];
     if (input.contactEmail?.trim()) {
@@ -685,6 +687,9 @@ export function buildDescription(
     }
     if (input.gameKeyEmail?.trim()) {
       emailLines.push(t("description.sections.emailGameKeys", { email: input.gameKeyEmail }));
+    }
+    if (input.copyrightEmail?.trim()) {
+      emailLines.push(t("description.sections.emailCopyright", { email: input.copyrightEmail }));
     }
     if (emailLines.length > 0) {
       sections.push(`${t("description.sections.contactHeader")}\n${emailLines.join("\n")}`);
