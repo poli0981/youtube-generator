@@ -2,7 +2,7 @@
 
 ## YTDescGen — Tauri 2 Desktop and Android Apps
 
-Reflects **v1.0.0**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
+Reflects **v1.2.0**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -10,7 +10,7 @@ Reflects **v1.0.0**: Windows, macOS (Apple silicon) and Linux desktop apps plus 
 
 | Feature          | Tauri 2                                                                                                               | Electron                                |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| Download size    | 3–6 MB installers (v0.38.0: MSI 4.6 MB, NSIS 3.2 MB, `.deb` 5.9 MB); the AppImage, which bundles its libraries, 80 MB | ~150 MB                                 |
+| Download size    | 3–6 MB installers (v1.1.0: MSI 4.1 MB, NSIS 3.1 MB, `.deb` 5.3 MB); the AppImage, which bundles its libraries, 80 MB  | ~150 MB                                 |
 | Memory usage     | Lower — no second browser engine                                                                                      | Higher — bundled Chromium + Node.js     |
 | Bundled runtime  | System WebView                                                                                                        | Chromium                                |
 | Backend language | Rust                                                                                                                  | Node.js                                 |
@@ -29,6 +29,8 @@ The maintainer already knew Rust from the Tauri / build-tooling ecosystem; the s
   - macOS: Xcode Command Line Tools.
   - Linux: `libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev patchelf` (what CI installs).
 - **Android**: see [Android (.apk) Packaging](#android-apk-packaging).
+
+`npm run tauri info` prints the Rust toolchain, WebView, Node and bundler versions it finds, and the bundle targets — run it first when a build fails; most "Tauri won't build" problems are a version mismatch.
 
 `npm run check:tauri` fails when the `@tauri-apps/*` npm packages and the `tauri` crates differ in major.minor — `tauri build` refuses to run in that state, and no workflow runs `tauri build` before a release tag does.
 
@@ -60,7 +62,7 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
 {
   "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/crates/tauri-cli/schema.json",
   "productName": "YTDescGen",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "identifier": "com.skullmute.ytdescgen",
   "build": {
     "beforeBuildCommand": "npm run build",
@@ -88,6 +90,7 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
   },
   "bundle": {
     "active": true,
+    "copyright": "Copyright 2026 poli0981 (SkullMute)",
     "licenseFile": "installer-license.txt",
     "icon": [
       "icons/32x32.png",
@@ -116,6 +119,7 @@ Notes:
 - There is **no `trayIcon` entry**: the tray icon is built in code (`lib.rs`), with the app icon — a `trayIcon` entry would add a second one.
 - There is **no `updater` configuration** — see [Updates](#updates).
 - `targets: "all"` builds every bundle the platform supports (MSI + NSIS on Windows, `.app` + `.dmg` on macOS, `.deb` + `.rpm` + AppImage on Linux); the release workflow narrows macOS to `.app`.
+- `bundle.copyright` (v1.1.0) is the installers' copyright string — the Windows file properties, the macOS `Info.plist` and the Linux packages. `npm run check:copyright` (in CI) holds its year to the year of the newest commit, together with NOTICE and REUSE.toml, and `npm run update:copyright` rewrites all three: the first commit of a new year needs it.
 
 > **Installer license page (v0.28).** The real `src-tauri/tauri.conf.json`
 > sets `bundle.licenseFile: "installer-license.txt"` (path relative to
@@ -265,6 +269,8 @@ A release bumps the version in **six places**, and `npm run check:version` (in C
 
 `npm version --no-git-tag-version <version>` covers the first three; the Rust / Tauri files are edited by hand (cargo also rewrites the `Cargo.lock` entry on the next non-`--locked` build or check in `src-tauri/`). Add the `CHANGELOG.md` entry in the same change.
 
+The copyright year is not part of the version, but the first release of a new year needs `npm run update:copyright` first — `check:copyright` fails until then (see the `bundle.copyright` note above).
+
 ## Build & Release
 
 ### Development
@@ -289,17 +295,17 @@ npm run tauri:build
 
 The Tauri CLI runs `npm run build` first (`beforeBuildCommand`) with `TAURI_ENV_PLATFORM` set, which switches Vite to the Tauri build: `es2020` target, the Legal Center content only, and no static legal pages, `security.txt` or analytics beacon.
 
-Output file names, with the v0.38.0 release sizes:
+Output file names, with the v1.1.0 release sizes:
 
 | Platform              | Bundle                           | File                                     | Size   |
 | --------------------- | -------------------------------- | ---------------------------------------- | ------ |
-| Windows               | MSI                              | `YTDescGen_<version>_x64_en-US.msi`      | 4.6 MB |
-| Windows               | NSIS                             | `YTDescGen_<version>_x64-setup.exe`      | 3.2 MB |
-| macOS (Apple silicon) | `.app`, archived by tauri-action | `YTDescGen_<version>_aarch64.app.tar.gz` | 4.4 MB |
-| Linux                 | Debian                           | `YTDescGen_<version>_amd64.deb`          | 5.9 MB |
-| Linux                 | RPM                              | `YTDescGen-<version>-1.x86_64.rpm`       | 5.9 MB |
+| Windows               | MSI                              | `YTDescGen_<version>_x64_en-US.msi`      | 4.1 MB |
+| Windows               | NSIS                             | `YTDescGen_<version>_x64-setup.exe`      | 3.1 MB |
+| macOS (Apple silicon) | `.app`, archived by tauri-action | `YTDescGen_<version>_aarch64.app.tar.gz` | 4.1 MB |
+| Linux                 | Debian                           | `YTDescGen_<version>_amd64.deb`          | 5.3 MB |
+| Linux                 | RPM                              | `YTDescGen-<version>-1.x86_64.rpm`       | 5.3 MB |
 | Linux                 | AppImage                         | `YTDescGen_<version>_amd64.AppImage`     | 80 MB  |
-| Android               | Universal APK                    | `app-universal-release.apk`              | 57 MB  |
+| Android               | Universal APK                    | `app-universal-release.apk`              | 44 MB  |
 
 ### GitHub Actions Release
 

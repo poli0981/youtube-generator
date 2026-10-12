@@ -11,18 +11,18 @@
 
 ## Tech Stack
 
-| Layer             | Technology                                                                                                                      |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| UI                | React 19, TypeScript (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons    |
-| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions                                                                         |
-| Styling           | Tailwind CSS 4, CSS-first `@theme` tokens in `src/styles/globals.css`                                                           |
-| State             | Zustand 5 + `persist` (localStorage) — the only store on every platform                                                         |
-| Routing           | React Router 7 — `BrowserRouter` on the web, `HashRouter` in Tauri                                                              |
-| i18n              | i18next + react-i18next, 8 locales (en, vi, ja, es, ko, zh, pt-BR, id); `en` bundled, others lazy                               |
-| Desktop / Android | Tauri 2 (Rust) — see `src-tauri/`                                                                                               |
-| Web hosting       | Cloudflare Workers (`worker/`, `wrangler.jsonc`), Turnstile, Web Analytics                                                      |
-| Tests             | Vitest (node environment; Worker tests included)                                                                                |
-| Quality           | ESLint, Prettier, knip, coverage thresholds, bundle budget, licence allow-list, REUSE, actionlint/zizmor, cargo fmt/clippy/deny |
+| Layer             | Technology                                                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| UI                | React 19, TypeScript (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons                     |
+| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions                                                                                          |
+| Styling           | Tailwind CSS 4, CSS-first `@theme` tokens in `src/styles/globals.css`                                                                            |
+| State             | Zustand 5 + `persist` (localStorage) — the only store on every platform                                                                          |
+| Routing           | React Router 7 — `BrowserRouter` on the web, `HashRouter` in Tauri                                                                               |
+| i18n              | i18next + react-i18next, 8 locales (en, vi, ja, es, ko, zh, pt-BR, id); `en` bundled, others lazy                                                |
+| Desktop / Android | Tauri 2 (Rust) — see `src-tauri/`                                                                                                                |
+| Web hosting       | Cloudflare Workers (`worker/`, `wrangler.jsonc`), Turnstile, Web Analytics                                                                       |
+| Tests             | Vitest (node environment; Worker tests included)                                                                                                 |
+| Quality           | ESLint, Prettier, knip, coverage thresholds, bundle budget, licence allow-list, copyright years, REUSE, actionlint/zizmor, cargo fmt/clippy/deny |
 
 ## Project Structure
 
@@ -37,16 +37,20 @@ src/
     tag-generator.ts           # tag pools, YouTube's tag length count, trimming
     timeline-parser.ts         # timestamps → chapters, YouTube's chapter rules
     channel-phrase.ts          # drops "on {{channel}}" when there is no channel name
-    rig-block.ts, limits.ts, social-post-builder.ts, pinned-comment-builder.ts, playlist-builder.ts, types.ts
+    types.ts                   # GeneratorInput, CONTENT_WARNINGS, TECH_NOTES, option lists
+    rig-block.ts, limits.ts, social-post-builder.ts, pinned-comment-builder.ts, playlist-builder.ts,
+    endings-format.ts, graphics-vendor.ts
   config/                      # static data: video types, genres, platforms (stores),
                                # social fields/platforms, GPU catalog, rig fields,
+                               # content-warning-groups / tech-note-groups (editor groups),
                                # library-fields (profile/preset/per-video field lists),
+                               # contact-emails (purpose words), brand (copyright years),
                                # legal, about, field limits, Vietnamese banks, …
   store/                       # Zustand stores; each exports its version + migrate fn
     editor-store.ts            # the draft (EditorData, migrateEditorState, editorDataOf)
     profile-store.ts, preset-store.ts, template-store.ts, history-store.ts
     settings-store.ts + settings-heal.ts   # settings; healed on every load
-    log-store.ts
+    log-store.ts, pending-invalid-store.ts # typed-but-invalid values, for Strict Mode
   utils/
     backup/                    # backup format v2, detect, sanitize, restore (+undo),
                                # collect, desktop auto-backups, start-up recovery
@@ -61,11 +65,16 @@ build-plugins/                 # legal pages at build time; web-only extras
 src-tauri/src/                 # lib.rs (plugins, tray), storage.rs (name-only file
                                # commands), file_dialog.rs (native Save/Open)
 migration-page/                # moving notice for the old GitHub Pages address (until 2026-11-29)
-tests/                         # engine, store, utils, worker, build, i18n, config
-scripts/                       # locale validation, version sync, bundle budget,
-                               # licences/third-party notices, brand assets
+tests/                         # engine, store, utils, worker, build, i18n, config, hooks, scripts
+scripts/                       # locale validation + generator, version sync, Tauri versions,
+                               # bundle budget, licences/third-party notices, copyright
+                               # years, brand assets
 docs/                          # DEVELOPMENT, HOSTING, ARCHITECTURE, FEATURES, ROADMAP,
-                               # TECH-SPEC, I18N, PACKAGING, CONTENT-INVENTORY (+ vi/)
+                               # TECH-SPEC, I18N, PACKAGING, CONTENT-INVENTORY
+  i18n/vi/                     # Vietnamese: DEVELOPMENT, CONTENT-INVENTORY, DISCLAIMER
+assets/brand/                  # logo sources: every icon and the link-preview card come from them
+public/                        # static web files (_headers, icons, manifest, 404, robots, sitemap)
+LICENSES/                      # license texts for REUSE
 ```
 
 ## Coding Conventions
@@ -130,7 +139,7 @@ npm run lint && npm run format:check
 npm run knip                # unused files/exports/dependencies
 npm run validate:locales
 npm run check:bundle        # after build: initial load / chunk budget
-npm run check:licenses      # licence allow-list + THIRD_PARTY_NOTICES in sync
+npm run check:licenses      # licence allow-list + THIRD_PARTY_NOTICES in sync (generate:third-party fixes)
 npm run check:copyright     # NOTICE, REUSE.toml, installer copyright = HEAD's year (update:copyright fixes)
 npm run check:version       # the six version fields agree
 npm run check:tauri         # @tauri-apps/* and tauri crates on the same major.minor
@@ -138,13 +147,15 @@ npm run cf:dev              # wrangler dev (copy .dev.vars.example to .dev.vars 
 npm run cf:check            # wrangler deploy --dry-run
 npm run tauri:dev           # desktop app against the dev server
 npm run tauri:build         # desktop installers
-# src-tauri/: cargo fmt --check · cargo clippy --all-targets -- -D warnings · cargo test
+npm run generate:locale     # scaffold a new locale folder from en (-- --lang xx)
+npm run generate:brand      # favicon, PWA icons, link-preview card from assets/brand/
+# src-tauri/: cargo fmt --check · cargo clippy --all-targets --locked -- -D warnings · cargo test
 ```
 
 ## Git Workflow
 
 - `main` only: feature branches (`feat/…`, `fix/…`, `docs/…`, `chore/…`) → PR → `main`. Every merge to `main` deploys the web app.
-- Commit and PR-title format: `type(scope): message` (`feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`) — CI checks PR titles.
+- Commit and PR-title format: `type(scope): message` (`feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`) — CI checks PR titles, and the message must start with a lower-case letter (`feat(editor): warnings for AI…`, not `feat(editor): AI…`).
 - Commits and release tags are GPG-signed; never bypass signing or hooks.
 - Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title`.
 
@@ -155,11 +166,12 @@ npm run tauri:build         # desktop installers
 
 ## Important Notes for Claude Code
 
-- Run the gates before committing: `typecheck`, `typecheck:all`, `lint`, `format:check`, `test:run`, `knip`, `validate:locales`, `build` + `check:bundle`; `cargo fmt/clippy/test` when `src-tauri/` changes. In the first commit of a new year, `npm run update:copyright` (CI's `check:copyright` fails until then).
+- Run the gates before committing: `typecheck`, `typecheck:all`, `lint`, `format:check`, `test:run`, `knip`, `validate:locales`, `check:version`, `check:tauri`, `check:licenses`, `check:copyright`, `build` + `check:bundle`; `cargo fmt/clippy/test` when `src-tauri/` changes. In the first commit of a new year, `npm run update:copyright` (CI's `check:copyright` fails until then). A dependency change can make `check:licenses` fail: `npm run generate:third-party` rewrites the notices, and a new direct crate in `src-tauri/Cargo.toml` that isn't Tauri's needs its license in `OTHER_CRATES` (`scripts/lib/third-party.ts`).
 - New contact-email purpose words: `src/config/contact-emails.ts` (lower-case; a test keeps every locale's example address valid).
 - New language: follow `docs/I18N.md` (register it, both namespaces, tag pools, `channel-phrase.ts` patterns, browser detection).
 - New genre: `src/config/genres.ts` + its tag pool in `src/engine/tag-generator.ts` (a test keeps them in sync).
 - New video type: `src/config/video-types.ts` + every `templates.json` (titles, intros, pinned-comment greetings).
+- New content warning / tech note: the id in `CONTENT_WARNINGS` / `TECH_NOTES` (`src/engine/types.ts`), a group in `src/config/content-warning-groups.ts` / `tech-note-groups.ts`, the editor label (`ui.json`) and description line (`templates.json`) in all 8 locales and `_schema.json` — tests fail on any gap — and the row in `docs/CONTENT-INVENTORY.md` (+ vi). Don't repeat a fact that has its own field (language patch, game version, difficulty, the Video settings upscaler).
 - New store platform: `src/config/platforms.ts` (URL pattern, `tagName`), optionally a name extractor in `src/utils/url-extractors.ts`.
 - Never commit `note.txt`, `warning.txt` or `__pycache__/`; never put real secrets in files (`.dev.vars` holds Cloudflare's public Turnstile test keys only).
 - The Cloudflare dashboard, publishing releases and repository settings are the maintainer's; ask before touching them.

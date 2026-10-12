@@ -2,6 +2,41 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.2.0 — 2026-10-12
+
+Say when a game is **made with AI**: a new group of content warnings for AI-generated game content, three more disclosures, and the docs, notices and wiki brought back in line with the app. Web, desktop and Android all ship as 1.2.0.
+
+### Added
+
+- **AI-generated content** — a new content-warning group, the thirteenth, for games that are made or run with generative AI (a story _about_ AI is still "AI / artificial intelligence themes"):
+  - AI-generated content (general) · AI art / visuals · AI / synthetic voices · AI music / sound · AI-written text / dialogue
+  - **Generated live by AI while playing** — the game makes content as you play, so a viewer's own run may differ
+  - **AI use disclosed by the developer** — the store page says so (Steam shows an "AI Generated Content Disclosure"), so viewers know you aren't guessing
+
+  The split follows Steam's AI disclosure: content made with AI during development and shipped, and content an AI generates while the game runs. Machine translation stays a playthrough note (**Language patch → Machine translation**). YouTube doesn't ask for gameplay footage to be labelled as altered or synthetic — these lines are for viewers. In all eight output languages, next to the English line like every warning.
+- **Simulated gambling** (Mature / Sensitive) and **In-game purchases** (Internet / Digital life, next to loot boxes) — the two ESRB / PEGI descriptors that had no warning.
+- **Tech note: Upscaling / frame-gen artifacts** (Video quality) — "Possible upscaling / frame-generation artifacts (DLSS, FSR, XeSS)". Which upscaler and frame generation were on is already the 🖥 Video settings line; the note only warns about what they do to the footage.
+
+257 content warnings in 13 groups, 25 tech notes — all listed in [docs/CONTENT-INVENTORY.md](docs/CONTENT-INVENTORY.md).
+
+### Changed
+
+- **Third-party notices** said the app uses the operating system's fonts; it bundles **Inter** and **JetBrains Mono** (OFL-1.1), and now says so. The Rust table lists every direct crate — `serde` was missing — and a crate with no known license stops the generator ([scripts/lib/third-party.ts](scripts/lib/third-party.ts)).
+- **REUSE**: the Gradle wrapper under `src-tauri/gen/android/` is credited to Gradle's authors, not to the project.
+- **Privacy Policy** (Effective 2026-10-12) lists the one `sessionStorage` flag, `ytdescgen-chunk-reload`, next to the `localStorage` keys. Not a material change: nobody is asked to accept the terms again.
+- **Security policy**: 1.2.x is the supported version.
+- **Docs**: README (contact emails by purpose, themes and scrollbars, installer sizes, the Android build step), ROADMAP (1.1.0 and 1.2.0; finished items checked off), PACKAGING (the installers' copyright, the yearly `update:copyright`, v1.1.0 sizes, `tauri info`), ARCHITECTURE and TECH-SPEC (purpose-word validation, versions, test count), FEATURES, I18N, CONTENT-INVENTORY + Vietnamese (now with the tech notes), CONTRIBUTING and the PR template (the full gate list), the issue templates, DISCLAIMER + Vietnamese, CLAUDE.md. `webapp/TAURI.md` (Node 25, no `.rpm`) is folded into PACKAGING and removed.
+- **Wiki**: Home (1.2.0, what's new in 1.1 and 1.2), Field Reference (warnings and tech notes, the copyright / DMCA line and purpose words, Hide scrollbars), FAQ ("How do I say a game uses AI-generated content?"), Release Process (copyright years, the wiki step, the rust-toolchain pin).
+
+### Under the hood
+
+- No store version bump: the warning and tech-note lists only grow. The backup whitelist checks ids against them, so a 1.2.0 backup restores on 1.1.0 without the new ids.
+- **A test fails when a content warning or tech note has no editor label or description line** in `_schema.json` — and so, through `validate:locales`, in any locale. Until now a missing key showed the raw key in the editor and silently dropped the line from the description. Tech notes also get the group-parity test content warnings already had.
+- New strings in all eight locales (1,264 UI + 584 template keys each).
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **984 tests**, build and `cargo fmt` / `clippy` / `test` all pass; initial load 275.2 of 280 KB gzip. Verified live in the browser: the new group and its search, pick order in the description, the bilingual English · Vietnamese lines and the tech note.
+- `.gitignore` covers the maintainer's local `note.txt`, `warning.txt` and `__pycache__/`.
+- Six manifests bumped 1.1.0 → 1.2.0.
+
 ## v1.1.0 — 2026-10-03
 
 A small release: a **copyright email** and **purpose words** for the split contact block, an option to **hide scrollbars**, and copyright years that keep themselves current. Web, desktop and Android all ship as 1.1.0.

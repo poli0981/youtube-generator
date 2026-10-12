@@ -31,11 +31,18 @@ body:
       options:
         - Editor
         - Output / preview
+        - Batch
+        - Social captions
+        - Playlist
+        - History
         - Profiles / presets
         - Templates (description, title, tags)
+        - Backup & restore
         - i18n / locales
         - Settings
+        - Web app (ytgenerator.stream)
         - Desktop (Tauri)
+        - Android
         - Documentation
     validations:
       required: true

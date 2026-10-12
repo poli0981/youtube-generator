@@ -6,8 +6,8 @@ Only the latest released version of YTDescGen receives security updates, and the
 
 | Version | Supported |
 | ------- | --------- |
-| 1.0.x   | ✅ |
-| < 1.0   | ❌ |
+| 1.2.x   | ✅ |
+| < 1.2   | ❌ |
 
 ## Reporting a Vulnerability
 

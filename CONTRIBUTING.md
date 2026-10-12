@@ -16,11 +16,14 @@ Participation is governed by the [Code of Conduct](./CODE_OF_CONDUCT.md). By con
    npm run typecheck && npm run typecheck:all
    npm run lint && npm run format:check
    npm run validate:locales
-   npm run test:run
+   npm run test:coverage
    npm run knip
+   npm run check:version && npm run check:tauri && npm run check:licenses
+   npm run check:copyright
    npm run build && npm run check:bundle
+   npm run cf:check
    ```
-   Touched `src-tauri/`? Also `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings` and `cargo test` in `src-tauri/`. Touched `worker/` or `wrangler.jsonc`? `npm run cf:check` dry-runs the Cloudflare deploy.
+   `check:licenses` fails when `THIRD_PARTY_NOTICES.md` is stale — `npm run generate:third-party` rewrites it. `check:copyright` fails in the first commit of a new year — `npm run update:copyright` fixes it. Touched `src-tauri/`? Also `cargo fmt --check`, `cargo clippy --all-targets --locked -- -D warnings` and `cargo test` in `src-tauri/` (after `npm run build` — see the [Development Guide](./docs/DEVELOPMENT.md#rust-checks)).
 
 ## How to Contribute
 
@@ -35,7 +38,8 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 
 - Branch from `main` (`feat/…`, `fix/…`, `docs/…`) and open the PR against `main`. Every merge to `main` deploys the web app, so `main` stays releasable.
 - Commit format and **PR title**: `type(scope): message` — e.g. `feat(engine): add Spanish template support`. Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`. CI checks the PR title.
-- Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title` (plus `lint-and-test` and `cargo-deny` when `src-tauri/` changes). Commits on `main` are signed.
+- Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title`. When `src-tauri/` changes, the Rust workflow's `lint-and-test` and `cargo-deny` run too, and GitHub's CodeQL code scanning runs on every PR. Commits on `main` are signed.
+- PR titles start with a lower-case letter after the colon (`feat(editor): add …`, not `feat(editor): Add …`).
 - One logical change per PR. Don't bundle unrelated refactors.
 - All locale files must stay in lock-step — see the i18n section below.
 - AI-assisted contributions are welcome but **must be disclosed** in the PR description.
@@ -59,7 +63,7 @@ The following are closed without review and may result in a contributor ban — 
 - **Behavior or language violating** [GitHub's Acceptable Use Policies](https://docs.github.com/en/site-policy/acceptable-use-policies).
 - **Off-topic / rambling reports** that don't get to the point. Example of what gets ignored: _"Good morning, today is a beautiful day, I was just wondering if maybe…"_ — get straight to the problem.
 - **PRs that touch hundreds of files for a one-line fix** (typical sign of an auto-formatter run on unrelated files).
-- **Tests deleted, or `--no-verify` used to bypass pre-commit hooks.**
+- **Tests deleted or skipped to make CI pass.**
 - **"AI rewrote my entire codebase in a different style" PRs.** AI-assisted edits are welcome (disclosed); whole-repo rewrites are not.
 - **Spam, drive-by typo fixes** that don't address a real issue, and karma-farming PRs.
 
@@ -67,7 +71,7 @@ The following are closed without review and may result in a contributor ban — 
 
 - Bug fixes with a reproduction case and a regression test.
 - Locale corrections from native speakers.
-- New content-warning IDs with all 8 translations and a clear rationale (especially horror-genre vocabulary).
+- New content-warning or tech-note IDs with all 8 translations and a clear rationale (especially horror-genre vocabulary) — the checks fail until every locale has its label and description line.
 - New video types or genres that fit the gameplay no-commentary use case.
 - Accessibility and mobile-responsive improvements.
 - Performance fixes with a `before/after` measurement.
