@@ -14,7 +14,7 @@ This disclosure applies to:
 - CI/CD workflows in `.github/workflows/`.
 - The Cloudflare Worker in `worker/` and the build plugins in `build-plugins/`.
 
-See also: [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) § "AI-Assisted Development Disclosure".
+See also: [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) § "AI-assisted development".
 
 ## Translation quality
 

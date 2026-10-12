@@ -70,6 +70,7 @@ Direct dependencies of `src-tauri/`. Transitive crates are checked in CI by `car
 
 | Crate | Version | License | Project |
 | --- | --- | --- | --- |
+| `serde` | 1.0.228 | MIT OR Apache-2.0 | <https://github.com/serde-rs/serde> |
 | `tauri` | 2.12.0 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `tauri-build` | 2.7.0 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `tauri-plugin-dialog` | 2.8.0 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/plugins-workspace> |
@@ -79,7 +80,7 @@ Direct dependencies of `src-tauri/`. Transitive crates are checked in CI by `car
 ## Fonts and icons
 
 - **Icons:** [Lucide](https://lucide.dev/) (`lucide-react`, ISC). Brand marks, where shown, come from [Simple Icons](https://simpleicons.org/) (CC0-1.0); the trademarks belong to their owners.
-- **Fonts:** the app uses the operating system's fonts.
+- **Fonts:** [Inter](https://rsms.me/inter/) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), bundled with the app from the `@fontsource-variable` packages above (SIL Open Font License 1.1, `OFL-1.1`).
 
 ## Services (web app only)
 
