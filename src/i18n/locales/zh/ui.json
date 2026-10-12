@@ -371,7 +371,8 @@
       "sensitive": "成人 / 敏感",
       "playstyle": "游玩说明",
       "horror_specific": "重度恐怖",
-      "gameplay_disclosure": "玩法披露"
+      "gameplay_disclosure": "玩法披露",
+      "ai_content": "AI 生成内容"
     },
     "contentWarningOptions": {
       "spoiler_story": "剧情 / 结局剧透",
@@ -621,7 +622,16 @@
       "sexualized_characters": "性化的角色设计",
       "fanservice": "福利镜头 (fan service)",
       "suggestive_poses": "暗示性姿势 / 镜头角度",
-      "educational_purpose_only": "教育 / 公益宣传目的游戏"
+      "educational_purpose_only": "教育 / 公益宣传目的游戏",
+      "ai_generated_content": "AI 生成内容（总体）",
+      "ai_generated_visuals": "AI 美术 / 画面",
+      "ai_generated_voices": "AI / 合成语音",
+      "ai_generated_music": "AI 音乐 / 音效",
+      "ai_generated_text": "AI 撰写的文本 / 对白",
+      "ai_live_generated": "游玩时由 AI 实时生成",
+      "ai_disclosed_by_developer": "开发者已披露使用 AI",
+      "in_game_purchases": "游戏内购买",
+      "simulated_gambling": "模拟赌博"
     },
     "playthroughNotes": {
       "title": "本期游玩说明",
@@ -712,7 +722,8 @@
       "exploration_focus_skip_combat": "侧重探索（跳过战斗）",
       "edited_for_pacing": "为节奏剪辑",
       "support_developers": "支持开发者",
-      "online_connectivity_issues": "联机连线问题"
+      "online_connectivity_issues": "联机连线问题",
+      "upscaling_artifacts_possible": "超分辨率 / 帧生成瑕疵"
     },
     "quickPreview": "快速预览",
     "version": "版本",

@@ -65,6 +65,15 @@ describe("sanitizeEditorFields", () => {
     expect(out.contentWarnings).toEqual(["spoiler_story"]);
   });
 
+  it("keeps the v1.2.0 warning and tech-note ids, and drops unknown ones", () => {
+    const out = sanitizeEditorFields({
+      contentWarnings: ["ai_generated_voices", "not_a_warning", "simulated_gambling"],
+      techNotes: ["upscaling_artifacts_possible"],
+    });
+    expect(out.contentWarnings).toEqual(["ai_generated_voices", "simulated_gambling"]);
+    expect(out.techNotes).toEqual(["upscaling_artifacts_possible"]);
+  });
+
   it("limits the result to the given fields", () => {
     const out = sanitizeEditorFields({ gameName: "Hades", channelName: "Me" }, ["channelName"]);
     expect(out).toEqual({ channelName: "Me" });

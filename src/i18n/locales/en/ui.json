@@ -371,7 +371,8 @@
       "sensitive": "Mature / Sensitive content",
       "playstyle": "Playstyle disclosures",
       "horror_specific": "Heavy horror",
-      "gameplay_disclosure": "Gameplay disclosure"
+      "gameplay_disclosure": "Gameplay disclosure",
+      "ai_content": "AI-generated content"
     },
     "contentWarningOptions": {
       "spoiler_story": "Story / ending spoilers",
@@ -621,7 +622,16 @@
       "sexualized_characters": "Sexualized character designs",
       "fanservice": "Fan service / ecchi",
       "suggestive_poses": "Suggestive poses / camera angles",
-      "educational_purpose_only": "Educational / PSA purpose"
+      "educational_purpose_only": "Educational / PSA purpose",
+      "ai_generated_content": "AI-generated content (general)",
+      "ai_generated_visuals": "AI art / visuals",
+      "ai_generated_voices": "AI / synthetic voices",
+      "ai_generated_music": "AI music / sound",
+      "ai_generated_text": "AI-written text / dialogue",
+      "ai_live_generated": "Generated live by AI while playing",
+      "ai_disclosed_by_developer": "AI use disclosed by the developer",
+      "in_game_purchases": "In-game purchases",
+      "simulated_gambling": "Simulated gambling"
     },
     "playthroughNotes": {
       "title": "Playthrough notes",
@@ -712,7 +722,8 @@
       "exploration_focus_skip_combat": "Exploration-focused (skip combat)",
       "edited_for_pacing": "Edited for pacing",
       "support_developers": "Support the developers",
-      "online_connectivity_issues": "Online connectivity issues"
+      "online_connectivity_issues": "Online connectivity issues",
+      "upscaling_artifacts_possible": "Upscaling / frame-gen artifacts"
     },
     "quickPreview": "Quick Preview",
     "version": "Version",

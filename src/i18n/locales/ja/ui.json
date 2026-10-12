@@ -371,7 +371,8 @@
       "sensitive": "成人向け / センシティブ",
       "playstyle": "プレイ情報",
       "horror_specific": "ヘビーホラー",
-      "gameplay_disclosure": "プレイ情報開示"
+      "gameplay_disclosure": "プレイ情報開示",
+      "ai_content": "AI生成コンテンツ"
     },
     "contentWarningOptions": {
       "spoiler_story": "ストーリー / エンディングのネタバレ",
@@ -621,7 +622,16 @@
       "sexualized_characters": "性的に強調されたキャラデザイン",
       "fanservice": "ファンサービス・お色気",
       "suggestive_poses": "挑発的なポーズ・アングル",
-      "educational_purpose_only": "教育・啓発目的のゲーム"
+      "educational_purpose_only": "教育・啓発目的のゲーム",
+      "ai_generated_content": "AI生成コンテンツ（全般）",
+      "ai_generated_visuals": "AI生成のアート / ビジュアル",
+      "ai_generated_voices": "AI音声 / 合成音声",
+      "ai_generated_music": "AI音楽 / 効果音",
+      "ai_generated_text": "AI作成のテキスト / セリフ",
+      "ai_live_generated": "プレイ中にAIがリアルタイム生成",
+      "ai_disclosed_by_developer": "開発者がAI使用を開示",
+      "in_game_purchases": "ゲーム内課金",
+      "simulated_gambling": "疑似ギャンブル"
     },
     "playthroughNotes": {
       "title": "プレイ情報",
@@ -712,7 +722,8 @@
       "exploration_focus_skip_combat": "探索重視（戦闘スキップ）",
       "edited_for_pacing": "テンポ編集あり",
       "support_developers": "開発者を応援",
-      "online_connectivity_issues": "オンライン接続不調"
+      "online_connectivity_issues": "オンライン接続不調",
+      "upscaling_artifacts_possible": "アップスケーリング / フレーム生成のアーティファクト"
     },
     "quickPreview": "クイックプレビュー",
     "version": "バージョン",

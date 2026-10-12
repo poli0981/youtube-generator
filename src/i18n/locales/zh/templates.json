@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "侧重探索 — 战斗可能被跳过",
         "edited_for_pacing": "为节奏剪辑 — 并非实时",
         "support_developers": "原版游戏音乐 — 请支持开发者",
-        "online_connectivity_issues": "联机游戏 — 可能存在连线问题"
+        "online_connectivity_issues": "联机游戏 — 可能存在连线问题",
+        "upscaling_artifacts_possible": "可能存在超分辨率 / 帧生成（DLSS、FSR、XeSS）造成的瑕疵"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "性化的角色设计",
         "fanservice": "福利镜头（fan service）",
         "suggestive_poses": "暗示性姿势 / 镜头角度",
-        "educational_purpose_only": "教育 / 公益宣传目的游戏"
+        "educational_purpose_only": "教育 / 公益宣传目的游戏",
+        "ai_generated_content": "游戏含有 AI 生成内容",
+        "ai_generated_visuals": "AI 生成的美术 / 画面",
+        "ai_generated_voices": "AI 生成 / 合成语音",
+        "ai_generated_music": "AI 生成的音乐 / 音效",
+        "ai_generated_text": "AI 撰写的对白 / 游戏内文本",
+        "ai_live_generated": "游玩时由 AI 实时生成的内容 — 每次游玩都不同",
+        "ai_disclosed_by_developer": "开发者已披露使用 AI（商店页面）",
+        "in_game_purchases": "游戏内购买 / 微交易",
+        "simulated_gambling": "模拟赌博（赌场 / 下注游戏）"
       }
     },
     "graphics": {

@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "探索重視 — 戦闘はスキップする場合あり",
         "edited_for_pacing": "テンポ調整の編集あり — 実時間ではありません",
         "support_developers": "原曲使用 — 開発者への応援をよろしくお願いします",
-        "online_connectivity_issues": "オンラインゲーム — 接続不調の可能性"
+        "online_connectivity_issues": "オンラインゲーム — 接続不調の可能性",
+        "upscaling_artifacts_possible": "アップスケーリング / フレーム生成（DLSS・FSR・XeSS）由来のアーティファクトの可能性あり"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "性的に強調されたキャラクターデザイン",
         "fanservice": "ファンサービス・お色気要素",
         "suggestive_poses": "挑発的なポーズ・カメラアングル",
-        "educational_purpose_only": "教育・啓発目的のゲーム"
+        "educational_purpose_only": "教育・啓発目的のゲーム",
+        "ai_generated_content": "ゲーム内にAI生成コンテンツあり",
+        "ai_generated_visuals": "AIで生成されたアート / ビジュアル",
+        "ai_generated_voices": "AI生成音声 / 合成音声",
+        "ai_generated_music": "AI生成の音楽 / 効果音",
+        "ai_generated_text": "AIが書いたセリフ / ゲーム内テキスト",
+        "ai_live_generated": "プレイ中にAIがリアルタイム生成する内容 — プレイごとに異なる",
+        "ai_disclosed_by_developer": "開発者がAI使用を開示済み（ストアページ）",
+        "in_game_purchases": "ゲーム内課金 / マイクロトランザクション",
+        "simulated_gambling": "疑似ギャンブル（カジノ / 賭けゲーム）"
       }
     },
     "graphics": {

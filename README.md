@@ -27,7 +27,7 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 
 - **20 video types** — Full Gameplay, Part, Boss Fight, Boss No-Hit, Ending, Speedrun, 100%, DLC, NG+, Challenge, Side Quest, Secret, Comparison, Guide, Mods, Collectibles, Livestream, Gacha Quest, Demo, Demo Part.
 - **8 languages** — English, Vietnamese, Japanese, Spanish, Korean, Chinese, Portuguese (Brazil), Indonesian — for the interface and the generated text. _(Vietnamese is native-reviewed; the others are AI-translated — see [DISCLAIMER.md](./DISCLAIMER.md).)_
-- **40+ genres** and **248 content warnings** in 12 groups, so viewers know what to expect before they press play.
+- **40+ genres** and **257 content warnings** in 13 groups — including whether the game uses **AI-generated** art, voices, music or text — so viewers know what to expect before they press play.
 - **Quick start** — pick your channel profile and the game's preset at the top of the editor; **Next part**, **New video, same game** and **Start over** clear exactly what belonged to the last video.
 - **Paste a store link anywhere** — it lands in the right store field and names the game (Steam, Epic, GOG, PlayStation, Xbox, Nintendo, itch.io, Humble, EA app, Ubisoft, Battle.net, Google Play, App Store, Meta Quest, Amazon Luna).
 - **Live preview** beside the form and a **YouTube preview** (where search results cut the title, what shows above "…more").

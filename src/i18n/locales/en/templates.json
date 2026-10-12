@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "Exploration-focused — combat may be skipped",
         "edited_for_pacing": "Edited for pacing — not real-time",
         "support_developers": "Original game music — please support the developers",
-        "online_connectivity_issues": "Online game — possible connectivity issues"
+        "online_connectivity_issues": "Online game — possible connectivity issues",
+        "upscaling_artifacts_possible": "Possible upscaling / frame-generation artifacts (DLSS, FSR, XeSS)"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "Sexualized character designs",
         "fanservice": "Fan service / ecchi content",
         "suggestive_poses": "Suggestive poses / camera angles",
-        "educational_purpose_only": "Educational / PSA-purpose game"
+        "educational_purpose_only": "Educational / PSA-purpose game",
+        "ai_generated_content": "AI-generated content in the game",
+        "ai_generated_visuals": "AI-generated art / visuals",
+        "ai_generated_voices": "AI-generated / synthetic voices",
+        "ai_generated_music": "AI-generated music / sound effects",
+        "ai_generated_text": "AI-written dialogue / in-game text",
+        "ai_live_generated": "Content generated live by AI — differs each playthrough",
+        "ai_disclosed_by_developer": "AI use disclosed by the developer (store page)",
+        "in_game_purchases": "In-game purchases / microtransactions",
+        "simulated_gambling": "Simulated gambling (casino / betting games)"
       }
     },
     "graphics": {

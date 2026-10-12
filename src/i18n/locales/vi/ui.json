@@ -371,7 +371,8 @@
       "sensitive": "Nội dung nhạy cảm / 18+",
       "playstyle": "Chú thích lối chơi",
       "horror_specific": "Kinh dị nặng đô",
-      "gameplay_disclosure": "Tiết lộ về lối chơi"
+      "gameplay_disclosure": "Tiết lộ về lối chơi",
+      "ai_content": "Nội dung do AI tạo"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoiler cốt truyện / kết thúc",
@@ -621,7 +622,16 @@
       "sexualized_characters": "Tạo hình nhân vật bị t*nh d*c hóa",
       "fanservice": "Yếu tố fan service",
       "suggestive_poses": "Tư thế / góc quay gợi cảm",
-      "educational_purpose_only": "Game mục đích giáo dục / tuyên truyền"
+      "educational_purpose_only": "Game mục đích giáo dục / tuyên truyền",
+      "ai_generated_content": "Nội dung do AI tạo (chung)",
+      "ai_generated_visuals": "Hình ảnh / đồ họa AI",
+      "ai_generated_voices": "Giọng nói AI / tổng hợp",
+      "ai_generated_music": "Nhạc / âm thanh AI",
+      "ai_generated_text": "Văn bản / thoại do AI viết",
+      "ai_live_generated": "AI tạo nội dung trực tiếp khi chơi",
+      "ai_disclosed_by_developer": "Nhà phát triển có công bố dùng AI",
+      "in_game_purchases": "Mua vật phẩm trong game",
+      "simulated_gambling": "Cờ bạc mô phỏng"
     },
     "playthroughNotes": {
       "title": "Ghi chú lượt chơi",
@@ -712,7 +722,8 @@
       "exploration_focus_skip_combat": "Khám phá (skip combat)",
       "edited_for_pacing": "Edit cho hợp nhịp",
       "support_developers": "Ủng hộ nhà phát triển",
-      "online_connectivity_issues": "Lỗi kết nối online"
+      "online_connectivity_issues": "Lỗi kết nối online",
+      "upscaling_artifacts_possible": "Lỗi hình do upscaling / frame gen"
     },
     "quickPreview": "Xem trước nhanh",
     "version": "Phiên bản",

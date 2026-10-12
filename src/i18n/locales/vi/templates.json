@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "Tập trung khám phá — có thể skip combat",
         "edited_for_pacing": "Đã edit cho hợp nhịp — không phải thời gian thực",
         "support_developers": "Nhạc gốc của game — hãy ủng hộ nhà phát triển",
-        "online_connectivity_issues": "Game online — có thể có vấn đề kết nối"
+        "online_connectivity_issues": "Game online — có thể có vấn đề kết nối",
+        "upscaling_artifacts_possible": "Có thể có lỗi hình do upscaling / frame generation (DLSS, FSR, XeSS)"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "Tạo hình nhân vật bị t*nh d*c hóa",
         "fanservice": "Yếu tố fan service / ecchi",
         "suggestive_poses": "Tư thế / góc quay gợi cảm",
-        "educational_purpose_only": "Game phục vụ mục đích giáo dục / tuyên truyền"
+        "educational_purpose_only": "Game phục vụ mục đích giáo dục / tuyên truyền",
+        "ai_generated_content": "Game có nội dung do AI tạo",
+        "ai_generated_visuals": "Hình ảnh / đồ họa do AI tạo",
+        "ai_generated_voices": "Giọng nói do AI tạo / giọng tổng hợp",
+        "ai_generated_music": "Nhạc / hiệu ứng âm thanh do AI tạo",
+        "ai_generated_text": "Lời thoại / văn bản trong game do AI viết",
+        "ai_live_generated": "Nội dung do AI tạo trực tiếp khi chơi — mỗi lần chơi một khác",
+        "ai_disclosed_by_developer": "Nhà phát triển đã công bố việc dùng AI (trang cửa hàng)",
+        "in_game_purchases": "Có mua vật phẩm trong game (microtransaction)",
+        "simulated_gambling": "Có cờ bạc mô phỏng (casino / cá cược)"
       }
     },
     "graphics": {
