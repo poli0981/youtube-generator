@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "Enfocado en exploración — se puede saltar combate",
         "edited_for_pacing": "Editado para el ritmo — no es en tiempo real",
         "support_developers": "Música original del juego — apoya a los desarrolladores",
-        "online_connectivity_issues": "Juego online — posibles problemas de conexión"
+        "online_connectivity_issues": "Juego online — posibles problemas de conexión",
+        "upscaling_artifacts_possible": "Posibles artefactos de escalado / generación de fotogramas (DLSS, FSR, XeSS)"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "Diseños de personajes sexualizados",
         "fanservice": "Fan service / contenido ecchi",
         "suggestive_poses": "Poses / ángulos de cámara sugerentes",
-        "educational_purpose_only": "Juego con fines educativos / divulgativos"
+        "educational_purpose_only": "Juego con fines educativos / divulgativos",
+        "ai_generated_content": "El juego incluye contenido generado por IA",
+        "ai_generated_visuals": "Arte / elementos visuales generados por IA",
+        "ai_generated_voices": "Voces generadas por IA / sintéticas",
+        "ai_generated_music": "Música / efectos de sonido generados por IA",
+        "ai_generated_text": "Diálogos / textos del juego escritos por IA",
+        "ai_live_generated": "Contenido generado por IA en tiempo real — cambia en cada partida",
+        "ai_disclosed_by_developer": "Uso de IA declarado por el desarrollador (página de la tienda)",
+        "in_game_purchases": "Compras dentro del juego / microtransacciones",
+        "simulated_gambling": "Juegos de azar simulados (casino / apuestas)"
       }
     },
     "graphics": {

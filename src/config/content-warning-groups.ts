@@ -4,7 +4,7 @@ import type { ContentWarning } from "@engine/types";
  * UI grouping for the content-warning checklist. The engine doesn't
  * care about groups — render order in the description follows the
  * user's selection order in the array — but the editor uses these
- * groups to render collapsible sections so 40+ items are scannable.
+ * groups to render collapsible sections so 250+ items are scannable.
  *
  * Add a new warning by:
  * 1. Appending the id to {@link CONTENT_WARNINGS} in `@engine/types`.
@@ -220,6 +220,7 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "influencer_culture",
       "online_radicalization",
       "loot_boxes",
+      "in_game_purchases",
       "ai_themes",
       "data_privacy",
     ],
@@ -246,6 +247,7 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "discrimination",
       "police_violence",
       "smoking_drinking",
+      "simulated_gambling",
       "detailed_killing",
       "cult_occult",
       "psychological_manipulation",
@@ -339,6 +341,20 @@ export const CONTENT_WARNING_GROUPS: readonly ContentWarningGroup[] = [
       "glitch_exploits",
       "assisted_run",
       "educational_purpose_only",
+    ],
+  },
+  {
+    // v1.2.0: the game is made or run with generative AI.
+    id: "ai_content",
+    labelKey: "editor.contentWarningGroups.ai_content",
+    items: [
+      "ai_generated_content",
+      "ai_generated_visuals",
+      "ai_generated_voices",
+      "ai_generated_music",
+      "ai_generated_text",
+      "ai_live_generated",
+      "ai_disclosed_by_developer",
     ],
   },
 ] as const;

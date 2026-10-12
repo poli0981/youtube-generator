@@ -371,7 +371,8 @@
       "sensitive": "Conteúdo adulto / sensível",
       "playstyle": "Avisos de estilo de jogo",
       "horror_specific": "Terror pesado",
-      "gameplay_disclosure": "Transparência de gameplay"
+      "gameplay_disclosure": "Transparência de gameplay",
+      "ai_content": "Conteúdo gerado por IA"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoilers de história / final",
@@ -621,7 +622,16 @@
       "sexualized_characters": "Designs de personagens sexualizados",
       "fanservice": "Fan service / ecchi",
       "suggestive_poses": "Poses / ângulos de câmera sugestivos",
-      "educational_purpose_only": "Propósito educativo / conscientização"
+      "educational_purpose_only": "Propósito educativo / conscientização",
+      "ai_generated_content": "Conteúdo gerado por IA (geral)",
+      "ai_generated_visuals": "Arte / visuais com IA",
+      "ai_generated_voices": "Vozes de IA / sintéticas",
+      "ai_generated_music": "Música / som com IA",
+      "ai_generated_text": "Textos / diálogos escritos por IA",
+      "ai_live_generated": "Gerado por IA em tempo real",
+      "ai_disclosed_by_developer": "Uso de IA declarado pelo desenvolvedor",
+      "in_game_purchases": "Compras no jogo",
+      "simulated_gambling": "Jogos de azar simulados"
     },
     "playthroughNotes": {
       "title": "Notas da jogatina",
@@ -712,7 +722,8 @@
       "exploration_focus_skip_combat": "Foco em exploração (pula combates)",
       "edited_for_pacing": "Editado para o ritmo",
       "support_developers": "Apoiem os desenvolvedores",
-      "online_connectivity_issues": "Problemas de conexão online"
+      "online_connectivity_issues": "Problemas de conexão online",
+      "upscaling_artifacts_possible": "Artefatos de upscaling / geração de quadros"
     },
     "quickPreview": "Prévia rápida",
     "version": "Versão",

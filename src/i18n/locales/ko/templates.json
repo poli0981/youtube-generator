@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "탐험 중심 — 전투를 건너뛸 수 있음",
         "edited_for_pacing": "리듬을 위해 편집 — 실시간 아님",
         "support_developers": "원곡 사용 — 개발자를 응원해 주세요",
-        "online_connectivity_issues": "온라인 게임 — 연결 문제 가능성"
+        "online_connectivity_issues": "온라인 게임 — 연결 문제 가능성",
+        "upscaling_artifacts_possible": "업스케일링 / 프레임 생성 (DLSS, FSR, XeSS) 아티팩트 가능성"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "성적으로 강조된 캐릭터 디자인",
         "fanservice": "팬서비스 / 에치 요소",
         "suggestive_poses": "선정적인 포즈 / 카메라 구도",
-        "educational_purpose_only": "교육 / 공익 목적 게임"
+        "educational_purpose_only": "교육 / 공익 목적 게임",
+        "ai_generated_content": "게임에 AI 생성 콘텐츠 포함",
+        "ai_generated_visuals": "AI 생성 아트 / 비주얼",
+        "ai_generated_voices": "AI 생성 / 합성 음성",
+        "ai_generated_music": "AI 생성 음악 / 효과음",
+        "ai_generated_text": "AI가 작성한 대사 / 게임 내 텍스트",
+        "ai_live_generated": "플레이 중 AI가 실시간으로 생성하는 콘텐츠 — 플레이마다 다름",
+        "ai_disclosed_by_developer": "개발사가 AI 사용을 공개함 (스토어 페이지)",
+        "in_game_purchases": "게임 내 구매 / 소액 결제",
+        "simulated_gambling": "모의 도박 (카지노 / 베팅 게임)"
       }
     },
     "graphics": {

@@ -1,6 +1,6 @@
 # Danh mục Nội dung
 
-Bản kê khai tĩnh cho mọi loại video, thể loại game, cảnh báo nội dung, cửa hàng, trường link và nền tảng đăng chéo trong editor của YTDescGen (tính đến v1.0.0). Cập nhật thủ công — khi thêm mục mới vào một trong các file nguồn dưới đây, **thêm dòng tương ứng vào đây** trong cùng PR.
+Bản kê khai tĩnh cho mọi loại video, thể loại game, cảnh báo nội dung, ghi chú kỹ thuật, cửa hàng, trường link và nền tảng đăng chéo trong editor của YTDescGen (tính đến v1.2.0). Cập nhật thủ công — khi thêm mục mới vào một trong các file nguồn dưới đây, **thêm dòng tương ứng vào đây** trong cùng PR.
 
 File này tồn tại để **minh bạch** — bất kỳ ai tò mò về việc editor có thể mô tả được gì (mà không cần cài app hay đọc source) đều có thể quét trong một phút.
 
@@ -11,6 +11,7 @@ File này tồn tại để **minh bạch** — bất kỳ ai tò mò về việ
 - Loại video: [`src/config/video-types.ts`](../../../src/config/video-types.ts)
 - Thể loại game: [`src/config/genres.ts`](../../../src/config/genres.ts)
 - Cảnh báo nội dung: [`src/config/content-warning-groups.ts`](../../../src/config/content-warning-groups.ts)
+- Ghi chú kỹ thuật: [`src/config/tech-note-groups.ts`](../../../src/config/tech-note-groups.ts)
 - Cửa hàng: [`src/config/platforms.ts`](../../../src/config/platforms.ts)
 - Link mạng xã hội & donate: [`src/config/social-fields.ts`](../../../src/config/social-fields.ts)
 - Link cộng đồng: [`src/components/editor/CommunityEditor.tsx`](../../../src/components/editor/CommunityEditor.tsx)
@@ -101,7 +102,7 @@ Các nhóm bulk-select trong editor: **All RPGs** (rpg + jrpg + action_rpg + crp
 
 ---
 
-## 3. Cảnh báo nội dung (248, chia nhóm)
+## 3. Cảnh báo nội dung (257, chia nhóm)
 
 Cảnh báo được chọn sẽ hiển thị trong khối cảnh báo nội dung của description (`▸ ⚠️ CẢNH BÁO NỘI DUNG` khi output là tiếng Việt), ngay sau khối cấu hình máy (và danh sách mod, với loại Chơi với Mod). Mỗi nhóm có thể thu gọn trong editor; cảnh báo hiển thị theo thứ tự người dùng chọn.
 
@@ -133,13 +134,13 @@ Cảnh gây lo âu · Trầm cảm · Rối loạn ăn uống · Sử dụng ch�
 
 Tự kỷ / thần kinh đa dạng · ADHD / rối loạn tập trung · Hikikomori / ẩn dật xã hội · NEET (không học không làm) · Lo âu xã hội · Cô lập xã hội / cô đơn · Tâm thần phân liệt / loạn thần · Burnout / kiệt sức · Mặc cảm sống sót · Bị bỏ rơi / sang chấn · Quan hệ parasocial · Gaslighting / thao túng · Hội chứng Stockholm · Nghiện game / cờ bạc · Khủng hoảng hiện sinh · Hội chứng kẻ mạo danh · Khủng hoảng tuổi trung niên · Khủng hoảng tuổi 1/4 · Quấy rối nơi làm việc · Áp lực vai trò giới · Miệt thị ngoại hình (body shaming) · Chuẩn mực ngoại hình phi thực tế
 
-### Internet / Đời sống số (18)
+### Internet / Đời sống số (19)
 
-Bắt nạt / quấy rối qua mạng · Doxxing / phơi bày thông tin cá nhân · Trolling / phá game · Văn hóa tẩy chay / bêu rếu công khai · Nghiện mạng xã hội · Lướt tin tiêu cực vô độ (doomscrolling) · Hội chứng sợ bỏ lỡ (FOMO) · Tin giả / thông tin sai lệch · Lừa đảo trực tuyến / phishing · Giả mạo danh tính trên mạng (catfishing) · Deepfake / nội dung giả mạo bằng AI · Theo dõi / rình rập qua mạng · Trào lưu / thử thách nguy hiểm trên mạng · Văn hóa influencer / câu tương tác · Cực đoan hóa qua mạng / buồng vang thông tin · Loot box / cơ chế gacha · Chủ đề AI / trí tuệ nhân tạo · Riêng tư dữ liệu / giám sát diện rộng
+Bắt nạt / quấy rối qua mạng · Doxxing / phơi bày thông tin cá nhân · Trolling / phá game · Văn hóa tẩy chay / bêu rếu công khai · Nghiện mạng xã hội · Lướt tin tiêu cực vô độ (doomscrolling) · Hội chứng sợ bỏ lỡ (FOMO) · Tin giả / thông tin sai lệch · Lừa đảo trực tuyến / phishing · Giả mạo danh tính trên mạng (catfishing) · Deepfake / nội dung giả mạo bằng AI · Theo dõi / rình rập qua mạng · Trào lưu / thử thách nguy hiểm trên mạng · Văn hóa influencer / câu tương tác · Cực đoan hóa qua mạng / buồng vang thông tin · Loot box / cơ chế gacha · Mua vật phẩm trong game · Chủ đề AI / trí tuệ nhân tạo · Riêng tư dữ liệu / giám sát diện rộng
 
-### Nội dung nhạy cảm / 18+ (66)
+### Nội dung nhạy cảm / 18+ (67)
 
-Máu me · 18+ · Trang phục hở hang · Kh*a th*n một phần · Tạo hình nhân vật bị t*nh d*c hóa · Yếu tố fan service · Tư thế / góc quay gợi cảm · Hình ảnh gây khó chịu · B*o h*nh động vật · Trẻ em chịu tác động · B*o h*nh gia đình · Tham chiếu x*m h*i t*nh d*c · Tra tấn · Tôn giáo · Tác động vật lý chiến tranh · Phân biệt đối xử · Tác động vật lý từ chính quyền · Hút thuốc / uống rượu · G*ết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia) · Cực đoan chính trị · Cực đoan tôn giáo / cuồng tín · Diệt chủng / thanh trừng sắc tộc · Thánh chiến / xung đột tôn giáo · Đại nạn Holocaust · Nội chiến · Xả súng hàng loạt / xả súng trường học · Chủ nghĩa thực dân / đế quốc · Tuyên truyền nhà nước · Nhà nước giám sát / dystopia · Thuyết âm mưu · Kiểm duyệt / cấm phát ngôn · Xung đột sắc tộc / chủng tộc · Khủng hoảng tị nạn · Cách mạng / nổi dậy · Ám sát chính trị · Đảo chính · Toà án dị giáo / săn phù thủy · Lao động cưỡng bức · Chủ nghĩa dân tộc cực đoan · Treo c* / siết c* · Cảnh ch*t đuối · Cảnh thiêu s*ng · Cảnh ngạt th* · Bị trói / cầm tù tra tấn · Cảnh hành quyết công khai · Cảnh chặt đầu · Cảnh đâm xuyên cơ thể · Thương vong hàng loạt · Tác động vật lý bằng phương tiện · Cảnh sử dụng quá liều · Ngã / nhảy từ trên cao
+Máu me · 18+ · Trang phục hở hang · Kh*a th*n một phần · Tạo hình nhân vật bị t*nh d*c hóa · Yếu tố fan service · Tư thế / góc quay gợi cảm · Hình ảnh gây khó chịu · B*o h*nh động vật · Trẻ em chịu tác động · B*o h*nh gia đình · Tham chiếu x*m h*i t*nh d*c · Tra tấn · Tôn giáo · Tác động vật lý chiến tranh · Phân biệt đối xử · Tác động vật lý từ chính quyền · Hút thuốc / uống rượu · Cờ bạc mô phỏng · G*ết người chi tiết · Tà giáo / huyền bí · Thao túng tâm lý · Mất mát / đau buồn · Bắt cóc · Phát ngôn thù hận · Tội ác lịch sử · Nô lệ · Khủng bố · Bắt nạt · Thử nghiệm trên người · Ăn thịt người · Hạt nhân / phóng xạ · Kỳ thị người đồng tính / LGBTQ+ (homophobia) · Kỳ thị người chuyển giới (transphobia) · Bài ngoại (xenophobia) · Cực đoan chính trị · Cực đoan tôn giáo / cuồng tín · Diệt chủng / thanh trừng sắc tộc · Thánh chiến / xung đột tôn giáo · Đại nạn Holocaust · Nội chiến · Xả súng hàng loạt / xả súng trường học · Chủ nghĩa thực dân / đế quốc · Tuyên truyền nhà nước · Nhà nước giám sát / dystopia · Thuyết âm mưu · Kiểm duyệt / cấm phát ngôn · Xung đột sắc tộc / chủng tộc · Khủng hoảng tị nạn · Cách mạng / nổi dậy · Ám sát chính trị · Đảo chính · Toà án dị giáo / săn phù thủy · Lao động cưỡng bức · Chủ nghĩa dân tộc cực đoan · Treo c* / siết c* · Cảnh ch*t đuối · Cảnh thiêu s*ng · Cảnh ngạt th* · Bị trói / cầm tù tra tấn · Cảnh hành quyết công khai · Cảnh chặt đầu · Cảnh đâm xuyên cơ thể · Thương vong hàng loạt · Tác động vật lý bằng phương tiện · Cảnh sử dụng quá liều · Ngã / nhảy từ trên cao
 
 ### Kinh dị nặng (12)
 
@@ -153,9 +154,41 @@ Lần đầu chơi (blind) · Không spoiler trong chat · Chế độ easy / st
 
 Dùng mod · Bật cheat / debug · Dùng glitch · Có guide hỗ trợ · Game mục đích giáo dục / tuyên truyền
 
+### Nội dung do AI tạo (7)
+
+Nội dung do AI tạo (chung) · Hình ảnh / đồ họa AI · Giọng nói AI / tổng hợp · Nhạc / âm thanh AI · Văn bản / thoại do AI viết · AI tạo nội dung trực tiếp khi chơi · Nhà phát triển có công bố dùng AI
+
+Bản thân game được làm hoặc chạy bằng AI tạo sinh — còn game có cốt truyện _về_ AI là "Chủ đề AI / trí tuệ nhân tạo" ở trên. Cách chia theo phần công bố AI của Steam: nội dung làm bằng AI trong quá trình phát triển rồi đưa vào game, và nội dung AI tạo trực tiếp khi đang chơi. Dịch máy là trường **Language patch** trong Ghi chú lượt chơi nên không có cảnh báo riêng ở đây. YouTube không yêu cầu gắn nhãn nội dung chỉnh sửa / tổng hợp cho video gameplay; các dòng này là để người xem biết.
+
 ---
 
-## 4. Cửa hàng (15 + trang nhà phát hành)
+## 4. Ghi chú kỹ thuật (25, chia nhóm)
+
+Ghi chú được chọn hiển thị trong khối `▸ 🛠 TECH NOTES` (`▸ 🛠 GHI CHÚ KỸ THUẬT` khi output là tiếng Việt) ngay sau cảnh báo nội dung, theo thứ tự người dùng chọn. Chúng nói về bản quay, không phải về game. Những thông tin đã có trường riêng — độ khó, ending đã chiếu, language patch, phiên bản game, upscaler và frame generation trong Video settings — không lặp lại ở đây.
+
+### Âm thanh (5)
+
+Tắt tiếng (bản quyền) · Giảm volume (bản quyền) · Thay nhạc (bản quyền) · Chỉ tắt cutscene · Giữ audio gốc (rủi ro claim)
+
+### Chất lượng video (4)
+
+Độ phân giải thấp (phần cứng) · Hạ đồ họa (hiệu năng) · Sụt FPS (phần cứng) · Lỗi hình do upscaling / frame gen
+
+### Lỗi quay (4)
+
+Bug là từ game · Giữ crash (minh bạch) · Cắt loading screen · Có thể có lỗi OBS
+
+### Ghi chú cách chơi (8)
+
+KHÔNG phải no-hit run · Không phải walkthrough mượt · Giải trí, không bình luận · Nhiều lần chết · Khám phá chậm · Có thể bí ở puzzle · Cắt phần cày · Không phải speedrun
+
+### Sản xuất & ghi nhận (4)
+
+Khám phá (skip combat) · Edit cho hợp nhịp · Ủng hộ nhà phát triển · Lỗi kết nối online
+
+---
+
+## 5. Cửa hàng (15 + trang nhà phát hành)
 
 Mỗi cửa hàng có một ô link riêng. Dán link cửa hàng vào bất kỳ đâu trong editor, link sẽ tự vào đúng ô; link đầu tiên còn đặt luôn nền tảng của video, và tên tìm kiếm của nền tảng đó được dùng trong tag. Mỗi link được đánh dấu là trả phí, miễn phí hoặc demo.
 
@@ -180,7 +213,7 @@ Mỗi cửa hàng có một ô link riêng. Dán link cửa hàng vào bất k�
 
 ---
 
-## 5. Link mạng xã hội, donate & cộng đồng
+## 6. Link mạng xã hội, donate & cộng đồng
 
 ### Donate (5)
 
@@ -205,7 +238,7 @@ Dùng cho khối Donate (Việt Nam) — chuyển khoản ngân hàng, MoMo và 
 
 ---
 
-## 6. Nền tảng đăng chéo (7)
+## 7. Nền tảng đăng chéo (7)
 
 Tab Mạng xã hội dùng lại chính dữ liệu trong editor để tạo caption video ngắn. Khi caption vượt giới hạn của nền tảng, các khối tùy chọn sẽ bị bỏ bớt (cảnh báo nội dung bị bỏ trước); số hashtag được giới hạn theo từng nền tảng.
 
@@ -221,17 +254,18 @@ Tab Mạng xã hội dùng lại chính dữ liệu trong editor để tạo cap
 
 ---
 
-## 7. Bảo trì
+## 8. Bảo trì
 
 Khi thêm mục mới vào bất kỳ file nguồn nào:
 
 1. **Loại video** → thêm vào [`src/config/video-types.ts`](../../../src/config/video-types.ts) (kèm title, câu mở đầu và lời chào pinned comment trong mọi file `templates.json`) VÀ thêm dòng vào mục 1 ở trên.
 2. **Thể loại** → thêm vào [`src/config/genres.ts`](../../../src/config/genres.ts) (kèm tag pool và từ khóa tìm kiếm trong `src/engine/tag-generator.ts` — có test giữ hai bên khớp nhau) VÀ thêm dòng vào mục 2.
-3. **Cảnh báo nội dung** → thêm vào nhóm phù hợp ở [`src/config/content-warning-groups.ts`](../../../src/config/content-warning-groups.ts) VÀ thêm label vào đúng nhóm ở mục 3 — giữ số đếm trong tiêu đề chính xác.
-4. **Cửa hàng** → thêm vào [`src/config/platforms.ts`](../../../src/config/platforms.ts) (URL pattern và `tagName`; có thể thêm hàm đọc tên game trong `src/utils/url-extractors.ts`) VÀ thêm dòng vào mục 4.
-5. **Link mạng xã hội / donate** → thêm vào [`src/config/social-fields.ts`](../../../src/config/social-fields.ts) (kèm label `social.<id>` trong mọi file `ui.json`) VÀ thêm vào mục 5.
-6. **Ngân hàng Việt Nam** → thêm vào [`src/config/vietnamese-banks.ts`](../../../src/config/vietnamese-banks.ts) — ngân hàng đổi tên thì thêm tên mới và ánh xạ tên cũ trong `VIETNAMESE_BANK_RENAMES` — VÀ cập nhật mục 5.
-7. **Nền tảng đăng chéo** → thêm vào [`src/config/social-platforms.ts`](../../../src/config/social-platforms.ts) (kèm label `socialPost.platforms.<id>` trong mọi file `ui.json`) VÀ thêm dòng vào mục 6.
-8. Cập nhật cả bản gốc EN tại [`docs/CONTENT-INVENTORY.md`](../../CONTENT-INVENTORY.md) trong cùng PR.
+3. **Cảnh báo nội dung** → thêm id vào `CONTENT_WARNINGS` trong `src/engine/types.ts` và vào nhóm phù hợp ở [`src/config/content-warning-groups.ts`](../../../src/config/content-warning-groups.ts), kèm label trong editor và dòng description ở mọi locale và `_schema.json` (thiếu là test báo lỗi), VÀ thêm label vào đúng nhóm ở mục 3 — giữ số đếm trong tiêu đề chính xác.
+4. **Ghi chú kỹ thuật** → tương tự với `TECH_NOTES` và [`src/config/tech-note-groups.ts`](../../../src/config/tech-note-groups.ts) VÀ mục 4.
+5. **Cửa hàng** → thêm vào [`src/config/platforms.ts`](../../../src/config/platforms.ts) (URL pattern và `tagName`; có thể thêm hàm đọc tên game trong `src/utils/url-extractors.ts`) VÀ thêm dòng vào mục 5.
+6. **Link mạng xã hội / donate** → thêm vào [`src/config/social-fields.ts`](../../../src/config/social-fields.ts) (kèm label `social.<id>` trong mọi file `ui.json`) VÀ thêm vào mục 6.
+7. **Ngân hàng Việt Nam** → thêm vào [`src/config/vietnamese-banks.ts`](../../../src/config/vietnamese-banks.ts) — ngân hàng đổi tên thì thêm tên mới và ánh xạ tên cũ trong `VIETNAMESE_BANK_RENAMES` — VÀ cập nhật mục 6.
+8. **Nền tảng đăng chéo** → thêm vào [`src/config/social-platforms.ts`](../../../src/config/social-platforms.ts) (kèm label `socialPost.platforms.<id>` trong mọi file `ui.json`) VÀ thêm dòng vào mục 7.
+9. Cập nhật cả bản gốc EN tại [`docs/CONTENT-INVENTORY.md`](../../CONTENT-INVENTORY.md) trong cùng PR.
 
 Sai lệch giữa file này và file nguồn được xem là lỗi tài liệu — mở issue hoặc PR.

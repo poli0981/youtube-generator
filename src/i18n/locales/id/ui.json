@@ -371,7 +371,8 @@
       "sensitive": "Konten dewasa / sensitif",
       "playstyle": "Keterangan gaya bermain",
       "horror_specific": "Horor berat",
-      "gameplay_disclosure": "Keterbukaan gameplay"
+      "gameplay_disclosure": "Keterbukaan gameplay",
+      "ai_content": "Konten buatan AI"
     },
     "contentWarningOptions": {
       "spoiler_story": "Spoiler cerita / ending",
@@ -621,7 +622,16 @@
       "sexualized_characters": "Desain karakter terseksualisasi",
       "fanservice": "Fan service / ecchi",
       "suggestive_poses": "Pose / sudut kamera sugestif",
-      "educational_purpose_only": "Tujuan edukasi / kampanye sosial"
+      "educational_purpose_only": "Tujuan edukasi / kampanye sosial",
+      "ai_generated_content": "Konten buatan AI (umum)",
+      "ai_generated_visuals": "Seni / visual AI",
+      "ai_generated_voices": "Pengisi suara AI / sintetis",
+      "ai_generated_music": "Musik / efek suara AI",
+      "ai_generated_text": "Teks / dialog tulisan AI",
+      "ai_live_generated": "Dibuat AI secara langsung saat bermain",
+      "ai_disclosed_by_developer": "Penggunaan AI diungkap pengembang",
+      "in_game_purchases": "Pembelian dalam gim",
+      "simulated_gambling": "Simulasi judi"
     },
     "playthroughNotes": {
       "title": "Catatan playthrough",
@@ -712,7 +722,8 @@
       "exploration_focus_skip_combat": "Fokus eksplorasi (lewati pertarungan)",
       "edited_for_pacing": "Diedit demi tempo",
       "support_developers": "Dukung para pengembang",
-      "online_connectivity_issues": "Kendala koneksi daring"
+      "online_connectivity_issues": "Kendala koneksi daring",
+      "upscaling_artifacts_possible": "Artefak upscaling / frame generation"
     },
     "quickPreview": "Pratinjau Cepat",
     "version": "Versi",

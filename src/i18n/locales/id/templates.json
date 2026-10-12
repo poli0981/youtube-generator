@@ -208,7 +208,8 @@
         "exploration_focus_skip_combat": "Fokus eksplorasi — pertarungan bisa dilewati",
         "edited_for_pacing": "Diedit demi tempo — bukan waktu nyata",
         "support_developers": "Musik asli game — dukung para pengembangnya",
-        "online_connectivity_issues": "Game online — kemungkinan ada kendala koneksi"
+        "online_connectivity_issues": "Game online — kemungkinan ada kendala koneksi",
+        "upscaling_artifacts_possible": "Kemungkinan ada artefak upscaling / frame generation (DLSS, FSR, XeSS)"
       }
     },
     "contentWarnings": {
@@ -462,7 +463,16 @@
         "sexualized_characters": "Desain karakter terseksualisasi",
         "fanservice": "Fan service / konten ecchi",
         "suggestive_poses": "Pose / sudut kamera sugestif",
-        "educational_purpose_only": "Gim bertujuan edukasi / kampanye sosial"
+        "educational_purpose_only": "Gim bertujuan edukasi / kampanye sosial",
+        "ai_generated_content": "Gim memuat konten buatan AI",
+        "ai_generated_visuals": "Seni / visual buatan AI",
+        "ai_generated_voices": "Pengisi suara buatan AI / sintetis",
+        "ai_generated_music": "Musik / efek suara buatan AI",
+        "ai_generated_text": "Dialog / teks dalam gim ditulis AI",
+        "ai_live_generated": "Konten dibuat AI secara langsung — berbeda tiap permainan",
+        "ai_disclosed_by_developer": "Penggunaan AI diungkap oleh pengembang (halaman toko)",
+        "in_game_purchases": "Pembelian dalam gim / transaksi mikro",
+        "simulated_gambling": "Simulasi judi (kasino / taruhan)"
       }
     },
     "graphics": {

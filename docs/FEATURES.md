@@ -182,8 +182,8 @@ Every block is optional and skipped when empty. In order:
  9. 🖥 Video settings (skipped for games without graphics settings)
 10. 💻 My rig
 11. 🧩 Mod list (Modded Gameplay only)
-12. ⚠️ Content warnings (248 IDs across 12 groups)
-13. Tech notes
+12. ⚠️ Content warnings (257 IDs across 13 groups, incl. AI-generated content — v1.2.0)
+13. 🛠 Tech notes (25 IDs across 5 groups)
 14. Translation-quality note (opt-in; not for English or Vietnamese)
 15. 🎁 Sponsor credit (opt-in)
 16. 🤝 Sponsors & partners (opt-in)

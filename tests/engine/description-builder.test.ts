@@ -1618,6 +1618,80 @@ describe("buildDescription — v0.25.0 dialogue / internet / suggestive warnings
   });
 });
 
+describe("buildDescription — v1.2.0 AI-generated content, ESRB gaps, upscaling note", () => {
+  it("renders the AI-generated content warnings in pick order (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({
+        contentWarnings: [
+          "ai_generated_voices",
+          "ai_generated_visuals",
+          "ai_disclosed_by_developer",
+        ],
+      }),
+      t,
+    );
+    expect(result).toContain("▸ ⚠️ CONTENT WARNINGS");
+    const voices = result.indexOf("• AI-generated / synthetic voices");
+    const visuals = result.indexOf("• AI-generated art / visuals");
+    const disclosed = result.indexOf("• AI use disclosed by the developer (store page)");
+    expect(voices).toBeGreaterThan(-1);
+    expect(visuals).toBeGreaterThan(voices);
+    expect(disclosed).toBeGreaterThan(visuals);
+    // A story about AI is a different warning.
+    expect(result).not.toContain("artificial intelligence themes");
+  });
+
+  it("renders the live-generated and general AI warnings (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["ai_generated_content", "ai_live_generated"] }),
+      t,
+    );
+    expect(result).toContain("• AI-generated content in the game");
+    expect(result).toContain("• Content generated live by AI — differs each playthrough");
+  });
+
+  it("renders bilingual EN · VI lines for the AI warnings", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({ language: "vi", contentWarnings: ["ai_generated_voices", "ai_generated_text"] }),
+      t,
+      { tEn },
+    );
+    expect(result).toContain(
+      "• AI-generated / synthetic voices · Giọng nói do AI tạo / giọng tổng hợp",
+    );
+    expect(result).toContain(
+      "• AI-written dialogue / in-game text · Lời thoại / văn bản trong game do AI viết",
+    );
+  });
+
+  it("renders simulated gambling and in-game purchases (en)", () => {
+    const t = createMockT("en");
+    const result = buildDescription(
+      makeInput({ contentWarnings: ["simulated_gambling", "in_game_purchases"] }),
+      t,
+    );
+    expect(result).toContain("• Simulated gambling (casino / betting games)");
+    expect(result).toContain("• In-game purchases / microtransactions");
+  });
+
+  it("renders the upscaling / frame-generation artifacts tech note (en · ja)", () => {
+    const t = createMockT("ja");
+    const tEn = createMockT("en");
+    const result = buildDescription(
+      makeInput({ language: "ja", techNotes: ["upscaling_artifacts_possible"] }),
+      t,
+      { tEn },
+    );
+    expect(result).toContain(
+      "• Possible upscaling / frame-generation artifacts (DLSS, FSR, XeSS) · アップスケーリング / フレーム生成（DLSS・FSR・XeSS）由来のアーティファクトの可能性あり",
+    );
+  });
+});
+
 describe("buildDescription — gacha_quest video type (v0.9)", () => {
   it("dispatches to the per-quest-type intro for main_story", () => {
     const t = createMockT("en");

@@ -353,6 +353,7 @@
       "low_resolution_hardware",
       "low_graphics_performance",
       "fps_drops_hardware",
+      "upscaling_artifacts_possible",
       "bug_from_game",
       "crash_kept_transparency",
       "loading_cut",
@@ -382,7 +383,8 @@
       "sensitive",
       "playstyle",
       "horror_specific",
-      "gameplay_disclosure"
+      "gameplay_disclosure",
+      "ai_content"
     ],
     "editor.contentWarningOptions": [
       "spoiler_story",
@@ -538,6 +540,7 @@
       "influencer_culture",
       "online_radicalization",
       "loot_boxes",
+      "in_game_purchases",
       "ai_themes",
       "data_privacy",
       "blood_gore",
@@ -558,6 +561,7 @@
       "discrimination",
       "police_violence",
       "smoking_drinking",
+      "simulated_gambling",
       "detailed_killing",
       "cult_occult",
       "psychological_manipulation",
@@ -632,7 +636,14 @@
       "cheats_enabled",
       "glitch_exploits",
       "assisted_run",
-      "educational_purpose_only"
+      "educational_purpose_only",
+      "ai_generated_content",
+      "ai_generated_visuals",
+      "ai_generated_voices",
+      "ai_generated_music",
+      "ai_generated_text",
+      "ai_live_generated",
+      "ai_disclosed_by_developer"
     ],
     "editor.videoStyleOptions": [
       "1980s",
@@ -1292,6 +1303,7 @@
       "low_resolution_hardware",
       "low_graphics_performance",
       "fps_drops_hardware",
+      "upscaling_artifacts_possible",
       "bug_from_game",
       "crash_kept_transparency",
       "loading_cut",
@@ -1464,6 +1476,7 @@
       "influencer_culture",
       "online_radicalization",
       "loot_boxes",
+      "in_game_purchases",
       "ai_themes",
       "data_privacy",
       "blood_gore",
@@ -1484,6 +1497,7 @@
       "discrimination",
       "police_violence",
       "smoking_drinking",
+      "simulated_gambling",
       "detailed_killing",
       "cult_occult",
       "psychological_manipulation",
@@ -1558,7 +1572,14 @@
       "cheats_enabled",
       "glitch_exploits",
       "assisted_run",
-      "educational_purpose_only"
+      "educational_purpose_only",
+      "ai_generated_content",
+      "ai_generated_visuals",
+      "ai_generated_voices",
+      "ai_generated_music",
+      "ai_generated_text",
+      "ai_live_generated",
+      "ai_disclosed_by_developer"
     ],
     "description.storeLinkSuffix": ["free", "demo"],
     "description.graphics": [

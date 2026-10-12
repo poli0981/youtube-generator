@@ -7,7 +7,7 @@ import { GroupedChecklist } from "./GroupedChecklist";
 const optionKey = (id: ContentWarning) => `editor.contentWarningOptions.${id}`;
 
 /**
- * The ~40 content warnings, grouped and searchable. Each maps to an entry in
+ * The 250+ content warnings, grouped and searchable. Each maps to an entry in
  * the editor's `contentWarnings` array; selection order is preserved so the
  * description lists them in the order they were picked. Spoilers — the group
  * most videos need — starts open.

@@ -227,6 +227,12 @@ export const TECH_NOTES = [
   "low_resolution_hardware",
   "low_graphics_performance",
   "fps_drops_hardware",
+  // v1.2.0: DLSS / FSR / XeSS upscaling and frame generation leave their own
+  // artifacts in a recording (ghosting around the HUD, smeared particles).
+  // Which upscaler / frame generation was on is the structured
+  // `upscaleQuality` / `frameGenVendor` line in 🖥 VIDEO SETTINGS; this note
+  // only warns about what they do to the footage.
+  "upscaling_artifacts_possible",
   // Recording issues
   "bug_from_game",
   "crash_kept_transparency",
@@ -440,6 +446,9 @@ export const CONTENT_WARNINGS = [
   "influencer_culture",
   "online_radicalization",
   "loot_boxes",
+  // v1.2.0: ESRB / PEGI "In-Game Purchases" — real-money purchases of any
+  // kind, beside the random-item kind above.
+  "in_game_purchases",
   "ai_themes",
   "data_privacy",
   // Mature / sensitive
@@ -464,6 +473,9 @@ export const CONTENT_WARNINGS = [
   "discrimination",
   "police_violence",
   "smoking_drinking",
+  // v1.2.0: ESRB "Simulated Gambling" / PEGI "Gambling" — casino or betting
+  // games played inside the game, no real money involved.
+  "simulated_gambling",
   "detailed_killing",
   "cult_occult",
   "psychological_manipulation",
@@ -550,6 +562,19 @@ export const CONTENT_WARNINGS = [
   // v0.25.0: the game itself is educational / PSA / propaganda material —
   // a nature-of-content disclosure, not a playthrough disclosure.
   "educational_purpose_only",
+  // AI-generated content (v1.2.0): the game is made or run with generative
+  // AI — not a story about AI, which is `ai_themes`. Mirrors Steam's AI
+  // disclosure: content made with AI during development and shipped in the
+  // game (visuals, voices, music, text) vs content an AI generates live while
+  // the game runs. Machine translation is the structured `languagePatch`
+  // field (`mtl`), so there is no translation id here.
+  "ai_generated_content",
+  "ai_generated_visuals",
+  "ai_generated_voices",
+  "ai_generated_music",
+  "ai_generated_text",
+  "ai_live_generated",
+  "ai_disclosed_by_developer",
 ] as const;
 export type ContentWarning = (typeof CONTENT_WARNINGS)[number];
 

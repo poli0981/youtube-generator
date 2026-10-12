@@ -1,6 +1,6 @@
 # Content Inventory
 
-A static manifest of every video type, game genre, content warning, store, link field and cross-post platform surfaced in YTDescGen's editor (as of v1.0.0). Maintained manually — when adding a new option to one of the source files below, **add a row here too** in the same PR.
+A static manifest of every video type, game genre, content warning, tech note, store, link field and cross-post platform surfaced in YTDescGen's editor (as of v1.2.0). Maintained manually — when adding a new option to one of the source files below, **add a row here too** in the same PR.
 
 This file exists for **transparency** — anyone curious about what the editor can describe (without installing the app or reading the source) can scan it in one minute.
 
@@ -11,6 +11,7 @@ This file exists for **transparency** — anyone curious about what the editor c
 - Video types: [`src/config/video-types.ts`](../src/config/video-types.ts)
 - Game genres: [`src/config/genres.ts`](../src/config/genres.ts)
 - Content warnings: [`src/config/content-warning-groups.ts`](../src/config/content-warning-groups.ts)
+- Tech notes: [`src/config/tech-note-groups.ts`](../src/config/tech-note-groups.ts)
 - Stores: [`src/config/platforms.ts`](../src/config/platforms.ts)
 - Social & donate links: [`src/config/social-fields.ts`](../src/config/social-fields.ts)
 - Community links: [`src/components/editor/CommunityEditor.tsx`](../src/components/editor/CommunityEditor.tsx)
@@ -101,7 +102,7 @@ Bulk-select groups available in the editor: **All RPGs** (rpg + jrpg + action_rp
 
 ---
 
-## 3. Content warnings (248, grouped)
+## 3. Content warnings (257, grouped)
 
 Selected warnings are rendered in a `▸ ⚠️ CONTENT WARNINGS` block in the description, after the rig block (and the mod list, for Modded Gameplay). Each group is collapsible in the editor; warnings render in description order = user's selection order.
 
@@ -133,13 +134,13 @@ Anxiety-inducing scenes · Depression themes · Eating disorders · Substance us
 
 Autism / neurodivergence themes · ADHD / executive dysfunction · Hikikomori / social withdrawal · NEET themes · Social anxiety themes · Social isolation / loneliness · Schizophrenia / psychosis · Burnout / overwork · Survivor guilt · Abandonment themes · Parasocial relationships · Gaslighting · Stockholm syndrome · Gaming / gambling addiction · Existential / nihilistic themes · Impostor syndrome · Midlife crisis · Quarter-life crisis · Workplace harassment · Gender-role pressure · Body shaming / appearance mockery · Unrealistic beauty standards
 
-### Internet / Digital life (18)
+### Internet / Digital life (19)
 
-Cyberbullying / online harassment · Doxxing / privacy exposure · Trolling / griefing · Cancel culture / public shaming · Social media addiction · Doomscrolling · FOMO (fear of missing out) · Fake news / misinformation · Online scams / phishing · Catfishing / fake identity · Deepfakes / synthetic media · Cyberstalking · Dangerous viral challenges · Influencer culture / clout chasing · Online radicalization / echo chambers · Loot boxes / gacha mechanics · AI / artificial intelligence themes · Data privacy / mass surveillance
+Cyberbullying / online harassment · Doxxing / privacy exposure · Trolling / griefing · Cancel culture / public shaming · Social media addiction · Doomscrolling · FOMO (fear of missing out) · Fake news / misinformation · Online scams / phishing · Catfishing / fake identity · Deepfakes / synthetic media · Cyberstalking · Dangerous viral challenges · Influencer culture / clout chasing · Online radicalization / echo chambers · Loot boxes / gacha mechanics · In-game purchases · AI / artificial intelligence themes · Data privacy / mass surveillance
 
-### Mature / Sensitive content (66)
+### Mature / Sensitive content (67)
 
-Blood and gore · Mature 18+ · Revealing / skimpy outfits · Partial nudity · Sexualized character designs · Fan service / ecchi · Suggestive poses / camera angles · Disturbing imagery · Animal cruelty · Violence against minors · Domestic violence · Sexual assault references · Torture · Religious themes · War violence · Discrimination · State / police violence · Smoking / drinking · Detailed killing · Cult / occult · Psychological manipulation · Loss / grief · Kidnapping · Hate speech · Historical atrocities · Slavery themes · Terrorism themes · Bullying themes · Human experimentation · Cannibalism · Nuclear / radiation · Homophobia / anti-LGBTQ+ · Transphobia / anti-trans · Xenophobia / anti-foreigner · Political extremism · Religious extremism / fundamentalism · Genocide / ethnic cleansing · Holy war / sectarian conflict · Holocaust themes · Civil war · Mass / school shootings · Colonialism / imperialism · State propaganda · Surveillance / dystopian state · Conspiracy theories · Censorship themes · Ethnic / racial conflict · Refugee crisis · Revolution / uprising · Political assassination · Coup d'état · Inquisition / religious persecution · Forced labor · Ultranationalism · Hanging / strangulation · Drowning scene · Burning alive / immolation · Asphyxiation / suffocation · Bound / restrained victim · Public execution · Decapitation · Impalement · Mass-casualty event · Vehicular violence · Overdose scene · Falling from height (intentional)
+Blood and gore · Mature 18+ · Revealing / skimpy outfits · Partial nudity · Sexualized character designs · Fan service / ecchi · Suggestive poses / camera angles · Disturbing imagery · Animal cruelty · Violence against minors · Domestic violence · Sexual assault references · Torture · Religious themes · War violence · Discrimination · State / police violence · Smoking / drinking · Simulated gambling · Detailed killing · Cult / occult · Psychological manipulation · Loss / grief · Kidnapping · Hate speech · Historical atrocities · Slavery themes · Terrorism themes · Bullying themes · Human experimentation · Cannibalism · Nuclear / radiation · Homophobia / anti-LGBTQ+ · Transphobia / anti-trans · Xenophobia / anti-foreigner · Political extremism · Religious extremism / fundamentalism · Genocide / ethnic cleansing · Holy war / sectarian conflict · Holocaust themes · Civil war · Mass / school shootings · Colonialism / imperialism · State propaganda · Surveillance / dystopian state · Conspiracy theories · Censorship themes · Ethnic / racial conflict · Refugee crisis · Revolution / uprising · Political assassination · Coup d'état · Inquisition / religious persecution · Forced labor · Ultranationalism · Hanging / strangulation · Drowning scene · Burning alive / immolation · Asphyxiation / suffocation · Bound / restrained victim · Public execution · Decapitation · Impalement · Mass-casualty event · Vehicular violence · Overdose scene · Falling from height (intentional)
 
 ### Heavy horror (12)
 
@@ -153,9 +154,41 @@ Blind playthrough · No spoilers in chat · Casual / story mode · Hardcore / ma
 
 Mods used · Cheats / debug · Glitches used · Guide-assisted · Educational / PSA purpose
 
+### AI-generated content (7)
+
+AI-generated content (general) · AI art / visuals · AI / synthetic voices · AI music / sound · AI-written text / dialogue · Generated live by AI while playing · AI use disclosed by the developer
+
+The game itself is made or run with generative AI — a story _about_ AI is "AI / artificial intelligence themes" above. The split follows Steam's AI disclosure: content made with AI during development and shipped in the game, and content an AI generates live while you play. Machine translation is the **Language patch** field in Playthrough notes, so it has no warning here. YouTube doesn't ask for gameplay footage to be labelled as altered or synthetic; these lines are for viewers.
+
 ---
 
-## 4. Stores (15 + publisher site)
+## 4. Tech notes (25, grouped)
+
+Selected notes are rendered in a `▸ 🛠 TECH NOTES` block right after the content warnings, in the order you picked them. They describe the recording, not the game. Facts that have their own field — difficulty, endings shown, language patch, game version, the upscaler and frame generation in Video settings — are not repeated here.
+
+### Audio (5)
+
+Some sections muted (copyright) · Volume reduced (copyright) · Game music replaced (copyright) · Cutscene audio muted only · Original audio kept (claim risk)
+
+### Video quality (4)
+
+Low resolution (hardware) · Lower graphics (performance) · FPS drops (hardware) · Upscaling / frame-gen artifacts
+
+### Recording issues (4)
+
+Bugs are from the game · Crash kept (transparency) · Loading screens cut · Possible OBS artifacts
+
+### Playstyle disclaimers (8)
+
+NOT a no-hit run · Not a clean walkthrough · Casual, no commentary · Many deaths · Slow exploration · May get stuck on puzzles · Grinding cut · Not a speedrun
+
+### Production & attribution (4)
+
+Exploration-focused (skip combat) · Edited for pacing · Support the developers · Online connectivity issues
+
+---
+
+## 5. Stores (15 + publisher site)
 
 Each store has a link field. A store link pasted anywhere in the editor lands in the right field; the first one also sets the video's platform, whose search name is used in the tags. Each link is marked paid, free or demo.
 
@@ -180,7 +213,7 @@ Each store has a link field. A store link pasted anywhere in the editor lands in
 
 ---
 
-## 5. Social, donate & community links
+## 6. Social, donate & community links
 
 ### Donate (5)
 
@@ -205,7 +238,7 @@ For the Donate (Vietnam) block — bank transfer, MoMo and ZaloPay — which ren
 
 ---
 
-## 6. Cross-post platforms (7)
+## 7. Cross-post platforms (7)
 
 The Social tab turns the same editor data into short-form captions. When a caption runs over the platform's limit, optional blocks are dropped (content warnings first); hashtags are capped per platform.
 
@@ -221,17 +254,18 @@ The Social tab turns the same editor data into short-form captions. When a capti
 
 ---
 
-## 7. Maintenance
+## 8. Maintenance
 
 When adding a new item to any of the source files:
 
 1. **Video types** → append to [`src/config/video-types.ts`](../src/config/video-types.ts) (plus its title, intro and pinned-comment greeting in every `templates.json`) AND add a row in section 1 above.
 2. **Genres** → append to [`src/config/genres.ts`](../src/config/genres.ts) (plus its tag pool and search term in `src/engine/tag-generator.ts` — a test keeps them in sync) AND add a row in section 2.
-3. **Content warnings** → append to the relevant group in [`src/config/content-warning-groups.ts`](../src/config/content-warning-groups.ts) AND add the label to the right group in section 3 — keep the group count in the heading accurate.
-4. **Stores** → add to [`src/config/platforms.ts`](../src/config/platforms.ts) (URL pattern and `tagName`; optionally a game-name extractor in `src/utils/url-extractors.ts`) AND add a row in section 4.
-5. **Social / donate links** → add to [`src/config/social-fields.ts`](../src/config/social-fields.ts) (plus its `social.<id>` label in every `ui.json`) AND add it to section 5.
-6. **Vietnamese banks** → add to [`src/config/vietnamese-banks.ts`](../src/config/vietnamese-banks.ts) — for a renamed bank, add the new name and map the old one in `VIETNAMESE_BANK_RENAMES` — AND update section 5.
-7. **Cross-post platforms** → add to [`src/config/social-platforms.ts`](../src/config/social-platforms.ts) (plus its `socialPost.platforms.<id>` label in every `ui.json`) AND add a row in section 6.
-8. Update the Vietnamese mirror at [`docs/i18n/vi/CONTENT-INVENTORY.md`](./i18n/vi/CONTENT-INVENTORY.md) in the same PR.
+3. **Content warnings** → append the id to `CONTENT_WARNINGS` in `src/engine/types.ts` and to the relevant group in [`src/config/content-warning-groups.ts`](../src/config/content-warning-groups.ts), plus its editor label and description bullet in every locale and `_schema.json` (a test fails without them), AND add the label to the right group in section 3 — keep the counts in the headings accurate.
+4. **Tech notes** → the same in `TECH_NOTES` and [`src/config/tech-note-groups.ts`](../src/config/tech-note-groups.ts) AND section 4.
+5. **Stores** → add to [`src/config/platforms.ts`](../src/config/platforms.ts) (URL pattern and `tagName`; optionally a game-name extractor in `src/utils/url-extractors.ts`) AND add a row in section 5.
+6. **Social / donate links** → add to [`src/config/social-fields.ts`](../src/config/social-fields.ts) (plus its `social.<id>` label in every `ui.json`) AND add it to section 6.
+7. **Vietnamese banks** → add to [`src/config/vietnamese-banks.ts`](../src/config/vietnamese-banks.ts) — for a renamed bank, add the new name and map the old one in `VIETNAMESE_BANK_RENAMES` — AND update section 6.
+8. **Cross-post platforms** → add to [`src/config/social-platforms.ts`](../src/config/social-platforms.ts) (plus its `socialPost.platforms.<id>` label in every `ui.json`) AND add a row in section 7.
+9. Update the Vietnamese mirror at [`docs/i18n/vi/CONTENT-INVENTORY.md`](./i18n/vi/CONTENT-INVENTORY.md) in the same PR.
 
 Mismatch between this file and the source files is treated as a documentation bug — open an issue or PR.

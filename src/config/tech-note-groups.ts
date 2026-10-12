@@ -34,7 +34,12 @@ export const TECH_NOTE_GROUPS: readonly TechNoteGroup[] = [
   {
     id: "video_quality",
     labelKey: "editor.techNoteGroups.video_quality",
-    items: ["low_resolution_hardware", "low_graphics_performance", "fps_drops_hardware"],
+    items: [
+      "low_resolution_hardware",
+      "low_graphics_performance",
+      "fps_drops_hardware",
+      "upscaling_artifacts_possible",
+    ],
   },
   {
     id: "recording_issues",
