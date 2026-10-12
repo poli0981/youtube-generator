@@ -12,3 +12,16 @@ path = "**"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2026 poli0981 (SkullMute) and YTDescGen contributors"
 SPDX-License-Identifier = "Apache-2.0"
+
+# The Gradle wrapper that Tauri's Android template commits is Gradle's own
+# code, not the project's: its headers read "Copyright 2015 the original
+# author or authors" under Apache-2.0.
+[[annotations]]
+path = [
+  "src-tauri/gen/android/gradlew",
+  "src-tauri/gen/android/gradlew.bat",
+  "src-tauri/gen/android/gradle/wrapper/gradle-wrapper.jar",
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2015 the original author or authors"
+SPDX-License-Identifier = "Apache-2.0"

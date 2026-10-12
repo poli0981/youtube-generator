@@ -86,20 +86,59 @@ function npmRows(names: string[]): Row[] {
   });
 }
 
+/**
+ * Crates `src-tauri/Cargo.toml` depends on directly — the `[dependencies]`,
+ * `[build-dependencies]` and `[target.….dependencies]` tables. Dev-only
+ * dependencies don't ship and are left out.
+ */
+export function directCrates(toml: string): string[] {
+  const names = new Set<string>();
+  let inDependencies = false;
+  for (const raw of toml.replace(/\r\n/g, "\n").split("\n")) {
+    const line = raw.trim();
+    if (line.startsWith("[")) {
+      inDependencies = /^\[(?:target\..+\.)?(?:build-)?dependencies\]$/.test(line);
+      continue;
+    }
+    const name = inDependencies ? /^([A-Za-z0-9_-]+)\s*=/.exec(line)?.[1] : undefined;
+    if (name) names.add(name);
+  }
+  return [...names].sort();
+}
+
+/**
+ * License and project page of the direct crates that aren't Tauri's own.
+ * Cargo.lock carries no license, so a new dependency fails the generator
+ * until it is added here; `cargo deny` vets the transitive tree.
+ */
+const OTHER_CRATES: Record<string, { license: string; url: string }> = {
+  serde: { license: "MIT OR Apache-2.0", url: "https://github.com/serde-rs/serde" },
+};
+
+function crateInfo(name: string): { license: string; url: string } {
+  if (name.startsWith("tauri-plugin")) {
+    return { license: "Apache-2.0 OR MIT", url: "https://github.com/tauri-apps/plugins-workspace" };
+  }
+  if (name.startsWith("tauri")) {
+    return { license: "Apache-2.0 OR MIT", url: "https://github.com/tauri-apps/tauri" };
+  }
+  const info = OTHER_CRATES[name];
+  if (!info) {
+    throw new Error(
+      `src-tauri depends on "${name}": add its license and project page to OTHER_CRATES in scripts/lib/third-party.ts`,
+    );
+  }
+  return info;
+}
+
 function crateRows(): Row[] {
-  const toml = readFileSync(resolve(ROOT, "src-tauri/Cargo.toml"), "utf8").replace(/\r\n/g, "\n");
+  const toml = readFileSync(resolve(ROOT, "src-tauri/Cargo.toml"), "utf8");
   const lock = readFileSync(resolve(ROOT, "src-tauri/Cargo.lock"), "utf8").replace(/\r\n/g, "\n");
-  const names = [...toml.matchAll(/^([a-z][a-z0-9_-]*)\s*=\s*(?:"|\{)/gm)]
-    .map((m) => m[1] ?? "")
-    .filter((n) => n.startsWith("tauri"));
-  return [...new Set(names)].sort().map((name) => {
+  return directCrates(toml).map((name) => {
     const version =
       new RegExp(`\\[\\[package\\]\\]\\nname = "${name}"\\nversion = "([^"]+)"`).exec(lock)?.[1] ??
       "?";
-    const url = name.startsWith("tauri-plugin")
-      ? "https://github.com/tauri-apps/plugins-workspace"
-      : "https://github.com/tauri-apps/tauri";
-    return { name, version, license: "Apache-2.0 OR MIT", url };
+    return { name, version, ...crateInfo(name) };
   });
 }
 
@@ -147,7 +186,7 @@ ${table(crateRows(), "Crate")}
 ## Fonts and icons
 
 - **Icons:** [Lucide](https://lucide.dev/) (\`lucide-react\`, ISC). Brand marks, where shown, come from [Simple Icons](https://simpleicons.org/) (CC0-1.0); the trademarks belong to their owners.
-- **Fonts:** the app uses the operating system's fonts.
+- **Fonts:** [Inter](https://rsms.me/inter/) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), bundled with the app from the \`@fontsource-variable\` packages above (SIL Open Font License 1.1, \`OFL-1.1\`).
 
 ## Services (web app only)
 

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  directCrates,
   disallowedProductionLicenses,
   licenseAllowed,
   renderNotices,
@@ -34,5 +35,44 @@ describe("the installed tree", () => {
     }
     expect(md).toContain("Cloudflare Turnstile");
     expect(md).toContain("/licenses/third-party.md");
+  });
+
+  it("lists every direct Rust crate, not only Tauri's, and the bundled fonts", () => {
+    const md = renderNotices();
+    for (const name of ["tauri", "tauri-build", "tauri-plugin-single-instance", "serde"]) {
+      expect(md).toContain(`| \`${name}\` |`);
+    }
+    expect(md).toContain("Inter");
+    expect(md).toContain("JetBrains Mono");
+    expect(md).not.toContain("operating system's fonts");
+  });
+});
+
+describe("directCrates", () => {
+  it("reads the dependency tables only — normal, build and per-target", () => {
+    const toml = [
+      "[package]",
+      'name = "app"',
+      'version = "1.0.0"',
+      "",
+      "[build-dependencies]",
+      'tauri-build = { version = "2" }',
+      "",
+      "[dependencies]",
+      'serde = { version = "1", features = ["derive"] }',
+      'tauri = "2"',
+      "",
+      `[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]`,
+      'tauri-plugin-single-instance = "2"',
+      "",
+      "[dev-dependencies]",
+      'tempfile = "3"',
+    ].join("\r\n");
+    expect(directCrates(toml)).toEqual([
+      "serde",
+      "tauri",
+      "tauri-build",
+      "tauri-plugin-single-instance",
+    ]);
   });
 });

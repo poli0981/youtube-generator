@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Effective:** 2026-09-30
+**Effective:** 2026-10-12
 
 This policy covers YTDescGen — the web app at **https://ytgenerator.stream** and the desktop (Windows, macOS, Linux) and Android apps built from the same source. It is maintained by **poli0981 (SkullMute)**, who is responsible for it. Questions and requests: **privacy@poli0981.dev**.
 
@@ -28,6 +28,8 @@ Your work is saved in your browser's **`localStorage`** for `ytgenerator.stream`
 | `ytdescgen-logs`         | The app's own event log (errors, imports, exports)                                     |
 
 This data never leaves your browser unless **you** export it. Clearing site data, using a private window, or a "clear cookies and site data on exit" setting erases it.
+
+One more value can appear in **`sessionStorage`**, for the open tab only: `ytdescgen-chunk-reload`, a flag written only when an update has replaced the files the app was about to load, so that it reloads itself once instead of over and over. It holds no data and disappears when the tab closes.
 
 ### Desktop and Android apps
 

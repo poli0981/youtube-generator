@@ -16,7 +16,7 @@ Tuyên bố này áp dụng cho:
 - Workflow CI/CD trong `.github/workflows/`.
 - Cloudflare Worker trong `worker/` và các build plugin trong `build-plugins/`.
 
-Xem thêm: [`THIRD_PARTY_NOTICES.md`](../../../THIRD_PARTY_NOTICES.md) § "AI-Assisted Development Disclosure".
+Xem thêm: [`THIRD_PARTY_NOTICES.md`](../../../THIRD_PARTY_NOTICES.md) § "AI-assisted development".
 
 ## Chất lượng bản dịch
 
