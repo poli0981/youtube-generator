@@ -13,7 +13,7 @@ Say when a game is **made with AI**: a new group of content warnings for AI-gene
   - **Generated live by AI while playing** — the game makes content as you play, so a viewer's own run may differ
   - **AI use disclosed by the developer** — the store page says so (Steam shows an "AI Generated Content Disclosure"), so viewers know you aren't guessing
 
-  The split follows Steam's AI disclosure: content made with AI during development and shipped, and content an AI generates while the game runs. Machine translation stays a playthrough note (**Language patch → Machine translation**). YouTube doesn't ask for gameplay footage to be labelled as altered or synthetic — these lines are for viewers. Bilingual in every output language, like every warning.
+  The split follows Steam's AI disclosure: content made with AI during development and shipped, and content an AI generates while the game runs. Machine translation stays a playthrough note (**Language patch → Machine translation**). YouTube doesn't ask for gameplay footage to be labelled as altered or synthetic — these lines are for viewers. In all eight output languages, next to the English line like every warning.
 - **Simulated gambling** (Mature / Sensitive) and **In-game purchases** (Internet / Digital life, next to loot boxes) — the two ESRB / PEGI descriptors that had no warning.
 - **Tech note: Upscaling / frame-gen artifacts** (Video quality) — "Possible upscaling / frame-generation artifacts (DLSS, FSR, XeSS)". Which upscaler and frame generation were on is already the 🖥 Video settings line; the note only warns about what they do to the footage.
 
@@ -33,7 +33,7 @@ Say when a game is **made with AI**: a new group of content warnings for AI-gene
 - No store version bump: the warning and tech-note lists only grow. The backup whitelist checks ids against them, so a 1.2.0 backup restores on 1.1.0 without the new ids.
 - **A test fails when a content warning or tech note has no editor label or description line** in `_schema.json` — and so, through `validate:locales`, in any locale. Until now a missing key showed the raw key in the editor and silently dropped the line from the description. Tech notes also get the group-parity test content warnings already had.
 - New strings in all eight locales (1,264 UI + 584 template keys each).
-- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **984 tests** and build all pass; initial load 275.2 of 280 KB gzip. Verified live in the browser: the new group and its search, pick order in the description, the bilingual English · Vietnamese lines and the tech note.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **984 tests**, build and `cargo fmt` / `clippy` / `test` all pass; initial load 275.2 of 280 KB gzip. Verified live in the browser: the new group and its search, pick order in the description, the bilingual English · Vietnamese lines and the tech note.
 - `.gitignore` covers the maintainer's local `note.txt`, `warning.txt` and `__pycache__/`.
 - Six manifests bumped 1.1.0 → 1.2.0.
 
