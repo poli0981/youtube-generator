@@ -28,8 +28,9 @@ export const ABOUT = {
   },
   /**
    * One address per purpose, so a message lands with whoever handles it.
-   * Keep in sync with SECURITY.md, PRIVACY.md, TERMS.md, NOTICE and
-   * public/.well-known/security.txt.
+   * Keep in sync with SECURITY.md, PRIVACY.md, TERMS.md, NOTICE and the
+   * `/.well-known/security.txt` that `renderSecurityTxt` in
+   * build-plugins/web-only.ts writes at build time.
    */
   contacts: {
     general: "contact@poli0981.dev",

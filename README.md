@@ -2,7 +2,7 @@
 
 **YouTube Gameplay Description Generator** — a template engine for Gameplay No Commentary YouTube channels.
 
-**Use it at [ytgenerator.stream](https://ytgenerator.stream)**, or install the desktop app (Windows / macOS / Linux, 2–5 MB installers) or the Android app from [Releases](https://github.com/poli0981/youtube-generator/releases). One codebase: React + Tauri 2.
+**Use it at [ytgenerator.stream](https://ytgenerator.stream)**, or install the desktop app (Windows / macOS / Linux, 3–6 MB installers) or the Android app from [Releases](https://github.com/poli0981/youtube-generator/releases). One codebase: React + Tauri 2.
 
 Generate YouTube titles, descriptions and tags in eight languages. Save your channel as a profile and each game as a preset, and every new video is a few clicks.
 
@@ -37,7 +37,9 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Batch mode** — every part of a series in one pass, in several languages.
 - **Cross-post captions** — TikTok, YouTube Shorts, Instagram Reels, Facebook Reels, X, Threads and Bluesky, each within its own limit.
 - **Command palette** (Ctrl/⌘ + K) and keyboard shortcuts.
+- **Contact emails by purpose** — one contact line, or separate lines for contact, advertising, game keys & playtest and copyright / DMCA, each purpose address checked for a word that says what it is for (`sponsor@…`, `keys@…`, `dmca@…`).
 - **Guardrails** — length caps on every field and an opt-in **Strict Mode** that blocks copy and export while a field has an error.
+- **Dark and light themes**, larger controls on touch screens, and an option to hide every scrollbar.
 - **Desktop app** — Windows, macOS & Linux via Tauri; **Android app** — Android 11+, sideloaded from [Releases](https://github.com/poli0981/youtube-generator/releases).
 
 ## Quick Start
@@ -63,8 +65,7 @@ npm run tauri:build
 Android build (`.apk`) — requires the Android SDK + NDK + a JDK:
 
 ```bash
-cargo tauri android init          # one-time; generates src-tauri/gen/android
-cargo tauri android build --apk
+cargo tauri android build --apk   # the Gradle project in src-tauri/gen/android is committed — don't re-run `init`
 # Output: src-tauri/gen/android/app/build/outputs/apk/universal/release/
 ```
 
@@ -101,7 +102,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 | [Hosting](./docs/HOSTING.md)                                   | How ytgenerator.stream is built, deployed and protected.                                                                                                                        |
 | [Architecture](./docs/ARCHITECTURE.md)                         | Layer model, data flow, engine design.                                                                                                                                          |
 | [Features](./docs/FEATURES.md)                                 | Full feature matrix.                                                                                                                                                            |
-| [Content Inventory](./docs/CONTENT-INVENTORY.md)               | Every video type, genre and content warning the editor surfaces. _(Also: [Vietnamese](./docs/i18n/vi/CONTENT-INVENTORY.md).)_                                                   |
+| [Content Inventory](./docs/CONTENT-INVENTORY.md)               | Every video type, genre, content warning and tech note the editor surfaces. _(Also: [Vietnamese](./docs/i18n/vi/CONTENT-INVENTORY.md).)_                                        |
 | [Roadmap](./docs/ROADMAP.md)                                   | What shipped and what's next.                                                                                                                                                   |
 | [Tech Spec](./docs/TECH-SPEC.md)                               | Implementation details and configs.                                                                                                                                             |
 | [i18n Guide](./docs/I18N.md)                                   | Adding new locales.                                                                                                                                                             |

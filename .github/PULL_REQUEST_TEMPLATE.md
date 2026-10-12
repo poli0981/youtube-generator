@@ -20,9 +20,12 @@
 - [ ] `npm run typecheck` and `npm run typecheck:all` pass
 - [ ] `npm run lint` and `npm run format:check` pass
 - [ ] `npm run validate:locales` passes — new strings are in all 8 locales (en, vi, ja, es, ko, zh, pt-BR, id)
-- [ ] `npm run test:run` passes, with tests for the change
+- [ ] `npm run test:coverage` passes, with tests for the change
+- [ ] `npm run knip` passes — no unused files, exports or dependencies
+- [ ] `npm run check:version`, `check:tauri`, `check:licenses` and `check:copyright` pass
 - [ ] `npm run build && npm run check:bundle` stay within budget
-- [ ] Touched `src-tauri/`: `cargo fmt --check`, `cargo clippy -- -D warnings`, `cargo test`
+- [ ] Touched `worker/` or `wrangler.jsonc`: `npm run cf:check`
+- [ ] Touched `src-tauri/`: `cargo fmt --check`, `cargo clippy --all-targets --locked -- -D warnings`, `cargo test`
 - [ ] No secrets, credentials, or PII committed
 - [ ] No new runtime dependencies without prior discussion in an issue
 - [ ] Commit messages follow `type(scope): message`

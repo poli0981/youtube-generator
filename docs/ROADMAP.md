@@ -2,7 +2,7 @@
 
 ## YTDescGen — Phased Development Plan
 
-> **Status (2026-09-30): v1.0.0 has shipped.** Phases 1–4 are the original
+> **Status (2026-10-12): v1.2.0 is the current release.** Phases 1–4 are the original
 > plan, kept as a record; notes added beside or under an item say what has
 > changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
 > What's next: Phase 5 and the backlog at the end of this page.
@@ -69,7 +69,8 @@
 1.8  Testing
      - [x] Vitest config
      - [x] Engine unit tests (title, description, tags) — 42 tests
-     - [ ] Smoke tests for main pages (deferred to Phase 3)
+     - [ ] Smoke tests for main pages (deferred to Phase 3; still open — the
+           suite runs in Node without a DOM, see the backlog)
 
 1.9  CI/CD
      - [x] GitHub Actions: lint + typecheck + test
@@ -260,7 +261,8 @@
 
 ### Definition of Done
 - [x] Windows installer < 15MB (4.1MB MSI), installs and runs
-- [ ] macOS .app < 15MB (CI-only, not locally testable)
+- [x] macOS .app < 15MB (CI-only, not locally testable; 4.1 MB `.app.tar.gz`
+      in v1.1.0)
 - [ ] Auto-update from GitHub Releases (deferred — needs signing)
 - [x] All web features work identically in desktop
 - [x] Offline mode fully functional
@@ -305,6 +307,22 @@ and Android all ship as 1.0.0 — the full list is in
 
 ---
 
+## v1.1.0 — Contacts ✅ SHIPPED 2026-10-03
+
+A copyright / DMCA email and purpose words for the split contact block, an
+option to hide scrollbars, and copyright years checked in CI —
+[CHANGELOG.md](../CHANGELOG.md#v110--2026-10-03).
+
+## v1.2.0 — AI disclosure ✅ SHIPPED 2026-10-12
+
+Content warnings for games made with generative AI (a new group of seven),
+simulated gambling, in-game purchases and a tech note for upscaling /
+frame-generation artifacts; a test that every warning and tech note is
+translated; third-party notices, REUSE and the docs brought in line with the
+code — [CHANGELOG.md](../CHANGELOG.md#v120--2026-10-12).
+
+---
+
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
 
 **Goal**: IDE extension, CLI, community features.
@@ -345,7 +363,8 @@ and Android all ship as 1.0.0 — the full list is in
 5.5  Quality of life
      - [ ] YouTube API integration (auto-apply description)
      - [ ] Tag trend analysis (what's trending for the genre)
-     - [ ] Multi-channel profile support
+     - [x] Multi-channel profile support — one profile per channel, as many
+           as you like; Quick start picks one per video (v1.0.0)
 ```
 
 ---
@@ -362,6 +381,8 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 - [ ] PWA offline for the web — conflicts with the Turnstile gate in front of
       the app
 - [ ] PGP signature for security.txt
+- [ ] Smoke tests for the main pages — needs a DOM test environment (the
+      suite runs in Node)
 ```
 
 ---
@@ -377,4 +398,4 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 | Phase 5 | Extensions         | Ongoing | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
-**v1.0.0 shipped on 2026-09-30.**
+**v1.0.0 shipped on 2026-09-30; the current release is v1.2.0 (2026-10-12).**

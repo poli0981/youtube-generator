@@ -1,6 +1,6 @@
 # Complete Feature List
 
-## YTDescGen — All Features (v1.0.0 + Planned)
+## YTDescGen — All Features (v1.2.0 + Planned)
 
 ---
 
@@ -523,4 +523,3 @@ See [ROADMAP.md](./ROADMAP.md) for the post-1.0 backlog.
 | Template Marketplace | Share/import community templates                            | Medium |
 | AI Tag Suggestions   | Use game name to suggest trending tags                      | Medium |
 | Thumbnail Text       | Generate text overlay suggestions for thumbnails            | Low    |
-| Multi-channel        | Support multiple YouTube channels per profile               | Low    |

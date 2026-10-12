@@ -2,7 +2,7 @@
 
 ## YTDescGen — Technical Architecture
 
-Reflects **v1.0.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
+Reflects **v1.2.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -324,6 +324,8 @@ Two sources, unioned by `useStrictBlock`, because neither alone is sufficient:
 | `PendingInvalidStore`                           | Typed text that is invalid and therefore **not** saved | Otherwise a field showing a red error is invisible to every gate, because the store behind it holds the last good value |
 
 Both are filtered through `isRelevantIssueId`, so a field that isn't currently shown (`adEmail` / `gameKeyEmail` / `copyrightEmail` with split-email off, `zaloGroupLink` outside Vietnamese output) can never block on a value with no visible input to fix it. Strict Mode is opt-in; with it off, no gate blocks.
+
+The three purpose emails (v1.1.0) go through one validator in both places: `validatePurposeEmails` (`src/utils/validation.ts`) is `validateEmails` plus a rule that the part before `@` of every address contains one of the field's words from `PURPOSE_EMAIL_KEYWORDS` (`src/config/contact-emails.ts`). `ContactEmailEditor` uses it to refuse the value and lists the words in each field's help text; `collectEditorIssues` uses it on saved values, so an older address without a word shows up for Strict Mode rather than being rewritten.
 
 The first implementation registered issues from the inputs themselves and cleared on unmount. It typechecked and had passing tests, and did nothing: the fields live on the Editor page while the gates live on Batch / Social / Output, so navigating away cleared every issue. Deriving from state removes the mount coupling entirely.
 

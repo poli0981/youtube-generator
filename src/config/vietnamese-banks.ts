@@ -2,9 +2,9 @@
  * Vietnamese banks dropdown options for the donate / Vietnam-specific
  * bank field. Sourced from the State Bank of Vietnam's published list
  * (sbv.gov.vn) of operating credit institutions as of 2026: Big 4
- * state-owned commercial banks, top 22 joint-stock commercial banks
- * (TMCP) by retail presence, and the four most-recognised 100%
- * foreign-owned banks operating in Vietnam.
+ * state-owned commercial banks, 24 joint-stock commercial banks (TMCP)
+ * by retail presence, five renamed in 2025 or digital-first, and the four
+ * most-recognised 100% foreign-owned banks operating in Vietnam.
  *
  * Order is intentional, not alphabetical: Big 4 first (highest brand
  * recognition for retail transfers), then the dominant private TMCP

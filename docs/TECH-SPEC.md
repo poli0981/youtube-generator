@@ -2,7 +2,7 @@
 
 ## YTDescGen — Implementation Details
 
-Reflects **v1.0.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
+Reflects **v1.2.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -13,7 +13,7 @@ Reflects **v1.0.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
 ```json
 {
   "name": "yt-desc-gen",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -495,6 +495,8 @@ v1.0.0 migration steps: editor v19, profiles v3 and templates v2 move the GPU to
 
 v1.1.0: editor v20 back-fills `copyrightEmail` (the fourth split contact line) with `""`. `Profile.copyrightEmail` is optional, like the v1.0.0 additions, so the profile store stays at v3. The settings gain `hideScrollbars` without a version bump: `healSettings` back-fills and coerces it on every load, and the unchanged version keeps a 1.1.0 settings backup restorable on 1.0.0.
 
+v1.2.0: nine content-warning ids and one tech note, and no version bump anywhere — the lists only widen. The backup whitelist (`choiceList` in `src/utils/backup/sanitize.ts`) checks against `CONTENT_WARNINGS` / `TECH_NOTES`, so a 1.1.0 build restoring a 1.2.0 backup keeps everything except the ids it doesn't know.
+
 Rules:
 
 - **localStorage is the only store**, on the web, desktop and Android. The desktop "mirror" file of earlier versions (`storage-adapter.ts`, `saveSettings`, `checkDataFileHealth`) was removed in v1.0.0; it was written next to the data folder and never read back. [PACKAGING.md](PACKAGING.md) covers how the leftover file is recovered.
@@ -609,7 +611,7 @@ The `check` job, in order:
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 930 tests in 48 files at v1.0.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 984 tests in 51 files at v1.2.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 
@@ -658,7 +660,7 @@ describe("buildTitle", () => {
 | `src/engine/**`                           | 88 %       | 85 %     | 60 %      | 88 %  |
 | `worker/**` (excluding `worker/index.ts`) | 95 %       | 85 %     | 95 %      | 95 %  |
 
-Guard tests worth knowing: `tests/hooks/render-options-parity.test.ts` (settings → engine options), `tests/hooks/generator-input-mapping.test.ts` (editor → engine input), `tests/i18n/locale-registration.test.ts` (language registration in both directions), the genre/tag-pool sync in `tests/engine/tag-generator.test.ts`, and `tests/worker/headers.test.ts` (keeps the Worker's baseline headers in step with `public/_headers`). The Rust side has its own `cargo test` suite (name validation, path rejection, pruning, legacy recovery, dialog filters).
+Guard tests worth knowing: `tests/hooks/render-options-parity.test.ts` (settings → engine options), `tests/hooks/generator-input-mapping.test.ts` (editor → engine input), `tests/i18n/locale-registration.test.ts` (language registration in both directions), `tests/config/content-warning-groups.test.ts` and `tech-note-groups.test.ts` (every id in exactly one group, with an editor label and a description line in `_schema.json` — v1.2.0), the genre/tag-pool sync in `tests/engine/tag-generator.test.ts`, and `tests/worker/headers.test.ts` (keeps the Worker's baseline headers in step with `public/_headers`). The Rust side has its own `cargo test` suite (name validation, path rejection, pruning, legacy recovery, dialog filters).
 
 ## 7. YouTube Character Limits Reference
 
