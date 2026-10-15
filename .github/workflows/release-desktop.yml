@@ -100,7 +100,7 @@ jobs:
           # by any other workflow must not be able to feed into them.
           package-manager-cache: false
       # A master commit, not the regenerated `stable` branch — see rust.yml.
-      - uses: dtolnay/rust-toolchain@7e38f4b43b4db5c8dd498af069a4f6196df1d067
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f
         with:
           toolchain: stable
           targets: ${{ matrix.target }}
