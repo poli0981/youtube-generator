@@ -14,18 +14,18 @@ Bundled into the web app and the desktop / Android apps.
 | --- | --- | --- | --- |
 | `@fontsource-variable/inter` | 5.3.0 | OFL-1.1 | <https://github.com/fontsource/font-files> |
 | `@fontsource-variable/jetbrains-mono` | 5.3.0 | OFL-1.1 | <https://github.com/fontsource/font-files> |
-| `@tauri-apps/api` | 2.12.0 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
+| `@tauri-apps/api` | 2.12.1 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `@tauri-apps/plugin-opener` | 2.7.0 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `clsx` | 2.1.1 | MIT | <https://github.com/lukeed/clsx> |
 | `cmdk` | 1.1.1 | MIT | <https://github.com/pacocoursey/cmdk> |
 | `i18next` | 26.4.2 | MIT | <https://github.com/i18next/i18next> |
 | `i18next-resources-to-backend` | 1.2.3 | MIT | <https://github.com/i18next/i18next-resources-to-backend> |
-| `lucide-react` | 1.49.0 | ISC | <https://github.com/lucide-icons/lucide> |
-| `motion` | 13.4.6 | MIT | <https://github.com/motiondivision/motion> |
-| `radix-ui` | 1.6.7 | MIT | <https://github.com/radix-ui/primitives> |
+| `lucide-react` | 1.52.0 | ISC | <https://github.com/lucide-icons/lucide> |
+| `motion` | 13.5.1 | MIT | <https://github.com/motiondivision/motion> |
+| `radix-ui` | 1.7.0 | MIT | <https://github.com/radix-ui/primitives> |
 | `react` | 19.3.0 | MIT | <https://github.com/react/react> |
 | `react-dom` | 19.3.0 | MIT | <https://github.com/react/react> |
-| `react-i18next` | 17.0.15 | MIT | <https://github.com/i18next/react-i18next> |
+| `react-i18next` | 17.0.16 | MIT | <https://github.com/i18next/react-i18next> |
 | `react-router-dom` | 7.18.4 | MIT | <https://github.com/remix-run/react-router> |
 | `simple-icons` | 16.33.0 | CC0-1.0 | <https://simpleicons.org> |
 | `sonner` | 2.0.8 | MIT | <https://github.com/emilkowalski/sonner> |
@@ -40,7 +40,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `@eslint/js` | 10.0.1 | MIT | <https://github.com/eslint/eslint> |
 | `@resvg/resvg-js` | 2.6.2 | MPL-2.0 | — |
 | `@tailwindcss/postcss` | 4.3.3 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
-| `@tauri-apps/cli` | 2.12.0 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
+| `@tauri-apps/cli` | 2.12.1 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `@testing-library/jest-dom` | 7.0.1 | MIT | <https://github.com/testing-library/jest-dom> |
 | `@testing-library/react` | 16.3.3 | MIT | <https://github.com/testing-library/react-testing-library> |
 | `@types/node` | 26.6.3 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
@@ -62,7 +62,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `typescript-eslint` | 8.71.0 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
 | `vite` | 8.3.1 | MIT | <https://github.com/vitejs/vite> |
 | `vitest` | 4.1.11 | MIT | <https://github.com/vitest-dev/vitest> |
-| `wrangler` | 4.144.0 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
+| `wrangler` | 4.149.0 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
 
 ## Desktop and Android shell (Rust crates)
 
