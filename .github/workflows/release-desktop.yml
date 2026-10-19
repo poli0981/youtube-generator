@@ -27,7 +27,7 @@ jobs:
         with:
           ref: ${{ github.event.inputs.tag || github.ref }}
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .node-version
           # Release artifacts are built from a clean install: a cache written
@@ -93,14 +93,14 @@ jobs:
           persist-credentials: false
       # No dependency caches in a release job: a poisoned cache entry written
       # by any other workflow would otherwise flow straight into the binaries.
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .node-version
           # Release artifacts are built from a clean install: a cache written
           # by any other workflow must not be able to feed into them.
           package-manager-cache: false
       # A master commit, not the regenerated `stable` branch — see rust.yml.
-      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8
         with:
           toolchain: stable
           targets: ${{ matrix.target }}
