@@ -2,7 +2,7 @@
 
 ## YTDescGen — Tauri 2 Desktop and Android Apps
 
-Reflects **v1.2.0**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
+Reflects **v1.3.0**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -22,7 +22,7 @@ The maintainer already knew Rust from the Tauri / build-tooling ecosystem; the s
 ## Prerequisites
 
 - **Rust** (stable) via [rustup](https://rustup.rs/).
-- **Node.js 22** (`.node-version`) and npm.
+- **Node.js 26** (`.node-version`) and npm 11.
 - **Tauri CLI** — the npm package `@tauri-apps/cli` is a pinned dev dependency, so `npm run tauri …` (or `npm run tauri:dev` / `npm run tauri:build`) needs nothing else. The cargo CLI (`cargo install tauri-cli --version "^2" --locked`, then `cargo tauri …`) works the same way; the Android release job uses it.
 - **Platform tools**:
   - Windows: Microsoft C++ Build Tools. WebView2 ships with Windows 10/11; the installers bootstrap it where it is missing (`webviewInstallMode: downloadBootstrapper`).
@@ -62,7 +62,7 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
 {
   "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/crates/tauri-cli/schema.json",
   "productName": "YTDescGen",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "identifier": "com.skullmute.ytdescgen",
   "build": {
     "beforeBuildCommand": "npm run build",
@@ -102,6 +102,9 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
     "targets": "all",
     "android": {
       "minSdkVersion": 30
+    },
+    "macOS": {
+      "minimumSystemVersion": "11.0"
     },
     "windows": {
       "webviewInstallMode": {
@@ -293,7 +296,9 @@ npm run build
 npm run tauri:build
 ```
 
-The Tauri CLI runs `npm run build` first (`beforeBuildCommand`) with `TAURI_ENV_PLATFORM` set, which switches Vite to the Tauri build: `es2020` target, the Legal Center content only, and no static legal pages, `security.txt` or analytics beacon.
+The Tauri CLI runs `npm run build` first (`beforeBuildCommand`) with `TAURI_ENV_PLATFORM` set, which switches Vite to the Tauri build: the Legal Center content only, and no static legal pages, `security.txt` or analytics beacon.
+
+**Supported WebViews.** Since v1.3.0 both builds use Vite's default target, `baseline-widely-available` — the same engines the website supports: Chromium 111, Safari 16.4, Firefox 114 (Tauri builds were lowered to `es2020` before; the stylesheet's cascade layers already needed Chromium 99+ / Safari 15.4+, so an older WebView showed the app unstyled anyway). In practice: WebView2 on Windows (it updates itself), macOS 11 or later with current Safari updates (the app is Apple silicon only, and `bundle.macOS.minimumSystemVersion` says 11.0), WebKitGTK 2.40 or later on Linux, and on Android 11+ an Android System WebView kept current through Google Play. TypeScript keeps the app's code to the same floor: `lib` in `tsconfig.json` is ES2022, since Vite lowers syntax but never polyfills built-ins.
 
 Output file names, with the v1.1.0 release sizes:
 
@@ -365,6 +370,13 @@ is gated behind `#[cfg(desktop)]` so the library compiles for Android.
 | **Architectures** | Universal APK — `arm64-v8a`, `armeabi-v7a`, `x86`, `x86_64`.                                                                                                     |
 | **Tested**        | **Android 11 → 16.** The v0.29.0 build was verified on Android emulators across this range **and on a real device running Android 12** (the maintainer's phone). |
 
+**No cloud backup of app data.** `AndroidManifest.xml` sets
+`android:allowBackup="false"` (since v1.3.0): Android's backup to Google Drive
+never copies the app's data — profiles, presets, templates, history and
+settings in the WebView's `localStorage` — so it stays on the device, as the
+Privacy Policy says. To move to a new phone, use **Settings › Backup &
+restore**: back up to a file, then restore it on the new phone.
+
 Where the value lives: `bundle.android.minSdkVersion` in
 [`src-tauri/tauri.conf.json`](../src-tauri/tauri.conf.json) is the source of
 truth used by `tauri android init`; the generated
@@ -382,7 +394,9 @@ directly if you change the floor without re-running `init`.
   the **real-device test on Android 12 worked**, while a _stale_ Android-12
   emulator stuck on WebView 91 showed a black screen (the `crypto.randomUUID`
   boot crash) — that class of bug is fixed in v0.29.0 and is moot on an
-  up-to-date WebView.
+  up-to-date WebView. Since v1.3.0 the app needs a WebView at least as new as
+  Chromium 111, the same floor as the website, so a WebView that has never
+  been updated cannot run it.
 - **Security upkeep.** Even though Google's _OS-level_ monthly security bulletins
   for Android 11–13 have ended (Android 12 in 2025, Android 13 in early 2026),
   Android 11+ keeps receiving security updates for the components that matter to a

@@ -13,8 +13,9 @@
 
 | Layer             | Technology                                                                                                                                       |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| UI                | React 19, TypeScript (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons                     |
-| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions                                                                                          |
+| UI                | React 19, TypeScript 7 (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons                   |
+| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions; Node 26 (`.node-version`)                                                               |
+| Type checking     | TypeScript 7 `tsc` (`@typescript/native`); `typescript` is an npm alias for `@typescript/typescript6`, the 6.0 API typescript-eslint loads       |
 | Styling           | Tailwind CSS 4, CSS-first `@theme` tokens in `src/styles/globals.css`                                                                            |
 | State             | Zustand 5 + `persist` (localStorage) — the only store on every platform                                                                          |
 | Routing           | React Router 7 — `BrowserRouter` on the web, `HashRouter` in Tauri                                                                               |
@@ -83,6 +84,10 @@ LICENSES/                      # license texts for REUSE
 
 - Strict mode; no `any` — use `unknown` + type guards.
 - Prefer `interface` for object shapes; `as const` for static config arrays.
+- `src/` is typed against `lib` ES2022 — the browsers' floor (Chrome 111, Safari 16.4, Firefox 114), because Vite never polyfills. Don't reach for newer built-ins in the app without raising that floor; tests, scripts, worker and build plugins get ES2025 (`tsconfig.check.json`). `target` is ES2025 (ES2026 waits for TypeScript 7.1).
+- Erasable syntax only (`erasableSyntaxOnly`, `verbatimModuleSyntax`): no enums, namespaces or parameter properties; `import type` for types.
+- React 19: `ref` is an ordinary prop — no `forwardRef`.
+- Regexes must stay linear (SonarCloud S8786): no unbounded quantifier that can restart inside its own run (`\s+$`, a leading `\s+` in an unanchored pattern, `\s*` next to `\s*`) — trim first, anchor, bound the run, or use a loop.
 
 ### React
 
@@ -174,4 +179,6 @@ npm run generate:brand      # favicon, PWA icons, link-preview card from assets/
 - New content warning / tech note: the id in `CONTENT_WARNINGS` / `TECH_NOTES` (`src/engine/types.ts`), a group in `src/config/content-warning-groups.ts` / `tech-note-groups.ts`, the editor label (`ui.json`) and description line (`templates.json`) in all 8 locales and `_schema.json` — tests fail on any gap — and the row in `docs/CONTENT-INVENTORY.md` (+ vi). Don't repeat a fact that has its own field (language patch, game version, difficulty, the Video settings upscaler).
 - New store platform: `src/config/platforms.ts` (URL pattern, `tagName`), optionally a name extractor in `src/utils/url-extractors.ts`.
 - Never commit `note.txt`, `warning.txt` or `__pycache__/`; never put real secrets in files (`.dev.vars` holds Cloudflare's public Turnstile test keys only).
+- SonarCloud (Automatic Analysis, project `poli0981_youtube-generator`) analyses every PR and `main`; keep it at 0 open issues. Check a PR with `https://sonarcloud.io/api/issues/search?componentKeys=poli0981_youtube-generator&pullRequest=<n>&resolved=false`. Workflows install with `npm ci --ignore-scripts` and call local binaries (`npm run …`), never `npx` for a package that isn't installed.
+- TypeScript bumps may be manual: `@typescript/native` (`npm:typescript@^7`) and `typescript` (`npm:@typescript/typescript6@^6`) are npm aliases Dependabot may not follow. Stop the dev server before `npm ci` on Windows — it locks native modules (EPERM).
 - The Cloudflare dashboard, publishing releases and repository settings are the maintainer's; ask before touching them.

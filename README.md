@@ -7,7 +7,7 @@
 Generate YouTube titles, descriptions and tags in eight languages. Save your channel as a profile and each game as a preset, and every new video is a few clicks.
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
-[![Node](https://img.shields.io/badge/node-%E2%89%A522-brightgreen)](./docs/DEVELOPMENT.md)
+[![Node](https://img.shields.io/badge/node-%E2%89%A526-brightgreen)](./docs/DEVELOPMENT.md)
 [![Latest release](https://img.shields.io/github/v/release/poli0981/youtube-generator?include_prereleases)](https://github.com/poli0981/youtube-generator/releases)
 [![Last commit](https://img.shields.io/github/last-commit/poli0981/youtube-generator)](https://github.com/poli0981/youtube-generator/commits)
 
@@ -89,7 +89,7 @@ Full details: [PRIVACY.md](./PRIVACY.md), also at [ytgenerator.stream/legal/priv
 
 ## Tech Stack
 
-React 19 · TypeScript (strict) · Vite 8 · Tailwind CSS 4 · Radix · Motion · Zustand 5 · i18next · Tauri 2 (Rust) · Cloudflare Workers.
+React 19 · TypeScript 7 (strict) · Vite 8 · Tailwind CSS 4 · Radix · Motion · Zustand 5 · i18next · Tauri 2 (Rust) · Cloudflare Workers.
 
 Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 

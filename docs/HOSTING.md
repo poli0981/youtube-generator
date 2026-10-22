@@ -65,7 +65,7 @@ The custom domain is declared in `routes` because `wrangler deploy` detaches any
 
 These live in Cloudflare, not in the repository:
 
-1. **Workers Builds** — build command empty (`wrangler.jsonc` runs `npm run build`), deploy command `npx wrangler deploy`, non-production deploy command `npx wrangler versions upload`. Root directory `/`; Node comes from `.node-version`.
+1. **Workers Builds** — build command empty (`wrangler.jsonc` runs `npm run build`), deploy command `npx wrangler deploy`, non-production deploy command `npx wrangler versions upload`. Root directory `/`; Node 26 comes from `.node-version`, and the build variable `NODE_VERSION=26` says the same.
 2. **Turnstile widget** — hostname `ytgenerator.stream` (add the `workers.dev` subdomain if preview URLs should pass the gate).
 3. **Web Analytics** — the manual beacon is used; turn off _automatic setup_ for the hostname so visits aren't counted twice.
 4. **Redirect rule** — `www.ytgenerator.stream/*` → `concat("https://ytgenerator.stream", http.request.uri.path)`, 301, preserving the query string.
