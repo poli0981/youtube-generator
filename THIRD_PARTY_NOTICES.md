@@ -14,15 +14,15 @@ Bundled into the web app and the desktop / Android apps.
 | --- | --- | --- | --- |
 | `@fontsource-variable/inter` | 5.3.0 | OFL-1.1 | <https://github.com/fontsource/font-files> |
 | `@fontsource-variable/jetbrains-mono` | 5.3.0 | OFL-1.1 | <https://github.com/fontsource/font-files> |
-| `@tauri-apps/api` | 2.12.1 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
-| `@tauri-apps/plugin-opener` | 2.7.0 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
+| `@tauri-apps/api` | 2.12.3 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
+| `@tauri-apps/plugin-opener` | 2.7.1 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `clsx` | 2.1.1 | MIT | <https://github.com/lukeed/clsx> |
 | `cmdk` | 1.1.1 | MIT | <https://github.com/pacocoursey/cmdk> |
-| `i18next` | 26.4.2 | MIT | <https://github.com/i18next/i18next> |
+| `i18next` | 26.4.4 | MIT | <https://github.com/i18next/i18next> |
 | `i18next-resources-to-backend` | 1.2.3 | MIT | <https://github.com/i18next/i18next-resources-to-backend> |
-| `lucide-react` | 1.52.0 | ISC | <https://github.com/lucide-icons/lucide> |
+| `lucide-react` | 1.55.0 | ISC | <https://github.com/lucide-icons/lucide> |
 | `motion` | 13.5.1 | MIT | <https://github.com/motiondivision/motion> |
-| `radix-ui` | 1.7.0 | MIT | <https://github.com/radix-ui/primitives> |
+| `radix-ui` | 1.8.0 | MIT | <https://github.com/radix-ui/primitives> |
 | `react` | 19.3.0 | MIT | <https://github.com/react/react> |
 | `react-dom` | 19.3.0 | MIT | <https://github.com/react/react> |
 | `react-i18next` | 17.0.16 | MIT | <https://github.com/i18next/react-i18next> |
@@ -40,27 +40,27 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `@eslint/js` | 10.0.1 | MIT | <https://github.com/eslint/eslint> |
 | `@resvg/resvg-js` | 2.6.2 | MPL-2.0 | — |
 | `@tailwindcss/postcss` | 4.3.3 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
-| `@tauri-apps/cli` | 2.12.1 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
+| `@tauri-apps/cli` | 2.12.2 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `@testing-library/jest-dom` | 7.0.1 | MIT | <https://github.com/testing-library/jest-dom> |
 | `@testing-library/react` | 16.3.3 | MIT | <https://github.com/testing-library/react-testing-library> |
 | `@types/node` | 26.6.3 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
 | `@types/react` | 19.3.0 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
 | `@types/react-dom` | 19.3.0 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
-| `@vitejs/plugin-react` | 6.1.1 | MIT | <https://github.com/vitejs/vite-plugin-react> |
+| `@vitejs/plugin-react` | 6.1.2 | MIT | <https://github.com/vitejs/vite-plugin-react> |
 | `@vitest/coverage-v8` | 4.1.11 | MIT | <https://github.com/vitest-dev/vitest> |
 | `autoprefixer` | 10.6.1 | MIT | <https://github.com/postcss/autoprefixer> |
-| `eslint` | 10.11.0 | MIT | <https://github.com/eslint/eslint> |
+| `eslint` | 10.12.0 | MIT | <https://github.com/eslint/eslint> |
 | `eslint-plugin-react-hooks` | 7.1.1 | MIT | <https://github.com/facebook/react> |
-| `knip` | 6.38.0 | ISC | <https://github.com/webpro-nl/knip> |
-| `marked` | 18.0.14 | MIT | <https://github.com/markedjs/marked> |
-| `postcss` | 8.5.28 | MIT | <https://github.com/postcss/postcss> |
-| `prettier` | 3.9.9 | MIT | <https://github.com/prettier/prettier> |
+| `knip` | 6.41.0 | ISC | <https://github.com/webpro-nl/knip> |
+| `marked` | 18.1.1 | MIT | <https://github.com/markedjs/marked> |
+| `postcss` | 8.5.29 | MIT | <https://github.com/postcss/postcss> |
+| `prettier` | 3.9.10 | MIT | <https://github.com/prettier/prettier> |
 | `prettier-plugin-tailwindcss` | 0.8.1 | MIT | <https://github.com/tailwindlabs/prettier-plugin-tailwindcss> |
 | `tailwindcss` | 4.3.3 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
 | `tsx` | 4.23.15 | MIT | <https://github.com/privatenumber/tsx> |
 | `typescript` | 5.9.3 | Apache-2.0 | <https://github.com/microsoft/TypeScript> |
-| `typescript-eslint` | 8.71.0 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
-| `vite` | 8.3.1 | MIT | <https://github.com/vitejs/vite> |
+| `typescript-eslint` | 8.71.1 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
+| `vite` | 8.3.4 | MIT | <https://github.com/vitejs/vite> |
 | `vitest` | 4.1.11 | MIT | <https://github.com/vitest-dev/vitest> |
 | `wrangler` | 4.149.0 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
 
