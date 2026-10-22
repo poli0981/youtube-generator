@@ -20,6 +20,13 @@ export default defineConfig({
   },
   test: {
     globals: true,
+    // Node 25+ defines a global `localStorage` that is `undefined` unless
+    // `--localstorage-file` is given. zustand's persist only falls back to
+    // memory when reading the storage *throws*, so every store `set` then
+    // crashes on `undefined.setItem`. Without Web Storage the global is gone
+    // and the stores fall back the way they always did on Node 22. The flag is
+    // accepted by Node 22 too.
+    execArgv: ["--no-experimental-webstorage"],
     // `.tsx` was absent until v0.35.0, so any component test written here
     // would have been collected by nobody and passed silently. Note that the
     // default environment is node — a test that renders needs an explicit
