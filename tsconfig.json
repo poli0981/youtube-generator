@@ -1,12 +1,25 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    // The newest ECMAScript year that TypeScript 7.0, esbuild (tsx, wrangler)
+    // and Vite all understand. ES2026 arrives with TypeScript 7.1.
+    "target": "ES2025",
+    // `lib` is the runtime floor, not the syntax target. Vite lowers syntax but
+    // never polyfills, so a built-in typed here must exist in every engine the
+    // app supports: Vite's `baseline-widely-available` — Chrome 111, Safari
+    // 16.4, Firefox 114 (ES2023's copy-array methods need Firefox 115). Raise it
+    // when that floor moves. Code that runs on Node or workerd gets the newer
+    // lib in tsconfig.check.json.
+    "lib": ["ES2022", "DOM"],
+    // TypeScript 6+ no longer loads every installed @types package. The app
+    // needs none: `vite/client` comes in through src/vite-env.d.ts.
+    "types": [],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
@@ -17,7 +30,6 @@
     "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@config/*": ["./src/config/*"],

@@ -66,6 +66,12 @@ updates:
           ]
       cloudflare:
         patterns: ["wrangler", "@cloudflare/*"]
+      # TypeScript 7 (`tsc`) and the TypeScript 6 API that typescript-eslint
+      # still needs, installed side by side as npm aliases (see package.json).
+      # Dependabot may not resolve `npm:` aliases — if no PR shows up for a new
+      # 7.x, bump both by hand.
+      typescript:
+        patterns: ["typescript", "@typescript/*"]
       lint-and-format:
         patterns: ["eslint*", "@eslint/*", "typescript-eslint", "prettier*", "knip"]
       build-tooling:
@@ -89,8 +95,8 @@ updates:
         patterns: ["@types/*"]
     ignore:
       # Majors land in their own planned release because each one needs a real
-      # migration (TypeScript 7, Vitest 5 and lucide-react 1 are the current
-      # examples). Dependabot handles minor + patch.
+      # migration (Vitest 5 is the current example). Dependabot handles minor +
+      # patch.
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 

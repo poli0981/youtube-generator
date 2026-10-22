@@ -12,7 +12,12 @@
     // the global scope; without this they are undeclared identifiers here.
     // `node` covers the `fs`/`path`/`process` use in scripts/ — the app bundle
     // never sees these, which is why the base config leaves them out.
-    "types": ["vitest/globals", "node"]
+    "types": ["vitest/globals", "node"],
+    // tests/, scripts/ and build-plugins/ run on Node 26 and worker/ on
+    // workerd, so they may use the newer built-ins the app's browser floor
+    // keeps out of tsconfig.json. src/ is still held to that floor by
+    // `npm run typecheck`.
+    "lib": ["ES2025", "DOM"]
   },
   "include": ["src", "tests", "scripts", "worker", "build-plugins"]
 }

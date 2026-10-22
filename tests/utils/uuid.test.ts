@@ -18,7 +18,7 @@ describe("generateId", () => {
     // black-screened the app at boot before the fallback existed.
     const real = globalThis.crypto;
     vi.stubGlobal("crypto", {
-      getRandomValues: (a: Uint8Array) => real.getRandomValues(a),
+      getRandomValues: (a: Uint8Array<ArrayBuffer>) => real.getRandomValues(a),
     });
     expect(generateId()).toMatch(V4);
   });

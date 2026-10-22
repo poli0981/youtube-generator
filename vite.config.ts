@@ -40,14 +40,13 @@ export default defineConfig({
     watch: { ignored: ["**/src-tauri/**", "**/.wrangler/**"] },
   },
   build: {
-    // Tauri ships the *system* WebView. On Android that can be an old, frozen
-    // Chromium (e.g. some emulator system images sit at ~91 until the user
-    // updates Android System WebView), which chokes on Vite's modern default
-    // target and renders a blank/black screen. Downlevel the bundle for Tauri
-    // builds so it runs on those older WebViews; the web build keeps Vite's
-    // modern default. Desktop WebViews are evergreen, so a lower
-    // target is a harmless no-op there.
-    target: isTauri ? "es2020" : undefined,
+    // No `target`: the web and Tauri builds share Vite's default,
+    // `baseline-widely-available` (Chrome 111, Safari 16.4, Firefox 114), which
+    // is also the floor tsconfig.json's `lib` holds the app to. Tauri builds
+    // used to be lowered to es2020 for frozen ~91 Android System WebViews, but
+    // the stylesheet's cascade layers already need Chromium 99+ / Safari 15.4+,
+    // so such a WebView rendered the app unstyled either way.
+    //
     // Never inline assets as data: URIs — the Tauri CSP only allows 'self'
     // for images and fonts, so an inlined icon would silently fail there.
     assetsInlineLimit: 0,
