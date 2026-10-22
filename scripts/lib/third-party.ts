@@ -38,8 +38,9 @@ const ALLOWED = new Set([
 /** SPDX expression → allowed? `OR` needs one side, `AND` needs both. */
 export function licenseAllowed(expression: string): boolean {
   const expr = expression.trim().replace(/^\((.*)\)$/, "$1");
-  if (/\sOR\s/i.test(expr)) return expr.split(/\s+OR\s+/i).some(licenseAllowed);
-  if (/\sAND\s/i.test(expr)) return expr.split(/\s+AND\s+/i).every(licenseAllowed);
+  // Split on the bare operator; each part is trimmed by the recursive call.
+  if (/\sOR\s/i.test(expr)) return expr.split(/\sOR\s/i).some(licenseAllowed);
+  if (/\sAND\s/i.test(expr)) return expr.split(/\sAND\s/i).every(licenseAllowed);
   return ALLOWED.has(expr);
 }
 
@@ -110,7 +111,7 @@ export function directCrates(toml: string): string[] {
     const name = inDependencies ? /^([A-Za-z0-9_-]+)\s*=/.exec(line)?.[1] : undefined;
     if (name) names.add(name);
   }
-  return [...names].sort();
+  return [...names].sort(compareCodeUnits);
 }
 
 /**

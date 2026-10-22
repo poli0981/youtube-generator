@@ -1,5 +1,6 @@
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { compareCodeUnits } from "@utils/sort";
 
 interface LocaleSchema {
   ui: Record<string, string[]>;
@@ -17,5 +18,5 @@ export const LOCALE_SCHEMA = JSON.parse(
 
 /** The leaf keys under one parent path, sorted; empty when the path is missing. */
 export function schemaKeys(namespace: keyof LocaleSchema, parent: string): string[] {
-  return [...(LOCALE_SCHEMA[namespace][parent] ?? [])].sort();
+  return [...(LOCALE_SCHEMA[namespace][parent] ?? [])].sort(compareCodeUnits);
 }

@@ -22,7 +22,11 @@ const KEY_LABEL = "ytg-gate-v1";
 function toBase64Url(bytes: Uint8Array): string {
   let binary = "";
   for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  // Base64 pads with at most two `=`; a bounded quantifier stays linear.
+  return btoa(binary)
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/={1,2}$/, "");
 }
 
 function fromBase64Url(text: string): Uint8Array<ArrayBuffer> | null {

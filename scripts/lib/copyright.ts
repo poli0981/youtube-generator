@@ -58,10 +58,10 @@ function readRepoFile(file: string): string {
 /** The year HEAD was committed, or this UTC year when git is unavailable. */
 export function headCommitYear(): number {
   try {
-    const iso = execFileSync("git", ["log", "-1", "--format=%cI"], {
-      cwd: ROOT,
-      encoding: "utf8",
-    });
+    const options = { cwd: ROOT, encoding: "utf8" } as const;
+    // A dev/CI script: `git` is whichever one the developer's PATH or the CI
+    // image provides, by design — there is no fixed install path to pin.
+    const iso = execFileSync("git", ["log", "-1", "--format=%cI"], options); // NOSONAR
     const year = Number(iso.trim().slice(0, 4));
     if (Number.isInteger(year) && year >= 2000) return year;
   } catch {

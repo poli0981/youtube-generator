@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { Dialog, VisuallyHidden } from "radix-ui";
 import { X } from "lucide-react";
@@ -15,6 +15,12 @@ interface ModalProps {
   /** Max width: sm 24rem · md 32rem (default) · lg 42rem · xl 56rem. */
   size?: "sm" | "md" | "lg" | "xl";
   className?: string;
+  /**
+   * Where focus lands when the dialog opens. Without it, Radix focuses the
+   * first focusable element (the close button). Use this instead of an
+   * `autoFocus` attribute on the target.
+   */
+  initialFocusRef?: RefObject<HTMLElement | null>;
 }
 
 const SIZES = { sm: "max-w-sm", md: "max-w-lg", lg: "max-w-2xl", xl: "max-w-4xl" } as const;
@@ -34,6 +40,7 @@ export function Modal({
   footer,
   size = "md",
   className,
+  initialFocusRef,
 }: ModalProps) {
   const { t } = useTranslation("ui");
   return (
@@ -41,6 +48,14 @@ export function Modal({
       <Dialog.Portal>
         <Dialog.Overlay className="bg-overlay animate-fade-in fixed inset-0 z-50 backdrop-blur-[2px]" />
         <Dialog.Content
+          onOpenAutoFocus={
+            initialFocusRef
+              ? (event) => {
+                  event.preventDefault();
+                  initialFocusRef.current?.focus();
+                }
+              : undefined
+          }
           className={clsx(
             "bg-surface-1 border-border shadow-pop animate-pop-in rounded-panel fixed top-1/2 left-1/2 z-50 flex max-h-[min(88dvh,52rem)] w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col border",
             "focus:outline-none",

@@ -58,5 +58,7 @@ export function withoutEmptyChannel(text: string, language: SupportedLanguage): 
   let out = text;
   for (const pattern of [...DROP[language], ENGLISH]) out = out.replace(pattern, "");
   out = out.split(CHANNEL_SLOT).join(FALLBACK[language]);
-  return out.replace(/[ \t]{2,}/g, " ").replace(/[ \t]+([.,!?。！？])/g, "$1");
+  // After the first replace no run of spaces/tabs is longer than one, so the
+  // second needs no `+` (which would make it quadratic on long runs).
+  return out.replace(/[ \t]{2,}/g, " ").replace(/[ \t]([.,!?。！？])/g, "$1");
 }

@@ -33,7 +33,7 @@ jobs:
           # Release artifacts are built from a clean install: a cache written
           # by any other workflow must not be able to feed into them.
           package-manager-cache: false
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run typecheck
       - run: npm run test:run
       - run: npm run check:version
@@ -114,7 +114,7 @@ jobs:
             libayatana-appindicator3-dev \
             librsvg2-dev \
             patchelf
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
