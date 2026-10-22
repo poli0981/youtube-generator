@@ -23,13 +23,13 @@ macOS và Linux đều dùng được để phát triển. Build release Tauri �
 
 Cài theo thứ tự:
 
-| Công cụ                 | Phiên bản                                     | Lý do                                                                                                                                                                                                                                                                                              |
-| ----------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Node.js**             | **22** — đúng phiên bản trong `.node-version` | CI, các workflow release và Cloudflare Workers Builds đều đọc `.node-version`. Vite 8 cần Node `^20.19` hoặc `>= 22.12`, còn wrangler cần `>= 22`, nên hãy dùng 22.12 trở lên. Dùng [nvm](https://github.com/nvm-sh/nvm) hoặc [fnm](https://github.com/Schniz/fnm) (fnm đọc được `.node-version`). |
-| **npm**                 | đi kèm Node 22                                | Dự án dùng npm; `pnpm` và `yarn` chưa test.                                                                                                                                                                                                                                                        |
-| **Rust**                | stable, `>= 1.90`                             | Bắt buộc cho bản build Tauri desktop và Android (Tauri 2.12 cần Rust 1.90). Cài qua [rustup](https://rustup.rs/); profile mặc định đã có sẵn `rustfmt` và `clippy`.                                                                                                                                |
-| **Python**              | `3.12`                                        | Tùy chọn — chỉ cần cho một số tooling Tauri trên Windows.                                                                                                                                                                                                                                          |
-| **Tauri prerequisites** | theo OS                                       | Xem <https://v2.tauri.app/start/prerequisites/>.                                                                                                                                                                                                                                                   |
+| Công cụ                 | Phiên bản                                     | Lý do                                                                                                                                                                                                                                               |
+| ----------------------- | --------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Node.js**             | **26** — đúng phiên bản trong `.node-version` | CI, các workflow release và Cloudflare Workers Builds đều đọc `.node-version`, và `package.json` khai báo `engines.node >= 26`. Dùng [nvm](https://github.com/nvm-sh/nvm) hoặc [fnm](https://github.com/Schniz/fnm) (fnm đọc được `.node-version`). |
+| **npm**                 | 11, đi kèm Node 26                            | Dự án dùng npm; `pnpm` và `yarn` chưa test.                                                                                                                                                                                                         |
+| **Rust**                | stable, `>= 1.90`                             | Bắt buộc cho bản build Tauri desktop và Android (Tauri 2.12 cần Rust 1.90). Cài qua [rustup](https://rustup.rs/); profile mặc định đã có sẵn `rustfmt` và `clippy`.                                                                                 |
+| **Python**              | `3.12`                                        | Tùy chọn — chỉ cần cho một số tooling Tauri trên Windows.                                                                                                                                                                                           |
+| **Tauri prerequisites** | theo OS                                       | Xem <https://v2.tauri.app/start/prerequisites/>.                                                                                                                                                                                                    |
 
 ### Windows
 
@@ -53,7 +53,7 @@ Quy trình tham chiếu dùng **JetBrains 2026.x** (WebStorm hoặc RustRover) l
 
 - Bật plugin **Tailwind CSS**.
 - Bật plugin **i18next** (hoặc dùng `src/i18n/locales/_schema.json` để autocomplete).
-- Settings → Languages → TypeScript → "Use TypeScript from `node_modules/typescript`".
+- Settings → Languages → TypeScript → giữ TypeScript service đi kèm IDE. `node_modules/typescript` không phải trình biên dịch: đó là npm alias của `@typescript/typescript6`, tức API TypeScript 6.0 mà typescript-eslint dùng. Dự án typecheck bằng TypeScript 7 (`tsc`, từ `@typescript/native`) — `npm run typecheck` là chuẩn.
 - Settings → Code Style → Prettier → Run on save (`{src,tests,scripts,worker,build-plugins}/**/*.{ts,tsx,css}` — đúng các file mà `npm run format` xử lý).
 
 ### VS Code

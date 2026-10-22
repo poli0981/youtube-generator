@@ -2,7 +2,7 @@
 
 ## YTDescGen — Implementation Details
 
-Reflects **v1.2.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
+Reflects **v1.3.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -13,10 +13,13 @@ Reflects **v1.2.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
 ```json
 {
   "name": "yt-desc-gen",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
+  "engines": {
+    "node": ">=26"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -50,18 +53,18 @@ Reflects **v1.2.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
-    "@tauri-apps/api": "^2.12.0",
-    "@tauri-apps/plugin-opener": "^2.7.0",
+    "@tauri-apps/api": "^2.12.4",
+    "@tauri-apps/plugin-opener": "^2.7.2",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "i18next": "^26.4.2",
+    "i18next": "^26.4.5",
     "i18next-resources-to-backend": "^1.2.3",
-    "lucide-react": "^1.49.0",
-    "motion": "^13.4.6",
-    "radix-ui": "^1.6.7",
+    "lucide-react": "^1.57.0",
+    "motion": "^13.5.1",
+    "radix-ui": "^1.8.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-i18next": "^17.0.15",
+    "react-i18next": "^17.0.16",
     "react-router-dom": "^7.18.4",
     "simple-icons": "^16.33.0",
     "sonner": "^2.0.8",
@@ -71,29 +74,30 @@ Reflects **v1.2.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
     "@eslint/js": "^10.0.1",
     "@resvg/resvg-js": "2.6.2",
     "@tailwindcss/postcss": "^4.3.3",
-    "@tauri-apps/cli": "2.12.0",
+    "@tauri-apps/cli": "2.12.3",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^4.1.12",
     "autoprefixer": "^10.6.1",
-    "eslint": "^10.11.0",
+    "eslint": "^10.12.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "knip": "^6.38.0",
-    "marked": "18.0.14",
-    "postcss": "^8.5.28",
-    "prettier": "^3.9.9",
+    "knip": "^6.41.0",
+    "marked": "18.1.1",
+    "postcss": "^8.5.30",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.71.0",
-    "vite": "^8.3.1",
-    "vitest": "^4.1.11",
-    "wrangler": "4.144.0"
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^8.3.4",
+    "vitest": "^4.1.12",
+    "wrangler": "4.149.0"
   }
 }
 ```
@@ -104,20 +108,35 @@ Notes:
 - **Tauri on the JavaScript side** is only `@tauri-apps/api` (for `invoke`) and `@tauri-apps/plugin-opener`. There are no dialog, fs or shell plugin packages: file access goes through the app's own Rust commands (see [PACKAGING.md](PACKAGING.md)). `@tauri-apps/cli` is pinned exactly, and `npm run check:tauri` keeps the npm packages on the same major.minor as the crates.
 - **Build-time only**: `marked` renders the legal documents and `@resvg/resvg-js` rasterises the brand assets; neither ships in the app. `wrangler` is pinned exactly for `cf:dev` / `cf:check`.
 - **Fonts** are self-hosted: `@fontsource-variable/inter` and `@fontsource-variable/jetbrains-mono` are imported in `src/main.tsx`, and each subset (latin, latin-ext, vietnamese, …) is fetched only when a page uses it.
-- **Node 22** comes from `.node-version`, which CI, the release workflows and Cloudflare Workers Builds all read.
+- **TypeScript 7** checks types: `@typescript/native` is an npm alias for `typescript@7`, the native compiler, and supplies `tsc`. TypeScript 7.0 ships no JavaScript API, so `typescript` is an alias for `@typescript/typescript6` — the TypeScript 6.0 API that typescript-eslint loads (its peer range stops below 6.1), plus `tsc6`. Both are Microsoft's documented side-by-side setup. `@typescript/typescript6` pulls TypeScript 6 in as `@typescript/old`, which ships a `tsc` too; CI fails if the `tsc` on `PATH` is not 7.x. Dependabot may not follow `npm:` aliases, so TypeScript bumps can be manual.
+- **Node 26** comes from `.node-version`, which CI, the release workflows and Cloudflare Workers Builds all read; `engines.node` says `>=26`. Vitest runs its workers with `--no-experimental-webstorage`: Node 25+ defines a `localStorage` global that is `undefined` without `--localstorage-file`, and zustand's `persist` crashes on it instead of falling back to memory.
+- **Installs skip lifecycle scripts** in every workflow (`npm ci --ignore-scripts`). The three packages that have one — esbuild, workerd, fsevents — take their native binary from `optionalDependencies`.
 
 ### tsconfig.json
 
-```json
+```jsonc
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    // The newest ECMAScript year that TypeScript 7.0, esbuild (tsx, wrangler)
+    // and Vite all understand. ES2026 arrives with TypeScript 7.1.
+    "target": "ES2025",
+    // `lib` is the runtime floor, not the syntax target. Vite lowers syntax but
+    // never polyfills, so a built-in typed here must exist in every engine the
+    // app supports: Vite's `baseline-widely-available` — Chrome 111, Safari
+    // 16.4, Firefox 114 (ES2023's copy-array methods need Firefox 115). Raise it
+    // when that floor moves. Code that runs on Node or workerd gets the newer
+    // lib in tsconfig.check.json.
+    "lib": ["ES2022", "DOM"],
+    // TypeScript 6+ no longer loads every installed @types package. The app
+    // needs none: `vite/client` comes in through src/vite-env.d.ts.
+    "types": [],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
@@ -128,7 +147,6 @@ Notes:
     "noUncheckedIndexedAccess": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@config/*": ["./src/config/*"],
@@ -138,14 +156,14 @@ Notes:
       "@components/*": ["./src/components/*"],
       "@pages/*": ["./src/pages/*"],
       "@utils/*": ["./src/utils/*"],
-      "@i18n/*": ["./src/i18n/*"]
-    }
+      "@i18n/*": ["./src/i18n/*"],
+    },
   },
-  "include": ["src"]
+  "include": ["src"],
 }
 ```
 
-`tsconfig.json` covers only `src/` — what `vite build` compiles. `tsconfig.check.json` extends it for `npm run typecheck:all`: it adds `tests`, `scripts`, `worker` and `build-plugins`, plus the `vitest/globals` and `node` types those need.
+`tsconfig.json` covers only `src/` — what `vite build` compiles. `tsconfig.check.json` extends it for `npm run typecheck:all`: it adds `tests`, `scripts`, `worker` and `build-plugins`, the `vitest/globals` and `node` types those need, and `lib: ["ES2025", "DOM"]` — they run on Node 26 or workerd, not in the app's browsers. There is no `baseUrl` (TypeScript 7 dropped it); `paths` are relative. `erasableSyntaxOnly` keeps out the TypeScript syntax that only TypeScript can emit (enums, namespaces, parameter properties), which Oxc, esbuild and Node's type stripping all rely on.
 
 ### vite.config.ts
 
@@ -189,8 +207,9 @@ export default defineConfig({
     watch: { ignored: ["**/src-tauri/**", "**/.wrangler/**"] },
   },
   build: {
-    // Old Android System WebViews choke on Vite's modern default target.
-    target: isTauri ? "es2020" : undefined,
+    // No `target`: both builds use Vite's default, `baseline-widely-available`
+    // (Chrome 111, Safari 16.4, Firefox 114) — the floor tsconfig's `lib` holds.
+    //
     // The Tauri CSP allows only 'self' for images and fonts: no data: URIs.
     assetsInlineLimit: 0,
     // Full license texts of the bundled packages, linked from the
@@ -223,7 +242,7 @@ What differs between the two builds:
 | Legal documents                 | `virtual:legal-docs` (lazy chunk for the Legal Center) **and** static `dist/legal/<id>.html` (+ `<id>.vi.html`, `index.html`) | `virtual:legal-docs` only              |
 | `/.well-known/security.txt`     | Generated on every build (RFC 9116, `Expires` 180 days ahead)                                                                 | —                                      |
 | Cloudflare Web Analytics beacon | Injected before `</body>` of `index.html` (build only, never in `npm run dev`)                                                | —                                      |
-| JS target                       | Vite default                                                                                                                  | `es2020`                               |
+| JS target                       | Vite default (`baseline-widely-available`)                                                                                    | the same (before v1.3.0: `es2020`)     |
 
 `build-plugins/legal-docs.ts` renders the repository's legal files (`TERMS.md`, `PRIVACY.md`, `DISCLAIMER.md` + `docs/i18n/vi/DISCLAIMER.md`, `LICENSE`, `THIRD_PARTY_NOTICES.md`, `SECURITY.md`, `NOTICE`, `CODE_OF_CONDUCT.md`; list in `src/config/legal.ts`) with `marked` at build time. `build-plugins/web-only.ts` holds the analytics snippet and the `security.txt` generator.
 
@@ -611,7 +630,7 @@ The `check` job, in order:
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 984 tests in 51 files at v1.2.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 984 tests in 51 files at v1.3.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 

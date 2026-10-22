@@ -2,7 +2,7 @@
 
 ## YTDescGen — Technical Architecture
 
-Reflects **v1.2.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
+Reflects **v1.3.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -53,7 +53,7 @@ The same source ships two ways:
 │ Web — ytgenerator.stream         │   │ Tauri 2 — desktop and Android    │
 │ BrowserRouter (real paths)       │   │ HashRouter (asset protocol)      │
 │ Build adds: static /legal pages, │   │ Build (TAURI_ENV_PLATFORM set):  │
-│   security.txt, analytics beacon │   │   es2020 target, no analytics    │
+│   security.txt, analytics beacon │   │   no static pages or analytics   │
 │ Cloudflare Worker (worker/):     │   │ Rust core (src-tauri/):          │
 │   Turnstile gate · headers ·     │   │   name-only file commands,       │
 │   /legal/* · static assets       │   │   native dialogs, tray (desktop) │

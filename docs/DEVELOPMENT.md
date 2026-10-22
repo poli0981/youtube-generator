@@ -21,13 +21,13 @@ macOS and Linux work for development. Tauri release builds are cross-compiled or
 
 Install in this order:
 
-| Tool                    | Version                                 | Why                                                                                                                                                                                                                                                                                         |
-| ----------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Node.js**             | **22** — the version in `.node-version` | CI, the release workflows and Cloudflare Workers Builds all read `.node-version`. Vite 8 needs Node `^20.19` or `>= 22.12` and wrangler needs `>= 22`, so use 22.12 or newer. Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) (fnm reads `.node-version`). |
-| **npm**                 | bundled with Node 22                    | The project uses npm; `pnpm` and `yarn` are not tested.                                                                                                                                                                                                                                     |
-| **Rust**                | stable, `>= 1.90`                       | Required for the Tauri desktop and Android builds (Tauri 2.12 needs Rust 1.90). Install via [rustup](https://rustup.rs/); its default profile includes `rustfmt` and `clippy`.                                                                                                              |
-| **Python**              | `3.12`                                  | Optional — only needed for some Tauri platform tooling on Windows.                                                                                                                                                                                                                          |
-| **Tauri prerequisites** | per OS                                  | See <https://v2.tauri.app/start/prerequisites/>.                                                                                                                                                                                                                                            |
+| Tool                    | Version                                 | Why                                                                                                                                                                                                                                               |
+| ----------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Node.js**             | **26** — the version in `.node-version` | CI, the release workflows and Cloudflare Workers Builds all read `.node-version`, and `package.json` declares `engines.node >= 26`. Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) (fnm reads `.node-version`). |
+| **npm**                 | 11, bundled with Node 26                | The project uses npm; `pnpm` and `yarn` are not tested.                                                                                                                                                                                           |
+| **Rust**                | stable, `>= 1.90`                       | Required for the Tauri desktop and Android builds (Tauri 2.12 needs Rust 1.90). Install via [rustup](https://rustup.rs/); its default profile includes `rustfmt` and `clippy`.                                                                    |
+| **Python**              | `3.12`                                  | Optional — only needed for some Tauri platform tooling on Windows.                                                                                                                                                                                |
+| **Tauri prerequisites** | per OS                                  | See <https://v2.tauri.app/start/prerequisites/>.                                                                                                                                                                                                  |
 
 ### Windows specifics
 
@@ -51,7 +51,7 @@ The reference workflow uses **JetBrains 2026.x** IDEs (WebStorm or RustRover) as
 
 - Enable the **Tailwind CSS** plugin.
 - Enable the **i18next** plugin (or rely on `src/i18n/locales/_schema.json` for autocomplete).
-- Settings → Languages → TypeScript → "Use TypeScript from `node_modules/typescript`".
+- Settings → Languages → TypeScript → keep the IDE's bundled TypeScript service. `node_modules/typescript` is not the compiler: it is an npm alias for `@typescript/typescript6`, the TypeScript 6.0 API that typescript-eslint loads. The project type-checks with TypeScript 7 (`tsc`, from `@typescript/native`) — `npm run typecheck` is the source of truth.
 - Settings → Code Style → Prettier → Run on save (`{src,tests,scripts,worker,build-plugins}/**/*.{ts,tsx,css}` — the same files `npm run format` covers).
 
 ### VS Code

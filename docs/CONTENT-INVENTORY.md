@@ -1,6 +1,6 @@
 # Content Inventory
 
-A static manifest of every video type, game genre, content warning, tech note, store, link field and cross-post platform surfaced in YTDescGen's editor (as of v1.2.0). Maintained manually — when adding a new option to one of the source files below, **add a row here too** in the same PR.
+A static manifest of every video type, game genre, content warning, tech note, store, link field and cross-post platform surfaced in YTDescGen's editor (as of v1.3.0). Maintained manually — when adding a new option to one of the source files below, **add a row here too** in the same PR.
 
 This file exists for **transparency** — anyone curious about what the editor can describe (without installing the app or reading the source) can scan it in one minute.
 

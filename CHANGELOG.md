@@ -2,6 +2,35 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.3.0 — 2026-10-22
+
+A toolchain release: **TypeScript 7**, **Node 26**, two rounds of dependency updates that close five security alerts, and every open **SonarCloud** issue fixed. What the app generates does not change. Web, desktop and Android all ship as 1.3.0.
+
+### Changed
+
+- **Android keeps your data out of cloud backups.** The app now sets `android:allowBackup="false"`, so Android's backup to Google Drive no longer copies your profiles, presets, templates, history and settings — they stay on the phone, as the Privacy Policy says. To move to a new phone, use **Settings › Backup & restore**: back up to a file, then restore it there.
+- **Supported WebViews.** The desktop and Android apps are built for the same engines as the website — Chromium 111, Safari 16.4, Firefox 114 (Vite's `baseline-widely-available`) — instead of being lowered to ES2020. In practice: WebView2 on Windows (it updates itself), macOS 11 or later with current Safari updates, WebKitGTK 2.40+ on Linux, and on Android 11+ a System WebView kept current through Google Play. An older WebView already showed the app unstyled. The macOS app now states its minimum, macOS 11 (it is Apple silicon only).
+- **Security policy**: 1.3.x is the supported version.
+- **Docs**: DEVELOPMENT + Vietnamese (Node 26, TypeScript 7 and the IDE setting), TECH-SPEC (package.json, tsconfig, the toolchain notes), PACKAGING (supported WebViews, Android backups), HOSTING, ARCHITECTURE, ROADMAP, README, FEATURES, I18N, CONTENT-INVENTORY, DISCLAIMER + Vietnamese, CLAUDE.md, the bug-report template.
+
+### Fixed
+
+- **Security (development tools only — nothing here ships in the app):**
+  - vite 8.3.4 — `launch-editor` alerts #41, #42, #43 (command execution and Windows path checks in the dev server's open-in-editor).
+  - vitest 4.1.12 brings `@vitest/mocker` 4.1.12 — alerts #44, #45 (manual-mock code injection, Windows redirect traversal). Dependabot's own security update could not land: vitest 4.1.11 pins the old mocker.
+- The error boundary now really falls back to the browser console when the in-app logger can't load — a `try/catch` around the asynchronous import never caught that.
+- **SonarCloud: 44 open issues → 0** (the 45th, a Gradle lockfile for the Tauri-generated Android project, is accepted). Sixteen regular expressions could backtrack quadratically on long runs of spaces, colons or slashes (CPU names, timestamps, edition suffixes, endings, the Google Play link, license expressions, the Worker's cookie and paths); each is rewritten to run in linear time with the same results. Also: sorts with an explicit comparator, `Number.parseInt`, a profile migration that returns a new object, the shortcut dialog's search box focused through the dialog instead of `autoFocus`, and IDs that never fall back to `Math.random`.
+
+### Under the hood
+
+- **TypeScript 7.0** (the native compiler) type-checks the code — about six times faster. TypeScript 7.0 has no JavaScript API yet, so typescript-eslint keeps using TypeScript 6.0 through an npm alias (`typescript` → `@typescript/typescript6`, Microsoft's documented setup), and CI fails if `tsc` is ever anything but 7.x. Target **ES2025** (ES2026 comes with TypeScript 7.1); the app's `lib` stays at ES2022 — the browsers' floor, since Vite never polyfills — while tests, scripts, the Worker and the build plugins get ES2025. `baseUrl` is gone, and `erasableSyntaxOnly` / `verbatimModuleSyntax` are on.
+- **Node 26** everywhere (`.node-version`, `engines`, Workers Builds). Vitest runs its workers with `--no-experimental-webstorage`: Node 25+ defines a `localStorage` that is `undefined`, which made 39 store tests crash.
+- **React 19 refs**: Button, IconButton, Input, Select and Textarea take `ref` as an ordinary prop — no more `forwardRef`, which React plans to deprecate.
+- **CI**: every workflow installs with `npm ci --ignore-scripts`; CI runs `npm run cf:check` instead of `npx wrangler`.
+- **Dependencies**: eslint 10.12, typescript-eslint 8.71.2, knip 6.41, prettier 3.9.10, vite 8.3.4, @vitejs/plugin-react 6.1.2, vitest 4.1.12, marked 18.1.1, postcss 8.5.30, i18next 26.4.5, lucide-react 1.57, radix-ui 1.8.1, @tauri-apps/api 2.12.4 / plugin-opener 2.7.2 / cli 2.12.3; actions setup-node 7.1, setup-java 6.1, upload-artifact 7.0.2, scorecard 2.5, zizmor 0.7.1. THIRD_PARTY_NOTICES names the real package behind an npm alias.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **984 tests**, build and `cargo fmt` / `clippy` / `test` all pass; initial load 276.1 of 280 KB gzip. Verified live in the browser: tooltips, the History export popover (focus returns to its button), dialogs and the command palette after the ref change, and the shortcut dialog's focus.
+- Six manifests bumped 1.2.0 → 1.3.0.
+
 ## v1.2.0 — 2026-10-12
 
 Say when a game is **made with AI**: a new group of content warnings for AI-generated game content, three more disclosures, and the docs, notices and wiki brought back in line with the app. Web, desktop and Android all ship as 1.2.0.

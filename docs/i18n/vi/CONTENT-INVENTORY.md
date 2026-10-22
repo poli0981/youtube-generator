@@ -1,6 +1,6 @@
 # Danh mục Nội dung
 
-Bản kê khai tĩnh cho mọi loại video, thể loại game, cảnh báo nội dung, ghi chú kỹ thuật, cửa hàng, trường link và nền tảng đăng chéo trong editor của YTDescGen (tính đến v1.2.0). Cập nhật thủ công — khi thêm mục mới vào một trong các file nguồn dưới đây, **thêm dòng tương ứng vào đây** trong cùng PR.
+Bản kê khai tĩnh cho mọi loại video, thể loại game, cảnh báo nội dung, ghi chú kỹ thuật, cửa hàng, trường link và nền tảng đăng chéo trong editor của YTDescGen (tính đến v1.3.0). Cập nhật thủ công — khi thêm mục mới vào một trong các file nguồn dưới đây, **thêm dòng tương ứng vào đây** trong cùng PR.
 
 File này tồn tại để **minh bạch** — bất kỳ ai tò mò về việc editor có thể mô tả được gì (mà không cần cài app hay đọc source) đều có thể quét trong một phút.
 
