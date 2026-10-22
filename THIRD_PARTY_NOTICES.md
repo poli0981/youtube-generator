@@ -46,6 +46,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `@types/node` | 26.6.3 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
 | `@types/react` | 19.3.0 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
 | `@types/react-dom` | 19.3.0 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
+| `@typescript/typescript6` | 6.0.2 | Apache-2.0 | <https://github.com/microsoft/TypeScript> |
 | `@vitejs/plugin-react` | 6.1.2 | MIT | <https://github.com/vitejs/vite-plugin-react> |
 | `@vitest/coverage-v8` | 4.1.11 | MIT | <https://github.com/vitest-dev/vitest> |
 | `autoprefixer` | 10.6.1 | MIT | <https://github.com/postcss/autoprefixer> |
@@ -58,7 +59,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `prettier-plugin-tailwindcss` | 0.8.1 | MIT | <https://github.com/tailwindlabs/prettier-plugin-tailwindcss> |
 | `tailwindcss` | 4.3.3 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
 | `tsx` | 4.23.15 | MIT | <https://github.com/privatenumber/tsx> |
-| `typescript` | 5.9.3 | Apache-2.0 | <https://github.com/microsoft/TypeScript> |
+| `typescript` | 7.0.2 | Apache-2.0 | <https://github.com/microsoft/TypeScript> |
 | `typescript-eslint` | 8.71.1 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
 | `vite` | 8.3.4 | MIT | <https://github.com/vitejs/vite> |
 | `vitest` | 4.1.11 | MIT | <https://github.com/vitest-dev/vitest> |

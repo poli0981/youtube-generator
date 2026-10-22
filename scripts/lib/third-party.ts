@@ -14,6 +14,7 @@
  */
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
+import { compareCodeUnits } from "../../src/utils/sort.ts";
 
 const ROOT = resolve(import.meta.dirname, "../..");
 const NOTICES = resolve(ROOT, "THIRD_PARTY_NOTICES.md");
@@ -43,6 +44,7 @@ export function licenseAllowed(expression: string): boolean {
 }
 
 interface PackageJson {
+  name?: string;
   version?: string;
   license?: string;
   homepage?: string;
@@ -74,16 +76,21 @@ interface Row {
   url: string;
 }
 
-function npmRows(names: string[]): Row[] {
-  return names.sort().map((name) => {
-    const pkg = readJson<PackageJson>(resolve(ROOT, "node_modules", name, "package.json"));
-    return {
-      name,
-      version: pkg.version ?? "?",
-      license: pkg.license ?? "UNKNOWN",
-      url: projectUrl(pkg),
-    };
-  });
+function npmRows(keys: string[]): Row[] {
+  return keys
+    .map((key) => {
+      const pkg = readJson<PackageJson>(resolve(ROOT, "node_modules", key, "package.json"));
+      return {
+        // An npm alias installs under its key: `"typescript":
+        // "npm:@typescript/typescript6@…"` puts @typescript/typescript6 in
+        // node_modules/typescript. Name the package that is really there.
+        name: pkg.name ?? key,
+        version: pkg.version ?? "?",
+        license: pkg.license ?? "UNKNOWN",
+        url: projectUrl(pkg),
+      };
+    })
+    .sort((a, b) => compareCodeUnits(a.name, b.name));
 }
 
 /**

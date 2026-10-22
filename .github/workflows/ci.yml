@@ -36,6 +36,13 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      # `tsc` must be TypeScript 7 (@typescript/native). The `typescript` alias
+      # (@typescript/typescript6, the API typescript-eslint loads) pulls in
+      # TypeScript 6 as @typescript/old, which ships a `tsc` too — npm links the
+      # first one by path order. Fail loudly if that ever flips, instead of
+      # silently type-checking with 6.
+      - name: TypeScript 7 is the `tsc` on PATH
+        run: ./node_modules/.bin/tsc --version | grep -q '^Version 7\.'
 
       # --- correctness ------------------------------------------------------
       # `typecheck` covers src/ (what Vite builds); `typecheck:all` adds tests/,

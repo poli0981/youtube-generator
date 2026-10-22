@@ -1,9 +1,10 @@
 /// <reference types="vite/client" />
 
 /**
- * File System Access API — `showSaveFilePicker` is not in TypeScript 5.9's
- * `lib.dom`, but `FileSystemFileHandle` and `FileSystemWritableFileStream` are,
- * so only the `Window` method needs declaring.
+ * File System Access API — `showSaveFilePicker` is not in TypeScript's
+ * `lib.dom` (checked with 7.0), but `FileSystemFileHandle` and
+ * `FileSystemWritableFileStream` are, so only the `Window` method needs
+ * declaring.
  *
  * Optional on purpose: it is absent in Firefox, Safari and the Android WebView,
  * and `src/utils/file-ops.ts` feature-detects it before use.

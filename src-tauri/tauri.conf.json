@@ -42,6 +42,9 @@
     "android": {
       "minSdkVersion": 30
     },
+    "macOS": {
+      "minimumSystemVersion": "11.0"
+    },
     "windows": {
       "webviewInstallMode": {
         "type": "downloadBootstrapper"
