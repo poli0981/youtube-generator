@@ -101,8 +101,8 @@ export function BatchPage() {
     : t(rangeResult.error ?? "", rangeResult.errorParams);
 
   const generate = () => {
-    const start = parseInt(startPart) || 1;
-    const end = parseInt(endPart) || start;
+    const start = Number.parseInt(startPart) || 1;
+    const end = Number.parseInt(endPart) || start;
     const outputs: BatchResult[] = [];
 
     for (let i = start; i <= Math.min(end, start + 99); i++) {

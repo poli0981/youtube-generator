@@ -79,17 +79,24 @@ export function rewriteHref(href: string, fromFile: string): string {
  * hyphen, which also rules out any markup ending up in an attribute.
  */
 function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\p{L}\p{N}]+/gu, "-")
-    .replace(/^-+|-+$/g, "");
+  return (
+    text
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, "-")
+      // The line above leaves at most one hyphen in a row.
+      .replace(/^-|-$/g, "")
+  );
 }
 
 function stripInlineMarkdown(text: string): string {
-  return text
-    .replace(/[`*_~]/g, "")
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-    .trim();
+  return (
+    text
+      .replace(/[`*_~]/g, "")
+      // Neither part may contain `[`, so a failed match is never re-scanned
+      // from a later `[` inside it (linear even on unbalanced brackets).
+      .replace(/\[([^[\]]+)\]\([^)[]*\)/g, "$1")
+      .trim()
+  );
 }
 
 export function renderMarkdown(source: string, fromFile: string): { title: string; html: string } {

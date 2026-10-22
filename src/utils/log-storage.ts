@@ -50,9 +50,9 @@ function parseFileDate(name: string): Date | null {
   }
   const datePart = name.slice(FILE_PREFIX.length, name.length - FILE_SUFFIX.length);
   if (!/^\d{8}$/.test(datePart)) return null;
-  const y = parseInt(datePart.slice(0, 4), 10);
-  const m = parseInt(datePart.slice(4, 6), 10) - 1;
-  const d = parseInt(datePart.slice(6, 8), 10);
+  const y = Number.parseInt(datePart.slice(0, 4), 10);
+  const m = Number.parseInt(datePart.slice(4, 6), 10) - 1;
+  const d = Number.parseInt(datePart.slice(6, 8), 10);
   return new Date(y, m, d);
 }
 

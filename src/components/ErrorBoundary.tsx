@@ -55,21 +55,23 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     // Best-effort: pull the in-app logger lazily so the boundary stays
     // importable from non-React entry points. We never let the logger
     // itself throw a secondary error — if the log store is missing we
-    // fall back to the browser console.
-    try {
-      // Dynamic import dodges a circular dep with files that themselves
-      // import ErrorBoundary, e.g. when the boundary is mounted in
-      // main.tsx before the store has registered.
-      void import("@utils/logger").then(({ logger }) => {
+    // fall back to the browser console. (A try/catch could not catch
+    // that: the import rejects asynchronously.)
+    //
+    // Dynamic import dodges a circular dep with files that themselves
+    // import ErrorBoundary, e.g. when the boundary is mounted in
+    // main.tsx before the store has registered.
+    void import("@utils/logger")
+      .then(({ logger }) => {
         logger.error(
           "errorBoundary",
           `[${this.props.label ?? "app"}] ${error.message}`,
           info.componentStack ?? error.stack ?? "",
         );
+      })
+      .catch(() => {
+        console.error("ErrorBoundary caught:", error, info);
       });
-    } catch {
-      console.error("ErrorBoundary caught:", error, info);
-    }
     this.props.onError?.(error, info);
   }
 

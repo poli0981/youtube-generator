@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ensureLanguagesLoaded, hasLanguageBundles } from "@i18n/index";
 import type { SupportedLanguage } from "@engine/types";
+import { compareCodeUnits } from "@utils/sort";
 
 /**
  * Returns true once every requested language has its locale bundles in
@@ -17,7 +18,7 @@ export function useLanguagesReady(langs: readonly SupportedLanguage[]): boolean 
   // Stable identity for the requested set — callers pass fresh array
   // literals on every render.
   const key = useMemo(
-    () => [...new Set(joined ? joined.split(",") : [])].sort().join(","),
+    () => [...new Set(joined ? joined.split(",") : [])].sort(compareCodeUnits).join(","),
     [joined],
   );
   const [readyKey, setReadyKey] = useState<string | null>(() =>

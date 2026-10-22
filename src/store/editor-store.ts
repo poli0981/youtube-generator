@@ -930,11 +930,13 @@ export function liftLegacyEndingString(raw: string): EndingEntry[] {
   // Match optional "Ending" prefix + number + optional ": rest" tail.
   // Case-insensitive on the keyword; localised variants ("kết thúc",
   // "エンディング", "结局") are accepted too. Anything else → name-only.
-  const m = trimmed.match(
-    /^(?:ending|kết\s+thúc|エンディング|final|엔딩|结局)\s*(\d+)\s*(?::\s*(.+))?\s*$/i,
+  // `trimmed` has no trailing whitespace, so the pattern needs no `\s*$`; and
+  // no two `\s*` sit next to each other, which would backtrack quadratically.
+  const m = /^(?:ending|kết\s+thúc|エンディング|final|엔딩|结局)\s*(\d+)(?:\s*:\s*(\S.*))?$/i.exec(
+    trimmed,
   );
   if (m) {
-    const num = parseInt(m[1] ?? "", 10);
+    const num = Number.parseInt(m[1] ?? "", 10);
     const name = (m[2] ?? "").trim();
     if (Number.isFinite(num)) {
       return [{ number: num, name }];

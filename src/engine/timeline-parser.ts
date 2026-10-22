@@ -25,9 +25,13 @@ export interface TimelineEntry {
  * frames `:FF` dropped, as editors export them), an optional `]` / `)`,
  * an optional separator (`-`, `–`, `—`, `:`, `|`, `•`) and the label.
  * "[0:00] Intro", "0:00 - Intro" and "00:00:00:12 Intro" all parse.
+ *
+ * Match it against `line.trimEnd()`: the label runs to the end of the line,
+ * and trimming first (rather than a lazy label + `\s*$`) keeps the match
+ * linear on long runs of spaces.
  */
 const LINE_RE =
-  /^\s*[[(]?((?:\d{1,2}:)?\d{1,2}:\d{2})(?::\d{2})?[\])]?\s*(?:[-–—:|•·]\s*)?(\S.*?)\s*$/u;
+  /^\s*[[(]?((?:\d{1,2}:)?\d{1,2}:\d{2})(?::\d{2})?[\])]?\s*(?:[-–—:|•·]\s*)?(\S.*)$/u;
 
 // Keyword patterns. Order matters — "final boss" must be tried before "boss".
 // Each regex captures the optional number group when applicable.
@@ -128,7 +132,7 @@ export function parseTimeline(raw: string): TimelineEntry[] {
   for (const line of lines) {
     if (!line.trim()) continue;
 
-    const lineMatch = line.match(LINE_RE);
+    const lineMatch = LINE_RE.exec(line.trimEnd());
     if (!lineMatch) {
       // Not a `time label` line — keep the raw text so nothing disappears.
       entries.push({ time: "", rawLabel: line.trim() });
@@ -152,7 +156,7 @@ export function parseTimeline(raw: string): TimelineEntry[] {
         for (let i = 1; i < m.length - 1; i++) {
           const g = m[i];
           if (g && /^\d+$/.test(g)) {
-            entry.number = parseInt(g, 10);
+            entry.number = Number.parseInt(g, 10);
             break;
           }
         }
@@ -200,7 +204,7 @@ export function renderTimeline(
     // Collapse the trailing whitespace that creeps in when a numbered
     // keyword pattern (`"Boss {{n}}"`) interpolates with an empty `n`.
     const translated = t(`timeline.keywords.${entry.keyword}`, { n: numberVar })
-      .replace(/\s+$/u, "")
+      .trimEnd()
       .replace(/\s{2,}/gu, " ");
     const withRest = entry.rest ? `${translated} ${entry.rest}` : translated;
     rendered.push(`${entry.time} ${withRest}`);

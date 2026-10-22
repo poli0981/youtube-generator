@@ -141,7 +141,9 @@ export function PlaylistPage() {
       status,
       contentType,
       totalVideos:
-        totalVideosValidation.valid && totalVideos.trim() ? parseInt(totalVideos) : undefined,
+        totalVideosValidation.valid && totalVideos.trim()
+          ? Number.parseInt(totalVideos)
+          : undefined,
       storeLinks: editor.storeLinks,
       playlistNote: customNote,
       droppedReasons,

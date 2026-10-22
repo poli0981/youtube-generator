@@ -74,7 +74,7 @@ export function migrateProfilesState(persistedState: unknown, version: number): 
   if (!persistedState || typeof persistedState !== "object") return persistedState;
   const state = persistedState as { profiles?: Array<Record<string, unknown>> };
   if (!Array.isArray(state.profiles)) return persistedState;
-  state.profiles = state.profiles.map((p) => {
+  const profiles = state.profiles.map((p) => {
     if (!p || typeof p !== "object") return p;
     let next = p;
     if (version < 1 && typeof next.thirdPartyAdText !== "string") {
@@ -90,7 +90,9 @@ export function migrateProfilesState(persistedState: unknown, version: number): 
     if (version < 3) next = { ...next, rig: migrateRig(next.rig) };
     return next;
   });
-  return persistedState;
+  // A new object rather than the mutated input: both callers (persist and
+  // backup restore) use the return value.
+  return { ...state, profiles };
 }
 
 export const useProfileStore = create<ProfileState>()(

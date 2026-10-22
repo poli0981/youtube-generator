@@ -35,7 +35,10 @@ jobs:
         with:
           node-version-file: .node-version
           cache: npm
-      - run: npm ci
+      # No dependency lifecycle scripts, in every workflow. The only packages
+      # that have one (esbuild, workerd, fsevents) take their native binary
+      # from optionalDependencies; the script only double-checks it.
+      - run: npm ci --ignore-scripts
       # `tsc` must be TypeScript 7 (@typescript/native). The `typescript` alias
       # (@typescript/typescript6, the API typescript-eslint loads) pulls in
       # TypeScript 6 as @typescript/old, which ships a `tsc` too — npm links the
@@ -100,4 +103,4 @@ jobs:
       # Validates wrangler.jsonc and bundles the Worker exactly as Workers
       # Builds will — without deploying anything.
       - name: Dry-run the Cloudflare deploy
-        run: npx wrangler deploy --dry-run --outdir .wrangler/dry-run
+        run: npm run cf:check

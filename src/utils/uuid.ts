@@ -1,28 +1,21 @@
 /**
  * Generate a RFC 4122 v4 UUID.
  *
- * `crypto.randomUUID()` is the fast path, but it only exists in Chrome/WebView
- * **92+** — older Android System WebViews (e.g. the Chromium 91 that ships with
- * some emulator images, or any device whose WebView hasn't been updated) don't
- * have it. Because `generateId()` runs at module load (e.g. the log store's
- * `CURRENT_SESSION_ID`), an unguarded `crypto.randomUUID()` would throw during
- * boot and black-screen the whole app on those WebViews. Fall back to a manual
- * v4 built on `crypto.getRandomValues` (present since Chrome 11), and finally
- * `Math.random` only if even that is missing.
+ * `crypto.randomUUID()` is the fast path, but it only exists in secure
+ * contexts (HTTPS, localhost) and in Chromium 92+. Because `generateId()` runs
+ * at module load (e.g. the log store's `CURRENT_SESSION_ID`), an unguarded
+ * call would throw during boot wherever it is missing. Fall back to a v4 built
+ * on `crypto.getRandomValues`, which every engine the app supports has — and
+ * never to `Math.random`, which is not a source of unique IDs.
  */
 export function generateId(): string {
-  const c: Crypto | undefined = typeof globalThis !== "undefined" ? globalThis.crypto : undefined;
+  const c = globalThis.crypto;
 
-  if (c && typeof c.randomUUID === "function") {
+  if (typeof c.randomUUID === "function") {
     return c.randomUUID();
   }
 
-  const bytes = new Uint8Array(16);
-  if (c && typeof c.getRandomValues === "function") {
-    c.getRandomValues(bytes);
-  } else {
-    for (let i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
-  }
+  const bytes = c.getRandomValues(new Uint8Array(16));
   // RFC 4122 §4.4: set the version (4) and variant (10xx) bits.
   // (`?? 0` only satisfies noUncheckedIndexedAccess — index 6/8 always exist.)
   bytes[6] = ((bytes[6] ?? 0) & 0x0f) | 0x40;

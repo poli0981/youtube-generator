@@ -26,8 +26,12 @@ export function youtubeTagsLength(tags: readonly string[]): number {
  */
 const COMPOSITE_NAME_BUDGET = YT_LIMITS.SINGLE_TAG_MAX - 9;
 
+// The match may only start right before a run of `:`/whitespace (or at the
+// start), never inside one — a leading `[:\s]+` alone would be re-tried at
+// every position of a long run (quadratic). Group 1 keeps the character before
+// the run; the caller puts it back with "$1".
 const QUALIFIER_SUFFIX_RE =
-  /[:\s]+(?:Definitive|Complete|Collector'?s?|Deluxe|Game\s+of\s+the\s+Year|GOTY|Ultimate|Special|Anniversary|Remastered|Remake|Enhanced|HD)(?:\s+(?:Edition|Cut|Version))?\s*$/i;
+  /(^|[^:\s])[:\s]+(?:Definitive|Complete|Collector'?s?|Deluxe|Game\s+of\s+the\s+Year|GOTY|Ultimate|Special|Anniversary|Remastered|Remake|Enhanced|HD)(?:\s+(?:Edition|Cut|Version))?\s*$/i;
 
 /**
  * Strips characters that YouTube treats as tag delimiters (`,` `;` `|`) plus
@@ -57,7 +61,7 @@ export function tagFriendlyGameName(name: string, budget: number): string {
   let prev: string;
   do {
     prev = n;
-    n = n.replace(QUALIFIER_SUFFIX_RE, "").trim();
+    n = n.replace(QUALIFIER_SUFFIX_RE, "$1").trim();
   } while (n !== prev);
 
   if (n.length <= budget) return n;

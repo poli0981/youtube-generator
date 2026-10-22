@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search } from "lucide-react";
 import { Modal } from "./Modal";
@@ -24,6 +24,9 @@ const SHORTCUTS = [
 export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
   const { t } = useTranslation("ui");
   const [query, setQuery] = useState("");
+  // The search box gets focus when the modal opens (through Radix, not an
+  // `autoFocus` attribute).
+  const searchRef = useRef<HTMLInputElement>(null);
 
   // A closed modal has no filter. Deriving this rather than resetting `query`
   // in an effect means a re-open always starts fresh without an extra render
@@ -41,18 +44,24 @@ export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
   }, [activeQuery, t]);
 
   return (
-    <Modal open={open} onClose={onClose} title={t("shortcuts.title")} size="sm">
+    <Modal
+      open={open}
+      onClose={onClose}
+      title={t("shortcuts.title")}
+      size="sm"
+      initialFocusRef={searchRef}
+    >
       <div className="flex flex-col gap-3">
         <label className="border-border bg-surface-0 focus-within:border-accent focus-within:ring-accent/25 h-control rounded-control flex items-center gap-2 border px-3 transition-colors focus-within:ring-2">
           <Search className="text-text-muted size-4 shrink-0" aria-hidden="true" />
           <input
+            ref={searchRef}
             type="search"
             value={activeQuery}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("shortcuts.searchPlaceholder")}
             aria-label={t("shortcuts.searchPlaceholder")}
             className="text-text-primary placeholder:text-text-muted w-full bg-transparent text-sm outline-none"
-            autoFocus
           />
         </label>
         {filtered.length === 0 ? (

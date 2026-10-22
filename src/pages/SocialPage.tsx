@@ -155,8 +155,8 @@ export function SocialPage() {
   };
 
   const bulkGenerate = () => {
-    const start = parseInt(startPart) || 1;
-    const end = parseInt(endPart) || start;
+    const start = Number.parseInt(startPart) || 1;
+    const end = Number.parseInt(endPart) || start;
     const rows: BulkRow[] = [];
     // Loop-invariant English translator for the bilingual content-warnings
     // block — `en` is eagerly bundled, so it needs no readiness gate.

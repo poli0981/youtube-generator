@@ -128,7 +128,12 @@ async function handleVerify(request: Request, env: Env, deps: Deps, url: URL): P
  * when the path is not a legal path at all.
  */
 export function legalAssetPath(url: URL): string | null {
-  const trimmed = url.pathname.replace(/\/+$/, "");
+  // Drop trailing slashes with a loop: `/\/+$/` is re-tried at every slash of
+  // a long run and goes quadratic on a path like "/legal//////…x".
+  const path = url.pathname;
+  let end = path.length;
+  while (end > 0 && path[end - 1] === "/") end--;
+  const trimmed = path.slice(0, end);
   if (trimmed === "/legal") return "/legal/";
   if (!trimmed.startsWith("/legal/")) return null;
   const id = /^\/legal\/([a-z-]+)$/.exec(trimmed)?.[1];

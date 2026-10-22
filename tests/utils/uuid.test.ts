@@ -13,9 +13,9 @@ describe("generateId", () => {
     expect(generateId()).toMatch(V4);
   });
 
-  it("falls back to a valid v4 UUID when crypto.randomUUID is missing (Android WebView < 92)", () => {
-    // Chromium 91 has getRandomValues but not randomUUID — the exact gap that
-    // black-screened the app at boot before the fallback existed.
+  it("falls back to a valid v4 UUID when crypto.randomUUID is missing", () => {
+    // Insecure contexts (and Chromium < 92) have getRandomValues but not
+    // randomUUID — the gap that once black-screened the app at boot.
     const real = globalThis.crypto;
     vi.stubGlobal("crypto", {
       getRandomValues: (a: Uint8Array<ArrayBuffer>) => real.getRandomValues(a),
@@ -23,9 +23,11 @@ describe("generateId", () => {
     expect(generateId()).toMatch(V4);
   });
 
-  it("falls back to a valid v4 UUID when crypto is entirely absent", () => {
+  it("refuses to make up an ID when there is no crypto at all", () => {
+    // No Math.random fallback: an ID that is not random is worse than an
+    // error. Every engine the app supports has crypto.getRandomValues.
     vi.stubGlobal("crypto", undefined);
-    expect(generateId()).toMatch(V4);
+    expect(() => generateId()).toThrow(TypeError);
   });
 
   it("produces unique values across many calls", () => {

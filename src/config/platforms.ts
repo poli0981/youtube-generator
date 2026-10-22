@@ -140,8 +140,11 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     tagName: "Android",
     label: "Google Play",
     urlPrefix: "https://play.google.com/store/apps/details?id=",
-    // `id=` first or after other parameters (`?hl=en&id=…`).
-    urlPattern: /^https:\/\/play\.google\.com\/store\/apps\/details\?(?:[^\s]*&)?id=[\w.]+[^\s]*$/i,
+    // `id=` first or after other parameters (`?hl=en&id=…`). The lookahead
+    // finds the parameter (each `&`-separated step is unambiguous), then one
+    // `\S*$` scan checks the rest — linear, where `[^\s]*&` + `[^\s]*$` was not.
+    urlPattern:
+      /^https:\/\/play\.google\.com\/store\/apps\/details\?(?=(?:[^\s&]*&)*id=[\w.])\S*$/i,
   },
   {
     id: "appstore",

@@ -461,15 +461,20 @@ export const CPU_SUGGESTIONS: readonly string[] = [
  * Text it doesn't recognise is only trimmed and de-duplicated of spaces.
  */
 export function cleanCpuName(raw: string): string {
-  return raw
-    .replace(/\((?:R|TM|C)\)|[®™©]/gi, "")
-    .replace(/^\s*\d{1,2}(?:st|nd|rd|th)\s+Gen\s+/i, "")
-    .replace(/\s+CPU\s*@\s*[\d.]+\s*[GM]Hz\b/i, "")
-    .replace(/\s+@\s*[\d.]+\s*[GM]Hz\b/i, "")
-    .replace(/\s+\d{1,3}-Core\s+Processor\b/i, "")
-    .replace(/\s+(?:with\s+Radeon(?:\s+\w+)?\s+Graphics|Processor)\s*$/i, "")
-    .replace(/\s{2,}/g, " ")
-    .trim();
+  return (
+    raw
+      .replace(/\((?:R|TM|C)\)|[®™©]/gi, "")
+      // From here on every whitespace run is a single character, so the
+      // patterns below need only `\s` / `\s?`. A leading `\s+` would be
+      // re-tried at every position of a long run (quadratic).
+      .replace(/\s{2,}/g, " ")
+      .replace(/^\s*\d{1,2}(?:st|nd|rd|th)\s+Gen\s+/i, "")
+      .replace(/\sCPU\s?@\s?[\d.]+\s?[GM]Hz\b/i, "")
+      .replace(/\s@\s?[\d.]+\s?[GM]Hz\b/i, "")
+      .replace(/\s\d{1,3}-Core\sProcessor\b/i, "")
+      .replace(/\s(?:with\sRadeon(?:\s\w+)?\sGraphics|Processor)\s?$/i, "")
+      .trim()
+  );
 }
 
 /**
