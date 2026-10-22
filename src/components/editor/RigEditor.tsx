@@ -1,4 +1,4 @@
-import { lazy, Suspense, useId, useState } from "react";
+import { lazy, Suspense, useId, useState, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { AlertTriangle, ChevronsUpDown } from "lucide-react";
 import clsx from "clsx";
@@ -230,7 +230,7 @@ export function RigEditor() {
     // before it, so cascading option lists, dynamic labels and hidden-when
     // predicates line up.
     const previousValues: string[] = [];
-    const renderedParts: React.ReactNode[] = [];
+    const renderedParts: ReactNode[] = [];
     composite.parts.forEach((part, index) => {
       const stored = partValues[index] ?? "";
       if (!part.hiddenWhen?.(previousValues)) {

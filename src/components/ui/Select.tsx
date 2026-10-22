@@ -1,4 +1,4 @@
-import { forwardRef, type SelectHTMLAttributes } from "react";
+import type { ComponentProps } from "react";
 import { ChevronsUpDown } from "lucide-react";
 import clsx from "clsx";
 import { Field, controlClasses } from "./Field";
@@ -8,7 +8,7 @@ interface SelectOption {
   label: string;
 }
 
-interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onChange"> {
+interface SelectProps extends Omit<ComponentProps<"select">, "onChange"> {
   label?: string;
   options: readonly SelectOption[];
   onChange: (value: string) => void;
@@ -21,8 +21,19 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "onC
  * Android and iOS, type-ahead, and full keyboard support for free — and it
  * now matches the other controls' height (it used to be ~6px shorter).
  */
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, options, value, onChange, helpText, errorText, className, id, ...props }, ref) => (
+export function Select({
+  label,
+  options,
+  value,
+  onChange,
+  helpText,
+  errorText,
+  className,
+  id,
+  ref,
+  ...props
+}: SelectProps) {
+  return (
     <Field label={label} help={helpText} error={errorText} id={id}>
       {(control) => (
         // `className` sizes the control box (e.g. max-w-40), so the chevron
@@ -52,7 +63,5 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         </div>
       )}
     </Field>
-  ),
-);
-
-Select.displayName = "Select";
+  );
+}

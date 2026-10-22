@@ -1,4 +1,4 @@
-import { forwardRef, type ButtonHTMLAttributes } from "react";
+import type { ComponentProps } from "react";
 import { Slot } from "radix-ui";
 import clsx from "clsx";
 import { Spinner } from "@components/icons/animated";
@@ -6,7 +6,8 @@ import { Spinner } from "@components/icons/animated";
 export type ButtonVariant = "primary" | "brand" | "secondary" | "outline" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md" | "lg" | "icon" | "icon-sm";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+/** `ref` is an ordinary prop in React 19 — it comes with `ComponentProps<"button">`. */
+export interface ButtonProps extends ComponentProps<"button"> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   /** Shows a spinner, disables the button and keeps its width. */
@@ -42,43 +43,37 @@ export const buttonClasses = (variant: ButtonVariant = "primary", size: ButtonSi
     SIZES[size],
   );
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      variant = "primary",
-      size = "md",
-      loading = false,
-      asChild = false,
-      className,
-      children,
-      disabled,
-      type,
-      ...props
-    },
-    ref,
-  ) => {
-    if (asChild) {
-      return (
-        <Slot.Root ref={ref} className={clsx(buttonClasses(variant, size), className)} {...props}>
-          {children}
-        </Slot.Root>
-      );
-    }
+export function Button({
+  variant = "primary",
+  size = "md",
+  loading = false,
+  asChild = false,
+  className,
+  children,
+  disabled,
+  type,
+  ref,
+  ...props
+}: ButtonProps) {
+  if (asChild) {
     return (
-      <button
-        ref={ref}
-        // A button inside a <form> defaults to submit — make every other one explicit.
-        type={type ?? "button"}
-        disabled={disabled || loading}
-        aria-busy={loading || undefined}
-        className={clsx(buttonClasses(variant, size), className)}
-        {...props}
-      >
-        {loading && <Spinner />}
+      <Slot.Root ref={ref} className={clsx(buttonClasses(variant, size), className)} {...props}>
         {children}
-      </button>
+      </Slot.Root>
     );
-  },
-);
-
-Button.displayName = "Button";
+  }
+  return (
+    <button
+      ref={ref}
+      // A button inside a <form> defaults to submit — make every other one explicit.
+      type={type ?? "button"}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
+      className={clsx(buttonClasses(variant, size), className)}
+      {...props}
+    >
+      {loading && <Spinner />}
+      {children}
+    </button>
+  );
+}
