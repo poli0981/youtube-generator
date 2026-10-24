@@ -11,19 +11,19 @@
 
 ## Tech Stack
 
-| Layer             | Technology                                                                                                                                       |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| UI                | React 19, TypeScript 7 (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons                   |
-| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions; Node 26 (`.node-version`)                                                               |
-| Type checking     | TypeScript 7 `tsc` (`@typescript/native`); `typescript` is an npm alias for `@typescript/typescript6`, the 6.0 API typescript-eslint loads       |
-| Styling           | Tailwind CSS 4, CSS-first `@theme` tokens in `src/styles/globals.css`                                                                            |
-| State             | Zustand 5 + `persist` (localStorage) — the only store on every platform                                                                          |
-| Routing           | React Router 7 — `BrowserRouter` on the web, `HashRouter` in Tauri                                                                               |
-| i18n              | i18next + react-i18next, 8 locales (en, vi, ja, es, ko, zh, pt-BR, id); `en` bundled, others lazy                                                |
-| Desktop / Android | Tauri 2 (Rust) — see `src-tauri/`                                                                                                                |
-| Web hosting       | Cloudflare Workers (`worker/`, `wrangler.jsonc`), Turnstile, Web Analytics                                                                       |
-| Tests             | Vitest (node environment; Worker tests included)                                                                                                 |
-| Quality           | ESLint, Prettier, knip, coverage thresholds, bundle budget, licence allow-list, copyright years, REUSE, actionlint/zizmor, cargo fmt/clippy/deny |
+| Layer             | Technology                                                                                                                                                              |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI                | React 19, TypeScript 7 (strict), Radix primitives (`radix-ui`), Motion (LazyMotion), cmdk, sonner, lucide-react + simple-icons                                          |
+| Build             | Vite 8 (Rolldown); config imports need `.ts` extensions; Node 26 (`.node-version`)                                                                                      |
+| Type checking     | TypeScript 7 `tsc` (`@typescript/native`); `typescript` is an npm alias for `@typescript/typescript6`, the 6.0 API typescript-eslint loads                              |
+| Styling           | Tailwind CSS 4, CSS-first `@theme` tokens in `src/styles/globals.css`                                                                                                   |
+| State             | Zustand 5 + `persist` (localStorage) — the only store on every platform                                                                                                 |
+| Routing           | React Router 7 — `BrowserRouter` on the web, `HashRouter` in Tauri                                                                                                      |
+| i18n              | i18next + react-i18next, 8 locales (en, vi, ja, es, ko, zh, pt-BR, id); `en` bundled, others lazy                                                                       |
+| Desktop / Android | Tauri 2 (Rust) — see `src-tauri/`                                                                                                                                       |
+| Web hosting       | Cloudflare Workers (`worker/`, `wrangler.jsonc`), Turnstile, Web Analytics                                                                                              |
+| Tests             | Vitest (node environment; Worker tests included)                                                                                                                        |
+| Quality           | ESLint, Prettier, knip, coverage thresholds, bundle budget, licence allow-list, copyright years, REUSE, actionlint/zizmor, cargo fmt/clippy/deny, SonarCloud (CI-based) |
 
 ## Project Structure
 
@@ -179,6 +179,6 @@ npm run generate:brand      # favicon, PWA icons, link-preview card from assets/
 - New content warning / tech note: the id in `CONTENT_WARNINGS` / `TECH_NOTES` (`src/engine/types.ts`), a group in `src/config/content-warning-groups.ts` / `tech-note-groups.ts`, the editor label (`ui.json`) and description line (`templates.json`) in all 8 locales and `_schema.json` — tests fail on any gap — and the row in `docs/CONTENT-INVENTORY.md` (+ vi). Don't repeat a fact that has its own field (language patch, game version, difficulty, the Video settings upscaler).
 - New store platform: `src/config/platforms.ts` (URL pattern, `tagName`), optionally a name extractor in `src/utils/url-extractors.ts`.
 - Never commit `note.txt`, `warning.txt` or `__pycache__/`; never put real secrets in files (`.dev.vars` holds Cloudflare's public Turnstile test keys only).
-- SonarCloud (Automatic Analysis, project `poli0981_youtube-generator`) analyses every PR and `main`; keep it at 0 open issues. Check a PR with `https://sonarcloud.io/api/issues/search?componentKeys=poli0981_youtube-generator&pullRequest=<n>&resolved=false`. Workflows install with `npm ci --ignore-scripts` and call local binaries (`npm run …`), never `npx` for a package that isn't installed.
+- SonarCloud (project `poli0981_youtube-generator`) is CI-based: the `sonarcloud` job in `ci.yml` scans every PR from this repository and every push to `main`, with the coverage from `check`; settings in `sonar-project.properties`; Automatic Analysis is off. Keep it at 0 open issues and the quality gate (Sonar way: A ratings, reviewed hotspots, ≤ 3 % duplication, ≥ 80 % coverage on new code) green — the job fails with the gate. Coverage covers what `coverage.include` in `vitest.config.ts` lists (the logic layers); everything else is in `sonar.coverage.exclusions`, because a file missing from the LCOV report counts as 0 % — a new source folder goes into one list or the other. The version passed to the scanner starts each release's new-code period. Fork and Dependabot PRs skip the scan (no `SONAR_TOKEN`). Check a PR with `https://sonarcloud.io/api/issues/search?componentKeys=poli0981_youtube-generator&pullRequest=<n>&resolved=false` and its gate with `https://sonarcloud.io/api/qualitygates/project_status?projectKey=poli0981_youtube-generator&pullRequest=<n>`. Workflows install with `npm ci --ignore-scripts` and call local binaries (`npm run …`), never `npx` for a package that isn't installed.
 - TypeScript bumps may be manual: `@typescript/native` (`npm:typescript@^7`) and `typescript` (`npm:@typescript/typescript6@^6`) are npm aliases Dependabot may not follow. Stop the dev server before `npm ci` on Windows — it locks native modules (EPERM).
 - The Cloudflare dashboard, publishing releases and repository settings are the maintainer's; ask before touching them.

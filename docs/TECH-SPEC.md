@@ -582,7 +582,7 @@ An unknown version is read as 0: every migration step is idempotent, so running 
 
 | Workflow                                               | Runs on                                    | Jobs                                                                                                                                                                                                                                                                     |
 | ------------------------------------------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ci.yml` (CI)                                          | PRs to and pushes on `main`                | `check` — the required status on `main`                                                                                                                                                                                                                                  |
+| `ci.yml` (CI)                                          | PRs to and pushes on `main`                | `check` — the required status on `main`; `sonarcloud` — the SonarCloud scan with `check`'s coverage (pushes on `main`, PRs from this repository except Dependabot's)                                                                                                     |
 | `security.yml` (Security)                              | PRs, pushes on `main`, weekly, manual      | `dependency-review` (PRs: fails on a newly added high/critical advisory), `workflow-lint` (actionlint + zizmor, `.github/zizmor.yml`), `scorecard` (OpenSSF Scorecard, informational; not on PRs)                                                                        |
 | `compliance.yml` (Compliance)                          | PRs, pushes on `main`                      | `reuse` (REUSE licensing via `REUSE.toml`), `pr-title` (Conventional-Commit PR titles with a lower-case subject)                                                                                                                                                         |
 | `rust.yml` (Rust)                                      | Changes under `src-tauri/`, weekly, manual | `lint-and-test` (`cargo fmt --all -- --check`, `cargo clippy --all-targets --locked -- -D warnings`, `cargo test --locked`, after `npm run build` because `generate_context!` embeds `dist/`), `cargo-deny` (`check advisories licenses sources`, `src-tauri/deny.toml`) |
@@ -594,13 +594,14 @@ An unknown version is read as 0: every migration step is idempotent, so running 
 The `check` job, in order:
 
 ```yaml
-- run: npm ci
+- run: npm ci --ignore-scripts
 # correctness
 - run: npm run typecheck # src/
 - run: npm run typecheck:all # + tests/, scripts/, worker/, build-plugins/
 - run: npm run lint
 - run: npm run validate:locales
 - run: npm run test:coverage # thresholds in vitest.config.ts
+- uses: actions/upload-artifact # coverage/lcov.info, for the sonarcloud job
 # consistency
 - run: npm run format:check
 - run: npm run knip
@@ -615,13 +616,23 @@ The `check` job, in order:
 # build
 - run: npm run build
 - run: npm run check:bundle # initial load ≤ 280 KB gzip, no JS chunk > 500 KB raw
-- run: npx wrangler deploy --dry-run --outdir .wrangler/dry-run
+- run: npm run cf:check # wrangler deploy --dry-run
+```
+
+Then `sonarcloud` (after `check` succeeds):
+
+```yaml
+- uses: actions/checkout # fetch-depth: 0 — new code is told from old by git blame
+- uses: actions/download-artifact # the coverage report from check
+- run: jq -r .version package.json # → sonar.projectVersion
+- uses: SonarSource/sonarqube-scan-action # SONAR_TOKEN, sonar-project.properties
 ```
 
 - **Bundle budget** (`scripts/check-bundle-size.ts`): the initial load is every script, modulepreload and stylesheet `dist/index.html` references, summed gzip — lazy chunks (pages, locales, legal documents) are excluded. The result is printed as a table and added to the job summary.
 - **Licences** (`scripts/lib/third-party.ts`): every package bundled into the app must carry an allowed licence (MIT, ISC, Apache-2.0, BSD-2/3-Clause, 0BSD, CC0-1.0, Unlicense, BlueOak-1.0.0, OFL-1.1, Zlib, MPL-2.0), and `THIRD_PARTY_NOTICES.md` is generated (`npm run generate:third-party`) and checked, not hand-written.
 - **Copyright years** (`scripts/lib/copyright.ts`, v1.1.0): NOTICE, REUSE.toml and `bundle.copyright` in `tauri.conf.json` must state `copyrightYears(<year of HEAD's commit>)` from `src/config/brand.ts` — "2026", then "2026-2027" from the first commit of 2027. The commit year rather than the clock keeps old commits green; `npm run update:copyright` rewrites the three files. The `/legal` pages' footer uses the same helper at build time.
 - **Wrangler dry run** validates `wrangler.jsonc` and bundles the Worker exactly as Workers Builds will, without deploying.
+- **SonarCloud** (CI-based; Automatic Analysis is off in the project's settings): `sonar-project.properties` makes the whole repository main code except the tests (`tests/**` and any `src/**/*.test.ts(x)`, analysed as tests) and the binary files (icons, the Gradle wrapper's jar), imports `coverage/lcov.info` and excludes from coverage everything Vitest does not measure (see [Testing Strategy](#6-testing-strategy)). The scan waits for the quality gate — Sonar way: A security, reliability and maintainability ratings, every security hotspot reviewed, ≤ 3 % duplication and ≥ 80 % coverage on new code — and fails the job when it fails. New code is "since the previous version": the job reads `package.json`'s version into `sonar.projectVersion`, so every release starts a new period. The scan runs in a job of its own so that `SONAR_TOKEN` never shares a job with npm packages. PRs from forks and from Dependabot get no repository secrets and skip it; the condition checks the PR author, not `github.actor` (zizmor's `bot-conditions`).
 - Every workflow declares least-privilege `permissions`, checks out with `persist-credentials: false`, and pins actions by commit SHA (Dependabot keeps the SHAs and version comments current). The exceptions are the actionlint Docker image (pinned by version tag) and the maintainer's own `poli0981/.github` reusable workflows (tracked at `main`, allowed in `.github/zizmor.yml`). CI, Security, Compliance and Rust cancel superseded runs through a `concurrency` group, except on `main`, where each commit's result is a record the release process reads back.
 
 **Web deployment is not a GitHub workflow.** Cloudflare Workers Builds builds and deploys the Worker and `dist/` on every push to `main` (preview versions for other branches). The old `deploy-web.yml` (GitHub Pages) is gone; `pages-migration.yml` only serves the moving notice, which hands visitors the data their browser saved on the old address as a `_format: 2` backup file. See [HOSTING.md](HOSTING.md).
@@ -672,7 +683,7 @@ describe("buildTitle", () => {
 });
 ```
 
-`npm run test:coverage` (what CI runs) measures `src/engine/**`, `worker/**` and `build-plugins/**` with V8 and fails below these thresholds — the engine is what the whole app trusts, the Worker is what guards the site:
+`npm run test:coverage` (what CI runs) measures the logic layers with V8 — `src/engine/**`, `src/config/**`, `src/store/**`, `src/utils/**`, `worker/**` (except `worker/index.ts`, the runtime wiring) and `build-plugins/**` — and writes `coverage/lcov.info` for SonarCloud. Components, pages and hooks are checked in the running app, `src/i18n` is i18next set-up and `scripts/` is tooling; SonarCloud would count a file missing from the report as 0 % covered, so `sonar.coverage.exclusions` lists all of them, and a new source folder goes into one list or the other. The run fails below these thresholds — the engine is what the whole app trusts, the Worker is what guards the site:
 
 | Scope                                     | Statements | Branches | Functions | Lines |
 | ----------------------------------------- | ---------- | -------- | --------- | ----- |

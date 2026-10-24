@@ -38,7 +38,7 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 
 - Branch from `main` (`feat/…`, `fix/…`, `docs/…`) and open the PR against `main`. Every merge to `main` deploys the web app, so `main` stays releasable.
 - Commit format and **PR title**: `type(scope): message` — e.g. `feat(engine): add Spanish template support`. Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`. CI checks the PR title.
-- Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title`. When `src-tauri/` changes, the Rust workflow's `lint-and-test` and `cargo-deny` run too, and GitHub's CodeQL code scanning runs on every PR. Commits on `main` are signed.
+- Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title`. When `src-tauri/` changes, the Rust workflow's `lint-and-test` and `cargo-deny` run too, and GitHub's CodeQL code scanning runs on every PR. SonarCloud analyses PRs opened from this repository — its quality gate wants A ratings, reviewed security hotspots, at most 3 % duplication and at least 80 % test coverage on new code in the layers Vitest measures (PRs from forks get no secrets and skip it; the maintainer's merge runs it on `main`). Commits on `main` are signed.
 - PR titles start with a lower-case letter after the colon (`feat(editor): add …`, not `feat(editor): Add …`).
 - One logical change per PR. Don't bundle unrelated refactors.
 - All locale files must stay in lock-step — see the i18n section below.
