@@ -127,7 +127,7 @@ LICENSES/                      # license texts for REUSE
 3. **Profiles vs presets vs templates**: profile = channel (rarely changes), preset = game (reused across parts), template = the whole form. The field lists live in `src/config/library-fields.ts`.
 4. **Tags are generated**, then trimmed to YouTube's own length count.
 5. **Your data stays on your device.** localStorage is the only store; backups are files the user controls (plus automatic backups in the desktop app's data folder).
-6. **The desktop webview never names a path**: Rust commands take file names under the app data folder or open the native dialog themselves.
+6. **The desktop webview never names a path**: Rust commands take file names under the app data folder or open the native dialog themselves. Blocking work in an `async` command (a dialog, file I/O) goes through `tauri::async_runtime::spawn_blocking` — SonarCloud flags it otherwise (`rust:S7493`).
 7. **The web app is gated** by Turnstile, verified server-side in the Worker; the gate fails open if its secret is missing.
 
 ## Development Commands
