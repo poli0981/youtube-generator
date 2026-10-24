@@ -85,6 +85,9 @@ fn dialog(
 
 /// Ask where to save, then write `content` there. Returns the file name that
 /// was written, or `None` when the user cancelled.
+///
+/// Waiting for the dialog and writing the file both block, so they run on the
+/// blocking thread pool instead of holding one of the async runtime's workers.
 #[tauri::command]
 pub async fn export_text_file(
     app: AppHandle,
@@ -96,15 +99,29 @@ pub async fn export_text_file(
     title: Option<String>,
 ) -> Result<Option<String>, String> {
     let filter = allowed_filter(&extensions)?;
-    let refs: Vec<&str> = filter.iter().map(String::as_str).collect();
-    let picked = dialog(&app, &window, title)
-        .set_file_name(suggested_file_name(&suggested_name))
-        .add_filter(filter_name, &refs)
-        .blocking_save_file();
-    let Some(picked) = picked else {
-        return Ok(None);
-    };
-    let path = with_allowed_extension(picked_path(picked)?, &filter[0]);
+    tauri::async_runtime::spawn_blocking(move || {
+        let refs: Vec<&str> = filter.iter().map(String::as_str).collect();
+        let picked = dialog(&app, &window, title)
+            .set_file_name(suggested_file_name(&suggested_name))
+            .add_filter(filter_name, &refs)
+            .blocking_save_file();
+        match picked {
+            None => Ok(None),
+            Some(picked) => write_picked(picked, &filter[0], &content),
+        }
+    })
+    .await
+    .map_err(|e| e.to_string())?
+}
+
+/// Write `content` where the user chose, ending in an allowed extension, and
+/// return the file name that was written.
+fn write_picked(
+    picked: FilePath,
+    default_ext: &str,
+    content: &str,
+) -> Result<Option<String>, String> {
+    let path = with_allowed_extension(picked_path(picked)?, default_ext);
     fs::write(&path, content).map_err(|e| e.to_string())?;
     Ok(path.file_name().map(|n| n.to_string_lossy().into_owned()))
 }
@@ -141,6 +158,7 @@ fn read_picked(path: &Path, filter: &[String]) -> Result<PickedFile, String> {
 }
 
 /// Ask for a file, then return its name and text. `None` when cancelled.
+/// Runs on the blocking thread pool, like `export_text_file`.
 #[tauri::command]
 pub async fn import_text_file(
     app: AppHandle,
@@ -150,14 +168,18 @@ pub async fn import_text_file(
     title: Option<String>,
 ) -> Result<Option<PickedFile>, String> {
     let filter = allowed_filter(&extensions)?;
-    let refs: Vec<&str> = filter.iter().map(String::as_str).collect();
-    let picked = dialog(&app, &window, title)
-        .add_filter(filter_name, &refs)
-        .blocking_pick_file();
-    match picked {
-        None => Ok(None),
-        Some(picked) => read_picked(&picked_path(picked)?, &filter).map(Some),
-    }
+    tauri::async_runtime::spawn_blocking(move || {
+        let refs: Vec<&str> = filter.iter().map(String::as_str).collect();
+        let picked = dialog(&app, &window, title)
+            .add_filter(filter_name, &refs)
+            .blocking_pick_file();
+        match picked {
+            None => Ok(None),
+            Some(picked) => read_picked(&picked_path(picked)?, &filter).map(Some),
+        }
+    })
+    .await
+    .map_err(|e| e.to_string())?
 }
 
 #[cfg(test)]
@@ -202,6 +224,22 @@ mod tests {
             with_allowed_extension(dir.join("a.exe"), "txt"),
             dir.join("a.exe.txt")
         );
+    }
+
+    #[test]
+    fn writing_keeps_the_name_and_adds_an_allowed_extension() {
+        let dir = std::env::temp_dir().join(format!("ytdescgen-export-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+
+        let name = write_picked(FilePath::Path(dir.join("backup")), "json", "{}").unwrap();
+        assert_eq!(name.as_deref(), Some("backup.json"));
+        assert_eq!(fs::read_to_string(dir.join("backup.json")).unwrap(), "{}");
+
+        let name = write_picked(FilePath::Path(dir.join("notes.MD")), "json", "# x").unwrap();
+        assert_eq!(name.as_deref(), Some("notes.MD"));
+        assert_eq!(fs::read_to_string(dir.join("notes.MD")).unwrap(), "# x");
+
+        let _ = fs::remove_dir_all(&dir);
     }
 
     #[test]
