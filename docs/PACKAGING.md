@@ -208,10 +208,10 @@ The commands:
 What makes them safe:
 
 - **Names, not paths.** `storage.rs` builds every path itself, under Tauri's `app_data_dir()`, from a name that must match `ytdescgen-<lowercase letters, digits, hyphens>.json` (at most 100 bytes) for backups or `ytdescgen-YYYYMMDD.jsonl` for logs. Anything else — `..`, separators, other extensions — is rejected before a path exists.
-- **Dialogs run in Rust.** `file_dialog.rs` accepts only the extensions `json`, `jsonl`, `txt`, `csv` and `md`; reduces a suggested name to its file name (`../../x/backup.json` → `backup.json`); makes a saved file end in an allowed extension (`backup` → `backup.json`, `backup.exe` → `backup.exe.json`); and refuses imports over 20 MB or that are not UTF-8 (a byte-order mark is stripped). The chosen path never passes through JavaScript. On desktop the dialog is attached to the app window.
+- **Dialogs run in Rust.** `file_dialog.rs` accepts only the extensions `json`, `jsonl`, `txt`, `csv` and `md`; reduces a suggested name to its file name (`../../x/backup.json` → `backup.json`); makes a saved file end in an allowed extension (`backup` → `backup.json`, `backup.exe` → `backup.exe.json`); and refuses imports over 20 MB or that are not UTF-8 (a byte-order mark is stripped). The chosen path never passes through JavaScript. On desktop the dialog is attached to the app window. Both commands are `async` and run the dialog and the file I/O through `tauri::async_runtime::spawn_blocking`: the dialogs' blocking API must stay off the main thread, and blocking work must not hold one of the async runtime's workers (SonarCloud `rust:S7493`).
 - **Removed in v1.0.0**: the five commands that read, wrote, appended to, listed and deleted any path the webview sent (`save_to_file`, `read_from_file`, `append_to_file`, `list_dir`, `delete_file`), and the fs and shell plugins.
 
-Both modules have unit tests (`cargo test` in `src-tauri/`): the name rules, path rejection, backup pruning, legacy recovery, dialog filters and the import checks.
+Both modules have unit tests (`cargo test` in `src-tauri/`): the name rules, path rejection, backup pruning, legacy recovery, dialog filters, writing the picked file and the import checks.
 
 ### 4. Frontend Tauri Integration
 
