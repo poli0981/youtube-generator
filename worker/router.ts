@@ -12,13 +12,16 @@ import {
   plainResponse,
   withSecurityHeaders,
 } from "./headers";
+import { isRateLimited, tooManyRequests } from "./rate-limit";
 import { evaluateSiteverify, siteverify } from "./turnstile";
 
 /**
  * Request routing for ytgenerator.stream.
  *
  * `wrangler.jsonc` sends everything except hashed build output and a handful
- * of public files (icons, robots, security.txt …) through here first:
+ * of public files (icons, robots, security.txt …) through here first.
+ * Every request is rate-limited per client before anything else
+ * (./rate-limit.ts); then:
  *
  *   /__gate/verify   POST: check a Turnstile token, set the gate cookie
  *   /__gate/status   204 if the gate cookie is valid (cookie-blocked check)
@@ -193,8 +196,11 @@ function serveGate(request: Request, env: Env, deps: Deps, url: URL): Response {
 
 export async function handleRequest(request: Request, env: Env, deps: Deps): Promise<Response> {
   const url = new URL(request.url);
+  const isVerify = url.pathname === VERIFY_PATH;
 
-  if (url.pathname === VERIFY_PATH) {
+  if (await isRateLimited(request, env, isVerify)) return tooManyRequests(isVerify);
+
+  if (isVerify) {
     if (!env.TURNSTILE_SECRET) return jsonResponse(503, { ok: false, error: "not-configured" });
     return handleVerify(request, env, deps, url);
   }

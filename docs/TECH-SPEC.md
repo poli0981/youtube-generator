@@ -307,6 +307,10 @@ The only Cloudflare file in the repository; Workers Builds runs `npx wrangler de
       "!/404.html"
     ]
   },
+  "ratelimits": [
+    { "name": "RATE_LIMIT", "namespace_id": "1001", "simple": { "limit": 120, "period": 60 } },
+    { "name": "VERIFY_RATE_LIMIT", "namespace_id": "1002", "simple": { "limit": 10, "period": 60 } }
+  ],
   "vars": {
     "TURNSTILE_SITE_KEY": "0x4AAAAAAFKFAMUx9rQ5H6bQ",
     "GATE_TTL_SECONDS": "86400"
@@ -315,9 +319,9 @@ The only Cloudflare file in the repository; Workers Builds runs `npx wrangler de
 }
 ```
 
-Every request goes through the Worker first except content-hashed build output and the public files browsers and crawlers fetch without cookies. `not_found_handling` is `404-page`, not the SPA fallback, so no path can reach `index.html` without passing the gate. `TURNSTILE_SECRET` is a dashboard Secret, never committed. Request flow, cookies, headers and operations: [HOSTING.md](HOSTING.md).
+Every request goes through the Worker first except content-hashed build output and the public files browsers and crawlers fetch without cookies. `not_found_handling` is `404-page`, not the SPA fallback, so no path can reach `index.html` without passing the gate. `TURNSTILE_SECRET` is a dashboard Secret, never committed. The two `ratelimits` bindings (Workers Rate Limiting API, v1.3.2) cap each client — an IPv4 address or an IPv6 /64 — at 120 Worker requests and 10 verify calls a minute, behind the zone's WAF rate limiting rule. Request flow, cookies, headers, rate limits and operations: [HOSTING.md](HOSTING.md).
 
-The Worker (`worker/`): `index.ts` (entry; injects the clock, `fetch` and random ids), `router.ts` (routing), `env.ts` (bindings, constants, the gate lifetime clamped to 5 min – 30 days), `turnstile.ts` (siteverify call and verdict: success, hostname, action `enter`, token age ≤ 300 s), `cookie.ts` (the HMAC-signed `__Host-ytg_gate` cookie, key derived from the Turnstile secret, bound to a User-Agent hash), `headers.ts` (CSP per page type and the baseline security headers), `gate-page.ts` + `gate-i18n.ts` (the gate page in the app's eight languages). It uses only standard Web APIs, so it type-checks against the DOM lib and runs under Vitest in Node.
+The Worker (`worker/`): `index.ts` (entry; injects the clock, `fetch` and random ids), `router.ts` (routing), `rate-limit.ts` (the per-client limit checked before anything else: client key, fail-open check, the `429`), `env.ts` (bindings, constants, the gate lifetime clamped to 5 min – 30 days), `turnstile.ts` (siteverify call and verdict: success, hostname, action `enter`, token age ≤ 300 s), `cookie.ts` (the HMAC-signed `__Host-ytg_gate` cookie, key derived from the Turnstile secret, bound to a User-Agent hash), `headers.ts` (CSP per page type and the baseline security headers), `gate-page.ts` + `gate-i18n.ts` (the gate page in the app's eight languages). It uses only standard Web APIs, so it type-checks against the DOM lib and runs under Vitest in Node.
 
 ## 2. Core Engine Interfaces
 
@@ -641,7 +645,7 @@ Then `sonarcloud` (after `check` succeeds):
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 984 tests in 51 files at v1.3.1. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 984 tests in 51 files at v1.3.1. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 

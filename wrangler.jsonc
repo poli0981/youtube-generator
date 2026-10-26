@@ -49,6 +49,27 @@
     ]
   },
 
+  // Per-client rate limits (Workers Rate Limiting API): the second layer,
+  // behind the zone's WAF rate limiting rule — see docs/HOSTING.md. Counted
+  // per Cloudflare location, approximately, by IPv4 address or IPv6 /64.
+  // Over the limit → 429 with Retry-After. `period` may be 10 or 60 and must
+  // equal RATE_LIMIT_PERIOD_SECONDS in worker/env.ts; `namespace_id` is an
+  // integer (as a string) unique within the Cloudflare account.
+  "ratelimits": [
+    // Every request the Worker handles: the gate, the app shell, legal pages.
+    {
+      "name": "RATE_LIMIT",
+      "namespace_id": "1001",
+      "simple": { "limit": 120, "period": 60 }
+    },
+    // POST /__gate/verify on top of that — each one costs a siteverify call.
+    {
+      "name": "VERIFY_RATE_LIMIT",
+      "namespace_id": "1002",
+      "simple": { "limit": 10, "period": 60 }
+    }
+  ],
+
   "vars": {
     // Public by design — the widget embeds it in the page. The matching
     // secret is the dashboard Secret TURNSTILE_SECRET (never committed).

@@ -28,10 +28,27 @@ function fakeAssets() {
   return binding;
 }
 
+/** A rate limiter that lets `allowed` requests per key through. */
+function fakeLimiter(allowed = Infinity) {
+  const keys: string[] = [];
+  const counts = new Map<string, number>();
+  return {
+    keys,
+    async limit({ key }: { key: string }) {
+      keys.push(key);
+      const count = (counts.get(key) ?? 0) + 1;
+      counts.set(key, count);
+      return { success: count <= allowed };
+    },
+  };
+}
+
 function makeEnv(overrides: Partial<Env> = {}) {
   const assets = fakeAssets();
   const env: Env = {
     ASSETS: assets,
+    RATE_LIMIT: fakeLimiter(),
+    VERIFY_RATE_LIMIT: fakeLimiter(),
     TURNSTILE_SITE_KEY: "site-key",
     TURNSTILE_SECRET: SECRET,
     GATE_TTL_SECONDS: "86400",
@@ -312,5 +329,98 @@ describe("worker routing — missing secret", () => {
     );
     expect(res.status).toBe(503);
     errors.mockRestore();
+  });
+});
+
+describe("worker routing — rate limits", () => {
+  const fromIp = (
+    ip: string,
+    path = "/",
+    init: { method?: string; body?: string; headers?: Record<string, string> } = {},
+  ) => req(path, { ...init, headers: { "CF-Connecting-IP": ip, ...init.headers } });
+
+  function verifyFrom(ip: string) {
+    return fromIp(ip, "/__gate/verify", {
+      method: "POST",
+      headers: { Origin: ORIGIN, "Content-Type": "application/json" },
+      body: JSON.stringify({ token: "tok", consent: true }),
+    });
+  }
+
+  it("answers 429 with Retry-After once a client is over the limit, before any asset fetch", async () => {
+    const { env, assets } = makeEnv({ RATE_LIMIT: fakeLimiter(2) });
+    const cookie = await gateCookie();
+    const statuses: number[] = [];
+    let last: Response | undefined;
+    for (let i = 0; i < 3; i++) {
+      last = await handleRequest(
+        fromIp("203.0.113.7", "/", { headers: { Cookie: cookie } }),
+        env,
+        makeDeps(),
+      );
+      statuses.push(last.status);
+    }
+    expect(statuses).toEqual([200, 200, 429]);
+    expect(last!.headers.get("Retry-After")).toBe("60");
+    expect(last!.headers.get("Content-Type")).toContain("text/plain");
+    expect(last!.headers.get("Cache-Control")).toBe("no-store");
+    expect(last!.headers.get("X-Content-Type-Options")).toBe("nosniff");
+    expect(await last!.text()).toContain("Too many requests");
+    expect(assets.calls).toHaveLength(2);
+  });
+
+  it("counts each client separately", async () => {
+    const { env } = makeEnv({ RATE_LIMIT: fakeLimiter(1) });
+    expect((await handleRequest(fromIp("203.0.113.7"), env, makeDeps())).status).toBe(200);
+    expect((await handleRequest(fromIp("203.0.113.7"), env, makeDeps())).status).toBe(429);
+    expect((await handleRequest(fromIp("198.51.100.2"), env, makeDeps())).status).toBe(200);
+  });
+
+  it("counts a whole IPv6 /64 as one client", async () => {
+    const { env } = makeEnv({ RATE_LIMIT: fakeLimiter(1) });
+    expect((await handleRequest(fromIp("2001:db8:1:2::1"), env, makeDeps())).status).toBe(200);
+    expect((await handleRequest(fromIp("2001:db8:1:2:aa::9"), env, makeDeps())).status).toBe(429);
+    expect((await handleRequest(fromIp("2001:db8:1:3::1"), env, makeDeps())).status).toBe(200);
+  });
+
+  it("covers the public routes and other methods too", async () => {
+    const { env, assets } = makeEnv({ RATE_LIMIT: fakeLimiter(0) });
+    for (const request of [
+      fromIp("203.0.113.7", "/legal/privacy"),
+      fromIp("203.0.113.7", "/__gate/status"),
+      fromIp("203.0.113.7", "/", { method: "PUT" }),
+    ]) {
+      expect((await handleRequest(request, env, makeDeps())).status).toBe(429);
+    }
+    expect(assets.calls).toEqual([]);
+  });
+
+  it("answers a verify flood with JSON 429 and no siteverify call", async () => {
+    const { env } = makeEnv({ VERIFY_RATE_LIMIT: fakeLimiter(1) });
+    const deps = makeDeps({
+      success: true,
+      hostname: "ytgenerator.stream",
+      action: "enter",
+      challenge_ts: "2026-09-30T11:59:30Z",
+    });
+    expect((await handleRequest(verifyFrom("203.0.113.7"), env, deps)).status).toBe(200);
+    const res = await handleRequest(verifyFrom("203.0.113.7"), env, deps);
+    expect(res.status).toBe(429);
+    expect(res.headers.get("Retry-After")).toBe("60");
+    expect(await res.json()).toEqual({ ok: false, error: "rate-limited" });
+    expect(res.headers.getSetCookie()).toEqual([]);
+    expect(deps.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("spends the verify budget on verify requests only", async () => {
+    const verifyLimiter = fakeLimiter();
+    const { env } = makeEnv({ RATE_LIMIT: fakeLimiter(1), VERIFY_RATE_LIMIT: verifyLimiter });
+    await handleRequest(fromIp("203.0.113.7", "/legal"), env, makeDeps());
+    expect(verifyLimiter.keys).toEqual([]);
+    // Over the general limit: refused as JSON, without touching the verify one.
+    const res = await handleRequest(verifyFrom("203.0.113.7"), env, makeDeps());
+    expect(res.status).toBe(429);
+    expect(res.headers.get("Content-Type")).toContain("application/json");
+    expect(verifyLimiter.keys).toEqual([]);
   });
 });
