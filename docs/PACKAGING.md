@@ -2,7 +2,7 @@
 
 ## YTDescGen — Tauri 2 Desktop and Android Apps
 
-Reflects **v1.3.1**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
+Reflects **v1.3.2**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -62,7 +62,7 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
 {
   "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/crates/tauri-cli/schema.json",
   "productName": "YTDescGen",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "identifier": "com.skullmute.ytdescgen",
   "build": {
     "beforeBuildCommand": "npm run build",

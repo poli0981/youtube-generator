@@ -6,7 +6,7 @@
 
 YTDescGen là dự án cá nhân do một người duy trì (`@poli0981`) để dùng cho kênh YouTube [`@SkullMute`](https://www.youtube.com/@SkullMute), và chia sẻ công khai dưới dạng mã nguồn mở. Đây **không phải sản phẩm thương mại** và không có nghĩa vụ hỗ trợ.
 
-Mã nguồn, tài liệu, bản dịch locale, và các quyết định thiết kế trong repo này được **đồng tác giả với sự hỗ trợ của Anthropic's Claude Code (các model Claude Opus; từ bản v1.0.0 đến v1.3.1 dùng Claude Opus 5.5)**. Tất cả commit, release, và quyết định kiến trúc được người duy trì xem xét và phê duyệt trước khi merge.
+Mã nguồn, tài liệu, bản dịch locale, và các quyết định thiết kế trong repo này được **đồng tác giả với sự hỗ trợ của Anthropic's Claude Code (các model Claude Opus; từ bản v1.0.0 đến v1.3.2 dùng Claude Opus 5.5)**. Tất cả commit, release, và quyết định kiến trúc được người duy trì xem xét và phê duyệt trước khi merge.
 
 Tuyên bố này áp dụng cho:
 

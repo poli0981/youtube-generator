@@ -2,7 +2,7 @@
 
 ## YTDescGen — Implementation Details
 
-Reflects **v1.3.1**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
+Reflects **v1.3.2**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -13,7 +13,7 @@ Reflects **v1.3.1**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
 ```json
 {
   "name": "yt-desc-gen",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -645,7 +645,7 @@ Then `sonarcloud` (after `check` succeeds):
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 984 tests in 51 files at v1.3.1. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1017 tests in 52 files at v1.3.2. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 
