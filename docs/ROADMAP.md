@@ -2,7 +2,7 @@
 
 ## YTDescGen — Phased Development Plan
 
-> **Status (2026-10-22): v1.3.0 is the current release.** Phases 1–4 are the original
+> **Status (2026-10-26): v1.3.1 is the current release.** Phases 1–4 are the original
 > plan, kept as a record; notes added beside or under an item say what has
 > changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
 > What's next: Phase 5 and the backlog at the end of this page.
@@ -329,6 +329,13 @@ issues, Android app data kept out of cloud backups —
 [CHANGELOG.md](../CHANGELOG.md#v130--2026-10-22). Next for the toolchain:
 ES2026 once TypeScript 7.1 is stable.
 
+## v1.3.1 — Maintenance ✅ SHIPPED 2026-10-26
+
+Tauri 2.12.4, the desktop's Save / Open dialogs off the async workers,
+SonarCloud in CI with coverage, and this week's dependency updates with the
+one open security alert closed —
+[CHANGELOG.md](../CHANGELOG.md#v131--2026-10-26).
+
 ---
 
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
@@ -406,4 +413,4 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 | Phase 5 | Extensions         | Ongoing | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
-**v1.0.0 shipped on 2026-09-30; the current release is v1.3.0 (2026-10-22).**
+**v1.0.0 shipped on 2026-09-30; the current release is v1.3.1 (2026-10-26).**

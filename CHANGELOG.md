@@ -2,6 +2,24 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.3.1 — 2026-10-26
+
+A maintenance release: the desktop and Android apps move to **Tauri 2.12.4**, the desktop's Save and Open dialogs stop holding up the app's background work, and this week's dependency updates close the one open security alert. What the app generates does not change. Web, desktop and Android all ship as 1.3.1.
+
+### Fixed
+
+- **Desktop: saving and opening files.** The native Save / Open dialogs (exporting and importing text files, backups to a file) and their file read or write now run on Tauri's blocking pool. Before, each one held one of the async runtime's worker threads for as long as the dialog stayed open. Same dialogs, same results.
+- **Tauri 2.12.0 → 2.12.4**, with upstream fixes that reach the app: no panic in the IPC and asset handlers on a request with an empty path; on Android, a plugin call that answers after its caller gave up no longer aborts the app; `Channel` messages keep arriving after a handler throws; a `once` event listener no longer panics when two events arrive together. Plugins: dialog 2.8.3, opener 2.7.2, single-instance 2.5.4, fs 2.7.1.
+- **Security (development tools only — nothing here ships in the app):** undici 7.30.1 — alert #49 (denial of service through too many content encodings), used by `wrangler dev` through miniflare. miniflare pins undici exactly, so Dependabot's security update could not land; an npm `overrides` entry lifts it, and `.github/dependabot.yml` says when to remove it.
+
+### Under the hood
+
+- **SonarCloud runs in CI** instead of Automatic Analysis: the `sonarcloud` job reads the coverage report from `check`, counts tests as tests, and analyses the Rust code for the first time — which is how the dialog issue above was found. Quality gate green, 0 open issues.
+- **Dependencies**, the newest releases at least a week old (the same cooldown Dependabot uses): react 19.3.1, i18next 26.5.3, react-i18next 17.1.0, lucide-react 1.59, simple-icons 16.35, eslint 10.13, typescript-eslint 8.72, knip 6.42.1, postcss 8.5.31, @types/node 26.6.5, wrangler 4.151.2; tauri 2.12.4, tauri-build 2.7.3. THIRD_PARTY_NOTICES regenerated.
+- **Docs**: CLAUDE.md and PACKAGING (blocking work in an `async` Tauri command goes through `spawn_blocking`), DEVELOPMENT + Vietnamese, TECH-SPEC and CONTRIBUTING (the SonarCloud job and its coverage scope), ROADMAP, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **984 tests**, build, cf:check and `cargo fmt` / `clippy` / `test` (15 tests) all pass; initial load 276.3 of 280 KB gzip. Verified live: `wrangler dev` serves the gate page on the new undici; the desktop app (`tauri dev` with a separate test identifier) answers its commands, writes, reads and deletes a backup, and opens and cancels the native Save dialog.
+- Six manifests bumped 1.3.0 → 1.3.1.
+
 ## v1.3.0 — 2026-10-22
 
 A toolchain release: **TypeScript 7**, **Node 26**, two rounds of dependency updates that close five security alerts, and every open **SonarCloud** issue fixed. What the app generates does not change. Web, desktop and Android all ship as 1.3.0.
