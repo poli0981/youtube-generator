@@ -21,6 +21,17 @@
 # other long-standing one, left the tree in v1.0.0 when tauri 2.12 dropped
 # kuchikiki.)
 #
+# The npm side has the opposite case, a fix Dependabot cannot reach: miniflare
+# (under wrangler, dev only) pins `undici` to an exact version, so the security
+# job fails with `security_update_not_possible` and `overrides` in package.json
+# lifts it instead:
+#
+#   undici 7.29.1 (fix: 7.30.1, alert #49) pinned by
+#     miniflare 5.x (every release up to 5.20261019.2-beta)
+#
+# Remove the override once a wrangler release brings undici >= 7.30.1 on its
+# own (`npm view miniflare@<version> dependencies.undici`).
+#
 # Tauri moves in lockstep: the tauri CLI refuses to build when the
 # @tauri-apps/* npm packages and the tauri crates differ in major.minor. When
 # the `tauri` npm group arrives, run `cargo update -p tauri` (and the plugin
