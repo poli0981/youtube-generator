@@ -2,6 +2,24 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.3.2 — 2026-10-27
+
+A hosting release: the website now **rate-limits** each visitor's address, so a script hammering ytgenerator.stream gets a cheap `429 Too Many Requests` instead of the gate, the app or a Turnstile check. Nothing a person does in normal use comes near the limits. The desktop and Android apps are unchanged apart from the version number. Web, desktop and Android all ship as 1.3.2.
+
+### Added
+
+- **Rate limiting for the website**, in two layers:
+  - **In the Worker** (Workers Rate Limiting bindings in `wrangler.jsonc`, checked before anything else): 120 requests a minute per address for everything the Worker serves — the gate page, the app shell, the legal pages, the gate's own endpoints — and 10 a minute for the gate's verification call, each of which costs a call to Cloudflare Turnstile. An IPv6 address counts by its /64, the block one connection usually holds. Over the limit: `429` with `Retry-After: 60`; the gate page shows its usual "try again" message.
+  - **At the zone**: a WAF rate limiting rule (60 requests per 10 seconds per address, build output and verified search-engine bots left out) stops a fast burst at Cloudflare's edge, before the Worker runs. It is set in the Cloudflare dashboard; [HOSTING.md](docs/HOSTING.md#waf-rate-limiting-rule-one-time) has the steps.
+  - Like the Turnstile gate, the Worker's limiter fails open: if it is missing or fails, the site stays reachable and the Worker logs it.
+
+### Under the hood
+
+- `worker/rate-limit.ts` (client key, the check, the `429`), wired in first in `worker/router.ts`; a test keeps the `ratelimits` bindings and their period in step with the code.
+- **Docs**: HOSTING (both layers, the WAF rule step by step, changing a limit, burst checks against production), TECH-SPEC, ARCHITECTURE, CLAUDE.md, ROADMAP, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1017 tests** (was 984), build, cf:check all pass; initial load 276.3 of 280 KB gzip. Verified live with `wrangler dev` (10 verification calls then `429`, 120 requests a minute then `429`, back to normal a minute later) and on ytgenerator.stream after the deploy: page loads at four a second, under the WAF rule, got 121 × `200` then the Worker's `429` with `Retry-After: 60`; verification calls got 11 × `403` (foreign origin) then `429`; a fast burst was stopped by the WAF rule (Cloudflare's `429`, error 1015) within about a second.
+- Six manifests bumped 1.3.1 → 1.3.2.
+
 ## v1.3.1 — 2026-10-26
 
 A maintenance release: the desktop and Android apps move to **Tauri 2.12.4**, the desktop's Save and Open dialogs stop holding up the app's background work, and this week's dependency updates close the one open security alert. What the app generates does not change. Web, desktop and Android all ship as 1.3.1.
