@@ -13,8 +13,18 @@ export interface AssetsBinding {
   fetch(request: Request): Promise<Response>;
 }
 
+/** A `ratelimits` binding from `wrangler.jsonc` (Workers Rate Limiting API). */
+export interface RateLimitBinding {
+  limit(options: { key: string }): Promise<{ success: boolean }>;
+}
+
 export interface Env {
   ASSETS: AssetsBinding;
+  /** Every request the Worker handles, per client. Optional: a missing
+   *  binding lets traffic through (see ./rate-limit.ts). */
+  RATE_LIMIT?: RateLimitBinding;
+  /** `POST /__gate/verify` only — each one costs a siteverify call. */
+  VERIFY_RATE_LIMIT?: RateLimitBinding;
   /** Public Turnstile sitekey (`vars` in wrangler.jsonc). */
   TURNSTILE_SITE_KEY: string;
   /** Turnstile secret — a dashboard Secret, never committed. */
@@ -42,6 +52,10 @@ export const SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/si
 
 /** Turnstile tokens are valid for 300 s; anything older is refused. */
 export const MAX_TOKEN_AGE_SECONDS = 300;
+
+/** `Retry-After` on a 429: the `period` of both rate limiters in
+ *  wrangler.jsonc (a test keeps them equal). */
+export const RATE_LIMIT_PERIOD_SECONDS = 60;
 
 const DEFAULT_GATE_TTL_SECONDS = 86_400;
 const MIN_GATE_TTL_SECONDS = 300;

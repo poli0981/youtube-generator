@@ -61,7 +61,7 @@ src/
     file-ops.ts                # save/open text files on every platform
     validation.ts, url-extractors.ts, log-storage.ts, …
   hooks/, components/, pages/, i18n/, styles/
-worker/                        # Cloudflare Worker: gate, cookies, headers, routing
+worker/                        # Cloudflare Worker: gate, cookies, headers, rate limits, routing
 build-plugins/                 # legal pages at build time; web-only extras
 src-tauri/src/                 # lib.rs (plugins, tray), storage.rs (name-only file
                                # commands), file_dialog.rs (native Save/Open)
