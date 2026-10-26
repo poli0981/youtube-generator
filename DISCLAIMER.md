@@ -4,7 +4,7 @@
 
 YTDescGen is a personal project built by a single maintainer (`@poli0981`) for use with the [`@SkullMute`](https://www.youtube.com/@SkullMute) YouTube channel and shared publicly as open source. It is **not a commercial product** and there is no support obligation.
 
-Code, documentation, locale translations, and design decisions in this repository were **co-authored with the assistance of Anthropic's Claude Code (Claude Opus models; v1.0.0 through v1.3.0 with Claude Opus 5.5)**. All commits, releases, and architectural decisions are reviewed and approved by the maintainer before merging.
+Code, documentation, locale translations, and design decisions in this repository were **co-authored with the assistance of Anthropic's Claude Code (Claude Opus models; v1.0.0 through v1.3.1 with Claude Opus 5.5)**. All commits, releases, and architectural decisions are reviewed and approved by the maintainer before merging.
 
 This disclosure applies to:
 
