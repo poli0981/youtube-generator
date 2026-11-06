@@ -826,7 +826,8 @@
       "capture",
       "motherboard",
       "controller",
-      "video_editor"
+      "video_editor",
+      "lut"
     ],
     "social": [
       "kofi",
@@ -1717,7 +1718,8 @@
       "monitor",
       "capture",
       "controller",
-      "video_editor"
+      "video_editor",
+      "lut"
     ]
   }
 }

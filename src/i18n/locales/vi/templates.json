@@ -592,7 +592,8 @@
       "monitor": "Màn hình",
       "capture": "Phần mềm quay",
       "controller": "Tay cầm",
-      "video_editor": "Phần mềm dựng video"
+      "video_editor": "Phần mềm dựng video",
+      "lut": "LUT"
     }
   },
   "pinnedComment": {

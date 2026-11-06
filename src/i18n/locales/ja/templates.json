@@ -592,7 +592,8 @@
       "monitor": "モニター",
       "capture": "キャプチャソフト",
       "controller": "コントローラー",
-      "video_editor": "動画編集ソフト"
+      "video_editor": "動画編集ソフト",
+      "lut": "LUT"
     }
   },
   "pinnedComment": {

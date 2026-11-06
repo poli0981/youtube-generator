@@ -1001,7 +1001,8 @@
     "capture": "Software Perekam",
     "motherboard": "Motherboard",
     "controller": "Kontroler",
-    "video_editor": "Editor Video"
+    "video_editor": "Editor Video",
+    "lut": "LUT"
   },
   "social": {
     "kofi": "Ko-fi",

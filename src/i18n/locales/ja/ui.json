@@ -1001,7 +1001,8 @@
     "capture": "キャプチャソフト",
     "motherboard": "マザーボード",
     "controller": "コントローラー",
-    "video_editor": "動画編集ソフト"
+    "video_editor": "動画編集ソフト",
+    "lut": "LUT"
   },
   "social": {
     "kofi": "Ko-fi",

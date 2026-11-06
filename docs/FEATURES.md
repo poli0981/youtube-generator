@@ -142,7 +142,7 @@ is now "X (Twitter)" (same `twitter` id, so saved links still load).
   Bank, Cake by VPBank and Timo; a profile saved with OceanBank, CBBank or
   DongA Bank is offered the new name in one click.
 
-## 💻 Rig Fields (10 fields)
+## 💻 Rig Fields (11 fields)
 
 Printed in this order, with labels in the output language.
 
@@ -158,6 +158,13 @@ Printed in this order, with labels in the output language.
 | `capture`      | Capture Software | Text                                                        | OBS Studio 31                        |
 | `controller`   | Controller       | Text                                                        | DualSense / Xbox Wireless Controller |
 | `video_editor` | Video Editor     | Dropdown + version                                          | DaVinci Resolve Studio 19.1          |
+| `lut`          | LUT              | Text with suggestions (DaVinci Resolve's own LUTs) — v1.4.0 | Arri Alexa LogC to Rec709            |
+
+**LUT (v1.4.0)** — the LUT you grade with, on its own line right under the
+video editor. The suggestions are LUTs that come with DaVinci Resolve, named
+the way its LUT menu shows them; any other name is printed as typed. A pasted
+file name or path (Explorer's _Copy as path_) is cut down to the LUT's name:
+`"C:\…\Arri\Arri Alexa LogC to Rec709.dat"` → `Arri Alexa LogC to Rec709`.
 
 **GPU catalog (v1.0.0)** — 198 models in 29 groups: NVIDIA GeForce (desktop
 and laptop), AMD Radeon (including integrated), Intel Arc and integrated,

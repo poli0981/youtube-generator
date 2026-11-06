@@ -9,7 +9,6 @@ import { PopoverContent, PopoverRoot, PopoverTrigger } from "@components/ui/Popo
 import { Spinner } from "@components/icons/animated";
 import {
   RIG_FIELDS,
-  cleanCpuName,
   parseCompositeValue,
   resolveCompositeOptions,
   resolveCompositeLabelKey,
@@ -117,7 +116,7 @@ function GpuPicker({
   );
 }
 
-/** CPU (and any other suggested text field): type freely or pick a suggestion. */
+/** CPU, LUT (any suggested text field): type freely or pick a suggestion. */
 function SuggestedTextField({
   field,
   value,
@@ -139,10 +138,11 @@ function SuggestedTextField({
         list={listId}
         autoComplete="off"
         onChange={(e) => onChange(e.target.value)}
-        // "Intel(R) Core(TM) i7-12700K CPU @ 3.60GHz", as Windows shows it,
-        // becomes "Intel Core i7-12700K" once the user leaves the field.
+        // The field's own tidy-up once the user leaves it: Windows' "Intel(R)
+        // Core(TM) i7-12700K CPU @ 3.60GHz" becomes "Intel Core i7-12700K",
+        // a pasted "Rec709 Kodak 2383 D65.cube" loses its extension.
         onBlur={(e) => {
-          const cleaned = field.id === "cpu" ? cleanCpuName(e.target.value) : e.target.value.trim();
+          const cleaned = field.clean ? field.clean(e.target.value) : e.target.value.trim();
           if (cleaned !== e.target.value) onChange(cleaned);
         }}
       />
@@ -293,18 +293,23 @@ export function RigEditor() {
           }
           if (field.type === "composite_dropdown") return renderComposite(field);
           if (field.type === "dropdown_with_version") return renderDropdownWithVersion(field);
-          if (field.suggestions) {
-            return <SuggestedTextField key={field.id} field={field} value={value} onChange={set} />;
-          }
-          return (
+          const input = field.suggestions ? (
+            <SuggestedTextField field={field} value={value} onChange={set} />
+          ) : (
             <Input
-              key={field.id}
               label={t(field.labelKey)}
               maxLength={FIELD_LIMITS.SHORT_NAME}
               placeholder={field.placeholder}
               value={value}
               onChange={(e) => set(e.target.value)}
             />
+          );
+          // A wide field (the LUT) takes the whole row, right under the
+          // Video Editor row it belongs to.
+          return (
+            <div key={field.id} className={clsx("min-w-0", field.wide && "sm:col-span-2")}>
+              {input}
+            </div>
           );
         })}
       </div>

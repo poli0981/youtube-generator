@@ -592,7 +592,8 @@
       "monitor": "Monitor",
       "capture": "Software Perekam",
       "controller": "Kontroler",
-      "video_editor": "Editor Video"
+      "video_editor": "Editor Video",
+      "lut": "LUT"
     }
   },
   "pinnedComment": {

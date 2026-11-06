@@ -1001,7 +1001,8 @@
     "capture": "캡처 소프트웨어",
     "motherboard": "메인보드",
     "controller": "컨트롤러",
-    "video_editor": "영상 편집 프로그램"
+    "video_editor": "영상 편집 프로그램",
+    "lut": "LUT"
   },
   "social": {
     "kofi": "Ko-fi",
