@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
+  bossNameTag,
   generateTags,
   formatTagString,
   tagFriendlyGameName,
@@ -304,6 +305,131 @@ describe("generateTags — game names with tag-delimiter punctuation (v0.20.0)",
 describe("tagFriendlyGameName — punctuation sanitization (v0.20.0)", () => {
   it("strips a comma in addition to truncating", () => {
     expect(tagFriendlyGameName("Hello, World", 30)).toBe("Hello World");
+  });
+});
+
+describe("tagFriendlyGameName — word fit", () => {
+  it("cuts a first word longer than the budget to fit", () => {
+    expect(tagFriendlyGameName("Supercalifragilisticexpialidocious Adventure", 30)).toBe(
+      "Supercalifragilisticexpialidoc",
+    );
+  });
+});
+
+describe("bossNameTag (v1.4.0)", () => {
+  it.each([
+    ["Gael, Slave Knight", "Gael Slave Knight"],
+    ["Mr. X", "Mr X"],
+    ["Mr.X", "Mr X"],
+    ["S.T.A.L.K.E.R.", "STALKER"],
+    ["K.K. Slider", "KK Slider"],
+    ["A.Bomb", "A Bomb"],
+    ["Dr.ワイリー", "Dr ワイリー"],
+    ["No.1 Boss", "No 1 Boss"],
+    ["Phase 2.0", "Phase 2.0"],
+    ["Mergo's Wet Nurse", "Mergo's Wet Nurse"],
+    ["Mergo’s Wet Nurse", "Mergo’s Wet Nurse"],
+    ["T-103", "T-103"],
+    ["'Nameless King'", "Nameless King"],
+    ["- Phase 2 -", "Phase 2"],
+    ["「マレニア」", "マレニア"],
+    ["ゲール・スレイブナイト", "ゲール スレイブナイト"],
+    ["无名之王，奥斯卡", "无名之王 奥斯卡"],
+    ["Gwyn™, Lord of Cinder", "Gwyn Lord of Cinder"],
+    ["Ornstein & Smough", "Ornstein Smough"],
+    ["Trùm cuối: Rồng Lửa", "Trùm cuối Rồng Lửa"],
+    ['"Nemesis" (Final Form)', "Nemesis Final Form"],
+    ["???", ""],
+    ["👹🔥", ""],
+    ["   ", ""],
+    ["", ""],
+  ])("%s → %s", (name, tag) => {
+    expect(bossNameTag(name)).toBe(tag);
+  });
+
+  it("composes decomposed letters, as macOS can paste them", () => {
+    const decomposed = "Trùm cuối".normalize("NFD");
+    expect(bossNameTag(decomposed)).toBe("Trùm cuối".normalize("NFC"));
+  });
+
+  it("keeps a long name to 30 characters, preferring the part before its title", () => {
+    expect(bossNameTag("Loretta, Knight of the Haligtree")).toBe("Loretta");
+    // Exactly 30 once the colon goes: kept whole.
+    expect(bossNameTag("Rennala: Queen of the Full Moon")).toBe("Rennala Queen of the Full Moon");
+    expect(bossNameTag("Radagon of the Golden Order: Elden Beast")).toBe(
+      "Radagon of the Golden Order",
+    );
+    expect(bossNameTag("Lady Maria of the Astral Clocktower")).toBe("Lady Maria of the Astral");
+    expect(bossNameTag("A".repeat(31))).toBe("A".repeat(30));
+  });
+
+  it("never leaves a tag delimiter, quote or angle bracket", () => {
+    const tag = bossNameTag('A, B; C | D "E" <F> G');
+    expect(tag).toBe("A B C D E F G");
+    expect(tag).not.toMatch(/[,;|"<>]/);
+  });
+
+  it("gives the same tag when run on its own output", () => {
+    for (const name of [
+      "Gael, Slave Knight",
+      "S.T.A.L.K.E.R.",
+      "- 'x' -",
+      "Loretta, Knight of the Haligtree",
+    ]) {
+      const once = bossNameTag(name);
+      expect(bossNameTag(once)).toBe(once);
+    }
+  });
+
+  it("stays fast on long runs of spaces and dots", () => {
+    expect(bossNameTag(`${" ".repeat(10_000)}x`)).toBe("x");
+    expect(bossNameTag(".".repeat(10_000))).toBe("");
+    expect(bossNameTag(`${"-".repeat(10_000)}x`)).toBe("x");
+  });
+});
+
+describe("generateTags — boss name (v1.4.0)", () => {
+  it("puts the boss's name right after the game's name in boss videos", () => {
+    for (const videoType of ["boss", "boss_nohit"] as const) {
+      const tags = generateTags(makeInput({ videoType, bossName: "Gael, Slave Knight" }));
+      expect(tags.slice(0, 2)).toEqual(["Elden Ring", "Gael Slave Knight"]);
+    }
+  });
+
+  it("adds no boss tag to other video types", () => {
+    const tags = generateTags(makeInput({ videoType: "full", bossName: "Gael, Slave Knight" }));
+    expect(tags).not.toContain("Gael Slave Knight");
+    expect(tags).toEqual(generateTags(makeInput({ videoType: "full" })));
+  });
+
+  it("adds nothing for an empty or symbols-only name", () => {
+    const base = generateTags(makeInput({ videoType: "boss" }));
+    expect(generateTags(makeInput({ videoType: "boss", bossName: "" }))).toEqual(base);
+    expect(generateTags(makeInput({ videoType: "boss", bossName: "?! …" }))).toEqual(base);
+  });
+
+  it("gives one tag when the boss shares the game's name", () => {
+    const tags = generateTags(
+      makeInput({ videoType: "boss", gameName: "Cuphead", bossName: "CUPHEAD." }),
+    );
+    expect(tags.filter((t) => t.toLowerCase() === "cuphead")).toHaveLength(1);
+  });
+
+  it("keeps the boss tag when the 500-character budget is full", () => {
+    const tags = generateTags(
+      makeInput({
+        gameName: "The Legend of Heroes Trails through Daybreak",
+        genres: ["jrpg", "action_rpg", "openworld"],
+        videoType: "boss_nohit",
+        bossName: "Loretta, Knight of the Haligtree",
+        resolution: "4K",
+        fps: "120",
+        pubDevName: "Nihon Falcom",
+      }),
+      { year: 2026 },
+    );
+    expect(tags).toContain("Loretta");
+    expect(youtubeTagsLength(tags)).toBeLessThanOrEqual(500);
   });
 });
 

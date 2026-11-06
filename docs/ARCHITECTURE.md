@@ -219,14 +219,15 @@ generateTags(input, { includeMultilingualTags, includeTrendingTags, year })
 
   priority  pool                 source
   1         game name            bare tag (≤ 30 chars) + a shorter form for composites
-  2         core                 CORE_TAGS_BY_LANG[language]
-  3         genre                GENRE_TAG_REGISTRY[genre], for every selected genre
-  4         video type           VIDEO_TYPE_TAGS[videoType]
-  5         platform             PLATFORMS[].tagName ("Steam", "itch.io", …)
-  6         quality              resolution / fps
-  7         multilingual         MULTILINGUAL_TAGS[language]           (setting)
-  8         trending             year-based, first genre only          (setting)
-  9         publisher/developer  pubDevName, as a bare tag
+  2         boss name            bossNameTag(bossName) — Boss Fight / Boss No Hit only
+  3         core                 CORE_TAGS_BY_LANG[language]
+  4         genre                GENRE_TAG_REGISTRY[genre], for every selected genre
+  5         video type           VIDEO_TYPE_TAGS[videoType]
+  6         platform             PLATFORMS[].tagName ("Steam", "itch.io", …)
+  7         quality              resolution / fps
+  8         multilingual         MULTILINGUAL_TAGS[language]           (setting)
+  9         trending             year-based, first genre only          (setting)
+  10        publisher/developer  pubDevName, as a bare tag
                      │
                      ▼
   de-duplicate (case-insensitive) · drop tags over 30 characters

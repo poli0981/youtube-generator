@@ -254,6 +254,7 @@ per platform).
 | Pool         | Triggered By                      | Sample Output                                                            |
 | ------------ | --------------------------------- | ------------------------------------------------------------------------ |
 | Game name    | Always                            | `[game]` (shortened to fit 30 characters)                                |
+| Boss name    | Boss Fight / Boss No Hit (v1.4.0) | `[boss]` — the Boss Name field, without punctuation                      |
 | Core         | Always, in the output language    | `[game] gameplay`, `[game] no commentary`, `gameplay no commentary`      |
 | Genre        | Each selected genre               | `horror game no commentary`, `RPG gameplay no commentary`                |
 | VideoType    | Video type                        | `[game] boss fight`, `[game] speedrun`, `[game] all endings`             |
@@ -275,6 +276,17 @@ per platform).
 
 Game names are cleaned of characters YouTube splits tags on (`,` `;` `|`) and
 of ™ / ® / ©.
+
+**Boss name tag (v1.4.0)** — Boss Fight and Boss No Hit videos get the boss's
+name as a tag of its own, right after the game's name, so fitting the list to
+500 characters never drops it. Marks that add nothing to a search go: `,` `:`
+`;` `!` `?` quotes, brackets, `&`, `「」` `・` `、`, ™, emoji. A dot is kept
+between digits ("Phase 2.0"), dropped between initials ("S.T.A.L.K.E.R." →
+`STALKER`) and a space anywhere else ("Mr. X" / "Mr.X" → `Mr X`); apostrophes
+and hyphens stay inside a word ("Mergo's Wet Nurse", "T-103"). "Gael, Slave
+Knight" → `Gael Slave Knight`. Over 30 characters, the name before its title is
+used ("Loretta, Knight of the Haligtree" → `Loretta`), otherwise the leading
+words that fit.
 
 ## ⚡ Faster Data Entry (v1.0.0)
 
