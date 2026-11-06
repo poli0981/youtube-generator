@@ -332,7 +332,7 @@ The desktop build is a three-platform matrix; `tauri-apps/tauri-action` builds e
 | Runner           | Target                     | Output                      |
 | ---------------- | -------------------------- | --------------------------- |
 | `windows-latest` | `x86_64-pc-windows-msvc`   | `.msi`, `.exe` (NSIS)       |
-| `macos-14`       | `aarch64-apple-darwin`     | `.app.tar.gz`               |
+| `macos-15`       | `aarch64-apple-darwin`     | `.app.tar.gz`               |
 | `ubuntu-latest`  | `x86_64-unknown-linux-gnu` | `.AppImage`, `.deb`, `.rpm` |
 
 Linux runners install `libwebkit2gtk-4.1-dev`, `libgtk-3-dev`, `libayatana-appindicator3-dev`, `librsvg2-dev` and `patchelf` before building — Tauri's webview and AppImage tooling need them. AppImage bundling runs with `APPIMAGE_EXTRACT_AND_RUN=1` (linuxdeploy needs FUSE, which hosted runners don't reliably provide) and `NO_STRIP=true`.
@@ -342,7 +342,7 @@ Linux runners install `libwebkit2gtk-4.1-dev`, `libgtk-3-dev`, `libayatana-appin
 **macOS notes (v0.9.1+):**
 
 - **DMG bundling is skipped** (`--bundles app`). Tauri's DMG bundler runs an AppleScript that flakes intermittently on hosted macOS runners (the headless display can't load Finder fast enough for `osascript` to position icons), so we ship a `.app.tar.gz` instead. Users expand the archive and drag the `.app` into `/Applications`.
-- **Intel macOS (`macos-13`) is NOT built.** GitHub started deprecating the `macos-13` free runner pool in 2025; jobs queue indefinitely. If Intel support becomes a priority, switch the macos-14 entry's target to `universal-apple-darwin` (Tauri builds both archs and lipos them into one universal binary) — the runner already has the toolchain capacity.
+- **Intel macOS (`macos-13`) is NOT built.** GitHub started deprecating the `macos-13` free runner pool in 2025; jobs queue indefinitely. If Intel support becomes a priority, switch the macos-15 entry's target to `universal-apple-darwin` (Tauri builds both archs and lipos them into one universal binary) — the runner already has the toolchain capacity.
 
 **Code signing is intentionally skipped** for both Windows and macOS — this is an open-source personal tool, and signing certificates carry recurring cost. End users will see the standard "unverified publisher" / "unidentified developer" prompts on first launch. Document the bypass steps in the release notes if needed. (The Android APK is signed — see below.)
 

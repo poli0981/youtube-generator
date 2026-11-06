@@ -64,7 +64,11 @@ jobs:
             target: x86_64-pc-windows-msvc
             # Default Windows bundles: MSI + NSIS (.exe). Both ship.
             bundleArgs: ""
-          - os: macos-14
+          # Apple silicon. GitHub retired the macOS 14 image on 2026-11-02
+          # (`macos-14` jobs are cancelled: "The configuration
+          # 'macos-14-arm64-us-default' is not supported"); macos-15 is
+          # its direct successor.
+          - os: macos-15
             target: aarch64-apple-darwin
             # macOS DMG bundling on hosted runners flakes inside
             # `bundle_dmg.sh` (the AppleScript that sets icon

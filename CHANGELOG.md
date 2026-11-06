@@ -31,6 +31,7 @@ A feature release for the description and the tags: a **LUT** field in My Rig, p
 - **Docs**: FEATURES (11 rig fields, the LUT, the boss name tag), ARCHITECTURE (tag priority), TECH-SPEC (rig block, tag order, test count), ROADMAP, version references.
 - typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1065 tests** (was 1017), build, cf:check all pass; initial load 277.2 of 280 KB gzip. Verified in the dev server: the LUT field sits under Video Editor across both columns with its suggestions, a quoted Explorer path becomes the LUT's name when the field loses focus, and Quick Preview prints `LUT: Arri Alexa LogC to Rec709` right after `Video Editor: DaVinci Resolve Studio 21.2`; Boss Fight with "Gael, Slave Knight" puts `Gael Slave Knight` second in the tags, Full Gameplay drops it. `wrangler dev` on 4.152 serves the gate page.
 - Six manifests bumped 1.3.2 → 1.4.0.
+- **The macOS app is built on the `macos-15` runner.** GitHub retired the macOS 14 image on 2026-11-02, so the tag's first desktop run lost its macOS job ("The configuration 'macos-14-arm64-us-default' is not supported"); the Windows and Linux builds were unaffected. The macOS `.app.tar.gz` comes from a manual re-run of the desktop workflow for `v1.4.0`, which builds the tag's code.
 
 ## v1.3.2 — 2026-10-27
 
