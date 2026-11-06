@@ -1,6 +1,7 @@
 import type { GeneratorInput, SupportedLanguage } from "./types";
 import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
+import { VIDEO_TYPES } from "@config/video-types";
 
 /**
  * Length of a tag list as YouTube counts it against the 500-character
@@ -73,16 +74,111 @@ export function tagFriendlyGameName(name: string, budget: number): string {
     n = head;
   }
 
-  const words = n.split(/\s+/);
-  const acc: string[] = [];
-  let len = 0;
-  for (const w of words) {
-    const sep = acc.length === 0 ? 0 : 1;
-    if (len + sep + w.length > budget) break;
-    acc.push(w);
-    len += sep + w.length;
+  return leadingWordsWithin(n.split(/\s+/), budget);
+}
+
+/**
+ * The leading whole words that fit `budget` characters, joined by single
+ * spaces; when even the first word is longer, its first `budget`
+ * characters.
+ */
+function leadingWordsWithin(words: readonly string[], budget: number): string {
+  const kept: string[] = [];
+  let length = 0;
+  for (const word of words) {
+    const separator = kept.length === 0 ? 0 : 1;
+    if (length + separator + word.length > budget) break;
+    kept.push(word);
+    length += separator + word.length;
   }
-  return acc.join(" ") || n.slice(0, budget);
+  return kept.join(" ") || (words[0] ?? "").slice(0, budget);
+}
+
+/**
+ * What a boss name's tag keeps: letters in any script (with their
+ * combining marks), digits, whitespace, and `.` `'` `’` `-` for the word
+ * rules below. Everything else — `,` `;` `:` `!` `?` quotes, brackets,
+ * `&` `/` `#`, `「」` `・` `、` `。`, ™, emoji — becomes a space. A single
+ * character class: linear.
+ */
+const BOSS_NAME_NOISE = /[^\p{L}\p{M}\p{N}\s.'’-]/gu;
+
+/**
+ * Where a long boss name's title starts: "Loretta, Knight of the
+ * Haligtree", "Margit – the Fell Omen", "Sister Friede (Phase 2)".
+ */
+const BOSS_NAME_BREAK = /[,，、:：;；(（[【「『|—–]| - /;
+
+const DIGIT = /^\p{Nd}$/u;
+const INITIAL = /^\p{L}\p{M}*$/u;
+
+/** Apostrophes and hyphens belong inside a word ("Mergo's", "T-103"), not at its edges. */
+const WORD_EDGE_MARKS = new Set(["'", "’", "-"]);
+
+function trimWordEdges(word: string): string {
+  let start = 0;
+  let end = word.length;
+  while (start < end && WORD_EDGE_MARKS.has(word.charAt(start))) start++;
+  while (end > start && WORD_EDGE_MARKS.has(word.charAt(end - 1))) end--;
+  return word.slice(start, end);
+}
+
+/**
+ * The dots in one word: kept between two digits ("2.0"), dropped between
+ * initials ("S.T.A.L.K.E.R." → "STALKER", "K.K." → "KK"), a space
+ * everywhere else ("Mr.X" → "Mr X", "Dr.ワイリー" → "Dr ワイリー").
+ * Done in code, not with a lookbehind: older WebKit (the macOS 11–13
+ * desktop webview) rejects one, and the whole chunk would fail to load.
+ */
+function resolveDots(word: string): string {
+  const parts = word.split(".");
+  let out = parts[0] ?? "";
+  for (let i = 1; i < parts.length; i++) {
+    const before = parts[i - 1] ?? "";
+    const after = parts[i] ?? "";
+    if (DIGIT.test(before.slice(-1)) && DIGIT.test(after.charAt(0))) out += ".";
+    else if (!(INITIAL.test(before) && (after === "" || INITIAL.test(after)))) out += " ";
+    out += after;
+  }
+  return out;
+}
+
+function bossNameWords(text: string): string[] {
+  return text
+    .replace(BOSS_NAME_NOISE, " ")
+    .split(/\s+/)
+    .flatMap((word) => resolveDots(word).split(" "))
+    .map(trimWordEdges)
+    .filter(Boolean);
+}
+
+/**
+ * The boss's name as one tag, without the marks that add nothing to a
+ * search: "Gael, Slave Knight" → "Gael Slave Knight", "Mr. X" → "Mr X",
+ * "「マレニア」" → "マレニア". Over 30 characters (the per-tag limit), the
+ * name before its title is tried ("Loretta, Knight of the Haligtree" →
+ * "Loretta"), then the leading words that fit. Empty when nothing is left.
+ *
+ * Pure — exported for testing.
+ */
+export function bossNameTag(name: string): string {
+  const text = name.normalize("NFC");
+  const words = bossNameWords(text);
+  const full = words.join(" ");
+  if (full.length <= YT_LIMITS.SINGLE_TAG_MAX) return full;
+
+  const breakAt = text.search(BOSS_NAME_BREAK);
+  const headWords = breakAt > 0 ? bossNameWords(text.slice(0, breakAt)) : [];
+  const head = headWords.join(" ");
+  if (head && head.length <= YT_LIMITS.SINGLE_TAG_MAX) return head;
+  return leadingWordsWithin(headWords.length > 0 ? headWords : words, YT_LIMITS.SINGLE_TAG_MAX);
+}
+
+/** Video types that ask for a boss name (Boss Fight, Boss No Hit). */
+function takesBossName(videoType: string): boolean {
+  const extraFields: readonly string[] =
+    VIDEO_TYPES.find((type) => type.id === videoType)?.extraFields ?? [];
+  return extraFields.includes("bossName");
 }
 
 /**
@@ -540,6 +636,15 @@ export function generateTags(input: GeneratorInput, options?: TagOptions): strin
   // the pool composites overflow.
   if (bareNameTag) allTags.push(bareNameTag);
   if (composeName && composeName !== bareNameTag) allTags.push(composeName);
+
+  // Boss videos (v1.4.0): the boss's name as a tag of its own, right after
+  // the game's, so fitting the list to 500 characters never drops it. Only
+  // for the video types that ask for a boss name — one left in the draft
+  // after switching to another type isn't this video's.
+  if (takesBossName(input.videoType)) {
+    const bossTag = bossNameTag(input.bossName ?? "");
+    if (bossTag) allTags.push(bossTag);
+  }
 
   // Core tags — language-specific (highest priority)
   const coreFn = CORE_TAGS_BY_LANG[input.language] ?? CORE_TAGS_BY_LANG.en;
