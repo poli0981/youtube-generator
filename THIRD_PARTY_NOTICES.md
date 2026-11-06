@@ -18,18 +18,18 @@ Bundled into the web app and the desktop / Android apps.
 | `@tauri-apps/plugin-opener` | 2.7.2 | MIT OR Apache-2.0 | <https://github.com/tauri-apps/plugins-workspace> |
 | `clsx` | 2.1.1 | MIT | <https://github.com/lukeed/clsx> |
 | `cmdk` | 1.1.1 | MIT | <https://github.com/pacocoursey/cmdk> |
-| `i18next` | 26.5.3 | MIT | <https://github.com/i18next/i18next> |
+| `i18next` | 26.5.11 | MIT | <https://github.com/i18next/i18next> |
 | `i18next-resources-to-backend` | 1.2.3 | MIT | <https://github.com/i18next/i18next-resources-to-backend> |
-| `lucide-react` | 1.59.0 | ISC | <https://github.com/lucide-icons/lucide> |
+| `lucide-react` | 1.64.0 | ISC | <https://github.com/lucide-icons/lucide> |
 | `motion` | 13.5.1 | MIT | <https://github.com/motiondivision/motion> |
 | `radix-ui` | 1.8.1 | MIT | <https://github.com/radix-ui/primitives> |
 | `react` | 19.3.1 | MIT | <https://github.com/react/react> |
 | `react-dom` | 19.3.1 | MIT | <https://github.com/react/react> |
-| `react-i18next` | 17.1.0 | MIT | <https://github.com/i18next/react-i18next> |
+| `react-i18next` | 17.1.9 | MIT | <https://github.com/i18next/react-i18next> |
 | `react-router-dom` | 7.18.4 | MIT | <https://github.com/remix-run/react-router> |
 | `simple-icons` | 16.35.0 | CC0-1.0 | <https://simpleicons.org> |
 | `sonner` | 2.0.8 | MIT | <https://github.com/emilkowalski/sonner> |
-| `zustand` | 5.0.15 | MIT | <https://github.com/pmndrs/zustand> |
+| `zustand` | 5.0.16 | MIT | <https://github.com/pmndrs/zustand> |
 
 ## Build and development tools
 
@@ -40,7 +40,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `@eslint/js` | 10.0.1 | MIT | <https://github.com/eslint/eslint> |
 | `@resvg/resvg-js` | 2.6.2 | MPL-2.0 | — |
 | `@tailwindcss/postcss` | 4.3.3 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
-| `@tauri-apps/cli` | 2.12.3 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
+| `@tauri-apps/cli` | 2.12.4 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `@testing-library/jest-dom` | 7.0.1 | MIT | <https://github.com/testing-library/jest-dom> |
 | `@testing-library/react` | 16.3.3 | MIT | <https://github.com/testing-library/react-testing-library> |
 | `@types/node` | 26.6.5 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
@@ -52,7 +52,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `autoprefixer` | 10.6.1 | MIT | <https://github.com/postcss/autoprefixer> |
 | `eslint` | 10.13.0 | MIT | <https://github.com/eslint/eslint> |
 | `eslint-plugin-react-hooks` | 7.1.1 | MIT | <https://github.com/facebook/react> |
-| `knip` | 6.42.1 | ISC | <https://github.com/webpro-nl/knip> |
+| `knip` | 6.44.0 | ISC | <https://github.com/webpro-nl/knip> |
 | `marked` | 18.1.1 | MIT | <https://github.com/markedjs/marked> |
 | `postcss` | 8.5.31 | MIT | <https://github.com/postcss/postcss> |
 | `prettier` | 3.9.10 | MIT | <https://github.com/prettier/prettier> |
@@ -63,7 +63,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `typescript-eslint` | 8.72.0 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
 | `vite` | 8.3.4 | MIT | <https://github.com/vitejs/vite> |
 | `vitest` | 4.1.12 | MIT | <https://github.com/vitest-dev/vitest> |
-| `wrangler` | 4.151.2 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
+| `wrangler` | 4.152.0 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
 
 ## Desktop and Android shell (Rust crates)
 
