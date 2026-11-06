@@ -1,5 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { cleanCpuName, formatRigValue, migrateRig, RIG_FIELDS } from "@config/rig-fields";
+import {
+  cleanCpuName,
+  cleanLutName,
+  CPU_SUGGESTIONS,
+  formatRigValue,
+  LUT_SUGGESTIONS,
+  migrateRig,
+  RIG_FIELDS,
+} from "@config/rig-fields";
+import { compareCodeUnits } from "@utils/sort";
+import { schemaKeys } from "../helpers/locale-schema";
 
 describe("formatRigValue", () => {
   it("passes text fields through unchanged", () => {
@@ -173,6 +183,107 @@ describe("formatRigValue", () => {
     it("preserves the v0.22.0 Windows storage shape", () => {
       expect(formatRigValue("os", "windows|10|enterprise")).toBe("Windows 10 Enterprise");
     });
+  });
+});
+
+describe("LUT (v1.4.0)", () => {
+  it("sits right after the video editor, across both columns", () => {
+    const ids = RIG_FIELDS.map((f) => f.id);
+    expect(ids.indexOf("lut")).toBe(ids.indexOf("video_editor") + 1);
+    const field = RIG_FIELDS.find((f) => f.id === "lut");
+    expect(field).toMatchObject({ type: "text", wide: true, labelKey: "rig.lut" });
+    expect(field?.suggestions).toBe(LUT_SUGGESTIONS);
+  });
+
+  it("prints the name as typed", () => {
+    expect(formatRigValue("lut", "Arri Alexa LogC to Rec709")).toBe("Arri Alexa LogC to Rec709");
+    expect(formatRigValue("lut", "")).toBe("");
+  });
+
+  it("drops a pasted file extension even before the field is left", () => {
+    // Ctrl/⌘+Shift+C or Ctrl/⌘+S can run while the cursor is still in the
+    // field, before the on-blur tidy-up.
+    expect(formatRigValue("lut", "Arri Alexa LogC to Rec709.dat")).toBe(
+      "Arri Alexa LogC to Rec709",
+    );
+  });
+});
+
+describe("cleanLutName", () => {
+  it("drops the LUT's file extension, whatever its case", () => {
+    expect(cleanLutName("Rec709 Kodak 2383 D65.cube")).toBe("Rec709 Kodak 2383 D65");
+    expect(cleanLutName("Rec709 Kodak 2383 D65.CUBE")).toBe("Rec709 Kodak 2383 D65");
+    expect(cleanLutName("Arri Alexa LogC to Rec709.dat")).toBe("Arri Alexa LogC to Rec709");
+    expect(cleanLutName("Horror Look.3dl")).toBe("Horror Look");
+  });
+
+  it("keeps only the file name of a pasted path", () => {
+    // Explorer's "Copy as path", quotes included.
+    expect(
+      cleanLutName(
+        '"C:\\ProgramData\\Blackmagic Design\\DaVinci Resolve\\Support\\LUT\\Arri\\Arri Alexa LogC to Rec709.dat"',
+      ),
+    ).toBe("Arri Alexa LogC to Rec709");
+    expect(
+      cleanLutName(
+        "/Library/Application Support/Blackmagic Design/DaVinci Resolve/LUT/Film Looks/Rec709 Kodak 2383 D65.cube",
+      ),
+    ).toBe("Rec709 Kodak 2383 D65");
+    expect(cleanLutName("C:/LUTs/Teal Orange.cube")).toBe("Teal Orange");
+  });
+
+  it("keeps dots and slashes that belong to the name", () => {
+    expect(cleanLutName("SLog3SGamut3.CineToLC-709")).toBe("SLog3SGamut3.CineToLC-709");
+    expect(cleanLutName("SLog3SGamut3.CineToLC-709.cube")).toBe("SLog3SGamut3.CineToLC-709");
+    expect(cleanLutName("Leica Pure L-Log to Rec.709 Gamma 2.4")).toBe(
+      "Leica Pure L-Log to Rec.709 Gamma 2.4",
+    );
+    expect(cleanLutName("Teal/Orange")).toBe("Teal/Orange");
+  });
+
+  it("trims, and a second pass changes nothing", () => {
+    expect(cleanLutName("  Horror Look  ")).toBe("Horror Look");
+    for (const raw of ['""Look.cube""', "Look.cube.dat", '"  x.CUBE "', "/", '"', ""]) {
+      const once = cleanLutName(raw);
+      expect(cleanLutName(once)).toBe(once);
+    }
+    expect(cleanLutName("Look.cube.dat")).toBe("Look");
+  });
+});
+
+describe("suggestions", () => {
+  it("offers each CPU and LUT once, already in the form its cleaner gives", () => {
+    const lists = [
+      [CPU_SUGGESTIONS, cleanCpuName],
+      [LUT_SUGGESTIONS, cleanLutName],
+    ] as const;
+    for (const [list, clean] of lists) {
+      expect(new Set(list).size).toBe(list.length);
+      for (const suggestion of list) expect(clean(suggestion)).toBe(suggestion);
+    }
+  });
+
+  it("tidies a CPU name pasted from Windows in the output too", () => {
+    expect(formatRigValue("cpu", "Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz")).toBe(
+      "Intel Core i9-9900K",
+    );
+  });
+});
+
+/**
+ * The mock `t` returns a missing key as-is, so a rig field without labels
+ * would print "description.rigLabels.x: …" in tests without failing.
+ * `_schema.json` covers all eight locales (`validate:locales`).
+ */
+describe("rig field labels", () => {
+  const ids = RIG_FIELDS.map((f) => f.id).sort(compareCodeUnits);
+
+  it("has an editor label for every rig field, and none for unknown ids", () => {
+    expect(schemaKeys("ui", "rig")).toEqual(ids);
+  });
+
+  it("has a description label for every rig field, and none for unknown ids", () => {
+    expect(schemaKeys("templates", "description.rigLabels")).toEqual(ids);
   });
 });
 

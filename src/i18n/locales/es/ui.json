@@ -1001,7 +1001,8 @@
     "capture": "Software de Captura",
     "motherboard": "Placa Base",
     "controller": "Mando",
-    "video_editor": "Editor de Video"
+    "video_editor": "Editor de Video",
+    "lut": "LUT"
   },
   "social": {
     "kofi": "Ko-fi",

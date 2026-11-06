@@ -592,7 +592,8 @@
       "monitor": "显示器",
       "capture": "录制软件",
       "controller": "手柄",
-      "video_editor": "视频编辑软件"
+      "video_editor": "视频编辑软件",
+      "lut": "LUT"
     }
   },
   "pinnedComment": {

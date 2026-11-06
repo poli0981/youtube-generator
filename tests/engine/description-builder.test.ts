@@ -722,6 +722,35 @@ describe("buildDescription", () => {
     expect(vi).toContain("Ổ cứng: 2TB NVMe");
   });
 
+  it("prints the LUT on its own line right under the video editor (v1.4.0)", () => {
+    const rig = {
+      lut: "Arri Alexa LogC to Rec709.dat",
+      capture: "OBS Studio 31",
+      video_editor: "davinci_resolve_studio|21.2",
+    };
+    const lineAfter = (text: string, line: string) => {
+      const lines = text.split("\n");
+      const at = lines.indexOf(line);
+      return at >= 0 ? lines[at + 1] : undefined;
+    };
+    const en = buildDescription(makeInput({ rig }), createMockT("en"));
+    expect(lineAfter(en, "Video Editor: DaVinci Resolve Studio 21.2")).toBe(
+      "LUT: Arri Alexa LogC to Rec709",
+    );
+
+    const vi = buildDescription(makeInput({ language: "vi", rig }), createMockT("vi"));
+    expect(lineAfter(vi, "Phần mềm dựng video: DaVinci Resolve Studio 21.2")).toBe(
+      "LUT: Arri Alexa LogC to Rec709",
+    );
+
+    const noLut = buildDescription(
+      makeInput({ rig: { video_editor: "capcut|", lut: "  " } }),
+      createMockT("en"),
+    );
+    expect(noLut).toContain("Video Editor: CapCut");
+    expect(noLut).not.toContain("LUT:");
+  });
+
   it("prints rig lines in a fixed order, whatever order they were filled in", () => {
     const t = createMockT("en");
     const result = buildDescription(

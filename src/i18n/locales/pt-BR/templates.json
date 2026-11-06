@@ -592,7 +592,8 @@
       "monitor": "Monitor",
       "capture": "Software de captura",
       "controller": "Controle",
-      "video_editor": "Editor de vídeo"
+      "video_editor": "Editor de vídeo",
+      "lut": "LUT"
     }
   },
   "pinnedComment": {

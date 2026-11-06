@@ -1001,7 +1001,8 @@
     "capture": "Phần mềm quay",
     "motherboard": "Bo mạch chủ",
     "controller": "Tay cầm",
-    "video_editor": "Phần mềm dựng video"
+    "video_editor": "Phần mềm dựng video",
+    "lut": "LUT"
   },
   "social": {
     "kofi": "Ko-fi",

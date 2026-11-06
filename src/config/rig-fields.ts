@@ -102,6 +102,15 @@ export interface RigField {
   readonly composite?: CompositeFieldSpec;
   /** `text` fields: values offered while typing (the user may type anything). */
   readonly suggestions?: readonly string[];
+  /**
+   * `text` fields: tidies the typed or pasted text. Runs when the user
+   * leaves the field and again in {@link formatRigValue}, so a shortcut
+   * pressed while the cursor is still in the field prints the tidy form
+   * too. Must be idempotent.
+   */
+  readonly clean?: (raw: string) => string;
+  /** Takes both columns of the editor's grid (long values, such as a LUT name). */
+  readonly wide?: boolean;
 }
 
 /**
@@ -478,6 +487,66 @@ export function cleanCpuName(raw: string): string {
 }
 
 /**
+ * LUTs that come with DaVinci Resolve, named the way its LUT menu shows
+ * them (from Resolve 21's own LUT folder), offered while typing in the
+ * LUT field. Any other LUT's name is accepted as typed.
+ */
+export const LUT_SUGGESTIONS: readonly string[] = [
+  "Arri Alexa LogC to Rec709",
+  "Rec709 Kodak 2383 D65",
+  "Rec709 Kodak 2383 D60",
+  "Rec709 Kodak 2383 D55",
+  "Rec709 Fujifilm 3513DI D65",
+  "Rec709 Fujifilm 3513DI D60",
+  "Rec709 Fujifilm 3513DI D55",
+  "HDR 1000 nits to Gamma 2.4",
+  "Blackmagic Gen 6 DaVinci to Rec709 BT1886 Film Look",
+  "SLog3SGamut3.CineToLC-709",
+  "SLog3SGamut3.CineToLC-709TypeA",
+  "V-Log to V-709",
+  "Leica Pure L-Log to Rec.709 Gamma 2.4",
+  "Samsung Log to Rec709",
+];
+
+/** The file extensions LUTs come in. Anchored at the end: linear. */
+const LUT_FILE_EXTENSION = /\.(?:cube|3dl|dat|csp|ilut|olut|look)$/i;
+
+/** One pass of {@link cleanLutName}. */
+function tidyLutNameOnce(text: string): string {
+  let name = text.trim();
+  // Explorer's "Copy as path" wraps the path in double quotes.
+  if (name.length >= 2 && name.startsWith('"') && name.endsWith('"')) {
+    name = name.slice(1, -1).trim();
+  }
+  // A path (a backslash, a drive letter, or a leading / or ~/) keeps only
+  // its file name. A slash in an ordinary name ("Teal/Orange") stays.
+  const isPath =
+    name.includes("\\") || /^[a-z]:\//i.test(name) || name.startsWith("/") || name.startsWith("~/");
+  if (isPath) {
+    name = name.slice(Math.max(name.lastIndexOf("\\"), name.lastIndexOf("/")) + 1).trim();
+  }
+  return name.replace(LUT_FILE_EXTENSION, "").trim();
+}
+
+/**
+ * Tidy a LUT name pasted from a file manager:
+ * `"Rec709 Kodak 2383 D65.cube"` → `"Rec709 Kodak 2383 D65"`, and
+ * Explorer's `"C:\…\Arri\Arri Alexa LogC to Rec709.dat"` (or a macOS
+ * path) → `"Arri Alexa LogC to Rec709"`. Dots inside a name
+ * ("SLog3SGamut3.CineToLC-709", "Rec.709 Gamma 2.4") stay. Idempotent:
+ * passes repeat until nothing changes.
+ */
+export function cleanLutName(raw: string): string {
+  let name = raw;
+  let previous: string;
+  do {
+    previous = name;
+    name = tidyLutNameOnce(name);
+  } while (name !== previous);
+  return name;
+}
+
+/**
  * The rig fields, in the order both the editor and the description show
  * them: the parts a viewer compares first (CPU, GPU, RAM), then the rest.
  */
@@ -488,6 +557,7 @@ export const RIG_FIELDS: readonly RigField[] = [
     type: "text",
     placeholder: "AMD Ryzen 7 9800X3D",
     suggestions: CPU_SUGGESTIONS,
+    clean: cleanCpuName,
   },
   { id: "gpu", labelKey: "rig.gpu", type: "gpu" },
   { id: "ram", labelKey: "rig.ram", type: "composite_dropdown", composite: RAM_COMPOSITE },
@@ -513,6 +583,16 @@ export const RIG_FIELDS: readonly RigField[] = [
     type: "dropdown_with_version",
     options: VIDEO_EDITOR_OPTIONS,
     versionPlaceholder: "20 / 2026 / v25",
+  },
+  // The LUT graded in that editor — its own line, right under it.
+  {
+    id: "lut",
+    labelKey: "rig.lut",
+    type: "text",
+    placeholder: "Arri Alexa LogC to Rec709",
+    suggestions: LUT_SUGGESTIONS,
+    clean: cleanLutName,
+    wide: true,
   },
 ];
 
@@ -567,7 +647,9 @@ function withSuffix(text: string, suffix: string): string {
  * - `composite_dropdown` ("32|DDR5|6000", "custom:48|DDR5|") →
  *   "32 GB DDR5-6000" / "48 GB DDR5" via the field's
  *   {@link CompositeFieldSpec.format}.
- * - All other field types pass the raw value through.
+ * - `text` fields with a {@link RigField.clean} go through it (a pasted
+ *   "Rec709 Kodak 2383 D65.cube" → "Rec709 Kodak 2383 D65"); other text
+ *   passes through as typed.
  */
 export function formatRigValue(fieldId: string, raw: string): string {
   const field = RIG_FIELDS.find((f) => f.id === fieldId);
@@ -619,5 +701,5 @@ export function formatRigValue(fieldId: string, raw: string): string {
     return field.composite.format(resolved);
   }
 
-  return raw;
+  return field.clean ? field.clean(raw) : raw;
 }

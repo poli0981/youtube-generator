@@ -1001,7 +1001,8 @@
     "capture": "Capture Software",
     "motherboard": "Motherboard",
     "controller": "Controller",
-    "video_editor": "Video Editor"
+    "video_editor": "Video Editor",
+    "lut": "LUT"
   },
   "social": {
     "kofi": "Ko-fi",
