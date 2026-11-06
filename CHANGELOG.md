@@ -2,6 +2,36 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.4.0 — 2026-11-06
+
+A feature release for the description and the tags: a **LUT** field in My Rig, printed on its own line under the video editor, and the **boss's name as a tag** in boss videos — plus this week's dependency updates. Web, desktop and Android all ship as 1.4.0.
+
+### Added
+
+- **LUT** (My Rig) — the LUT you grade with, on its own line right under the video editor, in the description and the social captions:
+
+  ```
+  Video Editor: DaVinci Resolve Studio 21.2
+  LUT: Arri Alexa LogC to Rec709
+  ```
+
+  Typing offers 14 LUTs that come with DaVinci Resolve, named the way its LUT menu shows them (Arri Alexa LogC to Rec709, the Rec709 Kodak 2383 and Fujifilm 3513DI film looks, HDR 1000 nits to Gamma 2.4, …); any other name is printed as typed. A pasted file name or path — Explorer's _Copy as path_ included — is cut down to the LUT's name: `"C:\…\Arri\Arri Alexa LogC to Rec709.dat"` → `Arri Alexa LogC to Rec709`. Like the rest of the rig, it is saved with the channel profile. Left empty, there is no line.
+
+- **The boss's name as a tag** — Boss Fight and Boss No Hit videos get the Boss Name field as a tag of its own, right after the game's name, so fitting the tags to 500 characters never drops it. Marks that add nothing to a search are left out: "Gael, Slave Knight" → `Gael Slave Knight`, "Mr. X" → `Mr X`, "S.T.A.L.K.E.R." → `STALKER`, "「マレニア」" → `マレニア`; apostrophes and hyphens inside a word stay ("Mergo's Wet Nurse", "T-103"), and so does a dot between digits ("Phase 2.0"). Over 30 characters (YouTube's per-tag limit here), the name before its title is used: "Loretta, Knight of the Haligtree" → `Loretta`. A boss name left in the draft after switching to another video type is not tagged.
+
+### Fixed
+
+- A **CPU name pasted from Windows** ("Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz") is tidied in the output too, not only once you leave the field — Ctrl/⌘+Shift+C or Ctrl/⌘+S pressed with the cursor still in it copied or saved the raw name. The new LUT field works the same way.
+
+### Under the hood
+
+- **Dependencies**, the newest releases at least a week old (Dependabot's cooldown): i18next 26.5.11, react-i18next 17.1.9, lucide-react 1.64, zustand 5.0.16, knip 6.44, wrangler 4.152 (miniflare 5.20261019.2-beta), @tauri-apps/cli 2.12.4. Dependabot's five npm PRs (#223–#227) were folded into one change: each failed CI alone because it left THIRD_PARTY_NOTICES stale (regenerated), and they would have conflicted with each other. GitHub Actions: Swatinem/rust-cache 2.9.3, zizmor-action 0.8.0. The undici override stays — miniflare still pins undici 7.29.1.
+- Dependabot alert #50 (minimatch, development tools only, through eslint and typescript-eslint) stays open for now: its fix is minimatch 11, a new matching engine outside eslint's `^10` range, and the issue needs attacker-controlled glob patterns, which lint never reads.
+- `RigField` gains `clean` (CPU, LUT) and `wide`; `formatRigValue` runs a field's cleaner; a test now holds the `rig.*` and `description.rigLabels.*` keys of all eight locales to `RIG_FIELDS`. `bossNameTag` in `tag-generator.ts` uses linear regexes and no lookbehind (the macOS 11–13 desktop webview is older WebKit, which rejects one); its word fit is shared with `tagFriendlyGameName`.
+- **Docs**: FEATURES (11 rig fields, the LUT, the boss name tag), ARCHITECTURE (tag priority), TECH-SPEC (rig block, tag order, test count), ROADMAP, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1065 tests** (was 1017), build, cf:check all pass; initial load 277.2 of 280 KB gzip. Verified in the dev server: the LUT field sits under Video Editor across both columns with its suggestions, a quoted Explorer path becomes the LUT's name when the field loses focus, and Quick Preview prints `LUT: Arri Alexa LogC to Rec709` right after `Video Editor: DaVinci Resolve Studio 21.2`; Boss Fight with "Gael, Slave Knight" puts `Gael Slave Knight` second in the tags, Full Gameplay drops it. `wrangler dev` on 4.152 serves the gate page.
+- Six manifests bumped 1.3.2 → 1.4.0.
+
 ## v1.3.2 — 2026-10-27
 
 A hosting release: the website now **rate-limits** each visitor's address, so a script hammering ytgenerator.stream gets a cheap `429 Too Many Requests` instead of the gate, the app or a Turnstile check. Nothing a person does in normal use comes near the limits. The desktop and Android apps are unchanged apart from the version number. Web, desktop and Android all ship as 1.3.2.

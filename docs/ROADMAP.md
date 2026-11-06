@@ -2,7 +2,7 @@
 
 ## YTDescGen — Phased Development Plan
 
-> **Status (2026-10-27): v1.3.2 is the current release.** Phases 1–4 are the original
+> **Status (2026-11-06): v1.4.0 is the current release.** Phases 1–4 are the original
 > plan, kept as a record; notes added beside or under an item say what has
 > changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
 > What's next: Phase 5 and the backlog at the end of this page.
@@ -343,6 +343,13 @@ Worker (Workers Rate Limiting bindings), behind a WAF rate limiting rule at
 the zone —
 [CHANGELOG.md](../CHANGELOG.md#v132--2026-10-27).
 
+## v1.4.0 — LUT field, boss name tag ✅ SHIPPED 2026-11-06
+
+A **LUT** field in My Rig, printed on its own line under the video editor
+(DaVinci Resolve's own LUTs offered while typing), the **boss's name as a
+tag** in Boss Fight and Boss No Hit videos, and this week's dependency
+updates — [CHANGELOG.md](../CHANGELOG.md#v140--2026-11-06).
+
 ---
 
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
@@ -420,4 +427,4 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 | Phase 5 | Extensions         | Ongoing | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
-**v1.0.0 shipped on 2026-09-30; the current release is v1.3.2 (2026-10-27).**
+**v1.0.0 shipped on 2026-09-30; the current release is v1.4.0 (2026-11-06).**
