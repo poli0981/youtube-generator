@@ -40,7 +40,8 @@ src/
     channel-phrase.ts          # drops "on {{channel}}" when there is no channel name
     types.ts                   # GeneratorInput, CONTENT_WARNINGS, TECH_NOTES, option lists
     rig-block.ts, limits.ts, social-post-builder.ts, pinned-comment-builder.ts, playlist-builder.ts,
-    endings-format.ts, graphics-vendor.ts
+    endings-format.ts, graphics-vendor.ts, upscale.ts (upscaled in the editor: one rule for title,
+    description and form)
   config/                      # static data: video types, genres, platforms (stores),
                                # social fields/platforms, GPU catalog, rig fields,
                                # content-warning-groups / tech-note-groups (editor groups),

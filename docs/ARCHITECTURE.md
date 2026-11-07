@@ -2,7 +2,7 @@
 
 ## YTDescGen — Technical Architecture
 
-Reflects **v1.4.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
+Reflects **v1.5.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -32,7 +32,7 @@ Reflects **v1.4.0**. Implementation details (configs, interfaces, file formats, 
 │    ├─ description-builder ── rig-block · timeline-parser           │
 │    │                         channel-phrase · endings-format       │
 │    └─ tag-generator                                                │
-│  Also: title-variants · limits · social-post-builder               │
+│  Also: title-variants · limits · social-post-builder · upscale     │
 │        pinned-comment-builder · playlist-builder · graphics-vendor │
 ├────────────────────────────────────────────────────────────────────┤
 │                        Infrastructure Layer                        │
@@ -93,6 +93,7 @@ The engine holds all generation logic with **zero framework dependency**: no Rea
 | `channel-phrase.ts`                                | Drops "on {{channelName}}" (per language) when the channel name is empty                                                                                 |
 | `rig-block.ts`                                     | The rig as localised `Label: value` lines in a fixed order (description and social captions)                                                             |
 | `endings-format.ts`, `graphics-vendor.ts`          | Endings lists split across videos; valid upscaler / frame-generation options per vendor                                                                  |
+| `upscale.ts`                                       | Upscaled in the editor (v1.5.0): `validUpscaleSource` — the one rule the title badge, the Upscale line and the automatic tech note share                 |
 | `limits.ts`                                        | Over-limit status per field, Copy All rules, `<` / `>` detection                                                                                         |
 | `social-post-builder.ts`                           | Captions for TikTok, YouTube Shorts, Instagram Reels, Facebook Reels, X (weighted count), Threads, Bluesky                                               |
 | `pinned-comment-builder.ts`, `playlist-builder.ts` | Pinned comment; playlist title, description and comment                                                                                                  |
@@ -139,8 +140,8 @@ interface GeneratorInput {
 
   // Video-type specific: partNumber, bossName, dlcName, challengeName, modName, modList,
   // liveUrl, scheduledTime, gacha quest fields …
-  // Video settings: resolution, fps, graphicsPreset, ray tracing, frame generation,
-  // upscaling, artStyle, videoStyleEra, versionInfo …
+  // Video settings: resolution, upscaledFrom, fps, graphicsPreset, ray tracing,
+  // frame generation, upscaling, artStyle, videoStyleEra, versionInfo …
   // Content: timestamps, playlistLink, emails, music, sponsor, publisher, content warnings,
   // tech notes, playthrough notes, endings, playtest, community links …
 
@@ -257,7 +258,7 @@ export const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> 
 
 ```
 ┌────────────────────────────────────────────────────────────────────┐
-│  EditorStore — "ytdescgen-editor-draft", v20                       │
+│  EditorStore — "ytdescgen-editor-draft", v21                       │
 │  - the draft: every form field (EditorData) + setter actions       │
 │  - persists data only (editorDataOf); migrateEditorState           │
 ├────────────────────────────────────────────────────────────────────┤
@@ -297,7 +298,7 @@ Every persisted store uses Zustand `persist` with `createJSONStorage(() => local
 
 `src/config/library-fields.ts` is the one list of which editor fields each kind of library item carries — the save forms, Apply, backups and imports all read it:
 
-- **Profile** = the channel: `PROFILE_FIELDS` (channel name, emails, social, rig, resolution / fps / graphics preset, ad text, Vietnamese donate fields, community links).
+- **Profile** = the channel: `PROFILE_FIELDS` (channel name, emails, social, rig, resolution (+ upscaled from) / fps / graphics preset, ad text, Vietnamese donate fields, community links).
 - **Preset** = the game: `PRESET_FIELDS` (names, genres, platform, store links and their types, publisher, content warnings, language patch, game version, art style, the skip-graphics-settings switch, playlist link).
 - **Template** = the whole form (every field since v1.0.0).
 - `PER_VIDEO_FIELDS` is what belongs to one video only (boss, chapter, timestamps, pinned comment, endings, …).

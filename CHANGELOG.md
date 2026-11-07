@@ -2,6 +2,35 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.5.0 — 2026-11-08
+
+A feature release for videos **upscaled in the editor**: recorded at 1440p, exported at 4K — the title says `[4K Upscaled]`, the description says what was upscaled to what and warns that fine detail may look different from the original image. Web, desktop and Android all ship as 1.5.0.
+
+### Added
+
+- **Upscaled from** (Video settings), next to Resolution — the resolution the footage was recorded at, when the video editor upscaled it to the video's resolution. Only lower resolutions are offered (none at 720p); lowering the resolution to or below the source sets it back to _Not upscaled_. Like resolution and FPS, it is saved with the channel profile. With it set:
+  - **Title** — the quality badge reads `[4K Upscaled]`, `[2K Upscaled]` (1440p), `[4K Upscaled 120FPS]`, the word in the output language (`Upscale` in Vietnamese, Portuguese and Indonesian, `アップスケール`, `업스케일`, `超分`, `Reescalado`). Badge position, case and _Show quality badge_ work as before; 1080p 60fps still has no badge, upscaled or not.
+  - **🖥 VIDEO SETTINGS** — a line right under the resolution, the editor taken from My Rig (left out when My Rig has none):
+
+    ```
+    Video: 4K - 60 FPS
+    Upscale: 1440p → 4K (DaVinci Resolve Studio 21.2)
+    ```
+
+    It stays when _This game has no in-game graphics settings_ is on, like the video-style line.
+
+  - **▸ 🛠 TECH NOTES** — a note of its own, after the ones you picked and bilingual like them: _Upscaled to a higher resolution in editing — fine detail is reconstructed, so text, textures and edges may look slightly different from the original image._ It isn't in the checklist, so it can't be forgotten, and it goes away with the upscale. The DLSS / FSR / XeSS note is unchanged.
+  - The collapsed Video settings section reads `1440p → 4K · 60 FPS`.
+
+### Under the hood
+
+- `src/engine/upscale.ts`: `validUpscaleSource` is the one rule the title, the description and the form share — anything other than a known resolution below the video's is ignored. `VIDEO_RESOLUTIONS`, `UPSCALED_FROM_OPTIONS` and `isUpscaledFrom` live in `src/config/graphics-settings.ts`.
+- `AUTO_TECH_NOTES` (`editor_upscaled`) holds the engine's own notes: never stored in `techNotes`, their bullets share `description.techNotes.items`; the tech-note parity test checks the checklist and the bullets separately.
+- Editor store v20 → v21: `upscaledFrom` back-fills to `""` and an unknown value becomes `""`; an applied profile or template and a restored backup read one the same way. `Profile.upscaledFrom` is optional, so the profile store stays at v3. New keys in all eight locales and `_schema.json`.
+- **Docs**: FEATURES (upscaled video, the badge setting, the profile row), CONTENT-INVENTORY (+ Vietnamese: the automatic note), ARCHITECTURE and TECH-SPEC (`upscale.ts`, the field, store v21, test count), ROADMAP, CLAUDE.md, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1093 tests** (was 1065), build all pass; initial load 277.8 of 280 KB gzip. Verified in the dev server: Elden Ring at 4K upscaled from 1440p with DaVinci Resolve Studio 21.2 in My Rig gives `Elden Ring — [4K Upscaled] — Gameplay No Commentary`, the Upscale line under `Video: 4K - 60 FPS` and the note; Vietnamese output gives `[4K Upscale]` and the `EN · VI` note; 1080p sets the field back to _Not upscaled_, 720p disables it; hidden graphics settings keep the Upscale line; the four selects sit in one column at 375 px, 2 × 2 at 1024 px and in a row at 1440 px.
+- Six manifests bumped 1.4.0 → 1.5.0.
+
 ## v1.4.0 — 2026-11-06
 
 A feature release for the description and the tags: a **LUT** field in My Rig, printed on its own line under the video editor, and the **boss's name as a tag** in boss videos — plus this week's dependency updates. Web, desktop and Android all ship as 1.4.0.

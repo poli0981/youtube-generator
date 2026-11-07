@@ -2,7 +2,7 @@
 
 ## YTDescGen — Phased Development Plan
 
-> **Status (2026-11-06): v1.4.0 is the current release.** Phases 1–4 are the original
+> **Status (2026-11-08): v1.5.0 is the current release.** Phases 1–4 are the original
 > plan, kept as a record; notes added beside or under an item say what has
 > changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
 > What's next: Phase 5 and the backlog at the end of this page.
@@ -350,6 +350,13 @@ A **LUT** field in My Rig, printed on its own line under the video editor
 tag** in Boss Fight and Boss No Hit videos, and this week's dependency
 updates — [CHANGELOG.md](../CHANGELOG.md#v140--2026-11-06).
 
+## v1.5.0 — Upscaled video ✅ SHIPPED 2026-11-08
+
+**Upscaled from** in Video settings, for footage upscaled in the video
+editor: a `[4K Upscaled]` title badge, an `Upscale: 1440p → 4K (…)` line in
+Video settings and an automatic tech note that fine detail may differ from
+the original image — [CHANGELOG.md](../CHANGELOG.md#v150--2026-11-08).
+
 ---
 
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
@@ -427,4 +434,4 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 | Phase 5 | Extensions         | Ongoing | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
-**v1.0.0 shipped on 2026-09-30; the current release is v1.4.0 (2026-11-06).**
+**v1.0.0 shipped on 2026-09-30; the current release is v1.5.0 (2026-11-08).**
