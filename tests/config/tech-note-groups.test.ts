@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { TECH_NOTE_GROUPS } from "@config/tech-note-groups";
-import { TECH_NOTES } from "@engine/types";
+import { AUTO_TECH_NOTES, TECH_NOTES } from "@engine/types";
 import { schemaKeys } from "../helpers/locale-schema";
 
 /**
@@ -29,7 +29,16 @@ describe("tech-note i18n keys", () => {
   });
 
   it("has a description bullet for every tech note, and none for unknown ids", () => {
-    expect(schemaKeys("templates", "description.techNotes.items")).toEqual(ids);
+    // The engine's own notes (v1.5.0) have a bullet but no checklist label.
+    expect(schemaKeys("templates", "description.techNotes.items")).toEqual(
+      [...TECH_NOTES, ...AUTO_TECH_NOTES].sort(),
+    );
+  });
+
+  it("keeps the engine's own notes out of the checklist", () => {
+    for (const id of AUTO_TECH_NOTES) {
+      expect(TECH_NOTES as readonly string[]).not.toContain(id);
+    }
   });
 
   it("has a heading for every group", () => {

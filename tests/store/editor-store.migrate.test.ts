@@ -464,3 +464,31 @@ describe("migrateEditorState — v19 → v20 (v1.1.0 copyright email)", () => {
     expect(result.gameKeyEmail).toBe("me@channel.com");
   });
 });
+
+describe("migrateEditorState — v20 → v21 (v1.5.0 upscaled video)", () => {
+  function makeV20Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
+    delete full.upscaledFrom;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills upscaledFrom as not upscaled", () => {
+    expect(migrateEditorState(makeV20Persisted(), 20).upscaledFrom).toBe("");
+  });
+
+  it("coerces an unknown or non-string value to not upscaled", () => {
+    expect(migrateEditorState(makeV20Persisted({ upscaledFrom: "2K" }), 20).upscaledFrom).toBe("");
+    expect(migrateEditorState(makeV20Persisted({ upscaledFrom: 1440 }), 20).upscaledFrom).toBe("");
+    expect(migrateEditorState(makeV20Persisted({ upscaledFrom: null }), 20).upscaledFrom).toBe("");
+  });
+
+  it("keeps a valid value, and running it again changes nothing", () => {
+    const once = migrateEditorState(
+      makeV20Persisted({ resolution: "4K", upscaledFrom: "1440p" }),
+      20,
+    );
+    expect(once.upscaledFrom).toBe("1440p");
+    expect(once.resolution).toBe("4K");
+    expect(migrateEditorState({ ...once }, 20)).toEqual(once);
+  });
+});

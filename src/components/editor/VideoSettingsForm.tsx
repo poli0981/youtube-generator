@@ -9,12 +9,14 @@ import {
   RT_MODES,
   FRAMEGEN_VENDORS,
   ART_STYLES,
+  VIDEO_RESOLUTIONS,
   type GraphicsPreset,
   type RTMode,
   type FrameGenVendor,
   type FrameGenMultiplier,
   type UpscaleQuality,
   type ArtStyle,
+  type UpscaledFrom,
 } from "@config/graphics-settings";
 import {
   getValidUpscaleQualities,
@@ -22,15 +24,11 @@ import {
   coerceUpscaleQuality,
   coerceFrameGenMultiplier,
 } from "@engine/graphics-vendor";
+import { upscaleSourcesFor, validUpscaleSource } from "@engine/upscale";
 import { VIDEO_STYLE_ERA_IDS, type VideoStyleEra } from "@config/video-styles";
 import { FIELD_LIMITS } from "@config/field-limits";
 
-const RESOLUTION_OPTIONS = [
-  { value: "720p", label: "720p" },
-  { value: "1080p", label: "1080p" },
-  { value: "1440p", label: "1440p" },
-  { value: "4K", label: "4K" },
-];
+const RESOLUTION_OPTIONS = VIDEO_RESOLUTIONS.map((r) => ({ value: r, label: r }));
 
 const FPS_OPTIONS = [
   { value: "30", label: "30 FPS" },
@@ -105,6 +103,26 @@ export function VideoSettingsForm() {
     if (coercedM !== store.frameGenMultiplier) store.set("frameGenMultiplier", coercedM);
   }
 
+  // v1.5.0: "Upscaled from" lists only resolutions below the video's own.
+  // A stale pair (an older profile applied over a 4K draft, say) shows as
+  // "Not upscaled" — the engine ignores it too.
+  const resolution = store.resolution ?? "1080p";
+  const upscaledFrom = validUpscaleSource(resolution, store.upscaledFrom);
+  const upscaleSources = upscaleSourcesFor(resolution);
+  const upscaledFromOptions = [
+    { value: "", label: t("editor.upscaledFromNone") },
+    ...upscaleSources.map((r) => ({ value: r, label: r })),
+  ];
+
+  // Lowering the resolution to or below the upscale source ends the upscale,
+  // so the draft never keeps a pair the Select can't show.
+  function handleResolutionChange(next: string) {
+    store.set("resolution", next);
+    if (store.upscaledFrom && !validUpscaleSource(next, store.upscaledFrom)) {
+      store.set("upscaledFrom", "");
+    }
+  }
+
   const artStyleOptions = ART_STYLES.map((s) => ({
     value: s,
     label: t(`editor.artStyleOptions.${s}`),
@@ -112,12 +130,19 @@ export function VideoSettingsForm() {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <Select
           label={t("editor.resolution")}
           options={RESOLUTION_OPTIONS}
-          value={store.resolution ?? "1080p"}
-          onChange={(v) => store.set("resolution", v)}
+          value={resolution}
+          onChange={handleResolutionChange}
+        />
+        <Select
+          label={t("editor.upscaledFrom")}
+          options={upscaledFromOptions}
+          value={upscaledFrom}
+          disabled={upscaleSources.length === 0}
+          onChange={(v) => store.set("upscaledFrom", v as UpscaledFrom)}
         />
         <Select
           label={t("editor.fps")}
@@ -132,6 +157,9 @@ export function VideoSettingsForm() {
           onChange={(v) => store.set("graphicsPreset", v as GraphicsPreset)}
         />
       </div>
+      {upscaledFrom && (
+        <p className="text-text-muted -mt-1 text-xs">{t("editor.upscaledFromHelp")}</p>
+      )}
 
       {store.graphicsPreset === "custom" && (
         <Input

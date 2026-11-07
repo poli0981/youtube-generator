@@ -74,6 +74,13 @@ describe("sanitizeEditorFields", () => {
     expect(out.techNotes).toEqual(["upscaling_artifacts_possible"]);
   });
 
+  it("keeps a known upscale source and reads anything else as not upscaled (v1.5.0)", () => {
+    expect(sanitizeEditorFields({ upscaledFrom: "1440p" })).toEqual({ upscaledFrom: "1440p" });
+    expect(sanitizeEditorFields({ upscaledFrom: "" })).toEqual({ upscaledFrom: "" });
+    expect(sanitizeEditorFields({ upscaledFrom: "2K" })).toEqual({ upscaledFrom: "" });
+    expect(sanitizeEditorFields({ upscaledFrom: 1440 })).toEqual({ upscaledFrom: "" });
+  });
+
   it("limits the result to the given fields", () => {
     const out = sanitizeEditorFields({ gameName: "Hades", channelName: "Me" }, ["channelName"]);
     expect(out).toEqual({ channelName: "Me" });
@@ -91,7 +98,15 @@ describe("row sanitizers", () => {
 
   it("builds a complete profile from a partial one", () => {
     const profile = sanitizeProfile(
-      { id: "p1", name: "  ", channelName: "Skullmute", rig: null, vnMomo: "0900", junk: 1 },
+      {
+        id: "p1",
+        name: "  ",
+        channelName: "Skullmute",
+        rig: null,
+        vnMomo: "0900",
+        upscaledFrom: "1440p",
+        junk: 1,
+      },
       new IdKeeper(),
       NOW,
     );
@@ -102,6 +117,7 @@ describe("row sanitizers", () => {
       rig: {},
       social: {},
       vnMomo: "0900",
+      upscaledFrom: "1440p",
       createdAt: NOW,
       updatedAt: NOW,
     });

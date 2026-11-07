@@ -8,6 +8,7 @@
       "pipe": " | "
     },
     "suffix": "Gameplay No Commentary",
+    "upscaled": "アップスケール",
     "videoType": {
       "full": "",
       "part": "パート{{partNumber}}",
@@ -209,7 +210,8 @@
         "edited_for_pacing": "テンポ調整の編集あり — 実時間ではありません",
         "support_developers": "原曲使用 — 開発者への応援をよろしくお願いします",
         "online_connectivity_issues": "オンラインゲーム — 接続不調の可能性",
-        "upscaling_artifacts_possible": "アップスケーリング / フレーム生成（DLSS・FSR・XeSS）由来のアーティファクトの可能性あり"
+        "upscaling_artifacts_possible": "アップスケーリング / フレーム生成（DLSS・FSR・XeSS）由来のアーティファクトの可能性あり",
+        "editor_upscaled": "編集時に高解像度へアップスケール — 細部は再構成されるため、文字・テクスチャ・輪郭が元の映像とわずかに異なる場合があります"
       }
     },
     "contentWarnings": {
@@ -558,7 +560,8 @@
       },
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
-      "versionLabel": "Version"
+      "versionLabel": "Version",
+      "upscaleLabel": "Upscale"
     },
     "videoSettings": {
       "styleLine": "{{editor}}で{{era}}スタイルに編集",

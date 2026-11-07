@@ -8,6 +8,7 @@
       "pipe": " | "
     },
     "suffix": "Gameplay No Commentary",
+    "upscaled": "업스케일",
     "videoType": {
       "full": "",
       "part": "파트 {{partNumber}}",
@@ -209,7 +210,8 @@
         "edited_for_pacing": "리듬을 위해 편집 — 실시간 아님",
         "support_developers": "원곡 사용 — 개발자를 응원해 주세요",
         "online_connectivity_issues": "온라인 게임 — 연결 문제 가능성",
-        "upscaling_artifacts_possible": "업스케일링 / 프레임 생성 (DLSS, FSR, XeSS) 아티팩트 가능성"
+        "upscaling_artifacts_possible": "업스케일링 / 프레임 생성 (DLSS, FSR, XeSS) 아티팩트 가능성",
+        "editor_upscaled": "편집 과정에서 더 높은 해상도로 업스케일 — 세부 묘사가 재구성되므로 글자, 텍스처, 윤곽이 원본과 조금 다르게 보일 수 있습니다"
       }
     },
     "contentWarnings": {
@@ -558,7 +560,8 @@
       },
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
-      "versionLabel": "Version"
+      "versionLabel": "Version",
+      "upscaleLabel": "Upscale"
     },
     "videoSettings": {
       "styleLine": "{{editor}}로 {{era}} 스타일 편집",

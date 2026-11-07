@@ -168,6 +168,9 @@
     "vnZalopay": "ZaloPay",
     "vnZalopayPlaceholder": "ZaloPay phone number",
     "resolution": "解像度",
+    "upscaledFrom": "アップスケール元",
+    "upscaledFromNone": "なし",
+    "upscaledFromHelp": "タイトルに「アップスケール」と表示し、説明欄にアップスケールの行と、細部が元の映像と異なる場合がある旨の注意を追加します。",
     "fps": "FPS",
     "graphicsPreset": "グラフィック設定",
     "graphicsPresetOptions": {

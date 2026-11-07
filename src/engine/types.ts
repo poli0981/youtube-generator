@@ -256,6 +256,17 @@ export const TECH_NOTES = [
 export type TechNote = (typeof TECH_NOTES)[number];
 
 /**
+ * Tech notes the engine adds on its own (v1.5.0), after the ones the user
+ * picked — never stored in `techNotes` and not in the editor's checklist.
+ * `editor_upscaled` comes with a valid {@link GeneratorInput.upscaledFrom}: the
+ * structured "Upscale:" line in 🖥 VIDEO SETTINGS says what was upscaled to
+ * what, this note warns what upscaling does to the image. Their bullets share
+ * `description.techNotes.items` with {@link TECH_NOTES}.
+ */
+export const AUTO_TECH_NOTES = ["editor_upscaled"] as const;
+export type AutoTechNote = (typeof AUTO_TECH_NOTES)[number];
+
+/**
  * Content warnings (v0.11 unified bilingual checklist). Replaces the
  * v0.7 trio (flashing_lights / loud_noises / jump_scares) plus the
  * standalone `spoilerWarning` / `matureWarning` boolean toggles. The 3
@@ -644,7 +655,15 @@ export interface GeneratorInput {
    * is rendered inside Gacha-specific intros (showcase / anniversary etc.).
    */
   gachaVersion?: string;
+  /** The video's resolution — the uploaded file's ("4K" when 1440p footage was upscaled). */
   resolution?: string;
+  /**
+   * v1.5.0: recorded at this resolution and upscaled to {@link resolution} in
+   * the video editor. Adds "Upscaled" to the title badge, an "Upscale:" line
+   * to 🖥 VIDEO SETTINGS and the {@link AUTO_TECH_NOTES} warning. Ignored
+   * unless it is below `resolution` (`@engine/upscale`).
+   */
+  upscaledFrom?: string;
   fps?: string;
   /**
    * Graphics-quality preset (v0.8 enum + `"custom"` escape hatch).

@@ -8,6 +8,7 @@
       "pipe": " | "
     },
     "suffix": "Gameplay No Commentary",
+    "upscaled": "Reescalado",
     "videoType": {
       "full": "",
       "part": "Parte {{partNumber}}",
@@ -209,7 +210,8 @@
         "edited_for_pacing": "Editado para el ritmo — no es en tiempo real",
         "support_developers": "Música original del juego — apoya a los desarrolladores",
         "online_connectivity_issues": "Juego online — posibles problemas de conexión",
-        "upscaling_artifacts_possible": "Posibles artefactos de escalado / generación de fotogramas (DLSS, FSR, XeSS)"
+        "upscaling_artifacts_possible": "Posibles artefactos de escalado / generación de fotogramas (DLSS, FSR, XeSS)",
+        "editor_upscaled": "Reescalado a una resolución mayor en la edición: los detalles finos se reconstruyen, así que textos, texturas y bordes pueden verse algo distintos de la imagen original"
       }
     },
     "contentWarnings": {
@@ -558,7 +560,8 @@
       },
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
-      "versionLabel": "Version"
+      "versionLabel": "Version",
+      "upscaleLabel": "Upscale"
     },
     "videoSettings": {
       "styleLine": "Editado con estilo {{era}} usando {{editor}}",

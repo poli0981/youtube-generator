@@ -1880,6 +1880,88 @@ describe("buildDescription — translation quality notice (v0.24.0)", () => {
   });
 });
 
+describe("buildDescription — upscaled video (v1.5.0)", () => {
+  const EN_NOTE =
+    "Upscaled to a higher resolution in editing — fine detail is reconstructed, so text, textures and edges may look slightly different from the original image";
+  const VI_NOTE =
+    "Đã upscale lên độ phân giải cao hơn khi dựng — chi tiết nhỏ được tái tạo, nên chữ, texture và đường viền có thể hơi khác so với hình gốc";
+  const upscaled = (overrides: Partial<GeneratorInput> = {}) =>
+    makeInput({
+      resolution: "4K",
+      upscaledFrom: "1440p",
+      fps: "60",
+      rig: { video_editor: "davinci_resolve_studio|21.2" },
+      ...overrides,
+    });
+
+  it("adds an Upscale line right under the Video line, naming the editor", () => {
+    const result = buildDescription(upscaled(), createMockT("en"));
+    expect(result).toContain(
+      "Video: 4K - 60 FPS\nUpscale: 1440p → 4K (DaVinci Resolve Studio 21.2)",
+    );
+  });
+
+  it("leaves the brackets out when the rig has no video editor", () => {
+    const result = buildDescription(upscaled({ rig: {} }), createMockT("en"));
+    expect(result).toContain("Upscale: 1440p → 4K\n");
+    expect(result).not.toContain("Upscale: 1440p → 4K (");
+  });
+
+  it("keeps the Upscale line when the graphics settings are skipped", () => {
+    const result = buildDescription(
+      upscaled({ skipGraphicsSettings: true, videoStyleEra: "retro" }),
+      createMockT("en"),
+    );
+    expect(result).toContain(
+      "🖥 VIDEO SETTINGS\nUpscale: 1440p → 4K (DaVinci Resolve Studio 21.2)\nEdited in retro style using DaVinci Resolve Studio 21.2",
+    );
+    expect(result).not.toContain("Video: ");
+  });
+
+  it("adds the warning to TECH NOTES after the user's own notes", () => {
+    const result = buildDescription(
+      upscaled({ techNotes: ["fps_drops_hardware"] }),
+      createMockT("en"),
+    );
+    const own = result.indexOf("• FPS drops");
+    const auto = result.indexOf(`• ${EN_NOTE}`);
+    expect(own).toBeGreaterThan(-1);
+    expect(auto).toBeGreaterThan(own);
+  });
+
+  it("shows the TECH NOTES block for the warning alone", () => {
+    const result = buildDescription(upscaled({ techNotes: [] }), createMockT("en"));
+    expect(result).toContain(
+      `▸ 🛠 TECH NOTES\nProduction and playstyle notes for transparency.\n\n• ${EN_NOTE}`,
+    );
+  });
+
+  it("is bilingual in the Output tab and single-language in the language tabs", () => {
+    const t = createMockT("vi");
+    const tEn = createMockT("en");
+    const input = upscaled({ language: "vi" });
+    expect(buildDescription(input, t, { tEn })).toContain(`• ${EN_NOTE} · ${VI_NOTE}`);
+    const single = buildDescription(input, t, { tEn, bilingualContentBlocks: false });
+    expect(single).toContain(`• ${VI_NOTE}`);
+    expect(single).not.toContain(EN_NOTE);
+  });
+
+  it("adds nothing when not upscaled, or when the pair is not an upscale", () => {
+    const t = createMockT("en");
+    for (const input of [
+      upscaled({ upscaledFrom: "" }),
+      upscaled({ upscaledFrom: undefined }),
+      upscaled({ resolution: "1440p" }),
+      upscaled({ resolution: "1080p" }),
+    ]) {
+      const result = buildDescription(input, t);
+      expect(result).not.toContain("Upscale:");
+      expect(result).not.toContain(EN_NOTE);
+      expect(result).not.toContain("TECH NOTES");
+    }
+  });
+});
+
 describe("buildDescription — bilingualContentBlocks gate (v0.29.3)", () => {
   it("multi-language tabs: content blocks single-language but translation-quality stays bilingual", () => {
     const t = createMockT("ja");

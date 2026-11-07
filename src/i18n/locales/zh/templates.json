@@ -8,6 +8,7 @@
       "pipe": " | "
     },
     "suffix": "Gameplay No Commentary",
+    "upscaled": "超分",
     "videoType": {
       "full": "",
       "part": "第{{partNumber}}集",
@@ -209,7 +210,8 @@
         "edited_for_pacing": "为节奏剪辑 — 并非实时",
         "support_developers": "原版游戏音乐 — 请支持开发者",
         "online_connectivity_issues": "联机游戏 — 可能存在连线问题",
-        "upscaling_artifacts_possible": "可能存在超分辨率 / 帧生成（DLSS、FSR、XeSS）造成的瑕疵"
+        "upscaling_artifacts_possible": "可能存在超分辨率 / 帧生成（DLSS、FSR、XeSS）造成的瑕疵",
+        "editor_upscaled": "剪辑时已超分至更高分辨率 — 细节经过重建，文字、纹理和边缘可能与原画面略有不同"
       }
     },
     "contentWarnings": {
@@ -558,7 +560,8 @@
       },
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
-      "versionLabel": "Version"
+      "versionLabel": "Version",
+      "upscaleLabel": "Upscale"
     },
     "videoSettings": {
       "styleLine": "使用 {{editor}} 以 {{era}} 风格剪辑",

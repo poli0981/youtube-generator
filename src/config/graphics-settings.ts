@@ -1,6 +1,27 @@
 import type { GenreId } from "./genres";
 
 /**
+ * The video's resolution — the uploaded file's, which is what the title badge,
+ * the quality tags and the description's "Video:" line name. Lowest first, so
+ * an index comparison tells which of two is higher.
+ */
+export const VIDEO_RESOLUTIONS = ["720p", "1080p", "1440p", "4K"] as const;
+
+/**
+ * v1.5.0: the resolution the footage was recorded at when it was upscaled to
+ * {@link VIDEO_RESOLUTIONS} in the video editor (e.g. 1440p → 4K). `""` = not
+ * upscaled. Only a value below the video's resolution counts — the engine
+ * ignores any other pair (see `@engine/upscale`).
+ */
+export const UPSCALED_FROM_OPTIONS = ["", "720p", "1080p", "1440p"] as const;
+export type UpscaledFrom = (typeof UPSCALED_FROM_OPTIONS)[number];
+
+/** Type guard so the migration and patches can drop values from elsewhere. */
+export function isUpscaledFrom(value: unknown): value is UpscaledFrom {
+  return typeof value === "string" && (UPSCALED_FROM_OPTIONS as readonly string[]).includes(value);
+}
+
+/**
  * Graphics-quality preset ladder. Mirrors the most common in-game preset
  * names across Unreal/Unity/proprietary engines. `"custom"` reveals a
  * free-form text field for games whose preset names don't fit the ladder

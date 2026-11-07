@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { generateId } from "@utils/uuid";
 import { migrateRig } from "@config/rig-fields";
-import type { GraphicsPreset } from "@config/graphics-settings";
+import type { GraphicsPreset, UpscaledFrom } from "@config/graphics-settings";
 
 /**
  * A channel profile — the editor's channel-stable fields
@@ -19,7 +19,8 @@ import type { GraphicsPreset } from "@config/graphics-settings";
  * donate fields, the community invite links and `graphicsPresetCustom` —
  * optional, because profiles saved before then don't have them and
  * applying one must leave those editor fields alone. v1.1.0's
- * `copyrightEmail` is optional for the same reason.
+ * `copyrightEmail` and v1.5.0's `upscaledFrom` are optional for the same
+ * reason.
  */
 export interface Profile {
   id: string;
@@ -32,6 +33,7 @@ export interface Profile {
   social: Record<string, string>;
   rig: Record<string, string>;
   resolution: string;
+  upscaledFrom?: UpscaledFrom;
   fps: string;
   graphicsPreset: GraphicsPreset;
   graphicsPresetCustom?: string;

@@ -8,6 +8,7 @@
       "pipe": " | "
     },
     "suffix": "Gameplay No Commentary",
+    "upscaled": "Upscale",
     "videoType": {
       "full": "",
       "part": "Phần {{partNumber}}",
@@ -209,7 +210,8 @@
         "edited_for_pacing": "Đã edit cho hợp nhịp — không phải thời gian thực",
         "support_developers": "Nhạc gốc của game — hãy ủng hộ nhà phát triển",
         "online_connectivity_issues": "Game online — có thể có vấn đề kết nối",
-        "upscaling_artifacts_possible": "Có thể có lỗi hình do upscaling / frame generation (DLSS, FSR, XeSS)"
+        "upscaling_artifacts_possible": "Có thể có lỗi hình do upscaling / frame generation (DLSS, FSR, XeSS)",
+        "editor_upscaled": "Đã upscale lên độ phân giải cao hơn khi dựng — chi tiết nhỏ được tái tạo, nên chữ, texture và đường viền có thể hơi khác so với hình gốc"
       }
     },
     "contentWarnings": {
@@ -558,7 +560,8 @@
       },
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
-      "versionLabel": "Version"
+      "versionLabel": "Version",
+      "upscaleLabel": "Upscale"
     },
     "videoSettings": {
       "styleLine": "Dựng theo phong cách {{era}} bằng {{editor}}",
