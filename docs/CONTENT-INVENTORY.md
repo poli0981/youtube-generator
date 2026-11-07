@@ -166,6 +166,8 @@ The game itself is made or run with generative AI — a story _about_ AI is "AI 
 
 Selected notes are rendered in a `▸ 🛠 TECH NOTES` block right after the content warnings, in the order you picked them. They describe the recording, not the game. Facts that have their own field — difficulty, endings shown, language patch, game version, the upscaler and frame generation in Video settings — are not repeated here.
 
+When **Upscaled from** is set in Video settings (v1.5.0), one more note is added on its own, after yours: _Upscaled to a higher resolution in editing — fine detail is reconstructed, so text, textures and edges may look slightly different from the original image._ It is not in the checklist below; the Upscale line in Video settings says what was upscaled to what.
+
 ### Audio (5)
 
 Some sections muted (copyright) · Volume reduced (copyright) · Game music replaced (copyright) · Cutscene audio muted only · Original audio kept (claim risk)

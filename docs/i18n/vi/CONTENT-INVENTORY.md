@@ -166,6 +166,8 @@ Bản thân game được làm hoặc chạy bằng AI tạo sinh — còn game 
 
 Ghi chú được chọn hiển thị trong khối `▸ 🛠 TECH NOTES` (`▸ 🛠 GHI CHÚ KỸ THUẬT` khi output là tiếng Việt) ngay sau cảnh báo nội dung, theo thứ tự người dùng chọn. Chúng nói về bản quay, không phải về game. Những thông tin đã có trường riêng — độ khó, ending đã chiếu, language patch, phiên bản game, upscaler và frame generation trong Video settings — không lặp lại ở đây.
 
+Khi chọn **Upscaled from** trong Video settings (v1.5.0), một ghi chú nữa tự thêm vào sau các ghi chú bạn chọn: _Đã upscale lên độ phân giải cao hơn khi dựng — chi tiết nhỏ được tái tạo, nên chữ, texture và đường viền có thể hơi khác so với hình gốc._ Ghi chú này không có trong danh sách bên dưới; dòng Upscale trong Video settings cho biết upscale từ đâu lên đâu.
+
 ### Âm thanh (5)
 
 Tắt tiếng (bản quyền) · Giảm volume (bản quyền) · Thay nhạc (bản quyền) · Chỉ tắt cutscene · Giữ audio gốc (rủi ro claim)

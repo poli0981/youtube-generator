@@ -2,7 +2,7 @@
 
 ## YTDescGen — Implementation Details
 
-Reflects **v1.4.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
+Reflects **v1.5.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -13,7 +13,7 @@ Reflects **v1.4.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
 ```json
 {
   "name": "yt-desc-gen",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -345,7 +345,7 @@ export interface GeneratorInput {
   // Video-type specific: partNumber, bossName, dlcName, challengeName, modName, modList,
   // liveUrl, scheduledTime, gachaQuestType, chapterName, questName, characterName,
   // anniversaryYear, gachaVersion.
-  // Video settings: resolution, fps, graphicsPreset (+ graphicsPresetCustom),
+  // Video settings: resolution, upscaledFrom (v1.5.0), fps, graphicsPreset (+ graphicsPresetCustom),
   // skipGraphicsSettings, rayTracingModes, frameGenVendor, frameGenMultiplier,
   // upscaleQuality, artStyle, videoStyleEra, versionInfo.
   // Content: timestamps, playlistLink, contactEmail, adEmail, gameKeyEmail,
@@ -473,7 +473,7 @@ interface EditorActions {
 }
 
 /** Bump together with a new step in migrateEditorState. */
-export const EDITOR_STORE_VERSION = 20;
+export const EDITOR_STORE_VERSION = 21;
 
 export const useEditorStore = create<EditorData & EditorActions>()(
   persist(
@@ -507,7 +507,7 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
 
 | Store              | localStorage key         | Version                       | Migration (exported)                                                                           |
 | ------------------ | ------------------------ | ----------------------------- | ---------------------------------------------------------------------------------------------- |
-| `useEditorStore`   | `ytdescgen-editor-draft` | `EDITOR_STORE_VERSION` = 20   | `migrateEditorState`                                                                           |
+| `useEditorStore`   | `ytdescgen-editor-draft` | `EDITOR_STORE_VERSION` = 21   | `migrateEditorState`                                                                           |
 | `useProfileStore`  | `ytdescgen-profiles`     | `PROFILE_STORE_VERSION` = 3   | `migrateProfilesState`                                                                         |
 | `usePresetStore`   | `ytdescgen-presets`      | `PRESET_STORE_VERSION` = 2    | `migratePresetsState`                                                                          |
 | `useTemplateStore` | `ytdescgen-templates`    | `TEMPLATE_STORE_VERSION` = 2  | `migrateTemplatesState`                                                                        |
@@ -519,6 +519,8 @@ v1.0.0 migration steps: editor v19, profiles v3 and templates v2 move the GPU to
 v1.1.0: editor v20 back-fills `copyrightEmail` (the fourth split contact line) with `""`. `Profile.copyrightEmail` is optional, like the v1.0.0 additions, so the profile store stays at v3. The settings gain `hideScrollbars` without a version bump: `healSettings` back-fills and coerces it on every load, and the unchanged version keeps a 1.1.0 settings backup restorable on 1.0.0.
 
 v1.2.0: nine content-warning ids and one tech note, and no version bump anywhere — the lists only widen. The backup whitelist (`choiceList` in `src/utils/backup/sanitize.ts`) checks against `CONTENT_WARNINGS` / `TECH_NOTES`, so a 1.1.0 build restoring a 1.2.0 backup keeps everything except the ids it doesn't know.
+
+v1.5.0: editor v21 back-fills `upscaledFrom` (recorded at a lower resolution, upscaled to `resolution` in the video editor) with `""` and turns an unknown value into `""`; `normalizeEditorPatch` does the same for an applied profile or template, and the backup whitelist checks it against `UPSCALED_FROM_OPTIONS`. `Profile.upscaledFrom` is optional, so the profile store stays at v3. The engine's own tech note (`AUTO_TECH_NOTES`, `editor_upscaled`) is never stored, so `techNotes` and its whitelist don't change.
 
 Rules:
 
@@ -645,7 +647,7 @@ Then `sonarcloud` (after `check` succeeds):
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1065 tests in 52 files at v1.4.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1093 tests in 53 files at v1.5.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 

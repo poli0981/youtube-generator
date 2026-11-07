@@ -1,6 +1,6 @@
 # Complete Feature List
 
-## YTDescGen — All Features (v1.4.0 + Planned)
+## YTDescGen — All Features (v1.5.0 + Planned)
 
 ---
 
@@ -186,11 +186,11 @@ Every block is optional and skipped when empty. In order:
  6. 🎮 Store links (heading depends on paid vs. free / demo links)
  7. © Game copyright line (opt-in)
  8. 🧪 Playtest / early access (when a playtest link is set)
- 9. 🖥 Video settings (skipped for games without graphics settings)
+ 9. 🖥 Video settings (games without graphics settings keep only the upscale and video-style lines)
 10. 💻 My rig
 11. 🧩 Mod list (Modded Gameplay only)
 12. ⚠️ Content warnings (257 IDs across 13 groups, incl. AI-generated content — v1.2.0)
-13. 🛠 Tech notes (25 IDs across 5 groups)
+13. 🛠 Tech notes (25 IDs across 5 groups, plus an automatic note for an upscaled video — v1.5.0)
 14. Translation-quality note (opt-in; not for English or Vietnamese)
 15. 🎁 Sponsor credit (opt-in)
 16. 🤝 Sponsors & partners (opt-in)
@@ -207,6 +207,25 @@ Every block is optional and skipped when empty. In order:
 26. 📋 Usage policy (opt-in)
 27. Hashtags (1–3, auto-generated)
 ```
+
+**Upscaled video (v1.5.0)** — Video settings › **Upscaled from** is for
+footage recorded at a lower resolution and upscaled in the video editor
+(1440p → 4K, say). The title badge reads `[4K Upscaled]` (`[2K Upscaled]`,
+`[4K Upscaled 120FPS]`; the word in the output language), the Video settings
+block gets a line under the resolution — the editor taken from My Rig:
+
+```
+Video: 4K - 60 FPS
+Upscale: 1440p → 4K (DaVinci Resolve Studio 21.2)
+```
+
+and Tech notes gets a note of its own: _Upscaled to a higher resolution in
+editing — fine detail is reconstructed, so text, textures and edges may look
+slightly different from the original image._ It isn't in the checklist and
+goes away with the upscale. Only resolutions below the video's are offered;
+lowering the resolution to or below the source ends the upscale. 1080p 60fps
+still has no badge, and the Upscale line stays when the graphics settings are
+hidden. Saved with the channel profile.
 
 With one output language selected, the Output page shows content warnings,
 tech notes and playthrough notes bilingually (English · output language)
@@ -354,13 +373,13 @@ Everything stays on the device: the browser's storage for
 `ytgenerator.stream` on the web, the app's own storage on desktop and
 Android. There is no account and no server-side copy.
 
-| Item                          | What it holds                                                                                                                                                                                                                     | Where                   |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| **Profile** — the channel     | Channel name; contact emails (general, advertising, game keys, copyright); social and donate links; community links; Vietnamese bank / MoMo / ZaloPay details; rig; resolution, FPS and graphics preset; sponsors & partners text | Profiles › Profiles     |
-| **Game preset** — the game    | Game name (+ per-language names); genres; platform; store links and their type (paid / free / demo); publisher / developer; content warnings; language patch; game version; art style; "no graphics settings"; series playlist    | Profiles › Game presets |
-| **Template** — the whole form | Every editor field                                                                                                                                                                                                                | Profiles › Templates    |
-| **History**                   | One entry per video — game, video type, language, genres, title, description, tags. Saving the same video again updates its entry (v1.0.0)                                                                                        | History                 |
-| **Draft**                     | The editor form, saved as you type                                                                                                                                                                                                | —                       |
+| Item                          | What it holds                                                                                                                                                                                                                                                     | Where                   |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| **Profile** — the channel     | Channel name; contact emails (general, advertising, game keys, copyright); social and donate links; community links; Vietnamese bank / MoMo / ZaloPay details; rig; resolution (and what it was upscaled from), FPS and graphics preset; sponsors & partners text | Profiles › Profiles     |
+| **Game preset** — the game    | Game name (+ per-language names); genres; platform; store links and their type (paid / free / demo); publisher / developer; content warnings; language patch; game version; art style; "no graphics settings"; series playlist                                    | Profiles › Game presets |
+| **Template** — the whole form | Every editor field                                                                                                                                                                                                                                                | Profiles › Templates    |
+| **History**                   | One entry per video — game, video type, language, genres, title, description, tags. Saving the same video again updates its entry (v1.0.0)                                                                                                                        | History                 |
+| **Draft**                     | The editor form, saved as you type                                                                                                                                                                                                                                | —                       |
 
 The field lists live in `src/config/library-fields.ts`. Profiles, presets and
 templates export and import as JSON; History exports as **CSV** or JSON.
@@ -402,27 +421,27 @@ In **Settings › Backup & restore**:
 
 ## 🔧 Settings
 
-| Setting                    | Type                            | Default          | Description                                                                        |
-| -------------------------- | ------------------------------- | ---------------- | ---------------------------------------------------------------------------------- |
-| Theme                      | dark / light                    | dark             | App color theme                                                                    |
-| Hide scrollbars            | boolean                         | false            | v1.1.0. No scrollbar anywhere in the app; wheel, touch and keyboard still scroll   |
-| App Language               | SupportedLanguage               | browser-detected | Language of the interface                                                          |
-| Default Output Language    | SupportedLanguage               | browser-detected | Language a new draft starts in (first run, Start over)                             |
-| Show Character Count       | boolean                         | true             | Display char counters on output. **Does not** affect copy blocking                 |
-| Compact Tag Display        | boolean                         | false            | Tags as comma list vs chip display                                                 |
-| Copy All includes the tags | boolean                         | false            | v1.0.0. Copy All copies title, description, then tags                              |
-| **Strict Mode**            | boolean                         | **false**        | v0.35.0. Blocks Generate / Copy / Export while any field has a hard error          |
-| Show quality badge         | boolean                         | true             | `[2K 60FPS]`-style badge in the title when resolution or FPS is above the defaults |
-| Title order                | game first / video first        | game first       | v1.0.0. "Hades — Part 3" or "Part 3 — Hades"                                       |
-| Quality badge position     | prefix / middle / suffix        | middle           | Where the badge sits in the title                                                  |
-| Segment separator          | em dash / hyphen / colon / pipe | em dash          | Characters come from each locale                                                   |
-| Badge case                 | upper / lower                   | upper            | "2K" or "2k"                                                                       |
-| Include Multilingual Tags  | boolean                         | true             | Add tags in the output language                                                    |
-| Include Trending Tags      | boolean                         | true             | Add year-based trending tags                                                       |
-| Hashtag Count              | 1-3                             | 3                | Number of hashtags to generate                                                     |
-| Genre Playlists            | map                             | `{}`             | One playlist URL per genre (42), collapsed by default                              |
-| History Limit              | 10–500                          | 100              | Max history entries to keep                                                        |
-| Log Retention              | 1–90 days                       | 7                | Log files older than this are deleted at boot                                      |
+| Setting                    | Type                            | Default          | Description                                                                                                                        |
+| -------------------------- | ------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Theme                      | dark / light                    | dark             | App color theme                                                                                                                    |
+| Hide scrollbars            | boolean                         | false            | v1.1.0. No scrollbar anywhere in the app; wheel, touch and keyboard still scroll                                                   |
+| App Language               | SupportedLanguage               | browser-detected | Language of the interface                                                                                                          |
+| Default Output Language    | SupportedLanguage               | browser-detected | Language a new draft starts in (first run, Start over)                                                                             |
+| Show Character Count       | boolean                         | true             | Display char counters on output. **Does not** affect copy blocking                                                                 |
+| Compact Tag Display        | boolean                         | false            | Tags as comma list vs chip display                                                                                                 |
+| Copy All includes the tags | boolean                         | false            | v1.0.0. Copy All copies title, description, then tags                                                                              |
+| **Strict Mode**            | boolean                         | **false**        | v0.35.0. Blocks Generate / Copy / Export while any field has a hard error                                                          |
+| Show quality badge         | boolean                         | true             | `[2K 60FPS]`-style badge in the title when resolution or FPS is above the defaults; `[4K Upscaled]` for an upscaled video (v1.5.0) |
+| Title order                | game first / video first        | game first       | v1.0.0. "Hades — Part 3" or "Part 3 — Hades"                                                                                       |
+| Quality badge position     | prefix / middle / suffix        | middle           | Where the badge sits in the title                                                                                                  |
+| Segment separator          | em dash / hyphen / colon / pipe | em dash          | Characters come from each locale                                                                                                   |
+| Badge case                 | upper / lower                   | upper            | "2K" or "2k"                                                                                                                       |
+| Include Multilingual Tags  | boolean                         | true             | Add tags in the output language                                                                                                    |
+| Include Trending Tags      | boolean                         | true             | Add year-based trending tags                                                                                                       |
+| Hashtag Count              | 1-3                             | 3                | Number of hashtags to generate                                                                                                     |
+| Genre Playlists            | map                             | `{}`             | One playlist URL per genre (42), collapsed by default                                                                              |
+| History Limit              | 10–500                          | 100              | Max history entries to keep                                                                                                        |
+| Log Retention              | 1–90 days                       | 7                | Log files older than this are deleted at boot                                                                                      |
 
 "Browser-detected" means the browser's language when it is one of the eight,
 otherwise English. `Default Genre` and `Auto-save Draft` were removed in
