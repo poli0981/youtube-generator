@@ -168,6 +168,9 @@
     "vnZalopay": "ZaloPay",
     "vnZalopayPlaceholder": "Nomor telepon ZaloPay",
     "resolution": "Resolusi",
+    "upscaledFrom": "Di-upscale dari",
+    "upscaledFromNone": "Tanpa upscale",
+    "upscaledFromHelp": "Judul menampilkan “Upscale”; deskripsi menambahkan baris Upscale dan catatan bahwa detail halus bisa berbeda dari gambar asli.",
     "fps": "FPS",
     "graphicsPreset": "Preset Grafis",
     "graphicsPresetOptions": {

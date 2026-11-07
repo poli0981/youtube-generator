@@ -18,6 +18,7 @@ export const PROFILE_FIELDS = [
   "social",
   "rig",
   "resolution",
+  "upscaledFrom",
   "fps",
   "graphicsPreset",
   "graphicsPresetCustom",

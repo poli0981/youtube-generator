@@ -61,6 +61,7 @@ function makeEditorData(overrides: Partial<EditorData> = {}): EditorData {
     anniversaryYear: DEFAULTS.editor.anniversaryYear,
     gachaVersion: DEFAULTS.editor.gachaVersion,
     resolution: DEFAULTS.editor.resolution,
+    upscaledFrom: DEFAULTS.editor.upscaledFrom,
     fps: DEFAULTS.editor.fps,
     graphicsPreset: DEFAULTS.editor.graphicsPreset as GraphicsPreset,
     graphicsPresetCustom: DEFAULTS.editor.graphicsPresetCustom,
@@ -193,6 +194,14 @@ describe("buildGeneratorInputFromEditor — v0.12 fields propagation (regression
     expect(input.signalGroupLink).toBe("https://signal.group/#abc123");
     expect(input.instagramGroupLink).toBe("https://ig.me/j/xyz789");
     expect(input.facebookGroupLink).toBe("https://facebook.com/groups/mygroup");
+  });
+
+  it("passes through the upscale source (v1.5.0)", () => {
+    const input = buildGeneratorInputFromEditor(
+      makeEditorData({ resolution: "4K", upscaledFrom: "1440p" }),
+    );
+    expect(input.resolution).toBe("4K");
+    expect(input.upscaledFrom).toBe("1440p");
   });
 
   it("respects languageOverride for batch / multi-language rendering", () => {

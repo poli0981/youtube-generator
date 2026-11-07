@@ -109,6 +109,9 @@
       "vnZalopay",
       "vnZalopayPlaceholder",
       "resolution",
+      "upscaledFrom",
+      "upscaledFromNone",
+      "upscaledFromHelp",
       "fps",
       "graphicsPreset",
       "graphicsPresetCustom",
@@ -1138,7 +1141,7 @@
     "editor.socialGroups": ["donate", "social"]
   },
   "templates": {
-    "title": ["separator", "suffix"],
+    "title": ["separator", "suffix", "upscaled"],
     "title.separators": ["emDash", "hyphen", "colon", "pipe"],
     "title.videoType": [
       "full",
@@ -1305,6 +1308,7 @@
       "low_graphics_performance",
       "fps_drops_hardware",
       "upscaling_artifacts_possible",
+      "editor_upscaled",
       "bug_from_game",
       "crash_kept_transparency",
       "loading_cut",
@@ -1588,7 +1592,8 @@
       "artStyle",
       "videoLabel",
       "inGameSettingLabel",
-      "versionLabel"
+      "versionLabel",
+      "upscaleLabel"
     ],
     "description.graphics.presetOptions": [
       "low",

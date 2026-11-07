@@ -599,6 +599,74 @@ describe("buildQualityBadge", () => {
   it("falls back to defaults when inputs are undefined", () => {
     expect(buildQualityBadge(undefined, undefined)).toBe("");
   });
+
+  it("puts the upscaled word after the resolution, before the FPS (v1.5.0)", () => {
+    expect(buildQualityBadge("4K", "60", "Upscaled")).toBe("4K Upscaled");
+    expect(buildQualityBadge("1440p", "60", "Upscaled")).toBe("2K Upscaled");
+    expect(buildQualityBadge("4K", "120", "Upscaled")).toBe("4K Upscaled 120FPS");
+  });
+
+  it("never makes a badge from the upscaled word alone", () => {
+    expect(buildQualityBadge("1080p", "60", "Upscaled")).toBe("");
+    expect(buildQualityBadge("1080p", "120", "Upscaled")).toBe("1080p Upscaled 120FPS");
+  });
+});
+
+describe("buildTitle — upscaled video (v1.5.0)", () => {
+  const upscaled = { videoType: "part" as const, partNumber: "3", resolution: "4K" };
+
+  it("marks the badge when the video was upscaled from a lower resolution", () => {
+    const t = createMockT("en");
+    expect(buildTitle(makeInput({ ...upscaled, upscaledFrom: "1440p" }), t)).toBe(
+      "Elden Ring — Part 3 [4K Upscaled] — Gameplay No Commentary",
+    );
+  });
+
+  it("keeps the plain badge when not upscaled or the pair is not an upscale", () => {
+    const t = createMockT("en");
+    const plain = "Elden Ring — Part 3 [4K] — Gameplay No Commentary";
+    expect(buildTitle(makeInput(upscaled), t)).toBe(plain);
+    expect(buildTitle(makeInput({ ...upscaled, upscaledFrom: "" }), t)).toBe(plain);
+    expect(
+      buildTitle(makeInput({ ...upscaled, resolution: "1440p", upscaledFrom: "1440p" }), t),
+    ).toBe("Elden Ring — Part 3 [2K] — Gameplay No Commentary");
+  });
+
+  it("follows the badge position, case and FPS", () => {
+    const t = createMockT("en");
+    const input = makeInput({ ...upscaled, upscaledFrom: "1440p", fps: "120" });
+    expect(buildTitle(input, t, { badgePosition: "prefix" })).toBe(
+      "[4K Upscaled 120FPS] Elden Ring — Part 3 — Gameplay No Commentary",
+    );
+    expect(buildTitle(input, t, { badgePosition: "suffix", badgeCase: "lower" })).toBe(
+      "Elden Ring — Part 3 — [4k upscaled 120fps] Gameplay No Commentary",
+    );
+  });
+
+  it("has no badge when the badge is off, or at 1080p 60fps upscaled from 720p", () => {
+    const t = createMockT("en");
+    expect(buildTitle(makeInput({ ...upscaled, upscaledFrom: "1440p" }), t, false)).toBe(
+      "Elden Ring — Part 3 — Gameplay No Commentary",
+    );
+    expect(
+      buildTitle(makeInput({ ...upscaled, resolution: "1080p", upscaledFrom: "720p" }), t),
+    ).toBe("Elden Ring — Part 3 — Gameplay No Commentary");
+  });
+
+  it("uses the output language's word", () => {
+    expect(
+      buildTitle(
+        makeInput({ ...upscaled, language: "vi", upscaledFrom: "1440p" }),
+        createMockT("vi"),
+      ),
+    ).toContain("[4K Upscale]");
+    expect(
+      buildTitle(
+        makeInput({ ...upscaled, language: "ja", upscaledFrom: "1440p" }),
+        createMockT("ja"),
+      ),
+    ).toContain("[4K アップスケール]");
+  });
 });
 
 describe("checkTitleWarning", () => {

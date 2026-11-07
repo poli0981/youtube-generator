@@ -168,6 +168,9 @@
     "vnZalopay": "ZaloPay",
     "vnZalopayPlaceholder": "ZaloPay phone number",
     "resolution": "해상도",
+    "upscaledFrom": "업스케일 원본",
+    "upscaledFromNone": "업스케일 안 함",
+    "upscaledFromHelp": "제목에 ‘업스케일’이 표시되고, 설명에 업스케일 줄과 세부 묘사가 원본과 다를 수 있다는 안내가 추가됩니다.",
     "fps": "FPS",
     "graphicsPreset": "그래픽 프리셋",
     "graphicsPresetOptions": {

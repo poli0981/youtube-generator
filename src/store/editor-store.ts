@@ -23,6 +23,8 @@ import {
   type FrameGenMultiplier,
   type UpscaleQuality,
   type ArtStyle,
+  type UpscaledFrom,
+  isUpscaledFrom,
 } from "@config/graphics-settings";
 import { isVideoStyleEra, type VideoStyleEra } from "@config/video-styles";
 import { coerceUpscaleQuality, coerceFrameGenMultiplier } from "@engine/graphics-vendor";
@@ -66,6 +68,12 @@ export interface EditorData {
   /** Gacha-quest game version (v0.13) — e.g. "1.2", "2.4". Only used for gacha_quest videoType. */
   gachaVersion: string;
   resolution: string;
+  /**
+   * v1.5.0: the resolution the footage was recorded at when it was upscaled
+   * to {@link resolution} in the video editor (1440p → 4K). `""` = not
+   * upscaled; a value that isn't below `resolution` is ignored by the engine.
+   */
+  upscaledFrom: UpscaledFrom;
   fps: string;
   graphicsPreset: GraphicsPreset;
   graphicsPresetCustom: string;
@@ -238,6 +246,9 @@ export function normalizeEditorPatch(
   // v1.0.0: profiles and templates saved before the GPU catalog rewrite
   // carry `brand|series|model` (or `rig: null` when hand-edited).
   if ("rig" in patch) out.rig = migrateRig((patch as { rig?: unknown }).rig);
+  // v1.5.0: a hand-edited or newer item's unknown upscale source would leave
+  // the editor's Select on a missing option — read it as "not upscaled".
+  if ("upscaledFrom" in patch && !isUpscaledFrom(patch.upscaledFrom)) out.upscaledFrom = "";
   const raw: unknown = (patch as { graphicsPreset?: unknown }).graphicsPreset;
   if (typeof raw === "string" && !(GRAPHICS_PRESETS as readonly string[]).includes(raw)) {
     const { preset, custom } = legacyGraphicsPresetToEnum(raw);
@@ -400,6 +411,7 @@ const initialState: EditorData = {
   anniversaryYear: DEFAULTS.editor.anniversaryYear,
   gachaVersion: DEFAULTS.editor.gachaVersion,
   resolution: DEFAULTS.editor.resolution,
+  upscaledFrom: DEFAULTS.editor.upscaledFrom,
   fps: DEFAULTS.editor.fps,
   graphicsPreset: DEFAULTS.editor.graphicsPreset,
   graphicsPresetCustom: DEFAULTS.editor.graphicsPresetCustom,
@@ -481,7 +493,7 @@ export function editorDataOf(state: EditorData): EditorData {
  * Bump together with a new step in {@link migrateEditorState}; backups
  * record this number so an import can run the steps a draft still needs.
  */
-export const EDITOR_STORE_VERSION = 20;
+export const EDITOR_STORE_VERSION = 21;
 
 export const useEditorStore = create<EditorState>()(
   persist(
@@ -633,6 +645,10 @@ export const useEditorStore = create<EditorState>()(
       //         Saved `adEmail` / `gameKeyEmail` values are left as they
       //         are even when they lack a purpose word — Strict Mode points
       //         at them instead of a migration deleting the user's data.
+      // v20 → v21: v1.5.0. `upscaledFrom` (recorded at a lower resolution,
+      //         upscaled to `resolution` in the video editor) joined the
+      //         schema. Additive: back-fills to "" (not upscaled); a value
+      //         outside UPSCALED_FROM_OPTIONS coerces to "".
       version: EDITOR_STORE_VERSION,
       migrate: (persistedState, version) => migrateEditorState(persistedState, version),
       partialize: (state) => editorDataOf(state),
@@ -907,6 +923,10 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
   if (version < 20) {
     // v1.1.0 copyright email. Additive back-fill + defensive coercion.
     if (typeof state.copyrightEmail !== "string") state.copyrightEmail = "";
+  }
+  if (version < 21) {
+    // v1.5.0 upscaled video. Additive back-fill + defensive coercion.
+    if (!isUpscaledFrom(state.upscaledFrom)) state.upscaledFrom = "";
   }
   return { ...initialState, ...state } as EditorData;
 }

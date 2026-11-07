@@ -15,6 +15,7 @@ import {
 } from "@config/gacha-quest-types";
 import { formatEndingEntry, sliceEndingsForVideo } from "./endings-format";
 import type { EndingEntry } from "./types";
+import { validUpscaleSource } from "./upscale";
 
 /**
  * Compact "[2K 60FPS]" badge appended to the video-type segment when the
@@ -26,10 +27,15 @@ import type { EndingEntry } from "./types";
  * - Non-default FPS → include the resolution alongside (e.g. "1080p 120FPS")
  *   so a lonely FPS number isn't ambiguous.
  *
- * Always returns upper-case. Callers apply `badgeCase: "lower"` downstream
- * — this function is a label producer, not a display formatter.
+ * - v1.5.0: `upscaledWord` (the locale's "Upscaled", passed only when the
+ *   video was upscaled in the editor) follows the resolution — "4K Upscaled",
+ *   "4K Upscaled 120FPS". It never makes a badge on its own: 1080p 60fps
+ *   upscaled from 720p still has none (the description says so instead).
+ *
+ * Callers apply `badgeCase: "lower"` downstream — this function is a label
+ * producer, not a display formatter.
  */
-export function buildQualityBadge(resolution?: string, fps?: string): string {
+export function buildQualityBadge(resolution?: string, fps?: string, upscaledWord = ""): string {
   const res = resolution || "1080p";
   const fpsValue = fps || "60";
   const resDefault = res === "1080p";
@@ -37,7 +43,8 @@ export function buildQualityBadge(resolution?: string, fps?: string): string {
   if (resDefault && fpsDefault) return "";
 
   const resLabel = res === "1440p" ? "2K" : res;
-  return fpsDefault ? resLabel : `${resLabel} ${fpsValue}FPS`;
+  const head = upscaledWord ? `${resLabel} ${upscaledWord}` : resLabel;
+  return fpsDefault ? head : `${head} ${fpsValue}FPS`;
 }
 
 export interface BuildTitleOptions {
@@ -285,7 +292,12 @@ export function buildTitle(
 
   const gameName = input.gameNameLocalized?.[input.language] ?? input.gameName;
 
-  let badge = opts.showQualityBadge ? buildQualityBadge(input.resolution, input.fps) : "";
+  const upscaledWord = validUpscaleSource(input.resolution, input.upscaledFrom)
+    ? t("title.upscaled")
+    : "";
+  let badge = opts.showQualityBadge
+    ? buildQualityBadge(input.resolution, input.fps, upscaledWord)
+    : "";
   if (badge && opts.badgeCase === "lower") badge = badge.toLowerCase();
 
   // Gacha-quest titles compose their own head segment via the

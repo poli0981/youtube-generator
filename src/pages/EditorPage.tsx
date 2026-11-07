@@ -48,6 +48,7 @@ import { PageContainer, PageHeader } from "@components/ui/PageHeader";
 import { StrictModeBanner } from "@components/ui/StrictModeBanner";
 import { FIELD_LIMITS } from "@config/field-limits";
 import { VIDEO_TYPES } from "@config/video-types";
+import { validUpscaleSource } from "@engine/upscale";
 import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { useDocumentTitle } from "@hooks/use-document-title";
@@ -163,13 +164,19 @@ function useSectionSummaries(): Partial<Record<string, string>> {
   const videoType = useEditorStore((s) => s.videoType);
   const language = useEditorStore((s) => s.language);
   const resolution = useEditorStore((s) => s.resolution);
+  const upscaledFrom = useEditorStore((s) => validUpscaleSource(s.resolution, s.upscaledFrom));
   const fps = useEditorStore((s) => s.fps);
   const typeLabelKey = VIDEO_TYPES.find((vt) => vt.id === videoType)?.labelKey;
   return {
     gameInfo: [gameName || null, typeLabelKey ? t(typeLabelKey) : null, language.toUpperCase()]
       .filter(Boolean)
       .join(" · "),
-    videoSettings: [resolution, fps && `${fps} FPS`].filter(Boolean).join(" · "),
+    videoSettings: [
+      upscaledFrom ? `${upscaledFrom} → ${resolution}` : resolution,
+      fps && `${fps} FPS`,
+    ]
+      .filter(Boolean)
+      .join(" · "),
   };
 }
 

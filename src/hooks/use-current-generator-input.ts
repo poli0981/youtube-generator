@@ -44,6 +44,7 @@ export function buildGeneratorInputFromEditor(
     anniversaryYear: state.anniversaryYear,
     gachaVersion: state.gachaVersion,
     resolution: state.resolution,
+    upscaledFrom: state.upscaledFrom,
     fps: state.fps,
     graphicsPreset: state.graphicsPreset,
     graphicsPresetCustom: state.graphicsPresetCustom,

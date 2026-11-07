@@ -168,6 +168,9 @@
     "vnZalopay": "ZaloPay",
     "vnZalopayPlaceholder": "Número de telefone do ZaloPay",
     "resolution": "Resolução",
+    "upscaledFrom": "Upscale a partir de",
+    "upscaledFromNone": "Sem upscale",
+    "upscaledFromHelp": "O título mostra “Upscale”; a descrição ganha uma linha de upscale e um aviso de que detalhes finos podem diferir da imagem original.",
     "fps": "FPS",
     "graphicsPreset": "Preset gráfico",
     "graphicsPresetOptions": {

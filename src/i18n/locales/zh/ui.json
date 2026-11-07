@@ -168,6 +168,9 @@
     "vnZalopay": "ZaloPay",
     "vnZalopayPlaceholder": "ZaloPay phone number",
     "resolution": "分辨率",
+    "upscaledFrom": "超分前分辨率",
+    "upscaledFromNone": "未超分",
+    "upscaledFromHelp": "标题会显示“超分”，简介会加上一行超分信息，并提示细节可能与原画面略有不同。",
     "fps": "帧率",
     "graphicsPreset": "画质预设",
     "graphicsPresetOptions": {

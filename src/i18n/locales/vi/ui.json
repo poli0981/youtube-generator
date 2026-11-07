@@ -168,6 +168,9 @@
     "vnZalopay": "ZaloPay",
     "vnZalopayPlaceholder": "Số điện thoại ZaloPay",
     "resolution": "Độ phân giải",
+    "upscaledFrom": "Upscale từ",
+    "upscaledFromNone": "Không upscale",
+    "upscaledFromHelp": "Tiêu đề ghi “Upscale”; mô tả thêm dòng Upscale và ghi chú rằng chi tiết nhỏ có thể khác hình gốc.",
     "fps": "FPS",
     "graphicsPreset": "Cài đặt đồ họa",
     "graphicsPresetOptions": {

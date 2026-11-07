@@ -1,4 +1,4 @@
-import type { GeneratorInput, TranslationFn, CharLimitWarning } from "./types";
+import type { GeneratorInput, TranslationFn, CharLimitWarning, AutoTechNote } from "./types";
 import { channelOrSlot, withoutEmptyChannel } from "./channel-phrase";
 import { YT_LIMITS } from "./types";
 import { PLATFORMS } from "@config/platforms";
@@ -11,6 +11,7 @@ import { buildRigLines } from "./rig-block";
 import { parseTimeline, renderTimeline } from "./timeline-parser";
 import { formatEndingEntry, sliceEndingsForVideo } from "./endings-format";
 import { sanitizeHashtag } from "@utils/sanitize";
+import { validUpscaleSource } from "./upscale";
 
 const SOCIAL_ICONS: Record<string, string> = {
   kofi: "☕",
@@ -221,6 +222,26 @@ function composeVideoStyleLine(input: GeneratorInput, t: TranslationFn): string 
     return t("description.videoSettings.styleLine", { era: eraLabel, editor });
   }
   return t("description.videoSettings.styleLineNoEditor", { era: eraLabel });
+}
+
+/**
+ * The v1.5.0 "Upscale:" line — `Upscale: 1440p → 4K (DaVinci Resolve Studio
+ * 21.2)`, the editor named by the rig's `video_editor` field (no brackets when
+ * it's empty). Empty string when the video isn't upscaled. Like the style
+ * line, it survives `skipGraphicsSettings`: it describes the video, not the
+ * game's settings, and the title's "Upscaled" badge needs it explained.
+ */
+function composeUpscaleLine(input: GeneratorInput, t: TranslationFn): string {
+  const from = validUpscaleSource(input.resolution, input.upscaledFrom);
+  if (!from) return "";
+  const editor = formatRigValue("video_editor", input.rig?.video_editor ?? "").trim();
+  const tool = editor ? ` (${editor})` : "";
+  return `${t("description.graphics.upscaleLabel")}: ${from} → ${input.resolution}${tool}`;
+}
+
+/** The tech notes the engine adds after the user's own ({@link AUTO_TECH_NOTES}). */
+function autoTechNotes(input: GeneratorInput): AutoTechNote[] {
+  return validUpscaleSource(input.resolution, input.upscaledFrom) ? ["editor_upscaled"] : [];
 }
 
 export interface BuildDescriptionOptions {
@@ -450,6 +471,7 @@ export function buildDescription(
   //    still edit their footage, so the style credit shouldn't disappear
   //    with the graphics block.
   const styleLine = composeVideoStyleLine(input, t);
+  const upscaleLine = composeUpscaleLine(input, t);
 
   if (!input.skipGraphicsSettings) {
     const lines: string[] = [];
@@ -461,6 +483,8 @@ export function buildDescription(
     if (captureParts.length > 0) {
       lines.push(`${t("description.graphics.videoLabel")}: ${captureParts.join(" - ")}`);
     }
+    // v1.5.0: what the video was upscaled from, right under its resolution.
+    if (upscaleLine) lines.push(upscaleLine);
 
     // In-game side: preset + modifiers + RT.
     const gfxPart = composeGraphicsPart(input, t);
@@ -489,11 +513,12 @@ export function buildDescription(
     if (lines.length > 0) {
       sections.push(`${t("description.sections.videoSettings")}\n${lines.join("\n")}`);
     }
-  } else if (styleLine) {
+  } else if (upscaleLine || styleLine) {
     // 2D / pixel-art path: the graphics block is suppressed but the
-    // creator still set a style era, so emit a single-line standalone
-    // section under the same header.
-    sections.push(`${t("description.sections.videoSettings")}\n${styleLine}`);
+    // creator still upscaled the video or set a style era, so emit those
+    // lines as a standalone section under the same header.
+    const lines = [upscaleLine, styleLine].filter(Boolean);
+    sections.push(`${t("description.sections.videoSettings")}\n${lines.join("\n")}`);
   }
 
   // 5.5 Difficulty — moved into the unified Playthrough Notes block
@@ -534,8 +559,10 @@ export function buildDescription(
   // Sits next to Content Warnings because both are transparency blocks;
   // grouping them keeps disclaimers visually together. Same bilingual
   // checklist shape.
+  // v1.5.0: the engine's own notes (the upscaling warning) follow the user's.
+  const techNotes = [...(input.techNotes ?? []), ...autoTechNotes(input)];
   const tnSection = buildBilingualBulletSection(
-    input.techNotes ?? [],
+    techNotes,
     "description.techNotes",
     input.language,
     t,

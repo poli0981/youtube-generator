@@ -7,6 +7,7 @@ import type {
   FrameGenMultiplier,
   UpscaleQuality,
   ArtStyle,
+  UpscaledFrom,
 } from "./graphics-settings";
 import type { VideoStyleEra } from "./video-styles";
 import { DEFAULT_GACHA_QUEST_TYPE, type GachaQuestType } from "./gacha-quest-types";
@@ -56,6 +57,8 @@ export interface EditorDefaults {
   /** Gacha-quest game version label (v0.13) — e.g. "1.2", "2.4". Only used for `gacha_quest` videoType. */
   gachaVersion: string;
   resolution: string;
+  /** v1.5.0: recorded at this resolution, upscaled to `resolution` in the editor. "" = not upscaled. */
+  upscaledFrom: UpscaledFrom;
   fps: string;
   graphicsPreset: GraphicsPreset;
   graphicsPresetCustom: string;
@@ -194,6 +197,7 @@ export const DEFAULTS = {
     anniversaryYear: null,
     gachaVersion: "",
     resolution: "1080p",
+    upscaledFrom: "",
     fps: "60",
     graphicsPreset: "medium",
     graphicsPresetCustom: "",

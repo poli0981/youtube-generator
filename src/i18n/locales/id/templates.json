@@ -8,6 +8,7 @@
       "pipe": " | "
     },
     "suffix": "Gameplay Tanpa Komentar",
+    "upscaled": "Upscale",
     "videoType": {
       "full": "",
       "part": "Part {{partNumber}}",
@@ -209,7 +210,8 @@
         "edited_for_pacing": "Diedit demi tempo — bukan waktu nyata",
         "support_developers": "Musik asli game — dukung para pengembangnya",
         "online_connectivity_issues": "Game online — kemungkinan ada kendala koneksi",
-        "upscaling_artifacts_possible": "Kemungkinan ada artefak upscaling / frame generation (DLSS, FSR, XeSS)"
+        "upscaling_artifacts_possible": "Kemungkinan ada artefak upscaling / frame generation (DLSS, FSR, XeSS)",
+        "editor_upscaled": "Di-upscale ke resolusi lebih tinggi saat editing — detail halus direkonstruksi, jadi teks, tekstur, dan tepi bisa terlihat sedikit berbeda dari gambar asli"
       }
     },
     "contentWarnings": {
@@ -558,7 +560,8 @@
       },
       "videoLabel": "Video",
       "inGameSettingLabel": "Pengaturan dalam game",
-      "versionLabel": "Versi"
+      "versionLabel": "Versi",
+      "upscaleLabel": "Upscale"
     },
     "videoSettings": {
       "styleLine": "Diedit dengan gaya {{era}} memakai {{editor}}",

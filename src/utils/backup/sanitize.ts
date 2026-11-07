@@ -7,6 +7,7 @@ import {
   GRAPHICS_PRESETS,
   RT_MODES,
   UPSCALE_QUALITIES,
+  UPSCALED_FROM_OPTIONS,
 } from "@config/graphics-settings";
 import { VIDEO_STYLE_ERAS } from "@config/video-styles";
 import { GACHA_QUEST_TYPES } from "@config/gacha-quest-types";
@@ -67,6 +68,7 @@ const CHOICES: Partial<Record<keyof EditorData, readonly unknown[]>> = {
   frameGenVendor: FRAMEGEN_VENDORS,
   frameGenMultiplier: FRAMEGEN_MULTIPLIERS,
   upscaleQuality: UPSCALE_QUALITIES,
+  upscaledFrom: UPSCALED_FROM_OPTIONS,
   artStyle: ART_STYLES,
   videoStyleEra: VIDEO_STYLE_ERAS,
   gachaQuestType: GACHA_QUEST_TYPES,
