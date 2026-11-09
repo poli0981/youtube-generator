@@ -4914,7 +4914,7 @@ dependencies = [
 
 [[package]]
 name = "yt-desc-gen"
-version = "1.5.1"
+version = "1.5.2"
 dependencies = [
  "serde",
  "tauri",

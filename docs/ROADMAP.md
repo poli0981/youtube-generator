@@ -2,7 +2,7 @@
 
 ## YTDescGen — Phased Development Plan
 
-> **Status (2026-11-09): v1.5.1 is the current release.** Phases 1–4 are the original
+> **Status (2026-11-10): v1.5.2 is the current release.** Phases 1–4 are the original
 > plan, kept as a record; notes added beside or under an item say what has
 > changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
 > What's next: Phase 5 and the backlog at the end of this page.
@@ -366,6 +366,13 @@ name read out after a navigation, a switch for the single-key `?` shortcut,
 and zoom hotkeys in the desktop app —
 [CHANGELOG.md](../CHANGELOG.md#v151--2026-11-09).
 
+## v1.5.2 — Maintenance ✅ SHIPPED 2026-11-10
+
+Tauri 2.12.5 with the fixes its window, webview and single-instance layers
+collected, and this week's dependency updates; i18next stays on 26.6 to keep
+the initial load inside its budget —
+[CHANGELOG.md](../CHANGELOG.md#v152--2026-11-10).
+
 ---
 
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
@@ -443,4 +450,4 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 | Phase 5 | Extensions         | Ongoing | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
-**v1.0.0 shipped on 2026-09-30; the current release is v1.5.1 (2026-11-09).**
+**v1.0.0 shipped on 2026-09-30; the current release is v1.5.2 (2026-11-10).**

@@ -2,7 +2,7 @@
 
 ## YTDescGen — Implementation Details
 
-Reflects **v1.5.1**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
+Reflects **v1.5.2**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -13,7 +13,7 @@ Reflects **v1.5.1**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
 ```json
 {
   "name": "yt-desc-gen",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -57,47 +57,47 @@ Reflects **v1.5.1**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
     "@tauri-apps/plugin-opener": "^2.7.2",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "i18next": "^26.4.5",
-    "i18next-resources-to-backend": "^1.2.3",
-    "lucide-react": "^1.57.0",
+    "i18next": "~26.6.0",
+    "i18next-resources-to-backend": "^1.2.4",
+    "lucide-react": "^1.66.0",
     "motion": "^13.5.1",
     "radix-ui": "^1.8.1",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "react-i18next": "^17.0.16",
-    "react-router-dom": "^7.18.4",
-    "simple-icons": "^16.33.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-i18next": "^17.1.11",
+    "react-router-dom": "^7.18.5",
+    "simple-icons": "^16.36.0",
     "sonner": "^2.0.8",
-    "zustand": "^5.0.15"
+    "zustand": "^5.0.16"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@resvg/resvg-js": "2.6.2",
-    "@tailwindcss/postcss": "^4.3.3",
-    "@tauri-apps/cli": "2.12.3",
+    "@tailwindcss/postcss": "^4.3.4",
+    "@tauri-apps/cli": "2.12.4",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@typescript/native": "npm:typescript@^7.0.2",
-    "@vitejs/plugin-react": "^6.1.2",
+    "@vitejs/plugin-react": "^6.2.1",
     "@vitest/coverage-v8": "^4.1.12",
-    "autoprefixer": "^10.6.1",
-    "eslint": "^10.12.0",
+    "autoprefixer": "^10.6.2",
+    "eslint": "^10.14.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "knip": "^6.41.0",
-    "marked": "18.1.1",
-    "postcss": "^8.5.30",
+    "knip": "^6.44.1",
+    "marked": "18.1.3",
+    "postcss": "^8.5.32",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "typescript-eslint": "^8.71.2",
-    "vite": "^8.3.4",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5",
     "vitest": "^4.1.12",
-    "wrangler": "4.149.0"
+    "wrangler": "4.156.2"
   }
 }
 ```
@@ -107,6 +107,7 @@ Notes:
 - **UI stack**: React 19, React Router 7, Zustand 5, i18next 26 / react-i18next 17, Radix primitives through the single `radix-ui` package (Dialog, AlertDialog, Popover, Tooltip, Tabs, Switch, Checkbox, ToggleGroup, Slot), Motion (loaded through `LazyMotion`), cmdk for the command palette, sonner for toasts (react-hot-toast is gone), lucide-react 1.x for UI icons and simple-icons (CC0-1.0) for the brand marks lucide 1.x dropped.
 - **Tauri on the JavaScript side** is only `@tauri-apps/api` (for `invoke`) and `@tauri-apps/plugin-opener`. There are no dialog, fs or shell plugin packages: file access goes through the app's own Rust commands (see [PACKAGING.md](PACKAGING.md)). `@tauri-apps/cli` is pinned exactly, and `npm run check:tauri` keeps the npm packages on the same major.minor as the crates.
 - **Build-time only**: `marked` renders the legal documents and `@resvg/resvg-js` rasterises the brand assets; neither ships in the app. `wrangler` is pinned exactly for `cf:dev` / `cf:check`.
+- **i18next stays on 26.6.x** (`~26.6.0`, and a Dependabot ignore for 26.7.x): 26.7 adds the debug-mode warnings for the move to v27 — about 1.9 KB gzip that would take the initial load over its 280 KB budget. The tilde and the ignore go with the i18next 27 migration (`.github/dependabot.yml` has the note).
 - **Fonts** are self-hosted: `@fontsource-variable/inter` and `@fontsource-variable/jetbrains-mono` are imported in `src/main.tsx`, and each subset (latin, latin-ext, vietnamese, …) is fetched only when a page uses it.
 - **TypeScript 7** checks types: `@typescript/native` is an npm alias for `typescript@7`, the native compiler, and supplies `tsc`. TypeScript 7.0 ships no JavaScript API, so `typescript` is an alias for `@typescript/typescript6` — the TypeScript 6.0 API that typescript-eslint loads (its peer range stops below 6.1), plus `tsc6`. Both are Microsoft's documented side-by-side setup. `@typescript/typescript6` pulls TypeScript 6 in as `@typescript/old`, which ships a `tsc` too; CI fails if the `tsc` on `PATH` is not 7.x. Dependabot may not follow `npm:` aliases, so TypeScript bumps can be manual.
 - **Node 26** comes from `.node-version`, which CI, the release workflows and Cloudflare Workers Builds all read; `engines.node` says `>=26`. Vitest runs its workers with `--no-experimental-webstorage`: Node 25+ defines a `localStorage` global that is `undefined` without `--localstorage-file`, and zustand's `persist` crashes on it instead of falling back to memory.
@@ -649,7 +650,7 @@ Then `sonarcloud` (after `check` succeeds):
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1131 tests in 54 files at v1.5.1. Directories: `tests/engine`, `store`, `styles` (WCAG AA contrast of the colour tokens), `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1131 tests in 54 files at v1.5.2. Directories: `tests/engine`, `store`, `styles` (WCAG AA contrast of the colour tokens), `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 
