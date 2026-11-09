@@ -98,7 +98,7 @@ export function OutputExtras() {
           icon={MessageSquareText}
           actions={<CopyButton text={templateText} label={t("output.copyPinnedCommentTemplate")} />}
         >
-          <OutputText>{templateText}</OutputText>
+          <OutputText lang={input.language}>{templateText}</OutputText>
         </OutputField>
       )}
     </div>

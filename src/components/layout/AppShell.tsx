@@ -5,6 +5,7 @@ import { Header } from "./Header";
 import { Sidebar, NavList, NavFooterLinks } from "./Sidebar";
 import { MobileNav } from "./MobileNav";
 import { ScrollToTopButton } from "./ScrollToTopButton";
+import { RouteAnnouncer } from "./RouteAnnouncer";
 import { Drawer } from "@components/ui/Drawer";
 import { useKeyboardShortcuts, type ShortcutHandlers } from "@hooks/use-keyboard-shortcuts";
 import { useGlobalErrorHandler } from "@hooks/use-global-error-handler";
@@ -77,7 +78,7 @@ export function AppShell() {
           e.preventDefault();
           mainRef.current?.focus();
         }}
-        className="bg-accent text-accent-fg rounded-control sr-only z-[60] px-3 py-2 text-sm font-medium focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+        className="bg-accent-solid text-accent-fg rounded-control sr-only z-[60] px-3 py-2 text-sm font-medium focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
       >
         {t("nav.skipToContent")}
       </a>
@@ -96,6 +97,7 @@ export function AppShell() {
             <Outlet />
           </main>
           <ScrollToTopButton scrollRef={mainRef} />
+          <RouteAnnouncer />
         </div>
         <MobileNav onOpenMore={() => setMoreOpen(true)} moreActive={moreOpen} />
       </div>

@@ -184,6 +184,12 @@ export function SettingsPage() {
             checked={settings.copyAllIncludesTags}
             onChange={(v) => settings.setSetting("copyAllIncludesTags", v)}
           />
+          <Toggle
+            label={t("settings.singleKeyShortcuts")}
+            description={t("settings.singleKeyShortcutsHint")}
+            checked={settings.singleKeyShortcuts}
+            onChange={(v) => settings.setSetting("singleKeyShortcuts", v)}
+          />
         </Accordion>
 
         {/* Strict Mode is off by default: the app's whole premise is getting a

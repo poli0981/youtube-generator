@@ -33,6 +33,7 @@ export function LivePreview({
   // Without a game name the engine still renders "— Gameplay No Commentary";
   // show the prompt instead so nothing half-built can be copied.
   const hasGame = useEditorStore((s) => s.gameName.trim() !== "");
+  const lang = useEditorStore((s) => s.language);
   const output = hasGame ? generated : EMPTY_GENERATOR_OUTPUT;
   const [tab, setTab] = useState<PreviewTab>("title");
 
@@ -73,7 +74,7 @@ export function LivePreview({
       >
         <TabPanel value="title" className="p-4">
           {output.title ? (
-            <p className="text-text-primary text-[0.9375rem] leading-snug font-medium">
+            <p lang={lang} className="text-text-primary text-[0.9375rem] leading-snug font-medium">
               {output.title}
             </p>
           ) : (
@@ -82,7 +83,10 @@ export function LivePreview({
         </TabPanel>
         <TabPanel value="description" className="p-4">
           {output.description ? (
-            <pre className="text-text-secondary max-h-[min(52dvh,32rem)] scrollbar-thin overflow-y-auto font-sans text-xs leading-relaxed whitespace-pre-wrap">
+            <pre
+              lang={lang}
+              className="text-text-secondary max-h-[min(52dvh,32rem)] scrollbar-thin overflow-y-auto font-sans text-xs leading-relaxed whitespace-pre-wrap"
+            >
               {output.description}
             </pre>
           ) : (
@@ -91,7 +95,7 @@ export function LivePreview({
         </TabPanel>
         <TabPanel value="tags" className="p-4">
           {output.tags.length > 0 ? (
-            <div className="flex flex-wrap gap-1">
+            <div lang={lang} className="flex flex-wrap gap-1">
               {output.tags.map((tag, i) => (
                 <span
                   key={i}

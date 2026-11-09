@@ -279,10 +279,16 @@ export function BatchPage() {
                           />
                         </div>
                       </div>
-                      <p className="text-text-primary mb-2 text-sm font-medium">
+                      <p
+                        lang={lang.language}
+                        className="text-text-primary mb-2 text-sm font-medium"
+                      >
                         {lang.output.title}
                       </p>
-                      <pre className="text-text-secondary mb-2 line-clamp-3 font-sans text-xs whitespace-pre-wrap">
+                      <pre
+                        lang={lang.language}
+                        className="text-text-secondary mb-2 line-clamp-3 font-sans text-xs whitespace-pre-wrap"
+                      >
                         {lang.output.description}
                       </pre>
                       {/* Batch showed a counter for the title only, so a row

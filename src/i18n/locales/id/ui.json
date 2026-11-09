@@ -670,6 +670,12 @@
       "countLabel": "Jumlah ending",
       "videoCountLabel": "Jumlah video",
       "videoLabel": "Video",
+      "fromLabel": "Dari",
+      "toLabel": "Sampai",
+      "rowNumberAria": "Ending {{row}}: nomor",
+      "rowNameAria": "Ending {{row}}: nama",
+      "rangeFromAria": "Video {{video}}: dari ending",
+      "rangeToAria": "Video {{video}}: sampai ending",
       "numberLabel": "Nomor",
       "nameLabel": "Nama",
       "namePlaceholder": "mis. Ending Terbaik",
@@ -880,6 +886,8 @@
     "exported": "Diekspor",
     "exportFailed": "Ekspor gagal",
     "close": "Tutup",
+    "notificationsRegion": "Notifikasi (Alt+T)",
+    "closeNotification": "Tutup notifikasi",
     "edit": "Edit",
     "loading": "Memuat…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "Salin semua termasuk tag",
     "copyAllIncludesTagsHint": "Judul, deskripsi, lalu tag — untuk menempel semuanya sekaligus ke aplikasi catatan.",
     "hideScrollbars": "Sembunyikan scrollbar",
-    "hideScrollbarsHint": "Menyembunyikan semua scrollbar di aplikasi — roda mouse, touchpad, sentuhan, dan keyboard tetap bisa menggulir."
+    "hideScrollbarsHint": "Menyembunyikan semua scrollbar di aplikasi — roda mouse, touchpad, sentuhan, dan keyboard tetap bisa menggulir.",
+    "singleKeyShortcuts": "Pintasan satu tombol",
+    "singleKeyShortcutsHint": "? membuka daftar pintasan saat Anda tidak sedang mengetik di kolom. Matikan jika Anda memakai input suara atau sering salah tekan — Ctrl/⌘ + / tetap berfungsi."
   },
   "socialPost": {
     "title": "Caption Lintas Platform",
@@ -1226,7 +1236,8 @@
     "close": "Tutup Modal",
     "searchPlaceholder": "Cari pintasan",
     "noResults": "Tidak ada pintasan yang cocok",
-    "saveToHistory": "Simpan ke Riwayat"
+    "saveToHistory": "Simpan ke Riwayat",
+    "notifications": "Ke notifikasi"
   },
   "validation": {
     "numberRequired": "Masukkan angka.",

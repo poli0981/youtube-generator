@@ -670,6 +670,12 @@
       "countLabel": "结局数量",
       "videoCountLabel": "视频数量",
       "videoLabel": "视频",
+      "fromLabel": "从",
+      "toLabel": "到",
+      "rowNumberAria": "结局 {{row}}：编号",
+      "rowNameAria": "结局 {{row}}：名称",
+      "rangeFromAria": "视频 {{video}}：起始结局",
+      "rangeToAria": "视频 {{video}}：结束结局",
       "numberLabel": "编号",
       "nameLabel": "名称",
       "namePlaceholder": "如：最佳结局",
@@ -880,6 +886,8 @@
     "exported": "已导出",
     "exportFailed": "导出失败",
     "close": "关闭",
+    "notificationsRegion": "通知 (Alt+T)",
+    "closeNotification": "关闭通知",
     "edit": "编辑",
     "loading": "加载中…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "“全部复制”包含标签",
     "copyAllIncludesTagsHint": "依次为标题、描述、标签 —— 方便一次性粘贴到笔记应用。",
     "hideScrollbars": "隐藏滚动条",
-    "hideScrollbarsHint": "隐藏应用中的所有滚动条 —— 鼠标滚轮、触控板、触摸和键盘仍可滚动。"
+    "hideScrollbarsHint": "隐藏应用中的所有滚动条 —— 鼠标滚轮、触控板、触摸和键盘仍可滚动。",
+    "singleKeyShortcuts": "单键快捷键",
+    "singleKeyShortcutsHint": "不在输入框中输入时，按 ? 打开快捷键列表。如果使用语音输入或容易误触按键，请关闭此项；Ctrl/⌘ + / 仍然可用。"
   },
   "socialPost": {
     "title": "跨平台文案",
@@ -1226,7 +1236,8 @@
     "close": "关闭",
     "searchPlaceholder": "搜索快捷键",
     "noResults": "未找到快捷键",
-    "saveToHistory": "保存到历史"
+    "saveToHistory": "保存到历史",
+    "notifications": "跳转到通知"
   },
   "validation": {
     "numberRequired": "请输入一个数字。",

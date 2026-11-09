@@ -1,11 +1,12 @@
 {
   "identifier": "default",
-  "description": "Default capabilities for YTDescGen. File access goes through the app's own name-only commands and native dialogs run from Rust, so the webview gets no dialog, fs or shell permissions.",
+  "description": "Default capabilities for YTDescGen. File access goes through the app's own name-only commands and native dialogs run from Rust, so the webview gets no dialog, fs or shell permissions. set-webview-zoom backs the Ctrl/Cmd +/- zoom polyfill Tauri injects on macOS and Linux (zoomHotkeysEnabled).",
   "windows": [
     "main"
   ],
   "permissions": [
     "core:default",
+    "core:webview:allow-set-webview-zoom",
     "opener:default"
   ]
 }

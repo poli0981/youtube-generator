@@ -318,7 +318,7 @@
     "editor.endings": [
       "countLabel",
       "videoCountLabel",
-      "videoLabel",
+      "videoLabel", "fromLabel", "toLabel", "rowNumberAria", "rowNameAria", "rangeFromAria", "rangeToAria",
       "numberLabel",
       "nameLabel",
       "namePlaceholder",
@@ -740,7 +740,7 @@
       "scrollToTop",
       "exported",
       "exportFailed",
-      "close",
+      "close", "notificationsRegion", "closeNotification",
       "edit",
       "loading"
     ],
@@ -967,7 +967,7 @@
       "genrePlaylistsBadge",
       "numberRange",
       "themeDark",
-      "themeLight", "titleOrder", "titleOrderGameFirst", "titleOrderTypeFirst", "copyAllIncludesTags", "copyAllIncludesTagsHint", "hideScrollbars", "hideScrollbarsHint"
+      "themeLight", "titleOrder", "titleOrderGameFirst", "titleOrderTypeFirst", "copyAllIncludesTags", "copyAllIncludesTagsHint", "hideScrollbars", "hideScrollbarsHint", "singleKeyShortcuts", "singleKeyShortcutsHint"
     ],
     "batch": [
       "title",
@@ -1005,7 +1005,7 @@
       "help",
       "close",
       "searchPlaceholder",
-      "noResults", "saveToHistory"
+      "noResults", "saveToHistory", "notifications"
     ],
     "validation": [
       "emailInvalid",

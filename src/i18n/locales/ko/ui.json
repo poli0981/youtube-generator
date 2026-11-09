@@ -670,6 +670,12 @@
       "countLabel": "엔딩 개수",
       "videoCountLabel": "영상 개수",
       "videoLabel": "영상",
+      "fromLabel": "시작",
+      "toLabel": "끝",
+      "rowNumberAria": "엔딩 {{row}}: 번호",
+      "rowNameAria": "엔딩 {{row}}: 이름",
+      "rangeFromAria": "영상 {{video}}: 시작 엔딩",
+      "rangeToAria": "영상 {{video}}: 끝 엔딩",
       "numberLabel": "번호",
       "nameLabel": "이름",
       "namePlaceholder": "예: 베스트 엔딩",
@@ -880,6 +886,8 @@
     "exported": "내보냈습니다",
     "exportFailed": "내보내기 실패",
     "close": "닫기",
+    "notificationsRegion": "알림 (Alt+T)",
+    "closeNotification": "알림 닫기",
     "edit": "편집",
     "loading": "불러오는 중…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "모두 복사에 태그 포함",
     "copyAllIncludesTagsHint": "제목, 설명, 태그 순서로 — 메모 앱에 한 번에 붙여넣을 때 좋습니다.",
     "hideScrollbars": "스크롤바 숨기기",
-    "hideScrollbarsHint": "앱의 모든 스크롤바를 숨깁니다. 마우스 휠, 터치패드, 터치, 키보드로는 계속 스크롤할 수 있습니다."
+    "hideScrollbarsHint": "앱의 모든 스크롤바를 숨깁니다. 마우스 휠, 터치패드, 터치, 키보드로는 계속 스크롤할 수 있습니다.",
+    "singleKeyShortcuts": "단일 키 단축키",
+    "singleKeyShortcutsHint": "입력란 밖에서 ?를 누르면 단축키 목록이 열립니다. 음성 입력을 사용하거나 실수로 키를 누르는 경우 끄세요. Ctrl/⌘ + /는 계속 작동합니다."
   },
   "socialPost": {
     "title": "크로스포스트 캡션",
@@ -1226,7 +1236,8 @@
     "close": "닫기",
     "searchPlaceholder": "단축키 검색",
     "noResults": "일치하는 단축키 없음",
-    "saveToHistory": "기록에 저장"
+    "saveToHistory": "기록에 저장",
+    "notifications": "알림으로 이동"
   },
   "validation": {
     "numberRequired": "숫자를 입력하세요.",

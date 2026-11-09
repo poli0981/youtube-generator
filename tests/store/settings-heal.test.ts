@@ -67,6 +67,7 @@ describe("healSettings", () => {
       defaultOutputLanguage: "en" as const,
       theme: "light" as const,
       hideScrollbars: true,
+      singleKeyShortcuts: false,
       showCharCount: false,
       compactTagDisplay: true,
       historyLimit: 50,
@@ -338,5 +339,23 @@ describe("healSettings — v1.1.0 hideScrollbars", () => {
   it("does not let a truthy non-boolean hide every scrollbar", () => {
     expect(healSettings({ hideScrollbars: "yes" }).hideScrollbars).toBe(false);
     expect(healSettings({ hideScrollbars: 1 }).hideScrollbars).toBe(false);
+  });
+});
+
+describe("healSettings — v1.5.1 singleKeyShortcuts", () => {
+  it("keeps the bare ? shortcut on when absent (older settings and backups)", () => {
+    expect(healSettings({ theme: "dark" }).singleKeyShortcuts).toBe(true);
+    expect(healSettings(null).singleKeyShortcuts).toBe(true);
+  });
+
+  it("keeps a real boolean", () => {
+    expect(healSettings({ singleKeyShortcuts: false }).singleKeyShortcuts).toBe(false);
+    expect(healSettings({ singleKeyShortcuts: true }).singleKeyShortcuts).toBe(true);
+  });
+
+  it("falls back to on for anything that is not a boolean", () => {
+    expect(healSettings({ singleKeyShortcuts: "no" }).singleKeyShortcuts).toBe(true);
+    expect(healSettings({ singleKeyShortcuts: 0 }).singleKeyShortcuts).toBe(true);
+    expect(healSettings({ singleKeyShortcuts: null }).singleKeyShortcuts).toBe(true);
   });
 });

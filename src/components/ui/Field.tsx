@@ -68,7 +68,9 @@ export const controlClasses = (invalid: boolean) =>
   clsx(
     "w-full min-w-0 rounded-control border bg-surface-1 px-3 text-text-primary",
     "placeholder:text-text-muted transition-[border-color,box-shadow] duration-150",
-    "focus:outline-none focus-visible:outline-none focus:ring-3 focus:ring-accent/25",
+    // `outline-hidden`, not `outline-none`: Windows High Contrast drops the
+    // ring, and this keeps a transparent outline there that it paints instead.
+    "focus:outline-hidden focus-visible:outline-hidden focus:ring-3 focus:ring-accent/25",
     "disabled:cursor-not-allowed disabled:opacity-55",
     invalid
       ? "border-danger focus:border-danger"

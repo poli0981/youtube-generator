@@ -22,6 +22,12 @@ export interface SettingsData {
    * App's store subscription afterwards. Travels with backups, like `theme`.
    */
   hideScrollbars: boolean;
+  /**
+   * v1.5.1: the bare `?` shortcut (the shortcut list). On by default; off
+   * leaves only Ctrl/⌘ + /, for speech input and stray key presses
+   * (WCAG 2.1.4). Travels with backups.
+   */
+  singleKeyShortcuts: boolean;
   showCharCount: boolean;
   compactTagDisplay: boolean;
   historyLimit: number;
@@ -185,6 +191,7 @@ export const initialSettings: SettingsData = {
   defaultOutputLanguage: detectBrowserLanguage(),
   theme: "dark",
   hideScrollbars: false,
+  singleKeyShortcuts: true,
   showCharCount: true,
   compactTagDisplay: false,
   historyLimit: 100,
@@ -350,6 +357,10 @@ export function healSettings(raw: unknown): SettingsData {
   // scrollbar in the app.
   if (typeof incoming.hideScrollbars !== "boolean") {
     incoming.hideScrollbars = initialSettings.hideScrollbars;
+  }
+  // v1.5.1: anything but a boolean keeps the shortcut on (the default).
+  if (typeof incoming.singleKeyShortcuts !== "boolean") {
+    incoming.singleKeyShortcuts = initialSettings.singleKeyShortcuts;
   }
 
   return { ...initialSettings, ...incoming } as SettingsData;

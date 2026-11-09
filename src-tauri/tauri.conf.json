@@ -20,7 +20,8 @@
         "resizable": true,
         "maximizable": true,
         "fullscreen": false,
-        "center": true
+        "center": true,
+        "zoomHotkeysEnabled": true
       }
     ],
     "security": {

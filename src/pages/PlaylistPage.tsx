@@ -80,11 +80,14 @@ function OutputBlock({
   text,
   copyLabel,
   multiline,
+  lang,
 }: {
   label: string;
   text: string;
   copyLabel: string;
   multiline?: boolean;
+  /** Language the text was generated in. */
+  lang: string;
 }) {
   return (
     <section className="flex flex-col gap-1.5">
@@ -93,11 +96,16 @@ function OutputBlock({
         <CopyButton text={text} label={copyLabel} />
       </div>
       {multiline ? (
-        <pre className="bg-surface-0 border-border text-text-secondary max-h-64 scrollbar-thin overflow-y-auto rounded-lg border p-2.5 font-sans text-xs leading-relaxed whitespace-pre-wrap">
+        <pre
+          lang={lang}
+          className="bg-surface-0 border-border text-text-secondary max-h-64 scrollbar-thin overflow-y-auto rounded-lg border p-2.5 font-sans text-xs leading-relaxed whitespace-pre-wrap"
+        >
           {text || "…"}
         </pre>
       ) : (
-        <p className="text-text-primary text-sm font-medium">{text || "…"}</p>
+        <p lang={lang} className="text-text-primary text-sm font-medium">
+          {text || "…"}
+        </p>
       )}
     </section>
   );
@@ -270,18 +278,21 @@ export function PlaylistPage() {
             label={t("output.title")}
             text={output.title}
             copyLabel={t("output.copyTitle")}
+            lang={language}
           />
           <OutputBlock
             label={t("output.description")}
             text={output.description}
             copyLabel={t("output.copyDescription")}
             multiline
+            lang={language}
           />
           <OutputBlock
             label={t("playlist.pinnedComment")}
             text={output.comment}
             copyLabel={t("output.copyComment")}
             multiline
+            lang={language}
           />
           <Button
             disabled={!output.title}

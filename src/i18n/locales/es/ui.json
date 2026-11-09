@@ -670,6 +670,12 @@
       "countLabel": "Número de finales",
       "videoCountLabel": "Número de videos",
       "videoLabel": "Video",
+      "fromLabel": "Desde",
+      "toLabel": "Hasta",
+      "rowNumberAria": "Final {{row}}: número",
+      "rowNameAria": "Final {{row}}: nombre",
+      "rangeFromAria": "Video {{video}}: desde el final",
+      "rangeToAria": "Video {{video}}: hasta el final",
       "numberLabel": "Número",
       "nameLabel": "Nombre",
       "namePlaceholder": "ej. Mejor Final",
@@ -880,6 +886,8 @@
     "exported": "Exportado",
     "exportFailed": "Error al exportar",
     "close": "Cerrar",
+    "notificationsRegion": "Notificaciones (Alt+T)",
+    "closeNotification": "Cerrar notificación",
     "edit": "Editar",
     "loading": "Cargando…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "Copiar todo incluye las etiquetas",
     "copyAllIncludesTagsHint": "Título, descripción y luego las etiquetas, para pegarlo todo de una vez en una app de notas.",
     "hideScrollbars": "Ocultar barras de desplazamiento",
-    "hideScrollbarsHint": "Quita todas las barras de desplazamiento de la app; la rueda del ratón, el touchpad, la pantalla táctil y el teclado siguen desplazando."
+    "hideScrollbarsHint": "Quita todas las barras de desplazamiento de la app; la rueda del ratón, el touchpad, la pantalla táctil y el teclado siguen desplazando.",
+    "singleKeyShortcuts": "Atajos de una tecla",
+    "singleKeyShortcutsHint": "? abre la lista de atajos cuando no estás escribiendo en un campo. Desactívalo si usas entrada por voz o pulsas teclas sin querer; Ctrl/⌘ + / sigue funcionando."
   },
   "socialPost": {
     "title": "Publicaciones multiplataforma",
@@ -1226,7 +1236,8 @@
     "close": "Cerrar",
     "searchPlaceholder": "Buscar atajos",
     "noResults": "No se encontraron atajos",
-    "saveToHistory": "Guardar en el historial"
+    "saveToHistory": "Guardar en el historial",
+    "notifications": "Ir a las notificaciones"
   },
   "validation": {
     "numberRequired": "Introduce un número.",

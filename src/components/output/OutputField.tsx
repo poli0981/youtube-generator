@@ -24,10 +24,22 @@ export function OutputField({ title, icon: Icon, actions, children }: OutputFiel
   );
 }
 
-/** Pre-formatted generated text, scrollable when long. */
-export function OutputText({ children, tall }: { children: ReactNode; tall?: boolean }) {
+/**
+ * Pre-formatted generated text, scrollable when long. `lang` is the language
+ * the text was generated in, so a screen reader reads it with that voice.
+ */
+export function OutputText({
+  children,
+  tall,
+  lang,
+}: {
+  children: ReactNode;
+  tall?: boolean;
+  lang?: string;
+}) {
   return (
     <pre
+      lang={lang}
       className={
         tall
           ? "bg-surface-0 border-border text-text-secondary max-h-[60dvh] scrollbar-thin overflow-y-auto rounded-lg border p-3 font-sans text-sm leading-relaxed whitespace-pre-wrap sm:max-h-[28rem]"
