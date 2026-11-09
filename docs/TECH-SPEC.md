@@ -2,7 +2,7 @@
 
 ## YTDescGen — Implementation Details
 
-Reflects **v1.5.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
+Reflects **v1.5.1**. The module map and data flow are in [ARCHITECTURE.md](ARCHITECTURE.md), the desktop and Android builds in [PACKAGING.md](PACKAGING.md), and running the web deployment (Cloudflare Worker, Turnstile, secrets, rollback) in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -13,7 +13,7 @@ Reflects **v1.5.0**. The module map and data flow are in [ARCHITECTURE.md](ARCHI
 ```json
 {
   "name": "yt-desc-gen",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
@@ -522,6 +522,8 @@ v1.2.0: nine content-warning ids and one tech note, and no version bump anywhere
 
 v1.5.0: editor v21 back-fills `upscaledFrom` (recorded at a lower resolution, upscaled to `resolution` in the video editor) with `""` and turns an unknown value into `""`; `normalizeEditorPatch` does the same for an applied profile or template, and the backup whitelist checks it against `UPSCALED_FROM_OPTIONS`. `Profile.upscaledFrom` is optional, so the profile store stays at v3. The engine's own tech note (`AUTO_TECH_NOTES`, `editor_upscaled`) is never stored, so `techNotes` and its whitelist don't change.
 
+v1.5.1: the settings gain `singleKeyShortcuts` (default `true`: the bare `?` opens the shortcut list) without a version bump, like `hideScrollbars` — `healSettings` back-fills it and turns anything but a boolean into `true`.
+
 Rules:
 
 - **localStorage is the only store**, on the web, desktop and Android. The desktop "mirror" file of earlier versions (`storage-adapter.ts`, `saveSettings`, `checkDataFileHealth`) was removed in v1.0.0; it was written next to the data folder and never read back. [PACKAGING.md](PACKAGING.md) covers how the leftover file is recovered.
@@ -647,7 +649,7 @@ Then `sonarcloud` (after `check` succeeds):
 
 ## 6. Testing Strategy
 
-Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1093 tests in 53 files at v1.5.0. Directories: `tests/engine`, `store`, `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
+Vitest runs `tests/**/*.test.{ts,tsx}` and `src/**/*.test.{ts,tsx}` in the **node** environment, with `globals: true`: 1131 tests in 54 files at v1.5.1. Directories: `tests/engine`, `store`, `styles` (WCAG AA contrast of the colour tokens), `utils` (backup detect / sanitize / restore, quick entry, validation, the migration page), `worker` (router, rate limits, cookie, Turnstile verdicts, headers, gate language), `build` (legal pages, web-only plugins), `config`, `hooks`, `i18n`, `scripts`. No test renders components: React Testing Library is installed but jsdom is not, so a rendering test would need both jsdom and a `// @vitest-environment jsdom` docblock.
 
 Engine tests build a full `GeneratorInput` and pass a mock translator (`tests/helpers/mock-t.ts`) that reads the real `templates.json` files (en, vi, ja):
 
@@ -696,7 +698,7 @@ describe("buildTitle", () => {
 | `src/engine/**`                           | 88 %       | 85 %     | 60 %      | 88 %  |
 | `worker/**` (excluding `worker/index.ts`) | 95 %       | 85 %     | 95 %      | 95 %  |
 
-Guard tests worth knowing: `tests/hooks/render-options-parity.test.ts` (settings → engine options), `tests/hooks/generator-input-mapping.test.ts` (editor → engine input), `tests/i18n/locale-registration.test.ts` (language registration in both directions), `tests/config/content-warning-groups.test.ts` and `tech-note-groups.test.ts` (every id in exactly one group, with an editor label and a description line in `_schema.json` — v1.2.0), the genre/tag-pool sync in `tests/engine/tag-generator.test.ts`, and `tests/worker/headers.test.ts` (keeps the Worker's baseline headers in step with `public/_headers`). The Rust side has its own `cargo test` suite (name validation, path rejection, pruning, legacy recovery, dialog filters).
+Guard tests worth knowing: `tests/hooks/render-options-parity.test.ts` (settings → engine options), `tests/hooks/generator-input-mapping.test.ts` (editor → engine input), `tests/i18n/locale-registration.test.ts` (language registration in both directions), `tests/config/content-warning-groups.test.ts` and `tech-note-groups.test.ts` (every id in exactly one group, with an editor label and a description line in `_schema.json` — v1.2.0), the genre/tag-pool sync in `tests/engine/tag-generator.test.ts`, `tests/worker/headers.test.ts` (keeps the Worker's baseline headers in step with `public/_headers`), and `tests/styles/contrast.test.ts` (v1.5.1: every text token reaches 4.5:1 on the surfaces in both themes, white text on the `*-solid` fills, 3:1 for marks on `accent`). The Rust side has its own `cargo test` suite (name validation, path rejection, pruning, legacy recovery, dialog filters).
 
 ## 7. YouTube Character Limits Reference
 
