@@ -42,6 +42,20 @@ If this PR touches the UI, attach screenshots or short recordings at:
 Otherwise delete this section.
 -->
 
+## Accessibility
+
+<!--
+If this PR touches the UI, check each item (see ACCESSIBILITY.md#for-contributors).
+Otherwise delete this section.
+-->
+
+- [ ] Works with the keyboard alone: logical focus order, visible focus, Esc closes, no focus trap
+- [ ] Every control has a name and every field a label (`Field`, `IconButton`); new `aria-label` text is in all 8 locales
+- [ ] Errors and status changes are announced (alert banner, toast or live region)
+- [ ] Colour is not the only signal; design tokens only, and the contrast test passes
+- [ ] New animation respects reduced motion; targets are at least 24 × 24 px
+- [ ] Checked once with a screen reader (Narrator, VoiceOver, NVDA or Orca)
+
 ## AI-Assisted Contribution
 
 - [ ] Yes — AI tool used: <!-- e.g. Claude Code (Claude Opus 5.5), Cursor, GitHub Copilot -->

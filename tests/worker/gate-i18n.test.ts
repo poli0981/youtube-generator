@@ -65,6 +65,16 @@ describe("renderGatePage", () => {
     expect(html).toContain("for 24 hours");
   });
 
+  it("links the policies and the accessibility statement in the footer, in the visitor's language", () => {
+    const footer = (lang: "en" | "vi") =>
+      /<footer>(.*)<\/footer>/.exec(renderGatePage({ ...base, lang }))?.[1] ?? "";
+    expect(footer("en")).toContain('href="/legal/security"');
+    expect(footer("en")).toContain(
+      '<a href="/legal/accessibility" target="_blank" rel="noopener">Accessibility</a>',
+    );
+    expect(footer("vi")).toContain(">Khả năng tiếp cận</a>");
+  });
+
   it("puts the configuration in a JSON block that cannot close its <script>", () => {
     const html = renderGatePage({ ...base, siteKey: "</script><script>alert(1)</script>" });
     const block = /<script id="ytg-gate" type="application\/json">([^<]*)<\/script>/.exec(html);

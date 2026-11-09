@@ -1337,7 +1337,7 @@
   },
   "legal": {
     "title": "法律信息",
-    "intro": "YTDescGen 的条款、隐私、许可与安全文档——与 ytgenerator.stream/legal 上发布的内容相同。",
+    "intro": "YTDescGen 的条款、隐私、许可、安全与无障碍文档——与 ytgenerator.stream/legal 上发布的内容相同。",
     "englishOnly": "文档以英文发布；免责声明另有越南语版本。",
     "back": "返回",
     "allDocuments": "全部文档",
@@ -1351,6 +1351,7 @@
       "license": "许可证（Apache-2.0）",
       "thirdParty": "第三方声明",
       "security": "安全政策",
+      "accessibility": "无障碍",
       "notice": "NOTICE",
       "conduct": "行为准则"
     },
@@ -1361,6 +1362,7 @@
       "license": "源代码所采用的 Apache License 2.0。",
       "thirdParty": "YTDescGen 所依赖的开源库、字体和服务。",
       "security": "如何私下报告漏洞，以及适用范围。",
+      "accessibility": "键盘、屏幕阅读器和缩放下可用的功能、已知限制，以及如何报告无障碍问题。",
       "notice": "包含版权与署名信息的 Apache-2.0 NOTICE 文件。",
       "conduct": "适用于项目社区空间的 Contributor Covenant 规则。"
     }

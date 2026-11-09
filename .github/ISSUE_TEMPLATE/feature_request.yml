@@ -40,6 +40,7 @@ body:
         - Backup & restore
         - i18n / locales
         - Settings
+        - Accessibility (keyboard, screen readers, zoom, contrast)
         - Web app (ytgenerator.stream)
         - Desktop (Tauri)
         - Android

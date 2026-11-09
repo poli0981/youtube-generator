@@ -39,7 +39,8 @@ Built for the gameplay no-commentary niche — especially horror / scary games �
 - **Command palette** (Ctrl/⌘ + K) and keyboard shortcuts.
 - **Contact emails by purpose** — one contact line, or separate lines for contact, advertising, game keys & playtest and copyright / DMCA, each purpose address checked for a word that says what it is for (`sponsor@…`, `keys@…`, `dmca@…`).
 - **Guardrails** — length caps on every field and an opt-in **Strict Mode** that blocks copy and export while a field has an error.
-- **Dark and light themes**, larger controls on touch screens, and an option to hide every scrollbar.
+- **Dark and light themes** at WCAG AA contrast, larger controls on touch screens, and an option to hide every scrollbar.
+- **Accessible** — works with the keyboard alone and with screen readers (generated text is marked with its language), respects reduce motion, zooms on desktop; see [ACCESSIBILITY.md](./ACCESSIBILITY.md).
 - **Desktop app** — Windows, macOS & Linux via Tauri; **Android app** — Android 11+, sideloaded from [Releases](https://github.com/poli0981/youtube-generator/releases).
 
 ## Quick Start
@@ -109,6 +110,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 | [Packaging](./docs/PACKAGING.md)                               | Tauri desktop + Android release builds and signing.                                                                                                                             |
 | [Contributing](./CONTRIBUTING.md)                              | PR process, commit conventions, required checks.                                                                                                                                |
 | [Security](./SECURITY.md)                                      | Reporting vulnerabilities.                                                                                                                                                      |
+| [Accessibility](./ACCESSIBILITY.md)                            | What works with a keyboard, screen readers and zoom, known gaps, how to report a barrier. _(Also: [Vietnamese](./docs/i18n/vi/ACCESSIBILITY.md).)_                              |
 | [Privacy](./PRIVACY.md)                                        | What is stored where, and what Cloudflare processes.                                                                                                                            |
 | [Terms of Use](./TERMS.md)                                     | Acceptable use, license compliance, DMCA.                                                                                                                                       |
 | [Disclaimer](./DISCLAIMER.md)                                  | AI-assistance and translation-quality disclosure. _(Also: [Vietnamese](./docs/i18n/vi/DISCLAIMER.md).)_                                                                         |

@@ -1337,7 +1337,7 @@
   },
   "legal": {
     "title": "Pháp lý",
-    "intro": "Điều khoản, quyền riêng tư, giấy phép và bảo mật của YTDescGen — cùng nội dung được đăng tại ytgenerator.stream/legal.",
+    "intro": "Điều khoản, quyền riêng tư, giấy phép, bảo mật và khả năng tiếp cận của YTDescGen — cùng nội dung được đăng tại ytgenerator.stream/legal.",
     "englishOnly": "Các văn bản được công bố bằng tiếng Anh; riêng Tuyên bố miễn trừ có thêm bản tiếng Việt.",
     "back": "Quay lại",
     "allDocuments": "Tất cả văn bản",
@@ -1351,6 +1351,7 @@
       "license": "Giấy phép (Apache-2.0)",
       "thirdParty": "Thông báo bên thứ ba",
       "security": "Chính sách bảo mật",
+      "accessibility": "Khả năng tiếp cận",
       "notice": "NOTICE",
       "conduct": "Quy tắc ứng xử"
     },
@@ -1361,6 +1362,7 @@
       "license": "Giấy phép Apache 2.0 áp dụng cho mã nguồn.",
       "thirdParty": "Thư viện mã nguồn mở, phông chữ và dịch vụ mà YTDescGen sử dụng.",
       "security": "Cách báo cáo lỗ hổng một cách riêng tư và phạm vi áp dụng.",
+      "accessibility": "Những gì dùng được với bàn phím, trình đọc màn hình và phóng to, các hạn chế đã biết, và cách báo một rào cản.",
       "notice": "Tệp NOTICE theo Apache-2.0 với thông tin bản quyền và ghi công.",
       "conduct": "Quy tắc Contributor Covenant cho các không gian cộng đồng của dự án."
     }

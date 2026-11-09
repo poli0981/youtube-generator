@@ -26,6 +26,8 @@ export interface GateStrings {
   dataNote: string;
   protectedBy: string;
   security: string;
+  /** Footer link to the accessibility statement. */
+  accessibility: string;
 }
 
 export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
@@ -50,6 +52,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile processes technical signals (such as your IP address and browser details) to run this check. YTDescGen only keeps a signed cookie that remembers you passed, for {hours} hours.",
     protectedBy: "Protected by Cloudflare Turnstile",
     security: "Security",
+    accessibility: "Accessibility",
   },
   vi: {
     title: "Kiểm tra nhanh — YTDescGen",
@@ -72,6 +75,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile xử lý một số tín hiệu kỹ thuật (như địa chỉ IP và thông tin trình duyệt) để chạy bước kiểm tra. YTDescGen chỉ lưu một cookie đã ký để ghi nhớ bạn đã qua kiểm tra trong {hours} giờ.",
     protectedBy: "Được bảo vệ bởi Cloudflare Turnstile",
     security: "Bảo mật",
+    accessibility: "Khả năng tiếp cận",
   },
   ja: {
     title: "確認 — YTDescGen",
@@ -94,6 +98,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile は確認のために技術的な情報（IP アドレスやブラウザ情報など）を処理します。YTDescGen が保存するのは、確認済みであることを{hours}時間記憶する署名付き Cookie だけです。",
     protectedBy: "Cloudflare Turnstile による保護",
     security: "セキュリティ",
+    accessibility: "アクセシビリティ",
   },
   es: {
     title: "Comprobación rápida — YTDescGen",
@@ -116,6 +121,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile procesa señales técnicas (como tu dirección IP y datos del navegador) para realizar esta comprobación. YTDescGen solo guarda una cookie firmada que recuerda que la superaste durante {hours} horas.",
     protectedBy: "Protegido por Cloudflare Turnstile",
     security: "Seguridad",
+    accessibility: "Accesibilidad",
   },
   ko: {
     title: "빠른 확인 — YTDescGen",
@@ -138,6 +144,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile은 확인을 위해 기술적 신호(IP 주소, 브라우저 정보 등)를 처리합니다. YTDescGen은 확인을 통과했음을 {hours}시간 동안 기억하는 서명된 쿠키만 저장합니다.",
     protectedBy: "Cloudflare Turnstile로 보호됨",
     security: "보안",
+    accessibility: "접근성",
   },
   zh: {
     title: "快速验证 — YTDescGen",
@@ -159,6 +166,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile 会处理一些技术信号（例如 IP 地址和浏览器信息）来完成验证。YTDescGen 只会保存一个签名 Cookie，用于在 {hours} 小时内记住你已通过验证。",
     protectedBy: "由 Cloudflare Turnstile 保护",
     security: "安全",
+    accessibility: "无障碍",
   },
   "pt-BR": {
     title: "Verificação rápida — YTDescGen",
@@ -181,6 +189,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "O Cloudflare Turnstile processa sinais técnicos (como seu endereço IP e dados do navegador) para fazer esta verificação. O YTDescGen guarda apenas um cookie assinado que lembra que você passou, por {hours} horas.",
     protectedBy: "Protegido pelo Cloudflare Turnstile",
     security: "Segurança",
+    accessibility: "Acessibilidade",
   },
   id: {
     title: "Pemeriksaan singkat — YTDescGen",
@@ -203,6 +212,7 @@ export const GATE_STRINGS: Readonly<Record<GateLang, GateStrings>> = {
       "Cloudflare Turnstile memproses sinyal teknis (seperti alamat IP dan detail browser) untuk menjalankan pemeriksaan ini. YTDescGen hanya menyimpan cookie bertanda tangan yang mengingat bahwa Anda lolos, selama {hours} jam.",
     protectedBy: "Dilindungi oleh Cloudflare Turnstile",
     security: "Keamanan",
+    accessibility: "Aksesibilitas",
   },
 };
 

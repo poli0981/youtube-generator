@@ -1337,7 +1337,7 @@
   },
   "legal": {
     "title": "法的情報",
-    "intro": "YTDescGen の利用規約、プライバシー、ライセンス、セキュリティ。ytgenerator.stream/legal で公開しているものと同じ文書です。",
+    "intro": "YTDescGen の利用規約、プライバシー、ライセンス、セキュリティ、アクセシビリティ。ytgenerator.stream/legal で公開しているものと同じ文書です。",
     "englishOnly": "文書は英語で公開しています（免責事項のみベトナム語版もあります）。",
     "back": "戻る",
     "allDocuments": "すべての文書",
@@ -1351,6 +1351,7 @@
       "license": "ライセンス（Apache-2.0）",
       "thirdParty": "サードパーティ通知",
       "security": "セキュリティポリシー",
+      "accessibility": "アクセシビリティ",
       "notice": "NOTICE",
       "conduct": "行動規範"
     },
@@ -1361,6 +1362,7 @@
       "license": "ソースコードに適用される Apache License 2.0。",
       "thirdParty": "YTDescGen が利用しているオープンソースライブラリ、フォント、サービス。",
       "security": "脆弱性を非公開で報告する方法と対象範囲。",
+      "accessibility": "キーボード・スクリーンリーダー・拡大表示で使える機能、既知の制限、利用上の障壁を報告する方法。",
       "notice": "著作権と帰属を記した Apache-2.0 の NOTICE ファイル。",
       "conduct": "プロジェクトのコミュニティに適用される Contributor Covenant の規則。"
     }

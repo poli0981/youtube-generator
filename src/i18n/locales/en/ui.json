@@ -1337,7 +1337,7 @@
   },
   "legal": {
     "title": "Legal",
-    "intro": "Terms, privacy, licensing and security for YTDescGen — the same documents published at ytgenerator.stream/legal.",
+    "intro": "Terms, privacy, licensing, security and accessibility for YTDescGen — the same documents published at ytgenerator.stream/legal.",
     "englishOnly": "Documents are published in English; the Disclaimer also has a Vietnamese version.",
     "back": "Back",
     "allDocuments": "All documents",
@@ -1351,6 +1351,7 @@
       "license": "License (Apache-2.0)",
       "thirdParty": "Third-party notices",
       "security": "Security policy",
+      "accessibility": "Accessibility",
       "notice": "NOTICE",
       "conduct": "Code of Conduct"
     },
@@ -1361,6 +1362,7 @@
       "license": "The Apache License 2.0 the source code is released under.",
       "thirdParty": "Open-source libraries, fonts and services YTDescGen relies on.",
       "security": "How to report a vulnerability privately, and what is in scope.",
+      "accessibility": "What works with a keyboard, screen readers and zoom, known gaps, and how to report a barrier.",
       "notice": "The Apache-2.0 NOTICE file with copyright and attribution.",
       "conduct": "Contributor Covenant rules for the project's community spaces."
     }

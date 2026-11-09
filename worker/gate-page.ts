@@ -200,7 +200,7 @@ ${consentBlock}
 <noscript><p class="status err">${escapeHtml(t.noscript)}</p></noscript>
 <p class="note">${dataNote}</p>
 </main>
-<footer>${escapeHtml(t.protectedBy)} · ${link(legalDocPath("privacy"), t.privacyLink)} · ${link(legalDocPath("terms"), t.termsLink)} · ${link(legalDocPath("security"), t.security)}</footer>
+<footer>${escapeHtml(t.protectedBy)} · ${link(legalDocPath("privacy"), t.privacyLink)} · ${link(legalDocPath("terms"), t.termsLink)} · ${link(legalDocPath("security"), t.security)} · ${link(legalDocPath("accessibility"), t.accessibility)}</footer>
 <script id="ytg-gate" type="application/json">${scriptJson(config)}</script>
 <script nonce="${options.nonce}">${CLIENT_SCRIPT}</script>
 </body>

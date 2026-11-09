@@ -33,6 +33,7 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 
 - **Bug report** — only if you can reproduce on the latest release.
 - **Feature request** — only with a concrete use case, not abstract requests.
+- **Accessibility barrier** — anything that gets in the way with a keyboard, a screen reader, zoom, high contrast, voice control or touch. No reproduction on the latest release needed, and you don't need to know the cause. See [ACCESSIBILITY.md](./ACCESSIBILITY.md#reporting-a-barrier).
 
 ### Pull Requests
 
@@ -43,6 +44,10 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 - One logical change per PR. Don't bundle unrelated refactors.
 - All locale files must stay in lock-step — see the i18n section below.
 - AI-assisted contributions are welcome but **must be disclosed** in the PR description.
+
+### Accessibility
+
+UI changes keep YTDescGen usable with the keyboard alone and with screen readers. Run through the checklist in [ACCESSIBILITY.md](./ACCESSIBILITY.md#for-contributors) (the PR template repeats it); the contrast test (`tests/styles/contrast.test.ts`) fails if a colour token drops under WCAG AA.
 
 ### i18n Contributions
 
@@ -85,7 +90,7 @@ The following are closed without review and may result in a contributor ban — 
 
 ## Contact
 
-Questions about contributing or conduct: `code@poli0981.dev`. Security issues go through [SECURITY.md](./SECURITY.md), never a public issue.
+Questions about contributing or conduct: `code@poli0981.dev`. Security issues go through [SECURITY.md](./SECURITY.md), never a public issue. Accessibility barriers you'd rather not post publicly: `contact@poli0981.dev`, subject starting with `[Accessibility]`.
 
 ## License
 

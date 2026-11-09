@@ -246,3 +246,4 @@ docs/I18N.md). The restart advice above still applies to all of them.
 - [PACKAGING.md](./PACKAGING.md) — Tauri release builds and signing.
 - [Top-level CONTRIBUTING.md](../CONTRIBUTING.md) — PR process, commit conventions, auto-ignore rules.
 - [Top-level SECURITY.md](../SECURITY.md) — reporting vulnerabilities.
+- [Top-level ACCESSIBILITY.md](../ACCESSIBILITY.md) — what works with assistive technology, and the checklist for UI changes.
