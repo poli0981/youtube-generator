@@ -77,14 +77,14 @@ export function GenreSelector() {
         {genres.map((id) => (
           <span
             key={id}
-            className="bg-accent-muted text-accent inline-flex h-7 items-center gap-1 rounded-full pr-1 pl-2.5 text-xs font-medium"
+            className="bg-accent-muted text-accent inline-flex h-7 items-center gap-1 rounded-full pr-0.5 pl-2.5 text-xs font-medium"
           >
             {labelOf(id)}
             <button
               type="button"
               onClick={() => toggle(id)}
               aria-label={t("editor.genreRemove", { genre: labelOf(id) })}
-              className="hover:bg-accent/20 flex size-5 cursor-pointer items-center justify-center rounded-full"
+              className="hover:bg-accent/20 flex size-6 cursor-pointer items-center justify-center rounded-full pointer-coarse:size-7"
             >
               <X className="size-3" aria-hidden="true" />
             </button>

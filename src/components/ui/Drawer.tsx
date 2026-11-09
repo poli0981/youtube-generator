@@ -63,7 +63,7 @@ export function Drawer({
                 {title}
               </Dialog.Title>
               <Dialog.Close
-                className="text-text-muted hover:bg-surface-2 hover:text-text-primary flex size-8 cursor-pointer items-center justify-center rounded-lg"
+                className="text-text-muted hover:bg-surface-2 hover:text-text-primary flex size-8 cursor-pointer items-center justify-center rounded-lg pointer-coarse:size-10"
                 aria-label={t("common.close")}
               >
                 <X className="size-4" aria-hidden="true" />

@@ -670,6 +670,12 @@
       "countLabel": "Số lượng ending",
       "videoCountLabel": "Số video",
       "videoLabel": "Video",
+      "fromLabel": "Từ",
+      "toLabel": "Đến",
+      "rowNumberAria": "Ending {{row}}: số",
+      "rowNameAria": "Ending {{row}}: tên",
+      "rangeFromAria": "Video {{video}}: từ ending",
+      "rangeToAria": "Video {{video}}: đến ending",
       "numberLabel": "Số",
       "nameLabel": "Tên",
       "namePlaceholder": "ví dụ: Best Ending",
@@ -880,6 +886,8 @@
     "exported": "Đã xuất",
     "exportFailed": "Xuất thất bại",
     "close": "Đóng",
+    "notificationsRegion": "Thông báo (Alt+T)",
+    "closeNotification": "Đóng thông báo",
     "edit": "Sửa",
     "loading": "Đang tải…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "Sao chép tất cả kèm cả tag",
     "copyAllIncludesTagsHint": "Tiêu đề, mô tả, rồi đến tag — để dán tất cả vào ứng dụng ghi chú một lần.",
     "hideScrollbars": "Ẩn thanh cuộn",
-    "hideScrollbarsHint": "Ẩn mọi thanh cuộn trong ứng dụng — vẫn cuộn được bằng con lăn chuột, touchpad, cảm ứng và bàn phím."
+    "hideScrollbarsHint": "Ẩn mọi thanh cuộn trong ứng dụng — vẫn cuộn được bằng con lăn chuột, touchpad, cảm ứng và bàn phím.",
+    "singleKeyShortcuts": "Phím tắt một phím",
+    "singleKeyShortcutsHint": "Phím ? mở danh sách phím tắt khi bạn không gõ trong ô nhập. Tắt đi nếu bạn nhập bằng giọng nói hoặc hay bấm nhầm phím — Ctrl/⌘ + / vẫn hoạt động."
   },
   "socialPost": {
     "title": "Bài đăng đa nền tảng",
@@ -1226,7 +1236,8 @@
     "close": "Đóng",
     "searchPlaceholder": "Tìm phím tắt",
     "noResults": "Không có phím tắt phù hợp",
-    "saveToHistory": "Lưu vào lịch sử"
+    "saveToHistory": "Lưu vào lịch sử",
+    "notifications": "Đi tới thông báo"
   },
   "validation": {
     "numberRequired": "Hãy nhập một số.",

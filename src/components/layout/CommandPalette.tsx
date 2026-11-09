@@ -98,7 +98,7 @@ function PaletteBody({
         <Command.Input
           autoFocus
           placeholder={t("command.placeholder")}
-          className="text-text-primary placeholder:text-text-muted h-12 w-full bg-transparent text-sm outline-none"
+          className="text-text-primary placeholder:text-text-muted h-12 w-full bg-transparent text-sm outline-hidden"
         />
         <Kbd>Esc</Kbd>
       </div>

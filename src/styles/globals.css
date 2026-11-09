@@ -34,12 +34,16 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-muted: var(--accent-muted);
   --color-accent-fg: var(--accent-fg);
+  --color-accent-solid: var(--accent-solid);
+  --color-accent-solid-hover: var(--accent-solid-hover);
   --color-brand-from: var(--brand-from);
   --color-brand-to: var(--brand-to);
 
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-danger-solid: var(--danger-solid);
+  --color-danger-solid-hover: var(--danger-solid-hover);
   --color-info: var(--info);
   --color-donate: var(--donate);
 
@@ -114,20 +118,32 @@
   --border: #25252f;
   --border-strong: #363644;
 
+  /*
+   * Text and status colours keep WCAG AA (4.5:1) on every surface they sit
+   * on, and white keeps 4.5:1 on the *-solid fills that carry text (buttons).
+   * tests/styles/contrast.test.ts checks both themes — change a value here
+   * and it tells you whether the pair still passes.
+   */
   --text-primary: #ececf3;
   --text-secondary: #a4a4b8;
-  --text-muted: #72728a;
+  --text-muted: #8a8aa1;
 
-  --accent: #7b6ef6;
-  --accent-hover: #9387f8;
-  --accent-muted: rgba(123, 110, 246, 0.16);
+  /* `accent` is text, outlines and small marks; filled controls with text on
+     them use `accent-solid`, which is darker so white stays readable. */
+  --accent: #8b80f8;
+  --accent-hover: #9d94f9;
+  --accent-muted: rgba(139, 128, 248, 0.16);
   --accent-fg: #ffffff;
+  --accent-solid: #6557ee;
+  --accent-solid-hover: #5a4ce8;
   --brand-from: #6366f1;
   --brand-to: #a855f7;
 
   --success: #34d399;
   --warning: #fbbf24;
   --danger: #f87171;
+  --danger-solid: #dc2626;
+  --danger-solid-hover: #b91c1c;
   --info: #60a5fa;
   --donate: #f472b6;
 
@@ -157,18 +173,22 @@
 
   --text-primary: #15151d;
   --text-secondary: #4a4a5c;
-  --text-muted: #7c7c90;
+  --text-muted: #66667a;
 
   --accent: #5b4fe6;
   --accent-hover: #6d62ee;
   --accent-muted: rgba(91, 79, 230, 0.1);
   --accent-fg: #ffffff;
+  --accent-solid: #5b4fe6;
+  --accent-solid-hover: #5246d8;
 
-  --success: #059669;
-  --warning: #b45309;
-  --danger: #dc2626;
+  --success: #047857;
+  --warning: #a3480a;
+  --danger: #c81e1e;
+  --danger-solid: #dc2626;
+  --danger-solid-hover: #b91c1c;
   --info: #2563eb;
-  --donate: #db2777;
+  --donate: #be185d;
 
   --shadow-card-value: 0 1px 2px rgba(20, 20, 40, 0.04), 0 8px 24px -18px rgba(20, 20, 40, 0.25);
   --shadow-pop-value: 0 24px 60px -24px rgba(20, 20, 40, 0.35), 0 0 0 1px rgba(20, 20, 40, 0.06);

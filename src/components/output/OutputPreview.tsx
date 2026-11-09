@@ -1,12 +1,13 @@
 import { useTranslation } from "react-i18next";
 import { FileText, Tags, Type } from "lucide-react";
 import { useGeneratedOutput } from "@hooks/use-generated-output";
+import { useEditorStore } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
 import { CopyButton } from "./CopyButton";
 import { CharCounter } from "./CharCounter";
 import { OutputField, OutputText } from "./OutputField";
 import { YT_LIMITS } from "@engine/types";
-import type { GeneratorOutput } from "@engine/types";
+import type { GeneratorOutput, SupportedLanguage } from "@engine/types";
 import type { OutputLimitStatus } from "@engine/limits";
 import { useCopyGate } from "@hooks/use-copy-gate";
 
@@ -16,19 +17,26 @@ interface OutputPreviewProps {
   status: OutputLimitStatus;
   /** Strict Mode is blocking: nothing can be copied. */
   strictBlocked?: boolean;
+  /** Language of `output` (the draft's output language when omitted). */
+  lang?: SupportedLanguage;
 }
 
 export function OutputPreview({
   output: outputProp,
   status,
   strictBlocked = false,
+  lang: langProp,
 }: OutputPreviewProps) {
   const { t } = useTranslation("ui");
   const gate = useCopyGate(status, strictBlocked);
   const defaultOutput = useGeneratedOutput();
   const showCharCount = useSettingsStore((s) => s.showCharCount);
   const compactTagDisplay = useSettingsStore((s) => s.compactTagDisplay);
+  const draftLanguage = useEditorStore((s) => s.language);
   const output = outputProp ?? defaultOutput;
+  // The cards' headings are interface text; only the generated text itself
+  // carries the output language.
+  const lang = langProp ?? draftLanguage;
 
   return (
     <div className="flex flex-col gap-4">
@@ -48,7 +56,10 @@ export function OutputPreview({
           </>
         }
       >
-        <p className="bg-surface-0 border-border text-text-primary rounded-lg border p-3 text-[0.9375rem] font-medium">
+        <p
+          lang={lang}
+          className="bg-surface-0 border-border text-text-primary rounded-lg border p-3 text-[0.9375rem] font-medium"
+        >
           {output.title || "…"}
         </p>
       </OutputField>
@@ -71,7 +82,9 @@ export function OutputPreview({
           </>
         }
       >
-        <OutputText tall>{output.description || "…"}</OutputText>
+        <OutputText tall lang={lang}>
+          {output.description || "…"}
+        </OutputText>
       </OutputField>
 
       <OutputField
@@ -96,11 +109,14 @@ export function OutputPreview({
         }
       >
         {compactTagDisplay ? (
-          <p className="bg-surface-0 border-border text-text-secondary rounded-lg border p-3 text-xs leading-relaxed">
+          <p
+            lang={lang}
+            className="bg-surface-0 border-border text-text-secondary rounded-lg border p-3 text-xs leading-relaxed"
+          >
             {output.tagString}
           </p>
         ) : (
-          <div className="flex flex-wrap gap-1.5">
+          <div lang={lang} className="flex flex-wrap gap-1.5">
             {output.tags.map((tag, i) => (
               <span
                 key={i}

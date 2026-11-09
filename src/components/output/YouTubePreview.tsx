@@ -16,6 +16,8 @@ interface YouTubePreviewProps {
   description: string;
   channelName: string;
   gameName: string;
+  /** Language the title and description were generated in. */
+  lang?: string;
 }
 
 /**
@@ -23,7 +25,13 @@ interface YouTubePreviewProps {
  * search result and above the watch page's "…more". Most viewers never see
  * anything past those points, so this is where the important words must go.
  */
-export function YouTubePreview({ title, description, channelName, gameName }: YouTubePreviewProps) {
+export function YouTubePreview({
+  title,
+  description,
+  channelName,
+  gameName,
+  lang,
+}: YouTubePreviewProps) {
   const { t } = useTranslation("ui");
   const titleCut = title.length > SEARCH_TITLE_CHARS;
   const descriptionCut = description.length > FOLD_DESCRIPTION_CHARS;
@@ -51,18 +59,23 @@ export function YouTubePreview({ title, description, channelName, gameName }: Yo
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-text-primary line-clamp-2 text-base leading-snug font-semibold">
+          <p
+            lang={lang}
+            className="text-text-primary line-clamp-2 text-base leading-snug font-semibold"
+          >
             {title || "…"}
           </p>
           <p className="text-text-muted mt-1 text-xs">{channel}</p>
-          <p className="text-text-muted mt-2 line-clamp-2 text-xs leading-relaxed">{description}</p>
+          <p lang={lang} className="text-text-muted mt-2 line-clamp-2 text-xs leading-relaxed">
+            {description}
+          </p>
         </div>
       </div>
 
       {/* Watch page, above "…more" */}
       <div className="border-border bg-surface-0/60 mx-4 mb-4 rounded-xl border p-3">
         <p className="text-text-secondary text-xs leading-relaxed whitespace-pre-line">
-          {fold || "…"}
+          <span lang={lang}>{fold || "…"}</span>
           {descriptionCut && (
             <span className="text-text-primary font-semibold">
               {" "}

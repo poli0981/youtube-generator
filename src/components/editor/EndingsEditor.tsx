@@ -265,6 +265,7 @@ export function EndingsEditor() {
                         type="number"
                         min={1}
                         max={MAX_ENDINGS}
+                        aria-label={t("editor.endings.rowNumberAria", { row: i + 1 })}
                         value={entry.number?.toString() ?? ""}
                         onChange={(e) => {
                           const v = e.target.value.trim();
@@ -275,6 +276,7 @@ export function EndingsEditor() {
                     <td className="px-2 py-1.5">
                       <Input
                         placeholder={t("editor.endings.namePlaceholder")}
+                        aria-label={t("editor.endings.rowNameAria", { row: i + 1 })}
                         value={entry.name}
                         onChange={(e) => updateEnding(i, { name: e.target.value })}
                       />
@@ -322,8 +324,8 @@ export function EndingsEditor() {
                   <thead className="bg-surface-2 text-text-muted text-xs uppercase">
                     <tr>
                       <th className="px-2 py-1.5 text-left">{t("editor.endings.videoLabel")}</th>
-                      <th className="px-2 py-1.5 text-left">From</th>
-                      <th className="px-2 py-1.5 text-left">To</th>
+                      <th className="px-2 py-1.5 text-left">{t("editor.endings.fromLabel")}</th>
+                      <th className="px-2 py-1.5 text-left">{t("editor.endings.toLabel")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -335,6 +337,7 @@ export function EndingsEditor() {
                             type="number"
                             min={1}
                             max={count}
+                            aria-label={t("editor.endings.rangeFromAria", { video: i + 1 })}
                             value={String(r.from)}
                             onChange={(e) => updateRange(i, { from: Number(e.target.value) || 1 })}
                           />
@@ -344,6 +347,7 @@ export function EndingsEditor() {
                             type="number"
                             min={1}
                             max={count}
+                            aria-label={t("editor.endings.rangeToAria", { video: i + 1 })}
                             value={String(r.to)}
                             onChange={(e) => updateRange(i, { to: Number(e.target.value) || 1 })}
                           />

@@ -104,7 +104,8 @@ export const useSettingsStore = create<SettingsState>()(
       // on by a truthy string), and the accordion map is merged rather than
       // replaced so sections added later still get their default.
       // Later additive keys — v1.0.0's `copyAllIncludesTags`,
-      // `lastProfileId`, `lastPresetId` and v1.1.0's `hideScrollbars` — ride
+      // `lastProfileId`, `lastPresetId`, v1.1.0's `hideScrollbars` and v1.5.1's
+      // `singleKeyShortcuts` — ride
       // the same back-fill and coercion without a bump, which also keeps a
       // backup made by the newer build readable to the one before it.
       version: SETTINGS_STORE_VERSION,
@@ -136,6 +137,7 @@ export function extractData(state: SettingsData): SettingsData {
     defaultOutputLanguage: state.defaultOutputLanguage,
     theme: state.theme,
     hideScrollbars: state.hideScrollbars,
+    singleKeyShortcuts: state.singleKeyShortcuts,
     showCharCount: state.showCharCount,
     compactTagDisplay: state.compactTagDisplay,
     historyLimit: state.historyLimit,

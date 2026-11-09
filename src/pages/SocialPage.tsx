@@ -317,7 +317,7 @@ export function SocialPage() {
                       {t("socialPost.trimmedHint", { count: activePost.droppedBlocks.length })}
                     </Banner>
                   )}
-                  <OutputText>{activePost.text}</OutputText>
+                  <OutputText lang={baseInput.language}>{activePost.text}</OutputText>
                 </div>
               </OutputField>
             )
@@ -348,7 +348,10 @@ export function SocialPage() {
                         limit={p.charLimit}
                       />
                     </div>
-                    <pre className="text-text-secondary font-sans text-xs break-words whitespace-pre-wrap">
+                    <pre
+                      lang={imported.language}
+                      className="text-text-secondary font-sans text-xs break-words whitespace-pre-wrap"
+                    >
                       {p.text}
                     </pre>
                   </div>
@@ -461,7 +464,10 @@ export function SocialPage() {
                                 />
                               </div>
                             </div>
-                            <pre className="text-text-secondary max-h-24 scrollbar-thin overflow-y-auto font-sans text-xs break-words whitespace-pre-wrap">
+                            <pre
+                              lang={row.language}
+                              className="text-text-secondary max-h-24 scrollbar-thin overflow-y-auto font-sans text-xs break-words whitespace-pre-wrap"
+                            >
                               {post.text}
                             </pre>
                           </div>

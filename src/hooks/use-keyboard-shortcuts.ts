@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSettingsStore } from "@store/settings-store";
 import { useOutputCopy } from "./use-output-copy";
 import { useSaveToHistory } from "./use-save-to-history";
 
@@ -60,9 +61,12 @@ export function useKeyboardShortcuts(handlers: ShortcutHandlers) {
       } else if (
         // Bare `?` (Shift+/) opens the cheatsheet too. Skip when the
         // user is typing into a form field — `?` is a legitimate
-        // character in titles, descriptions, and other inputs.
+        // character in titles, descriptions, and other inputs — and when
+        // Settings › Editor turned single-key shortcuts off (WCAG 2.1.4:
+        // speech input says "question mark" and opens a dialog otherwise).
         e.key === "?" &&
         !mod &&
+        useSettingsStore.getState().singleKeyShortcuts &&
         !isEditableTarget(e.target)
       ) {
         e.preventDefault();

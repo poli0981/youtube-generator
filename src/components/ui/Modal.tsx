@@ -80,7 +80,7 @@ export function Modal({
                 )}
               </div>
               <Dialog.Close
-                className="text-text-muted hover:bg-surface-2 hover:text-text-primary -m-1.5 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg transition-colors"
+                className="text-text-muted hover:bg-surface-2 hover:text-text-primary -m-1.5 flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg transition-colors pointer-coarse:size-10"
                 aria-label={t("common.close")}
               >
                 <X className="size-4" aria-hidden="true" />

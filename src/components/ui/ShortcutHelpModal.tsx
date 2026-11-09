@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Search } from "lucide-react";
+import { useSettingsStore } from "@store/settings-store";
 import { Modal } from "./Modal";
 import { ShortcutKeys, keyName } from "./Badge";
 
@@ -16,6 +17,8 @@ const SHORTCUTS = [
   { keys: ["mod", "shift", "C"], labelKey: "shortcuts.copyAll" },
   { keys: ["mod", "S"], labelKey: "shortcuts.saveToHistory" },
   { keys: ["mod", "B"], labelKey: "shortcuts.toggleSidebar" },
+  // sonner's hotkey: focuses the notifications while any are on screen.
+  { keys: ["alt", "T"], labelKey: "shortcuts.notifications" },
   { keys: ["mod", "/"], labelKey: "shortcuts.help" },
   { keys: ["?"], labelKey: "shortcuts.help" },
   { keys: ["esc"], labelKey: "shortcuts.close" },
@@ -24,6 +27,7 @@ const SHORTCUTS = [
 export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
   const { t } = useTranslation("ui");
   const [query, setQuery] = useState("");
+  const singleKey = useSettingsStore((s) => s.singleKeyShortcuts);
   // The search box gets focus when the modal opens (through Radix, not an
   // `autoFocus` attribute).
   const searchRef = useRef<HTMLInputElement>(null);
@@ -34,14 +38,16 @@ export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
   const activeQuery = open ? query : "";
 
   const filtered = useMemo(() => {
+    // The bare `?` row goes when Settings turned single-key shortcuts off.
+    const available = singleKey ? SHORTCUTS : SHORTCUTS.filter((s) => s.keys[0] !== "?");
     const trimmed = activeQuery.trim().toLowerCase();
-    if (!trimmed) return SHORTCUTS;
-    return SHORTCUTS.filter((s) => {
+    if (!trimmed) return available;
+    return available.filter((s) => {
       const label = t(s.labelKey).toLowerCase();
       const keys = s.keys.map(keyName).join(" ").toLowerCase();
       return label.includes(trimmed) || keys.includes(trimmed);
     });
-  }, [activeQuery, t]);
+  }, [activeQuery, singleKey, t]);
 
   return (
     <Modal
@@ -61,7 +67,7 @@ export function ShortcutHelpModal({ open, onClose }: ShortcutHelpModalProps) {
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t("shortcuts.searchPlaceholder")}
             aria-label={t("shortcuts.searchPlaceholder")}
-            className="text-text-primary placeholder:text-text-muted w-full bg-transparent text-sm outline-none"
+            className="text-text-primary placeholder:text-text-muted w-full bg-transparent text-sm outline-hidden"
           />
         </label>
         {filtered.length === 0 ? (

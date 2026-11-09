@@ -39,7 +39,7 @@ export default function GenreList({
         <Command.Input
           autoFocus
           placeholder={t("editor.genreSearchPlaceholder")}
-          className="text-text-primary placeholder:text-text-muted h-10 w-full bg-transparent text-sm outline-none"
+          className="text-text-primary placeholder:text-text-muted h-10 w-full bg-transparent text-sm outline-hidden"
         />
       </div>
       <Command.List className="max-h-72 scrollbar-thin overflow-y-auto p-1">

@@ -244,6 +244,7 @@ export function OutputPage() {
                   {multilangOutputs[lang] && (
                     <OutputPreview
                       output={multilangOutputs[lang]}
+                      lang={lang}
                       status={tabStatus}
                       strictBlocked={strictBlocked}
                     />
@@ -258,6 +259,7 @@ export function OutputPage() {
           <YouTubePreview
             title={shownOutput.title}
             description={shownOutput.description}
+            lang={isMultiLang ? activeTab : language}
             channelName={channelName}
             gameName={gameName}
           />

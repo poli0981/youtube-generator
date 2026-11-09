@@ -55,7 +55,7 @@ export default function GpuList({
         <Command.Input
           autoFocus
           placeholder={t("editor.gpuSearch")}
-          className="text-text-primary placeholder:text-text-muted h-10 w-full bg-transparent text-sm outline-none"
+          className="text-text-primary placeholder:text-text-muted h-10 w-full bg-transparent text-sm outline-hidden"
         />
       </div>
       <Command.List className="max-h-80 scrollbar-thin overflow-y-auto p-1">

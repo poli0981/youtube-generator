@@ -47,7 +47,7 @@ export function OfflineBanner() {
         type="button"
         onClick={() => setDismissed(true)}
         aria-label={t("common.dismiss")}
-        className="text-text-muted hover:bg-surface-2 hover:text-text-primary flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors"
+        className="text-text-muted hover:bg-surface-2 hover:text-text-primary flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors pointer-coarse:size-9"
       >
         <X className="size-3.5" aria-hidden="true" />
       </button>

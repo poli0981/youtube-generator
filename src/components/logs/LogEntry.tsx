@@ -79,14 +79,14 @@ export function LogEntryCard({ entry }: { entry: LogEntryType }) {
           label={t("logs.copyEntry")}
           size="icon-sm"
           onClick={handleCopy}
-          className="size-7"
+          className="size-7 pointer-coarse:size-9"
         >
           <CopyStateIcon copied={copied} className="size-3.5" />
         </IconButton>
         <IconButton
           label={t("logs.deleteEntry")}
           size="icon-sm"
-          className="hover:text-danger size-7"
+          className="hover:text-danger size-7 pointer-coarse:size-9"
           onClick={() => deleteEntry(entry.id)}
         >
           <Trash2 className="size-3.5" />

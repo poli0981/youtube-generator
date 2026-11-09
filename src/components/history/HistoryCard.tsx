@@ -36,7 +36,10 @@ export function HistoryCard({ entry }: { entry: HistoryEntry }) {
             <Icon className="size-4" aria-hidden />
           </span>
           <span className="min-w-0 flex-1">
-            <span className="text-text-primary block truncate text-sm font-medium">
+            <span
+              lang={entry.language}
+              className="text-text-primary block truncate text-sm font-medium"
+            >
               {entry.title}
             </span>
             <span className="text-text-muted mt-0.5 block truncate text-xs">
@@ -75,7 +78,10 @@ export function HistoryCard({ entry }: { entry: HistoryEntry }) {
             <CopyButton text={entry.description} label={t("output.copyDescription")} />
             <CopyButton text={entry.tags} label={t("output.copyTags")} />
           </div>
-          <pre className="bg-surface-0 border-border text-text-secondary max-h-56 scrollbar-thin overflow-y-auto rounded-lg border p-2.5 font-sans text-xs leading-relaxed whitespace-pre-wrap">
+          <pre
+            lang={entry.language}
+            className="bg-surface-0 border-border text-text-secondary max-h-56 scrollbar-thin overflow-y-auto rounded-lg border p-2.5 font-sans text-xs leading-relaxed whitespace-pre-wrap"
+          >
             {entry.description}
           </pre>
         </div>

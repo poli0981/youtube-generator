@@ -670,6 +670,12 @@
       "countLabel": "エンディング数",
       "videoCountLabel": "動画数",
       "videoLabel": "動画",
+      "fromLabel": "開始",
+      "toLabel": "終了",
+      "rowNumberAria": "エンディング {{row}}: 番号",
+      "rowNameAria": "エンディング {{row}}: 名前",
+      "rangeFromAria": "動画 {{video}}: 開始エンディング",
+      "rangeToAria": "動画 {{video}}: 終了エンディング",
       "numberLabel": "番号",
       "nameLabel": "名前",
       "namePlaceholder": "例: ベストエンド",
@@ -880,6 +886,8 @@
     "exported": "エクスポートしました",
     "exportFailed": "エクスポートに失敗しました",
     "close": "閉じる",
+    "notificationsRegion": "通知 (Alt+T)",
+    "closeNotification": "通知を閉じる",
     "edit": "編集",
     "loading": "読み込み中…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "「すべてコピー」にタグも含める",
     "copyAllIncludesTagsHint": "タイトル、説明、タグの順。メモアプリにまとめて貼り付けるときに。",
     "hideScrollbars": "スクロールバーを隠す",
-    "hideScrollbarsHint": "アプリ内のすべてのスクロールバーを非表示にします。マウスホイール、タッチパッド、タッチ操作、キーボードでのスクロールはそのまま使えます。"
+    "hideScrollbarsHint": "アプリ内のすべてのスクロールバーを非表示にします。マウスホイール、タッチパッド、タッチ操作、キーボードでのスクロールはそのまま使えます。",
+    "singleKeyShortcuts": "1 キーのショートカット",
+    "singleKeyShortcutsHint": "入力欄の外で ? を押すとショートカット一覧が開きます。音声入力を使う場合や誤って押してしまう場合はオフにしてください。Ctrl/⌘ + / は引き続き使えます。"
   },
   "socialPost": {
     "title": "クロス投稿キャプション",
@@ -1226,7 +1236,8 @@
     "close": "モーダルを閉じる",
     "searchPlaceholder": "ショートカットを検索",
     "noResults": "該当するショートカットはありません",
-    "saveToHistory": "履歴に保存"
+    "saveToHistory": "履歴に保存",
+    "notifications": "通知へ移動"
   },
   "validation": {
     "numberRequired": "数値を入力してください。",

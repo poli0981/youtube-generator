@@ -88,6 +88,7 @@ export function VietnameseDonateEditor() {
             />
             {customMode && (
               <Input
+                aria-label={t("editor.vnBankName")}
                 placeholder={t("editor.vnBankNamePlaceholder")}
                 value={vnBankName ?? ""}
                 onChange={(e) => store.set("vnBankName", e.target.value)}

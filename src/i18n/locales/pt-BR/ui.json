@@ -670,6 +670,12 @@
       "countLabel": "Número de finais",
       "videoCountLabel": "Número de vídeos",
       "videoLabel": "Vídeo",
+      "fromLabel": "De",
+      "toLabel": "Até",
+      "rowNumberAria": "Final {{row}}: número",
+      "rowNameAria": "Final {{row}}: nome",
+      "rangeFromAria": "Vídeo {{video}}: do final",
+      "rangeToAria": "Vídeo {{video}}: até o final",
       "numberLabel": "Número",
       "nameLabel": "Nome",
       "namePlaceholder": "ex.: Melhor final",
@@ -880,6 +886,8 @@
     "exported": "Exportado",
     "exportFailed": "Falha ao exportar",
     "close": "Fechar",
+    "notificationsRegion": "Notificações (Alt+T)",
+    "closeNotification": "Fechar notificação",
     "edit": "Editar",
     "loading": "Carregando…"
   },
@@ -1179,7 +1187,9 @@
     "copyAllIncludesTags": "Copiar tudo inclui as tags",
     "copyAllIncludesTagsHint": "Título, descrição e depois as tags — para colar tudo de uma vez num app de notas.",
     "hideScrollbars": "Ocultar barras de rolagem",
-    "hideScrollbarsHint": "Remove todas as barras de rolagem do app — a roda do mouse, o touchpad, o toque e o teclado continuam rolando."
+    "hideScrollbarsHint": "Remove todas as barras de rolagem do app — a roda do mouse, o touchpad, o toque e o teclado continuam rolando.",
+    "singleKeyShortcuts": "Atalhos de uma tecla",
+    "singleKeyShortcutsHint": "? abre a lista de atalhos quando você não está digitando em um campo. Desative se usa entrada por voz ou aperta teclas sem querer — Ctrl/⌘ + / continua funcionando."
   },
   "socialPost": {
     "title": "Legendas para outras redes",
@@ -1226,7 +1236,8 @@
     "close": "Fechar modal",
     "searchPlaceholder": "Buscar atalhos",
     "noResults": "Nenhum atalho encontrado",
-    "saveToHistory": "Salvar no histórico"
+    "saveToHistory": "Salvar no histórico",
+    "notifications": "Ir para as notificações"
   },
   "validation": {
     "numberRequired": "Digite um número.",

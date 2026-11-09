@@ -17,13 +17,13 @@ export interface ButtonProps extends ComponentProps<"button"> {
 }
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  primary: "bg-accent text-accent-fg shadow-sm hover:bg-accent-hover",
+  primary: "bg-accent-solid text-accent-fg shadow-sm hover:bg-accent-solid-hover",
   brand: "bg-brand-gradient text-white shadow-sm hover:brightness-110",
   secondary:
     "border border-border bg-surface-2 text-text-primary hover:border-border-strong hover:bg-surface-3",
   outline: "border border-border text-text-primary hover:bg-surface-2",
   ghost: "text-text-secondary hover:bg-surface-2 hover:text-text-primary",
-  danger: "bg-danger text-white shadow-sm hover:brightness-110",
+  danger: "bg-danger-solid text-white shadow-sm hover:bg-danger-solid-hover",
 };
 
 const SIZES: Record<ButtonSize, string> = {
