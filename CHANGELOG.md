@@ -2,6 +2,27 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.5.2 — 2026-11-10
+
+A maintenance release: the desktop and Android apps move to **Tauri 2.12.5**, with the fixes its window, webview and single-instance layers collected since 2.12.4, and this week's dependency updates are folded in. What the app generates does not change. Web, desktop and Android all ship as 1.5.2.
+
+### Fixed
+
+- **Windows: starting the app a second time.** A second copy started while the first was still starting up could miss the first one's window and stay open instead of handing over and exiting (tauri-plugin-single-instance 2.5.5). A hidden window — the app sitting in the tray — no longer flashes when it leaves the maximized state (tao 0.37.2).
+- **macOS: dragging onto the window.** No abort when a drag enters or is dropped on the window, and no panic while the dragged file paths are collected (tao 0.37.2, wry 0.57.1).
+- **Android:** the webview runs Tauri's start-up scripts once per page instead of twice (wry 0.57.1).
+- **Windows installer:** the NSIS installer blocks a downgrade over a newer MSI installation in silent, passive and update modes too (Tauri 2.12.5).
+
+### Under the hood
+
+- **Tauri 2.12.4 → 2.12.5**: tauri-build, tauri-macros and tauri-codegen 2.7.4, tauri-runtime-wry 2.12.3, wry 0.57.1, tao 0.37.2, tauri-plugin-dialog 2.8.4 (rfd 0.17), tauri-plugin-single-instance 2.5.5.
+- **Dependencies**, the newest releases at least a week old (the same cooldown Dependabot uses): i18next 26.6.0, react-i18next 17.1.11, i18next-resources-to-backend 1.2.4, lucide-react 1.66, react-router-dom 7.18.5, simple-icons 16.36, vite 8.3.5 (rolldown 1.2.16), @vitejs/plugin-react 6.2.1, tailwindcss 4.3.4, postcss 8.5.32, autoprefixer 10.6.2, marked 18.1.3, eslint 10.14, typescript-eslint 8.72.1, knip 6.44.1, @types/node 26.6.6, wrangler 4.156.2. Workflows: sonarqube-scan-action 8.4.0, zizmor-action 0.8.1. THIRD_PARTY_NOTICES regenerated.
+- **i18next stays on 26.6.x** (`~26.6.0` and a Dependabot ignore for 26.7.x). 26.7, the last 26.x minor, adds the debug-mode warnings that prepare the move to v27: about 1.9 KB gzip in the i18n chunk, which would take the initial load from 279.0 to 280.9 KB — over the 280 KB budget — for code the app never runs. Both go with the i18next 27 migration.
+- **The `undici` override from v1.3.1 is gone**: miniflare 5.20261102.0-beta (under wrangler, development only) depends on undici 7.30.1 itself, so alert #49 stays fixed without it.
+- **Docs**: TECH-SPEC's `package.json` listing follows the real file again (its dependency versions were several releases old) and notes the i18next hold; ROADMAP, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1131 tests**, build, cf:check and `cargo fmt` / `clippy` / `test` / `deny` all pass; initial load 279.0 of 280 KB gzip. Verified live: `wrangler dev` on 4.156.2 serves the gate page, `/legal/accessibility` and `robots.txt`, and refuses a verify without a token; the desktop app (`tauri dev` with a separate test identifier) answers its commands, writes, lists, reads and deletes a backup, and opens and cancels the native Save and Open dialogs on the new dialog plugin.
+- Six manifests bumped 1.5.1 → 1.5.2.
+
 ## v1.5.1 — 2026-11-09
 
 An **accessibility** release. YTDescGen already worked with the keyboard alone and with Narrator; this release adds an accessibility statement and fixes what an audit against WCAG 2.2 AA turned up — colour contrast, the language of generated text, page changes a screen reader didn't hear, a single-key shortcut that couldn't be turned off, and zoom in the desktop app. Web, desktop and Android all ship as 1.5.1.

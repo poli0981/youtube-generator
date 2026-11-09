@@ -1,6 +1,6 @@
 # Complete Feature List
 
-## YTDescGen — All Features (v1.5.1 + Planned)
+## YTDescGen — All Features (v1.5.2 + Planned)
 
 ---
 
