@@ -2,7 +2,7 @@
 
 ## YTDescGen — Technical Architecture
 
-Reflects **v1.5.0**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
+Reflects **v1.5.1**. Implementation details (configs, interfaces, file formats, CI) are in [TECH-SPEC.md](TECH-SPEC.md); desktop and Android builds in [PACKAGING.md](PACKAGING.md); running the web deployment in [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -66,7 +66,7 @@ The same source ships two ways:
 
 **Route tree.** `/legal` and `/legal/:docId` (the Legal Center) sit outside the consent guard, so the consent screen can open each document. Everything else is inside `ConsentGuard`, a layout route that renders `ConsentGate` until the user has accepted the current terms version (`CURRENT_TERMS_VERSION` = 2 since v1.0.0). Inside it, `AppShell` holds the pages: the Editor (index route) stays in the entry bundle; Output, Profiles, History, Settings, Batch, Social, Playlist, Logs and About are `React.lazy` chunks, each wrapped in its own `ErrorBoundary` + `Suspense` so a crash on one page cannot blank the app. On the web, `/legal/<id>` loaded directly is the Worker's static page; navigated to inside the app, it is the Legal Center — the same URL either way.
 
-**App shell.** `AppShell` combines a collapsible `Sidebar`, the `Header` top bar (output and interface languages, theme), `MobileNav` (a bottom bar on phones, with a "More" drawer), and three lazily loaded pieces: the ⌘/Ctrl + K `CommandPalette` (cmdk), the shortcut help and the backup `RestoreDialog`, mounted only while a restore is pending. UI primitives in `components/ui/` wrap Radix (Dialog, AlertDialog, Popover, Tooltip, Tabs, Switch, Checkbox, ToggleGroup); animation is Motion behind `LazyMotion` (its feature bundle loads after first paint, and `MotionConfig reducedMotion="user"` honours the OS setting); toasts are sonner.
+**App shell.** `AppShell` combines a collapsible `Sidebar`, the `Header` top bar (output and interface languages, theme), `MobileNav` (a bottom bar on phones, with a "More" drawer), and three lazily loaded pieces: the ⌘/Ctrl + K `CommandPalette` (cmdk), the shortcut help and the backup `RestoreDialog`, mounted only while a restore is pending. UI primitives in `components/ui/` wrap Radix (Dialog, AlertDialog, Popover, Tooltip, Tabs, Switch, Checkbox, ToggleGroup); animation is Motion behind `LazyMotion` (its feature bundle loads after first paint, and `MotionConfig reducedMotion="user"` honours the OS setting); toasts are sonner, with translated region and close labels. `RouteAnnouncer` (v1.5.1) is a polite live region that reads out the new page's name after a navigation: every page names itself with `useDocumentTitle`, which fires `ytdescgen:page-title` once the commit's effects have run, and focus stays where it was. Accessibility as a whole: [ACCESSIBILITY.md](../ACCESSIBILITY.md).
 
 **Error pages (v0.27).** `components/errors/` holds a reusable `ErrorPage` (404/403/419/500/offline/runtime) driven by the pure `config/error-pages.ts` map. The error routes (`/403`, `/419`, `/500`, `/offline`, catch-all `*`) are **siblings of the `AppShell` route group** inside the consent guard, so they render full-screen without the shell. `ErrorPage` is router-agnostic — Home is a plain location change (`/` on the web, `#/` in Tauri) and Back is `history.back()` — so the root `ErrorBoundary`, mounted in `main.tsx` outside the router, reuses it as its crash fallback.
 
@@ -276,7 +276,8 @@ export const GENRE_TAG_REGISTRY: Record<string, (gameName: string) => string[]> 
 │  - capped by the History Limit setting (10–500, default 100)       │
 ├────────────────────────────────────────────────────────────────────┤
 │  SettingsStore — "ytdescgen-settings", v12                         │
-│  - theme · hideScrollbars · appLanguage · titleFormat              │
+│  - theme · hideScrollbars · singleKeyShortcuts · appLanguage       │
+│  - titleFormat                                                     │
 │  - description toggles · strictMode · copyAllIncludesTags · …      │
 │  - healSettings on every load; consent and UI state never exported │
 ├────────────────────────────────────────────────────────────────────┤
@@ -421,7 +422,7 @@ React app (src/), built with TAURI_ENV_PLATFORM set
   - Android: universal .apk
 ```
 
-**The webview never names a path.** Since v1.0.0 the Rust side exposes only name-only commands for its own files (`backup_*` and `log_*` under the app data directory, `recover_legacy_data`) and two commands that open the native Save / Open dialog themselves (`export_text_file`, `import_text_file`: text formats only, imports capped at 20 MB). The capability file grants the webview only `core:default` and `opener:default`; the fs and shell plugins are gone. The JavaScript bridge is `src/utils/native.ts`, used by `file-ops.ts` (exports and imports on every platform), `log-storage.ts` and `utils/backup/`. Details: [PACKAGING.md](PACKAGING.md).
+**The webview never names a path.** Since v1.0.0 the Rust side exposes only name-only commands for its own files (`backup_*` and `log_*` under the app data directory, `recover_legacy_data`) and two commands that open the native Save / Open dialog themselves (`export_text_file`, `import_text_file`: text formats only, imports capped at 20 MB). The capability file grants the webview only `core:default`, `opener:default` and (v1.5.1, for the zoom hotkeys' macOS/Linux polyfill) `core:webview:allow-set-webview-zoom`; the fs and shell plugins are gone. The JavaScript bridge is `src/utils/native.ts`, used by `file-ops.ts` (exports and imports on every platform), `log-storage.ts` and `utils/backup/`. Details: [PACKAGING.md](PACKAGING.md).
 
 Tauri advantages over Electron:
 

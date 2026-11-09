@@ -2,7 +2,7 @@
 
 ## YTDescGen — Tauri 2 Desktop and Android Apps
 
-Reflects **v1.5.0**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
+Reflects **v1.5.1**: Windows, macOS (Apple silicon) and Linux desktop apps plus an Android APK, all built from the same Tauri 2 project in `src-tauri/`. The web app is deployed separately — see [HOSTING.md](HOSTING.md).
 
 ---
 
@@ -62,7 +62,7 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
 {
   "$schema": "https://raw.githubusercontent.com/tauri-apps/tauri/dev/crates/tauri-cli/schema.json",
   "productName": "YTDescGen",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "identifier": "com.skullmute.ytdescgen",
   "build": {
     "beforeBuildCommand": "npm run build",
@@ -81,7 +81,8 @@ The icons come from the one brand logo: `npx tauri icon assets/brand/logo.svg` r
         "resizable": true,
         "maximizable": true,
         "fullscreen": false,
-        "center": true
+        "center": true,
+        "zoomHotkeysEnabled": true
       }
     ],
     "security": {
@@ -138,11 +139,13 @@ Notes:
 ```json
 {
   "identifier": "default",
-  "description": "Default capabilities for YTDescGen. File access goes through the app's own name-only commands and native dialogs run from Rust, so the webview gets no dialog, fs or shell permissions.",
+  "description": "Default capabilities for YTDescGen. File access goes through the app's own name-only commands and native dialogs run from Rust, so the webview gets no dialog, fs or shell permissions. set-webview-zoom backs the Ctrl/Cmd +/- zoom polyfill Tauri injects on macOS and Linux (zoomHotkeysEnabled).",
   "windows": ["main"],
-  "permissions": ["core:default", "opener:default"]
+  "permissions": ["core:default", "core:webview:allow-set-webview-zoom", "opener:default"]
 }
 ```
+
+`zoomHotkeysEnabled` (v1.5.1) lets the desktop app zoom with Ctrl/⌘ + = and Ctrl/⌘ + − (WebView2's own zoom control on Windows, which also takes Ctrl + mouse wheel; a polyfill on macOS and Linux that calls `set_webview_zoom`, hence the permission). Android has no zoom hotkeys; pinch zoom works there.
 
 The webview can call Tauri's core APIs, the opener plugin (external links open in the system browser, mail client or dialler) and the app's own commands — nothing else. v1.0.0 removed the `fs` and `shell` plugins and their permissions. `tauri-plugin-dialog` is still a dependency, but only Rust uses it: the webview has no dialog permission and no dialog JavaScript package. (`tauri-plugin-fs` still appears in `Cargo.lock` as a dependency of the dialog plugin; the app does not register it.)
 

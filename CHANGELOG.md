@@ -2,6 +2,44 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.5.1 — 2026-11-09
+
+An **accessibility** release. YTDescGen already worked with the keyboard alone and with Narrator; this release adds an accessibility statement and fixes what an audit against WCAG 2.2 AA turned up — colour contrast, the language of generated text, page changes a screen reader didn't hear, a single-key shortcut that couldn't be turned off, and zoom in the desktop app. Web, desktop and Android all ship as 1.5.1.
+
+### Added
+
+- **[ACCESSIBILITY.md](ACCESSIBILITY.md)** — what works with a keyboard, screen readers, zoom, reduced motion and touch, how it is checked, the supported environments, known limitations, how to report a barrier (severity levels, a reply within 7 days, Critical fixes in the next patch) and a checklist for contributors. Also in Vietnamese, in the app's **Legal Center**, at `ytgenerator.stream/legal/accessibility`, and linked from the website's check page in all eight languages.
+- **Accessibility barrier** issue form on GitHub (assistive technology, severity, platform), an _Accessibility_ option in feature requests, and an accessibility checklist in the pull request template.
+- **Settings › Editor › Single-key shortcuts** — on by default; turning it off stops the bare `?` from opening the shortcut list (for speech input and stray key presses), and Ctrl/⌘ + / still opens it. Travels with backups.
+- **Zoom in the desktop app** — Ctrl/⌘ + = and Ctrl/⌘ + − (and Ctrl + mouse wheel on Windows).
+- **The page's name is read out** after you open another page; the focus stays on the link you used.
+- **Alt + T** (go to the notifications) in the shortcut list.
+
+### Changed
+
+- **Colours reach WCAG AA (4.5:1) for text** in both themes: secondary "muted" text (hints, placeholders, counters) is lighter in the dark theme and darker in the light theme; the dark theme's accent is a little lighter; filled buttons with white text use a deeper purple and red; the light theme's success, warning, danger and donate colours are darker. A test now checks every colour token against every background.
+- Generated titles, descriptions, tags, captions and playlist text are marked with the **language they were written in**, so a screen reader reads Japanese output with a Japanese voice while the interface is in English or Vietnamese — on Output, the On YouTube and Quick previews, History, Batch, Social and Playlist.
+- The Legal Center's intro mentions accessibility.
+
+### Fixed
+
+- The notifications area and its close button were announced in English ("Notifications alt+T", "Close toast") whatever the interface language.
+- The Endings table's number and name fields and the per-video From / To fields had no accessible name, and the From / To column headers were always English; the bank name typed under _Other_ had only a placeholder.
+- In Windows High Contrast, text fields showed no focus outline.
+- The genre chips' remove button was 20 px (now 24 px); dialog close and banner dismiss buttons grow on touch screens.
+- `SECURITY.md` still listed 1.3.x as the supported version.
+
+### Under the hood
+
+- New tokens `accent-solid`, `accent-solid-hover`, `danger-solid`, `danger-solid-hover`; `tests/styles/contrast.test.ts` reads both palettes from `globals.css` (text tokens on surface-0 to 2, muted also on surface-3, accent on its own tint, white on the solid fills, 3:1 for marks on `accent`). It found the light theme's donate colour at 4.26:1 on the first run.
+- `RouteAnnouncer` listens for `ytdescgen:page-title`, which `useDocumentTitle` fires in a microtask after the commit's effects, so pages rendered in the same commit and lazy pages are both heard and a language switch stays silent.
+- `singleKeyShortcuts` is an additive setting, healed (anything but a boolean → `true`) without a store version bump, like `hideScrollbars`.
+- Text controls use Tailwind's `outline-hidden` instead of `outline-none`. `zoomHotkeysEnabled` on the main window, plus `core:webview:allow-set-webview-zoom` for Tauri's macOS / Linux zoom polyfill.
+- Legal Center doc `accessibility` (`consent: false`, English + Vietnamese); `GateStrings.accessibility` in the Worker; the `accessibility` label on GitHub. New keys in all eight locales and `_schema.json`.
+- **Docs**: ACCESSIBILITY.md (+ Vietnamese), README, CONTRIBUTING, DEVELOPMENT (+ Vietnamese), FEATURES (accessibility section, shortcuts, settings), ARCHITECTURE, TECH-SPEC, PACKAGING, ROADMAP, CLAUDE.md, SECURITY, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1131 tests** (was 1093), build, cf:check and `cargo fmt` / `clippy` / `test` all pass; initial load 279.0 of 280 KB gzip. Verified in the dev server: Settings → Output announces "Settings", then "Output", without moving the focus, and switching to Vietnamese doesn't announce; the notifications region reads "Thông báo (Alt+T)" in Vietnamese; Japanese output under a Vietnamese interface carries `lang="ja"`; with the switch off `?` does nothing and leaves the list while Ctrl + / still opens it; `/legal/accessibility` in both languages with every in-page link resolving. In the desktop app (`tauri dev`, WebView2): Ctrl + = zooms to 110 %, Ctrl + − back to 100 %.
+- Six manifests bumped 1.5.0 → 1.5.1.
+
 ## v1.5.0 — 2026-11-08
 
 A feature release for videos **upscaled in the editor**: recorded at 1440p, exported at 4K — the title says `[4K Upscaled]`, the description says what was upscaled to what and warns that fine detail may look different from the original image. Web, desktop and Android all ship as 1.5.0.
