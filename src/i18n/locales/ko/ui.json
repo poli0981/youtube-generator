@@ -1337,7 +1337,7 @@
   },
   "legal": {
     "title": "법적 고지",
-    "intro": "YTDescGen의 약관, 개인정보, 라이선스, 보안 문서입니다. ytgenerator.stream/legal에 게시된 것과 같은 내용입니다.",
+    "intro": "YTDescGen의 약관, 개인정보, 라이선스, 보안, 접근성 문서입니다. ytgenerator.stream/legal에 게시된 것과 같은 내용입니다.",
     "englishOnly": "문서는 영어로 게시됩니다. 면책 조항은 베트남어 버전도 있습니다.",
     "back": "뒤로",
     "allDocuments": "모든 문서",
@@ -1351,6 +1351,7 @@
       "license": "라이선스(Apache-2.0)",
       "thirdParty": "타사 고지",
       "security": "보안 정책",
+      "accessibility": "접근성",
       "notice": "NOTICE",
       "conduct": "행동 강령"
     },
@@ -1361,6 +1362,7 @@
       "license": "소스 코드에 적용되는 Apache License 2.0.",
       "thirdParty": "YTDescGen이 사용하는 오픈 소스 라이브러리, 글꼴, 서비스.",
       "security": "취약점을 비공개로 제보하는 방법과 적용 범위.",
+      "accessibility": "키보드, 화면 낭독기, 확대 기능으로 쓸 수 있는 것, 알려진 제한 사항, 접근성 문제를 알리는 방법.",
       "notice": "저작권과 출처 표시를 담은 Apache-2.0 NOTICE 파일.",
       "conduct": "프로젝트 커뮤니티 공간에 적용되는 Contributor Covenant 규칙."
     }

@@ -1,0 +1,123 @@
+name: Accessibility barrier
+description: Something stops or slows you down when you use a keyboard, a screen reader, zoom, high contrast, voice control or a touch screen.
+title: "[A11y]: "
+labels: ["accessibility", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for telling us. You don't need to know what causes the problem — describe what you tried and what happened.
+        Prefer not to post in public? Email **contact@poli0981.dev** with `[Accessibility]` at the start of the subject.
+        How reports are handled: [ACCESSIBILITY.md](https://github.com/poli0981/youtube-generator/blob/main/ACCESSIBILITY.md#reporting-a-barrier).
+  - type: textarea
+    id: barrier
+    attributes:
+      label: What happened?
+      description: What were you trying to do, and what got in the way?
+      placeholder: e.g. "With NVDA, the Copy Title button is announced only as 'button'."
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The page, then numbered steps — keys you pressed, gestures or voice commands.
+      placeholder: |
+        1. Open Output
+        2. Press Tab until the Copy Title button
+        3. Listen to what the screen reader says
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: dropdown
+    id: assistive-tech
+    attributes:
+      label: Assistive technology or setting
+      description: Pick everything you were using.
+      multiple: true
+      options:
+        - Keyboard only
+        - Narrator (Windows)
+        - NVDA
+        - JAWS
+        - VoiceOver (macOS / iOS)
+        - TalkBack (Android)
+        - Orca (Linux)
+        - Screen magnifier / browser zoom
+        - Speech input / voice control
+        - High contrast / forced colours
+        - Reduce motion
+        - Switch access
+        - Other (say which below)
+    validations:
+      required: true
+  - type: input
+    id: assistive-tech-version
+    attributes:
+      label: Version of that tool (if you know it)
+      placeholder: e.g. NVDA 2026.3, VoiceOver on macOS 26
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How much does it stop you?
+      description: The levels are explained in ACCESSIBILITY.md.
+      options:
+        - Critical — I can't finish a core task (write, generate, copy, save, get past the website check)
+        - High — I can finish it, but only with real difficulty or a workaround
+        - Medium — it works, but inconsistently or confusingly
+        - Low — a minor annoyance
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From the About page. Example `v1.5.1`.
+      placeholder: v1.5.1
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where are you running YTDescGen?
+      options:
+        - Web (ytgenerator.stream)
+        - Desktop — Windows (Tauri)
+        - Desktop — macOS (Tauri)
+        - Desktop — Linux (Tauri)
+        - Android (APK)
+        - Local dev (npm run dev)
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system and browser
+      description: e.g. Windows 11 25H2 + Edge 141, macOS 26 + Safari 26, Android 15. Leave the browser out for the desktop and Android apps.
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: App language
+      options:
+        - English (en)
+        - Tiếng Việt (vi)
+        - 日本語 (ja)
+        - Español (es)
+        - 한국어 (ko)
+        - 简体中文 (zh)
+        - Português (BR) (pt-BR)
+        - Bahasa Indonesia (id)
+    validations:
+      required: true
+  - type: textarea
+    id: recording
+    attributes:
+      label: Screen recording, screenshot or screen reader output (optional)
+      description: Drag and drop files here, or paste what the screen reader said.

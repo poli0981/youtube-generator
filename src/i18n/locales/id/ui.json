@@ -1337,7 +1337,7 @@
   },
   "legal": {
     "title": "Informasi hukum",
-    "intro": "Ketentuan, privasi, lisensi, dan keamanan YTDescGen — dokumen yang sama dengan yang diterbitkan di ytgenerator.stream/legal.",
+    "intro": "Ketentuan, privasi, lisensi, keamanan, dan aksesibilitas YTDescGen — dokumen yang sama dengan yang diterbitkan di ytgenerator.stream/legal.",
     "englishOnly": "Dokumen diterbitkan dalam bahasa Inggris; Penafian juga tersedia dalam bahasa Vietnam.",
     "back": "Kembali",
     "allDocuments": "Semua dokumen",
@@ -1351,6 +1351,7 @@
       "license": "Lisensi (Apache-2.0)",
       "thirdParty": "Pemberitahuan pihak ketiga",
       "security": "Kebijakan keamanan",
+      "accessibility": "Aksesibilitas",
       "notice": "NOTICE",
       "conduct": "Kode Etik"
     },
@@ -1361,6 +1362,7 @@
       "license": "Lisensi Apache 2.0 yang berlaku untuk kode sumber.",
       "thirdParty": "Pustaka sumber terbuka, font, dan layanan yang digunakan YTDescGen.",
       "security": "Cara melaporkan kerentanan secara pribadi, dan cakupannya.",
+      "accessibility": "Apa yang bisa dipakai dengan keyboard, pembaca layar, dan zoom, keterbatasan yang diketahui, dan cara melaporkan hambatan.",
       "notice": "Berkas NOTICE Apache-2.0 berisi hak cipta dan atribusi.",
       "conduct": "Aturan Contributor Covenant untuk ruang komunitas proyek."
     }

@@ -20,6 +20,7 @@ export type LegalDocId =
   | "license"
   | "third-party"
   | "security"
+  | "accessibility"
   | "notice"
   | "conduct";
 
@@ -54,6 +55,13 @@ export const LEGAL_DOCS: readonly LegalDoc[] = [
     consent: false,
   },
   { id: "security", labelKey: "legal.docs.security", source: "SECURITY.md", consent: false },
+  {
+    id: "accessibility",
+    labelKey: "legal.docs.accessibility",
+    source: "ACCESSIBILITY.md",
+    sourceVi: "docs/i18n/vi/ACCESSIBILITY.md",
+    consent: false,
+  },
   { id: "notice", labelKey: "legal.docs.notice", source: "NOTICE", consent: false },
   { id: "conduct", labelKey: "legal.docs.conduct", source: "CODE_OF_CONDUCT.md", consent: false },
 ];

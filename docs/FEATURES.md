@@ -367,6 +367,26 @@ a pasted store link can each be undone from the toast they show.
 - Dark and light themes; scrollbars can be hidden (v1.1.0); animated icons
   follow the system's _reduce motion_; controls grow on touch screens.
 
+### ♿ Accessibility (v1.5.1)
+
+The statement is [ACCESSIBILITY.md](../ACCESSIBILITY.md) (also in the Legal
+Center, in English and Vietnamese). In short:
+
+- **Keyboard** — everything works without a mouse: skip link, visible focus,
+  dialogs that keep and return focus, the shortcuts below; the bare `?` can
+  be turned off (Settings › Editor › Single-key shortcuts, WCAG 2.1.4).
+- **Screen readers** — named controls and labelled fields, announced
+  confirmations and errors, the new page's name read out after a navigation
+  (`RouteAnnouncer`), translated toast labels, and generated text marked with
+  its language (`lang`) so it is read with the right voice.
+- **Vision** — both themes at WCAG AA text contrast, checked by
+  `tests/styles/contrast.test.ts`; white text sits on the darker
+  `accent-solid` / `danger-solid` fills; focus stays visible in Windows High
+  Contrast; desktop zoom with Ctrl/⌘ + = / − (`zoomHotkeysEnabled`).
+- **Reporting** — the _Accessibility barrier_ issue form
+  (`.github/ISSUE_TEMPLATE/accessibility.yml`), or `contact@` with
+  `[Accessibility]`.
+
 ## 💾 Data Persistence
 
 Everything stays on the device: the browser's storage for
@@ -416,7 +436,9 @@ In **Settings › Backup & restore**:
 | `Ctrl/⌘+Shift+C`             | Copy All — same limits and Strict Mode rules as the Output page |
 | `Ctrl/⌘+S`                   | Save the current output to History                              |
 | `Ctrl/⌘+B`                   | Collapse / expand the sidebar                                   |
-| `Ctrl/⌘+/` or `?`            | Show keyboard shortcuts (`?` only outside text fields)          |
+| `Alt+T`                      | Go to the notifications (while any are on screen)               |
+| `Ctrl/⌘+/` or `?`            | Show keyboard shortcuts (`?` only outside text fields, while Settings › Editor › Single-key shortcuts is on) |
+| `Ctrl/⌘+=` / `Ctrl/⌘+−`      | Zoom in / out — desktop app (v1.5.1)                            |
 | `Escape`                     | Close modal                                                     |
 
 ## 🔧 Settings
@@ -430,6 +452,7 @@ In **Settings › Backup & restore**:
 | Show Character Count       | boolean                         | true             | Display char counters on output. **Does not** affect copy blocking                                                                 |
 | Compact Tag Display        | boolean                         | false            | Tags as comma list vs chip display                                                                                                 |
 | Copy All includes the tags | boolean                         | false            | v1.0.0. Copy All copies title, description, then tags                                                                              |
+| Single-key shortcuts       | boolean                         | true             | v1.5.1. `?` opens the shortcut list outside text fields; off leaves Ctrl/⌘ + / only (speech input, stray key presses)              |
 | **Strict Mode**            | boolean                         | **false**        | v0.35.0. Blocks Generate / Copy / Export while any field has a hard error                                                          |
 | Show quality badge         | boolean                         | true             | `[2K 60FPS]`-style badge in the title when resolution or FPS is above the defaults; `[4K Upscaled]` for an upscaled video (v1.5.0) |
 | Title order                | game first / video first        | game first       | v1.0.0. "Hades — Part 3" or "Part 3 — Hades"                                                                                       |

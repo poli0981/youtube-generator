@@ -248,3 +248,4 @@ docs/I18N.md). Lời khuyên restart ở trên vẫn áp dụng cho tất cả.
 - [PACKAGING.md](../../PACKAGING.md) — Tauri release build và signing.
 - [CONTRIBUTING.md ở root](../../../CONTRIBUTING.md) — quy trình PR, quy ước commit, auto-ignore rules.
 - [SECURITY.md ở root](../../../SECURITY.md) — báo cáo lỗ hổng bảo mật.
+- [ACCESSIBILITY.md ở root](../../../ACCESSIBILITY.md) — những gì dùng được với công nghệ hỗ trợ, và checklist cho thay đổi UI (bản tiếng Việt: [ACCESSIBILITY.md](./ACCESSIBILITY.md)).

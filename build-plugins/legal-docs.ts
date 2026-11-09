@@ -211,6 +211,8 @@ const DOC_SUMMARIES: Readonly<Record<LegalDocId, string>> = {
   license: "The Apache License 2.0 the source code is released under.",
   "third-party": "Open-source libraries, fonts and services YTDescGen relies on.",
   security: "How to report a vulnerability privately, and what is in scope.",
+  accessibility:
+    "What works with a keyboard, screen readers and zoom, known gaps, and how to report a barrier.",
   notice: "The Apache-2.0 NOTICE file with copyright and attribution.",
   conduct: "Contributor Covenant rules for the project's community spaces.",
 };
@@ -259,6 +261,7 @@ const TITLE_BY_ID: Record<LegalDocId, string> = {
   license: "License (Apache-2.0)",
   "third-party": "Third-Party Notices",
   security: "Security Policy",
+  accessibility: "Accessibility",
   notice: "NOTICE",
   conduct: "Code of Conduct",
 };
@@ -296,10 +299,10 @@ function indexPage(): string {
   return pageShell({
     title: "Legal",
     canonicalPath: "/legal",
-    description: "Terms, privacy, licensing and security information for YTDescGen.",
+    description: "Terms, privacy, licensing, security and accessibility information for YTDescGen.",
     activeId: null,
     lang: "en",
-    body: `<article><h1>Legal</h1><p>Terms, privacy, licensing and security information for YTDescGen — the same documents the app shows in its Legal Center.</p><div class="cards">${cards}</div></article>`,
+    body: `<article><h1>Legal</h1><p>Terms, privacy, licensing, security and accessibility information for YTDescGen — the same documents the app shows in its Legal Center.</p><div class="cards">${cards}</div></article>`,
   });
 }
 

@@ -74,6 +74,19 @@ describe("renderAllLegalDocs (the real repository files)", () => {
     expect(docs.disclaimer.html.vi).toBeTruthy();
   });
 
+  it("carries the accessibility statement in English and Vietnamese, dated", () => {
+    expect(docs.accessibility.title).toBe("Accessibility");
+    expect(docs.accessibility.effective).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(docs.accessibility.html.vi).toContain("Khả năng tiếp cận");
+    // The in-page links resolve: every #anchor the statement uses has a heading.
+    for (const lang of ["en", "vi"] as const) {
+      const html = docs.accessibility.html[lang] ?? "";
+      for (const [, anchor] of html.matchAll(/href="#([^"]+)"/g)) {
+        expect(html, `${lang} #${anchor}`).toContain(`id="${anchor}"`);
+      }
+    }
+  });
+
   it("dates the Terms and the Privacy Policy", () => {
     expect(docs.terms.effective).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(docs.privacy.effective).toMatch(/^\d{4}-\d{2}-\d{2}$/);
