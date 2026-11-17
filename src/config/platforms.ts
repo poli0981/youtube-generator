@@ -46,7 +46,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     // /app/, /sub/ (package) or /bundle/ + <digits>, optionally followed by
     // /<slug>; or the s.team/a/<digits> short link.
     urlPattern:
-      /^https:\/\/(?:store\.steampowered\.com\/(?:app|sub|bundle)\/\d+(?:\/[^\s]*)?|s\.team\/a\/\d+\/?)$/i,
+      /^https:\/\/(?:store\.steampowered\.com\/(?:app|sub|bundle)\/\d+(?:\/\S*)?|s\.team\/a\/\d+\/?)$/i,
     normalize: normalizeSteamUrl,
   },
   {
@@ -54,14 +54,14 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     tagName: "Epic Games",
     label: "Epic Games Store",
     urlPrefix: "https://store.epicgames.com/",
-    urlPattern: /^https:\/\/(?:store\.epicgames\.com|www\.epicgames\.com\/store)\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:store\.epicgames\.com|www\.epicgames\.com\/store)\/\S+$/i,
   },
   {
     id: "ps",
     tagName: "PlayStation",
     label: "PlayStation Store",
     urlPrefix: "https://store.playstation.com/",
-    urlPattern: /^https:\/\/store\.playstation\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/store\.playstation\.com\/\S+$/i,
   },
   {
     id: "xbox",
@@ -70,7 +70,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     urlPrefix: "https://www.xbox.com/games/",
     // xbox.com (with or without www) and the Microsoft Store web pages.
     urlPattern:
-      /^https:\/\/(?:(?:www\.)?xbox\.com|apps\.microsoft\.com|www\.microsoft\.com\/[a-z-]*\/?store)\/[^\s]*$/i,
+      /^https:\/\/(?:(?:www\.)?xbox\.com|apps\.microsoft\.com|www\.microsoft\.com\/[a-z-]*\/?store)\/\S*$/i,
   },
   {
     id: "nintendo",
@@ -80,14 +80,14 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     // Every regional site: nintendo.com/us/…, nintendo.co.uk, nintendo.de,
     // store.nintendo.co.uk, nintendo.co.jp …
     urlPattern:
-      /^https:\/\/(?:[a-z0-9-]+\.)*nintendo\.(?:com|co\.[a-z]{2}|com\.[a-z]{2}|[a-z]{2})\/[^\s]+$/i,
+      /^https:\/\/(?:[a-z0-9-]+\.)*nintendo\.(?:com|co\.[a-z]{2}|com\.[a-z]{2}|[a-z]{2})\/\S+$/i,
   },
   {
     id: "gog",
     tagName: "GOG",
     label: "GOG",
     urlPrefix: "https://www.gog.com/game/",
-    urlPattern: /^https:\/\/(?:www\.)?gog\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:www\.)?gog\.com\/\S+$/i,
   },
   {
     id: "itchio",
@@ -103,7 +103,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     tagName: "Humble Bundle",
     label: "Humble Bundle",
     urlPrefix: "https://www.humblebundle.com/store/",
-    urlPattern: /^https:\/\/(?:www\.)?humblebundle\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:www\.)?humblebundle\.com\/\S+$/i,
   },
   {
     id: "amazon",
@@ -111,21 +111,21 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     label: "Amazon Luna",
     urlPrefix: "https://luna.amazon.com/game/",
     // Luna's own site, or the game's page on any Amazon storefront.
-    urlPattern: /^https:\/\/(?:luna\.amazon\.com|(?:www\.)?amazon\.[a-z.]{2,6})\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:luna\.amazon\.com|(?:www\.)?amazon\.[a-z.]{2,6})\/\S+$/i,
   },
   {
     id: "ea",
     tagName: "EA app",
     label: "EA app",
     urlPrefix: "https://www.ea.com/games/",
-    urlPattern: /^https:\/\/(?:www\.)?ea\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:www\.)?ea\.com\/\S+$/i,
   },
   {
     id: "ubisoft",
     tagName: "Ubisoft Connect",
     label: "Ubisoft Store",
     urlPrefix: "https://store.ubisoft.com/",
-    urlPattern: /^https:\/\/(?:store\.ubisoft\.com|(?:www\.)?ubisoft\.com)\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:store\.ubisoft\.com|(?:www\.)?ubisoft\.com)\/\S+$/i,
   },
   {
     id: "battlenet",
@@ -133,7 +133,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     label: "Battle.net",
     urlPrefix: "https://shop.battle.net/",
     // shop.battle.net and its regional hosts (us.shop.battle.net …).
-    urlPattern: /^https:\/\/(?:[a-z0-9-]+\.)*battle\.net\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:[a-z0-9-]+\.)*battle\.net\/\S+$/i,
   },
   {
     id: "googleplay",
@@ -151,7 +151,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     tagName: "iOS",
     label: "App Store",
     urlPrefix: "https://apps.apple.com/app/",
-    urlPattern: /^https:\/\/apps\.apple\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/apps\.apple\.com\/\S+$/i,
   },
   {
     id: "meta",
@@ -159,7 +159,7 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     label: "Meta Quest Store",
     urlPrefix: "https://www.meta.com/experiences/",
     // meta.com, and oculus.com links that still circulate.
-    urlPattern: /^https:\/\/(?:www\.)?(?:meta|oculus)\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:www\.)?(?:meta|oculus)\.com\/\S+$/i,
   },
   {
     // Catch-all for indie / niche releases distributed only from a
@@ -170,6 +170,6 @@ export const PLATFORMS: readonly PlatformConfig[] = [
     id: "publisher",
     label: "Publisher / Developer site",
     urlPrefix: "https://",
-    urlPattern: /^https:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/[^\s]*)?$/i,
+    urlPattern: /^https:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/\S*)?$/i,
   },
 ] as const;

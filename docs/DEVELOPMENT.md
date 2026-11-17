@@ -87,6 +87,7 @@ The dev server is the app alone: no Turnstile gate and no analytics. To run the 
 - PR titles use the commit format `type(scope): message`; CI checks them.
 - Every PR runs the `check` job (below), `dependency-review`, `workflow-lint`, `reuse` and `pr-title`; the Rust jobs `lint-and-test` and `cargo-deny` run when `src-tauri/` changes.
 - After `check`, the `sonarcloud` job sends the code and the coverage report to [SonarCloud](https://sonarcloud.io/project/overview?id=poli0981_youtube-generator) (settings in `sonar-project.properties`) and fails when its quality gate does: new code needs A ratings, reviewed security hotspots, at most 3 % duplication and at least 80 % coverage. PRs from forks and from Dependabot skip it — they get no `SONAR_TOKEN` — and `main` is analysed after every merge.
+- The `Qodana` workflow runs JetBrains [Qodana](https://www.jetbrains.com/qodana/) on every PR and every push to `main`: Qodana for JS on the repository (`qodana.yaml`) and Qodana for Rust on `src-tauri/` (`src-tauri/qodana.yaml`). Both fail on any problem. Like SonarCloud, it skips PRs from forks and from Dependabot, which get no Qodana token. It is not a required check.
 
 Full rules: [CONTRIBUTING.md](../CONTRIBUTING.md).
 

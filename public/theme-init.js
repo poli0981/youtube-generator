@@ -2,6 +2,7 @@
 // first paint, so a light-theme user never sees the dark default flash. A
 // separate file rather than an inline <script> so the Content-Security-Policy
 // needs no exception.
+/* global document, localStorage */
 (function () {
   var root = document.documentElement;
   var theme = "dark";
@@ -14,7 +15,7 @@
     // Unhealed raw storage, so only a real `true` counts.
     if (state && state.hideScrollbars === true) hideScrollbars = true;
     if (state && typeof state.appLanguage === "string") lang = state.appLanguage;
-  } catch (e) {
+  } catch {
     /* storage blocked or corrupt: keep the defaults */
   }
   root.classList.toggle("dark", theme === "dark");

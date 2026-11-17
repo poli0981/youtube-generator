@@ -11,6 +11,7 @@ import { extractData, useSettingsStore } from "@store/settings-store";
 import { editorDataOf, useEditorStore, type EditorData } from "@store/editor-store";
 import type { SettingsData } from "@store/settings-heal";
 import { generateId } from "@utils/uuid";
+import { stableJson } from "@utils/stable-json";
 import { PLATFORMS } from "@config/platforms";
 import type { ParsedFile } from "./detect";
 import { SECTIONS, isListSection, type ListSection, type Section } from "./format";
@@ -78,22 +79,13 @@ export function readCurrentData(): CurrentData {
   };
 }
 
-/** JSON with sorted keys, so equal data compares equal whatever its key order. */
-function stable(value: unknown): string {
-  return JSON.stringify(value, (_key, v: unknown) =>
-    v && typeof v === "object" && !Array.isArray(v)
-      ? Object.fromEntries(
-          Object.entries(v as Record<string, unknown>).sort(([a], [b]) => (a < b ? -1 : 1)),
-        )
-      : v,
-  );
-}
-
 const BOOKKEEPING = new Set(["id", "createdAt", "updatedAt"]);
 
 /** The part of an item that matters when comparing: no id, no timestamps. */
 function content(item: object): string {
-  return stable(Object.fromEntries(Object.entries(item).filter(([key]) => !BOOKKEEPING.has(key))));
+  return stableJson(
+    Object.fromEntries(Object.entries(item).filter(([key]) => !BOOKKEEPING.has(key))),
+  );
 }
 
 function changedAt(item: { createdAt: string; updatedAt?: string }): number {
@@ -191,13 +183,13 @@ export function planRestore(
   if (clean.settings) {
     plan.settings = {
       incoming: clean.settings,
-      status: stable(clean.settings) === stable(current.settings) ? "same" : "changed",
+      status: stableJson(clean.settings) === stableJson(current.settings) ? "same" : "changed",
     };
   }
   if (clean.draft) {
     plan.draft = {
       incoming: clean.draft,
-      status: stable(clean.draft) === stable(current.draft) ? "same" : "changed",
+      status: stableJson(clean.draft) === stableJson(current.draft) ? "same" : "changed",
     };
   }
   return plan;
