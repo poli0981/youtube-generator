@@ -6,6 +6,10 @@
 
 Generate YouTube titles, descriptions and tags in eight languages. Save your channel as a profile and each game as a preset, and every new video is a few clicks.
 
+[![Status: maintenance mode](https://img.shields.io/badge/status-maintenance_mode-yellow.svg)](#project-status)
+[![CI](https://github.com/poli0981/youtube-generator/actions/workflows/ci.yml/badge.svg)](https://github.com/poli0981/youtube-generator/actions/workflows/ci.yml)
+[![Qodana](https://github.com/poli0981/youtube-generator/actions/workflows/qodana.yml/badge.svg)](https://github.com/poli0981/youtube-generator/actions/workflows/qodana.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=poli0981_youtube-generator&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=poli0981_youtube-generator)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](./LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A526-brightgreen)](./docs/DEVELOPMENT.md)
 [![Latest release](https://img.shields.io/github/v/release/poli0981/youtube-generator?include_prereleases)](https://github.com/poli0981/youtube-generator/releases)
@@ -22,6 +26,18 @@ YTDescGen does **one** job: turn a small set of structured fields (video type, g
 It doesn't talk to the YouTube API and has no account. Your work — profiles, presets, templates, history, drafts — stays on your device. See [Privacy](#privacy).
 
 Built for the gameplay no-commentary niche — especially horror / scary games — by someone running the [@SkullMute](https://www.youtube.com/@SkullMute) channel who got tired of pasting the same boilerplate into every video. Released under Apache 2.0 in case it's useful to anyone else.
+
+## Project status
+
+**Maintenance mode** since 1.6.0 (November 2026). YTDescGen is feature-complete, and it stays maintained:
+
+- dependency updates on a regular schedule, and fast fixes for high or critical CVEs and serious runtime security issues;
+- major language, runtime and framework upgrades (for example Node 24 → 26, TypeScript 6 → 7);
+- bug, UI/UX and accessibility fixes, and adding or removing an option in one of the app's lists — a store, platform, genre, video type, content warning, GPU or upscaler mode — when people really need it;
+- translation fixes: wording that doesn't fit a culture or region, and spelling mistakes that could mislead;
+- changes the Cloudflare or Worker platform forces, and website incidents such as DDoS or bot spam.
+
+New features are not planned, except the rare one that is genuinely necessary. Feature issues and pull requests outside this list are closed automatically. The full policy is in [CONTRIBUTING.md](./CONTRIBUTING.md#maintenance-mode).
 
 ## Features
 
@@ -104,7 +120,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 | [Architecture](./docs/ARCHITECTURE.md)                         | Layer model, data flow, engine design.                                                                                                                                          |
 | [Features](./docs/FEATURES.md)                                 | Full feature matrix.                                                                                                                                                            |
 | [Content Inventory](./docs/CONTENT-INVENTORY.md)               | Every video type, genre, content warning and tech note the editor surfaces. _(Also: [Vietnamese](./docs/i18n/vi/CONTENT-INVENTORY.md).)_                                        |
-| [Roadmap](./docs/ROADMAP.md)                                   | What shipped and what's next.                                                                                                                                                   |
+| [Roadmap](./docs/ROADMAP.md)                                   | What shipped, and what maintenance mode still covers.                                                                                                                           |
 | [Tech Spec](./docs/TECH-SPEC.md)                               | Implementation details and configs.                                                                                                                                             |
 | [i18n Guide](./docs/I18N.md)                                   | Adding new locales.                                                                                                                                                             |
 | [Packaging](./docs/PACKAGING.md)                               | Tauri desktop + Android release builds and signing.                                                                                                                             |
@@ -121,7 +137,7 @@ Architecture overview: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
 ## Contributing
 
-PRs welcome — read [CONTRIBUTING.md](./CONTRIBUTING.md) first. Native-speaker corrections to the AI-translated locales (JA / ES / KO / ZH / PT-BR / ID) are especially appreciated.
+YTDescGen is in [maintenance mode](#project-status): bug, accessibility and translation fixes and agreed option requests are welcome — read [CONTRIBUTING.md](./CONTRIBUTING.md) first. Native-speaker corrections to the AI-translated locales (JA / ES / KO / ZH / PT-BR / ID) are especially appreciated. Feature ideas go to [Discussions → Ideas](https://github.com/poli0981/youtube-generator/discussions/categories/ideas).
 
 ## License
 

@@ -1,5 +1,7 @@
 # Maintainers
 
+Since 1.6.0 the project is in **maintenance mode**: no new features, only the changes listed in [CONTRIBUTING.md → Maintenance mode](./CONTRIBUTING.md#maintenance-mode).
+
 ## Active Maintainers
 
 ### `@poli0981`
@@ -12,11 +14,18 @@
 
 ## Maintainer Responsibilities
 
-- Triage incoming issues and PRs.
+- Triage incoming issues and PRs, keeping them within the maintenance scope: the [triage workflow](./.github/workflows/maintenance-triage.yml) closes feature requests from outside contributors, and anything labelled `out-of-scope`, with an explanation.
 - Run the release process: `CHANGELOG.md` entry, version bump, build artifacts, signed tag.
 - Enforce the [Code of Conduct](./CODE_OF_CONDUCT.md).
 - Review and approve locale translation contributions.
 - Coordinate security advisory disclosure per [SECURITY.md](./SECURITY.md).
+
+## Where to Reach Us
+
+- Bug reports, translation fixes and option requests: [GitHub Issues](https://github.com/poli0981/youtube-generator/issues)
+- Feature ideas, with no commitment while in maintenance mode: [Discussions → Ideas](https://github.com/poli0981/youtube-generator/discussions/categories/ideas)
+- Accessibility barriers: the [Accessibility barrier](https://github.com/poli0981/youtube-generator/issues/new?template=accessibility.yml) form — see [ACCESSIBILITY.md](./ACCESSIBILITY.md)
+- Vulnerabilities: privately, as [SECURITY.md](./SECURITY.md) describes
 
 ## Becoming a Maintainer
 

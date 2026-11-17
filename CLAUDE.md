@@ -9,6 +9,17 @@
 - **Repository**: `github.com/poli0981/youtube-generator` · **License**: Apache-2.0 (`LICENSE`, `NOTICE`, REUSE-compliant).
 - **Maintainer**: poli0981 (SkullMute). Contacts by purpose: see `src/config/about.ts` and README.
 
+**Status: maintenance mode** (since v1.6.0). Don't propose new features. Every change must fall under the policy in [`CONTRIBUTING.md` → Maintenance mode](CONTRIBUTING.md#maintenance-mode):
+
+- dependency updates on the regular schedule;
+- security fixes (a CVE rated high or critical, a serious runtime issue);
+- major language, runtime or framework upgrades;
+- bug, UI/UX and accessibility fixes, and adding or removing an option in one of the app's lists (stores, platforms, genres, video types, content warnings, tech notes, GPUs, upscaler / frame-gen modes) when people really need it;
+- translation fixes (wording that doesn't fit a culture or region, misleading spelling);
+- Cloudflare / Worker changes the platform forces, website incidents.
+
+`.github/workflows/maintenance-triage.yml` closes out-of-scope issues and pull requests (label `out-of-scope`); `feat(options)`, `feat(a11y)` and `feat(i18n)` pull requests stay open.
+
 ## Tech Stack
 
 | Layer             | Technology                                                                                                                                                                                  |

@@ -1,7 +1,7 @@
 name: Accessibility barrier
 description: Something stops or slows you down when you use a keyboard, a screen reader, zoom, high contrast, voice control or a touch screen.
 title: "[A11y]: "
-labels: ["accessibility", "triage"]
+labels: ["accessibility", "needs-triage"]
 body:
   - type: markdown
     attributes:

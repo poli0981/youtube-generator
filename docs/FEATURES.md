@@ -599,7 +599,10 @@ documents and ticks one "I agree" checkbox.
 
 ## 🔌 Future Extension Points
 
-See [ROADMAP.md](./ROADMAP.md) for the post-1.0 backlog.
+**Frozen: YTDescGen is in maintenance mode** (since v1.6.0) and takes no new
+features — see [CONTRIBUTING.md → Maintenance mode](../CONTRIBUTING.md#maintenance-mode).
+The ideas below and the [ROADMAP.md](./ROADMAP.md) backlog stay as a record; one
+moves only if the maintainer judges it genuinely necessary.
 
 | Extension            | Description                                                 | Effort |
 | -------------------- | ----------------------------------------------------------- | ------ |

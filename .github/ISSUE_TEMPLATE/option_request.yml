@@ -1,0 +1,62 @@
+name: Option request
+description: Add or remove an option in one of the app's lists — a store, platform, genre, video type, content warning, tech note, GPU or upscaler / frame-generation mode.
+title: "[Option]: "
+labels: ["option-request", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        YTDescGen is in **maintenance mode** ([CONTRIBUTING.md → Maintenance mode](https://github.com/poli0981/youtube-generator/blob/main/CONTRIBUTING.md#maintenance-mode)): it takes no new features, but an option people really need can still join — or leave — one of the lists the app already has. For anything else, share the idea in [Discussions → Ideas](https://github.com/poli0981/youtube-generator/discussions/categories/ideas).
+  - type: dropdown
+    id: action
+    attributes:
+      label: Add or remove?
+      options:
+        - Add an option
+        - Remove an option
+    validations:
+      required: true
+  - type: dropdown
+    id: list
+    attributes:
+      label: Which list
+      options:
+        - Store (store links)
+        - Social or donate platform
+        - Game genre
+        - Video type
+        - Content warning
+        - Tech note
+        - GPU (rig catalog)
+        - Upscaler / frame generation (Video settings)
+        - Another list (say which below)
+    validations:
+      required: true
+  - type: input
+    id: option
+    attributes:
+      label: The option
+      description: Its name as it should appear, e.g. "itch.io", "Roguelite", "AMD FSR 4 x4".
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Who needs it, and why
+      description: What can't you do today? A link helps — the store page, the vendor's announcement, a video of yours that needed it.
+    validations:
+      required: true
+  - type: textarea
+    id: wording
+    attributes:
+      label: Suggested wording (optional)
+      description: For a content warning or tech note, the editor label and the line the description should print, in any of the eight languages you know.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: This adds or removes an option in a list the app already has — it is not a new feature.
+          required: true

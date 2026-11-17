@@ -2,10 +2,12 @@
 
 ## YTDescGen — Phased Development Plan
 
-> **Status (2026-11-10): v1.5.2 is the current release.** Phases 1–4 are the original
-> plan, kept as a record; notes added beside or under an item say what has
-> changed since. Every release is listed in [CHANGELOG.md](../CHANGELOG.md).
-> What's next: Phase 5 and the backlog at the end of this page.
+> **Status (2026-11-17): maintenance mode, from v1.6.0.** YTDescGen is
+> feature-complete: it stays maintained but takes no new features — see
+> [Maintenance mode](#maintenance-mode--from-v160) below. Phases 1–4 are the
+> original plan, kept as a record; notes added beside or under an item say
+> what has changed since. Every release is listed in
+> [CHANGELOG.md](../CHANGELOG.md). Phase 5 and the backlog are frozen.
 
 ---
 
@@ -375,7 +377,53 @@ the initial load inside its budget —
 
 ---
 
+## Maintenance mode — from v1.6.0
+
+**Status**: ongoing since v1.6.0 (November 2026).
+
+YTDescGen is feature-complete. From 1.6.0 on it is maintained, not extended:
+no new features unless one is judged genuinely necessary. The accepted
+changes, and how out-of-scope issues and pull requests are closed, are in
+[CONTRIBUTING.md → Maintenance mode](../CONTRIBUTING.md#maintenance-mode):
+
+1. Dependency updates on a regular schedule.
+2. Security fixes: a dependency with a high or critical CVE, a serious runtime
+   issue.
+3. Major language, runtime and framework upgrades (Node 24 → 26, TypeScript
+   6 → 7).
+4. Bug, UI/UX and accessibility fixes, and adding or removing an option in one
+   of the app's lists when people really need it.
+5. Translation fixes: wording that doesn't fit a culture or region, misleading
+   spelling mistakes.
+6. Cloudflare / Worker changes the platform forces.
+7. Website incidents such as DDoS or bot spam.
+
+What 1.6.0 set up for it:
+
+- [x] **Policy**: README → Project status, CONTRIBUTING → Maintenance mode,
+      SECURITY, MAINTAINERS, CLAUDE.md.
+- [x] **Issue forms**: the feature request form is gone; an Option request
+      and a Translation or wording fix form joined Bug report and
+      Accessibility barrier; a Scope checklist in the pull request template.
+- [x] **Auto-close**: `maintenance-triage.yml` closes, with a bilingual
+      comment and the `out-of-scope` label, feature issues and `feat:` pull
+      requests from outside contributors (`feat(options)`, `feat(a11y)` and
+      `feat(i18n)` stay open), and anything the maintainer labels
+      `out-of-scope`.
+- [x] **Qodana**: Qodana for JS and Qodana for Rust (Early Access) on every
+      push and pull request, reported to Qodana Cloud, with a gate of zero
+      problems.
+
+Known maintenance already queued: the GitHub Pages moving notice comes down
+on 2026-11-29 (issue #177); i18next 27 and Tauri 3 arrive as planned major
+upgrades when they are ready.
+
+---
+
 ## Phase 5 — Extensions & Ecosystem (Priority: P2-P3)
+
+**Frozen while YTDescGen is in maintenance mode.** An item moves only if it
+falls under the [maintenance policy](../CONTRIBUTING.md#maintenance-mode).
 
 **Goal**: IDE extension, CLI, community features.
 **Estimated**: Ongoing
@@ -423,7 +471,8 @@ the initial load inside its budget —
 
 ## Backlog (after v1.0.0)
 
-Ideas carried over from the v1.0.0 planning — not scheduled.
+Ideas carried over from the v1.0.0 planning — not scheduled, and frozen while
+YTDescGen is in maintenance mode.
 
 ```
 - [ ] Auto-fill game info from Steam through the Worker — needs rate limiting
@@ -441,13 +490,13 @@ Ideas carried over from the v1.0.0 planning — not scheduled.
 
 ## Timeline Summary
 
-| Phase   | Scope              | Days    | Cumulative |
-| ------- | ------------------ | ------- | ---------- |
-| Phase 1 | MVP Core           | 3-4     | 3-4 days   |
-| Phase 2 | Profiles & Presets | 2-3     | 5-7 days   |
-| Phase 3 | Polish & Advanced  | 2-3     | 7-10 days  |
-| Phase 4 | Desktop App        | 2-3     | 9-13 days  |
-| Phase 5 | Extensions         | Ongoing | —          |
+| Phase   | Scope              | Days   | Cumulative |
+| ------- | ------------------ | ------ | ---------- |
+| Phase 1 | MVP Core           | 3-4    | 3-4 days   |
+| Phase 2 | Profiles & Presets | 2-3    | 5-7 days   |
+| Phase 3 | Polish & Advanced  | 2-3    | 7-10 days  |
+| Phase 4 | Desktop App        | 2-3    | 9-13 days  |
+| Phase 5 | Extensions         | Frozen | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
 **v1.0.0 shipped on 2026-09-30; the current release is v1.5.2 (2026-11-10).**

@@ -6,6 +6,28 @@ Thanks for taking the time to contribute. Read this once before opening your fir
 
 Participation is governed by the [Code of Conduct](./CODE_OF_CONDUCT.md). By contributing, you agree to its terms.
 
+## Maintenance mode
+
+Since 1.6.0 (November 2026) YTDescGen is in **maintenance mode**. It is feature-complete and stays maintained, but it doesn't grow new features. These changes are still accepted:
+
+1. **Dependency updates** on a regular schedule (weekly, grouped by Dependabot after a 7-day cooldown).
+2. **Security fixes**, as soon as possible: a dependency with a high or critical CVE, or a serious security issue in a runtime such as Node.js.
+3. **Major upgrades** of a language, runtime or framework, for example Node 24 → 26 or TypeScript 6 → 7.
+4. **Issues and pull requests** that:
+   - add or remove an option in one of the app's lists when people really need it — a store, a social or donate platform, a genre, a video type, a content warning or tech note, a GPU, an upscaler or frame-generation mode (open an [option request](#option-requests) first);
+   - fix a bug, a broken UI/UX or an accessibility barrier.
+5. **Language fixes**: wording that doesn't fit a culture or region, and spelling mistakes that could mislead (see [i18n Contributions](#i18n-contributions)).
+6. **Cloudflare / Worker** changes when the platform changes significantly.
+7. **Website incidents** such as DDoS or bot spam.
+
+Anything else is out of scope, new features in particular, unless the maintainer judges one genuinely necessary.
+
+- The [maintenance triage workflow](.github/workflows/maintenance-triage.yml) closes feature issues and `feat:` pull requests from outside contributors automatically — a `feat(options)`, `feat(a11y)` or `feat(i18n)` pull request stays open. It also closes anything the maintainer labels `out-of-scope`.
+- Feature ideas are welcome in [Discussions → Ideas](https://github.com/poli0981/youtube-generator/discussions/categories/ideas), with no commitment.
+- If your issue or pull request was closed by mistake, reply to it and the maintainer will take another look.
+
+Releases ship only when one of these changes needs one, for example a security fix for the desktop and Android apps. The website keeps deploying from `main`.
+
 ## Getting Started
 
 1. Read the [Development Guide](./docs/DEVELOPMENT.md) — also available in [Vietnamese](./docs/i18n/vi/DEVELOPMENT.md).
@@ -32,8 +54,17 @@ Participation is governed by the [Code of Conduct](./CODE_OF_CONDUCT.md). By con
 Use the templates in `.github/ISSUE_TEMPLATE/`:
 
 - **Bug report** — only if you can reproduce on the latest release.
-- **Feature request** — only with a concrete use case, not abstract requests.
+- **Option request** — add or remove an option in one of the app's lists; see [Option requests](#option-requests).
+- **Translation or wording fix** — wording that doesn't fit a culture or region, or a spelling mistake that could mislead, in any of the eight languages.
 - **Accessibility barrier** — anything that gets in the way with a keyboard, a screen reader, zoom, high contrast, voice control or touch. No reproduction on the latest release needed, and you don't need to know the cause. See [ACCESSIBILITY.md](./ACCESSIBILITY.md#reporting-a-barrier).
+
+There is no feature request form any more: YTDescGen is in [maintenance mode](#maintenance-mode). Share ideas in [Discussions → Ideas](https://github.com/poli0981/youtube-generator/discussions/categories/ideas).
+
+### Option requests
+
+The one kind of addition maintenance mode still takes: an option in a list the app already has, when people really need it — a store (store links), a social or donate platform, a genre, a video type, a content warning or tech note, a GPU in the rig catalog, an upscaler or frame-generation mode. Removing one that no longer makes sense works the same way.
+
+Open an **Option request** issue first: the option's name as it should appear, which list, and who needs it and why (a link to the store page, the vendor's announcement or a video that needed it helps). Once it's agreed, a pull request titled `feat(options): …` is welcome. [ARCHITECTURE.md → Extensibility Points](./docs/ARCHITECTURE.md) and CLAUDE.md's "Important Notes" say which files each kind of option touches, and the checks fail until all eight locales have its strings.
 
 ### Pull Requests
 
@@ -41,6 +72,7 @@ Use the templates in `.github/ISSUE_TEMPLATE/`:
 - Commit format and **PR title**: `type(scope): message` — e.g. `feat(engine): add Spanish template support`. Types: `feat`, `fix`, `refactor`, `docs`, `test`, `ci`, `chore`. CI checks the PR title.
 - Required checks: `check`, `dependency-review`, `workflow-lint`, `reuse`, `pr-title`. When `src-tauri/` changes, the Rust workflow's `lint-and-test` and `cargo-deny` run too, and GitHub's CodeQL code scanning runs on every PR. SonarCloud analyses PRs opened from this repository — its quality gate wants A ratings, reviewed security hotspots, at most 3 % duplication and at least 80 % test coverage on new code in the layers Vitest measures (PRs from forks get no secrets and skip it; the maintainer's merge runs it on `main`). JetBrains Qodana does the same for TypeScript and for the Rust shell, and fails on any problem it finds. Commits on `main` are signed.
 - PR titles start with a lower-case letter after the colon (`feat(editor): add …`, not `feat(editor): Add …`).
+- In [maintenance mode](#maintenance-mode) a `feat` pull request from an outside contributor is closed automatically, unless its scope is `options`, `a11y` or `i18n`. A fix is a `fix`.
 - One logical change per PR. Don't bundle unrelated refactors.
 - All locale files must stay in lock-step — see the i18n section below.
 - AI-assisted contributions are welcome but **must be disclosed** in the PR description.
@@ -74,15 +106,17 @@ The following are closed without review and may result in a contributor ban — 
 
 ## What We Want
 
+Within [maintenance mode](#maintenance-mode):
+
 - Bug fixes with a reproduction case and a regression test.
 - Locale corrections from native speakers.
-- New content-warning or tech-note IDs with all 8 translations and a clear rationale (especially horror-genre vocabulary) — the checks fail until every locale has its label and description line.
-- New video types or genres that fit the gameplay no-commentary use case.
-- Accessibility and mobile-responsive improvements.
+- An option people really need, agreed in an [option request](#option-requests) first — for example a content-warning or tech-note ID with all 8 translations and a clear rationale (especially horror-genre vocabulary), a store, a genre or a video type that fits the gameplay no-commentary use case.
+- Accessibility and mobile-responsive fixes.
 - Performance fixes with a `before/after` measurement.
 
 ## What We Don't Want
 
+- New features, unless the maintainer judges one genuinely necessary — share the idea in [Discussions → Ideas](https://github.com/poli0981/youtube-generator/discussions/categories/ideas) instead.
 - Cosmetic refactors with no behavior change.
 - Adding new runtime dependencies without first opening an issue to discuss the tradeoff.
 - Renaming files without coordinating with open PRs.
