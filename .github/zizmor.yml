@@ -18,3 +18,9 @@ rules:
       # actor) to the notifier script through `env:`, never by interpolation.
       - notify-ci-failure.yml
       - notify-release-pipeline.yml
+      # Runs on `pull_request_target` so it can label, comment on and close
+      # an out-of-scope pull request from a fork (maintenance mode). It never
+      # checks out the pull request, runs none of its code, and reads the
+      # title from the event payload inside the script — nothing from the
+      # pull request is interpolated into the workflow.
+      - maintenance-triage.yml

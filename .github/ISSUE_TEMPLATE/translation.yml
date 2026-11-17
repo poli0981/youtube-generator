@@ -1,0 +1,69 @@
+name: Translation or wording fix
+description: Wording that doesn't fit a culture or region, or a spelling mistake that could mislead — in the interface or in the generated text.
+title: "[i18n]: "
+labels: ["i18n", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        YTDescGen ships eight languages. Vietnamese is native-reviewed; Japanese, Spanish, Korean, Chinese, Portuguese (Brazil) and Indonesian are AI-translated (see [DISCLAIMER.md](https://github.com/poli0981/youtube-generator/blob/main/DISCLAIMER.md)), so corrections from native speakers are very welcome.
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - English (en)
+        - Tiếng Việt (vi)
+        - 日本語 (ja)
+        - Español (es)
+        - 한국어 (ko)
+        - 简体中文 (zh)
+        - Português (BR) (pt-BR)
+        - Bahasa Indonesia (id)
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - The interface (buttons, labels, messages)
+        - The generated title, description or tags
+        - Both
+    validations:
+      required: true
+  - type: textarea
+    id: current
+    attributes:
+      label: Current text
+      description: Copy it exactly as shown, and say where you saw it — the page or field, or the section of the description. A screenshot helps.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested
+    attributes:
+      label: Suggested text
+    validations:
+      required: true
+  - type: dropdown
+    id: why
+    attributes:
+      label: Why
+      options:
+        - It doesn't fit the culture, region or usual tone
+        - A spelling or grammar mistake that could mislead
+        - The meaning is wrong (a mistranslation)
+        - Something else (say below)
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details (optional)
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and this is not a duplicate.
+          required: true

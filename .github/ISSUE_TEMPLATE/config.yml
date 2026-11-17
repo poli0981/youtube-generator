@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Feature ideas (maintenance mode)
+    url: https://github.com/poli0981/youtube-generator/discussions/categories/ideas
+    about: YTDescGen is in maintenance mode and takes no new features. Share ideas in Discussions, with no commitment. To add or remove an option in one of the app's lists, use the Option request form.
   - name: Report a security vulnerability
     url: https://github.com/poli0981/youtube-generator/security/advisories/new
     about: Privately, please — never in a public issue. See SECURITY.md.
@@ -8,7 +11,7 @@ contact_links:
     about: How-tos, backup & restore, troubleshooting and the FAQ.
   - name: Discord
     url: https://discord.gg/kDM9GMu5vm
-    about: For casual questions, gameplay chat, or quick help. Use a bug report or feature request for anything actionable.
+    about: For casual questions, gameplay chat, or quick help. Use an issue form for anything actionable.
   - name: All channels and contacts
     url: https://poli0981.dev/links/
     about: Email addresses by purpose and every other way to reach the maintainer.

@@ -1,9 +1,27 @@
+<!--
+YTDescGen is in maintenance mode (CONTRIBUTING.md → "Maintenance mode"):
+new features are out of scope, and `feat:` pull requests from outside
+contributors are closed automatically unless their scope is `options`
+(an agreed option request), `a11y` or `i18n`.
+-->
+
 ## Summary
 
 <!-- 1-3 bullet points describing the change -->
 
 -
 -
+
+## Scope
+
+<!-- Tick what this PR is. Anything else is out of scope while YTDescGen is in maintenance mode. -->
+
+- [ ] Bug fix, broken UI/UX or accessibility fix
+- [ ] Translation or wording fix
+- [ ] Add or remove an option in one of the app's lists, agreed in issue #
+- [ ] Dependency update, security fix, or major language/runtime/framework upgrade
+- [ ] Cloudflare / Worker change, or a fix for a website incident
+- [ ] Docs or tests only
 
 ## Type
 

@@ -9,6 +9,8 @@ Only the latest released version of YTDescGen receives security updates, and the
 | 1.5.x   | ✅        |
 | < 1.5   | ❌        |
 
+YTDescGen has been in [maintenance mode](./CONTRIBUTING.md#maintenance-mode) since 1.6.0. That doesn't change this policy: security fixes keep shipping, and a dependency with a high or critical CVE is fixed as soon as possible.
+
 ## Reporting a Vulnerability
 
 Please report security issues **privately**. Do not open a public issue.
