@@ -111,6 +111,21 @@ export interface RigField {
   readonly clean?: (raw: string) => string;
   /** Takes both columns of the editor's grid (long values, such as a LUT name). */
   readonly wide?: boolean;
+  /**
+   * `text` fields (v1.6.0): when the value is "Custom" (any case — the
+   * field's first suggestion), the description prints this templates key
+   * as the whole line instead of "Label: Custom". The LUT's is "LUT
+   * applied", for a LUT of one's own that has no name worth printing.
+   */
+  readonly customNoteKey?: string;
+}
+
+/** The value that selects a field's {@link RigField.customNoteKey} line. */
+const RIG_CUSTOM_VALUE = "Custom";
+
+/** True when a rig value is the "Custom" choice (case and spaces ignored). */
+export function isCustomRigValue(value: string): boolean {
+  return value.trim().toLowerCase() === RIG_CUSTOM_VALUE.toLowerCase();
 }
 
 /**
@@ -489,9 +504,11 @@ export function cleanCpuName(raw: string): string {
 /**
  * LUTs that come with DaVinci Resolve, named the way its LUT menu shows
  * them (from Resolve 21's own LUT folder), offered while typing in the
- * LUT field. Any other LUT's name is accepted as typed.
+ * LUT field. Any other LUT's name is accepted as typed. v1.6.0: "Custom"
+ * comes first — a LUT of one's own, printed as just "LUT applied".
  */
 export const LUT_SUGGESTIONS: readonly string[] = [
+  RIG_CUSTOM_VALUE,
   "Arri Alexa LogC to Rec709",
   "Rec709 Kodak 2383 D65",
   "Rec709 Kodak 2383 D60",
@@ -593,6 +610,7 @@ export const RIG_FIELDS: readonly RigField[] = [
     suggestions: LUT_SUGGESTIONS,
     clean: cleanLutName,
     wide: true,
+    customNoteKey: "description.rigNotes.lut_custom",
   },
 ];
 

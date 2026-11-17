@@ -534,7 +534,9 @@
           "none": "",
           "x2": "NVIDIA Frame Generation x2",
           "x3": "NVIDIA Multi Frame Generation x3",
-          "x4": "NVIDIA Multi Frame Generation x4"
+          "x4": "NVIDIA Multi Frame Generation x4",
+          "x6": "NVIDIA Multi Frame Generation x6",
+          "dynamic": "NVIDIA Dynamic Multi Frame Generation"
         },
         "amd": {
           "none": "",
@@ -561,7 +563,8 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version",
-      "upscaleLabel": "Upscale"
+      "upscaleLabel": "Upscale",
+      "dlssNeuralRendering": "NVIDIA DLSS 5 Neural Rendering"
     },
     "videoSettings": {
       "styleLine": "使用 {{editor}} 以 {{era}} 风格剪辑",
@@ -597,6 +600,9 @@
       "controller": "手柄",
       "video_editor": "视频编辑软件",
       "lut": "LUT"
+    },
+    "rigNotes": {
+      "lut_custom": "已应用 LUT"
     }
   },
   "pinnedComment": {

@@ -323,6 +323,123 @@ describe("buildDescription", () => {
     expect(result).toContain("In-game Setting: High - Intel XeSS Ultra Quality + Intel XeFG x2");
   });
 
+  describe("v1.6.0: x6, Dynamic and Custom frame generation, DLSS 5 Neural Rendering", () => {
+    const settingLine = (text: string) =>
+      text.split("\n").find((line) => line.startsWith("In-game Setting:"));
+
+    it("names NVIDIA x6 and Dynamic Multi Frame Generation", () => {
+      const t = createMockT("en");
+      const x6 = buildDescription(
+        makeInput({
+          graphicsPreset: "ultra",
+          frameGenVendor: "nvidia",
+          upscaleQuality: "performance",
+          frameGenMultiplier: "x6",
+        }),
+        t,
+      );
+      expect(settingLine(x6)).toBe(
+        "In-game Setting: Ultra - NVIDIA DLSS Performance + NVIDIA Multi Frame Generation x6",
+      );
+      const dynamic = buildDescription(
+        makeInput({
+          graphicsPreset: "ultra",
+          frameGenVendor: "nvidia",
+          frameGenMultiplier: "dynamic",
+        }),
+        t,
+      );
+      expect(settingLine(dynamic)).toBe(
+        "In-game Setting: Ultra - NVIDIA Dynamic Multi Frame Generation",
+      );
+    });
+
+    it("prints a custom frame generation as typed, for any vendor", () => {
+      const result = buildDescription(
+        makeInput({
+          graphicsPreset: "high",
+          frameGenVendor: "amd",
+          upscaleQuality: "quality",
+          frameGenMultiplier: "custom",
+          frameGenCustom: "  Lossless Scaling x3 ",
+        }),
+        createMockT("en"),
+      );
+      expect(settingLine(result)).toBe(
+        "In-game Setting: High - AMD FSR Quality + Lossless Scaling x3",
+      );
+    });
+
+    it("prints nothing for an empty custom box — not the word “custom”", () => {
+      const result = buildDescription(
+        makeInput({
+          graphicsPreset: "high",
+          frameGenVendor: "intel",
+          upscaleQuality: "quality",
+          frameGenMultiplier: "custom",
+          frameGenCustom: "   ",
+        }),
+        createMockT("en"),
+      );
+      expect(settingLine(result)).toBe("In-game Setting: High - Intel XeSS Quality");
+    });
+
+    it("puts DLSS 5 Neural Rendering after the DLSS mode and before frame generation", () => {
+      const result = buildDescription(
+        makeInput({
+          graphicsPreset: "ultra",
+          frameGenVendor: "nvidia",
+          upscaleQuality: "quality",
+          dlssNeuralRendering: true,
+          frameGenMultiplier: "dynamic",
+          rayTracingModes: ["path_tracing"],
+        }),
+        createMockT("en"),
+      );
+      expect(settingLine(result)).toBe(
+        "In-game Setting: Ultra - NVIDIA DLSS Quality + NVIDIA DLSS 5 Neural Rendering + NVIDIA Dynamic Multi Frame Generation with Path Tracing",
+      );
+    });
+
+    it("prints DLSS 5 Neural Rendering on its own, in every output language", () => {
+      const vi = buildDescription(
+        makeInput({
+          language: "vi",
+          graphicsPreset: "ultra",
+          frameGenVendor: "nvidia",
+          dlssNeuralRendering: true,
+        }),
+        createMockT("vi"),
+      );
+      expect(vi).toContain("NVIDIA DLSS 5 Neural Rendering");
+    });
+
+    it("ignores a DLSS 5 flag left on another vendor's draft", () => {
+      const result = buildDescription(
+        makeInput({
+          graphicsPreset: "ultra",
+          frameGenVendor: "amd",
+          upscaleQuality: "quality",
+          dlssNeuralRendering: true,
+        }),
+        createMockT("en"),
+      );
+      expect(settingLine(result)).toBe("In-game Setting: Ultra - AMD FSR Quality");
+    });
+
+    it("keeps the brand + multiplier fallback for a locale without the label", () => {
+      // A mock translator that knows no frame-gen label at all.
+      const en = createMockT("en");
+      const bare = (key: string, options?: Record<string, string>) =>
+        key.startsWith("description.graphics.frameGen.") ? key : en(key, options);
+      const result = buildDescription(
+        makeInput({ graphicsPreset: "ultra", frameGenVendor: "nvidia", frameGenMultiplier: "x6" }),
+        bare,
+      );
+      expect(settingLine(result)).toBe("In-game Setting: Ultra - NVIDIA Frame Generation x6");
+    });
+  });
+
   it("emits multiple RT modes joined with commas", () => {
     const t = createMockT("en");
     const result = buildDescription(
@@ -749,6 +866,28 @@ describe("buildDescription", () => {
     );
     expect(noLut).toContain("Video Editor: CapCut");
     expect(noLut).not.toContain("LUT:");
+  });
+
+  it("prints a Custom LUT as just “LUT applied”, in the output language (v1.6.0)", () => {
+    const rig = { video_editor: "davinci_resolve_studio|21.2", lut: "Custom" };
+    const lineAfter = (text: string, line: string) => {
+      const lines = text.split("\n");
+      const at = lines.indexOf(line);
+      return at >= 0 ? lines[at + 1] : undefined;
+    };
+    const en = buildDescription(makeInput({ rig }), createMockT("en"));
+    expect(lineAfter(en, "Video Editor: DaVinci Resolve Studio 21.2")).toBe("LUT applied");
+    expect(en).not.toContain("LUT: Custom");
+
+    const vi = buildDescription(makeInput({ language: "vi", rig }), createMockT("vi"));
+    expect(lineAfter(vi, "Phần mềm dựng video: DaVinci Resolve Studio 21.2")).toBe(
+      "Có áp dụng LUT",
+    );
+
+    // Typed rather than picked: any case, stray spaces.
+    const typed = buildDescription(makeInput({ rig: { lut: "  cUSTOM " } }), createMockT("ja"));
+    expect(typed).toContain("LUT適用");
+    expect(typed).not.toContain("LUT: ");
   });
 
   it("prints rig lines in a fixed order, whatever order they were filled in", () => {

@@ -492,3 +492,51 @@ describe("migrateEditorState — v20 → v21 (v1.5.0 upscaled video)", () => {
     expect(migrateEditorState({ ...once }, 20)).toEqual(once);
   });
 });
+
+describe("migrateEditorState — v21 → v22 (v1.6.0 custom frame generation, DLSS 5)", () => {
+  function makeV21Persisted(overrides: Record<string, unknown> = {}): Record<string, unknown> {
+    const full = migrateEditorState(makeV9Persisted(), 9) as unknown as Record<string, unknown>;
+    delete full.frameGenCustom;
+    delete full.dlssNeuralRendering;
+    return { ...full, ...overrides };
+  }
+
+  it("back-fills an empty custom frame generation and DLSS 5 off", () => {
+    const migrated = migrateEditorState(makeV21Persisted(), 21);
+    expect(migrated.frameGenCustom).toBe("");
+    expect(migrated.dlssNeuralRendering).toBe(false);
+  });
+
+  it("coerces values of the wrong type", () => {
+    const migrated = migrateEditorState(
+      makeV21Persisted({ frameGenCustom: 6, dlssNeuralRendering: "yes" }),
+      21,
+    );
+    expect(migrated.frameGenCustom).toBe("");
+    expect(migrated.dlssNeuralRendering).toBe(false);
+  });
+
+  it("keeps the frame-gen choices a v21 draft made, and running it again changes nothing", () => {
+    const once = migrateEditorState(
+      makeV21Persisted({
+        frameGenVendor: "nvidia",
+        frameGenMultiplier: "x4",
+        upscaleQuality: "quality",
+      }),
+      21,
+    );
+    expect(once.frameGenVendor).toBe("nvidia");
+    expect(once.frameGenMultiplier).toBe("x4");
+    expect(once.upscaleQuality).toBe("quality");
+    expect(migrateEditorState({ ...once }, 21)).toEqual(once);
+  });
+
+  it("keeps values a newer draft already holds", () => {
+    const migrated = migrateEditorState(
+      makeV21Persisted({ frameGenCustom: "NVIDIA Smooth Motion", dlssNeuralRendering: true }),
+      21,
+    );
+    expect(migrated.frameGenCustom).toBe("NVIDIA Smooth Motion");
+    expect(migrated.dlssNeuralRendering).toBe(true);
+  });
+});

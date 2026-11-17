@@ -23,6 +23,7 @@ import {
   getValidFrameGenMultipliers,
   coerceUpscaleQuality,
   coerceFrameGenMultiplier,
+  coerceDlssNeuralRendering,
 } from "@engine/graphics-vendor";
 import { upscaleSourcesFor, validUpscaleSource } from "@engine/upscale";
 import { VIDEO_STYLE_ERA_IDS, type VideoStyleEra } from "@config/video-styles";
@@ -101,6 +102,12 @@ export function VideoSettingsForm() {
     if (coercedQ !== store.upscaleQuality) store.set("upscaleQuality", coercedQ);
     const coercedM = coerceFrameGenMultiplier(next, store.frameGenMultiplier);
     if (coercedM !== store.frameGenMultiplier) store.set("frameGenMultiplier", coercedM);
+    // v1.6.0: DLSS 5 Neural Rendering is NVIDIA's; its switch hides for
+    // other vendors, so it turns off rather than linger unseen.
+    const coercedNeural = coerceDlssNeuralRendering(next, store.dlssNeuralRendering);
+    if (coercedNeural !== store.dlssNeuralRendering) {
+      store.set("dlssNeuralRendering", coercedNeural);
+    }
   }
 
   // v1.5.0: "Upscaled from" lists only resolutions below the video's own.
@@ -211,6 +218,17 @@ export function VideoSettingsForm() {
             />
           </div>
 
+          {/* v1.6.0: "Custom…" frame generation, printed as typed. */}
+          {store.frameGenMultiplier === "custom" && (
+            <Input
+              label={t("editor.frameGenCustom")}
+              maxLength={FIELD_LIMITS.LABEL}
+              placeholder={t("editor.frameGenCustomPlaceholder")}
+              value={store.frameGenCustom}
+              onChange={(e) => store.set("frameGenCustom", e.target.value)}
+            />
+          )}
+
           <div className="grid gap-3 sm:grid-cols-2">
             <Select
               label={t("editor.upscaleQuality")}
@@ -225,6 +243,15 @@ export function VideoSettingsForm() {
               onChange={(v) => store.set("artStyle", v as ArtStyle)}
             />
           </div>
+
+          {/* v1.6.0: DLSS 5 Neural Rendering — NVIDIA (RTX 50 series) only. */}
+          {store.frameGenVendor === "nvidia" && (
+            <Toggle
+              label={t("editor.dlssNeuralRendering")}
+              checked={store.dlssNeuralRendering}
+              onChange={(v) => store.set("dlssNeuralRendering", v)}
+            />
+          )}
 
           <Input
             label={t("editor.versionInfo")}

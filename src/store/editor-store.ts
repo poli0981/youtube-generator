@@ -27,7 +27,11 @@ import {
   isUpscaledFrom,
 } from "@config/graphics-settings";
 import { isVideoStyleEra, type VideoStyleEra } from "@config/video-styles";
-import { coerceUpscaleQuality, coerceFrameGenMultiplier } from "@engine/graphics-vendor";
+import {
+  coerceUpscaleQuality,
+  coerceFrameGenMultiplier,
+  coerceDlssNeuralRendering,
+} from "@engine/graphics-vendor";
 import {
   GACHA_QUEST_TYPES,
   DEFAULT_GACHA_QUEST_TYPE,
@@ -81,7 +85,17 @@ export interface EditorData {
   rayTracingModes: RTMode[];
   frameGenVendor: FrameGenVendor;
   frameGenMultiplier: FrameGenMultiplier;
+  /**
+   * v1.6.0: the frame generation as typed, printed when
+   * {@link frameGenMultiplier} is `"custom"` (e.g. "NVIDIA Smooth Motion").
+   */
+  frameGenCustom: string;
   upscaleQuality: UpscaleQuality;
+  /**
+   * v1.6.0: NVIDIA DLSS 5 Neural Rendering, printed after the DLSS mode.
+   * NVIDIA only: another vendor turns it off (`coerceDlssNeuralRendering`).
+   */
+  dlssNeuralRendering: boolean;
   artStyle: ArtStyle;
   /**
    * Video-style era opt-in (v0.22.0). When non-empty, the description
@@ -270,6 +284,10 @@ export function normalizeEditorPatch(
     if (typeof patch.frameGenMultiplier === "string") {
       out.frameGenMultiplier = coerceFrameGenMultiplier(vendor, patch.frameGenMultiplier);
     }
+    // v1.6.0: DLSS 5 Neural Rendering is NVIDIA's.
+    if (typeof patch.dlssNeuralRendering === "boolean") {
+      out.dlssNeuralRendering = coerceDlssNeuralRendering(vendor, patch.dlssNeuralRendering);
+    }
   }
   // v0.11: legacy `spoilerWarning` / `matureWarning` booleans on profiles
   // / presets / templates need to be expressed as checklist items in the
@@ -419,7 +437,9 @@ const initialState: EditorData = {
   rayTracingModes: [...DEFAULTS.editor.rayTracingModes],
   frameGenVendor: DEFAULTS.editor.frameGenVendor,
   frameGenMultiplier: DEFAULTS.editor.frameGenMultiplier,
+  frameGenCustom: DEFAULTS.editor.frameGenCustom,
   upscaleQuality: DEFAULTS.editor.upscaleQuality,
+  dlssNeuralRendering: DEFAULTS.editor.dlssNeuralRendering,
   artStyle: DEFAULTS.editor.artStyle,
   videoStyleEra: DEFAULTS.editor.videoStyleEra,
   versionInfo: DEFAULTS.editor.versionInfo,
@@ -493,7 +513,7 @@ export function editorDataOf(state: EditorData): EditorData {
  * Bump together with a new step in {@link migrateEditorState}; backups
  * record this number so an import can run the steps a draft still needs.
  */
-export const EDITOR_STORE_VERSION = 21;
+export const EDITOR_STORE_VERSION = 22;
 
 export const useEditorStore = create<EditorState>()(
   persist(
@@ -649,6 +669,12 @@ export const useEditorStore = create<EditorState>()(
       //         upscaled to `resolution` in the video editor) joined the
       //         schema. Additive: back-fills to "" (not upscaled); a value
       //         outside UPSCALED_FROM_OPTIONS coerces to "".
+      // v21 → v22: v1.6.0. `frameGenCustom` (the frame generation typed
+      //         for the new `"custom"` multiplier) and `dlssNeuralRendering`
+      //         (NVIDIA DLSS 5 Neural Rendering) joined the schema.
+      //         Additive: back-fill to "" and false; non-string / non-boolean
+      //         values coerce to them. The new multipliers (`x6` for NVIDIA,
+      //         `dynamic`, `custom`) only widen the lists.
       version: EDITOR_STORE_VERSION,
       migrate: (persistedState, version) => migrateEditorState(persistedState, version),
       partialize: (state) => editorDataOf(state),
@@ -927,6 +953,12 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
   if (version < 21) {
     // v1.5.0 upscaled video. Additive back-fill + defensive coercion.
     if (!isUpscaledFrom(state.upscaledFrom)) state.upscaledFrom = "";
+  }
+  if (version < 22) {
+    // v1.6.0 custom frame generation + DLSS 5. Additive back-fill +
+    // defensive coercion.
+    if (typeof state.frameGenCustom !== "string") state.frameGenCustom = "";
+    if (typeof state.dlssNeuralRendering !== "boolean") state.dlssNeuralRendering = false;
   }
   return { ...initialState, ...state } as EditorData;
 }

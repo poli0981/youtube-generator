@@ -347,8 +347,9 @@ export interface GeneratorInput {
   // liveUrl, scheduledTime, gachaQuestType, chapterName, questName, characterName,
   // anniversaryYear, gachaVersion.
   // Video settings: resolution, upscaledFrom (v1.5.0), fps, graphicsPreset (+ graphicsPresetCustom),
-  // skipGraphicsSettings, rayTracingModes, frameGenVendor, frameGenMultiplier,
-  // upscaleQuality, artStyle, videoStyleEra, versionInfo.
+  // skipGraphicsSettings, rayTracingModes, frameGenVendor, frameGenMultiplier
+  // (+ frameGenCustom, v1.6.0), upscaleQuality, dlssNeuralRendering (v1.6.0),
+  // artStyle, videoStyleEra, versionInfo.
   // Content: timestamps, playlistLink, contactEmail, adEmail, gameKeyEmail,
   // copyrightEmail, musicAttribution, sponsorName, sponsorPlatform, pubDevName,
   // thirdPartyAdText,
@@ -420,7 +421,7 @@ export interface TitleFormatConfig {
 
 **Empty channel name** (`channel-phrase.ts`, used by the description, pinned comment and playlist builders): templates render with `CHANNEL_SLOT` (`@@CHANNEL@@`) in place of an empty channel name. `withoutEmptyChannel(text, language)` then removes the words that go with the channel name in that language ("trên kênh", "による", "en", "no", "di", …) and the English "on" (for English, and for locales that still carry English sentences for newer video types), replaces any slot left over with a neutral fallback ("this channel", "kênh", …) and tidies the spacing before punctuation. "…of Hades on ." no longer happens in any of the eight languages.
 
-**Rig block** (`rig-block.ts`): `buildRigLines(rig, t)` returns `Label: value` lines, shared by the description and the social captions. Labels come from `description.rigLabels.<field>` in the output language, the order is `RIG_FIELDS` (CPU, GPU, RAM, motherboard, storage, OS, monitor, capture, controller, video editor, LUT), and values go through `formatRigValue` (`gpu:nvidia-rtx-5080` → "NVIDIA GeForce RTX 5080"; a text field's `clean` — `cleanCpuName`, and since v1.4.0 `cleanLutName`, which cuts a pasted path or `.cube` / `.dat` file name down to the LUT's name — runs there as well as when the editor field loses focus). Keys that are no longer rig fields are still printed, after the known ones.
+**Rig block** (`rig-block.ts`): `buildRigLines(rig, t)` returns `Label: value` lines, shared by the description and the social captions. Labels come from `description.rigLabels.<field>` in the output language, the order is `RIG_FIELDS` (CPU, GPU, RAM, motherboard, storage, OS, monitor, capture, controller, video editor, LUT), and values go through `formatRigValue` (`gpu:nvidia-rtx-5080` → "NVIDIA GeForce RTX 5080"; a text field's `clean` — `cleanCpuName`, and since v1.4.0 `cleanLutName`, which cuts a pasted path or `.cube` / `.dat` file name down to the LUT's name — runs there as well as when the editor field loses focus). A field with a `customNoteKey` whose value is "Custom" (any case) prints that templates key as its whole line instead — since v1.6.0 the LUT's "LUT applied" (`description.rigNotes.lut_custom`), for a LUT of one's own. Keys that are no longer rig fields are still printed, after the known ones.
 
 **Chapters** (`timeline-parser.ts`):
 
@@ -474,7 +475,7 @@ interface EditorActions {
 }
 
 /** Bump together with a new step in migrateEditorState. */
-export const EDITOR_STORE_VERSION = 21;
+export const EDITOR_STORE_VERSION = 22;
 
 export const useEditorStore = create<EditorData & EditorActions>()(
   persist(
@@ -508,7 +509,7 @@ export function migrateEditorState(persistedState: unknown, version: number): Ed
 
 | Store              | localStorage key         | Version                       | Migration (exported)                                                                           |
 | ------------------ | ------------------------ | ----------------------------- | ---------------------------------------------------------------------------------------------- |
-| `useEditorStore`   | `ytdescgen-editor-draft` | `EDITOR_STORE_VERSION` = 21   | `migrateEditorState`                                                                           |
+| `useEditorStore`   | `ytdescgen-editor-draft` | `EDITOR_STORE_VERSION` = 22   | `migrateEditorState`                                                                           |
 | `useProfileStore`  | `ytdescgen-profiles`     | `PROFILE_STORE_VERSION` = 3   | `migrateProfilesState`                                                                         |
 | `usePresetStore`   | `ytdescgen-presets`      | `PRESET_STORE_VERSION` = 2    | `migratePresetsState`                                                                          |
 | `useTemplateStore` | `ytdescgen-templates`    | `TEMPLATE_STORE_VERSION` = 2  | `migrateTemplatesState`                                                                        |
@@ -524,6 +525,8 @@ v1.2.0: nine content-warning ids and one tech note, and no version bump anywhere
 v1.5.0: editor v21 back-fills `upscaledFrom` (recorded at a lower resolution, upscaled to `resolution` in the video editor) with `""` and turns an unknown value into `""`; `normalizeEditorPatch` does the same for an applied profile or template, and the backup whitelist checks it against `UPSCALED_FROM_OPTIONS`. `Profile.upscaledFrom` is optional, so the profile store stays at v3. The engine's own tech note (`AUTO_TECH_NOTES`, `editor_upscaled`) is never stored, so `techNotes` and its whitelist don't change.
 
 v1.5.1: the settings gain `singleKeyShortcuts` (default `true`: the bare `?` opens the shortcut list) without a version bump, like `hideScrollbars` — `healSettings` back-fills it and turns anything but a boolean into `true`.
+
+v1.6.0: editor v22 back-fills `frameGenCustom` (the frame generation typed for the new `"custom"` multiplier) with `""` and `dlssNeuralRendering` (NVIDIA DLSS 5 Neural Rendering) with `false`, coercing values of the wrong type. The multiplier list only widens (`x6` and `dynamic` for NVIDIA, `custom` for every vendor), and the backup whitelist checks it against `FRAMEGEN_MULTIPLIERS`. `normalizeEditorPatch` and the backup import turn `dlssNeuralRendering` off for any vendor but NVIDIA (`coerceDlssNeuralRendering`). Neither field is a profile or preset field, like the rest of the frame-gen settings. The LUT's "Custom" needs no migration: it is a rig value like any LUT name.
 
 Rules:
 

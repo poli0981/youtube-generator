@@ -165,6 +165,9 @@ video editor. The suggestions are LUTs that come with DaVinci Resolve, named
 the way its LUT menu shows them; any other name is printed as typed. A pasted
 file name or path (Explorer's _Copy as path_) is cut down to the LUT's name:
 `"C:\…\Arri\Arri Alexa LogC to Rec709.dat"` → `Arri Alexa LogC to Rec709`.
+**Custom** (v1.6.0), the first suggestion (typing "custom" works too), is for
+a LUT of your own: the line then reads just _LUT applied_ (_Có áp dụng LUT_ in
+Vietnamese), without a name.
 
 **GPU catalog (v1.0.0)** — 198 models in 29 groups: NVIDIA GeForce (desktop
 and laptop), AMD Radeon (including integrated), Intel Arc and integrated,
@@ -226,6 +229,29 @@ goes away with the upscale. Only resolutions below the video's are offered;
 lowering the resolution to or below the source ends the upscale. 1080p 60fps
 still has no badge, and the Upscale line stays when the graphics settings are
 hidden. Saved with the channel profile.
+
+**Upscaler and frame generation** — Video settings › the vendor picks the
+options the other fields offer, and the `In-game Setting:` line names each
+one under its brand (kept in English in every language, as viewers search
+for it):
+
+| Vendor | Upscaling                                                       | Frame generation                                                       |
+| ------ | --------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| NVIDIA | DLAA, DLSS Quality / Balanced / Performance / Ultra Performance | x2, x3, x4, **x6**, **Dynamic** (Dynamic Multi Frame Gen), **Custom…** |
+| AMD    | FSR Native AA, Quality / Balanced / Performance / Ultra Perf.   | x2, x3 (Fluid Motion Frames), **Custom…**                              |
+| Intel  | XeSS Native AA, Ultra Quality, Quality … Ultra Performance      | x2 (XeFG), **Custom…**                                                 |
+
+New in v1.6.0 (bold): NVIDIA's x6 and Dynamic Multi Frame Generation;
+**Custom…** for every vendor, which prints what you type (_NVIDIA Smooth
+Motion_, _Lossless Scaling x3_); and, for NVIDIA, a **DLSS 5 Neural
+Rendering** switch, printed after the DLSS mode:
+
+```
+In-game Setting: Ultra - NVIDIA DLSS Quality + NVIDIA DLSS 5 Neural Rendering + NVIDIA Dynamic Multi Frame Generation with Path Tracing
+```
+
+Changing the vendor drops what the new one doesn't offer. These settings
+belong to the draft and to templates, not to the profile.
 
 With one output language selected, the Output page shows content warnings,
 tech notes and playthrough notes bilingually (English · output language)
@@ -429,17 +455,17 @@ In **Settings › Backup & restore**:
 
 `Ctrl` on Windows / Linux / Android, `⌘` on a Mac — both work everywhere.
 
-| Shortcut                     | Action                                                          |
-| ---------------------------- | --------------------------------------------------------------- |
-| `Ctrl/⌘+K`                   | Command palette                                                 |
-| `Ctrl/⌘+Enter` or `Ctrl/⌘+G` | Generate (switch to Output)                                     |
-| `Ctrl/⌘+Shift+C`             | Copy All — same limits and Strict Mode rules as the Output page |
-| `Ctrl/⌘+S`                   | Save the current output to History                              |
-| `Ctrl/⌘+B`                   | Collapse / expand the sidebar                                   |
-| `Alt+T`                      | Go to the notifications (while any are on screen)               |
+| Shortcut                     | Action                                                                                                       |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `Ctrl/⌘+K`                   | Command palette                                                                                              |
+| `Ctrl/⌘+Enter` or `Ctrl/⌘+G` | Generate (switch to Output)                                                                                  |
+| `Ctrl/⌘+Shift+C`             | Copy All — same limits and Strict Mode rules as the Output page                                              |
+| `Ctrl/⌘+S`                   | Save the current output to History                                                                           |
+| `Ctrl/⌘+B`                   | Collapse / expand the sidebar                                                                                |
+| `Alt+T`                      | Go to the notifications (while any are on screen)                                                            |
 | `Ctrl/⌘+/` or `?`            | Show keyboard shortcuts (`?` only outside text fields, while Settings › Editor › Single-key shortcuts is on) |
-| `Ctrl/⌘+=` / `Ctrl/⌘+−`      | Zoom in / out — desktop app (v1.5.1)                            |
-| `Escape`                     | Close modal                                                     |
+| `Ctrl/⌘+=` / `Ctrl/⌘+−`      | Zoom in / out — desktop app (v1.5.1)                                                                         |
+| `Escape`                     | Close modal                                                                                                  |
 
 ## 🔧 Settings
 

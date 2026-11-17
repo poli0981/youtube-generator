@@ -6,12 +6,16 @@ import type { FrameGenVendor, FrameGenMultiplier, UpscaleQuality } from "@config
  * tiers it actually ships:
  *
  * - NVIDIA: DLAA (anti-aliasing-only) + 4 quality bins. DLSS 4 supports
- *   multi-frame-gen up to x4.
+ *   multi-frame-gen up to x4; DLSS 4.5 adds x6 and Dynamic Multi Frame
+ *   Generation (v1.6.0).
  * - AMD: FSR Native AA + 4 quality bins. FSR 3.1 caps at x3.
  * - Intel: XeSS Native AA + Ultra Quality + 4 quality bins. Intel XeFG
  *   has only shipped x2.
  * - none: vendor-agnostic legacy ladder (no DLAA, no Ultra Quality) —
  *   keeps pre-v0.11 presets / templates rendering without coercion loss.
+ *
+ * Every vendor also offers `"custom"` (v1.6.0): the frame generation typed
+ * into `frameGenCustom`, for a mode the list doesn't name.
  *
  * Pure functions — used by VideoSettingsForm to filter Select options
  * and by description-builder / editor-store / template-store to coerce
@@ -55,14 +59,23 @@ export function getValidUpscaleQualities(vendor: FrameGenVendor): readonly Upsca
 export function getValidFrameGenMultipliers(vendor: FrameGenVendor): readonly FrameGenMultiplier[] {
   switch (vendor) {
     case "nvidia":
-      return ["none", "x2", "x3", "x4"] as const;
+      return ["none", "x2", "x3", "x4", "x6", "dynamic", "custom"] as const;
     case "amd":
-      return ["none", "x2", "x3"] as const;
+      return ["none", "x2", "x3", "custom"] as const;
     case "intel":
-      return ["none", "x2"] as const;
+      return ["none", "x2", "custom"] as const;
     case "none":
       return ["none"] as const;
   }
+}
+
+/**
+ * DLSS 5 Neural Rendering (v1.6.0) is NVIDIA's (RTX 50 series): any other
+ * vendor turns it off, the way an invalid quality or multiplier falls back
+ * to `"none"`.
+ */
+export function coerceDlssNeuralRendering(vendor: FrameGenVendor, current: boolean): boolean {
+  return vendor === "nvidia" && current;
 }
 
 /** Returns `current` if it's valid for the vendor, else `"none"`. */
