@@ -89,6 +89,7 @@ Dev server chỉ chạy riêng app: không có cổng Turnstile, không có anal
 - Tiêu đề PR theo định dạng commit `type(scope): message`; CI có kiểm tra.
 - Mỗi PR đều chạy job `check` (xem bên dưới), `dependency-review`, `workflow-lint`, `reuse` và `pr-title`; hai job Rust `lint-and-test` và `cargo-deny` chạy khi có thay đổi trong `src-tauri/`.
 - Sau `check`, job `sonarcloud` gửi mã nguồn và báo cáo coverage lên [SonarCloud](https://sonarcloud.io/project/overview?id=poli0981_youtube-generator) (cấu hình trong `sonar-project.properties`) và fail khi quality gate fail: code mới phải đạt hạng A, mọi security hotspot đã được review, trùng lặp tối đa 3 % và coverage tối thiểu 80 %. PR từ fork và từ Dependabot bỏ qua job này — chúng không có `SONAR_TOKEN` — còn `main` được phân tích sau mỗi lần merge.
+- Workflow `Qodana` chạy JetBrains [Qodana](https://www.jetbrains.com/qodana/) trên mọi PR và mọi lần push vào `main`: Qodana for JS cho cả repo (`qodana.yaml`) và Qodana for Rust cho `src-tauri/` (`src-tauri/qodana.yaml`). Cả hai fail khi có bất kỳ lỗi nào. Giống SonarCloud, PR từ fork và từ Dependabot bỏ qua phân tích vì không có token Qodana. Đây không phải check bắt buộc.
 
 Quy định đầy đủ: [CONTRIBUTING.md](../../../CONTRIBUTING.md).
 

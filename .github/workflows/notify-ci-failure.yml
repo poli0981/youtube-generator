@@ -3,9 +3,9 @@ name: Notify CI Failures
 on:
   workflow_run:
     # Match the exact `name:` of each watched workflow (ci.yml, security.yml,
-    # compliance.yml, rust.yml). Renaming one silently breaks this filter —
-    # keep them in sync.
-    workflows: ["CI", "Security", "Compliance", "Rust"]
+    # compliance.yml, rust.yml, qodana.yml). Renaming one silently breaks
+    # this filter — keep them in sync.
+    workflows: ["CI", "Security", "Compliance", "Rust", "Qodana"]
     types: [completed]
 
 # REQUIRED: declare permissions matching the reusable workflow's needs.

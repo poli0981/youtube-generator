@@ -1,0 +1,24 @@
+# Qodana for JavaScript / TypeScript: the web app (src/), the Worker, the
+# build plugins, scripts, tests and workflows. Run by
+# .github/workflows/qodana.yml (job `typescript`, native mode), reported to
+# the Qodana Cloud project yt-ts-js (secret QODANA_TOKEN_TS_JS).
+version: "1.0"
+linter: qodana-js
+profile:
+  name: qodana.recommended
+# The quality gate: any problem fails the job.
+failureConditions:
+  severityThresholds:
+    any: 0
+exclude:
+  - name: All
+    paths:
+      # The Tauri shell is the Rust project (src-tauri/qodana.yaml).
+      - src-tauri
+      # Build output, caches and reports.
+      - dist
+      - coverage
+      - node_modules
+      - .wrangler
+      # The GitHub Pages moving notice, removed on 2026-11-29 (issue #177).
+      - migration-page
