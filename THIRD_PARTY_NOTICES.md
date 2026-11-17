@@ -20,16 +20,16 @@ Bundled into the web app and the desktop / Android apps.
 | `cmdk` | 1.1.1 | MIT | <https://github.com/pacocoursey/cmdk> |
 | `i18next` | 26.6.0 | MIT | <https://github.com/i18next/i18next> |
 | `i18next-resources-to-backend` | 1.2.4 | MIT | <https://github.com/i18next/i18next-resources-to-backend> |
-| `lucide-react` | 1.66.0 | ISC | <https://github.com/lucide-icons/lucide> |
+| `lucide-react` | 1.70.0 | ISC | <https://github.com/lucide-icons/lucide> |
 | `motion` | 13.5.1 | MIT | <https://github.com/motiondivision/motion> |
 | `radix-ui` | 1.8.1 | MIT | <https://github.com/radix-ui/primitives> |
 | `react` | 19.3.1 | MIT | <https://github.com/react/react> |
 | `react-dom` | 19.3.1 | MIT | <https://github.com/react/react> |
-| `react-i18next` | 17.1.11 | MIT | <https://github.com/i18next/react-i18next> |
+| `react-i18next` | 17.1.13 | MIT | <https://github.com/i18next/react-i18next> |
 | `react-router-dom` | 7.18.5 | MIT | <https://github.com/remix-run/react-router> |
-| `simple-icons` | 16.36.0 | CC0-1.0 | <https://simpleicons.org> |
+| `simple-icons` | 16.37.0 | CC0-1.0 | <https://simpleicons.org> |
 | `sonner` | 2.0.8 | MIT | <https://github.com/emilkowalski/sonner> |
-| `zustand` | 5.0.16 | MIT | <https://github.com/pmndrs/zustand> |
+| `zustand` | 5.1.0 | MIT | <https://github.com/pmndrs/zustand> |
 
 ## Build and development tools
 
@@ -39,7 +39,7 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | --- | --- | --- | --- |
 | `@eslint/js` | 10.0.1 | MIT | <https://github.com/eslint/eslint> |
 | `@resvg/resvg-js` | 2.6.2 | MPL-2.0 | — |
-| `@tailwindcss/postcss` | 4.3.4 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
+| `@tailwindcss/postcss` | 4.3.5 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
 | `@tauri-apps/cli` | 2.12.4 | Apache-2.0 OR MIT | <https://github.com/tauri-apps/tauri> |
 | `@testing-library/jest-dom` | 7.0.1 | MIT | <https://github.com/testing-library/jest-dom> |
 | `@testing-library/react` | 16.3.3 | MIT | <https://github.com/testing-library/react-testing-library> |
@@ -47,23 +47,23 @@ Used to build, test and check YTDescGen. Not shipped to users.
 | `@types/react` | 19.3.0 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
 | `@types/react-dom` | 19.3.0 | MIT | <https://github.com/DefinitelyTyped/DefinitelyTyped> |
 | `@typescript/typescript6` | 6.0.2 | Apache-2.0 | <https://github.com/microsoft/TypeScript> |
-| `@vitejs/plugin-react` | 6.2.1 | MIT | <https://github.com/vitejs/vite-plugin-react> |
+| `@vitejs/plugin-react` | 6.3.0 | MIT | <https://github.com/vitejs/vite-plugin-react> |
 | `@vitest/coverage-v8` | 4.1.12 | MIT | <https://github.com/vitest-dev/vitest> |
 | `autoprefixer` | 10.6.2 | MIT | <https://github.com/postcss/autoprefixer> |
 | `eslint` | 10.14.0 | MIT | <https://github.com/eslint/eslint> |
 | `eslint-plugin-react-hooks` | 7.1.1 | MIT | <https://github.com/facebook/react> |
-| `knip` | 6.44.1 | ISC | <https://github.com/webpro-nl/knip> |
-| `marked` | 18.1.3 | MIT | <https://github.com/markedjs/marked> |
+| `knip` | 6.44.2 | ISC | <https://github.com/webpro-nl/knip> |
+| `marked` | 18.2.0 | MIT | <https://github.com/markedjs/marked> |
 | `postcss` | 8.5.32 | MIT | <https://github.com/postcss/postcss> |
 | `prettier` | 3.9.10 | MIT | <https://github.com/prettier/prettier> |
 | `prettier-plugin-tailwindcss` | 0.8.1 | MIT | <https://github.com/tailwindlabs/prettier-plugin-tailwindcss> |
-| `tailwindcss` | 4.3.4 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
+| `tailwindcss` | 4.3.5 | MIT | <https://github.com/tailwindlabs/tailwindcss> |
 | `tsx` | 4.23.15 | MIT | <https://github.com/privatenumber/tsx> |
 | `typescript` | 7.0.2 | Apache-2.0 | <https://github.com/microsoft/TypeScript> |
-| `typescript-eslint` | 8.72.1 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
-| `vite` | 8.3.5 | MIT | <https://github.com/vitejs/vite> |
+| `typescript-eslint` | 8.72.2 | MIT | <https://github.com/typescript-eslint/typescript-eslint> |
+| `vite` | 8.3.7 | MIT | <https://github.com/vitejs/vite> |
 | `vitest` | 4.1.12 | MIT | <https://github.com/vitest-dev/vitest> |
-| `wrangler` | 4.156.2 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
+| `wrangler` | 4.159.0 | MIT OR Apache-2.0 | <https://github.com/cloudflare/workers-sdk> |
 
 ## Desktop and Android shell (Rust crates)
 
