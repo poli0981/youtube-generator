@@ -375,6 +375,15 @@ collected, and this week's dependency updates; i18next stays on 26.6 to keep
 the initial load inside its budget —
 [CHANGELOG.md](../CHANGELOG.md#v152--2026-11-10).
 
+## v1.6.0 — Maintenance mode begins ✅ SHIPPED 2026-11-17
+
+The last feature release: DLSS 5 Neural Rendering, NVIDIA's x6 and Dynamic
+Multi Frame Generation and a Custom frame generation for every vendor in
+Video settings, and a Custom LUT that prints just "LUT applied". JetBrains
+Qodana joins SonarCloud, and the project enters
+[maintenance mode](#maintenance-mode--from-v160) —
+[CHANGELOG.md](../CHANGELOG.md#v160--2026-11-17).
+
 ---
 
 ## Maintenance mode — from v1.6.0
@@ -499,4 +508,4 @@ YTDescGen is in maintenance mode.
 | Phase 5 | Extensions         | Frozen | —          |
 
 **MVP usable after Phase 1** (~3-4 days). Full-featured after Phase 3 (~7-10 days).
-**v1.0.0 shipped on 2026-09-30; the current release is v1.5.2 (2026-11-10).**
+**v1.0.0 shipped on 2026-09-30; the current release is v1.6.0 (2026-11-17), the first in maintenance mode.**

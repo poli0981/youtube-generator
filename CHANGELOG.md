@@ -2,6 +2,34 @@
 
 All notable changes to YTDescGen ship as tagged releases on `main`.
 
+## v1.6.0 — 2026-11-17
+
+The last feature release: **DLSS 5 Neural Rendering** and more frame-generation modes in Video settings, a **Custom** LUT that prints just "LUT applied", and **JetBrains Qodana** next to SonarCloud. From this version on YTDescGen is in **maintenance mode**: it stays maintained, but takes no new features. Web, desktop and Android all ship as 1.6.0.
+
+### Added
+
+- **DLSS 5 Neural Rendering** — a switch in **Video settings** for NVIDIA (RTX 50 series), printed after the DLSS mode: `In-game Setting: Ultra - NVIDIA DLSS Quality + NVIDIA DLSS 5 Neural Rendering + NVIDIA Dynamic Multi Frame Generation`. Picking another vendor turns it off.
+- **More frame generation** — NVIDIA's **x6** and **Dynamic** Multi Frame Generation (DLSS 4.5), and **Custom…** for every vendor: type what you used (_NVIDIA Smooth Motion_, _Lossless Scaling x3_) and the description prints it as typed.
+- **Custom LUT** — "Custom" is the LUT field's first suggestion (typing it works too, in any case). **My Rig** then reads just _LUT applied_ — _Có áp dụng LUT_ in Vietnamese, and so on in every output language — without naming your own LUT.
+- **Option request** and **Translation or wording fix** issue forms.
+
+### Changed
+
+- **Maintenance mode.** YTDescGen is feature-complete. Dependency and security updates, major language / runtime / framework upgrades, bug, UI/UX, accessibility and translation fixes, options added to or removed from its lists when people really need them, and Cloudflare or website fixes still land; new features don't. See README → Project status and CONTRIBUTING → Maintenance mode; the README carries a status badge.
+- The **Feature request** form is gone — ideas go to Discussions → Ideas. A workflow closes feature issues and `feat:` pull requests from outside contributors with an explanation in English and Vietnamese (option requests, accessibility and translation pull requests stay open), and anything the maintainer labels `out-of-scope`.
+- Bug and accessibility reports carry the `needs-triage` label; the `triage` label they named never existed.
+
+### Under the hood
+
+- **Qodana** (JetBrains, Ultimate licence): Qodana for JS in native mode and Qodana for Rust (Early Access, Docker) run on every push and pull request, each with a quality gate of zero problems, reported to Qodana Cloud. Dependabot and fork pull requests, which get no token, skip it; the token never shares a step with `npm ci`. The first run's findings (74 in TypeScript, 12 in Rust) were fixed — React 19.3's deprecated `FormEvent` in the three save forms (now `SubmitEvent`), `[^\s]` written as `\S` in the 18 store and playtest URL patterns, the theme start-up script's globals, two copies of the sorted-JSON helper made one (`stableJson`), Vitest reusing Vite's alias map, `show_main_window` for the desktop's three copies of the same block — or excluded in `qodana.yaml` with the reason written next to each.
+- **Editor store v22** back-fills `frameGenCustom` and `dlssNeuralRendering`; backups and templates from older versions restore unchanged.
+- **Dependencies**, the newest releases at least a week old: react-i18next 17.1.13, lucide-react 1.70, zustand 5.1.0, simple-icons 16.37, vite 8.3.7 (rolldown 1.2.18), @vitejs/plugin-react 6.3.0, tailwindcss 4.3.5, typescript-eslint 8.72.2, knip 6.44.2, marked 18.2.0, wrangler 4.159.0. Workflows: sonarqube-scan-action 8.4.1, action-semantic-pull-request 6.1.2, setup-java 6.2.0. Rust: async-executor 1.14.0 → 1.14.1 (1.14.0 was yanked). THIRD_PARTY_NOTICES regenerated.
+- **Node.js 26.13.1**, the 2026-11-11 security release (16 CVEs, 7 rated high, in HTTP/2 and TLS servers): `.node-version` names the 26 line, so CI picks it up; the app runs no Node server, so nothing else changes.
+- Held back, still inside the 7-day cooldown: eslint 10.15 / typescript-eslint 8.73 — they move to minimatch 11, which closes the medium, development-only alert #50 — and Tauri 2.12.6.
+- **Docs**: README, CONTRIBUTING, SECURITY, MAINTAINERS, ROADMAP, FEATURES (upscaler and frame generation, LUT Custom), TECH-SPEC (Qodana, store v22, the rig block), DEVELOPMENT (+ Vietnamese), CONTENT-INVENTORY (+ Vietnamese), CLAUDE.md, version references.
+- typecheck, typecheck:all, lint, format:check, validate:locales, knip, check:version, check:tauri, check:licenses, check:copyright, **1158 tests** (was 1131), build, cf:check and `cargo fmt` / `clippy` / `test` / `deny` all pass; Qodana reports no problems in either project and SonarCloud none on new code; initial load 279.6 of 280 KB gzip. Verified live: `wrangler dev` on 4.159.0 serves the gate page, `/legal/accessibility` and `robots.txt` and refuses a verify without a token; in the dev server a draft survives a reload on zustand 5.1, a v21 draft migrates to v22, NVIDIA offers x6 / Dynamic / Custom… and the DLSS 5 switch (the Output page prints the line above), switching to AMD turns DLSS 5 off and keeps a Custom frame generation, and a Custom LUT prints "LUT applied" in English and "Có áp dụng LUT" in Vietnamese.
+- Six manifests bumped 1.5.2 → 1.6.0.
+
 ## v1.5.2 — 2026-11-10
 
 A maintenance release: the desktop and Android apps move to **Tauri 2.12.5**, with the fixes its window, webview and single-instance layers collected since 2.12.4, and this week's dependency updates are folded in. What the app generates does not change. Web, desktop and Android all ship as 1.5.2.
