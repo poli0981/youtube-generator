@@ -6,6 +6,19 @@ import { cloudflareWebAnalytics, securityTxt } from "./build-plugins/web-only.ts
 
 const isTauri = !!process.env.TAURI_ENV_PLATFORM;
 
+/** Import aliases — the same as tsconfig.json's `paths`. vitest.config.ts reuses them. */
+export const alias = {
+  "@": path.resolve(import.meta.dirname, "./src"),
+  "@config": path.resolve(import.meta.dirname, "./src/config"),
+  "@engine": path.resolve(import.meta.dirname, "./src/engine"),
+  "@store": path.resolve(import.meta.dirname, "./src/store"),
+  "@hooks": path.resolve(import.meta.dirname, "./src/hooks"),
+  "@components": path.resolve(import.meta.dirname, "./src/components"),
+  "@pages": path.resolve(import.meta.dirname, "./src/pages"),
+  "@utils": path.resolve(import.meta.dirname, "./src/utils"),
+  "@i18n": path.resolve(import.meta.dirname, "./src/i18n"),
+};
+
 export default defineConfig({
   plugins: [
     react(),
@@ -19,19 +32,7 @@ export default defineConfig({
   // wrangler.jsonc) and the Tauri build from its own asset protocol. The old
   // GitHub Pages sub-path `/youtube-generator/` is gone as of v1.0.0.
   base: "/",
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "./src"),
-      "@config": path.resolve(import.meta.dirname, "./src/config"),
-      "@engine": path.resolve(import.meta.dirname, "./src/engine"),
-      "@store": path.resolve(import.meta.dirname, "./src/store"),
-      "@hooks": path.resolve(import.meta.dirname, "./src/hooks"),
-      "@components": path.resolve(import.meta.dirname, "./src/components"),
-      "@pages": path.resolve(import.meta.dirname, "./src/pages"),
-      "@utils": path.resolve(import.meta.dirname, "./src/utils"),
-      "@i18n": path.resolve(import.meta.dirname, "./src/i18n"),
-    },
-  },
+  resolve: { alias },
   server: {
     // `tauri dev` loads this server while cargo rewrites files under
     // src-tauri/target, and watching those crashed Vite on Windows (EBUSY on

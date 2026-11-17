@@ -29,7 +29,8 @@ interface AccordionProps {
 export function Accordion({
   id,
   title,
-  icon,
+  // Capitalised so JSX reads it as a component, not an HTML tag.
+  icon: Icon,
   summary,
   badge,
   open,
@@ -37,7 +38,6 @@ export function Accordion({
   children,
 }: AccordionProps) {
   const panelId = `section-${id}-panel`;
-  const Icon = icon;
   return (
     <section
       id={`section-${id}`}

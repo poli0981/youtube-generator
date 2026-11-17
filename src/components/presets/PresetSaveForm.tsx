@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from "react";
+import { useId, useState, type SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Modal } from "@components/ui/Modal";
@@ -35,7 +35,7 @@ function PresetSaveFormBody({ onClose, editPreset }: PresetSaveFormProps) {
   );
   const [fromEditor, setFromEditor] = useState(false);
 
-  const save = (e: FormEvent) => {
+  const save = (e: SubmitEvent) => {
     e.preventDefault();
     const fields = presetFieldsFromEditor(editorDataOf(useEditorStore.getState()));
     const name = gameName.trim() || fields.gameName.trim() || t("presets.unnamed");

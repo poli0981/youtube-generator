@@ -17,6 +17,17 @@ use tauri::{
 mod file_dialog;
 mod storage;
 
+/// Bring the main window back: show it, restore it if minimized and focus
+/// it. Used by a second launch, the tray menu's "Show" and a tray click.
+#[cfg(desktop)]
+fn show_main_window<R: tauri::Runtime>(app: &tauri::AppHandle<R>) {
+    if let Some(window) = app.get_webview_window("main") {
+        let _ = window.show();
+        let _ = window.unminimize();
+        let _ = window.set_focus();
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     // Plugins and commands shared by every platform (desktop + Android).
@@ -62,11 +73,7 @@ pub fn run() {
             // in the *first* (already-running) instance when a second launch is
             // attempted: we surface its window instead of letting the second boot.
             .plugin(tauri_plugin_single_instance::init(|app, _argv, _cwd| {
-                if let Some(window) = app.get_webview_window("main") {
-                    let _ = window.show();
-                    let _ = window.unminimize();
-                    let _ = window.set_focus();
-                }
+                show_main_window(app);
             }))
             .setup(move |app| {
                 let show = MenuItem::with_id(app, "show", "Show YTDescGen", true, None::<&str>)?;
@@ -83,13 +90,7 @@ pub fn run() {
                     .tooltip("YTDescGen — YouTube Description Generator")
                     .menu(&menu)
                     .on_menu_event(move |app, event| match event.id.as_ref() {
-                        "show" => {
-                            if let Some(window) = app.get_webview_window("main") {
-                                let _ = window.show();
-                                let _ = window.unminimize();
-                                let _ = window.set_focus();
-                            }
-                        }
+                        "show" => show_main_window(app),
                         "quit" => {
                             quitting_menu.store(true, Ordering::SeqCst);
                             app.exit(0);
@@ -103,12 +104,7 @@ pub fn run() {
                             ..
                         } = event
                         {
-                            let app = tray.app_handle();
-                            if let Some(window) = app.get_webview_window("main") {
-                                let _ = window.show();
-                                let _ = window.unminimize();
-                                let _ = window.set_focus();
-                            }
+                            show_main_window(tray.app_handle());
                         }
                     })
                     .build(app)?;

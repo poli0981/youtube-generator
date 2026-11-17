@@ -694,7 +694,7 @@ export interface GeneratorInput {
    * Video-style era opt-in (v0.22.0). When set to a non-empty era id,
    * the renderer emits a single "Edited in {era} style using {editor}"
    * credit at the end of the Video Settings section. Combines with
-   * {@link rig.video_editor}. Renders even when
+   * the rig's `video_editor`. Renders even when
    * {@link skipGraphicsSettings} is true.
    */
   videoStyleEra?: string;

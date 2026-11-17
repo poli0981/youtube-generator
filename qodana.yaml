@@ -22,3 +22,38 @@ exclude:
       - .wrangler
       # The GitHub Pages moving notice, removed on 2026-11-29 (issue #177).
       - migration-page
+  # `${{ secrets.DISCORD_RELEASE_PIPELINE_WEBHOOK }}` is a reference to a
+  # repository secret, not a secret: the "discord-client-secret" rule only
+  # sees the word.
+  - name: HardcodedPasswords
+    paths:
+      - .github/workflows/notify-release-pipeline.yml
+  # `\]` and `\}` outside a character class stay escaped: they read as the
+  # literal brackets they are, and the patterns stay valid if they ever get
+  # the `u` or `v` flag, where a lone `]` or `}` is a syntax error. ESLint's
+  # no-useless-escape accepts them too.
+  - name: RegExpRedundantEscape
+  # `@i18n/index` is the form tsconfig.json's `@i18n/*` path resolves. The
+  # bare `@i18n` this suggests resolves only through Vite's alias, so tsc
+  # would no longer find the module.
+  - name: ES6PreferShortImport
+  # The three react-hooks warnings eslint.config.js documents (state synced
+  # from i18next, from a store number, and a useMemo the React Compiler
+  # can't keep): each needs a restructure, and the config keeps them as
+  # warnings on purpose. ESLint runs in CI's `check` job as well.
+  - name: Eslint
+    paths:
+      - src/hooks/use-languages-ready.ts
+      - src/components/editor/PlaytestEditor.tsx
+      - src/components/editor/StoreLinkEditor.tsx
+  # The legacy draft fields `spoilerWarning`, `matureWarning` and
+  # `endingsShown` are `@deprecated` so new code doesn't use them; these
+  # files carry them on purpose, to read and migrate drafts, presets and
+  # templates saved by older versions.
+  - name: JSDeprecatedSymbols
+    paths:
+      - src/config/defaults.ts
+      - src/store/editor-store.ts
+      - src/hooks/use-current-generator-input.ts
+      - src/engine/description-builder.ts
+      - src/utils/library-apply.ts

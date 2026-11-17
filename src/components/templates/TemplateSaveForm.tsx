@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from "react";
+import { useId, useState, type SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Modal } from "@components/ui/Modal";
@@ -32,7 +32,7 @@ function TemplateSaveFormBody({ onClose, editTemplate }: TemplateSaveFormProps) 
   const [name, setName] = useState(editTemplate?.name ?? "");
   const [fromEditor, setFromEditor] = useState(false);
 
-  const save = (e: FormEvent) => {
+  const save = (e: SubmitEvent) => {
     e.preventDefault();
     const snapshot = structuredClone(editorDataOf(useEditorStore.getState()));
     const finalName = name.trim() || snapshot.gameName.trim() || t("templates.unnamed");

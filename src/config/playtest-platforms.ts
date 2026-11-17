@@ -36,14 +36,14 @@ export const PLAYTEST_PLATFORMS: readonly PlaytestPlatformConfig[] = [
     id: "steam",
     label: "Steam Playtest",
     urlPrefix: "https://store.steampowered.com/app/",
-    urlPattern: /^https:\/\/store\.steampowered\.com\/app\/\d+(?:\/[^\s]*)?$/i,
+    urlPattern: /^https:\/\/store\.steampowered\.com\/app\/\d+(?:\/\S*)?$/i,
     maxInvites: 100,
   },
   {
     id: "epic",
     label: "Epic Games Store",
     urlPrefix: "https://store.epicgames.com/",
-    urlPattern: /^https:\/\/store\.epicgames\.com\/[^\s]+$/i,
+    urlPattern: /^https:\/\/store\.epicgames\.com\/\S+$/i,
     maxInvites: 100,
   },
   {
@@ -57,7 +57,7 @@ export const PLAYTEST_PLATFORMS: readonly PlaytestPlatformConfig[] = [
     id: "discord",
     label: "Discord / Community",
     urlPrefix: "https://discord.gg/",
-    urlPattern: /^https:\/\/(?:discord\.gg|discord\.com\/invite)\/[^\s]+$/i,
+    urlPattern: /^https:\/\/(?:discord\.gg|discord\.com\/invite)\/\S+$/i,
     maxInvites: 100,
   },
   {
@@ -66,7 +66,7 @@ export const PLAYTEST_PLATFORMS: readonly PlaytestPlatformConfig[] = [
     id: "other",
     label: "Other / Signup form",
     urlPrefix: "https://",
-    urlPattern: /^https:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/[^\s]*)?$/i,
+    urlPattern: /^https:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+(?:\/\S*)?$/i,
     maxInvites: 100,
   },
 ] as const;

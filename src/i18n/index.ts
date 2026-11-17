@@ -23,7 +23,9 @@ export const SUPPORTED_LANGUAGES = [
   nativeName: string;
 }[];
 
-i18n
+// `void`: nothing waits on init. `en` is bundled, so the first render already
+// has its strings, and every other language loads on demand.
+void i18n
   .use(initReactI18next)
   .use(
     // Vite statically analyses this template literal and emits one async

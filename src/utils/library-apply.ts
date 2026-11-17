@@ -7,6 +7,7 @@ import {
   type EditorData,
 } from "@store/editor-store";
 import { useSettingsStore } from "@store/settings-store";
+import { stableJson } from "@utils/stable-json";
 import type { Profile } from "@store/profile-store";
 import type { GamePreset } from "@store/preset-store";
 import type { EditorTemplate } from "@store/template-store";
@@ -89,17 +90,6 @@ function isBlank(value: unknown): boolean {
   return false;
 }
 
-/** JSON with sorted keys, so equal maps compare equal whatever their order. */
-function stable(value: unknown): string {
-  return JSON.stringify(value, (_key, v: unknown) =>
-    v && typeof v === "object" && !Array.isArray(v)
-      ? Object.fromEntries(
-          Object.entries(v as Record<string, unknown>).sort(([a], [b]) => (a < b ? -1 : 1)),
-        )
-      : v,
-  );
-}
-
 /**
  * Fields a patch would overwrite that hold something else in the editor
  * right now — what "Replace N filled fields?" counts. Empty fields and
@@ -113,8 +103,8 @@ export function overwrittenFields(editor: EditorData, patch: Partial<EditorData>
     .filter(
       ([key, value]) =>
         !isBlank(now[key]) &&
-        stable(now[key]) !== stable(blank[key]) &&
-        stable(now[key]) !== stable(value),
+        stableJson(now[key]) !== stableJson(blank[key]) &&
+        stableJson(now[key]) !== stableJson(value),
     )
     .map(([key]) => key);
 }
@@ -127,7 +117,7 @@ export function overwrittenFields(editor: EditorData, patch: Partial<EditorData>
 export function changedSince(editor: EditorData, patch: Partial<EditorData>): string[] {
   const now = editor as unknown as Record<string, unknown>;
   return Object.entries(patch)
-    .filter(([key, value]) => stable(now[key] ?? "") !== stable(value ?? ""))
+    .filter(([key, value]) => stableJson(now[key] ?? "") !== stableJson(value ?? ""))
     .map(([key]) => key);
 }
 

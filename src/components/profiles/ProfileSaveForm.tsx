@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from "react";
+import { useId, useState, type SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Modal } from "@components/ui/Modal";
@@ -38,7 +38,7 @@ function ProfileSaveFormBody({ onClose, editProfile }: ProfileSaveFormProps) {
   );
   const [fromEditor, setFromEditor] = useState(false);
 
-  const save = (e: FormEvent) => {
+  const save = (e: SubmitEvent) => {
     e.preventDefault();
     const fields = profileFieldsFromEditor(editorDataOf(useEditorStore.getState()));
     const finalName = name.trim() || fields.channelName.trim() || t("profiles.unnamed");
