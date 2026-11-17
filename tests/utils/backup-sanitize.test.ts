@@ -47,6 +47,34 @@ describe("sanitizeEditorFields", () => {
     expect(out).not.toHaveProperty("set");
   });
 
+  it("keeps v1.6.0 frame generation and DLSS 5 fields, typed as the editor holds them", () => {
+    expect(
+      sanitizeEditorFields({
+        frameGenVendor: "nvidia",
+        frameGenMultiplier: "dynamic",
+        frameGenCustom: "NVIDIA Smooth Motion",
+        dlssNeuralRendering: true,
+      }),
+    ).toEqual({
+      frameGenVendor: "nvidia",
+      frameGenMultiplier: "dynamic",
+      frameGenCustom: "NVIDIA Smooth Motion",
+      dlssNeuralRendering: true,
+    });
+    const wrong = sanitizeEditorFields({
+      frameGenVendor: "amd",
+      frameGenMultiplier: "x6",
+      frameGenCustom: 3,
+      dlssNeuralRendering: true,
+    });
+    // x6 is NVIDIA's; DLSS 5 too. A number is not a typed name.
+    expect(wrong).toEqual({
+      frameGenVendor: "amd",
+      frameGenMultiplier: "none",
+      dlssNeuralRendering: false,
+    });
+  });
+
   it("never copies prototype keys", () => {
     const raw = JSON.parse('{"__proto__": {"polluted": true}, "social": {"__proto__": "x"}}');
     const out = sanitizeEditorFields(raw);

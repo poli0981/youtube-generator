@@ -66,7 +66,11 @@ export interface EditorDefaults {
   rayTracingModes: RTMode[];
   frameGenVendor: FrameGenVendor;
   frameGenMultiplier: FrameGenMultiplier;
+  /** v1.6.0: the frame generation as typed, when the multiplier is `"custom"`. */
+  frameGenCustom: string;
   upscaleQuality: UpscaleQuality;
+  /** v1.6.0: NVIDIA DLSS 5 Neural Rendering (NVIDIA only). */
+  dlssNeuralRendering: boolean;
   artStyle: ArtStyle;
   /** v0.22.0 opt-in. Empty string = no style line in the description. */
   videoStyleEra: VideoStyleEra;
@@ -205,7 +209,9 @@ export const DEFAULTS = {
     rayTracingModes: [],
     frameGenVendor: "none",
     frameGenMultiplier: "none",
+    frameGenCustom: "",
     upscaleQuality: "none",
+    dlssNeuralRendering: false,
     artStyle: "none",
     videoStyleEra: "" satisfies VideoStyleEra,
     versionInfo: "",

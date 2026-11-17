@@ -60,12 +60,18 @@ export const FRAMEGEN_VENDORS = ["none", "nvidia", "amd", "intel"] as const;
 export type FrameGenVendor = (typeof FRAMEGEN_VENDORS)[number];
 
 /**
- * Frame-generation multiplier — DLSS 4 supports up to x4, FSR 3 up to x3,
- * Intel XeFG is ramping up. `"none"` means upscaling is in use but frame
- * generation isn't; useful for builds where DLSS Quality is enabled but
- * FG was left off.
+ * Frame-generation multiplier — DLSS 4 supports up to x4 and DLSS 4.5 adds
+ * x6 and Dynamic Multi Frame Generation (`"dynamic"`, which picks the
+ * multiplier itself), FSR 3 goes up to x3, Intel XeFG is ramping up.
+ * `"none"` means upscaling is in use but frame generation isn't; useful for
+ * builds where DLSS Quality is enabled but FG was left off.
+ *
+ * v1.6.0: `"custom"` reveals a free-form text field (`frameGenCustom`),
+ * printed as typed — the same escape hatch as the graphics preset's, for
+ * modes the list doesn't name (a driver-level or third-party frame
+ * generator, a newer multiplier).
  */
-export const FRAMEGEN_MULTIPLIERS = ["none", "x2", "x3", "x4", "x6"] as const;
+export const FRAMEGEN_MULTIPLIERS = ["none", "x2", "x3", "x4", "x6", "dynamic", "custom"] as const;
 export type FrameGenMultiplier = (typeof FRAMEGEN_MULTIPLIERS)[number];
 
 /**

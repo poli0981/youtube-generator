@@ -686,8 +686,12 @@ export interface GeneratorInput {
   frameGenVendor?: FrameGenVendor;
   /** Frame-generation multiplier (only meaningful when vendor !== "none"). */
   frameGenMultiplier?: FrameGenMultiplier;
+  /** v1.6.0: the frame generation as typed, when {@link frameGenMultiplier} is `"custom"`. */
+  frameGenCustom?: string;
   /** Upscaling quality (DLSS / FSR / XeSS quality preset). */
   upscaleQuality?: UpscaleQuality;
+  /** v1.6.0: NVIDIA DLSS 5 Neural Rendering — printed only when the vendor is NVIDIA. */
+  dlssNeuralRendering?: boolean;
   /** High-level art-style descriptor — surfaces a separate line. */
   artStyle?: ArtStyle;
   /**

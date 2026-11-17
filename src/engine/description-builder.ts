@@ -97,6 +97,65 @@ const VENDOR_GFX_BRANDS: Record<"nvidia" | "amd" | "intel", { upscale: string; f
     intel: { upscale: "Intel XeSS", framegen: "Intel XeFG" },
   };
 
+type GfxVendor = keyof typeof VENDOR_GFX_BRANDS;
+
+/** A translation that exists and isn't blank, else `""`. */
+function resolvedLabel(t: TranslationFn, key: string): string {
+  const label = t(key);
+  return label && label !== key && label.trim() ? label : "";
+}
+
+/**
+ * The upscaling part — v0.11: the vendor-keyed full label first ("NVIDIA
+ * DLAA", "AMD FSR Native AA", "Intel XeSS Ultra Quality"), which embeds the
+ * brand; else the pre-v0.11 flat key with the brand in front, for legacy
+ * locales / unmigrated translations.
+ */
+function upscalePart(input: GeneratorInput, vendor: GfxVendor, t: TranslationFn): string {
+  const quality = input.upscaleQuality;
+  if (!quality || quality === "none") return "";
+  const label = resolvedLabel(t, `description.graphics.upscale.${vendor}.${quality}`);
+  if (label) return label;
+  const legacyKey = `description.graphics.upscaleQualityOptions.${quality}`;
+  const legacyLabel = t(legacyKey);
+  return legacyLabel && legacyLabel !== legacyKey
+    ? `${VENDOR_GFX_BRANDS[vendor].upscale} ${legacyLabel}`
+    : "";
+}
+
+/**
+ * The frame-generation part. The vendor-keyed label embeds the brand AND
+ * the feature name ("NVIDIA Frame Generation x2", "AMD Fluid Motion Frames
+ * x3", "Intel XeFG x2"), with brand + raw multiplier as the fallback for
+ * pre-v0.11 locales. v1.6.0: `"custom"` prints what was typed (like a
+ * custom preset); an empty box prints nothing rather than "custom".
+ */
+function frameGenPart(input: GeneratorInput, vendor: GfxVendor, t: TranslationFn): string {
+  const multiplier = input.frameGenMultiplier;
+  if (!multiplier || multiplier === "none") return "";
+  if (multiplier === "custom") return (input.frameGenCustom ?? "").trim();
+  return (
+    resolvedLabel(t, `description.graphics.frameGen.${vendor}.${multiplier}`) ||
+    `${VENDOR_GFX_BRANDS[vendor].framegen} ${multiplier}`
+  );
+}
+
+/**
+ * The vendor half of the "In-game Setting:" line — e.g. `NVIDIA DLSS
+ * Quality + NVIDIA DLSS 5 Neural Rendering + NVIDIA Multi Frame Generation
+ * x4`. v1.6.0: DLSS 5 Neural Rendering follows the DLSS mode, for NVIDIA
+ * only — a stale flag on another vendor's draft prints nothing.
+ */
+function composeVendorModifier(input: GeneratorInput, vendor: GfxVendor, t: TranslationFn): string {
+  const neural =
+    vendor === "nvidia" && input.dlssNeuralRendering
+      ? t("description.graphics.dlssNeuralRendering")
+      : "";
+  return [upscalePart(input, vendor, t), neural, frameGenPart(input, vendor, t)]
+    .filter(Boolean)
+    .join(" + ");
+}
+
 /**
  * Compose the value half of the "In-game Setting:" line — e.g.
  * `Cinematic - NVIDIA Frame Generation x2 with Ray Tracing`.
@@ -123,54 +182,11 @@ function composeGraphicsPart(input: GeneratorInput, t: TranslationFn): string {
     if (resolved && resolved !== key) presetLabel = resolved;
   }
 
-  // 2. Modifier (upscale + frame-gen). Vendor gates the whole clause —
-  //    upscaling/frame-gen quality without a vendor is meaningless.
+  // 2. Modifier (upscale + DLSS 5 + frame-gen). Vendor gates the whole
+  //    clause — upscaling/frame-gen quality without a vendor is meaningless.
   const vendor =
     input.frameGenVendor && input.frameGenVendor !== "none" ? input.frameGenVendor : null;
-  const upscaleQ =
-    input.upscaleQuality && input.upscaleQuality !== "none" ? input.upscaleQuality : null;
-  const fgMul =
-    input.frameGenMultiplier && input.frameGenMultiplier !== "none"
-      ? input.frameGenMultiplier
-      : null;
-
-  let modifier = "";
-  if (vendor) {
-    const brands = VENDOR_GFX_BRANDS[vendor];
-    const parts: string[] = [];
-    if (upscaleQ) {
-      // v0.11: try the vendor-keyed full label first ("NVIDIA DLAA",
-      // "AMD FSR Native AA", "Intel XeSS Ultra Quality"). Fall back to
-      // the pre-v0.11 flat key + brand prefix for legacy locales /
-      // unmigrated translations. The vendor-keyed label embeds the
-      // brand so we don't double-prefix on this path.
-      const newKey = `description.graphics.upscale.${vendor}.${upscaleQ}`;
-      const newLabel = t(newKey);
-      if (newLabel && newLabel !== newKey && newLabel.trim()) {
-        parts.push(newLabel);
-      } else {
-        const legacyKey = `description.graphics.upscaleQualityOptions.${upscaleQ}`;
-        const legacyLabel = t(legacyKey);
-        if (legacyLabel && legacyLabel !== legacyKey) {
-          parts.push(`${brands.upscale} ${legacyLabel}`);
-        }
-      }
-    }
-    if (fgMul) {
-      // Vendor-keyed full label embeds the brand AND the feature name
-      // ("NVIDIA Frame Generation x2", "AMD Fluid Motion Frames x3",
-      // "Intel XeFG x2"). Fall back to brand + raw multiplier for
-      // pre-v0.11 locales.
-      const newKey = `description.graphics.frameGen.${vendor}.${fgMul}`;
-      const newLabel = t(newKey);
-      if (newLabel && newLabel !== newKey && newLabel.trim()) {
-        parts.push(newLabel);
-      } else {
-        parts.push(`${brands.framegen} ${fgMul}`);
-      }
-    }
-    modifier = parts.join(" + ");
-  }
+  const modifier = vendor ? composeVendorModifier(input, vendor, t) : "";
 
   // 3. Ray-tracing clause. Each mode runs through i18n; falls back to
   //    the snake_case id if a locale hasn't translated it.

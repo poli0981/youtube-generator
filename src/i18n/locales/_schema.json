@@ -121,7 +121,10 @@
       "rayTracing",
       "frameGenVendor",
       "frameGenMultiplier",
+      "frameGenCustom",
+      "frameGenCustomPlaceholder",
       "upscaleQuality",
+      "dlssNeuralRendering",
       "artStyle",
       "videoStyle",
       "videoStyleHelp",
@@ -229,10 +232,10 @@
     ],
     "editor.rtOptions": ["ray_tracing", "full_rt", "path_tracing", "ray_reconstruction"],
     "editor.frameGenVendorOptions": ["none", "nvidia", "amd", "intel"],
-    "editor.frameGenMultiplierOptions": ["none", "x2", "x3", "x4", "x6"],
-    "editor.frameGenMultiplier.nvidia": ["none", "x2", "x3", "x4"],
-    "editor.frameGenMultiplier.amd": ["none", "x2", "x3"],
-    "editor.frameGenMultiplier.intel": ["none", "x2"],
+    "editor.frameGenMultiplierOptions": ["none", "x2", "x3", "x4", "x6", "dynamic", "custom"],
+    "editor.frameGenMultiplier.nvidia": ["none", "x2", "x3", "x4", "x6", "dynamic", "custom"],
+    "editor.frameGenMultiplier.amd": ["none", "x2", "x3", "custom"],
+    "editor.frameGenMultiplier.intel": ["none", "x2", "custom"],
     "editor.upscaleQualityOptions": [
       "none",
       "native_aa",
@@ -1593,7 +1596,8 @@
       "videoLabel",
       "inGameSettingLabel",
       "versionLabel",
-      "upscaleLabel"
+      "upscaleLabel",
+      "dlssNeuralRendering"
     ],
     "description.graphics.presetOptions": [
       "low",
@@ -1642,7 +1646,7 @@
       "performance",
       "ultra_performance"
     ],
-    "description.graphics.frameGen.nvidia": ["none", "x2", "x3", "x4"],
+    "description.graphics.frameGen.nvidia": ["none", "x2", "x3", "x4", "x6", "dynamic"],
     "description.graphics.frameGen.amd": ["none", "x2", "x3"],
     "description.graphics.frameGen.intel": ["none", "x2"],
     "description.graphics.artStyleOptions": [
@@ -1725,6 +1729,7 @@
       "controller",
       "video_editor",
       "lut"
-    ]
+    ],
+    "description.rigNotes": ["lut_custom"]
   }
 }

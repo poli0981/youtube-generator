@@ -4,6 +4,7 @@ import {
   cleanLutName,
   CPU_SUGGESTIONS,
   formatRigValue,
+  isCustomRigValue,
   LUT_SUGGESTIONS,
   migrateRig,
   RIG_FIELDS,
@@ -206,6 +207,35 @@ describe("LUT (v1.4.0)", () => {
     expect(formatRigValue("lut", "Arri Alexa LogC to Rec709.dat")).toBe(
       "Arri Alexa LogC to Rec709",
     );
+  });
+
+  it("offers “Custom” first, which prints as the “LUT applied” note (v1.6.0)", () => {
+    expect(LUT_SUGGESTIONS[0]).toBe("Custom");
+    const field = RIG_FIELDS.find((f) => f.id === "lut");
+    expect(field?.customNoteKey).toBe("description.rigNotes.lut_custom");
+  });
+});
+
+describe("isCustomRigValue", () => {
+  it("matches “Custom” in any case, with stray spaces", () => {
+    expect(isCustomRigValue("Custom")).toBe(true);
+    expect(isCustomRigValue("  cUSTOM ")).toBe(true);
+  });
+
+  it("does not match a name that merely contains it", () => {
+    expect(isCustomRigValue("Custom Teal Orange")).toBe(false);
+    expect(isCustomRigValue("")).toBe(false);
+  });
+});
+
+describe("custom notes", () => {
+  it("has a description line in every locale for each field's note", () => {
+    const notes = RIG_FIELDS.flatMap((f) => (f.customNoteKey ? [f.customNoteKey] : []));
+    expect(notes.length).toBeGreaterThan(0);
+    for (const key of notes) {
+      const at = key.lastIndexOf(".");
+      expect(schemaKeys("templates", key.slice(0, at))).toContain(key.slice(at + 1));
+    }
   });
 });
 

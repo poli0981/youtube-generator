@@ -207,23 +207,32 @@
       "x2": "x2",
       "x3": "x3",
       "x4": "x4",
-      "x6": "x6"
+      "x6": "x6",
+      "dynamic": "Dinamis",
+      "custom": "Kustom…"
     },
     "frameGenMultiplier.nvidia": {
       "none": "Tidak ada",
       "x2": "x2 (Frame Gen)",
       "x3": "x3 (Multi Frame Gen)",
-      "x4": "x4 (Multi Frame Gen)"
+      "x4": "x4 (Multi Frame Gen)",
+      "x6": "x6 (Multi Frame Gen)",
+      "dynamic": "Dynamic (Multi Frame Gen)",
+      "custom": "Kustom…"
     },
     "frameGenMultiplier.amd": {
       "none": "Tidak ada",
       "x2": "x2 (Fluid Motion Frames)",
-      "x3": "x3 (Fluid Motion Frames)"
+      "x3": "x3 (Fluid Motion Frames)",
+      "custom": "Kustom…"
     },
     "frameGenMultiplier.intel": {
       "none": "Tidak ada",
-      "x2": "x2 (XeFG)"
+      "x2": "x2 (XeFG)",
+      "custom": "Kustom…"
     },
+    "frameGenCustom": "Frame Gen kustom",
+    "frameGenCustomPlaceholder": "mis. NVIDIA Smooth Motion, Lossless Scaling x3",
     "upscaleQuality": "Kualitas Upscaling",
     "upscaleQualityOptions": {
       "none": "Tidak ada",
@@ -258,6 +267,7 @@
       "performance": "XeSS Performance",
       "ultra_performance": "XeSS Ultra Performance"
     },
+    "dlssNeuralRendering": "DLSS 5 Neural Rendering",
     "artStyle": "Gaya visual",
     "artStyleOptions": {
       "none": "— Tidak diatur —",

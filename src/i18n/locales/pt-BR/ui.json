@@ -207,23 +207,32 @@
       "x2": "x2",
       "x3": "x3",
       "x4": "x4",
-      "x6": "x6"
+      "x6": "x6",
+      "dynamic": "Dinâmico",
+      "custom": "Personalizado…"
     },
     "frameGenMultiplier.nvidia": {
       "none": "Nenhum",
       "x2": "x2 (Frame Gen)",
       "x3": "x3 (Multi Frame Gen)",
-      "x4": "x4 (Multi Frame Gen)"
+      "x4": "x4 (Multi Frame Gen)",
+      "x6": "x6 (Multi Frame Gen)",
+      "dynamic": "Dynamic (Multi Frame Gen)",
+      "custom": "Personalizado…"
     },
     "frameGenMultiplier.amd": {
       "none": "Nenhum",
       "x2": "x2 (Fluid Motion Frames)",
-      "x3": "x3 (Fluid Motion Frames)"
+      "x3": "x3 (Fluid Motion Frames)",
+      "custom": "Personalizado…"
     },
     "frameGenMultiplier.intel": {
       "none": "Nenhum",
-      "x2": "x2 (XeFG)"
+      "x2": "x2 (XeFG)",
+      "custom": "Personalizado…"
     },
+    "frameGenCustom": "Frame Gen personalizado",
+    "frameGenCustomPlaceholder": "ex.: NVIDIA Smooth Motion, Lossless Scaling x3",
     "upscaleQuality": "Qualidade do upscaling",
     "upscaleQualityOptions": {
       "none": "Nenhuma",
@@ -258,6 +267,7 @@
       "performance": "XeSS Performance",
       "ultra_performance": "XeSS Ultra Performance"
     },
+    "dlssNeuralRendering": "DLSS 5 Neural Rendering",
     "artStyle": "Estilo de arte",
     "artStyleOptions": {
       "none": "— Não definido —",

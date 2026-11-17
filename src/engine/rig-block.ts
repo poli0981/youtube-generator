@@ -1,4 +1,4 @@
-import { RIG_FIELDS, formatRigValue } from "@config/rig-fields";
+import { RIG_FIELDS, formatRigValue, isCustomRigValue } from "@config/rig-fields";
 import type { TranslationFn } from "./types";
 
 /**
@@ -9,6 +9,9 @@ import type { TranslationFn } from "./types";
  * order is {@link RIG_FIELDS}'. Both used to come from the stored object:
  * every language printed English keys in capitals ("VIDEO EDITOR:"), in
  * whatever order the fields had first been filled in.
+ *
+ * v1.6.0: a field with a `customNoteKey` set to "Custom" prints that note
+ * as its whole line — the LUT's "LUT applied".
  */
 export function buildRigLines(
   rig: Partial<Record<string, string>> | undefined,
@@ -19,7 +22,9 @@ export function buildRigLines(
 
   const lines = RIG_FIELDS.flatMap((field) => {
     const value = formatRigValue(field.id, rig[field.id] ?? "").trim();
-    return value ? [`${t(`description.rigLabels.${field.id}`)}: ${value}`] : [];
+    if (!value) return [];
+    if (field.customNoteKey && isCustomRigValue(value)) return [t(field.customNoteKey)];
+    return [`${t(`description.rigLabels.${field.id}`)}: ${value}`];
   });
 
   // Keys that aren't rig fields any more (older versions, hand-edited

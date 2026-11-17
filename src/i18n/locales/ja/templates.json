@@ -534,7 +534,9 @@
           "none": "",
           "x2": "NVIDIA Frame Generation x2",
           "x3": "NVIDIA Multi Frame Generation x3",
-          "x4": "NVIDIA Multi Frame Generation x4"
+          "x4": "NVIDIA Multi Frame Generation x4",
+          "x6": "NVIDIA Multi Frame Generation x6",
+          "dynamic": "NVIDIA Dynamic Multi Frame Generation"
         },
         "amd": {
           "none": "",
@@ -561,7 +563,8 @@
       "videoLabel": "Video",
       "inGameSettingLabel": "In-game Setting",
       "versionLabel": "Version",
-      "upscaleLabel": "Upscale"
+      "upscaleLabel": "Upscale",
+      "dlssNeuralRendering": "NVIDIA DLSS 5 Neural Rendering"
     },
     "videoSettings": {
       "styleLine": "{{editor}}で{{era}}スタイルに編集",
@@ -597,6 +600,9 @@
       "controller": "コントローラー",
       "video_editor": "動画編集ソフト",
       "lut": "LUT"
+    },
+    "rigNotes": {
+      "lut_custom": "LUT適用"
     }
   },
   "pinnedComment": {
